@@ -55,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (autoStart) {
                         startActivity(new Intent(context, MainActivity.class));
                     } else {
+                        ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
                         finish();
                     }
                     break;
@@ -63,6 +64,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         startActivity(new Intent(context, MainActivity.class));
                         startActivity(new Intent(context, HelpUseActivity.class));
                     } else {
+                        ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
                         finish();
                     }
                     break;

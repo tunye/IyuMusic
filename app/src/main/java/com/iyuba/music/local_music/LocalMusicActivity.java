@@ -84,8 +84,9 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     public void onBackPressed() {
         if (((MusicApplication) getApplication()).onlyForeground("LocalMusicActivity")) {
             startActivity(new Intent(this, MainActivity.class));
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     @Override
