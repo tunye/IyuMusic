@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/row_space_big">
+
+    <ImageView
+        android:id="@+id/classify_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/favor_list" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/classify_img"
+        android:layout_alignLeft="@+id/classify_img"
+        android:layout_alignRight="@+id/classify_img"
+        android:background="#66000000"
+        android:padding="@dimen/row_space_small">
+
+        <TextView
+            android:id="@+id/classify_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/row_space_small"
+            android:text="@string/classify_favor"
+            android:textColor="#dcdcdc"
+            android:textSize="@dimen/default_text" />
+    </RelativeLayout>
+</RelativeLayout>

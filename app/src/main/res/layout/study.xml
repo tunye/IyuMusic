@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/skin_app_color"
+        android:fitsSystemWindows="true">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mrl_rippleColor="@color/toolbar_ripple_color"
+                app:mrl_rippleDuration="400">
+
+                <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/back_material"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mm_color="#ededed"
+                    app:mm_strokeWidth="2" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#ededed"
+                android:textSize="@dimen/title_text" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/study_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:layout_toLeftOf="@+id/study_translate"
+                android:gravity="center"
+                android:paddingBottom="@dimen/row_space_small"
+                android:paddingLeft="@dimen/row_space_very_large"
+                android:paddingRight="@dimen/row_space_very_large"
+                android:paddingTop="@dimen/row_space_small"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/big_text"
+                app:rv_backgroundColor="#ededed"
+                app:rv_backgroundPressColor="@color/text_gray_color"
+                app:rv_isRadiusHalfHeight="true" />
+
+            <ImageView
+                android:id="@+id/study_translate"
+                android:layout_width="48dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/study_mode"
+                android:paddingLeft="@dimen/row_space_medium"
+                android:paddingRight="@dimen/row_space_medium"
+                android:src="@drawable/study_translate" />
+
+            <ImageView
+                android:id="@+id/study_mode"
+                android:layout_width="48dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/study_more"
+                android:paddingLeft="@dimen/row_space_medium"
+                android:paddingRight="@dimen/row_space_medium"
+                android:src="@drawable/study_singer_mode" />
+
+            <ImageView
+                android:id="@+id/study_more"
+                android:layout_width="@dimen/activity_horizontal_margin_big"
+                android:layout_height="@dimen/activity_horizontal_margin_big"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/row_space_big"
+                android:paddingLeft="@dimen/row_space_very_large"
+                android:paddingRight="@dimen/row_space_big"
+                android:src="@drawable/study_more" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/study_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/study_indicator"
+        android:layout_below="@id/toolbar"
+        android:layout_weight="1" />
+
+    <com.iyuba.music.widget.imageview.PageIndicator
+        android:id="@+id/study_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/musicbar"
+        android:layout_marginBottom="@dimen/row_space_large"
+        android:layout_marginTop="@dimen/row_space_large"
+        app:pi_circlepadding="@dimen/row_space_medium"
+        app:pi_count="3"
+        app:pi_radius="@dimen/row_space_default"
+        app:pi_stroke="@dimen/line_thin" />
+
+    <RelativeLayout
+        android:id="@+id/musicbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/seekbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/row_space_large"
+            android:layout_marginRight="@dimen/row_space_large"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/study_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/medium_text"
+                android:text="00:00"
+                android:layout_gravity="center_vertical" />
+
+            <SeekBar
+                android:id="@+id/study_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:maxHeight="@dimen/line_thick"
+                android:minHeight="@dimen/line_thick"
+                android:progressDrawable="@drawable/audio_progress"
+                android:thumb="@drawable/thumb" />
+
+            <TextView
+                android:id="@+id/study_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/medium_text"
+                android:text="00:00"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seekbar_layout"
+            android:layout_margin="@dimen/row_space_medium"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/interval"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/interval_none" />
+
+            <ImageView
+                android:id="@+id/formmer"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/formmer" />
+
+            <com.wnafee.vector.MorphButton
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                app:vc_endDrawable="@drawable/ic_pause_to_play"
+                app:vc_foregroundTint="@color/skin_app_color"
+                app:vc_startDrawable="@drawable/ic_play_to_pause" />
+
+            <ImageView
+                android:id="@+id/latter"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/latter" />
+
+            <ImageView
+                android:id="@+id/play_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/single_replay" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

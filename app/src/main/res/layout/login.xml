@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_with_oper" />
+
+    <RelativeLayout
+        android:id="@+id/login_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/default_photo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/login_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_photo"
+        android:layout_marginTop="@dimen/row_space_large"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
+            android:id="@+id/username"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/username_hint"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            app:met_baseColor="@color/text_gray_color"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/skin_app_color" />
+
+        <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
+            android:id="@+id/userpwd"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/row_space_default"
+            android:hint="@string/userpwd_hint"
+            android:imeOptions="actionSend"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            app:met_baseColor="@color/text_gray_color"
+            app:met_clearButton="true"
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="20"
+            app:met_minCharacters="6"
+            app:met_primaryColor="@color/skin_app_color" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_oper"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/row_space_large">
+
+        <CheckBox
+            android:id="@+id/auto_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:checked="true"
+            android:text="@string/auto_login"
+            android:textColor="@color/text_color" />
+
+        <TextView
+            android:id="@+id/forget_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/forget_pwd"
+            android:textColor="@color/text_gray_color"
+            android:textSize="@dimen/medium_text" />
+    </RelativeLayout>
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/login"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_oper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_large"
+        android:gravity="center"
+        android:padding="@dimen/row_space_big"
+        android:text="@string/login_title"
+        android:textColor="#ededed"
+        android:textSize="@dimen/large_text"
+        app:rv_backgroundColor="@color/skin_app_color"
+        app:rv_backgroundPressColor="@color/text_gray_color"
+        app:rv_cornerRadius="@dimen/corner_radius_big" />
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rv_cornerRadius="@dimen/corner_radius_default">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/menu_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="160"
+        android:gravity="center"
+        android:padding="@dimen/row_space_big"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="600">
+
+        <TextView
+            android:id="@+id/menu_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#0179ff"
+            android:textSize="@dimen/large_text" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+</com.flyco.roundview.RoundLinearLayout>
+
+

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/discover_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/row_space_very_large"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="600">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/discover_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/row_space_large" />
+
+            <TextView
+                android:id="@+id/discover_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_big"
+                android:layout_toRightOf="@+id/discover_icon"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/large_text" />
+
+            <com.iyuba.music.widget.imageview.GoImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/row_space_medium"
+                app:go_color="@color/background_complementary"
+                app:go_direction="LEFT"
+                app:go_stroke="@dimen/line_default" />
+        </RelativeLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background_light" />
+</RelativeLayout>

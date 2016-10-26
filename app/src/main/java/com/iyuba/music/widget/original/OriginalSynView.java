@@ -1,0 +1,350 @@
+package com.iyuba.music.widget.original;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import com.iyuba.music.R;
+import com.iyuba.music.entity.original.Original;
+import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.Mathematics;
+
+import java.util.ArrayList;
+
+/**
+ * Created by 10202 on 2015/10/16.
+ */
+public class OriginalSynView extends ScrollView implements
+        TextSelectCallBack {
+    private Context context;
+    //是否是拖拽状态
+    private boolean canDrag;
+    //是否画时间线
+    private boolean drawTimeLine;
+    //显示中文
+    private boolean showChinese;
+    //字号
+    private int textSize;
+    //线宽
+    private float lineWidth;
+    //拖拽页面变量
+    private float rectPadding, rectMarginBottom, rectRadius;
+    //线性布局，添加每一句话
+    private LinearLayout subtitleLayout;
+    //原文列表
+    private ArrayList<Original> originalList;
+    //拖拽使用变量
+    private float[] oldXY;
+    //当前段，上一段落
+    private int currParagraph, lastParagraph;
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    int center = changeHighLight(currParagraph);
+                    center = center - getHeight() / 2;
+                    if (center > 0) {
+                        smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
+                    } else {
+                        smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    //实现接口
+    private TextSelectCallBack textSelectCallBack;
+    private SeekToCallBack seekToCallBack;
+
+    public OriginalSynView(Context context) {
+        super(context);
+        this.context = context;
+        showChinese = true;
+        drawTimeLine = false;
+        textSize = RuntimeManager.sp2px(14);
+        lineWidth = 4;
+        rectMarginBottom = 10;
+        rectPadding = 20;
+        rectRadius = 15;
+        init();
+    }
+
+    public OriginalSynView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        drawTimeLine = false;
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
+            showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            lineWidth = a.getFloat(R.styleable.originalsynview_ori_linewidth, 4);
+            rectMarginBottom = a.getDimension(R.styleable.originalsynview_ori_timeline_margin, 10);
+            rectPadding = a.getDimension(R.styleable.originalsynview_ori_timeline_padding, 20);
+            rectRadius = a.getInt(R.styleable.originalsynview_ori_timeline_radius, 15);
+            a.recycle();
+        } else {
+            showChinese = true;
+            textSize = RuntimeManager.sp2px(14);
+            lineWidth = 4;
+            rectMarginBottom = 10;
+            rectPadding = 20;
+            rectRadius = 15;
+        }
+        init();
+    }
+
+    public OriginalSynView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        drawTimeLine = false;
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
+            showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            lineWidth = a.getInt(R.styleable.originalsynview_ori_linewidth, 4);
+            rectMarginBottom = a.getDimension(R.styleable.originalsynview_ori_timeline_margin, 10);
+            rectPadding = a.getDimension(R.styleable.originalsynview_ori_timeline_padding, 20);
+            rectRadius = a.getInt(R.styleable.originalsynview_ori_timeline_radius, 15);
+            a.recycle();
+        } else {
+            showChinese = true;
+            textSize = RuntimeManager.sp2px(14);
+            lineWidth = 4;
+            rectMarginBottom = 10;
+            rectPadding = 20;
+            rectRadius = 15;
+        }
+        init();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (drawTimeLine) {
+            float y = getHeight() / 2 + getScrollY();
+            for (int i = 1; i <= originalList.size(); i++) {
+                float itemY = subtitleLayout.getChildAt(i + 1).getTop();
+                if (itemY < y) {
+                } else {
+                    currParagraph = i;
+                    break;
+                }
+            }
+            drawTimeCanvas(canvas, Mathematics.formatTime((int) originalList.get(currParagraph - 1).getStartTime()), y);
+            changeHighLight(currParagraph);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (originalList == null || originalList.size() == 0) {
+            performClick();
+            return false;
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (canDrag) {
+                    float offset = event.getRawY() - oldXY[1];
+                    scrollBy(getScrollX(), -(int) offset);
+                    oldXY[1] = event.getRawY();
+                    invalidate();
+                } else {
+                    if (Math.abs(event.getRawX() - oldXY[0]) > 8
+                            && Math.abs(event.getRawY() - oldXY[1]) > 8) {
+                        canDrag = true;
+                        drawTimeLine = true;
+                        oldXY[1] = event.getRawY();
+                        seekToCallBack.onSeekStart();
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (drawTimeLine) {
+                    if (seekToCallBack != null) {
+                        seekToCallBack.onSeekTo(originalList.get(currParagraph - 1).getStartTime());
+                    }
+                    drawTimeLine = false;
+                    canDrag = false;
+                    int center = changeHighLight(currParagraph);
+                    center = center - getHeight() / 2;
+                    if (center > 0) {
+                        smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
+                    } else {
+                        smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
+                    }
+                    invalidate();
+                }
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                oldXY = new float[]{event.getRawX(), event.getRawY()};
+                canDrag = false;
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            default:
+                break;
+        }
+
+        return super.dispatchTouchEvent(event);
+    }
+
+    private void init() {
+        setVerticalScrollBarEnabled(false);
+        currParagraph = lastParagraph = 1;
+        subtitleLayout = new LinearLayout(context);
+        subtitleLayout.setOrientation(LinearLayout.VERTICAL);
+    }
+
+    private void initData() {
+        subtitleLayout.removeAllViews();
+        removeAllViews();
+        int size = originalList.size();
+        TextPage tp;
+        TextPage blank = new TextPage(context);
+        blank.setHeight(RuntimeManager.getWindowHeight() / 2);
+        subtitleLayout.addView(blank);
+        for (int i = 0; i < size; i++) {
+            tp = new TextPage(context);
+            tp.setTextColor(context.getResources().getColor(R.color.text_color));
+            tp.setTextSize(RuntimeManager.px2sp(textSize));
+            if (isShowChinese()) {
+                tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+            } else {
+                tp.setText(originalList.get(i).getSentence());
+            }
+            tp.setTextpageSelectTextCallBack(this);
+            subtitleLayout.addView(tp);
+        }
+        blank = new TextPage(context);
+        blank.setHeight(RuntimeManager.getWindowHeight() / 2);
+        subtitleLayout.addView(blank);
+        addView(subtitleLayout);
+        handler.sendEmptyMessage(0);
+    }
+
+    public void synchroParagraph(int paragraph) {
+        currParagraph = paragraph;
+        if (currParagraph == 0) {
+            currParagraph = 1;
+            handler.sendEmptyMessage(0);
+        } else if (currParagraph < subtitleLayout.getChildCount()) {
+            handler.sendEmptyMessage(0);
+        }
+    }
+
+    private void synchroLanguage() {
+        int size = originalList.size();
+        TextPage tp;
+        for (int i = 0; i < size; i++) {
+            tp = (TextPage) subtitleLayout.getChildAt(i);
+            if (isShowChinese()) {
+                tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+            } else {
+                tp.setText(originalList.get(i).getSentence());
+            }
+        }
+        synchroParagraph(currParagraph);
+    }
+
+    private int changeHighLight(int current) {
+        TextPage textView = (TextPage) subtitleLayout
+                .getChildAt(lastParagraph);
+        textView.setTextColor(context.getResources().getColor(R.color.text_color));
+        textView = (TextPage) subtitleLayout
+                .getChildAt(current);
+        textView.setTextColor(GetAppColor.instance.getAppColorLight(context));
+        lastParagraph = current;
+        return textView.getTop() + textView.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
+    }
+
+    private void drawTimeCanvas(Canvas canvas, String time, float y) {
+        //时间线画笔
+        Paint mPaintForTimeLine = new Paint();
+        mPaintForTimeLine.setColor(GetAppColor.instance.getAppColorLight(context));
+        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
+        mPaintForTimeLine.setStrokeWidth(lineWidth);
+        //半透背景画笔
+        Paint rectPaint = new Paint();
+        rectPaint.setColor(context.getResources().getColor(R.color.text_color));
+
+        Rect textBounds = new Rect();
+        RectF rf = new RectF();
+        //计算边距
+        mPaintForTimeLine.getTextBounds(time, 0, time.length(), textBounds);
+        rf.set(0, y - textBounds.height() - rectPadding * 2 - rectMarginBottom,
+                textBounds.width() + rectPadding * 2, y - rectMarginBottom);
+        //绘制
+        canvas.drawRoundRect(rf, rectRadius, rectRadius, rectPaint);
+        canvas.drawLine(0, y, getWidth(), y, mPaintForTimeLine);
+        mPaintForTimeLine.setColor(context.getResources().getColor(R.color.background));
+        canvas.drawText(time, rectPadding, y - rectPadding - rectMarginBottom - textBounds.height() / 2 + (textBounds.bottom - textBounds.top) / 2, mPaintForTimeLine);
+    }
+
+    public boolean isShowChinese() {
+        return showChinese;
+    }
+
+    public void setShowChinese(boolean showChinese) {
+        this.showChinese = showChinese;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = RuntimeManager.sp2px(textSize);
+    }
+
+    public ArrayList<Original> getOriginalList() {
+        return originalList;
+    }
+
+    public void setOriginalList(ArrayList<Original> originalList) {
+        this.originalList = originalList;
+        initData();
+    }
+
+    public int getCurrParagraph() {
+        return currParagraph;
+    }
+
+    public void setCurrParagraph(int currParagraph) {
+        this.currParagraph = currParagraph;
+    }
+
+    public void setTextSelectCallBack(TextSelectCallBack textSelectCallBack) {
+        this.textSelectCallBack = textSelectCallBack;
+    }
+
+    public void setSeekToCallBack(SeekToCallBack seekToCallBack) {
+        this.seekToCallBack = seekToCallBack;
+    }
+
+    @Override
+    public void onSelectText(String text) {
+        textSelectCallBack.onSelectText(text);
+    }
+}

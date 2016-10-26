@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_large">
+
+        <TextView
+            android:id="@+id/photo_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color"
+            android:text="@string/changephoto_intro"
+            android:textSize="@dimen/big_text"
+            android:layout_centerHorizontal="true" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/photo_intro"
+            android:layout_marginTop="@dimen/activity_horizontal_margin" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/change"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/photo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+            android:gravity="center"
+            android:padding="@dimen/row_space_big"
+            android:text="@string/changephoto_change"
+            android:textColor="#ededed"
+            android:textSize="@dimen/large_text"
+            app:rv_backgroundColor="@color/skin_app_color"
+            app:rv_backgroundPressColor="@color/text_gray_color"
+            app:rv_cornerRadius="@dimen/corner_radius_big" />
+    </RelativeLayout>
+</LinearLayout>

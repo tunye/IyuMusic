@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#343434">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_with_oper" />
+
+    <ProgressBar
+        android:id="@+id/load_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_default"
+        android:layout_below="@+id/toolbar"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/skin_load_progress" />
+
+    <TextView
+        android:id="@+id/source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/load_progress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:textColor="#707070"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/source"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/webview_technique"
+        android:textColor="#707070"
+        android:textSize="16sp" />
+
+    <com.iyuba.music.widget.view.FlexibleView
+        android:id="@+id/flexible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/load_progress">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.iyuba.music.widget.view.FlexibleView>
+</RelativeLayout>

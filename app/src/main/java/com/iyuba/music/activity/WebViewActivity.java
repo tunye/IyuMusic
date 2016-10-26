@@ -1,0 +1,175 @@
+package com.iyuba.music.activity;
+
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.iyuba.music.R;
+import com.iyuba.music.listener.IOperationResultInt;
+import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.ContextMenu;
+
+import java.util.ArrayList;
+
+/**
+ * Created by 10202 on 2015/11/23.
+ */
+public class WebViewActivity extends BaseActivity {
+    private WebView web;
+    private String url, titleText;
+    private ProgressBar loadProgress;
+    private ContextMenu menu;
+    private TextView source;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.webview);
+        context = this;
+        initWidget();
+        setListener();
+        changeUIByPara();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (menu.isShown()) {
+            menu.dismiss();
+        } else if (web.canGoBack()) {
+            web.goBack(); // goBack()表示返回webView的上一页面
+        } else if (!web.canGoBack()) {
+            finish();
+        }
+    }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        web = (WebView) findViewById(R.id.webview);
+        loadProgress = (ProgressBar) findViewById(R.id.load_progress);
+        source = (TextView) findViewById(R.id.source);
+        initContextMenu();
+    }
+
+    private void initContextMenu() {
+        menu = new ContextMenu(context);
+        ArrayList<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.webview_on_other));
+        list.add(context.getString(R.string.webview_copy));
+        menu.setInfo(list, new IOperationResultInt() {
+            @Override
+            public void performance(int index) {
+                if (index == 0) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } else if (index == 1) {
+                    ClipData clip = ClipData.newPlainText("chat message", url);
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    clipboard.setPrimaryClip(clip);
+                    CustomToast.INSTANCE.showToast(R.string.webview_clip_board);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void setListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        web.setWebChromeClient(
+                new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        if (newProgress == 100) {
+                            loadProgress.setVisibility(View.GONE);
+                        } else {
+                            if (loadProgress.getVisibility() == View.GONE) {
+                                loadProgress.setVisibility(View.VISIBLE);
+                            }
+                            loadProgress.setProgress(newProgress);
+                        }
+                        super.onProgressChanged(view, newProgress);
+                    }
+
+                    @Override
+                    public void onReceivedTitle(WebView view, String titleContent) {
+                        super.onReceivedTitle(view, titleContent);
+                        if (TextUtils.isEmpty(titleText))
+                            title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                    }
+                }
+        );
+        web.setDownloadListener(new DownloadListener() {
+            @Override
+
+            public void onDownloadStart(String url, String userAgent, String contentDisposition,
+                                        String mimetype, long contentLength) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+        web.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        web.getSettings().setJavaScriptEnabled(true);
+        web.getSettings().setSupportZoom(true);
+        web.getSettings().setBuiltInZoomControls(true);
+        web.getSettings().setDisplayZoomControls(false);
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menu.show();
+            }
+        });
+    }
+
+    protected void changeUIByPara() {
+        backIcon.setState(MaterialMenuDrawable.IconState.X);
+        url = getIntent().getStringExtra("url");
+        titleText = getIntent().getStringExtra("title");
+        source.setText(context.getString(R.string.webview_source, hideMessage(url)));
+        web.loadUrl(url);
+        title.setText(titleText);
+        toolbarOper.setText(R.string.more);
+        loadProgress.setMax(100);
+        loadProgress.setProgress(0);
+    }
+
+    @Override
+    public void onDestroy() {
+        web.destroy();
+        super.onDestroy();
+    }
+
+    private String hideMessage(String url) {
+        if (url.contains("?")) {
+            return url.substring(url.indexOf("://") + 3, url.indexOf("?"));
+        } else {
+            return url.substring(url.indexOf("://") + 3);
+        }
+    }
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="22dp"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/file_info"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/skin_app_color" />
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/file_name"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/file_size"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/file_size"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color"
+        android:layout_margin="5dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/file_lastmodified"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/file_lastmodified"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/file_contents_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/file_contents"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/file_contents"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+    <com.balysv.materialripple.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/button_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="15dp"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="400">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:text="@string/accept"
+            android:textColor="#239F8E"
+            android:textSize="18sp" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+</LinearLayout>

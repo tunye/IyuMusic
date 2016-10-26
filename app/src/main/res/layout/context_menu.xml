@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="100"
+            app:rv_backgroundColor="#abffffff"
+            app:rv_cornerRadius="@dimen/corner_radius_default">
+
+            <ListView
+                android:id="@+id/operList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#aaaaaa"
+                android:dividerHeight="@dimen/line_thin" />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/cancle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/row_space_large"
+            android:alpha="100"
+            android:gravity="center"
+            android:padding="@dimen/row_space_big"
+            android:text="取消"
+            android:textColor="#0179ff"
+            android:textSize="@dimen/large_text"
+            app:rv_backgroundColor="#abffffff"
+            app:rv_backgroundPressColor="#db4e46"
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<resources>
+
+    <style name="mySpinnerStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:scrollbars">none</item>
+        <item name="android:divider">@drawable/divider</item>
+    </style>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light" />
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
+    </style>
+    <!-- Activity无标题栏 开始-->
+    <style name="MyAppTheme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/skin_app_color</item>
+        <item name="colorPrimaryDark">@color/skin_app_color</item>
+        <item name="colorAccent">@color/skin_app_color</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:configChanges">keyboardHidden|orientation</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:overScrollMode">always</item>
+        <item name="android:textColorPrimary">@color/text_color</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+    <!-- Activity无标题栏 结束-->
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/skin_app_color</item>
+        <item name="colorPrimaryDark">@color/skin_app_color</item>
+        <item name="colorAccent">@color/skin_app_color</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:configChanges">keyboardHidden|orientation</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+
+    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:padding">0dp</item>
+        <item name="android:windowBackground">@color/transparent_black</item>
+    </style>
+
+</resources>

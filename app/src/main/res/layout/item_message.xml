@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/oper_ripple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_large"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="600">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/row_space_medium">
+
+            <ImageView
+                android:id="@+id/message_photo"
+                android:layout_width="50dip"
+                android:layout_height="50dip" />
+
+            <ImageView
+                android:id="@+id/isNew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/isnew" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/row_space_large"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/message_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/message_pmnum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/row_space_medium"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/message_dateline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+            <com.iyuba.music.widget.textview.JustifyTextView
+                android:id="@+id/message_lastmessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/medium_text" />
+        </LinearLayout>
+    </LinearLayout>
+</com.balysv.materialripple.MaterialRippleLayout>

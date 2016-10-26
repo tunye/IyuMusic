@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:id="@+id/s1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/ic_launcher" />
+
+            <LinearLayout
+                android:id="@+id/l1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/app_name"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/row_space_default"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l1"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/praise"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/list_height"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_big"
+                        android:text="@string/about_praise"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_medium"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/developer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_big"
+                        android:text="@string/about_developer"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_medium"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/website"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_big"
+                        android:text="@string/about_website"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_medium"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/update"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_BR="10dp"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_big"
+                        android:text="@string/about_update"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:id="@+id/go"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_medium"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+
+                    <ImageView
+                        android:id="@+id/newApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_big"
+                        android:layout_toLeftOf="@+id/go"
+                        android:src="@drawable/new_reminder"
+                        android:visibility="gone" />
+
+                    <com.iyuba.music.widget.RoundProgressBar
+                        android:id="@+id/roundProgressBar"
+                        android:layout_width="30dip"
+                        android:layout_height="30dip"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_big"
+                        android:layout_toLeftOf="@+id/newApp"
+                        android:visibility="invisible"
+                        app:cp_circleColor="@color/background_light"
+                        app:cp_circleProgressColor="@color/skin_app_color"
+                        app:cp_circleWidth="@dimen/line_default"
+                        app:cp_textColor="@color/skin_app_color"
+                        app:cp_textSize="@dimen/default_text" />
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+            <com.iyuba.music.widget.textview.JustifyTextView
+                android:id="@+id/about_communicate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l2"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/about_communicate"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/medium_text" />
+
+
+            <TextView
+                android:id="@+id/copyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/about_communicate"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/row_space_big"
+                android:gravity="center"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/medium_text" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

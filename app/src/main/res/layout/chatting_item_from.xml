@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/row_space_medium">
+
+    <RelativeLayout
+        android:id="@+id/chatting_time_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/row_space_default"
+        android:background="#55888888"
+        android:padding="@dimen/row_space_default">
+
+        <TextView
+            android:id="@+id/chatting_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ededed"
+            android:textSize="@dimen/medium_text" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chatting_photo"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_gravity="bottom" />
+
+
+        <TextView
+            android:id="@+id/chatting_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/chatfrom_bg"
+            android:maxWidth="200dp"
+            android:paddingBottom="@dimen/row_space_big"
+            android:paddingLeft="@dimen/row_space_very_large"
+            android:paddingRight="@dimen/row_space_big"
+            android:paddingTop="@dimen/row_space_default"
+            android:textSize="@dimen/big_text" />
+    </LinearLayout>
+
+</LinearLayout>

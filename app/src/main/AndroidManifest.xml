@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.iyuba.music">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
+    <uses-feature android:name="android.hardware.camera" /> 
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <application
+        android:name=".MusicApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:largeHeap="true"
+        android:label="@string/app_name"
+        android:theme="@style/MyAppTheme">
+        <activity android:name=".activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.HelpUseActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".activity.RegistActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity
+            android:name=".activity.SleepActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.DeveloperActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.SkinActivity" />
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.VipCenterActivity" />
+        <activity android:name=".activity.BuyVipActivity" />
+        <activity android:name=".file.FileBrowserActivity" />
+        <activity android:name=".file.PasteFileActivity" />
+        <activity android:name=".file.FilePosActivity" />
+        <activity android:name=".activity.CampaignActivity" />
+        <activity android:name=".activity.discover.SayingActivity" />
+        <activity android:name=".activity.discover.DiscoverActivity" />
+        <activity android:name=".activity.discover.WordListActivity" />
+        <activity android:name=".activity.discover.WordContentActivity" />
+        <activity android:name=".activity.discover.WordSetActivity" />
+        <activity android:name=".activity.discover.WordSearchActivity" />
+        <activity android:name=".activity.discover.BlogActivity" />
+        <activity android:name=".activity.discover.SendPhotoActivity" />
+        <activity android:name=".activity.discover.CircleActivity" />
+        <activity android:name=".ground.AppGround" />
+        <activity android:name=".ground.SimpleNews" />
+        <activity
+            android:name=".ground.VideoPlayer"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.study.StudyActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.study.StudySetActivity" />
+        <activity
+            android:name=".activity.study.CommentActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.study.RecommendSongActivity" />
+        <activity android:name=".activity.study.ReadActivity" />
+        <activity android:name=".activity.study.OriginalSizeActivity" />
+        <activity android:name=".activity.me.MessageActivity" />
+        <activity android:name=".activity.me.ChangePhotoActivity" />
+        <activity android:name=".activity.me.WriteStateActivity" />
+        <activity android:name=".activity.me.ChattingActivity" />
+        <activity
+            android:name=".activity.me.PersonalHomeActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.me.ReplyDoingActivity" />
+        <activity android:name=".activity.me.FriendCenter" />
+        <activity android:name=".activity.me.FindFriendActivity" />
+        <activity android:name=".activity.me.UserDetailInfoActivity" />
+        <activity android:name=".activity.me.EditUserDetailInfoActivity" />
+        <activity android:name=".activity.me.CreditActivity" />
+        <activity android:name=".activity.main.AnnouncerNewsList" />
+        <activity android:name=".activity.main.ClassifyNewsList" />
+        <activity android:name=".activity.main.ClassifySongList" />
+        <activity android:name=".activity.main.ListenSongActivity" />
+        <activity android:name=".activity.main.FavorSongActivity" />
+        <activity android:name=".activity.main.DownloadSongActivity" />
+        <activity android:name=".activity.main.MusicActivity" />
+        <!--获取图片-->
+        <activity
+            android:name="com.yongchun.library.view.ImageSelectorActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.yongchun.library.view.ImagePreviewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="com.yongchun.library.view.ImageCropActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--eggshell-->
+        <activity android:name=".activity.eggshell.EggShellActivity" />
+        <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity" />
+        <activity android:name=".activity.eggshell.view_animations.MyActivity" />
+        <activity android:name=".activity.eggshell.meizhi.MeizhiActivity" />
+        <activity android:name=".activity.eggshell.meizhi.LocalPhotoActivity" />
+        <activity
+            android:name=".local_music.LocalMusicActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/oper_local_music"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.eggshell.meizhi.MeizhiPhotoActivity" />
+        <!--分享-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--有道广告-->
+        <!-- SDK中Activity配置 -->
+        <!-- YouDaoBrowser用于所有的native广告，为必选配置 -->
+        <activity
+            android:name="com.youdao.sdk.common.YouDaoBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask" />
+        <!-- YouDaoNativeBrowser用于应用详情页，为必选配置 -->
+        <activity
+            android:name="com.youdao.sdk.common.YouDaoNativeBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask" />
+
+        <service android:name=".service.PlayerService" />
+
+        <receiver android:name=".network.NetWorkChangeBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!--分享-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5375a4a756240b3f7d005886" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="66ed3a5025834fda91c044763b3eaf13"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+    </application>
+
+</manifest>

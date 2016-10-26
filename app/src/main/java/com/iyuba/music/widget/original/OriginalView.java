@@ -1,0 +1,126 @@
+package com.iyuba.music.widget.original;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import com.iyuba.music.R;
+import com.iyuba.music.entity.original.Original;
+import com.iyuba.music.manager.RuntimeManager;
+
+import java.util.ArrayList;
+
+/**
+ * Created by 10202 on 2015/10/16.
+ */
+public class OriginalView extends ScrollView implements
+        TextSelectCallBack {
+    private Context context;
+    private boolean showChinese;
+    //字号
+    private int textSize;
+    private LinearLayout subtitleLayout;
+    private ArrayList<Original> originalList;
+    private TextSelectCallBack textSelectCallBack;
+
+    public OriginalView(Context context) {
+        super(context);
+        this.context = context;
+        showChinese = true;
+        textSize = RuntimeManager.sp2px(14);
+        init();
+    }
+
+    public OriginalView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
+            showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            a.recycle();
+        } else {
+            showChinese = true;
+            textSize = RuntimeManager.sp2px(14);
+        }
+        init();
+    }
+
+    public OriginalView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
+            showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            a.recycle();
+        } else {
+            showChinese = true;
+            textSize = RuntimeManager.sp2px(14);
+        }
+        init();
+    }
+
+    private void init() {
+        setVerticalScrollBarEnabled(false);
+        subtitleLayout = new LinearLayout(context);
+        subtitleLayout.setOrientation(LinearLayout.VERTICAL);
+    }
+
+    private void initData() {
+        subtitleLayout.removeAllViews();
+        removeAllViews();
+        ArrayList<String> contents = makeContent();
+        int size = contents.size();
+        TextPage tp;
+        for (int i = 0; i < size; i++) {
+            tp = new TextPage(context);
+            tp.setTextColor(context.getResources().getColor(R.color.text_color));
+            tp.setTextSize(RuntimeManager.px2sp(textSize));
+            if (isShowChinese()) {
+                tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+            } else {
+                tp.setText(originalList.get(i).getSentence());
+            }
+            tp.setTextpageSelectTextCallBack(this);
+            subtitleLayout.addView(tp);
+        }
+        addView(subtitleLayout);
+    }
+
+    private ArrayList<String> makeContent() {
+        ArrayList<String> contents = new ArrayList<>();
+        for (int i = 0; i < originalList.size(); i++) {
+            contents.add(originalList.get(i).getSentence());
+        }
+        return contents;
+    }
+
+    public boolean isShowChinese() {
+        return showChinese;
+    }
+
+    public void setShowChinese(boolean showChinese) {
+        this.showChinese = showChinese;
+    }
+
+    public void setOriginalList(ArrayList<Original> originalList) {
+        this.originalList = originalList;
+        initData();
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = RuntimeManager.sp2px(textSize);
+    }
+
+    public void setTextSelectCallBack(TextSelectCallBack textSelectCallBack) {
+        this.textSelectCallBack = textSelectCallBack;
+    }
+
+    @Override
+    public void onSelectText(String text) {
+        textSelectCallBack.onSelectText(text);
+    }
+}

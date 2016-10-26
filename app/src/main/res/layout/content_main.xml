@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <com.iyuba.music.widget.imageview.TabIndicator
+        android:id="@+id/tab_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/background_light"
+        android:orientation="horizontal"
+        app:tab_item_count="4"
+        app:tab_normal_color="@color/text_gray_color"
+        app:tab_shape="LINE" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/play_control"
+        android:layout_below="@+id/tab_indicator" />
+
+    <RelativeLayout
+        android:id="@+id/play_control"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background_dark"
+        android:padding="@dimen/row_space_medium">
+
+        <RelativeLayout
+            android:id="@+id/rotate_image_layout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/row_space_medium">
+
+            <com.iyuba.music.widget.RoundProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cp_circleColor="@color/background"
+                app:cp_circleProgressColor="@color/skin_app_color"
+                app:cp_circleWidth="@dimen/line_default"
+                app:cp_textIsDisplayable="false" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/song_image"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/song_info_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/row_space_big"
+            android:layout_toLeftOf="@+id/control_layout"
+            android:layout_toRightOf="@+id/rotate_image_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/curarticle_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/big_text" />
+
+            <TextView
+                android:id="@+id/curarticle_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_space_small"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/medium_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/control_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/row_space_medium">
+
+            <ImageView
+                android:id="@+id/main_former"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/row_space_default"
+                android:paddingRight="@dimen/row_space_default"
+                android:src="@drawable/formmer" />
+
+            <com.wnafee.vector.MorphButton
+                android:id="@+id/main_play"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                app:vc_endDrawable="@drawable/ic_pause_to_play"
+                app:vc_foregroundTint="@color/skin_app_color"
+                app:vc_startDrawable="@drawable/ic_play_to_pause" />
+
+            <ImageView
+                android:id="@+id/main_latter"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/row_space_default"
+                android:paddingRight="@dimen/row_space_default"
+                android:src="@drawable/latter" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

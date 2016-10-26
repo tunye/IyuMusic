@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+
+    <com.iyuba.music.widget.original.OriginalView
+        android:id="@+id/original"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/size_layout"
+        android:layout_below="@+id/toolbar"
+        app:ori_showchinese="true" />
+
+    <LinearLayout
+        android:id="@+id/size_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background_light"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/tick_mark_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/row_space_large" />
+
+        <com.iyuba.music.widget.seekbar.DiscreteSlider
+            android:id="@+id/discrete_slider"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="@dimen/row_space_default"
+            android:paddingLeft="@dimen/row_space_big"
+            android:paddingRight="@dimen/row_space_big"
+            app:backdropFillColor="@color/text_gray_color"
+            app:backdropStrokeColor="@color/text_gray_color"
+            app:backdropStrokeWidth="@dimen/line_default"
+            app:horizontalBarThickness="@dimen/line_default"
+            app:progressDrawable="@drawable/transparent_progress"
+            app:thumb="@drawable/size_thumb"
+            app:tickMarkCount="5"
+            app:tickMarkRadius="6dp" />
+    </LinearLayout>
+</RelativeLayout>

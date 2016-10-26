@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/notify_img"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:scaleType="center" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_toRightOf="@+id/notify_img"
+        android:background="#44000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/row_space_big">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/control_bar"
+            android:gravity="center_vertical|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/notify_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#cdcdcd"
+                android:textSize="@dimen/medium_text" />
+
+            <TextView
+                android:id="@+id/notify_singer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:maxLines="1"
+                android:textColor="#bcbcbc"
+                android:textSize="@dimen/default_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/control_bar"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/row_space_medium"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/notify_formmer"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:src="@drawable/formmer" />
+
+            <ImageView
+                android:id="@+id/notify_play"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:src="@drawable/pause" />
+
+            <ImageView
+                android:id="@+id/notify_latter"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:src="@drawable/latter" />
+
+            <ImageView
+                android:id="@+id/notify_close"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:src="@drawable/notify_close" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

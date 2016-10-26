@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
+
+    <com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh xmlns:myswipe="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe_refresh_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        myswipe:direction="both">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/meizhi_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/row_space_small"
+            android:paddingRight="@dimen/row_space_small" />
+    </com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh>
+</LinearLayout>

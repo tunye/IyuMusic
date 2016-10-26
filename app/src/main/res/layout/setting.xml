@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_language_hint"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <TextView
+                        android:id="@+id/setting_curr_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:textColor="@color/text_complementary"
+                        android:textSize="@dimen/big_text" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_night"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_night_hint"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <CheckBox
+                        android:id="@+id/setting_curr_night"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:checked="true" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_push"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_push_hint"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <CheckBox
+                        android:id="@+id/setting_curr_push"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:checked="true" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_sleep"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_sleep_hint"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <TextView
+                        android:id="@+id/setting_curr_sleep"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:textColor="@color/text_complementary"
+                        android:textSize="@dimen/big_text" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_skin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_skin"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <TextView
+                        android:id="@+id/setting_curr_skin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:textColor="@color/text_complementary"
+                        android:textSize="@dimen/big_text" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_word_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_word_set"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_study_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_study_set"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_clean_hint"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <TextView
+                        android:id="@+id/setting_curr_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:textColor="@color/text_complementary"
+                        android:textSize="@dimen/big_text" />
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_app_share"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_feedback"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_help_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_help_use"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
+            </LinearLayout>
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/setting_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_oper"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+                android:gravity="center"
+                android:paddingBottom="@dimen/row_space_big"
+                android:paddingTop="@dimen/row_space_big"
+                android:text="@string/personal_logout_textmore"
+                android:textColor="#ededed"
+                android:textSize="@dimen/title_text"
+                app:rv_backgroundColor="#db4e46"
+                app:rv_backgroundPressColor="@color/text_gray_color"
+                app:rv_cornerRadius="@dimen/corner_radius_big" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/history_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_small">
+
+    <TextView
+        android:id="@+id/history_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="#343434"
+        android:layout_marginLeft="@dimen/row_space_default"
+        android:textSize="18sp" />
+
+    <com.balysv.materialmenu.MaterialMenuView
+        android:id="@+id/clear_history"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignParentRight="true"
+        app:mm_color="#343434"
+        app:mm_strokeWidth="2" />
+</RelativeLayout>
+
+

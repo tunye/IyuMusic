@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/skin_app_color">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/row_space_big">
+
+            <com.flyco.roundview.RoundLinearLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@+id/search_ripple"
+                android:paddingLeft="@dimen/row_space_big"
+                app:rv_backgroundColor="#dcdcdc"
+                app:rv_cornerRadius="@dimen/corner_radius_small">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/search_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:hint="@string/search_word_hint"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="none"
+                    app:met_hideUnderline="true"
+                    app:met_primaryColor="@color/skin_app_color" />
+            </com.flyco.roundview.RoundLinearLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/search_ripple"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/row_space_big"
+                android:padding="@dimen/row_space_default"
+                app:mrl_rippleColor="@color/toolbar_ripple_color"
+                app:mrl_rippleDuration="250">
+
+                <TextView
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#ededed"
+                    android:textSize="@dimen/large_text" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/word_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_bar" />
+</RelativeLayout>

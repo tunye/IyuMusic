@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <com.iyuba.music.widget.imageview.PickerView
+        android:id="@+id/hour_pv"
+        android:layout_width="60dp"
+        android:layout_height="120dp" />
+
+    <TextView
+        android:id="@+id/hour_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/row_space_default"
+        android:layout_marginRight="@dimen/row_space_default"
+        android:layout_toRightOf="@id/hour_pv"
+        android:text="@string/sleep_hour"
+        android:textColor="@color/skin_app_color"
+        android:textSize="@dimen/large_text" />
+
+    <com.iyuba.music.widget.imageview.PickerView
+        android:id="@+id/minute_pv"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@id/hour_tv" />
+
+    <TextView
+        android:id="@+id/second_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/row_space_default"
+        android:layout_marginRight="@dimen/row_space_default"
+        android:layout_toRightOf="@id/minute_pv"
+        android:text="@string/sleep_minute"
+        android:textColor="@color/skin_app_color"
+        android:textSize="@dimen/large_text" />
+</RelativeLayout>

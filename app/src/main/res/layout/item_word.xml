@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/word_ripple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_medium"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="600">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/item_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/row_space_medium"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/row_space_medium"
+            android:layout_marginRight="@dimen/row_space_default"
+            android:layout_toRightOf="@+id/item_delete"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/word_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/large_text" />
+
+            <TextView
+                android:id="@+id/word_def"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/big_text" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</com.balysv.materialripple.MaterialRippleLayout>

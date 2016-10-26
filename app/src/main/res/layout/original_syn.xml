@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/row_space_large"
+    android:paddingRight="@dimen/row_space_large">
+
+    <com.iyuba.music.widget.original.OriginalSynView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/original"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ori_linewidth="3"
+        app:ori_showchinese="true"
+        app:ori_textsize="14sp"
+        app:ori_timeline_margin="4dp"
+        app:ori_timeline_padding="10dp"
+        app:ori_timeline_radius="20" />
+
+    <com.iyuba.music.widget.dialog.WordCard
+        android:id="@+id/wordcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin_big" />
+
+</RelativeLayout>

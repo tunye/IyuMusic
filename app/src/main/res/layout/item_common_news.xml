@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="600">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/artical_image_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/row_space_big"
+            android:layout_marginLeft="@dimen/row_space_very_large"
+            android:layout_marginRight="@dimen/row_space_very_large"
+            android:layout_marginTop="@dimen/row_space_big">
+
+            <ImageView
+                android:id="@+id/artical_image"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY" />
+
+            <RelativeLayout
+                android:id="@+id/artical_createtime_background"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/artical_image"
+                android:background="#66000000"
+                android:padding="@dimen/row_space_small">
+
+                <TextView
+                    android:id="@+id/artical_createtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="#dcdcdc"
+                    android:textSize="@dimen/default_text" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/artical_image_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/artical_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="@dimen/row_space_large"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/big_text" />
+
+            <LinearLayout
+                android:id="@+id/artical_info"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/artical_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_large"
+                    android:ellipsize="end"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLines="2"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="13sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_small">
+
+                    <TextView
+                        android:id="@+id/artical_announcer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/text_gray_color"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/artical_readcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:gravity="center"
+                        android:textColor="@color/text_gray_color"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</com.balysv.materialripple.MaterialRippleLayout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/oper_ripple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_medium"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="600">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/doing_photo"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginRight="@dimen/row_space_large" />
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/doing_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/doing_dateline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:minHeight="@dimen/activity_horizontal_margin_large"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.iyuba.music.widget.textview.JustifyTextView
+                    android:id="@+id/doing_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/row_space_medium"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/medium_text" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center_vertical"
+                    android:layout_marginRight="@dimen/row_space_big">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dip"
+                        android:src="@drawable/replyicon" />
+
+                    <TextView
+                        android:id="@+id/doing_reply_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/row_space_default"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium_text"
+                        android:textColor="@color/skin_app_color" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.balysv.materialripple.MaterialRippleLayout>
