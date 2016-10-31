@@ -171,7 +171,7 @@ public class FileUtil {
         if (src.isDirectory()) {
             File[] f = src.listFiles();
             tar.mkdir();
-            if (f!=null) {
+            if (f != null) {
                 for (int i = 0; i < f.length; i++) {
                     copyFile(f[i].getAbsoluteFile(), new File(tar.getAbsoluteFile()
                             + File.separator + f[i].getName()));
@@ -288,6 +288,6 @@ public class FileUtil {
                 }
             }
         }
-        return dir.delete();
+        return dir != null && dir.delete();
     }
 }
