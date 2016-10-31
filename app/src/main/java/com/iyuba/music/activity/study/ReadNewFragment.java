@@ -1,9 +1,7 @@
 package com.iyuba.music.activity.study;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.comment.Comment;
-import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.fragment.BaseRecyclerViewFragment;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -22,10 +18,8 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.ReadRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -34,32 +28,21 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class ReadNewFragment extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private RecyclerView recyclerView;
-    private CustomSwipeToRefresh swipeRefreshLayout;
+public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private CommentAdapter readAdapter;
     private ArrayList<Comment> readList;
-    private Context context;
     private int readPage;
     private boolean isLastPage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.recycleview_read, null);
-        getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        swipeRefreshLayout = (CustomSwipeToRefresh) view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView = (RecyclerView) view.findViewById(R.id.listview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         readAdapter = new CommentAdapter(context);
         readAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
@@ -83,10 +66,14 @@ public class ReadNewFragment extends BaseFragment implements MySwipeRefreshLayou
             }
         });
         recyclerView.setAdapter(readAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
-        return view;
     }
 
     /**
@@ -118,11 +105,6 @@ public class ReadNewFragment extends BaseFragment implements MySwipeRefreshLayou
             swipeRefreshLayout.setRefreshing(false);
             CustomToast.INSTANCE.showToast(R.string.read_get_all);
         }
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        recyclerView.scrollToPosition(0);
     }
 
     @Override

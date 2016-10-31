@@ -3,6 +3,7 @@ package com.iyuba.music.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -129,17 +130,15 @@ public class WelcomeActivity extends AppCompatActivity {
     private void DBoper() {
         int lastVersion = ConfigManager.instance.loadInt("version");
         int currentVersion = 0;
+        PackageInfo info = null;
         try {
-            currentVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            currentVersion = info.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if (lastVersion < 72) {
-            if (SettingConfigManager.instance.getOriginalSize() == 14) {
-                SettingConfigManager.instance.setOriginalSize(16);
-            }
-        }
-        if (lastVersion == 0) {
+
+        if (lastVersion == 0 && info != null && info.firstInstallTime == info.lastUpdateTime) {
             ImportDatabase db = new ImportDatabase();
             db.setPackageName(this.getPackageName());
             db.setVersion(0, 1);// 有需要数据库更改使用
@@ -150,6 +149,9 @@ public class WelcomeActivity extends AppCompatActivity {
         } else if (currentVersion == lastVersion) {
             handler.sendEmptyMessageDelayed(1, 4000);
         } else if (currentVersion > lastVersion) {
+            if (lastVersion < 72 && SettingConfigManager.instance.getOriginalSize() == 14) {
+                SettingConfigManager.instance.setOriginalSize(16);
+            }
             ConfigManager.instance.putInt("version", currentVersion);
             SettingConfigManager.instance.setUpgrade(true);
             handler.sendEmptyMessageDelayed(2, 4000);

@@ -58,7 +58,7 @@
                 android:layout_marginTop="@dimen/row_space_big"
                 android:ellipsize="end"
                 android:maxLines="5"
-                android:singleLine="false"
+                android:maxLines="1"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/medium_text" />
         </LinearLayout>

@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/row_space_medium"
         android:gravity="top"
         android:hint="@string/state_hint"
-        android:singleLine="false"
+        android:maxLines="1"
         android:textColorHint="@color/text_gray_color"
         app:met_baseColor="@color/text_color"
         app:met_floatingLabel="highlight"

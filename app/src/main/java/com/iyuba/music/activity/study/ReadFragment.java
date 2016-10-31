@@ -1,9 +1,7 @@
 package com.iyuba.music.activity.study;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,7 @@ import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.artical.Article;
 import com.iyuba.music.entity.original.LrcParser;
 import com.iyuba.music.entity.original.Original;
-import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.fragment.BaseRecyclerViewFragment;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -25,45 +21,37 @@ import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class ReadFragment extends BaseFragment implements IOnClickListener {
-    private RecyclerView recyclerView;
+public class ReadFragment extends BaseRecyclerViewFragment {
     private ReadAdapter readAdapter;
-    private Context context;
     private Article curArticle;
     private Dialog waittingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.recycleview, null);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
         curArticle = StudyManager.instance.getCurArticle();
         waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.read_loading)).create();
-        getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        recyclerView = (RecyclerView) view.findViewById(R.id.listview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         readAdapter = new ReadAdapter(context);
         recyclerView.setAdapter(readAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
-        getOriginal();
         return view;
     }
 
     @Override
-    public void onClick(View view, Object message) {
-        recyclerView.scrollToPosition(0);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        disableSwipeLayout();
+        getOriginal();
     }
 
     @Override
