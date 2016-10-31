@@ -9,28 +9,22 @@ import com.iyuba.music.manager.RuntimeManager;
  * Created by 10202 on 2015/9/30.
  */
 public class MyVolley {
-    private static MyVolley instance;
+    private static class HelperInstance {
+        private static MyVolley sInstance = new MyVolley();
+    }
+
     private RequestQueue mRequestQueue;
 
-    public MyVolley() {
-        mRequestQueue = getRequestQueue();
+    public static MyVolley getInstance() {
+        return HelperInstance.sInstance;
     }
 
-    public static synchronized MyVolley getInstance() {
-        if (instance == null) {
-            instance = new MyVolley();
-        }
-        return instance;
+    MyVolley() {
+        mRequestQueue = Volley.newRequestQueue(RuntimeManager.getContext());
     }
 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(RuntimeManager.getContext());
-        }
-        return mRequestQueue;
-    }
 
     public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
+        mRequestQueue.add(req);
     }
 }

@@ -12,33 +12,36 @@ public class CommentAgreeOp extends BaseEntityOp {
     public static final String COMMENTID = "commentid";
     public static final String AGREE = "agree";
 
-    public CommentAgreeOp() {
+    public  CommentAgreeOp() {
         super();
     }
 
-    public synchronized int findDataByAll(String commentid, String uid) {
+    public int findDataByAll(String commentid, String uid) {
         getDatabase();
         Cursor cursor = db.rawQuery("select " + COMMENTID + " , " + UID + "," + AGREE + " from "
                 + TABLE_NAME + " where " + COMMENTID + " = ? AND " + UID + " = ?", new String[]{commentid, uid});
-        if (cursor != null && cursor.getCount() == 0) {
-            cursor.close();
-            db.close();
-            return 0;
-        } else {
-            int temp = 0;
-            cursor.moveToFirst();
-            if (cursor.getString(2).equals("against")) {
-                temp = 2;
+        if (cursor != null) {
+            if (cursor.getCount() == 0) {
+                cursor.close();
+                db.close();
+                return 0;
             } else {
-                temp = 1;
+                int temp = 0;
+                cursor.moveToFirst();
+                if (cursor.getString(2).equals("against")) {
+                    temp = 2;
+                } else {
+                    temp = 1;
+                }
+                cursor.close();
+                db.close();
+                return temp;
             }
-            cursor.close();
-            db.close();
-            return temp;
         }
+        return 0;
     }
 
-    public synchronized void saveData(String commentid, String uid, String agree) {
+    public void saveData(String commentid, String uid, String agree) {
         if (commentid != null && uid != null) {
             getDatabase();
             db.execSQL("insert or replace into " + TABLE_NAME + " (" + COMMENTID + "," + UID + ","

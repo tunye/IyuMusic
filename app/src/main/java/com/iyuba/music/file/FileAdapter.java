@@ -90,7 +90,7 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         fileViewHolder.icon.setBackgroundResource(fileInfo.getIconResourceId());
     }
 
-    class FileViewHolder extends RecycleViewHolder {
+    static class FileViewHolder extends RecycleViewHolder {
 
         TextView name;
         ImageView icon;

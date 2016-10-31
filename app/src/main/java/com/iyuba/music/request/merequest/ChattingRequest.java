@@ -33,7 +33,7 @@ public class ChattingRequest {
     public ChattingRequest() {
     }
 
-    public static synchronized ChattingRequest getInstance() {
+    public static  ChattingRequest getInstance() {
         if (instance == null) {
             instance = new ChattingRequest();
         }

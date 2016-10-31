@@ -46,11 +46,11 @@ public class Original implements Comparable<Original> {
                 .replace("^[", "-").replace("]^", "-");
         times = "-" + times + "-";
         String[] timesArray = times.split("--");
-        original.setStartTime(Float.valueOf(timesArray[1]));
-        original.setEndTime(Float.valueOf(timesArray[2]));
-        original.setArticleID(Integer.valueOf(timesArray[3]));
-        original.setParaID(Integer.valueOf(timesArray[4]));
-        original.setSentenceID(Integer.valueOf(timesArray[5]));
+        original.setStartTime(Float.parseFloat(timesArray[1]));
+        original.setEndTime(Float.parseFloat(timesArray[2]));
+        original.setArticleID(Integer.parseInt(timesArray[3]));
+        original.setParaID(Integer.parseInt(timesArray[4]));
+        original.setSentenceID(Integer.parseInt(timesArray[5]));
         return original;
     }
 
@@ -134,6 +134,10 @@ public class Original implements Comparable<Original> {
 
     @Override
     public int compareTo(Original anotherOriginalRow) {
-        return (int) (this.getStartTime() - anotherOriginalRow.getStartTime());
+        if (this.getStartTime() > anotherOriginalRow.getStartTime()) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }

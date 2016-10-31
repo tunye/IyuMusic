@@ -130,7 +130,7 @@
     <string name="about_update_noneed">Current version is the last one</string>
     <string name="about_version">Version:%1$s</string>
     <string name="about_communicate">WeChat public account:iyubasong   QQ group:139337655。If you have any question, feel free to contact through hotline 4008881905 or admin@iyuba.cn</string>
-    <string name="about_company">北京爱语吧科技有限公司版权所有\nCopyright ©2012-%1$s IYUBA Corp.\nAll Rights Reserved.</string>
+    <string name="about_company">北京爱语吧科技有限公司版权所有\nCopyright ©2012-%1$d IYUBA Corp.\nAll Rights Reserved.</string>
     <string name="about_market_error">App store is not installed, and this function is not available.</string>
     <string name="about_developer_birth">Developed in:Software Academy of BUAA</string>
     <string name="about_developer_author">author:Chentong,Postgraduate of BUAA</string>

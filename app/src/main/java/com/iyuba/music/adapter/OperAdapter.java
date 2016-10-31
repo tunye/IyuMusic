@@ -80,7 +80,7 @@ public class OperAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView menuText;
         ImageView menuIcon;
     }

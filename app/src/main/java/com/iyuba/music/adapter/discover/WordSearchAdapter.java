@@ -80,7 +80,7 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.My
         return wordList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
         private TextView key, def;
         private MaterialRippleLayout rippleView;
 

@@ -274,7 +274,7 @@ public class PickerView extends View {
         void onSelect(String text);
     }
 
-    class MyTimerTask extends TimerTask {
+    static class MyTimerTask extends TimerTask {
         Handler handler;
 
         public MyTimerTask(Handler handler) {

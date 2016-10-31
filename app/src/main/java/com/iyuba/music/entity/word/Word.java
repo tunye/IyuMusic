@@ -118,9 +118,9 @@ public class Word {
 
     @Override
     public boolean equals(Object o) {
-        Word compare = (Word) o;
-        if (this.getWord().equals(compare.getWord())) {
-            return this.getUser().equals(compare.getUser());
+        if (o instanceof Word) {
+            Word compare = (Word) o;
+            return this.getWord().equals(compare.getWord()) && this.getUser().equals(compare.getUser());
         }
         return false;
     }

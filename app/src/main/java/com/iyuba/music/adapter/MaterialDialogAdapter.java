@@ -71,7 +71,7 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
     }
 
     public void setSelected(int selected) {
-        MaterialDialogAdapter.selected = selected;
+        this.selected = selected;
         notifyDataSetChanged();
     }
 
@@ -81,7 +81,7 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
         itemClickListener.onItemClick(v, selected);
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView sleepText;
         RadioButton sleepSelector;

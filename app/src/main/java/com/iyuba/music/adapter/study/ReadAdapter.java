@@ -291,7 +291,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         handler.removeMessages(4);
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView num, english, chinese, recordTime;
         View readControl;

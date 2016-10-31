@@ -90,7 +90,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         return messages.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView messageUserName, messageTime, messageCounts;
         JustifyTextView messageLastContent;

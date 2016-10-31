@@ -29,7 +29,7 @@ public class RegistByPhoneRequest {
     public RegistByPhoneRequest() {
     }
 
-    public static synchronized RegistByPhoneRequest getInstance() {
+    public static  RegistByPhoneRequest getInstance() {
         if (instance == null) {
             instance = new RegistByPhoneRequest();
         }

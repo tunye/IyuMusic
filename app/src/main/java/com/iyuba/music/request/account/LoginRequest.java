@@ -31,7 +31,7 @@ public class LoginRequest {
     public LoginRequest() {
     }
 
-    public static synchronized LoginRequest getInstance() {
+    public static  LoginRequest getInstance() {
         if (instance == null) {
             instance = new LoginRequest();
         }

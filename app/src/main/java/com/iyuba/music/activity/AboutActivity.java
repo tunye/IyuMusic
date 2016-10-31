@@ -211,8 +211,8 @@ public class AboutActivity extends BaseActivity {
         isCurrent = false;
         cookie = 5;
         DownloadFile file;
-        for (int i = 0; i < DownloadManager.Instance().fileList.size(); i++) {
-            file = DownloadManager.Instance().fileList.get(i);
+        for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
+            file = DownloadManager.sInstance.fileList.get(i);
             if (file.id == -1) {
                 Message message = new Message();
                 message.what = 2;
@@ -291,8 +291,8 @@ public class AboutActivity extends BaseActivity {
         if (!file.exists()) {
             file.mkdirs();
         }
-        for (int i = 0; i < DownloadManager.Instance().fileList.size(); i++) {
-            if (DownloadManager.Instance().fileList.get(i).id == -1) {
+        for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
+            if (DownloadManager.sInstance.fileList.get(i).id == -1) {
                 return;
             }
         }
@@ -303,7 +303,7 @@ public class AboutActivity extends BaseActivity {
         downloadFile.downLoadAddress = appUpdateUrl;
         downloadFile.filePath = ConstantManager.instance.getUpdateFolder() + File.separator;
         downloadFile.fileName = "iyumusic";
-        DownloadManager.Instance().fileList.add(downloadFile);
+        DownloadManager.sInstance.fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();
         appUpdateThread.start();
         Message message = new Message();

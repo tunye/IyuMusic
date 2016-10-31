@@ -24,12 +24,12 @@ import java.util.ArrayList;
  */
 public class MeizhiRequest {
     private static MeizhiRequest instance;
-    private final String originalUrl = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
+    private static final String originalUrl = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
 
     public MeizhiRequest() {
     }
 
-    public static synchronized MeizhiRequest getInstance() {
+    public static MeizhiRequest getInstance() {
         if (instance == null) {
             instance = new MeizhiRequest();
         }

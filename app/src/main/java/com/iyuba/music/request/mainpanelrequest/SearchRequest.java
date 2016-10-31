@@ -32,7 +32,7 @@ public class SearchRequest {
     public SearchRequest() {
     }
 
-    public static synchronized SearchRequest getInstance() {
+    public static  SearchRequest getInstance() {
         if (instance == null) {
             instance = new SearchRequest();
         }

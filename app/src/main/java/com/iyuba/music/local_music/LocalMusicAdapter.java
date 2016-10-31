@@ -28,16 +28,16 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;
 
-    public LocalMusicAdapter(Context context) {
+    LocalMusicAdapter(Context context) {
         this.context = context;
         musicList = new ArrayList<>();
     }
 
-    public void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickLitener) {
+    void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickLitener) {
         onRecycleViewItemClickListener = onItemClickLitener;
     }
 
-    public void setCurPos(int pos) {
+    void setCurPos(int pos) {
         int tempPos = lastPos;
         lastPos = pos;
         if (tempPos != -1) {
@@ -46,7 +46,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         notifyItemChanged(lastPos);
     }
 
-    public void setDataSet(ArrayList<Article> newses) {
+    void setDataSet(ArrayList<Article> newses) {
         musicList = newses;
         notifyDataSetChanged();
     }
@@ -105,7 +105,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         return musicList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, readCount;
         CircleImageView pic;

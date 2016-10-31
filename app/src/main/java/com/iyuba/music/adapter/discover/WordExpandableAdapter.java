@@ -136,7 +136,6 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
     public class WordParentViewHolder extends ParentViewHolder {
         public TextView parentContent;
         public ImageView expandableStatus;
-        public View expandableRoot;
         private static final float INITIAL_POSITION = 0.0f;
         private static final float ROTATED_POSITION = 180f;
         private static final float PIVOT_VALUE = 0.5f;
@@ -151,7 +150,6 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             super(itemView);
             parentContent = (TextView) itemView.findViewById(R.id.parent_content);
             expandableStatus = (ImageView) itemView.findViewById(R.id.expandable_status);
-            expandableRoot = itemView.findViewById(R.id.word_parent_root);
             expandableStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,7 +189,5 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             rotateAnimation.setFillAfter(true);
             expandableStatus.startAnimation(rotateAnimation);
         }
-
-
     }
 }

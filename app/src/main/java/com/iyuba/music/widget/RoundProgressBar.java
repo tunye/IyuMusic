@@ -76,7 +76,7 @@ public class RoundProgressBar extends View {
         paint.setColor(textColor);
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        int percent = (int) (((float) progress / (float) max) * 100);
+        int percent = (int) (100f * progress / max);
         float textWidth = paint.measureText(String.valueOf(percent));
         if (textIsDisplayable && percent != 0 && style == STROKE) {
             canvas.drawText(String.valueOf(percent), centre - textWidth / 2,
@@ -103,22 +103,22 @@ public class RoundProgressBar extends View {
         }
     }
 
-    public synchronized int getMax() {
+    public  int getMax() {
         return max;
     }
 
-    public synchronized void setMax(int max) {
+    public  void setMax(int max) {
         if (max < 0) {
             throw new IllegalArgumentException("max not less than 0");
         }
         this.max = max;
     }
 
-    public synchronized int getProgress() {
+    public  int getProgress() {
         return progress;
     }
 
-    public synchronized void setProgress(int progress) {
+    public  void setProgress(int progress) {
         if (progress < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }

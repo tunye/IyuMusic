@@ -59,7 +59,7 @@ public class MainLeftFragment extends BaseFragment {
     private ListView menuList;
     private OperAdapter operAdapter;
     private CircleImageView personalPhoto;
-    private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan, personalMessage;
+    private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
     private TextView personalSign;
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -107,7 +107,6 @@ public class MainLeftFragment extends BaseFragment {
         personalCredits = (TextView) root.findViewById(R.id.personal_credit);
         personalFollow = (TextView) root.findViewById(R.id.personal_follow);
         personalFan = (TextView) root.findViewById(R.id.personal_fan);
-        personalMessage = (TextView) root.findViewById(R.id.personal_message);
         personalSign = (TextView) root.findViewById(R.id.personal_sign);
         about = root.findViewById(R.id.about);
         exit = root.findViewById(R.id.exit);

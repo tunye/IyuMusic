@@ -31,7 +31,7 @@ public class BannerPicRequest {
     public BannerPicRequest() {
     }
 
-    public static synchronized BannerPicRequest getInstance() {
+    public static  BannerPicRequest getInstance() {
         if (instance == null) {
             instance = new BannerPicRequest();
         }

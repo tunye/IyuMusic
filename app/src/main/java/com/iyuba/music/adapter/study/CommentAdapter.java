@@ -348,7 +348,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    class CommentViewHolder extends RecycleViewHolder {
+    static class CommentViewHolder extends RecycleViewHolder {
 
         TextView name, time, content, agreeCount, againstCount;
         ImageView voiceImg, agreeView, againstView;

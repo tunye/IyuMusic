@@ -95,7 +95,7 @@ public class SearchHistoryAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView historyText;
         MaterialMenuView delete;
     }

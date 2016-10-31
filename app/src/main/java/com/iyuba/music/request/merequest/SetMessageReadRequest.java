@@ -23,7 +23,7 @@ public class SetMessageReadRequest {
     public SetMessageReadRequest() {
     }
 
-    public static synchronized SetMessageReadRequest getInstance() {
+    public static  SetMessageReadRequest getInstance() {
         if (instance == null) {
             instance = new SetMessageReadRequest();
         }

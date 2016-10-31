@@ -33,7 +33,7 @@ public class DoingCommentRequest {
     public DoingCommentRequest() {
     }
 
-    public static synchronized DoingCommentRequest getInstance() {
+    public static  DoingCommentRequest getInstance() {
         if (instance == null) {
             instance = new DoingCommentRequest();
         }

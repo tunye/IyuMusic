@@ -29,7 +29,7 @@ public class SendDoingCommentRequest {
     public SendDoingCommentRequest() {
     }
 
-    public static synchronized SendDoingCommentRequest getInstance() {
+    public static  SendDoingCommentRequest getInstance() {
         if (instance == null) {
             instance = new SendDoingCommentRequest();
         }

@@ -91,7 +91,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     DownloadFile downloadFile = new DownloadFile();
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
-                    DownloadManager.Instance().fileList.add(downloadFile);
+                    DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
                     CustomToast.INSTANCE.showToast(R.string.artical_download_start);
                 }
@@ -105,7 +105,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         return mList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, content, time, readCount;
         ImageView pic;

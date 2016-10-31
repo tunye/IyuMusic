@@ -331,7 +331,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         File packageFile = new File(ConstantManager.instance.getMusicFolder());
         LocalInfoOp lOp = new LocalInfoOp();
         final ArticleOp articleOp = new ArticleOp();
-        if (packageFile.exists()) {
+        if (packageFile.exists() && packageFile.list() != null) {
             StringBuilder StringBuilder = new StringBuilder();
             for (String fileName : packageFile.list()) {
                 if (fileName.endsWith(".mp3")) {

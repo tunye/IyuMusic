@@ -27,7 +27,7 @@ public class CommentExpressRequest {
     public CommentExpressRequest() {
     }
 
-    public static synchronized CommentExpressRequest getInstance() {
+    public static  CommentExpressRequest getInstance() {
         if (instance == null) {
             instance = new CommentExpressRequest();
         }

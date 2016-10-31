@@ -23,7 +23,7 @@ public class FeedbackRequest {
     public FeedbackRequest() {
     }
 
-    public static synchronized FeedbackRequest getInstance() {
+    public static  FeedbackRequest getInstance() {
         if (instance == null) {
             instance = new FeedbackRequest();
         }

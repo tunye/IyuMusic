@@ -135,7 +135,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
         return paths[0] + "-s." + paths[1];
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView circleUserName, circleTime, circleCounts, circleType;
         JustifyTextView circleContent;

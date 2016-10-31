@@ -89,7 +89,7 @@ public class ClassifyAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
 
         TextView classifyText;
         ImageView classifyImg;

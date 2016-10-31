@@ -75,7 +75,7 @@ public class MenuAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView menuText;
         MaterialRippleLayout rippleView;
     }

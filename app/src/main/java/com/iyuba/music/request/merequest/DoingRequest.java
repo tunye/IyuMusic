@@ -33,7 +33,7 @@ public class DoingRequest {
     public DoingRequest() {
     }
 
-    public static synchronized DoingRequest getInstance() {
+    public static  DoingRequest getInstance() {
         if (instance == null) {
             instance = new DoingRequest();
         }

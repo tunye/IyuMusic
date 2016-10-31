@@ -73,7 +73,7 @@ public class DownloadTask {
                 case 4:
                     new LocalInfoOp().updateDownload(id, app, 0);
                     CustomToast.INSTANCE.showToast(R.string.artical_download_fail);
-                    ArrayList<DownloadFile> files = DownloadManager.Instance().fileList;
+                    ArrayList<DownloadFile> files = DownloadManager.sInstance.fileList;
                     for (DownloadFile file : files) {
                         if (file.id == id) {
                             files.remove(file);
@@ -97,10 +97,10 @@ public class DownloadTask {
             this.soundPath = "";
         }
         this.id = article.getId();
-        int size = DownloadManager.Instance().fileList.size();
+        int size = DownloadManager.sInstance.fileList.size();
         DownloadFile file;
         for (int i = 0; i < size; i++) {
-            file = DownloadManager.Instance().fileList.get(i);
+            file = DownloadManager.sInstance.fileList.get(i);
             if (file.id == id) {
                 downloadFile = file;
             }

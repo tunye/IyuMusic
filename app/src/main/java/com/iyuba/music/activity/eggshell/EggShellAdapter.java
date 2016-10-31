@@ -70,7 +70,7 @@ public class EggShellAdapter extends RecyclerView.Adapter<EggShellAdapter.MyView
         return menuTextList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView menuText;
         ImageView menuIcon;

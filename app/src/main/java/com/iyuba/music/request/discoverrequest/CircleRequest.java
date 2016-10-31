@@ -33,7 +33,7 @@ public class CircleRequest {
     public CircleRequest() {
     }
 
-    public static synchronized CircleRequest getInstance() {
+    public static  CircleRequest getInstance() {
         if (instance == null) {
             instance = new CircleRequest();
         }

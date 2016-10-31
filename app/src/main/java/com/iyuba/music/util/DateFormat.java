@@ -41,13 +41,13 @@ public class DateFormat {
             } else {
                 r = seconds + context.getString(R.string.message_second_ago);
             }
-        } else if (result >= 60000 && result < 3600000) {// 一小时内
+        } else if (result < 3600000) {// 一小时内
             long seconds = result / 60000;
             r = seconds + context.getString(R.string.message_minutes_ago);
-        } else if (result >= 3600000 && result < 86400000) {// 一天内
+        } else if (result < 86400000) {// 一天内
             long seconds = result / 3600000;
             r = seconds + context.getString(R.string.message_hour_ago);
-        } else if (result >= 8640000 && result < 172800000) {// 昨天
+        } else if (result < 172800000) {// 昨天
             SimpleDateFormat hour = new SimpleDateFormat(" HH:mm");
             r = context.getString(R.string.message_lastday) + hour.format(ctime);
         } else {// 日期格式

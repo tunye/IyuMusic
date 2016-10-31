@@ -171,9 +171,11 @@ public class FileUtil {
         if (src.isDirectory()) {
             File[] f = src.listFiles();
             tar.mkdir();
-            for (int i = 0; i < f.length; i++) {
-                copyFile(f[i].getAbsoluteFile(), new File(tar.getAbsoluteFile()
-                        + File.separator + f[i].getName()));
+            if (f!=null) {
+                for (int i = 0; i < f.length; i++) {
+                    copyFile(f[i].getAbsoluteFile(), new File(tar.getAbsoluteFile()
+                            + File.separator + f[i].getName()));
+                }
             }
         }
         return true;
@@ -277,10 +279,12 @@ public class FileUtil {
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (String aChildren : children) {
-                boolean success = deleteDir(new File(dir, aChildren));
-                if (!success) {
-                    return false;
+            if (children != null) {
+                for (String aChildren : children) {
+                    boolean success = deleteDir(new File(dir, aChildren));
+                    if (!success) {
+                        return false;
+                    }
                 }
             }
         }

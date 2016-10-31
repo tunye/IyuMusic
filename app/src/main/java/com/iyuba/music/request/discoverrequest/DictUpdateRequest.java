@@ -27,7 +27,7 @@ public class DictUpdateRequest {
     public DictUpdateRequest() {
     }
 
-    public static synchronized DictUpdateRequest getInstance() {
+    public static  DictUpdateRequest getInstance() {
         if (instance == null) {
             instance = new DictUpdateRequest();
         }

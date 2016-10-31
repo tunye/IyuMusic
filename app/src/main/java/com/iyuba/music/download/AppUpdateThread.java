@@ -34,10 +34,10 @@ public class AppUpdateThread {
     };
 
     public AppUpdateThread() {
-        int size = DownloadManager.Instance().fileList.size();
+        int size = DownloadManager.sInstance.fileList.size();
         DownloadFile file;
         for (int i = 0; i < size; i++) {
-            file = DownloadManager.Instance().fileList.get(i);
+            file = DownloadManager.sInstance.fileList.get(i);
             if (file.id == -1) {
                 downloadFile = file;
             }

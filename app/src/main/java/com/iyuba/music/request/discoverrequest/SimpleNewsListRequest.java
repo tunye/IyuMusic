@@ -27,7 +27,7 @@ public class SimpleNewsListRequest {
     public SimpleNewsListRequest() {
     }
 
-    public static synchronized SimpleNewsListRequest getInstance() {
+    public static  SimpleNewsListRequest getInstance() {
         if (instance == null) {
             instance = new SimpleNewsListRequest();
         }

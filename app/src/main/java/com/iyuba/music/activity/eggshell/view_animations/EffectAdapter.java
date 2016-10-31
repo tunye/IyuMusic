@@ -53,9 +53,6 @@ public class EffectAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.eggshell_animation_item, null, false);
         TextView t = (TextView) v.findViewById(R.id.list_item_text);
-        Object o = getItem(position);
-//        int start = o.getClass().getName().lastIndexOf(".") + 1;
-//        String name = o.getClass().getName().substring(start);
         t.setText(effects[position]);
         v.setTag(Techniques.values()[position]);
         return v;

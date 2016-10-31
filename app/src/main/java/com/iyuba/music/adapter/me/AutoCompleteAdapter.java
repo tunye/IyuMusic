@@ -95,7 +95,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         return filter;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView historyText;
         MaterialMenuView delete;
     }

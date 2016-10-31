@@ -36,7 +36,7 @@ public class FavorSynRequest {
     public FavorSynRequest() {
     }
 
-    public static synchronized FavorSynRequest getInstance() {
+    public static  FavorSynRequest getInstance() {
         if (instance == null) {
             instance = new FavorSynRequest();
         }

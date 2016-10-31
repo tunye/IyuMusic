@@ -1,5 +1,6 @@
 package com.iyuba.music.file;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 
@@ -8,7 +9,7 @@ import java.util.Comparator;
  * <p/>
  * 文件浏览器相关类
  */
-public class FileComparator implements Comparator<FileInfo> {
+public class FileComparator implements Comparator<FileInfo>, Serializable {
 
     public int compare(FileInfo file1, FileInfo file2) {
         if (file1.isDirectory() && !file2.isDirectory()) {

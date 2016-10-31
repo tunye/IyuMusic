@@ -26,7 +26,7 @@ public class CommentAgreeRequest {
     public CommentAgreeRequest() {
     }
 
-    public static synchronized CommentAgreeRequest getInstance() {
+    public static  CommentAgreeRequest getInstance() {
         if (instance == null) {
             instance = new CommentAgreeRequest();
         }

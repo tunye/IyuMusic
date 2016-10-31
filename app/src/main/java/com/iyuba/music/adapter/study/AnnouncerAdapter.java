@@ -77,7 +77,7 @@ public class AnnouncerAdapter extends RecyclerView.Adapter<AnnouncerAdapter.MyVi
         return announcers.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView name;
         CircleImageView photo;

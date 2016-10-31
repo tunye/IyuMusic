@@ -154,7 +154,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    class DiscoverViewHolder extends RecycleViewHolder {
+    static class DiscoverViewHolder extends RecycleViewHolder {
         MaterialRippleLayout rippleView;
         TextView text;
         ImageView icon;
@@ -168,7 +168,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    class BlankViewHolder extends RecycleViewHolder {
+    static class BlankViewHolder extends RecycleViewHolder {
 
         public BlankViewHolder(View view) {
             super(view);

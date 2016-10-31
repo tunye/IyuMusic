@@ -26,7 +26,7 @@ public class CommentCountRequest {
     public CommentCountRequest() {
     }
 
-    public static synchronized CommentCountRequest getInstance() {
+    public static  CommentCountRequest getInstance() {
         if (instance == null) {
             instance = new CommentCountRequest();
         }

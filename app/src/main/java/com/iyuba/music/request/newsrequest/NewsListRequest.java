@@ -32,7 +32,7 @@ public class NewsListRequest {
     public NewsListRequest() {
     }
 
-    public static synchronized NewsListRequest getInstance() {
+    public static  NewsListRequest getInstance() {
         if (instance == null) {
             instance = new NewsListRequest();
         }

@@ -32,7 +32,7 @@ public class OriginalRequest {
     public OriginalRequest() {
     }
 
-    public static synchronized OriginalRequest getInstance() {
+    public static  OriginalRequest getInstance() {
         if (instance == null) {
             instance = new OriginalRequest();
         }

@@ -27,7 +27,7 @@ public class SendMessageRequest {
     public SendMessageRequest() {
     }
 
-    public static synchronized SendMessageRequest getInstance() {
+    public static  SendMessageRequest getInstance() {
         if (instance == null) {
             instance = new SendMessageRequest();
         }

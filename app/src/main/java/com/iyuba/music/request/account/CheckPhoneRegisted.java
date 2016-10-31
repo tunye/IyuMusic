@@ -25,7 +25,7 @@ public class CheckPhoneRegisted {
     public CheckPhoneRegisted() {
     }
 
-    public static synchronized CheckPhoneRegisted getInstance() {
+    public static  CheckPhoneRegisted getInstance() {
         if (instance == null) {
             instance = new CheckPhoneRegisted();
         }

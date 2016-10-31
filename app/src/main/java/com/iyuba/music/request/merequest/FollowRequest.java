@@ -33,7 +33,7 @@ public class FollowRequest {
     public FollowRequest() {
     }
 
-    public static synchronized FollowRequest getInstance() {
+    public static  FollowRequest getInstance() {
         if (instance == null) {
             instance = new FollowRequest();
         }

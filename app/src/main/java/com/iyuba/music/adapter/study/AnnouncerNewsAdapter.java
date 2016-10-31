@@ -148,7 +148,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
                     DownloadFile downloadFile = new DownloadFile();
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
-                    DownloadManager.Instance().fileList.add(downloadFile);
+                    DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
                     CustomToast.INSTANCE.showToast(R.string.artical_download_start);
                 }
@@ -166,7 +166,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
         return newsList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, broadcaster, time, readCount;
         ImageView pic;

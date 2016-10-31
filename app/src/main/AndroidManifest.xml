@@ -133,7 +133,7 @@
             android:name=".local_music.LocalMusicActivity"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/oper_local_music"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -131,7 +131,7 @@
     <string name="about_update_noneed">当前版本为最新版本</string>
     <string name="about_version">版本号：%1$s</string>
     <string name="about_communicate">微信公共号：iyubasong   QQ交流群: 139337655。如有问题，可与商务热线 4008881905 或官方邮箱 admin@iyuba.cn 联系</string>
-    <string name="about_company">北京爱语吧科技有限公司版权所有\nCopyright ©2012-%1$s IYUBA Corp.\nAll Rights Reserved.</string>
+    <string name="about_company">北京爱语吧科技有限公司版权所有\nCopyright ©2012-%1$d IYUBA Corp.\nAll Rights Reserved.</string>
     <string name="about_market_error">您当前未安装应用市场，无法使用该功能。</string>
     <string name="about_developer_birth">产品诞生于: 北京航空航天大学 软件学院</string>
     <string name="about_developer_author">作者: 陈彤，北航在读研究生</string>

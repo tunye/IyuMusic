@@ -26,7 +26,7 @@ public class ShareAdapter extends BaseAdapter {
     private static final float ITEM_SCALE_END = 1.0F;               // item结束大小
     private static final float ITEM_ALPHA_START = 0.6F;             // item初始透明度
     private static final float ITEM_ALPHA_END = 1.0F;               // item初始透明度
-    private final int NUM_COLUMNS = 3;                              // 同行子item数量
+    private static final int NUM_COLUMNS = 3;                              // 同行子item数量
 
     public ShareAdapter(Context context) {
         this.context = context;
@@ -84,7 +84,7 @@ public class ShareAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView menuText;
         ImageView menuImage;
     }

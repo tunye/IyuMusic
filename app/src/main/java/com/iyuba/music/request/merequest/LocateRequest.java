@@ -23,7 +23,7 @@ public class LocateRequest {
     public LocateRequest() {
     }
 
-    public static synchronized LocateRequest getInstance() {
+    public static  LocateRequest getInstance() {
         if (instance == null) {
             instance = new LocateRequest();
         }

@@ -75,7 +75,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                     file = (DownloadFile) msg.obj;
                     tempBar = progresses.get(String.valueOf(file.id));
                     tempBar.setVisibility(View.GONE);
-                    DownloadManager.Instance().fileList.remove(file);
+                    DownloadManager.sInstance.fileList.remove(file);
                     notifyDataSetChanged();
                     break;
             }
@@ -167,8 +167,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             holder.download.setVisibility(View.VISIBLE);
             holder.pic.setVisibility(View.GONE);
             DownloadFile file;
-            for (int i = 0; i < DownloadManager.Instance().fileList.size(); i++) {
-                file = DownloadManager.Instance().fileList.get(i);
+            for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
+                file = DownloadManager.sInstance.fileList.get(i);
                 if (file.id == id) {
                     progresses.put(String.valueOf(file.id),
                             holder.download);
@@ -208,7 +208,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         return newsList.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, broadcaster, readCount;
         ImageView pic;

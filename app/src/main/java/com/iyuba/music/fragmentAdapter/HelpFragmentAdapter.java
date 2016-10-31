@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.iyuba.music.fragment.HelpFragment;
 
 public class HelpFragmentAdapter extends FragmentPagerAdapter {
-    protected static final int[] CONTENT = new int[]{1, 2, 3, 4, 5};
+    private static final int[] CONTENT = new int[]{1, 2, 3, 4, 5};
 
     public HelpFragmentAdapter(FragmentManager fm) {
         super(fm);

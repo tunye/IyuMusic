@@ -35,7 +35,7 @@ public class PersonalInfoRequest {
 
     }
 
-    public static synchronized PersonalInfoRequest getInstance() {
+    public static  PersonalInfoRequest getInstance() {
         if (instance == null) {
             instance = new PersonalInfoRequest();
         }

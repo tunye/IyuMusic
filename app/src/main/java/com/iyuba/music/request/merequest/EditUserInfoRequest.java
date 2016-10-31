@@ -27,7 +27,7 @@ public class EditUserInfoRequest {
     public EditUserInfoRequest() {
     }
 
-    public static synchronized EditUserInfoRequest getInstance() {
+    public static  EditUserInfoRequest getInstance() {
         if (instance == null) {
             instance = new EditUserInfoRequest();
         }

@@ -33,7 +33,7 @@ public class FanRequest {
     public FanRequest() {
     }
 
-    public static synchronized FanRequest getInstance() {
+    public static  FanRequest getInstance() {
         if (instance == null) {
             instance = new FanRequest();
         }

@@ -11,15 +11,6 @@ import android.view.ViewGroup;
  */
 public class MyLinearLayoutManager extends LinearLayoutManager {
 
-    private static final int CHILD_WIDTH = 0;
-    private static final int CHILD_HEIGHT = 1;
-    private static final int DEFAULT_CHILD_SIZE = 100;
-
-    private final int[] childDimensions = new int[2];
-
-    private int childSize = DEFAULT_CHILD_SIZE;
-    private boolean hasChildSize;
-
     @SuppressWarnings("UnusedDeclaration")
     public MyLinearLayoutManager(Context context) {
         super(context);
@@ -37,7 +28,6 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
-        final int widthSize = View.MeasureSpec.getSize(widthSpec);
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
         int width = 0;
         int height = 0;

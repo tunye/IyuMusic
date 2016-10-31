@@ -167,7 +167,7 @@ public class StudyMore {
                             DownloadFile downloadFile = new DownloadFile();
                             downloadFile.id = curArticle.getId();
                             downloadFile.downloadState = "start";
-                            DownloadManager.Instance().fileList.add(downloadFile);
+                            DownloadManager.sInstance.fileList.add(downloadFile);
                             new DownloadTask(curArticle).start();
                         } else {
                             CustomToast.INSTANCE.showToast(R.string.artical_downloading);

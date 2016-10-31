@@ -142,11 +142,7 @@ public class TabIndicator extends LinearLayout {
     protected void dispatchDraw(Canvas canvas) {
         canvas.save();
         // 画笔平移到正确的位置
-        if (drawShape.equals(Shape.TRIANGLE)) {
-            canvas.translate(initTranslationX + translationX, getHeight());
-        } else {
-            canvas.translate(initTranslationX + translationX, getHeight());
-        }
+        canvas.translate(initTranslationX + translationX, getHeight());
         canvas.drawPath(path, paint);
         canvas.restore();
 

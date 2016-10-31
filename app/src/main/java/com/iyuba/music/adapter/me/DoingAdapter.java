@@ -69,7 +69,7 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
         return doings.size();
     }
 
-    class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends RecycleViewHolder {
 
         TextView doingUserName, doingTime, doingCounts;
         JustifyTextView doingContent;

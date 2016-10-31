@@ -27,7 +27,7 @@ public class CancelAttentionRequest {
     public CancelAttentionRequest() {
     }
 
-    public static synchronized CancelAttentionRequest getInstance() {
+    public static  CancelAttentionRequest getInstance() {
         if (instance == null) {
             instance = new CancelAttentionRequest();
         }
