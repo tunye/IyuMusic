@@ -1,10 +1,8 @@
 package com.iyuba.music.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.friends.RecommendFriend;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SocialManager;
@@ -25,7 +21,6 @@ import com.iyuba.music.request.merequest.RecommendRequest;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -33,31 +28,21 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/6.
  */
-public class RecommendFragment extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private Context context;
-    private RecyclerView recyclerView;
+public class RecommendFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private ArrayList<RecommendFriend> recommendsArrayList;
     private FriendAdapter friendAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
     private int curPage;
     private boolean isLastPage = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.friend_recycle, null);
-        recyclerView = (RecyclerView) view.findViewById(R.id.friendlist);
-        swipeRefreshLayout = (MySwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recommendsArrayList = new ArrayList<>();
         friendAdapter = new FriendAdapter(context);
         friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
@@ -81,10 +66,14 @@ public class RecommendFragment extends BaseFragment implements MySwipeRefreshLay
             }
         });
         recyclerView.setAdapter(friendAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
-        return view;
     }
 
     /**
@@ -146,18 +135,5 @@ public class RecommendFragment extends BaseFragment implements MySwipeRefreshLay
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        recyclerView.scrollToPosition(0);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        }
     }
 }

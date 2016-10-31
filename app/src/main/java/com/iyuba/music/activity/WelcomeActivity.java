@@ -98,10 +98,7 @@ public class WelcomeActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     WRITE_EXTERNAL_STORAGE_TASK_CODE);
         } else {
-            File file = new File(ConstantManager.instance.getEnvir());
-            if (!file.exists()) {
-                file.mkdirs();
-            }
+            initFileSystem();
             getBannerPic();
             DBoper();
         }
@@ -164,10 +161,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                File file = new File(ConstantManager.instance.getEnvir());
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
+                initFileSystem();
                 getBannerPic();
                 DBoper();
             } else {
@@ -203,5 +197,12 @@ public class WelcomeActivity extends AppCompatActivity {
         intent.addCategory("android.intent.category.LAUNCHER");
         shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
         sendBroadcast(shortcutintent);
+    }
+
+    private void initFileSystem() {
+        File file = new File(ConstantManager.instance.getEnvir());
+        if (!file.exists()) {
+            file.mkdirs();
+        }
     }
 }

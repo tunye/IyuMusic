@@ -1,11 +1,9 @@
 package com.iyuba.music.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,6 @@ import com.iyuba.music.entity.artical.Article;
 import com.iyuba.music.entity.artical.ArticleOp;
 import com.iyuba.music.entity.artical.LocalInfo;
 import com.iyuba.music.entity.artical.LocalInfoOp;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -30,7 +26,6 @@ import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.banner.BannerView;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -43,10 +38,7 @@ import java.util.EnumSet;
 /**
  * Created by 10202 on 2016/3/4.
  */
-public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private Context context;
-    private RecyclerView musicRecyclerView;
-    private MySwipeRefreshLayout swipeRefreshLayout;
+public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private ArrayList<Article> musicList;
     private MusicAdapter musicAdapter;
     private ArticleOp articleOp;
@@ -59,7 +51,6 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
         isLastPage = false;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
@@ -67,17 +58,10 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.recycleview_read, null);
-        musicRecyclerView = (RecyclerView) view.findViewById(R.id.listview);
-        musicRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        swipeRefreshLayout = (MySwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         musicList = new ArrayList<>();
         musicAdapter = new MusicAdapter(context);
-        musicRecyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
         if (DownloadService.checkVip()) {
             musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
@@ -94,7 +78,7 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
                 public void onItemLongClick(View view, int position) {
                 }
             });
-            musicRecyclerView.setAdapter(musicAdapter);
+            recyclerView.setAdapter(musicAdapter);
         } else {
             mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), musicAdapter,
                     YouDaoNativeAdPositioning
@@ -131,12 +115,17 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
             RequestParameters mRequestParameters = new RequestParameters.Builder()
                     .location(location).keywords(keywords)
                     .desiredAssets(desiredAssets).build();
-            musicRecyclerView.setAdapter(mAdAdapter);
+            recyclerView.setAdapter(mAdAdapter);
             mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
         }
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
-        return view;
     }
 
     private void getData() {
@@ -210,11 +199,6 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
         });
     }
 
-    @Override
-    public void onClick(View view, Object message) {
-        musicRecyclerView.scrollToPosition(0);
-    }
-
     /**
      * 下拉刷新
      *
@@ -263,15 +247,14 @@ public class MusicFragment extends BaseFragment implements MySwipeRefreshLayout.
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
             if (musicAdapter != null) {
-                BannerView bannerView = ((BannerView) musicRecyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
+                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
                 if (bannerView != null)
                     bannerView.startAd();
             }
         } else {
             if (musicAdapter != null) {
-                BannerView bannerView = ((BannerView) musicRecyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
+                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
                 if (bannerView != null)
                     bannerView.stopAd();
             }

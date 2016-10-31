@@ -83,7 +83,6 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.content_main, null);
         ArrayList<String> title = new ArrayList<>();
         title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));

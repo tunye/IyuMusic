@@ -1,10 +1,8 @@
 package com.iyuba.music.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +13,12 @@ import com.iyuba.music.adapter.study.SongCategoryAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.mainpanel.SongCategory;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -32,31 +26,21 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/6.
  */
-public class SongCategoryFragment extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private Context context;
-    private RecyclerView newsRecyclerView;
+public class SongCategoryFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private ArrayList<SongCategory> newsList;
     private SongCategoryAdapter newsAdapter;
-    private CustomSwipeToRefresh swipeRefreshLayout;
     private int curPage;
     private boolean isLastPage = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.news, null);
-        newsRecyclerView = (RecyclerView) view.findViewById(R.id.news_recyclerview);
-        swipeRefreshLayout = (CustomSwipeToRefresh) view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         newsList = new ArrayList<>();
         newsAdapter = new SongCategoryAdapter(context);
         newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
@@ -72,11 +56,15 @@ public class SongCategoryFragment extends BaseFragment implements MySwipeRefresh
             public void onItemLongClick(View view, int position) {
             }
         });
-        newsRecyclerView.setAdapter(newsAdapter);
-        newsRecyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setAdapter(newsAdapter);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         onRefresh(0);
         swipeRefreshLayout.setRefreshing(true);
-        return view;
     }
 
     /**
@@ -164,18 +152,5 @@ public class SongCategoryFragment extends BaseFragment implements MySwipeRefresh
                 newsAdapter.setDataSet(newsList);
             }
         });
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        newsRecyclerView.scrollToPosition(0);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        }
     }
 }

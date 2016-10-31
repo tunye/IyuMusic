@@ -87,7 +87,6 @@ public class MainLeftFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         root = inflater.inflate(R.layout.main_left, null);
         initWidget();
         setOnClickListener();

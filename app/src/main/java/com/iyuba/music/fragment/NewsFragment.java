@@ -1,11 +1,9 @@
 package com.iyuba.music.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,6 @@ import com.iyuba.music.entity.artical.Article;
 import com.iyuba.music.entity.artical.ArticleOp;
 import com.iyuba.music.entity.artical.LocalInfo;
 import com.iyuba.music.entity.artical.LocalInfoOp;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -30,10 +26,8 @@ import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.newsrequest.NewsListRequest;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.banner.BannerView;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -47,12 +41,9 @@ import java.util.EnumSet;
 /**
  * Created by 10202 on 2015/11/6.
  */
-public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private Context context;
-    private RecyclerView newsRecyclerView;
+public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private ArrayList<Article> newsList;
     private NewsAdapter newsAdapter;
-    private CustomSwipeToRefresh swipeRefreshLayout;
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
     //有道广告
@@ -61,27 +52,24 @@ public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
         articleOp = new ArticleOp();
         localInfoOp = new LocalInfoOp();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.news, null);
-        newsRecyclerView = (RecyclerView) view.findViewById(R.id.news_recyclerview);
-        swipeRefreshLayout = (CustomSwipeToRefresh) view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         newsList = new ArrayList<>();
         newsAdapter = new NewsAdapter(context);
-        newsRecyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         getNewsData(0, MySwipeRefreshLayout.TOP_REFRESH);
         swipeRefreshLayout.setRefreshing(true);
-        return view;
     }
 
     @Override
@@ -103,7 +91,7 @@ public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.O
                 public void onItemLongClick(View view, int position) {
                 }
             });
-            newsRecyclerView.setAdapter(newsAdapter);
+            recyclerView.setAdapter(newsAdapter);
         } else {
             mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), newsAdapter,
                     YouDaoNativeAdPositioning
@@ -140,7 +128,7 @@ public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.O
             RequestParameters mRequestParameters = new RequestParameters.Builder()
                     .location(location).keywords(keywords)
                     .desiredAssets(desiredAssets).build();
-            newsRecyclerView.setAdapter(mAdAdapter);
+            recyclerView.setAdapter(mAdAdapter);
             mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
         }
         if (newsList.size() == 0) {
@@ -273,11 +261,6 @@ public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.O
         });
     }
 
-    @Override
-    public void onClick(View view, Object message) {
-        newsRecyclerView.scrollToPosition(0);
-    }
-
     private void getDbData(int maxId) {
         if (maxId == 0) {
             newsList = articleOp.findDataByAll(ConstantManager.instance.getAppId(), 0, 20);
@@ -299,15 +282,14 @@ public class NewsFragment extends BaseFragment implements MySwipeRefreshLayout.O
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
             if (newsAdapter != null) {
-                BannerView bannerView = ((BannerView) newsRecyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
+                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
                 if (bannerView != null)
                     bannerView.startAd();
             }
         } else {
             if (newsAdapter != null) {
-                BannerView bannerView = ((BannerView) newsRecyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
+                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
                 if (bannerView != null)
                     bannerView.stopAd();
             }

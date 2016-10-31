@@ -30,7 +30,6 @@ public class ClassifyFragment extends BaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.classify, null);
         StationaryGridview person = (StationaryGridview) view.findViewById(R.id.person_view);
         StationaryGridview system = (StationaryGridview) view.findViewById(R.id.system_view);
