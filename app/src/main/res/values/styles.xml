@@ -8,6 +8,7 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light" />
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:overScrollMode">always</item>
         <item name="android:listDivider">@drawable/divider</item>
         <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
     </style>
