@@ -114,5 +114,4 @@ dependencies {
     compile project(':smssdk')
     compile project(':PushSDK')
     compile project(':umengshare')
-    compile files('libs/youdaosdk-3.9.2.jar')
 }

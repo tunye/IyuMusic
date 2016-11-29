@@ -1,7 +1,9 @@
 package com.iyuba.music.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -65,8 +67,10 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (position == 0) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.skin_app_color));
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.skin_app_color));
             } else {
                 getWindow().setStatusBarColor(getResources().getColor(getResource("skin_app_color_" + item)));
+                getWindow().setNavigationBarColor(getResources().getColor(getResource("skin_app_color_" + item)));
             }
         }
     }
@@ -84,7 +88,8 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         CustomDialog.saveChangeDialog(context, new IOperationResult() {
             @Override
             public void success(Object object) {
-                finish();
+                Intent intent = new Intent("changeProperty");
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }
 
             @Override
