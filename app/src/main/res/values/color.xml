@@ -6,8 +6,8 @@
     <color name="background">#ededed</color>
     <color name="background_light">#dcdcdc</color>
     <color name="background_complementary">#ababab</color>
-    <color name="text_color">#343434</color>
-    <color name="text_complementary">#656565</color>
+    <color name="text_color">#212121</color>
+    <color name="text_complementary">#343434</color>
     <color name="text_gray_color">#808080</color>
     <color name="toolbar_ripple_color">#fff</color>
     <!--default-->
