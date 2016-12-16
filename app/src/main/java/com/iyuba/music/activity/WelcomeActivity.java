@@ -32,7 +32,6 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/11/16.
  */
 public class WelcomeActivity extends AppCompatActivity {
-    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
     boolean autoStart = true;
     Context context;
 
@@ -133,17 +132,21 @@ public class WelcomeActivity extends AppCompatActivity {
                     SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl() + "@@@" + activity.adEntities.get(1).getPicUrl());
                     break;
                 case 1:
-                    ((MusicApplication) activity.getApplication()).popActivity(activity);
                     if (activity.autoStart) {
                         activity.startActivity(new Intent(activity, MainActivity.class));
                     } else {
+                        ((MusicApplication) activity.getApplication()).popActivity(activity);
                         activity.finish();
                     }
                     break;
                 case 2:
-                    ((MusicApplication) activity.getApplication()).popActivity(activity);
-                    activity.startActivity(new Intent(activity, MainActivity.class));
-                    activity.startActivity(new Intent(activity, HelpUseActivity.class));
+                    if (activity.autoStart) {
+                        activity.startActivity(new Intent(activity, MainActivity.class));
+                        activity.startActivity(new Intent(activity, HelpUseActivity.class));
+                    } else {
+                        ((MusicApplication) activity.getApplication()).popActivity(activity);
+                        activity.finish();
+                    }
                     break;
                 case 3:
                     String adUrl = SettingConfigManager.instance.getADUrl();
