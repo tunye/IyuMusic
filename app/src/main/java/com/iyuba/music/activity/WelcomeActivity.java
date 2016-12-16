@@ -91,6 +91,7 @@ public class WelcomeActivity extends AppCompatActivity {
             db.setVersion(0, 1);// 有需要数据库更改使用
             db.openDatabase();
             SettingConfigManager.instance.setUpgrade(true);
+            ConfigManager.instance.putInt("version", currentVersion);
             handler.sendEmptyMessageDelayed(2, 4000);
         } else if (currentVersion == lastVersion) {
             handler.sendEmptyMessageDelayed(1, 4000);

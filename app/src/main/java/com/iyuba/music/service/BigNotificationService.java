@@ -101,8 +101,6 @@ public enum BigNotificationService {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
-
-
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
         contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
         contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
