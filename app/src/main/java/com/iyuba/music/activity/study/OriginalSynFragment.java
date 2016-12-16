@@ -26,6 +26,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.original.OriginalSynView;
@@ -41,25 +42,13 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  * Created by 10202 on 2015/12/17.
  */
 public class OriginalSynFragment extends BaseFragment {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private OriginalSynView originalView;
     private ArrayList<Original> originalList;
     private WordCard wordCard;
     private Context context;
     private Article article;
     private StandardPlayer player;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
-            switch (message.what) {
-                case 0:
-                    int current = player.getCurrentPosition();
-                    originalView.synchroParagraph(getCurrentPara(current / 1000.0));
-                    handler.sendEmptyMessageDelayed(0, 500);
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -292,5 +281,18 @@ public class OriginalSynFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         handler.removeMessages(0);
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalSynFragment> {
+        @Override
+        public void handleMessageByRef(final OriginalSynFragment fragment, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    int current = fragment.player.getCurrentPosition();
+                    fragment.originalView.synchroParagraph(fragment.getCurrentPara(current / 1000.0));
+                    fragment.handler.sendEmptyMessageDelayed(0, 500);
+                    break;
+            }
+        }
     }
 }

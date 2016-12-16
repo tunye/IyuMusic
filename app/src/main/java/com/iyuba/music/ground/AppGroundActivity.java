@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class AppGround extends BaseActivity {
+public class AppGroundActivity extends BaseActivity {
     private GridView gridview;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class AppGround extends BaseActivity {
     class ItemClickListener implements OnItemClickListener {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
-            Intent intent = new Intent(context, SimpleNews.class);
+            Intent intent = new Intent(context, SimpleNewsActivity.class);
             intent.putExtra("type", item.get("ItemText").toString());
             startActivity(intent);
         }

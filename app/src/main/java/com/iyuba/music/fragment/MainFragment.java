@@ -31,6 +31,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
@@ -48,6 +49,7 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  * Created by 10202 on 2015/11/6.
  */
 public class MainFragment extends BaseFragment {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
     private StandardPlayer player;
     private TabIndicator viewPagerIndicator;
@@ -58,21 +60,6 @@ public class MainFragment extends BaseFragment {
     private MorphButton pause;
     private Article curArticle;
     private Animation operatingAnim;
-    Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message arg0) {
-
-            switch (arg0.what) {
-                case 0:
-                    progressBar.setProgress(player.getCurrentPosition() * 100 / player.getDuration());
-                    handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
     private MainChangeUIBroadCast broadCast;
 
     @Override
@@ -297,6 +284,18 @@ public class MainFragment extends BaseFragment {
                 handler.removeMessages(0);
                 pauseAnimation();
                 pause.setState(MorphButton.MorphState.START, animation);
+            }
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainFragment> {
+        @Override
+        public void handleMessageByRef(final MainFragment fragment, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
+                    fragment.handler.sendEmptyMessageDelayed(0, 1000);
+                    break;
             }
         }
     }

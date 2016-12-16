@@ -17,7 +17,7 @@ import com.iyuba.music.entity.artical.Article;
 import com.iyuba.music.entity.artical.ArticleOp;
 import com.iyuba.music.entity.artical.LocalInfo;
 import com.iyuba.music.entity.artical.LocalInfoOp;
-import com.iyuba.music.ground.VideoPlayer;
+import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -90,7 +90,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
                     ArrayList<Article> temp = new ArrayList<>();
                     temp.add(newsList.get(position));
-                    Intent intent = new Intent(context, VideoPlayer.class);
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {

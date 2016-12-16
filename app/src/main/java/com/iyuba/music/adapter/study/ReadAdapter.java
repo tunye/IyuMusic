@@ -22,6 +22,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.UploadFile;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.player.SimplePlayer;
@@ -35,61 +36,12 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ArrayList<Original> originals;
     private Context context;
     private int curItem = -1;
     private SimplePlayer player;
     private TextView curText;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            Message message;
-            switch (msg.what) {
-                case 0:
-                    if (player.getCurrentPosition() < msg.arg1) {
-                        curText.setText(Mathematics.formatTime((msg.arg1 - player.getCurrentPosition()) / 1000));
-                        message = new Message();
-                        message.what = 0;
-                        message.arg1 = msg.arg1;
-                        handler.sendMessageDelayed(message, 300);
-                    } else {
-                        handler.sendEmptyMessage(1);
-                    }
-                    break;
-                case 1:
-                    player.pause();
-                    curText.setText("");
-                    if (curItem != -1) {
-                        notifyItemChanged(curItem);
-                    }
-                    handler.removeMessages(0);
-                    break;
-                case 2:
-                    curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    message = new Message();
-                    message.what = 2;
-                    message.arg1 = msg.arg1 + 1000;
-                    handler.sendMessageDelayed(message, 1000);
-                    break;
-                case 3:
-                    handler.removeMessages(2);
-                    curText.setText("");
-                    break;
-                case 4:
-                    curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    message = new Message();
-                    message.what = 4;
-                    message.arg1 = msg.arg1 - 1000;
-                    handler.sendMessageDelayed(message, 1000);
-                    break;
-                case 5:
-                    handler.removeMessages(4);
-                    curText.setText("");
-                    break;
-            }
-            return false;
-        }
-    });
     private boolean curRecord;
     private boolean isRecord;
     private Article curArticle;
@@ -308,6 +260,56 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             recordPlay = (ImageView) view.findViewById(R.id.read_record_play);
             recordSend = (ImageView) view.findViewById(R.id.read_record_send);
             recordTime = (TextView) view.findViewById(R.id.record_time);
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ReadAdapter> {
+        @Override
+        public void handleMessageByRef(final ReadAdapter adapter, Message msg) {
+            Message message;
+            switch (msg.what) {
+                case 0:
+                    if (adapter.player.getCurrentPosition() < msg.arg1) {
+                        adapter.curText.setText(Mathematics.formatTime((msg.arg1 - adapter.player.getCurrentPosition()) / 1000));
+                        message = new Message();
+                        message.what = 0;
+                        message.arg1 = msg.arg1;
+                        adapter.handler.sendMessageDelayed(message, 300);
+                    } else {
+                        adapter.handler.sendEmptyMessage(1);
+                    }
+                    break;
+                case 1:
+                    adapter.player.pause();
+                    adapter.curText.setText("");
+                    if (adapter.curItem != -1) {
+                        adapter.notifyItemChanged(adapter.curItem);
+                    }
+                    adapter.handler.removeMessages(0);
+                    break;
+                case 2:
+                    adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
+                    message = new Message();
+                    message.what = 2;
+                    message.arg1 = msg.arg1 + 1000;
+                    adapter.handler.sendMessageDelayed(message, 1000);
+                    break;
+                case 3:
+                    adapter.handler.removeMessages(2);
+                    adapter.curText.setText("");
+                    break;
+                case 4:
+                    adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
+                    message = new Message();
+                    message.what = 4;
+                    message.arg1 = msg.arg1 - 1000;
+                    adapter.handler.sendMessageDelayed(message, 1000);
+                    break;
+                case 5:
+                    adapter.handler.removeMessages(4);
+                    adapter.curText.setText("");
+                    break;
+            }
         }
     }
 

@@ -25,6 +25,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.UploadFile;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -43,51 +44,13 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/11/20.
  */
 public class SendPhotoActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
     private Dialog waittingDialog;
     private ArrayList<String> images;
     private EmojiView emojiView;
     private ImageView photo;
     private View photoContent;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.photo_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(photoContent);
-                    break;
-                case 1:
-                    waittingDialog.dismiss();
-                    break;
-                case 2:
-                    Intent intent = new Intent();
-                    setResult(1, intent);
-                    SendPhotoActivity.this.finish();
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +175,58 @@ public class SendPhotoActivity extends BaseActivity {
         materialDialog.show();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ContextManager.destory();
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SendPhotoActivity> {
+        @Override
+        public void handleMessageByRef(final SendPhotoActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            CustomToast.INSTANCE.showToast(R.string.photo_success);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            activity.handler.sendEmptyMessageDelayed(2, 300);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(activity.photoContent);
+                    break;
+                case 1:
+                    activity.waittingDialog.dismiss();
+                    break;
+                case 2:
+                    Intent intent = new Intent();
+                    activity.setResult(1, intent);
+                    activity.finish();
+                    break;
+            }
+        }
+    }
+
     class UploadThread extends Thread {
 
         @Override
@@ -233,18 +248,5 @@ public class SendPhotoActivity extends BaseActivity {
                         }
                     });
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ContextManager.destory();
     }
 }

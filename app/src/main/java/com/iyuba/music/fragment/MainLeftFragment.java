@@ -40,6 +40,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.MD5;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,6 +51,7 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  * Created by 10202 on 2015/12/29.
  */
 public class MainLeftFragment extends BaseFragment {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
     private Snackbar snackbar;
     private View root;
@@ -61,21 +63,6 @@ public class MainLeftFragment extends BaseFragment {
     private CircleImageView personalPhoto;
     private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
     private TextView personalSign;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    ImageUtil.loadAvatar(userInfo.getUid(), personalPhoto);
-                    setPersonalInfoContent();
-                    login.setVisibility(View.VISIBLE);
-                    noLogin.setVisibility(View.GONE);
-                    sign.setVisibility(View.VISIBLE);
-                    break;
-            }
-            return false;
-        }
-    });
     //底部
     private View about, exit;
 
@@ -352,5 +339,20 @@ public class MainLeftFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {
+        @Override
+        public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    ImageUtil.loadAvatar(fragment.userInfo.getUid(), fragment.personalPhoto);
+                    fragment.setPersonalInfoContent();
+                    fragment.login.setVisibility(View.VISIBLE);
+                    fragment.noLogin.setVisibility(View.GONE);
+                    fragment.sign.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
     }
 }

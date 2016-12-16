@@ -29,6 +29,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.CheckPhoneRegisted;
 import com.iyuba.music.request.account.RegistByPhoneRequest;
 import com.iyuba.music.request.account.RegistRequest;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -45,56 +46,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by 10202 on 2015/11/24.
  */
 public class RegistActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
     private TextView protocolText;
     private RoundTextView regist, getMessageCode;
     private CheckBox protocol;
     private View registByPhone, registByEmail;
     private CircleImageView photo;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    int event = msg.arg1;
-                    int result = msg.arg2;
-                    if (result == SMSSDK.RESULT_COMPLETE) {
-                        if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                            registByPhone.setVisibility(View.GONE);
-                            registByEmail.setVisibility(View.VISIBLE);
-                            email.setVisibility(View.GONE);
-                            changeUIResumeByPara();
-                        } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                            CustomToast.INSTANCE.showToast(R.string.regist_code_on_way);
-                        }
-                    } else {
-                        messageCode.setError(context.getString(R.string.matches_msg_code));
-                        getMessageCode.setText(R.string.regist_get_code);
-                        getMessageCode.setEnabled(true);
-                    }
-                    break;
-                case 1:
-                    getMessageCode.setEnabled(false);
-                    Message message = new Message();
-                    message.what = 1;
-                    getMessageCode.setText(context.getString(R.string.regist_refresh_code, msg.arg1));
-                    message.arg1 = msg.arg1 - 1;
-                    if (message.arg1 == -1) {
-                        getMessageCode.setEnabled(true);
-                        getMessageCode.setText(R.string.regist_get_code);
-                    } else {
-                        handler.sendMessageDelayed(message, 1000);
-                    }
-                    break;
-                case 2:
-                    getMessageCode.setText(R.string.regist_get_code);
-                    handler.removeMessages(1);
-                    messageCode.setText(msg.obj.toString());
-                    break;
-            }
-            return false;
-        }
-    });
     private Dialog waittingDialog;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
@@ -525,6 +483,50 @@ public class RegistActivity extends BaseActivity {
         } else {
             YoYo.with(Techniques.Shake).duration(500).playOn(messageCode);
             messageCode.setError(context.getString(R.string.matches_msg_code_empty));
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<RegistActivity> {
+        @Override
+        public void handleMessageByRef(final RegistActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    int event = msg.arg1;
+                    int result = msg.arg2;
+                    if (result == SMSSDK.RESULT_COMPLETE) {
+                        if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
+                            activity.registByPhone.setVisibility(View.GONE);
+                            activity.registByEmail.setVisibility(View.VISIBLE);
+                            activity.email.setVisibility(View.GONE);
+                            activity.changeUIResumeByPara();
+                        } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                            CustomToast.INSTANCE.showToast(R.string.regist_code_on_way);
+                        }
+                    } else {
+                        activity.messageCode.setError(activity.getString(R.string.matches_msg_code));
+                        activity.getMessageCode.setText(R.string.regist_get_code);
+                        activity.getMessageCode.setEnabled(true);
+                    }
+                    break;
+                case 1:
+                    activity.getMessageCode.setEnabled(false);
+                    Message message = new Message();
+                    message.what = 1;
+                    activity.getMessageCode.setText(activity.getString(R.string.regist_refresh_code, msg.arg1));
+                    message.arg1 = msg.arg1 - 1;
+                    if (message.arg1 == -1) {
+                        activity.getMessageCode.setEnabled(true);
+                        activity.getMessageCode.setText(R.string.regist_get_code);
+                    } else {
+                        activity.handler.sendMessageDelayed(message, 1000);
+                    }
+                    break;
+                case 2:
+                    activity.getMessageCode.setText(R.string.regist_get_code);
+                    activity.handler.removeMessages(1);
+                    activity.messageCode.setText(msg.obj.toString());
+                    break;
+            }
         }
     }
 }

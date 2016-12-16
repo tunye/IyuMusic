@@ -26,6 +26,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.UpdateRequest;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 
@@ -53,50 +54,7 @@ public class AboutActivity extends BaseActivity {
     private boolean isCurrent;
     private int cookie;
     private Snackbar snackbar;
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (ContextCompat.checkSelfPermission(AboutActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        //申请WRITE_EXTERNAL_STORAGE权限
-                        ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
-                    } else {
-                        startDownLoad();
-                    }
-                    break;
-                case 1:
-                    progressBar.setVisibility(View.GONE);
-                    appNewImg.setVisibility(View.INVISIBLE);
-                    break;
-                case 2:
-                    DownloadFile file = (DownloadFile) msg.obj;
-                    if (file.downloadState.equals("start")) {
-                        progressBar.setCricleProgressColor(0xff87c973);
-                        progressBar.setMax(file.fileSize);
-                        progressBar.setProgress(file.downloadSize);
-                        Message message = new Message();
-                        message.what = 2;
-                        message.obj = file;
-                        handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("finish")) {
-                        handler.sendEmptyMessage(1);
-                        handler.removeMessages(2);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        DownloadFile downloadFile = (DownloadFile) msg.obj;
-                        String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
-                        intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
-                        context.startActivity(intent);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return false;
-        }
-    });
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -363,6 +321,48 @@ public class AboutActivity extends BaseActivity {
                     }
                 });
                 materialDialog.show();
+            }
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<AboutActivity> {
+        @Override
+        public void handleMessageByRef(AboutActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        //申请WRITE_EXTERNAL_STORAGE权限
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                    } else {
+                        activity.startDownLoad();
+                    }
+                    break;
+                case 1:
+                    activity.progressBar.setVisibility(View.GONE);
+                    activity.appNewImg.setVisibility(View.INVISIBLE);
+                    break;
+                case 2:
+                    DownloadFile file = (DownloadFile) msg.obj;
+                    if (file.downloadState.equals("start")) {
+                        activity.progressBar.setCricleProgressColor(0xff87c973);
+                        activity.progressBar.setMax(file.fileSize);
+                        activity.progressBar.setProgress(file.downloadSize);
+                        Message message = new Message();
+                        message.what = 2;
+                        message.obj = file;
+                        activity.handler.sendMessageDelayed(message, 1500);
+                    } else if (file.downloadState.equals("finish")) {
+                        activity.handler.sendEmptyMessage(1);
+                        activity.handler.removeMessages(2);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        DownloadFile downloadFile = (DownloadFile) msg.obj;
+                        String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
+                        intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
+                        activity.startActivity(intent);
+                    }
+                    break;
             }
         }
     }

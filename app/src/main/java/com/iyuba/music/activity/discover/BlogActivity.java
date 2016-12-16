@@ -16,6 +16,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.request.discoverrequest.BlogRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 
 import java.io.InputStream;
@@ -26,20 +27,9 @@ import java.util.Date;
  * Created by 10202 on 2016/4/22.
  */
 public class BlogActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView blogAuthor, blogTime, blogTitle, blogContent;
     private Spanned sp;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    blogContent.setText(sp);
-                    blogContent.setMovementMethod(LinkMovementMethod.getInstance());
-                    break;
-            }
-        }
-    };
     private String message;
     private int id;
     private Thread thread = new Thread() {
@@ -126,5 +116,17 @@ public class BlogActivity extends BaseActivity {
                 thread.start();
             }
         });
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<BlogActivity> {
+        @Override
+        public void handleMessageByRef(final BlogActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.blogContent.setText(activity.sp);
+                    activity.blogContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    break;
+            }
+        }
     }
 }

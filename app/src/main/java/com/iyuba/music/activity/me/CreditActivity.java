@@ -15,6 +15,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.merequest.GradeRequest;
 import com.iyuba.music.util.MD5;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
@@ -24,24 +25,12 @@ import com.iyuba.music.widget.boundnumber.RiseNumberTextView;
  * Created by 10202 on 2016/3/31.
  */
 public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RiseNumberTextView counts, rank;
     private View creditDetail, creditExchange;
     private CustomSwipeToRefresh swipeRefreshLayout;
     private String rankPos, duration;
     private TextView creditDuration;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    counts.withNumber(Integer.parseInt(AccountManager.instance.getUserInfo().getIcoins())).start();
-                    rank.withNumber(Integer.parseInt(rankPos)).start();
-                    creditDuration.setText(context.getString(R.string.credits_study_time, exeStudyTime(Integer.parseInt(duration))));
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +163,19 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             return sb.toString();
         } else {
             return "0:" + sb.toString();
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<CreditActivity> {
+        @Override
+        public void handleMessageByRef(final CreditActivity activity, Message msg) {
+            switch (msg.what) {
+                case 1:
+                    activity.counts.withNumber(Integer.parseInt(AccountManager.instance.getUserInfo().getIcoins())).start();
+                    activity.rank.withNumber(Integer.parseInt(activity.rankPos)).start();
+                    activity.creditDuration.setText(activity.getString(R.string.credits_study_time, activity.exeStudyTime(Integer.parseInt(activity.duration))));
+                    break;
+            }
         }
     }
 }

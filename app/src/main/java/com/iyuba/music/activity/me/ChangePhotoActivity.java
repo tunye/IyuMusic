@@ -22,6 +22,7 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.UploadFile;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.yongchun.library.utils.FileUtils;
@@ -37,24 +38,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by 10202 on 2016/2/18.
  */
 public class ChangePhotoActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private String imgPath;
     private CircleImageView photo;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    ImageUtil.clearImageAllCache(context);
-                    CustomToast.INSTANCE.showToast(R.string.changephoto_success);
-                    handler.sendEmptyMessageDelayed(1, 1000);
-                    break;
-                case 1:
-                    ImageUtil.loadAvatar(AccountManager.instance.getUserId(), photo);
-                    break;
-            }
-            return false;
-        }
-    });
     private RoundTextView change;
     private ContextMenu menu;
     View.OnClickListener ocl = new View.OnClickListener() {
@@ -180,6 +166,22 @@ public class ChangePhotoActivity extends BaseActivity {
         });
         ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
         snackbar.show();
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ChangePhotoActivity> {
+        @Override
+        public void handleMessageByRef(final ChangePhotoActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    ImageUtil.clearImageAllCache(activity);
+                    CustomToast.INSTANCE.showToast(R.string.changephoto_success);
+                    activity.handler.sendEmptyMessageDelayed(1, 1000);
+                    break;
+                case 1:
+                    ImageUtil.loadAvatar(AccountManager.instance.getUserId(), activity.photo);
+                    break;
+            }
+        }
     }
 
     class UploadThread extends Thread {

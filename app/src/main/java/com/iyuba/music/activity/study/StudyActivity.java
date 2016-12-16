@@ -32,6 +32,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.imageview.PageIndicator;
@@ -58,30 +59,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     private RoundTextView comment;
     private int aPosition, bPosition;// 区间播放
     private IntervalState intervalState;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    currTime.setText(Mathematics.formatTime(player.getCurrentPosition() / 1000));
-                    seekBar.setProgress(player.getCurrentPosition());
-                    handler.sendEmptyMessageDelayed(0, 1000);
-                    if (intervalState.equals(IntervalState.END)) {
-                        if (Math.abs(player.getCurrentPosition() - bPosition) <= 1000) {
-                            handler.sendEmptyMessage(1);
-                        }
-                    }
-                    break;
-                case 1:
-                    player.seekTo(aPosition);// A-B播放
-                    break;
-                case 2:
-                    setIntervalImage(0);
-                    break;
-            }
-            return false;
-        }
-    });
+    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
     private boolean isDestroyed = false;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
@@ -541,6 +519,30 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
                     break;
                 case "pause":
                     setPauseImage(false);
+                    break;
+            }
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<StudyActivity> {
+        @Override
+        public void handleMessageByRef(final StudyActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.currTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
+                    activity.seekBar.setProgress(activity.player.getCurrentPosition());
+                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    if (activity.intervalState.equals(IntervalState.END)) {
+                        if (Math.abs(activity.player.getCurrentPosition() - activity.bPosition) <= 1000) {
+                            activity.handler.sendEmptyMessage(1);
+                        }
+                    }
+                    break;
+                case 1:
+                    activity.player.seekTo(activity.aPosition);// A-B播放
+                    break;
+                case 2:
+                    activity.setIntervalImage(0);
                     break;
             }
         }

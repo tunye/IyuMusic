@@ -16,6 +16,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.RecommendSongRequest;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.nineoldandroids.animation.Animator;
@@ -28,40 +29,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 public class RecommendSongActivity extends BaseActivity {
     private MaterialEditText recommendTitle, recommendSinger;
     private View mainContent;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.study_recommend_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(mainContent);
-                    break;
-                case 2:
-                    RecommendSongActivity.this.finish();
-                    break;
-            }
-            return false;
-        }
-    });
+    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +113,40 @@ public class RecommendSongActivity extends BaseActivity {
                     }
                 }
             });
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<RecommendSongActivity> {
+        @Override
+        public void handleMessageByRef(final RecommendSongActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            CustomToast.INSTANCE.showToast(R.string.study_recommend_success);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            activity.handler.sendEmptyMessageDelayed(2, 300);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(activity.mainContent);
+                    break;
+                case 2:
+                    activity.finish();
+                    break;
+            }
         }
     }
 }

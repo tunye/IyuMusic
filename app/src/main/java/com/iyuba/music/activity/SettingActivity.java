@@ -25,6 +25,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -40,33 +41,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     Dialog waittingDialog;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    currSleep.setText(Mathematics.formatTime(((MusicApplication) getApplication()).getSleepSecond()));
-                    handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
-                case 1:
-                    long size = 0;
-                    size = size + FileUtil.getTotalCacheSize(context);
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getCrashFolder()));
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getUpdateFolder()));
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getImgFile()));
-                    currClear.setText(FileUtil.formetFileSize(size));
-                    break;
-                case 2:
-                    waittingDialog.dismiss();
-                    handler.sendEmptyMessage(1);
-                    break;
-            }
-            return false;
-        }
-    });
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin;
     private RoundRelativeLayout language, night, push, sleep, clear;
     private TextView currLanguage, currSleep, currClear, currSkin;
@@ -319,5 +294,32 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     });
         }
         mMaterialDialog.show();
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SettingActivity> {
+        @Override
+        public void handleMessageByRef(final SettingActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.currSleep.setText(Mathematics.formatTime(((MusicApplication) activity.getApplication()).getSleepSecond()));
+                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    break;
+                case 1:
+                    long size = 0;
+                    size = size + FileUtil.getTotalCacheSize(activity);
+                    size = size + FileUtil.getFolderSize(new File(
+                            ConstantManager.instance.getCrashFolder()));
+                    size = size + FileUtil.getFolderSize(new File(
+                            ConstantManager.instance.getUpdateFolder()));
+                    size = size + FileUtil.getFolderSize(new File(
+                            ConstantManager.instance.getImgFile()));
+                    activity.currClear.setText(FileUtil.formetFileSize(size));
+                    break;
+                case 2:
+                    activity.waittingDialog.dismiss();
+                    activity.handler.sendEmptyMessage(1);
+                    break;
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ShareDialog;
 import com.iyuba.music.widget.dialog.WordCard;
@@ -42,7 +43,7 @@ import com.wnafee.vector.MorphButton;
 import java.util.ArrayList;
 
 
-public class VideoPlayer extends BaseActivity implements View.OnClickListener {
+public class VideoPlayerActivity extends BaseActivity implements View.OnClickListener {
     private boolean isSystemPlaying;
     private int currPos;
     private Article article;
@@ -53,21 +54,7 @@ public class VideoPlayer extends BaseActivity implements View.OnClickListener {
     private SeekBar seekBar;
     private OriginalSynView originalView;
     private ArrayList<Original> originalList;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    currTime.setText(Mathematics.formatTime(videoView.getCurrentPosition() / 1000));
-                    seekBar.setProgress(videoView.getCurrentPosition());
-                    int current = videoView.getCurrentPosition();
-                    originalView.synchroParagraph(getCurrentPara(current / 1000.0));
-                    handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
-            }
-            return false;
-        }
-    });
+    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
     private ImageView largePause;
     private MorphButton playSound;
     private ImageView former, latter, playMode, studyTranslate;
@@ -134,7 +121,7 @@ public class VideoPlayer extends BaseActivity implements View.OnClickListener {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog shareDialog = new ShareDialog(VideoPlayer.this, article);
+                ShareDialog shareDialog = new ShareDialog(VideoPlayerActivity.this, article);
                 shareDialog.show();
             }
         });
@@ -397,6 +384,21 @@ public class VideoPlayer extends BaseActivity implements View.OnClickListener {
                 }
                 originalView.setOriginalList(originalList);
                 break;
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<VideoPlayerActivity> {
+        @Override
+        public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.currTime.setText(Mathematics.formatTime(activity.videoView.getCurrentPosition() / 1000));
+                    activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
+                    int current = activity.videoView.getCurrentPosition();
+                    activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
+                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    break;
+            }
         }
     }
 }

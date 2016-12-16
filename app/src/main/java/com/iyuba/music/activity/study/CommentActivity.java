@@ -39,6 +39,7 @@ import com.iyuba.music.request.newsrequest.CommentRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.UploadFile;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
@@ -59,7 +60,7 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
     protected MaterialMenu backIcon;
     protected RelativeLayout toolBarLayout;
     protected TextView title;
-
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Article curArticle;
     private ImageView img;
     private TextView articalTitle, singer, announecr, count;
@@ -70,25 +71,6 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
     private CommentView commentView;
     private int commentPage;
     private boolean isLastPage = false;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    commentAdapter.setDataSet(comments);
-                    count.setText(context.getString(R.string.artical_commentcount, msg.obj.toString()));
-                    break;
-                case 1:
-                    new UploadVoice(msg.obj.toString()).start();
-                    break;
-                case 2:
-                    onRefresh(0);
-                    commentRecycleView.scrollToPosition(0);
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,6 +350,29 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
                 }
             }
         });
+    }
+
+    private void startUploadVoice(String url) {
+        new UploadVoice(url).start();
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<CommentActivity> {
+        @Override
+        public void handleMessageByRef(final CommentActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.commentAdapter.setDataSet(activity.comments);
+                    activity.count.setText(activity.getString(R.string.artical_commentcount, msg.obj.toString()));
+                    break;
+                case 1:
+                    activity.startUploadVoice(msg.obj.toString());
+                    break;
+                case 2:
+                    activity.onRefresh(0);
+                    activity.commentRecycleView.scrollToPosition(0);
+                    break;
+            }
+        }
     }
 
     public class UploadVoice extends Thread {

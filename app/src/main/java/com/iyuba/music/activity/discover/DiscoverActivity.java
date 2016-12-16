@@ -14,7 +14,7 @@ import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
-import com.iyuba.music.ground.AppGround;
+import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
@@ -72,7 +72,7 @@ public class DiscoverActivity extends BaseActivity {
                         }
                         break;
                     case 4:
-                        startActivity(new Intent(context, AppGround.class));
+                        startActivity(new Intent(context, AppGroundActivity.class));
                         break;
                     case 5:
                         if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {

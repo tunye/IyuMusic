@@ -31,6 +31,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wnafee.vector.MorphButton;
@@ -42,6 +43,7 @@ import java.util.Random;
  * Created by 10202 on 2016/4/16.
  */
 public class LocalMusicActivity extends BaseActivity implements IOnClickListener, IPlayerListener {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RecyclerView musicList;
     private ArrayList<Article> musics;
     private LocalMusicAdapter adapter;
@@ -50,15 +52,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private ImageView playMode, next, before;
     private ProgressBar progressBar;
     private TextView currentTime;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            progressBar.setProgress(player.getCurrentPosition());
-            currentTime.setText(Mathematics.formatTime(player.getCurrentPosition() / 1000));
-            handler.sendEmptyMessageDelayed(0, 1000);
-            return false;
-        }
-    });
     private MorphButton pause;
     private LocalMusicChangeUIBroadCast broadCast;
 
@@ -321,6 +314,19 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<LocalMusicActivity> {
+        @Override
+        public void handleMessageByRef(final LocalMusicActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.progressBar.setProgress(activity.player.getCurrentPosition());
+                    activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
+                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    break;
             }
         }
     }

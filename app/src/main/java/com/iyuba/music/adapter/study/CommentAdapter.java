@@ -27,6 +27,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.newsrequest.CommentAgreeRequest;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
@@ -41,6 +42,7 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  * Created by 10202 on 2015/10/10.
  */
 public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ArrayList<Comment> comments;
     private Context context;
     private SimplePlayer player;
@@ -48,33 +50,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private int voiceState;
     private ImageView playingVoiceImg;
     private TextView playingVoiceText;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (playingVoiceImg != null) {
-                        if (voiceState % 3 == 1) {
-                            playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p1);
-                        } else if (voiceState % 3 == 2) {
-                            playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p2);
-                        } else if (voiceState % 3 == 0) {
-                            playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p3);
-                        }
-                        voiceState++;
-                        handler.sendEmptyMessageDelayed(0, 500);
-                    }
-                    break;
-                case 1:
-                    if (playingVoiceText != null) {
-                        playingVoiceText.setText((player.getDuration() - player.getCurrentPosition()) / 1000 + "s");
-                        handler.sendEmptyMessageDelayed(1, 1000);
-                    }
-                    break;
-            }
-            return false;
-        }
-    });
     private ProgressBar playingVoiceLoading;
     private CommentAgreeOp commentAgreeOp;
     private String uid;
@@ -373,6 +348,33 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             voice = view.findViewById(R.id.comment_voice);
             voiceImg = (ImageView) view.findViewById(R.id.comment_voice_img);
             loading = (ProgressBar) view.findViewById(R.id.comment_voice_loading);
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<CommentAdapter> {
+        @Override
+        public void handleMessageByRef(final CommentAdapter adapter, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    if (adapter.playingVoiceImg != null) {
+                        if (adapter.voiceState % 3 == 1) {
+                            adapter.playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p1);
+                        } else if (adapter.voiceState % 3 == 2) {
+                            adapter.playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p2);
+                        } else if (adapter.voiceState % 3 == 0) {
+                            adapter.playingVoiceImg.setBackgroundResource(R.drawable.comment_voice_p3);
+                        }
+                        adapter.voiceState++;
+                        adapter.handler.sendEmptyMessageDelayed(0, 500);
+                    }
+                    break;
+                case 1:
+                    if (adapter.playingVoiceText != null) {
+                        adapter.playingVoiceText.setText((adapter.player.getDuration() - adapter.player.getCurrentPosition()) / 1000 + "s");
+                        adapter.handler.sendEmptyMessageDelayed(1, 1000);
+                    }
+                    break;
+            }
         }
     }
 }

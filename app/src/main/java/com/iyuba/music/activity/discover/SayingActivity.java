@@ -15,6 +15,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.word.Saying;
 import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.nineoldandroids.animation.Animator;
 
@@ -24,51 +25,11 @@ import java.util.Random;
  * Created by 10202 on 2015/12/2.
  */
 public class SayingActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView chinese;
     private JustifyTextView english;
     private RoundTextView next;
     private View sayingContent;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.FadeOutRight).duration(300).interpolate(new AccelerateDecelerateInterpolator()).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            handler.sendEmptyMessage(1);
-                            YoYo.with(Techniques.FadeInLeft).duration(300).interpolate(new AccelerateDecelerateInterpolator()).playOn(sayingContent);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(sayingContent);
-                    break;
-                case 1:
-                    Saying saying = new SayingOp().findDataById(getRandomId());
-                    chinese.setText(saying.getChinese());
-                    english.setText(saying.getEnglish());
-                    if (SettingConfigManager.instance.getSayingMode() == 0) {
-                        handler.removeMessages(0);
-                    } else {
-                        handler.sendEmptyMessageDelayed(0, 4500);
-                    }
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,5 +105,46 @@ public class SayingActivity extends BaseActivity {
     private int getRandomId() {
         Random rnd = new Random();
         return rnd.nextInt(1000) % 154 + 1;
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SayingActivity> {
+        @Override
+        public void handleMessageByRef(final SayingActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    YoYo.with(Techniques.FadeOutRight).duration(300).interpolate(new AccelerateDecelerateInterpolator()).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            activity.handler.sendEmptyMessage(1);
+                            YoYo.with(Techniques.FadeInLeft).duration(300).interpolate(new AccelerateDecelerateInterpolator()).playOn(activity.sayingContent);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(activity.sayingContent);
+                    break;
+                case 1:
+                    Saying saying = new SayingOp().findDataById(activity.getRandomId());
+                    activity.chinese.setText(saying.getChinese());
+                    activity.english.setText(saying.getEnglish());
+                    if (SettingConfigManager.instance.getSayingMode() == 0) {
+                        activity.handler.removeMessages(0);
+                    } else {
+                        activity.handler.sendEmptyMessageDelayed(0, 4500);
+                    }
+                    break;
+            }
+        }
     }
 }

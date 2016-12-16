@@ -3,7 +3,6 @@ package com.iyuba.music.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -144,7 +143,7 @@ public class LoginActivity extends BaseActivity {
         title.setText(R.string.login_title);
         photo.setAlpha(0);
         loginMsg.setAlpha(0);
-        new Handler().postDelayed(new Runnable() {
+        title.postDelayed(new Runnable() {
             public void run() {
                 YoYo.with(Techniques.FadeInLeft).duration(1000).playOn(photo);
                 YoYo.with(Techniques.FadeInRight).duration(1000).playOn(loginMsg);

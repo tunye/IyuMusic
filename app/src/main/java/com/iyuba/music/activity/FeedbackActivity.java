@@ -20,6 +20,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.FeedbackRequest;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -31,47 +32,11 @@ import com.rengwuxian.materialedittext.MaterialEditText;
  * Created by 10202 on 2015/11/20.
  */
 public class FeedbackActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText contact, content;
     private boolean regex;
     private View mainContent;
     private Dialog waitingDialog;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.feedback_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(mainContent);
-                    break;
-                case 1:
-                    waitingDialog.dismiss();
-                    break;
-                case 2:
-                    FeedbackActivity.this.finish();
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +173,43 @@ public class FeedbackActivity extends BaseActivity {
                     }
                 }
             });
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<FeedbackActivity> {
+        @Override
+        public void handleMessageByRef(final FeedbackActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            CustomToast.INSTANCE.showToast(R.string.feedback_success);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            activity.handler.sendEmptyMessageDelayed(2, 300);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(activity.mainContent);
+                    break;
+                case 1:
+                    activity.waitingDialog.dismiss();
+                    break;
+                case 2:
+                    activity.finish();
+                    break;
+            }
         }
     }
 }

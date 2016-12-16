@@ -40,6 +40,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.JudgeZodicaAndConstellation;
 import com.iyuba.music.util.LocationUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -59,30 +60,13 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
     protected MaterialRippleLayout back;
     protected MaterialMenu backIcon;
     protected TextView title, toolbarOper;
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView gender, birthday, zodiac, constellation;
     private MaterialEditText location, school, company, affectiveStatus, lookingFor, bio, interest;
     private View changeImageLayout;
     private CircleImageView userImage;
     private MostDetailInfo editUserInfo;
     private Dialog waitingDialog;
-    Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    waitingDialog.show();
-                    getAddr();
-                    break;
-                case 1:
-                    waitingDialog.dismiss();
-                    setText();
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -392,5 +376,21 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
     protected void onDestroy() {
         super.onDestroy();
         ((MusicApplication) getApplication()).popActivity(this);
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<EditUserDetailInfoActivity> {
+        @Override
+        public void handleMessageByRef(final EditUserDetailInfoActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.waitingDialog.show();
+                    activity.getAddr();
+                    break;
+                case 1:
+                    activity.waitingDialog.dismiss();
+                    activity.setText();
+                    break;
+            }
+        }
     }
 }

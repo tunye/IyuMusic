@@ -111,7 +111,7 @@
     <string name="regist_by_phone">Register with your phone number</string>
     <string name="regist_by_email">Other ways to register</string>
     <string name="regist_get_code">Get verification code</string>
-    <string name="regist_refresh_code">Get verification code again%1$ss</string>
+    <string name="regist_refresh_code">Get verification code again%1$ds</string>
     <string name="regist_protocol_checkbox">Agree</string>
     <string name="regist_protocol"><u>User rules and private policies</u></string>
     <string name="regist_on_way">Registration is underway,please wait</string>
