@@ -1,11 +1,15 @@
 package com.iyuba.music.activity.eggshell.meizhi;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import me.drakeet.materialdialog.MaterialDialog;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -35,6 +40,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by Administrator on 2016/3/30.
  */
 public class MeizhiPhotoFragment extends DialogFragment {
+    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
     protected Context context;
     private PhotoView photoView;
     private ContextMenu menu;
@@ -52,14 +58,13 @@ public class MeizhiPhotoFragment extends DialogFragment {
     }
 
     private void saveFile(Bitmap bm, String fileName) throws IOException {
-        File foder = new File(ConstantManager.instance.getImgFile());
-        if (!foder.exists()) {
-            foder.mkdirs();
+        File folder = new File(ConstantManager.instance.getImgFile());
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
         File myCaptureFile = new File(ConstantManager.instance.getImgFile(), fileName);
         if (!myCaptureFile.exists()) {
             myCaptureFile.createNewFile();
-
         }
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -85,6 +90,7 @@ public class MeizhiPhotoFragment extends DialogFragment {
         url = getArguments().getString("photoUrl");
         menu = new ContextMenu(context);
         Glide.with(this).load(url).crossFade().into(photoView);
+        initMenu();
         setupPhotoEvent();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -100,29 +106,39 @@ public class MeizhiPhotoFragment extends DialogFragment {
                 new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        ArrayList<String> list = new ArrayList<>();
-                        list.add(context.getString(R.string.photo_download));
-                        menu.setInfo(list, new IOperationResultInt() {
-                            @Override
-                            public void performance(int index) {
-                                if (index == 0) {
-                                    Glide.with(context).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
-                                        @Override
-                                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                            try {
-                                                saveFile(resource, Calendar.getInstance().getTimeInMillis() + ".jpg");
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                        menu.show();
+                        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            //申请WRITE_EXTERNAL_STORAGE权限
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                        } else {
+                            menu.show();
+                        }
                         return false;
                     }
                 });
+    }
+
+    private void initMenu() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.photo_download));
+        menu.setInfo(list, new IOperationResultInt() {
+            @Override
+            public void performance(int index) {
+                if (index == 0) {
+                    Glide.with(context).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            try {
+                                saveFile(resource, Calendar.getInstance().getTimeInMillis() + ".jpg");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -145,5 +161,28 @@ public class MeizhiPhotoFragment extends DialogFragment {
         }
         super.onPause();
         MobclickAgent.onPageEnd(getClass().getName());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                menu.show();
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+            }
+        }
     }
 }

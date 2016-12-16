@@ -2,7 +2,6 @@ package com.iyuba.music.activity;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,9 +17,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -69,18 +66,6 @@ public abstract class BaseActivity extends BaseSkinActivity {
 
     protected void changeUIByPara() {
         backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-                Rect outRect = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
-            }
-        }
     }
 
     @Override

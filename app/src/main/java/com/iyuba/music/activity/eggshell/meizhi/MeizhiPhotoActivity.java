@@ -4,11 +4,15 @@ package com.iyuba.music.activity.eggshell.meizhi;
  * Created by 10202 on 2016/4/21.
  */
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,10 +35,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import me.drakeet.materialdialog.MaterialDialog;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MeizhiPhotoActivity extends AppCompatActivity {
+    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
     private static String EXTRA_IAMGE_URL = "url";
     protected Context context;
     private PhotoView photoView;
@@ -89,7 +95,14 @@ public class MeizhiPhotoActivity extends AppCompatActivity {
         photoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                menu.show();
+                if (ContextCompat.checkSelfPermission(MeizhiPhotoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(MeizhiPhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                } else {
+                    menu.show();
+                }
                 return false;
             }
         });
@@ -115,14 +128,13 @@ public class MeizhiPhotoActivity extends AppCompatActivity {
     }
 
     private void saveFile(Bitmap bm, String fileName) throws IOException {
-        File foder = new File(ConstantManager.instance.getImgFile());
-        if (!foder.exists()) {
-            foder.mkdirs();
+        File folder = new File(ConstantManager.instance.getImgFile());
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
         File myCaptureFile = new File(ConstantManager.instance.getImgFile(), fileName);
         if (!myCaptureFile.exists()) {
             myCaptureFile.createNewFile();
-
         }
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -141,6 +153,29 @@ public class MeizhiPhotoActivity extends AppCompatActivity {
             menu.dismiss();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                menu.show();
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(MeizhiPhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+            }
         }
     }
 }

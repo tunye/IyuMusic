@@ -1,6 +1,5 @@
 package com.iyuba.music.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -9,11 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -28,11 +24,9 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 
-import java.io.File;
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/11/16.
@@ -41,48 +35,11 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
     boolean autoStart = true;
     Context context;
+
     ImageView footer, header;
     ArrayList<AdEntity> adEntities;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    ImageUtil.loadImage(adEntities.get(0).getPicUrl(), header);
-                    ImageUtil.loadImage(adEntities.get(1).getPicUrl(), footer);
-                    SettingConfigManager.instance.setADUrl(adEntities.get(0).getPicUrl() + "@@@" + adEntities.get(1).getPicUrl());
-                    break;
-                case 1:
-                    if (autoStart) {
-                        startActivity(new Intent(context, MainActivity.class));
-                    } else {
-                        ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
-                        finish();
-                    }
-                    break;
-                case 2:
-                    if (autoStart) {
-                        startActivity(new Intent(context, MainActivity.class));
-                        startActivity(new Intent(context, HelpUseActivity.class));
-                    } else {
-                        ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
-                        finish();
-                    }
-                    break;
-                case 3:
-                    String adUrl = SettingConfigManager.instance.getADUrl();
-                    if (TextUtils.isEmpty(adUrl)) {
-                        footer.setImageResource(R.drawable.default_footer);
-                    } else {
-                        String[] adUrls = adUrl.split("@@@");
-                        ImageUtil.loadImage(adUrls[0], header);
-                        ImageUtil.loadImage(adUrls[1], footer);
-                    }
-                    break;
-            }
-            return false;
-        }
-    });
+
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,16 +50,8 @@ public class WelcomeActivity extends AppCompatActivity {
         autoStart = getIntent().getBooleanExtra("autoStart", true);
         footer = (ImageView) findViewById(R.id.welcome_footer);
         header = (ImageView) findViewById(R.id.welcome_header);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_EXTERNAL_STORAGE_TASK_CODE);
-        } else {
-            initFileSystem();
-            getBannerPic();
-            DBoper();
-        }
+        getBannerPic();
+        DBoper();
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
@@ -137,13 +86,10 @@ public class WelcomeActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
-        if (lastVersion == 0 && info != null && info.firstInstallTime == info.lastUpdateTime) {
-            ImportDatabase db = new ImportDatabase();
-            db.setPackageName(this.getPackageName());
+        if ((info != null && info.firstInstallTime == info.lastUpdateTime) || lastVersion == 0) {
+            ImportDatabase db = ImportDatabase.getInstance();
             db.setVersion(0, 1);// 有需要数据库更改使用
-            db.openDatabase(this, db.getDBPath());
-            ConfigManager.instance.putInt("version", currentVersion);
+            db.openDatabase();
             SettingConfigManager.instance.setUpgrade(true);
             handler.sendEmptyMessageDelayed(2, 4000);
         } else if (currentVersion == lastVersion) {
@@ -155,31 +101,6 @@ public class WelcomeActivity extends AppCompatActivity {
             ConfigManager.instance.putInt("version", currentVersion);
             SettingConfigManager.instance.setUpgrade(true);
             handler.sendEmptyMessageDelayed(2, 4000);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initFileSystem();
-                getBannerPic();
-                DBoper();
-            } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
-                materialDialog.setTitle("存储权限请求");
-                materialDialog.setMessage("如您不允许本权限，则无法存储音乐哦~");
-                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(WelcomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
-            }
         }
     }
 
@@ -201,10 +122,39 @@ public class WelcomeActivity extends AppCompatActivity {
         sendBroadcast(shortcutintent);
     }
 
-    private void initFileSystem() {
-        File file = new File(ConstantManager.instance.getEnvir());
-        if (!file.exists()) {
-            file.mkdirs();
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
+        @Override
+        public void handleMessageByRef(WelcomeActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
+                    ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
+                    SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl() + "@@@" + activity.adEntities.get(1).getPicUrl());
+                    break;
+                case 1:
+                    ((MusicApplication) activity.getApplication()).popActivity(activity);
+                    if (activity.autoStart) {
+                        activity.startActivity(new Intent(activity, MainActivity.class));
+                    } else {
+                        activity.finish();
+                    }
+                    break;
+                case 2:
+                    ((MusicApplication) activity.getApplication()).popActivity(activity);
+                    activity.startActivity(new Intent(activity, MainActivity.class));
+                    activity.startActivity(new Intent(activity, HelpUseActivity.class));
+                    break;
+                case 3:
+                    String adUrl = SettingConfigManager.instance.getADUrl();
+                    if (TextUtils.isEmpty(adUrl)) {
+                        activity.footer.setImageResource(R.drawable.default_footer);
+                    } else {
+                        String[] adUrls = adUrl.split("@@@");
+                        ImageUtil.loadImage(adUrls[0], activity.header);
+                        ImageUtil.loadImage(adUrls[1], activity.footer);
+                    }
+                    break;
+            }
         }
     }
 }

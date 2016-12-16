@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.iyuba.music.manager.ConstantManager;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -143,8 +145,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
-            String fileName = "crash--" + time + "--" + timestamp + ".log";
-            File dir = new File(Environment.getExternalStorageDirectory() + "/iyuba/music/crash");
+            String fileName = "crash_" + time + "_" + timestamp + ".log";
+            File dir = new File(ConstantManager.instance.getCrashFolder());
             if (!dir.exists()) {
                 dir.mkdirs();
             }

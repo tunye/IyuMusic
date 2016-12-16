@@ -23,6 +23,8 @@
     <string name="swipe_hint">请再用力拖拽</string>
     <string name="no_net_to_local">当前没有网络，是否听本地已下载音乐？</string>
     <string name="to_local_go">确定</string>
+    <string name="storage_permission">存储权限请求</string>
+    <string name="storage_permission_content">如您不允许本权限，则无法行使当前功能哦~</string>
     <!-- 文件管理器-->
     <string name="file_title">文件管理器</string>
     <string name="file_pos_title">选取扫描歌曲目录</string>

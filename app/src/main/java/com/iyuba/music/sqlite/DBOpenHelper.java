@@ -12,12 +12,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "music.sqlite";
-
-    public DBOpenHelper(Context context) {
-        super(context, DB_NAME, null, 0);
-    }
-
     public DBOpenHelper(Context context, String name, CursorFactory factory,
                         int version) {
         super(context, name, factory, version);

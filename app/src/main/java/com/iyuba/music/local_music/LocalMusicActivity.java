@@ -69,7 +69,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         context = this;
         if (((MusicApplication) getApplication()).onlyForeground("LocalMusicActivity")) {
             Intent intent = new Intent(this, WelcomeActivity.class);
-            intent.putExtra("autoStart", false);
             startActivityForResult(intent, 102);
         } else {
             player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();

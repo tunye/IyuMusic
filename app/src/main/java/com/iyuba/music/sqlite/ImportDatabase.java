@@ -1,8 +1,6 @@
 package com.iyuba.music.sqlite;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 
 import com.iyuba.music.R;
 import com.iyuba.music.manager.ConfigManager;
@@ -13,22 +11,21 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author chentong
  */
 public class ImportDatabase {
     private static final String DB_NAME = "music.sqlite"; // 保存的数据库文件名
-    private static final int BUFFER_SIZE = 400000;
+    private static final int BUFFER_SIZE = 8192;
     private static ImportDatabase instance;
     private DBOpenHelper mdbhelper;
-    private String PACKAGE_NAME;
     private String DB_PATH;
     private int lastVersion, currentVersion;
 
-    public ImportDatabase() {
+    private ImportDatabase() {
         mdbhelper = new DBOpenHelper(RuntimeManager.getContext(), DB_NAME, null, 1);
+        DB_PATH = RuntimeManager.getContext().getDatabasePath(DB_NAME).getAbsolutePath();
     }
 
     public static ImportDatabase getInstance() {
@@ -36,16 +33,6 @@ public class ImportDatabase {
             instance = new ImportDatabase();
         }
         return instance;
-    }
-
-    public String getDBPath() {
-        return DB_PATH + "/" + DB_NAME;
-    }
-
-    public void setPackageName(String packageName) {
-        PACKAGE_NAME = packageName;
-        DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath()
-                + "/" + PACKAGE_NAME + "/" + "databases";
     }
 
     public void setVersion(int lastVersion, int curVersion) {
@@ -57,33 +44,32 @@ public class ImportDatabase {
         return mdbhelper.getWritableDatabase();
     }
 
-    public void openDatabase(final Context context, final String dbFile) {
+    public void openDatabase() {
         lastVersion = ConfigManager.instance.loadInt("database_version");
-        File database = new File(dbFile);
+        File database = new File(DB_PATH);
         if (currentVersion > lastVersion) {
             if (database.exists()) {
                 database.delete();
             }
-            Thread t = new Thread(new Runnable() {
-                public void run() {
-                    loadDataBase(context, dbFile);
-                }
-            });
-            t.start();
             ConfigManager.instance.putInt("database_version", currentVersion);
+            new Thread(new Runnable() {
+                public void run() {
+                    loadDataBase();
+                }
+            }).start();
         }
     }
 
-    private void loadDataBase(Context context, String dbFile) {
+    private void loadDataBase() {
         try {
-            InputStream is = context.getResources().openRawResource(
-                    R.raw.music);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            if (!(new File(DB_PATH).exists())) {
-                new File(DB_PATH).mkdir();
+            BufferedInputStream bis = new BufferedInputStream(RuntimeManager.getContext()
+                    .getResources().openRawResource(R.raw.music));
+            File file = new File(DB_PATH);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
-            FileOutputStream fos = new FileOutputStream(dbFile);
-            BufferedOutputStream bfos = new BufferedOutputStream(fos);
+            BufferedOutputStream bfos = new BufferedOutputStream(new FileOutputStream(DB_PATH));
             byte[] buffer = new byte[BUFFER_SIZE];
             int count;
             while ((count = bis.read(buffer)) > 0) {

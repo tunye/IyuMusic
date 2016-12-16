@@ -1,5 +1,6 @@
 package com.iyuba.music.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -38,6 +41,8 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 
 public class AboutActivity extends BaseActivity {
+    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
+
     private TextView version, copyright;
     private RoundRelativeLayout appUpdate, praise, developer, website;
     private View appNewImg, root;
@@ -53,7 +58,14 @@ public class AboutActivity extends BaseActivity {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    startDownLoad();
+                    if (ContextCompat.checkSelfPermission(AboutActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        //申请WRITE_EXTERNAL_STORAGE权限
+                        ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                    } else {
+                        startDownLoad();
+                    }
                     break;
                 case 1:
                     progressBar.setVisibility(View.GONE);
@@ -329,6 +341,29 @@ public class AboutActivity extends BaseActivity {
         } else {
             CustomToast.INSTANCE.showToast(context.getString(R.string.about_eggshell_opening, String.valueOf(cookie)));
             cookie--;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startDownLoad();
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+            }
         }
     }
 }

@@ -23,6 +23,8 @@
     <string name="no_net_to_local">No net, would you please enjoy downloaded music?</string>
     <string name="to_local_go">Sure</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="storage_permission">Permission</string>
+    <string name="storage_permission_content">If you don\'t give this permission,you can\'t use this function~</string>
     <!-- 文件管理器-->
     <string name="file_title">File manager</string>
     <string name="file_pos_title">Select music folder</string>

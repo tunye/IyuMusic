@@ -94,15 +94,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.instance.getCurArticle(), false);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission_group.STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission_group.STORAGE},
+                    RECORD_AUDIO_TASK_CODE);
+        }
         initWidget();
         setListener();
         changeUIByPara();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                    RECORD_AUDIO_TASK_CODE);
-        }
         isDestroyed = false;
         initBroadCast();
     }
@@ -319,23 +320,22 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RECORD_AUDIO_TASK_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults != null && grantResults.length == permissions.length
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
-            } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
-                materialDialog.setTitle("录音权限请求");
-                materialDialog.setMessage("如您不允许本权限，则无法跟唱音乐了哦~");
-                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(StudyActivity.this, new String[]{Manifest.permission.RECORD_AUDIO},
-                                RECORD_AUDIO_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
-            }
+        } else {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(StudyActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission_group.STORAGE},
+                            RECORD_AUDIO_TASK_CODE);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
         }
     }
 

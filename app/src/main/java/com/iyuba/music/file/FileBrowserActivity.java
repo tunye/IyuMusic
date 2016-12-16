@@ -1,9 +1,13 @@
 package com.iyuba.music.file;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,8 +29,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 
 public class FileBrowserActivity extends BaseActivity {
+    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
+
     private ArrayList<FileInfo> files;
     private String currentPath;
     private RecyclerView fileListView;
@@ -43,9 +51,16 @@ public class FileBrowserActivity extends BaseActivity {
         context = this;
         files = new ArrayList<>();
         currentPath = ConstantManager.instance.getEnvir();
-        File file = new File(currentPath);
-        if (!file.exists()) {
-            file.mkdirs();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_TASK_CODE);
+        } else {
+            File file = new File(currentPath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
         initWidget();
         setListener();
@@ -232,5 +247,31 @@ public class FileBrowserActivity extends BaseActivity {
         intent.putExtras(bundle);
         intent.setClass(context, PasteFileActivity.class);
         startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                File file = new File(currentPath);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(FileBrowserActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+            }
+        }
     }
 }
