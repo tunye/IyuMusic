@@ -31,7 +31,7 @@ public class AdPicRequest {
     public AdPicRequest() {
     }
 
-    public static  AdPicRequest getInstance() {
+    public static AdPicRequest getInstance() {
         if (instance == null) {
             instance = new AdPicRequest();
         }

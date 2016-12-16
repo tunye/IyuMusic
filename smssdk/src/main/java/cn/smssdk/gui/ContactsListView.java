@@ -86,15 +86,15 @@ public class ContactsListView extends RelativeLayout {
         addView(lvBody);
     }
 
+    public GroupAdapter getAdapter() {
+        return adapter;
+    }
+
     public void setAdapter(GroupAdapter adapter) {
         this.adapter = adapter;
         innerAdapter = new InnerAdapter(adapter);
         lvBody.setAdapter(innerAdapter);
         setTitle();
-    }
-
-    public GroupAdapter getAdapter() {
-        return adapter;
     }
 
     private void notifyDataSetChanged() {

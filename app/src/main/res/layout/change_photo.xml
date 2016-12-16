@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -20,17 +20,17 @@
             android:id="@+id/photo_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color"
+            android:layout_centerHorizontal="true"
             android:text="@string/changephoto_intro"
-            android:textSize="@dimen/big_text"
-            android:layout_centerHorizontal="true" />
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/big_text" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/photo"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/photo_intro"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
         <com.flyco.roundview.RoundTextView

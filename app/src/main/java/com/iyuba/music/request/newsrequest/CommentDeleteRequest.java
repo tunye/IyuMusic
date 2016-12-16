@@ -27,7 +27,7 @@ public class CommentDeleteRequest {
     public CommentDeleteRequest() {
     }
 
-    public static  CommentDeleteRequest getInstance() {
+    public static CommentDeleteRequest getInstance() {
         if (instance == null) {
             instance = new CommentDeleteRequest();
         }

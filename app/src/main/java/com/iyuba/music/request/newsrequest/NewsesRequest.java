@@ -32,7 +32,7 @@ public class NewsesRequest {
     public NewsesRequest() {
     }
 
-    public static  NewsesRequest getInstance() {
+    public static NewsesRequest getInstance() {
         if (instance == null) {
             instance = new NewsesRequest();
         }

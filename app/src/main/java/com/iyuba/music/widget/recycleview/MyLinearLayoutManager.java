@@ -11,6 +11,8 @@ import android.view.ViewGroup;
  */
 public class MyLinearLayoutManager extends LinearLayoutManager {
 
+    private int[] mMeasuredDimension = new int[2];
+
     @SuppressWarnings("UnusedDeclaration")
     public MyLinearLayoutManager(Context context) {
         super(context);
@@ -20,9 +22,6 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
     public MyLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
     }
-
-    private int[] mMeasuredDimension = new int[2];
-
 
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {

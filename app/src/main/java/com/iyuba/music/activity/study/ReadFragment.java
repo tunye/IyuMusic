@@ -39,7 +39,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         curArticle = StudyManager.instance.getCurArticle();
         waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.read_loading)).create();
         readAdapter = new ReadAdapter(context);

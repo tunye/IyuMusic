@@ -28,7 +28,7 @@ public class WriteStateRequest {
     public WriteStateRequest() {
     }
 
-    public static  WriteStateRequest getInstance() {
+    public static WriteStateRequest getInstance() {
         if (instance == null) {
             instance = new WriteStateRequest();
         }

@@ -32,7 +32,7 @@ public class ClassifyNewsRequest {
     public ClassifyNewsRequest() {
     }
 
-    public static  ClassifyNewsRequest getInstance() {
+    public static ClassifyNewsRequest getInstance() {
         if (instance == null) {
             instance = new ClassifyNewsRequest();
         }

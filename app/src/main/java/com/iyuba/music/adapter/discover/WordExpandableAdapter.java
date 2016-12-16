@@ -134,12 +134,12 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
     }
 
     public class WordParentViewHolder extends ParentViewHolder {
-        public TextView parentContent;
-        public ImageView expandableStatus;
         private static final float INITIAL_POSITION = 0.0f;
         private static final float ROTATED_POSITION = 180f;
         private static final float PIVOT_VALUE = 0.5f;
         private static final long DEFAULT_ROTATE_DURATION_MS = 200;
+        public TextView parentContent;
+        public ImageView expandableStatus;
 
         /**
          * Public constructor for the CustomViewHolder.

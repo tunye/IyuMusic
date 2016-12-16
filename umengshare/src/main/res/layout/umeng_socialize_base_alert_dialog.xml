@@ -11,8 +11,8 @@
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:text="使用已有账号发表评论"
-        android:visibility="gone"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/umeng_socialize_alert_body"

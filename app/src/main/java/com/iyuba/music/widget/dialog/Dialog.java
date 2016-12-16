@@ -24,6 +24,26 @@ public class Dialog extends AppCompatDialog {
     private Context context;
     private View contentView;
     private View view;
+    AnimationListener animationListener = new AnimationListener() {
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    Dialog.super.dismiss();
+                }
+            });
+        }
+    };
     private LinearLayout backView;
     private boolean cancelOutSide;
     private OnDismissListener listener;
@@ -53,6 +73,7 @@ public class Dialog extends AppCompatDialog {
         this.marginDimension = marginDimension;
     }
 
+
     public Dialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
@@ -61,7 +82,6 @@ public class Dialog extends AppCompatDialog {
         this.listener = dismissListener;
         this.marginDimension = marginDimension;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,25 +146,4 @@ public class Dialog extends AppCompatDialog {
         anim.setAnimationListener(animationListener);
         backView.startAnimation(anim);
     }
-
-    AnimationListener animationListener = new AnimationListener() {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    Dialog.super.dismiss();
-                }
-            });
-        }
-    };
 }

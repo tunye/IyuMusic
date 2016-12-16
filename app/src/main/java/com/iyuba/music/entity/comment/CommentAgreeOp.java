@@ -12,7 +12,7 @@ public class CommentAgreeOp extends BaseEntityOp {
     public static final String COMMENTID = "commentid";
     public static final String AGREE = "agree";
 
-    public  CommentAgreeOp() {
+    public CommentAgreeOp() {
         super();
     }
 

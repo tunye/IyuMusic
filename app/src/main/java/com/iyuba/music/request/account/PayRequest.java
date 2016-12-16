@@ -32,7 +32,7 @@ public class PayRequest {
     public PayRequest() {
     }
 
-    public static  PayRequest getInstance() {
+    public static PayRequest getInstance() {
         if (instance == null) {
             instance = new PayRequest();
 

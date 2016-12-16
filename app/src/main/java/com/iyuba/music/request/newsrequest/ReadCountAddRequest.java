@@ -24,7 +24,7 @@ public class ReadCountAddRequest {
     public ReadCountAddRequest() {
     }
 
-    public static  ReadCountAddRequest getInstance() {
+    public static ReadCountAddRequest getInstance() {
         if (instance == null) {
             instance = new ReadCountAddRequest();
         }

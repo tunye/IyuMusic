@@ -32,7 +32,7 @@ public class MusicRequest {
     public MusicRequest() {
     }
 
-    public static  MusicRequest getInstance() {
+    public static MusicRequest getInstance() {
         if (instance == null) {
             instance = new MusicRequest();
         }

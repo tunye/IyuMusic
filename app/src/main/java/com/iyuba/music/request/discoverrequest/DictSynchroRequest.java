@@ -34,7 +34,7 @@ public class DictSynchroRequest {
     public DictSynchroRequest() {
     }
 
-    public static  DictSynchroRequest getInstance() {
+    public static DictSynchroRequest getInstance() {
         if (instance == null) {
             instance = new DictSynchroRequest();
         }

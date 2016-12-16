@@ -125,7 +125,7 @@ public enum BigNotificationService {
         notificationBuilder.setPriority(Notification.PRIORITY_MAX);
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
         notificationBuilder.setContent(contentView);
-        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(),R.mipmap.ic_launcher));
+        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.mipmap.ic_launcher));
         notificationBuilder.setOngoing(true);   //Create OnGoing Status Bar
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);

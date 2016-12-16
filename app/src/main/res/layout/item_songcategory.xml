@@ -36,8 +36,8 @@
             android:id="@+id/songlist_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/row_space_big"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/medium_text" />

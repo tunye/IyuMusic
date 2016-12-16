@@ -29,7 +29,7 @@ public class RegistRequest {
     public RegistRequest() {
     }
 
-    public static  RegistRequest getInstance() {
+    public static RegistRequest getInstance() {
         if (instance == null) {
             instance = new RegistRequest();
         }

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <com.wang.avi.AVLoadingIndicatorView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/waitting_animation"
@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/waitting_animation"
         android:layout_centerHorizontal="true"
-        android:padding="@dimen/row_space_medium"
         android:layout_margin="@dimen/row_space_default"
-        android:textColor="#dcdcdc"
         android:background="#88000000"
+        android:padding="@dimen/row_space_medium"
+        android:textColor="#dcdcdc"
         android:textSize="@dimen/large_text" />
 </LinearLayout>

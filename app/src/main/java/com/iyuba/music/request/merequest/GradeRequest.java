@@ -27,7 +27,7 @@ public class GradeRequest {
     public GradeRequest() {
     }
 
-    public static  GradeRequest getInstance() {
+    public static GradeRequest getInstance() {
         if (instance == null) {
             instance = new GradeRequest();
         }

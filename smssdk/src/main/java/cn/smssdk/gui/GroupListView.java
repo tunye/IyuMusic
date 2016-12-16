@@ -98,15 +98,15 @@ public class GroupListView extends RelativeLayout {
         lvBody.setDivider(divider);
     }
 
+    public GroupAdapter getAdapter() {
+        return adapter;
+    }
+
     public void setAdapter(GroupAdapter adapter) {
         this.adapter = adapter;
         innerAdapter = new InnerAdapter(adapter);
         lvBody.setAdapter(innerAdapter);
         setTitle();
-    }
-
-    public GroupAdapter getAdapter() {
-        return adapter;
     }
 
     private void notifyDataSetChanged() {
@@ -182,6 +182,15 @@ public class GroupListView extends RelativeLayout {
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         oicListener = listener;
+    }
+
+    /**
+     * group list view 的 item 点击事件监听接口
+     */
+    public interface OnItemClickListener {
+
+        void onItemClick(GroupListView parent, View view, int group, int position);
+
     }
 
     /***
@@ -355,15 +364,6 @@ public class GroupListView extends RelativeLayout {
         }
 
         public abstract void onGroupChange(View titleView, String title);
-
-    }
-
-    /**
-     * group list view 的 item 点击事件监听接口
-     */
-    public interface OnItemClickListener {
-
-        void onItemClick(GroupListView parent, View view, int group, int position);
 
     }
 

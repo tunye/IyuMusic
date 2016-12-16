@@ -32,7 +32,7 @@ public class AnnouncerNewsRequest {
     public AnnouncerNewsRequest() {
     }
 
-    public static  AnnouncerNewsRequest getInstance() {
+    public static AnnouncerNewsRequest getInstance() {
         if (instance == null) {
             instance = new AnnouncerNewsRequest();
         }

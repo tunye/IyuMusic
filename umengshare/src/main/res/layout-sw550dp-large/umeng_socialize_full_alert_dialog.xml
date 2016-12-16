@@ -52,9 +52,9 @@
                     android:layout_marginTop="18dp"
                     android:paddingLeft="26dp"
                     android:text="分享到"
-                    android:visibility="gone"
                     android:textColor="#84898f"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/umeng_socialize_second_area"

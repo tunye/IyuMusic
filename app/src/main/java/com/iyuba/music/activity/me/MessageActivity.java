@@ -40,17 +40,16 @@ import java.util.ArrayList;
  * Created by 10202 on 2016/1/2.
  */
 public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+    protected Context context;
+    protected MaterialRippleLayout back;
+    protected MaterialMenu backIcon;
+    protected TextView title, toolbarOper;
     private RecyclerView messageRecycleView;
     private ArrayList<MessageLetter> messageLetters;
     private MessageAdapter messageAdapter;
     private MySwipeRefreshLayout swipeRefreshLayout;
     private int messagePage;
     private boolean isLastPage = false;
-
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected TextView title, toolbarOper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -41,7 +41,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view =super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         fansArrayList = new ArrayList<>();
         friendAdapter = new FriendAdapter(context);

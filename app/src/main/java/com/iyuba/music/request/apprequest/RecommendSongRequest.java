@@ -26,7 +26,7 @@ public class RecommendSongRequest {
     public RecommendSongRequest() {
     }
 
-    public static  RecommendSongRequest getInstance() {
+    public static RecommendSongRequest getInstance() {
         if (instance == null) {
             instance = new RecommendSongRequest();
         }

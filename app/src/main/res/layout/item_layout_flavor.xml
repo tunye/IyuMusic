@@ -23,7 +23,6 @@
 
         <ImageView
             android:id="@+id/indicator"
-            tools:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginLeft="@dimen/row_space_large"
@@ -31,7 +30,8 @@
             android:layout_toRightOf="@+id/title"
             android:src="@drawable/ic_checkbox_marked_circle_outline_black_18dp"
             android:tint="#259b24"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -44,23 +44,23 @@
 
             <ImageView
                 android:id="@+id/primaryColor"
-                tools:background="#FF5555"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                tools:background="#FF5555" />
 
             <ImageView
                 android:id="@+id/primaryColorDark"
-                tools:background="#FF0000"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                tools:background="#FF0000" />
 
             <ImageView
                 android:id="@+id/accentColor"
-                tools:background="#33cc99"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                tools:background="#33cc99" />
         </LinearLayout>
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

@@ -33,7 +33,7 @@ public class MessageRequest {
     public MessageRequest() {
     }
 
-    public static  MessageRequest getInstance() {
+    public static MessageRequest getInstance() {
         if (instance == null) {
             instance = new MessageRequest();
         }

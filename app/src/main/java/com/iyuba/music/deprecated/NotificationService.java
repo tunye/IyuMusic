@@ -75,7 +75,7 @@ public enum NotificationService {
     }
 
     public void removeNotification() {
-        Log.e("aaa","!!");
+        Log.e("aaa", "!!");
         Context context = RuntimeManager.getContext();
         context.unregisterReceiver(pause);
         context.unregisterReceiver(before);
@@ -130,7 +130,7 @@ public enum NotificationService {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
                     R.id.notify_img, notification, NOTIFICATION_ID);
             Glide.with(context).load(imgUrl).asBitmap().animate(R.anim.fade_in).into(notificationTarget);
-        }else{
+        } else {
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
     }

@@ -6,8 +6,8 @@
     android:background="@color/background">
 
     <include
-        layout="@layout/toolbar_with_oper"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_with_oper" />
 
     <LinearLayout
         android:id="@+id/feedback_main"

@@ -132,8 +132,8 @@
             android:id="@+id/sign_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-8dp"
             android:layout_below="@+id/personal_login"
+            android:layout_marginTop="-8dp"
             app:mrl_rippleColor="@color/text_complementary"
             app:mrl_rippleDuration="600">
 

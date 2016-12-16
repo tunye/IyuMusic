@@ -24,9 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/load_progress"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_big"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_big"
         android:gravity="center"
         android:textColor="#707070"
         android:textSize="16sp" />

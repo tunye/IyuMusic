@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh xmlns:myswipe="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipe_refresh_widget"

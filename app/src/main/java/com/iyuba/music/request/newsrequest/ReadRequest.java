@@ -32,7 +32,7 @@ public class ReadRequest {
     public ReadRequest() {
     }
 
-    public static  ReadRequest getInstance() {
+    public static ReadRequest getInstance() {
         if (instance == null) {
             instance = new ReadRequest();
         }

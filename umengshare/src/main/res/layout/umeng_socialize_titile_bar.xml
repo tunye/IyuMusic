@@ -9,10 +9,10 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/umeng_socialize_title_back_bt"
         android:layout_centerVertical="true"
-        android:textColor="#ffffff"
         android:layout_marginLeft="8dp"
+        android:background="@drawable/umeng_socialize_title_back_bt"
+        android:textColor="#ffffff"
         android:textSize="12sp" />
 
     <TextView
@@ -20,8 +20,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:text="@string/umeng_socialize_comment"
         android:textColor="@color/umeng_socialize_text_title"
         android:textSize="20sp" />
@@ -64,8 +64,8 @@
             android:id="@+id/umeng_socialize_title_bar_rightBt"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:background="@drawable/umeng_socialize_title_right_bt"
             android:layout_centerVertical="true"
+            android:background="@drawable/umeng_socialize_title_right_bt"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 

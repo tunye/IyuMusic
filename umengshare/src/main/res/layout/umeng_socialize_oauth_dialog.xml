@@ -30,9 +30,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/umeng_socialize_follow_check"
-            android:textSize="16sp"
             android:text="关注官方微博"
-            android:textColor="#f8f8f8" />
+            android:textColor="#f8f8f8"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <WebView

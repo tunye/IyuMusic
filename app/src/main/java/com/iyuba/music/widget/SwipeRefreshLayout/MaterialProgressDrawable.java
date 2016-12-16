@@ -34,73 +34,73 @@ import java.util.ArrayList;
  * @hide
  */
 class MaterialProgressDrawable extends Drawable implements Animatable {
-    private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
-    private static final Interpolator END_CURVE_INTERPOLATOR = new EndCurveInterpolator();
-    private static final Interpolator START_CURVE_INTERPOLATOR = new StartCurveInterpolator();
-    private static final Interpolator EASE_INTERPOLATOR = new AccelerateDecelerateInterpolator();
-
-    @Retention(RetentionPolicy.CLASS)
-    @IntDef({LARGE, DEFAULT})
-    public @interface ProgressDrawableSize {
-    }
-
     // Maps to ProgressBar.Large style
     static final int LARGE = 0;
     // Maps to ProgressBar default style
     static final int DEFAULT = 1;
-
+    private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
+    private static final Interpolator END_CURVE_INTERPOLATOR = new EndCurveInterpolator();
+    private static final Interpolator START_CURVE_INTERPOLATOR = new StartCurveInterpolator();
+    private static final Interpolator EASE_INTERPOLATOR = new AccelerateDecelerateInterpolator();
     // Maps to ProgressBar default style
     private static final int CIRCLE_DIAMETER = 40;
     private static final float CENTER_RADIUS = 8.75f; //should add up to 10 when + stroke_width
     private static final float STROKE_WIDTH = 2.5f;
-
     // Maps to ProgressBar.Large style
     private static final int CIRCLE_DIAMETER_LARGE = 56;
     private static final float CENTER_RADIUS_LARGE = 12.5f;
     private static final float STROKE_WIDTH_LARGE = 3f;
-
-    private final int[] COLORS = new int[]{
-            Color.BLACK
-    };
-
     /**
      * The duration of a single progress spin in milliseconds.
      */
     private static final int ANIMATION_DURATION = 1000 * 80 / 60;
-
     /**
      * The number of points in the progress "star".
      */
     private static final float NUM_POINTS = 5f;
-    /**
-     * The list of animators operating on this drawable.
-     */
-    private final ArrayList<Animation> mAnimators = new ArrayList<Animation>();
-
-    /**
-     * The indicator ring, used to manage animation state.
-     */
-    private final Ring mRing;
-
-    /**
-     * Canvas rotation in degrees.
-     */
-    private float mRotation;
-
     /**
      * Layout info for the arrowhead in dp
      */
     private static final int ARROW_WIDTH = 10;
     private static final int ARROW_HEIGHT = 5;
     private static final float ARROW_OFFSET_ANGLE = 5;
-
     /**
      * Layout info for the arrowhead for the large spinner in dp
      */
     private static final int ARROW_WIDTH_LARGE = 12;
     private static final int ARROW_HEIGHT_LARGE = 6;
     private static final float MAX_PROGRESS_ARC = .8f;
+    private final int[] COLORS = new int[]{
+            Color.BLACK
+    };
+    /**
+     * The list of animators operating on this drawable.
+     */
+    private final ArrayList<Animation> mAnimators = new ArrayList<Animation>();
+    /**
+     * The indicator ring, used to manage animation state.
+     */
+    private final Ring mRing;
+    private final Callback mCallback = new Callback() {
+        @Override
+        public void invalidateDrawable(Drawable d) {
+            invalidateSelf();
+        }
 
+        @Override
+        public void scheduleDrawable(Drawable d, Runnable what, long when) {
+            scheduleSelf(what, when);
+        }
+
+        @Override
+        public void unscheduleDrawable(Drawable d, Runnable what) {
+            unscheduleSelf(what);
+        }
+    };
+    /**
+     * Canvas rotation in degrees.
+     */
+    private float mRotation;
     private Resources mResources;
     private View mParent;
     private Animation mAnimation;
@@ -224,13 +224,13 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         c.restoreToCount(saveCount);
     }
 
+    public int getAlpha() {
+        return mRing.getAlpha();
+    }
+
     @Override
     public void setAlpha(int alpha) {
         mRing.setAlpha(alpha);
-    }
-
-    public int getAlpha() {
-        return mRing.getAlpha();
     }
 
     @Override
@@ -239,14 +239,14 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
     }
 
     @SuppressWarnings("unused")
-    void setRotation(float rotation) {
-        mRotation = rotation;
-        invalidateSelf();
+    private float getRotation() {
+        return mRotation;
     }
 
     @SuppressWarnings("unused")
-    private float getRotation() {
-        return mRotation;
+    void setRotation(float rotation) {
+        mRotation = rotation;
+        invalidateSelf();
     }
 
     @Override
@@ -386,22 +386,10 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         mAnimation = animation;
     }
 
-    private final Callback mCallback = new Callback() {
-        @Override
-        public void invalidateDrawable(Drawable d) {
-            invalidateSelf();
-        }
-
-        @Override
-        public void scheduleDrawable(Drawable d, Runnable what, long when) {
-            scheduleSelf(what, when);
-        }
-
-        @Override
-        public void unscheduleDrawable(Drawable d, Runnable what) {
-            unscheduleSelf(what);
-        }
-    };
+    @Retention(RetentionPolicy.CLASS)
+    @IntDef({LARGE, DEFAULT})
+    public @interface ProgressDrawableSize {
+    }
 
     private static class Ring {
         private final RectF mTempBounds = new RectF();
@@ -409,13 +397,12 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         private final Paint mArrowPaint = new Paint();
 
         private final Callback mCallback;
-
+        private final Paint mCirclePaint = new Paint();
         private float mStartTrim = 0.0f;
         private float mEndTrim = 0.0f;
         private float mRotation = 0.0f;
         private float mStrokeWidth = 5.0f;
         private float mStrokeInset = 2.5f;
-
         private int[] mColors;
         // mColorIndex represents the offset into the available mColors that the
         // progress circle should currently display. As the progress circle is
@@ -431,7 +418,6 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         private int mArrowWidth;
         private int mArrowHeight;
         private int mAlpha;
-        private final Paint mCirclePaint = new Paint();
         private int mBackgroundColor;
 
         public Ring(Callback callback) {
@@ -551,17 +537,22 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         }
 
         /**
+         * @return Current alpha of the progress spinner and arrowhead.
+         */
+        public int getAlpha() {
+            return mAlpha;
+        }
+
+        /**
          * @param alpha Set the alpha of the progress spinner and associated arrowhead.
          */
         public void setAlpha(int alpha) {
             mAlpha = alpha;
         }
 
-        /**
-         * @return Current alpha of the progress spinner and arrowhead.
-         */
-        public int getAlpha() {
-            return mAlpha;
+        @SuppressWarnings("unused")
+        public float getStrokeWidth() {
+            return mStrokeWidth;
         }
 
         /**
@@ -574,19 +565,14 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         }
 
         @SuppressWarnings("unused")
-        public float getStrokeWidth() {
-            return mStrokeWidth;
+        public float getStartTrim() {
+            return mStartTrim;
         }
 
         @SuppressWarnings("unused")
         public void setStartTrim(float startTrim) {
             mStartTrim = startTrim;
             invalidateSelf();
-        }
-
-        @SuppressWarnings("unused")
-        public float getStartTrim() {
-            return mStartTrim;
         }
 
         public float getStartingStartTrim() {
@@ -598,25 +584,25 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         }
 
         @SuppressWarnings("unused")
+        public float getEndTrim() {
+            return mEndTrim;
+        }
+
+        @SuppressWarnings("unused")
         public void setEndTrim(float endTrim) {
             mEndTrim = endTrim;
             invalidateSelf();
         }
 
         @SuppressWarnings("unused")
-        public float getEndTrim() {
-            return mEndTrim;
+        public float getRotation() {
+            return mRotation;
         }
 
         @SuppressWarnings("unused")
         public void setRotation(float rotation) {
             mRotation = rotation;
             invalidateSelf();
-        }
-
-        @SuppressWarnings("unused")
-        public float getRotation() {
-            return mRotation;
         }
 
         public void setInsets(int width, int height) {
@@ -635,16 +621,16 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
             return mStrokeInset;
         }
 
+        public double getCenterRadius() {
+            return mRingCenterRadius;
+        }
+
         /**
          * @param centerRadius Inner radius in px of the circle the progress
          *                     spinner arc traces.
          */
         public void setCenterRadius(double centerRadius) {
             mRingCenterRadius = centerRadius;
-        }
-
-        public double getCenterRadius() {
-            return mRingCenterRadius;
         }
 
         /**

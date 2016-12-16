@@ -33,7 +33,7 @@ public class RecommendRequest {
     public RecommendRequest() {
     }
 
-    public static  RecommendRequest getInstance() {
+    public static RecommendRequest getInstance() {
         if (instance == null) {
             instance = new RecommendRequest();
         }

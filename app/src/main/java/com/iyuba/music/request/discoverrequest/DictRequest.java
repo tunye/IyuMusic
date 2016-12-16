@@ -29,7 +29,7 @@ public class DictRequest {
     public DictRequest() {
     }
 
-    public static  DictRequest getInstance() {
+    public static DictRequest getInstance() {
         if (instance == null) {
             instance = new DictRequest();
         }

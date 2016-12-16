@@ -103,22 +103,22 @@ public class RoundProgressBar extends View {
         }
     }
 
-    public  int getMax() {
+    public int getMax() {
         return max;
     }
 
-    public  void setMax(int max) {
+    public void setMax(int max) {
         if (max < 0) {
             throw new IllegalArgumentException("max not less than 0");
         }
         this.max = max;
     }
 
-    public  int getProgress() {
+    public int getProgress() {
         return progress;
     }
 
-    public  void setProgress(int progress) {
+    public void setProgress(int progress) {
         if (progress < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }

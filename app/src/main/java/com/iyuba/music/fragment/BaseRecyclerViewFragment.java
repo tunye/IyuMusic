@@ -55,7 +55,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements IOnClickLi
         }
     }
 
-    public void disableSwipeLayout(){
+    public void disableSwipeLayout() {
         swipeRefreshLayout.setEnabled(false);
     }
 }

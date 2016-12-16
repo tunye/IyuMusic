@@ -33,7 +33,7 @@ public class FanRequest {
     public FanRequest() {
     }
 
-    public static  FanRequest getInstance() {
+    public static FanRequest getInstance() {
         if (instance == null) {
             instance = new FanRequest();
         }

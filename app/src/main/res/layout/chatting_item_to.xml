@@ -25,8 +25,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="right">
+        android:gravity="right"
+        android:orientation="horizontal">
 
 
         <TextView
@@ -36,10 +36,10 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/chatto_bg"
             android:maxWidth="200dp"
-            android:paddingRight="@dimen/row_space_very_large"
-            android:paddingLeft="@dimen/row_space_big"
-            android:paddingTop="@dimen/row_space_default"
             android:paddingBottom="@dimen/row_space_big"
+            android:paddingLeft="@dimen/row_space_big"
+            android:paddingRight="@dimen/row_space_very_large"
+            android:paddingTop="@dimen/row_space_default"
             android:textSize="@dimen/big_text" />
 
         <de.hdodenhof.circleimageview.CircleImageView

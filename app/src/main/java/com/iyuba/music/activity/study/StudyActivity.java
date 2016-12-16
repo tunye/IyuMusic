@@ -47,6 +47,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class StudyActivity extends BaseActivity implements View.OnClickListener, IPlayerListener {
     private static final int RECORD_AUDIO_TASK_CODE = 2;
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private StudyMore studyMoreDialog;
     private StandardPlayer player;
     private TextView currTime, duration;
@@ -59,7 +60,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     private RoundTextView comment;
     private int aPosition, bPosition;// 区间播放
     private IntervalState intervalState;
-    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
     private boolean isDestroyed = false;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
@@ -510,20 +510,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
 
     public enum IntervalState {START, END, NONE}
 
-    public class StudyChangeUIBroadCast extends ChangeUIBroadCast {
-        @Override
-        public void refreshUI(String message) {
-            switch (message) {
-                case "change":
-                    refresh(false);
-                    break;
-                case "pause":
-                    setPauseImage(false);
-                    break;
-            }
-        }
-    }
-
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<StudyActivity> {
         @Override
         public void handleMessageByRef(final StudyActivity activity, Message msg) {
@@ -543,6 +529,20 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
                     break;
                 case 2:
                     activity.setIntervalImage(0);
+                    break;
+            }
+        }
+    }
+
+    public class StudyChangeUIBroadCast extends ChangeUIBroadCast {
+        @Override
+        public void refreshUI(String message) {
+            switch (message) {
+                case "change":
+                    refresh(false);
+                    break;
+                case "pause":
+                    setPauseImage(false);
                     break;
             }
         }

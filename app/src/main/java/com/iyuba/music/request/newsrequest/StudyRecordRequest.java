@@ -35,7 +35,7 @@ public class StudyRecordRequest {
     public StudyRecordRequest() {
     }
 
-    public static  StudyRecordRequest getInstance() {
+    public static StudyRecordRequest getInstance() {
         if (instance == null) {
             instance = new StudyRecordRequest();
         }

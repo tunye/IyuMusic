@@ -44,6 +44,7 @@ import java.util.ArrayList;
 
 
 public class VideoPlayerActivity extends BaseActivity implements View.OnClickListener {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private boolean isSystemPlaying;
     private int currPos;
     private Article article;
@@ -54,7 +55,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private SeekBar seekBar;
     private OriginalSynView originalView;
     private ArrayList<Original> originalList;
-    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
     private ImageView largePause;
     private MorphButton playSound;
     private ImageView former, latter, playMode, studyTranslate;

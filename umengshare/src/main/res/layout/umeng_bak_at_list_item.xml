@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="45dp"
-    android:paddingTop="5dp"
+    android:background="#393D46"
     android:paddingBottom="5dp"
-    android:background="#393D46">
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/umeng_socialize_avatar_imv"
@@ -19,9 +19,9 @@
         android:id="@+id/umeng_socialize_text_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/umeng_socialize_avatar_imv"
-        android:layout_centerVertical="true"
         android:text="Label"
         android:textColor="#ffffff"
         android:textSize="18sp" />

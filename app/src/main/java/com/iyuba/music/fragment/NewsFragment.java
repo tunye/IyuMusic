@@ -58,7 +58,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         newsList = new ArrayList<>();
         newsAdapter = new NewsAdapter(context);

@@ -15,10 +15,6 @@ import com.iyuba.music.R;
  * Created by 10202 on 2015/10/10.
  */
 public class ShareAdapter extends BaseAdapter {
-    private int[] menuImageList;
-    private String[] menuList;
-    private Context context;
-
     private static final int DURATION = 400;                        // 动画时长
     private static final int DIALOG_ANIMATION_DELAY = 180;          // 父dialog动画时长
     private static final int ITEM_DELAY = 50;                       // 同行子item延迟动画时长
@@ -27,6 +23,9 @@ public class ShareAdapter extends BaseAdapter {
     private static final float ITEM_ALPHA_START = 0.6F;             // item初始透明度
     private static final float ITEM_ALPHA_END = 1.0F;               // item初始透明度
     private static final int NUM_COLUMNS = 3;                              // 同行子item数量
+    private int[] menuImageList;
+    private String[] menuList;
+    private Context context;
 
     public ShareAdapter(Context context) {
         this.context = context;

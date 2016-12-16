@@ -15,9 +15,8 @@ import com.mob.tools.utils.R;
 public class SizeHelper {
     public static float designedDensity = 1.5f;
     public static int designedScreenWidth = 540;
-    private static Context context = null;
-
     protected static SizeHelper helper;
+    private static Context context = null;
 
     private SizeHelper() {
     }

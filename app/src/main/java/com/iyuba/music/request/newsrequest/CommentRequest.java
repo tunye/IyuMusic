@@ -32,7 +32,7 @@ public class CommentRequest {
     public CommentRequest() {
     }
 
-    public static  CommentRequest getInstance() {
+    public static CommentRequest getInstance() {
         if (instance == null) {
             instance = new CommentRequest();
         }

@@ -27,7 +27,7 @@ public class AddAttentionRequest {
     public AddAttentionRequest() {
     }
 
-    public static  AddAttentionRequest getInstance() {
+    public static AddAttentionRequest getInstance() {
         if (instance == null) {
             instance = new AddAttentionRequest();
         }

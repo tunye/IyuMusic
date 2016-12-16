@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:textColor="@color/text_color"
         android:layout_marginLeft="@dimen/row_space_large"
+        android:textColor="@color/text_color"
         android:textSize="18sp" />
 
     <com.balysv.materialmenu.MaterialMenuView

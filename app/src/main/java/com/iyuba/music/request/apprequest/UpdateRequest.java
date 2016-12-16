@@ -24,7 +24,7 @@ public class UpdateRequest {
     public UpdateRequest() {
     }
 
-    public static  UpdateRequest getInstance() {
+    public static UpdateRequest getInstance() {
         if (instance == null) {
             instance = new UpdateRequest();
         }

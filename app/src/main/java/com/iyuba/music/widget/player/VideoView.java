@@ -70,8 +70,184 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     private OnErrorListener mOnErrorListener;
     private boolean mStartWhenPrepared;
     private int mSeekWhenPrepared;
-
+    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
+        public void onPrepared(MediaPlayer mp) {
+            // briefly show the mediacontroller
+            mIsPrepared = true;
+            if (mOnPreparedListener != null) {
+                mOnPreparedListener.onPrepared(mMediaPlayer);
+            }
+            if (mMediaController != null) {
+                mMediaController.setEnabled(true);
+            }
+            mVideoWidth = mp.getVideoWidth();
+            mVideoHeight = mp.getVideoHeight();
+            if (mVideoWidth != 0 && mVideoHeight != 0) {
+                // Log.i("@@@@", "video size: " + mVideoWidth +"/"+
+                // mVideoHeight);
+                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                if (mSurfaceWidth == mVideoWidth
+                        && mSurfaceHeight == mVideoHeight) {
+                    // We didn't actually change the size (it was already at the
+                    // size
+                    // we need), so we won't get a "surface changed" callback,
+                    // so
+                    // start the video here instead of in the callback.
+                    if (mSeekWhenPrepared != 0) {
+                        mMediaPlayer.seekTo(mSeekWhenPrepared);
+                        mSeekWhenPrepared = 0;
+                    }
+                    if (mStartWhenPrepared) {
+                        mMediaPlayer.start();
+                        mStartWhenPrepared = false;
+                        if (mMediaController != null) {
+                            mMediaController.show();
+                        }
+                    } else if (!isPlaying()
+                            && (mSeekWhenPrepared != 0 || getCurrentPosition() > 0)) {
+                        if (mMediaController != null) {
+                            // Show the media controls when we're paused into a
+                            // video and make 'em stick.
+                            mMediaController.show(0);
+                        }
+                    }
+                }
+            } else {
+                // We don't know the video size yet, but should start anyway.
+                // The video size might be reported to us later.
+                if (mSeekWhenPrepared != 0) {
+                    mMediaPlayer.seekTo(mSeekWhenPrepared);
+                    mSeekWhenPrepared = 0;
+                }
+                if (mStartWhenPrepared) {
+                    mMediaPlayer.start();
+                    mStartWhenPrepared = false;
+                }
+            }
+        }
+    };
     private MySizeChangeLinstener mMyChangeLinstener;
+    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener = new MediaPlayer.OnVideoSizeChangedListener() {
+        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+            mVideoWidth = mp.getVideoWidth();
+            mVideoHeight = mp.getVideoHeight();
+            if (mMyChangeLinstener != null) {
+                mMyChangeLinstener.doMyThings();
+            }
+
+            if (mVideoWidth != 0 && mVideoHeight != 0) {
+                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+            }
+        }
+    };
+    private OnCompletionListener mCompletionListener = new OnCompletionListener() {
+        public void onCompletion(MediaPlayer mp) {
+            if (mMediaController != null) {
+                mMediaController.hide();
+            }
+            if (mOnCompletionListener != null) {
+                mOnCompletionListener.onCompletion(mMediaPlayer);
+            }
+        }
+    };
+    private OnInfoListener mInfoListener = new OnInfoListener() {
+
+        @Override
+        public boolean onInfo(MediaPlayer mp, int what, int extra) {
+
+            if (mMediaController != null) {
+                mMediaController.hide();
+            }
+            if (mOnInfoListener != null) {
+                mOnInfoListener.onInfo(mMediaPlayer, what, extra);
+            }
+            return true;
+        }
+    };
+    private OnErrorListener mErrorListener = new OnErrorListener() {
+        public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
+            if (mMediaController != null) {
+                mMediaController.hide();
+            }
+
+			/* If an error handler has been supplied, use it and finish. */
+            if (mOnErrorListener != null) {
+                if (mOnErrorListener.onError(mMediaPlayer, framework_err,
+                        impl_err)) {
+                    return true;
+                }
+            }
+
+			/*
+             * Otherwise, pop up an error dialog so the user knows that
+			 * something bad has happened. Only try and pop up the dialog if
+			 * we're attached to a window. When we're going away and no longer
+			 * have a window, don't bother showing the user an error.
+			 */
+            if (getWindowToken() != null) {
+
+            }
+            return true;
+        }
+    };
+    private OnBufferingUpdateListener mBufferingUpdateListener = new OnBufferingUpdateListener() {
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            mCurrentBufferPercentage = percent;
+        }
+    };
+    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
+        public void surfaceChanged(SurfaceHolder holder, int format, int w,
+                                   int h) {
+            mSurfaceWidth = w;
+            mSurfaceHeight = h;
+            if (mMediaPlayer != null && mIsPrepared && mVideoWidth == w
+                    && mVideoHeight == h) {
+                if (mSeekWhenPrepared != 0) {
+                    mMediaPlayer.seekTo(mSeekWhenPrepared);
+                    mSeekWhenPrepared = 0;
+                }
+                mMediaPlayer.start();
+                if (mMediaController != null) {
+                    mMediaController.show();
+                }
+            }
+        }
+
+        public void surfaceCreated(SurfaceHolder holder) {
+            mSurfaceHolder = holder;
+            openVideo();
+        }
+
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            // after we return from this we can't use the surface any more
+            mSurfaceHolder = null;
+            if (mMediaController != null)
+                mMediaController.hide();
+            if (mMediaPlayer != null) {
+                mMediaPlayer.reset();
+                mMediaPlayer.release();
+                mMediaPlayer = null;
+            }
+        }
+    };
+
+    public VideoView(Context context) {
+        super(context);
+        mContext = context;
+        initVideoView();
+    }
+
+    public VideoView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+        mContext = context;
+        initVideoView();
+    }
+
+    public VideoView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        mContext = context;
+        initVideoView();
+    }
 
     public int getVideoWidth() {
         return mVideoWidth;
@@ -92,30 +268,8 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
         setLayoutParams(lp);
     }
 
-    public interface MySizeChangeLinstener {
-        public void doMyThings();
-    }
-
     public void setMySizeChangeLinstener(MySizeChangeLinstener l) {
         mMyChangeLinstener = l;
-    }
-
-    public VideoView(Context context) {
-        super(context);
-        mContext = context;
-        initVideoView();
-    }
-
-    public VideoView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-        mContext = context;
-        initVideoView();
-    }
-
-    public VideoView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mContext = context;
-        initVideoView();
     }
 
     @Override
@@ -247,136 +401,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
         }
     }
 
-    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener = new MediaPlayer.OnVideoSizeChangedListener() {
-        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-            mVideoWidth = mp.getVideoWidth();
-            mVideoHeight = mp.getVideoHeight();
-            if (mMyChangeLinstener != null) {
-                mMyChangeLinstener.doMyThings();
-            }
-
-            if (mVideoWidth != 0 && mVideoHeight != 0) {
-                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
-            }
-        }
-    };
-
-    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
-        public void onPrepared(MediaPlayer mp) {
-            // briefly show the mediacontroller
-            mIsPrepared = true;
-            if (mOnPreparedListener != null) {
-                mOnPreparedListener.onPrepared(mMediaPlayer);
-            }
-            if (mMediaController != null) {
-                mMediaController.setEnabled(true);
-            }
-            mVideoWidth = mp.getVideoWidth();
-            mVideoHeight = mp.getVideoHeight();
-            if (mVideoWidth != 0 && mVideoHeight != 0) {
-                // Log.i("@@@@", "video size: " + mVideoWidth +"/"+
-                // mVideoHeight);
-                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
-                if (mSurfaceWidth == mVideoWidth
-                        && mSurfaceHeight == mVideoHeight) {
-                    // We didn't actually change the size (it was already at the
-                    // size
-                    // we need), so we won't get a "surface changed" callback,
-                    // so
-                    // start the video here instead of in the callback.
-                    if (mSeekWhenPrepared != 0) {
-                        mMediaPlayer.seekTo(mSeekWhenPrepared);
-                        mSeekWhenPrepared = 0;
-                    }
-                    if (mStartWhenPrepared) {
-                        mMediaPlayer.start();
-                        mStartWhenPrepared = false;
-                        if (mMediaController != null) {
-                            mMediaController.show();
-                        }
-                    } else if (!isPlaying()
-                            && (mSeekWhenPrepared != 0 || getCurrentPosition() > 0)) {
-                        if (mMediaController != null) {
-                            // Show the media controls when we're paused into a
-                            // video and make 'em stick.
-                            mMediaController.show(0);
-                        }
-                    }
-                }
-            } else {
-                // We don't know the video size yet, but should start anyway.
-                // The video size might be reported to us later.
-                if (mSeekWhenPrepared != 0) {
-                    mMediaPlayer.seekTo(mSeekWhenPrepared);
-                    mSeekWhenPrepared = 0;
-                }
-                if (mStartWhenPrepared) {
-                    mMediaPlayer.start();
-                    mStartWhenPrepared = false;
-                }
-            }
-        }
-    };
-
-    private OnCompletionListener mCompletionListener = new OnCompletionListener() {
-        public void onCompletion(MediaPlayer mp) {
-            if (mMediaController != null) {
-                mMediaController.hide();
-            }
-            if (mOnCompletionListener != null) {
-                mOnCompletionListener.onCompletion(mMediaPlayer);
-            }
-        }
-    };
-
-    private OnInfoListener mInfoListener = new OnInfoListener() {
-
-        @Override
-        public boolean onInfo(MediaPlayer mp, int what, int extra) {
-
-            if (mMediaController != null) {
-                mMediaController.hide();
-            }
-            if (mOnInfoListener != null) {
-                mOnInfoListener.onInfo(mMediaPlayer, what, extra);
-            }
-            return true;
-        }
-    };
-
-    private OnErrorListener mErrorListener = new OnErrorListener() {
-        public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
-            if (mMediaController != null) {
-                mMediaController.hide();
-            }
-
-			/* If an error handler has been supplied, use it and finish. */
-            if (mOnErrorListener != null) {
-                if (mOnErrorListener.onError(mMediaPlayer, framework_err,
-                        impl_err)) {
-                    return true;
-                }
-            }
-
-			/*
-			 * Otherwise, pop up an error dialog so the user knows that
-			 * something bad has happened. Only try and pop up the dialog if
-			 * we're attached to a window. When we're going away and no longer
-			 * have a window, don't bother showing the user an error.
-			 */
-            if (getWindowToken() != null) {
-
-            }
-            return true;
-        }
-    };
-
-    private OnBufferingUpdateListener mBufferingUpdateListener = new OnBufferingUpdateListener() {
-        public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            mCurrentBufferPercentage = percent;
-        }
-    };
-
     public void setOnBufferingUpdateListener(OnBufferingUpdateListener l) {
         mBufferingUpdateListener = l;
     }
@@ -415,42 +439,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     public void setOnErrorListener(OnErrorListener l) {
         mOnErrorListener = l;
     }
-
-    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
-        public void surfaceChanged(SurfaceHolder holder, int format, int w,
-                                   int h) {
-            mSurfaceWidth = w;
-            mSurfaceHeight = h;
-            if (mMediaPlayer != null && mIsPrepared && mVideoWidth == w
-                    && mVideoHeight == h) {
-                if (mSeekWhenPrepared != 0) {
-                    mMediaPlayer.seekTo(mSeekWhenPrepared);
-                    mSeekWhenPrepared = 0;
-                }
-                mMediaPlayer.start();
-                if (mMediaController != null) {
-                    mMediaController.show();
-                }
-            }
-        }
-
-        public void surfaceCreated(SurfaceHolder holder) {
-            mSurfaceHolder = holder;
-            openVideo();
-        }
-
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // after we return from this we can't use the surface any more
-            mSurfaceHolder = null;
-            if (mMediaController != null)
-                mMediaController.hide();
-            if (mMediaPlayer != null) {
-                mMediaPlayer.reset();
-                mMediaPlayer.release();
-                mMediaPlayer = null;
-            }
-        }
-    };
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
@@ -598,5 +586,9 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     public int getAudioSessionId() {
 
         return 0;
+    }
+
+    public interface MySizeChangeLinstener {
+        public void doMyThings();
     }
 }

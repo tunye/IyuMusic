@@ -24,7 +24,7 @@ public class FavorRequest {
     public FavorRequest() {
     }
 
-    public static  FavorRequest getInstance() {
+    public static FavorRequest getInstance() {
         if (instance == null) {
             instance = new FavorRequest();
         }

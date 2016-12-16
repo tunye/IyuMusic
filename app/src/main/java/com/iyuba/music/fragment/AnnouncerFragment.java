@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/3/4.
  */
-public class AnnouncerFragment extends BaseRecyclerViewFragment  {
+public class AnnouncerFragment extends BaseRecyclerViewFragment {
     private ArrayList<Announcer> announcerList;
     private AnnouncerAdapter anouncerAdapter;
     private AnnouncerOp announcerOp;

@@ -29,7 +29,7 @@ public class UserInfoDetailRequest {
     public UserInfoDetailRequest() {
     }
 
-    public static  UserInfoDetailRequest getInstance() {
+    public static UserInfoDetailRequest getInstance() {
         if (instance == null) {
             instance = new UserInfoDetailRequest();
         }

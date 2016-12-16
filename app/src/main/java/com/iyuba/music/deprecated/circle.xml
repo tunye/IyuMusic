@@ -27,8 +27,8 @@
 
 
             <TextView android:id="@+id/toolbar_oper" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:padding="@dimen/row_space_big"
-                android:layout_alignParentRight="true" android:layout_centerVertical="true"
+                android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" android:padding="@dimen/row_space_big"
                 android:textColor="#ededed" android:textSize="@dimen/large_text" />
         </RelativeLayout>
     </RelativeLayout>

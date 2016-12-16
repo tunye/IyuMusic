@@ -12,10 +12,10 @@
 
     <TextView
         android:id="@+id/umeng_socialize_spinner_txt"
-        android:paddingLeft="20dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toRightOf="@id/umeng_socialize_spinner_img"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp" />
 
 </RelativeLayout>

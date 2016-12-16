@@ -34,7 +34,7 @@ public class SearchFriendRequest {
     public SearchFriendRequest() {
     }
 
-    public static  SearchFriendRequest getInstance() {
+    public static SearchFriendRequest getInstance() {
         if (instance == null) {
             instance = new SearchFriendRequest();
         }

@@ -41,7 +41,7 @@ public class FollowFragment extends BaseRecyclerViewFragment implements MySwipeR
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         followsArrayList = new ArrayList<>();
         friendAdapter = new FriendAdapter(context);

@@ -14,8 +14,8 @@
         android:id="@+id/chatting_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/chat_view"
+        android:layout_below="@+id/toolbar"
         android:divider="@null"
         android:scrollbars="vertical"
         android:transcriptMode="alwaysScroll" />

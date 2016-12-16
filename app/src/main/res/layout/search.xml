@@ -81,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="@dimen/corner_radius_medium"
             android:maxLines="1"
+            android:padding="@dimen/corner_radius_medium"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text" />
 

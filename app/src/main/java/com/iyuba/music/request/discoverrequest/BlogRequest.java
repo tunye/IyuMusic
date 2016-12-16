@@ -28,7 +28,7 @@ public class BlogRequest {
     public BlogRequest() {
     }
 
-    public static  BlogRequest getInstance() {
+    public static BlogRequest getInstance() {
         if (instance == null) {
             instance = new BlogRequest();
         }

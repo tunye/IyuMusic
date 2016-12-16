@@ -30,7 +30,7 @@ public class AnnouncerRequest {
     public AnnouncerRequest() {
     }
 
-    public static  AnnouncerRequest getInstance() {
+    public static AnnouncerRequest getInstance() {
         if (instance == null) {
             instance = new AnnouncerRequest();
         }

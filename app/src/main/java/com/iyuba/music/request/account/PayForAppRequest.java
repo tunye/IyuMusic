@@ -32,7 +32,7 @@ public class PayForAppRequest {
     public PayForAppRequest() {
     }
 
-    public static  PayForAppRequest getInstance() {
+    public static PayForAppRequest getInstance() {
         if (instance == null) {
             instance = new PayForAppRequest();
 

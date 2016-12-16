@@ -55,9 +55,9 @@
                 android:id="@+id/artical_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/row_space_large"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/big_text" />
 

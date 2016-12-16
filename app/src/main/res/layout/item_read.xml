@@ -63,9 +63,9 @@
                 android:id="@+id/record_time"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/skin_app_color"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/row_space_big"
+                android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/medium_text" />
 
             <ImageView

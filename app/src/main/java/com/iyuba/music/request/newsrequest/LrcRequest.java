@@ -33,7 +33,7 @@ public class LrcRequest {
     public LrcRequest() {
     }
 
-    public static  LrcRequest getInstance() {
+    public static LrcRequest getInstance() {
         if (instance == null) {
             instance = new LrcRequest();
         }

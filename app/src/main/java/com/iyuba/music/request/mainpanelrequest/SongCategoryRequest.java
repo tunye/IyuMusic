@@ -32,7 +32,7 @@ public class SongCategoryRequest {
     public SongCategoryRequest() {
     }
 
-    public static  SongCategoryRequest getInstance() {
+    public static SongCategoryRequest getInstance() {
         if (instance == null) {
             instance = new SongCategoryRequest();
         }

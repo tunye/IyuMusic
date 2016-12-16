@@ -27,9 +27,9 @@ import com.rengwuxian.materialedittext.MaterialEditText;
  * Created by 10202 on 2015/11/20.
  */
 public class RecommendSongActivity extends BaseActivity {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText recommendTitle, recommendSinger;
     private View mainContent;
-    Handler handler = new WeakReferenceHandler<>(this,new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

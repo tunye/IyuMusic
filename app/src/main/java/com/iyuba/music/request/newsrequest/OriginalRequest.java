@@ -32,7 +32,7 @@ public class OriginalRequest {
     public OriginalRequest() {
     }
 
-    public static  OriginalRequest getInstance() {
+    public static OriginalRequest getInstance() {
         if (instance == null) {
             instance = new OriginalRequest();
         }

@@ -51,6 +51,36 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         adPicUrl = new ArrayList<>();
     }
 
+    private static void getAppointArticle(String id) {
+        NewsesRequest.getInstance().exeRequest(NewsesRequest.getInstance().generateUrl(id), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+
+            }
+
+            @Override
+            public void onServerError(String msg) {
+
+            }
+
+            @Override
+            public void response(Object object) {
+                BaseListEntity listEntity = (BaseListEntity) object;
+                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+                for (Article temp : netData) {
+                    temp.setApp(ConstantManager.instance.getAppId());
+                }
+                new ArticleOp().saveData(netData);
+                StudyManager.instance.setStartPlaying(true);
+                StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");
+                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
+                StudyManager.instance.setSourceArticleList(netData);
+                StudyManager.instance.setCurArticle(netData.get(0));
+                RuntimeManager.getContext().startActivity(new Intent(RuntimeManager.getContext(), StudyActivity.class));
+            }
+        });
+    }
+
     public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
         onRecycleViewItemClickListener = onItemClickLitener;
     }
@@ -120,36 +150,6 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
             AdViewHolder headerViewHolder = (AdViewHolder) holder;
             headerViewHolder.setBannerData(adPicUrl);
         }
-    }
-
-    private static void getAppointArticle(String id) {
-        NewsesRequest.getInstance().exeRequest(NewsesRequest.getInstance().generateUrl(id), new IProtocolResponse() {
-            @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
-                for (Article temp : netData) {
-                    temp.setApp(ConstantManager.instance.getAppId());
-                }
-                new ArticleOp().saveData(netData);
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");
-                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                StudyManager.instance.setSourceArticleList(netData);
-                StudyManager.instance.setCurArticle(netData.get(0));
-                RuntimeManager.getContext().startActivity(new Intent(RuntimeManager.getContext(), StudyActivity.class));
-            }
-        });
     }
 
     private static class NewsViewHolder extends RecycleViewHolder {

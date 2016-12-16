@@ -30,7 +30,7 @@ public class ShareRequest {
     public ShareRequest() {
     }
 
-    public static  ShareRequest getInstance() {
+    public static ShareRequest getInstance() {
         if (instance == null) {
             instance = new ShareRequest();
         }
