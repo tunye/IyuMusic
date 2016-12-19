@@ -1,11 +1,15 @@
 package com.iyuba.music.ground;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,8 +46,11 @@ import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 
 public class VideoPlayerActivity extends BaseActivity implements View.OnClickListener {
+    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private boolean isSystemPlaying;
     private int currPos;
@@ -61,10 +68,14 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.videoplayer);
         context = this;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
+        }
         StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         if (player != null && player.isPlaying()) {
             sendBroadcast(new Intent("iyumusic.pause"));
@@ -384,6 +395,27 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 }
                 originalView.setOriginalList(originalList);
                 break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+        } else {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(VideoPlayerActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_EXTERNAL_TASK_CODE);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
         }
     }
 

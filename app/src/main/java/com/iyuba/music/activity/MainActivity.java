@@ -331,7 +331,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void stopPlayService() {
         if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
-            ((MusicApplication) getApplication()).getPlayerService().getPlayer().reset();
+            ((MusicApplication) getApplication()).getPlayerService().getPlayer().stopPlayback();
             StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
         }
         LocationUtil.getInstance().destroy();

@@ -86,7 +86,9 @@ public class PlayerService extends Service {
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                playerListener.onPrepare();
+                if (playerListener != null) {
+                    playerListener.onPrepare();
+                }
             }
         });
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -102,20 +104,26 @@ public class PlayerService extends Service {
                     i.putExtra("message", "change");
                     sendBroadcast(i);
                 }
-                playerListener.onFinish();
+                if (playerListener != null) {
+                    playerListener.onFinish();
+                }
             }
         });
         player.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                playerListener.onBufferChange(percent);
+                if (playerListener != null) {
+                    playerListener.onBufferChange(percent);
+                }
             }
         });
 
         player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                playerListener.onError();
+                if (playerListener != null) {
+                    playerListener.onError();
+                }
                 return false;
             }
         });

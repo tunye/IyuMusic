@@ -236,6 +236,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
+    }
+
+    @Override
     public void onPrepare() {
         player.start();
         pause.setState(MorphButton.MorphState.END);
