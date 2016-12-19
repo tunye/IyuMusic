@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,7 +35,6 @@ import com.iyuba.music.entity.artical.ArticleOp;
 import com.iyuba.music.entity.artical.LocalInfo;
 import com.iyuba.music.entity.artical.LocalInfoOp;
 import com.iyuba.music.entity.artical.StudyRecordUtil;
-import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.fragment.MainFragment;
 import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
@@ -66,6 +64,7 @@ import java.util.regex.Pattern;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseSkinActivity implements ILocationListener {
+    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
     protected RelativeLayout toolBarLayout;
     private Context context;
@@ -206,7 +205,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void showWhatsNew() {
-        resetDownLoadData();
         if (SettingConfigManager.instance.isUpgrade()) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle("新版本特性");
@@ -221,7 +219,13 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     materialDialog.dismiss();
                 }
             });
-            resetDownLoadData();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
+            } else {
+                resetDownLoadData();
+            }
             materialDialog.show();
         }
     }
@@ -268,6 +272,24 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 LocationUtil.getInstance().initLocationUtil();
                 LocationUtil.getInstance().refreshGPS(this);
+            }
+        } else if (requestCode == WRITE_EXTERNAL_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                resetDownLoadData();
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+
             }
         }
     }
@@ -323,11 +345,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void resetDownLoadData() {
-        File originalPath = new File(Environment.getExternalStorageDirectory() + "/IyuMusic/audio");
-        if (originalPath.exists()) {
-            FileUtil.copyFile(originalPath, new File(ConstantManager.instance.getMusicFolder()));
-            FileUtil.clearFileDir(new File(Environment.getExternalStorageDirectory() + "/IyuMusic"));
-        }
         File packageFile = new File(ConstantManager.instance.getMusicFolder());
         LocalInfoOp lOp = new LocalInfoOp();
         final ArticleOp articleOp = new ArticleOp();

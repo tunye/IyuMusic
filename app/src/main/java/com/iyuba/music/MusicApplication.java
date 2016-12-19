@@ -17,6 +17,7 @@ import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.PlatformConfig;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class MusicApplication extends Application {
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
-        //LeakCanary.install(this);
+        LeakCanary.install(this);
         //CrashHandler crashHandler = new CrashHandler(this);
         //Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }

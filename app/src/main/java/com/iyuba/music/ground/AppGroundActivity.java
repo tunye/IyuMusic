@@ -1,7 +1,11 @@
 package com.iyuba.music.ground;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,14 +18,22 @@ import com.iyuba.music.activity.BaseActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 
 public class AppGroundActivity extends BaseActivity {
     private GridView gridview;
+    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_ground);
         context = this;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
+        }
         initWidget();
         setListener();
         changeUIByPara();
@@ -78,5 +90,25 @@ public class AppGroundActivity extends BaseActivity {
             startActivity(intent);
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults.length == permissions.length
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
+        } else {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(AppGroundActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_EXTERNAL_TASK_CODE);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
+        }
+    }
 }
