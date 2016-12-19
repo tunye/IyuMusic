@@ -219,7 +219,6 @@ public class FilePosActivity extends BaseActivity {
                 }
             }
         } catch (Exception e) {
-
             e.printStackTrace();
         }
         return sdcard_path;
