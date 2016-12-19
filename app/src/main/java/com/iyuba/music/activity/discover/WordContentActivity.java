@@ -49,6 +49,7 @@ public class WordContentActivity extends BaseActivity {
     private boolean collected;
     private boolean playSound;
     private WordSetOp wordSetOp;
+    private SimplePlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class WordContentActivity extends BaseActivity {
         appointWord = getIntent().getStringExtra("word");
         source = getIntent().getStringExtra("source");
         playSound = false;
+        player = new SimplePlayer(context);
         initWidget();
         setListener();
         changeUIByPara();
@@ -205,6 +207,10 @@ public class WordContentActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (player.isPlaying()) {
+            player.pause();
+        }
+        player.stopPlayback();
     }
 
     private void setContent() {
@@ -295,7 +301,6 @@ public class WordContentActivity extends BaseActivity {
 
     private void playSound() {
         if (!TextUtils.isEmpty(currentWord.getPronMP3())) {
-            final SimplePlayer player = new SimplePlayer(context);
             player.setVideoPath(currentWord.getPronMP3());
             player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -306,7 +311,7 @@ public class WordContentActivity extends BaseActivity {
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                    player.stopPlayback();
+                    player.reset();
                 }
             });
         }

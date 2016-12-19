@@ -40,7 +40,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private ArrayList<Original> originals;
     private Context context;
     private int curItem = -1;
-    private SimplePlayer player;
+    private SimplePlayer player, simplePlayer;
     private TextView curText;
     private boolean curRecord;
     private boolean isRecord;
@@ -49,6 +49,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
     public ReadAdapter(Context context) {
         this.context = context;
+        simplePlayer = new SimplePlayer(context);
         curItem = 0;
         isRecord = false;
         originals = new ArrayList<>();
@@ -164,7 +165,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         holder.recordPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final SimplePlayer simplePlayer = new SimplePlayer(context);
                 simplePlayer.setVideoPath(ConstantManager.instance.getRecordFile());
                 simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
@@ -179,7 +179,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 simplePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        simplePlayer.stopPlayback();
+                        simplePlayer.reset();
                         handler.sendEmptyMessage(5);
                     }
                 });
@@ -234,10 +234,14 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     }
 
     public void onDestroy() {
-        if (player != null) {
+        if (player.isPlaying()) {
             player.pause();
-            player.stopPlayback();
         }
+        if (simplePlayer.isPlaying()) {
+            simplePlayer.pause();
+        }
+        player.stopPlayback();
+        simplePlayer.stopPlayback();
         handler.removeMessages(0);
         handler.removeMessages(2);
         handler.removeMessages(4);

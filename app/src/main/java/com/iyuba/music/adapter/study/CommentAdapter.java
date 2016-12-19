@@ -319,7 +319,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 handler.removeMessages(1);
             }
             player.stopPlayback();
-
         }
     }
 

@@ -48,6 +48,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     private PersonalWordOp personalWordOp;
     private WordSetOp wordSetOp;
     private boolean collected;
+    private SimplePlayer player;
 
     public WordCard(Context context) {
         super(context);
@@ -76,6 +77,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void init() {
+        player = new SimplePlayer(context);
         personalWordOp = new PersonalWordOp();
         wordSetOp = new WordSetOp();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -158,7 +160,6 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.equals(speaker)) {
-            final SimplePlayer player = new SimplePlayer(context);
             player.setVideoPath(word.getPronMP3());
             player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -169,7 +170,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                    player.stopPlayback();
+                    player.reset();
                 }
             });
         } else if (view.equals(add)) {
@@ -217,6 +218,10 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     public void dismiss() {
+        if (player.isPlaying()) {
+            player.pause();
+        }
+        player.stopPlayback();
         YoYo.with(Techniques.FlipOutX).duration(500).withListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
