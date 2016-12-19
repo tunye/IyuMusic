@@ -48,7 +48,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by 10202 on 2016/4/16.
  */
-public class LocalMusicActivity extends BaseActivity implements IOnClickListener, IPlayerListener {
+public class LocalMusicActivity extends BaseActivity implements IOnClickListener {
     private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RecyclerView musicList;
@@ -60,6 +60,35 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private ProgressBar progressBar;
     private TextView currentTime;
     private MorphButton pause;
+    private IPlayerListener iPlayerListener = new IPlayerListener() {
+
+
+        @Override
+        public void onPrepare() {
+            player.start();
+            pause.setState(MorphButton.MorphState.END);
+            progressBar.setMax(player.getDuration());
+            handler.sendEmptyMessage(0);
+            refresh();
+        }
+
+        @Override
+        public void onBufferChange(int buffer) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            handler.removeMessages(0);
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(
+                    StudyManager.instance.getCurArticle(), false);
+            player.start();
+        }
+
+        @Override
+        public void onError() {
+        }
+    };
     private LocalMusicChangeUIBroadCast broadCast;
 
     @Override
@@ -73,7 +102,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             startActivityForResult(intent, 102);
         } else {
             player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-            ((MusicApplication) getApplication()).getPlayerService().setListener(this);
+            ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         }
         initWidget();
         setListener();
@@ -221,7 +250,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
         } else if (requestCode == 102) {
             player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-            ((MusicApplication) getApplication()).getPlayerService().setListener(this);
+            ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         }
     }
 
@@ -247,32 +276,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onPause();
         unregisterReceiver(broadCast);
         handler.removeMessages(0);
-    }
-
-    @Override
-    public void onPrepare() {
-        player.start();
-        pause.setState(MorphButton.MorphState.END);
-        progressBar.setMax(player.getDuration());
-        handler.sendEmptyMessage(0);
-        refresh();
-    }
-
-    @Override
-    public void onBufferChange(int buffer) {
-
-    }
-
-    @Override
-    public void onFinish() {
-        handler.removeMessages(0);
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.instance.getCurArticle(), false);
-        player.start();
-    }
-
-    @Override
-    public void onError() {
     }
 
     private void setPauseImage() {

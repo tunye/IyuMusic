@@ -45,7 +45,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class StudyActivity extends BaseActivity implements View.OnClickListener, IPlayerListener {
+public class StudyActivity extends BaseActivity implements View.OnClickListener {
     private static final int RECORD_AUDIO_TASK_CODE = 2;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private StudyMore studyMoreDialog;
@@ -61,6 +61,35 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     private int aPosition, bPosition;// 区间播放
     private IntervalState intervalState;
     private boolean isDestroyed = false;
+    IPlayerListener iPlayerListener = new IPlayerListener() {
+
+
+        @Override
+        public void onPrepare() {
+            int i = player.getDuration();
+            seekBar.setMax(i);
+            duration.setText(Mathematics.formatTime(i / 1000));
+            handler.sendEmptyMessage(0);
+            player.start();
+            playSound.setState(MorphButton.MorphState.END, true);
+        }
+
+        @Override
+        public void onBufferChange(int buffer) {
+            seekBar.setSecondaryProgress(buffer * seekBar.getMax() / 100);
+        }
+
+        @Override
+        public void onFinish() {
+            startPlay();
+            refresh(false);
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
@@ -203,7 +232,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void setListener() {
         super.setListener();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(this);
+        ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -457,32 +486,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onPrepare() {
-        int i = player.getDuration();
-        seekBar.setMax(i);
-        duration.setText(Mathematics.formatTime(i / 1000));
-        handler.sendEmptyMessage(0);
-        player.start();
-        playSound.setState(MorphButton.MorphState.END, true);
-    }
-
-    @Override
-    public void onBufferChange(int buffer) {
-        seekBar.setSecondaryProgress(buffer * seekBar.getMax() / 100);
-    }
-
-    @Override
-    public void onFinish() {
-        startPlay();
-        refresh(false);
-    }
-
-    @Override
-    public void onError() {
-
     }
 
     private void getCommentCount() {
