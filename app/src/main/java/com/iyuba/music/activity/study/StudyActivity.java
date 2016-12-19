@@ -87,12 +87,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(this);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
@@ -112,12 +106,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
         super.onDestroy();
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
     }
 
     @Override
@@ -215,6 +203,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void setListener() {
         super.setListener();
+        ((MusicApplication) getApplication()).getPlayerService().setListener(this);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

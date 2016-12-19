@@ -1,11 +1,15 @@
 package com.iyuba.music.local_music;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -39,10 +43,13 @@ import com.wnafee.vector.MorphButton;
 import java.util.ArrayList;
 import java.util.Random;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by 10202 on 2016/4/16.
  */
 public class LocalMusicActivity extends BaseActivity implements IOnClickListener, IPlayerListener {
+    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RecyclerView musicList;
     private ArrayList<Article> musics;
@@ -125,7 +132,14 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(context, FilePosActivity.class), 101);
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(LocalMusicActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_EXTERNAL_TASK_CODE);
+                } else {
+                    startActivityForResult(new Intent(context, FilePosActivity.class), 101);
+                }
             }
         });
         randomPlay.setOnClickListener(new View.OnClickListener() {
@@ -236,12 +250,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
-    }
-
-    @Override
     public void onPrepare() {
         player.start();
         pause.setState(MorphButton.MorphState.END);
@@ -320,6 +328,29 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_TASK_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivityForResult(new Intent(context, FilePosActivity.class), 101);
+            } else {
+                final MaterialDialog materialDialog = new MaterialDialog(context);
+                materialDialog.setTitle(R.string.storage_permission);
+                materialDialog.setMessage(R.string.storage_permission_content);
+                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(LocalMusicActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                WRITE_EXTERNAL_TASK_CODE);
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
             }
         }
     }

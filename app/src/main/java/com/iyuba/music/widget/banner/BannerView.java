@@ -60,16 +60,16 @@ public class BannerView extends RelativeLayout {
 
     public BannerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setAttr(context, attrs);
+        setAttr(attrs);
     }
 
     public BannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setAttr(context, attrs);
+        setAttr(attrs);
     }
 
-    private void setAttr(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.bannerview);
+    private void setAttr(AttributeSet attrs) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.bannerview);
         selectItemColor = a.getColor(R.styleable.bannerview_banner_select_color, selectItemColor);
         unselectedItemColor = a.getColor(R.styleable.bannerview_banner_unselected_color, unselectedItemColor);
         shadowColor = a.getColor(R.styleable.bannerview_banner_shadow_color, shadowColor);

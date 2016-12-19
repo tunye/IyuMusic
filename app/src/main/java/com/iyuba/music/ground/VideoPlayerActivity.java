@@ -410,7 +410,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityCompat.requestPermissions(VideoPlayerActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    ActivityCompat.requestPermissions(VideoPlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             WRITE_EXTERNAL_TASK_CODE);
                     materialDialog.dismiss();
                 }
