@@ -23,6 +23,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.discoverrequest.DictRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.textview.JustifyTextView;
@@ -89,6 +90,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         add = (RoundTextView) root.findViewById(R.id.word_add);
         close = (RoundTextView) root.findViewById(R.id.word_close);
         loading = (AVLoadingIndicatorView) root.findViewById(R.id.word_loading);
+        loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
         wordContent = root.findViewById(R.id.word_content);
         wordOperation = root.findViewById(R.id.word_operation);
         speaker.setOnClickListener(this);

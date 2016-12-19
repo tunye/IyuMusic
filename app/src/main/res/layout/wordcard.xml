@@ -113,8 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:indicator="Pacman"
-            app:indicator_color="@color/skin_app_color" />
+            app:indicatorName="LineScalePartyIndicator"
+            app:indicatorColor="@color/skin_app_color" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
