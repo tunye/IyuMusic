@@ -5,7 +5,7 @@
     <color name="background">#343434</color>
     <color name="background_light">#545454</color>
     <color name="background_complementary">#656565</color>
-    <color name="text_color">#dcdcdc</color>
+    <color name="text_color">#cdcdcd</color>
     <color name="text_complementary">#bcbcbc</color>
     <color name="text_gray_color">#808080</color>
     <color name="toolbar_ripple_color">#fff</color>

@@ -101,6 +101,9 @@ public static final int *;
 -keepclassmembers  class  com.iyuba.music.activity.WebViewActivity$*{
     *;
 }
+#avloading
+-keep class com.wang.avi.** { *; }
+-keep class com.wang.avi.indicators.** { *; }
 
 -keep class com.tencent.open.TDialog$*
 -keep class com.tencent.open.TDialog$* {*;}

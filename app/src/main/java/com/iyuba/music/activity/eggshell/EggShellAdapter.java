@@ -37,8 +37,10 @@ public class EggShellAdapter extends RecyclerView.Adapter<EggShellAdapter.MyView
         menuIconList.add(R.mipmap.ic_launcher);
         menuIconList.add(R.mipmap.ic_launcher);
         menuIconList.add(R.mipmap.ic_launcher);
+        menuIconList.add(R.mipmap.ic_launcher);
         menuTextList.add("动画");
         menuTextList.add("material输入框");
+        menuTextList.add("加载小动画");
         menuTextList.add("福利");
     }
 

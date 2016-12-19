@@ -9,6 +9,7 @@ import android.view.animation.OvershootInterpolator;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.eggshell.loading_indicator.LoadingIndicatorList;
 import com.iyuba.music.activity.eggshell.material_edittext.MaterialEdittextMainActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiActivity;
 import com.iyuba.music.activity.eggshell.view_animations.MyActivity;
@@ -62,6 +63,9 @@ public class EggShellActivity extends BaseActivity {
                         startActivity(new Intent(context, MaterialEdittextMainActivity.class));
                         break;
                     case 2:
+                        startActivity(new Intent(context, LoadingIndicatorList.class));
+                        break;
+                    case 3:
                         startActivity(new Intent(context, MeizhiActivity.class));
                         break;
                 }
