@@ -1,15 +1,18 @@
 package com.iyuba.music.activity;
 
+import android.animation.ValueAnimator;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 
@@ -32,6 +36,8 @@ public class WebViewActivity extends BaseActivity {
     private ProgressBar loadProgress;
     private ContextMenu menu;
     private TextView source;
+    private ValueAnimator progressBarAnimator;
+    private int mCurrentProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,20 @@ public class WebViewActivity extends BaseActivity {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         web = (WebView) findViewById(R.id.webview);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // [bug:86726] android 5.0增强安全机制，不允许https http混合，加此配置解决
+            web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        }
         loadProgress = (ProgressBar) findViewById(R.id.load_progress);
+        progressBarAnimator = new ValueAnimator().setDuration(300);
+        progressBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int progress = (int) animation.getAnimatedValue();
+                loadProgress.getLayoutParams().width = (int) (progress / 100f * RuntimeManager.getWindowWidth());
+                loadProgress.requestLayout();
+            }
+        });
         source = (TextView) findViewById(R.id.source);
         initContextMenu();
     }
@@ -99,14 +118,7 @@ public class WebViewActivity extends BaseActivity {
                 new WebChromeClient() {
                     @Override
                     public void onProgressChanged(WebView view, int newProgress) {
-                        if (newProgress == 100) {
-                            loadProgress.setVisibility(View.GONE);
-                        } else {
-                            if (loadProgress.getVisibility() == View.GONE) {
-                                loadProgress.setVisibility(View.VISIBLE);
-                            }
-                            loadProgress.setProgress(newProgress);
-                        }
+                        startProgressBarAnim(newProgress);
                         super.onProgressChanged(view, newProgress);
                     }
 
@@ -170,5 +182,22 @@ public class WebViewActivity extends BaseActivity {
         } else {
             return url.substring(url.indexOf("://") + 3);
         }
+    }
+
+    private void startProgressBarAnim(int newProgress) {
+        if (mCurrentProgress == newProgress) {
+            return;
+        }
+        if (progressBarAnimator.isRunning()) {
+            progressBarAnimator.end();
+        }
+        progressBarAnimator.setIntValues(mCurrentProgress, newProgress);
+        if (newProgress >= 100) {
+            loadProgress.setVisibility(View.GONE);
+        } else {
+            loadProgress.setVisibility(View.VISIBLE);
+        }
+        progressBarAnimator.start();
+        mCurrentProgress = newProgress;
     }
 }
