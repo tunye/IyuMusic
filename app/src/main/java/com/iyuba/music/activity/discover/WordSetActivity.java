@@ -12,7 +12,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 
 import java.util.Arrays;
@@ -126,7 +126,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         });
         adapter.setSelected(SettingConfigManager.instance.getWordOrder());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
-        languageList.addItemDecoration(new GridDividerItemDecoration());
+        languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {

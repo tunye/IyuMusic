@@ -35,7 +35,6 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
         context = this;
@@ -79,7 +78,7 @@ public class WebViewActivity extends BaseActivity {
                     intent.setData(Uri.parse(url));
                     startActivity(intent);
                 } else if (index == 1) {
-                    ClipData clip = ClipData.newPlainText("chat message", url);
+                    ClipData clip = ClipData.newPlainText("url link", url);
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setPrimaryClip(clip);
                     CustomToast.INSTANCE.showToast(R.string.webview_clip_board);

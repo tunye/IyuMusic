@@ -11,7 +11,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wang.avi.AVLoadingIndicatorView;
 
 
@@ -68,10 +68,10 @@ public class LoadingIndicatorList extends BaseActivity {
         mRecycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager layoutManager = new GridLayoutManager(context, 4);
         mRecycler.setLayoutManager(layoutManager);
-        mRecycler.addItemDecoration(new GridDividerItemDecoration(
+        mRecycler.addItemDecoration(new DividerItemDecoration(
                 (int) RuntimeManager.getContext().getResources().getDimension(R.dimen.line_thin),
                 context.getResources().getColor(R.color.background_light),
-                GridDividerItemDecoration.TYPE_WITHOUT_BORDER));
+                DividerItemDecoration.TYPE_WITHOUT_BORDER));
         mRecycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {
             @Override
             public IndicatorHolder onCreateViewHolder(ViewGroup parent, int viewType) {

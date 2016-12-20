@@ -29,7 +29,7 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
             }
         });
         recyclerView.setAdapter(friendAdapter);
-        recyclerView.addItemDecoration(new GridDividerItemDecoration());
+        recyclerView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         search = findViewById(R.id.friend_search);
         searchLayout = (RoundLinearLayout) findViewById(R.id.search_layout);

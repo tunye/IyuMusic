@@ -29,7 +29,7 @@ import com.iyuba.music.request.merequest.PersonalInfoRequest;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -111,7 +111,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             }
         });
         doingRecycleView.setAdapter(doingAdapter);
-        doingRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        doingRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
     }
 

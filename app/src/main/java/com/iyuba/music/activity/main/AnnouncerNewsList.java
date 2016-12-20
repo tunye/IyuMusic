@@ -34,7 +34,7 @@ import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -142,7 +142,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             newsRecycleView.setAdapter(mAdAdapter);
             mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
         }
-        newsRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        newsRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }

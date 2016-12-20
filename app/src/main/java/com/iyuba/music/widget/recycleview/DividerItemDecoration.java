@@ -23,7 +23,7 @@ import com.iyuba.music.manager.RuntimeManager;
  * @version 1.0
  * @date 2016/8/25
  */
-public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     public static final int TYPE_WITH_BORDER = 1;
     public static final int TYPE_WITHOUT_BORDER = 0;
     private int space;
@@ -32,32 +32,32 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Paint mPaint;
     private int type;
 
-    public GridDividerItemDecoration() {
+    public DividerItemDecoration() {
         this.space = (int) RuntimeManager.getContext().getResources().getDimension(R.dimen.line_thin);
         this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_light);
         initPaint();
     }
 
-    public GridDividerItemDecoration(int space) {
+    public DividerItemDecoration(int space) {
         this.space = space;
         this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_light);
         initPaint();
     }
 
-    public GridDividerItemDecoration(int space, int color) {
+    public DividerItemDecoration(int space, int color) {
         this.space = space;
         this.color = color;
         initPaint();
     }
 
-    public GridDividerItemDecoration(int space, int color, int type) {
+    public DividerItemDecoration(int space, int color, int type) {
         this.space = space;
         this.color = color;
         this.type = type;
         initPaint();
     }
 
-    public GridDividerItemDecoration(Drawable mDivider) {
+    public DividerItemDecoration(Drawable mDivider) {
         this.space = mDivider.getIntrinsicHeight();
         this.mDivider = mDivider;
     }

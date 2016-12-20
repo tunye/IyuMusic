@@ -14,7 +14,7 @@ import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,7 +55,7 @@ public class FilePosActivity extends BaseActivity {
         adapter = new FileAdapter();
         adapter.setDataSet(files);
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new GridDividerItemDecoration());
+        fileListView.addItemDecoration(new DividerItemDecoration());
         filePath = (TextView) findViewById(R.id.file_path);
         position = (RoundLinearLayout) findViewById(R.id.file_parent);
         sure = (RoundTextView) findViewById(R.id.select_file_finish);

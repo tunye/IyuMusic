@@ -13,7 +13,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 
 import java.util.Arrays;
@@ -155,7 +155,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         });
         adapter.setSelected(SettingConfigManager.instance.getStudyMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
-        languageList.addItemDecoration(new GridDividerItemDecoration());
+        languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
@@ -188,7 +188,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         });
         adapter.setSelected(SettingConfigManager.instance.getStudyPlayMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
-        languageList.addItemDecoration(new GridDividerItemDecoration());
+        languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
@@ -222,7 +222,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         });
         adapter.setSelected(SettingConfigManager.instance.getDownloadMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
-        languageList.addItemDecoration(new GridDividerItemDecoration());
+        languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {

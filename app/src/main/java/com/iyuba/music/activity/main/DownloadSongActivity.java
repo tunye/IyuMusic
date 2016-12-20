@@ -22,7 +22,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.TextAttr;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             }
         });
         newsRecycleView.setAdapter(newsAdapter);
-        newsRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        newsRecycleView.addItemDecoration(new DividerItemDecoration());
     }
 
     @Override

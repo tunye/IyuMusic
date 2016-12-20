@@ -29,7 +29,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.discoverrequest.CircleRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -102,7 +102,7 @@ public class CircleActivity extends BaseActivity implements MySwipeRefreshLayout
             }
         });
         circleRecycleView.setAdapter(circleAdapter);
-        circleRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        circleRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }

@@ -21,7 +21,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class PasteFileActivity extends BaseActivity {
         fileListView = (RecyclerView) findViewById(R.id.file_recyclerview);
         fileListView.setLayoutManager(new LinearLayoutManager(this));
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new GridDividerItemDecoration());
+        fileListView.addItemDecoration(new DividerItemDecoration());
         fileListView.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
     }
 

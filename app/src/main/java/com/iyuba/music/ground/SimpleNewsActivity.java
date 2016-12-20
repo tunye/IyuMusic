@@ -34,7 +34,7 @@ import com.iyuba.music.request.discoverrequest.SimpleNewsListRequest;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -111,7 +111,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
         swipeRefreshLayout.setOnRefreshListener(this);
         newsList.setLayoutManager(new LinearLayoutManager(context));
         newsList.setAdapter(simpleNewsAdapter);
-        newsList.addItemDecoration(new GridDividerItemDecoration());
+        newsList.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }

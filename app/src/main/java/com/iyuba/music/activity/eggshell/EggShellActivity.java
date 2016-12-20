@@ -15,7 +15,7 @@ import com.iyuba.music.activity.eggshell.meizhi.MeizhiActivity;
 import com.iyuba.music.activity.eggshell.view_animations.MyActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -44,7 +44,7 @@ public class EggShellActivity extends BaseActivity {
         eggShellList.setLayoutManager(new LinearLayoutManager(this));
         eggShellAdapter = new EggShellAdapter(context);
         eggShellList.setAdapter(eggShellAdapter);
-        eggShellList.addItemDecoration(new GridDividerItemDecoration());
+        eggShellList.addItemDecoration(new DividerItemDecoration());
         eggShellList.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
     }
 

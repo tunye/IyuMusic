@@ -40,7 +40,7 @@ import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.bitmap.MyPalette;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -168,7 +168,7 @@ public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLa
             }
         });
         circleRecycleView.setAdapter(circleAdapter);
-        circleRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        circleRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }

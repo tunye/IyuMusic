@@ -26,7 +26,7 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +71,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
         wordSet = (TextView) findViewById(R.id.word_set);
         wordStatistic = (TextView) findViewById(R.id.word_statistic);
         wordList.setLayoutManager(new LinearLayoutManager(this));
-        wordList.addItemDecoration(new GridDividerItemDecoration());
+        wordList.addItemDecoration(new DividerItemDecoration());
         waitingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.word_synchroing)).create();
     }
 

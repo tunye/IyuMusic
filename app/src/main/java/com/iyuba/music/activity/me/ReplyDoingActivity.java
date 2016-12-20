@@ -35,7 +35,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -132,7 +132,7 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
             }
         });
         doingRecycleView.setAdapter(commentAdapter);
-        doingRecycleView.addItemDecoration(new GridDividerItemDecoration());
+        doingRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         commentView = (CommentView) findViewById(R.id.comment_view);
     }

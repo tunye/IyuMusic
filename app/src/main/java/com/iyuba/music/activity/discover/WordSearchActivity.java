@@ -26,7 +26,7 @@ import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class WordSearchActivity extends BaseSkinActivity {
         wordList.setLayoutManager(new LinearLayoutManager(this));
         wordSearchAdapter = new WordSearchAdapter(context, wordArrayList);
         wordList.setAdapter(wordSearchAdapter);
-        wordList.addItemDecoration(new GridDividerItemDecoration());
+        wordList.addItemDecoration(new DividerItemDecoration());
         wordList.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
     }
 

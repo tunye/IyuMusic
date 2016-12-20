@@ -19,7 +19,7 @@ import android.widget.ScrollView;
  */
 public class FlexibleView extends RelativeLayout {
     private int mLastMotionY;
-    private int maxMove = 480;
+    private int maxMove = 540;
     private int actualDistance;
     private ScrollView scrollView;
     private AdapterView<?> adapterView;

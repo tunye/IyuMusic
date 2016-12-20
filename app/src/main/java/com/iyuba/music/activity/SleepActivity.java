@@ -9,7 +9,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.SleepAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 /**
  * Created by 10202 on 2015/11/30.
@@ -32,7 +32,7 @@ public class SleepActivity extends BaseActivity {
         super.initWidget();
         RecyclerView listView = (RecyclerView) findViewById(R.id.sleep_list);
         listView.setLayoutManager(new LinearLayoutManager(context));
-        listView.addItemDecoration(new GridDividerItemDecoration());
+        listView.addItemDecoration(new DividerItemDecoration());
         adapter = new SleepAdapter(context);
         listView.setAdapter(adapter);
     }
