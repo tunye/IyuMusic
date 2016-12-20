@@ -31,7 +31,7 @@ import com.iyuba.music.request.merequest.SetMessageReadRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshL
             }
         });
         messageRecycleView.setAdapter(messageAdapter);
-        messageRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        messageRecycleView.addItemDecoration(new GridDividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
     }
 

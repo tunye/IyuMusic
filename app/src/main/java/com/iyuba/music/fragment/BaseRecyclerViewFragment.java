@@ -12,7 +12,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 
 /**
  * Created by 102 on 2016/10/31.
@@ -37,7 +37,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements IOnClickLi
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new GridDividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         return view;
     }

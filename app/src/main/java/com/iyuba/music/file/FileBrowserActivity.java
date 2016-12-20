@@ -23,7 +23,7 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.widget.dialog.ContextMenu;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,8 +76,7 @@ public class FileBrowserActivity extends BaseActivity {
         adapter = new FileAdapter();
         adapter.setDataSet(files);
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST));
+        fileListView.addItemDecoration(new GridDividerItemDecoration());
         filePath = (TextView) findViewById(R.id.file_path);
         position = (RoundLinearLayout) findViewById(R.id.file_parent);
         initContextMenu();

@@ -32,7 +32,7 @@ import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -108,7 +108,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             }
         });
         newsRecycleView.setAdapter(newsAdapter);
-        newsRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        newsRecycleView.addItemDecoration(new GridDividerItemDecoration());
     }
 
     @Override

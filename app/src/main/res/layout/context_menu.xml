@@ -20,7 +20,7 @@
                 android:id="@+id/operList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#aaaaaa"
+                android:divider="#dcdcdc"
                 android:dividerHeight="@dimen/line_thin" />
 
         </com.flyco.roundview.RoundLinearLayout>

@@ -13,7 +13,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 
 import java.util.Arrays;
 
@@ -41,7 +41,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         mAdapter.setCurrentFlavor(SkinManager.getInstance().getCurrSkin());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new GridDividerItemDecoration());
     }
 
     @Override

@@ -213,10 +213,10 @@
     <string name="word_synchro">Synchro</string>
     <string name="word_synchroing">Sychronization in process, please wait…</string>
     <string name="word_synchro_final">Cloud word sychronization is OK</string>
-    <string name="word_synchro_finish">%1$s words have been synchronized, and %2$s words left, would you like to continue?</string>
+    <string name="word_synchro_finish">%1$d words have been synchronized, and %2$d words left, would you like to continue?</string>
     <string name="word_synchro_continue">Continue</string>
     <string name="word_no_collect">No word in the your word list, click synchronize buttons to synchronize cloud words</string>
-    <string name="word_statistic">%1$s words in total</string>
+    <string name="word_statistic">%1$d words in total</string>
     <string name="word_set">Setting</string>
     <string name="word_edit">Edit</string>
     <string name="wordlist_delete">Successfully deleted</string>
@@ -415,7 +415,7 @@
     <!--搜索-->
     <string name="search_do">Search</string>
     <string name="search_close">Close</string>
-    <string name="search_result">Search“%1$s”, totally %2$s search results</string>
+    <string name="search_result">Search“%1$s”, totally %2$d search results</string>
     <string name="artical_download_over">Download already</string>
     <string name="artical_downloading">Downloading</string>
     <string name="artical_favor">Favorite success</string>

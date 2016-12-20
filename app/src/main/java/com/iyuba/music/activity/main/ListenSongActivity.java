@@ -21,7 +21,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -74,7 +74,7 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
             }
         });
         newsRecycleView.setAdapter(newsAdapter);
-        newsRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        newsRecycleView.addItemDecoration(new GridDividerItemDecoration());
     }
 
     @Override

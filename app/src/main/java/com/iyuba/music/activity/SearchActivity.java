@@ -41,7 +41,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
@@ -124,7 +124,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             }
         });
         searchNewsRecycleView.setAdapter(searchNewsAdapter);
-        searchNewsRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        searchNewsRecycleView.addItemDecoration(new GridDividerItemDecoration());
         searchResult = (TextView) findViewById(R.id.search_result);
         adviceText = (TextView) findViewById(R.id.search_advice);
         adviceBtn = (RoundTextView) findViewById(R.id.search_advice_button);

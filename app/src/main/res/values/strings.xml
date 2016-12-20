@@ -214,10 +214,10 @@
     <string name="word_synchro">同步</string>
     <string name="word_synchroing">单词同步中，请稍候…</string>
     <string name="word_synchro_final">云单词同步完毕</string>
-    <string name="word_synchro_finish">已同步%1$s个单词，仍有%2$s个单词需要同步，是否继续</string>
+    <string name="word_synchro_finish">已同步%1$d个单词，仍有%2$d个单词需要同步，是否继续</string>
     <string name="word_synchro_continue">继续同步</string>
     <string name="word_no_collect">单词本尚无单词，可点击同步按钮同步云单词</string>
-    <string name="word_statistic">共有%1$s个单词</string>
+    <string name="word_statistic">共有%1$d个单词</string>
     <string name="word_set">设置</string>
     <string name="word_edit">编辑</string>
     <string name="wordlist_delete">删除成功</string>
@@ -430,7 +430,7 @@
     <!--搜索-->
     <string name="search_do">搜索</string>
     <string name="search_close">关闭</string>
-    <string name="search_result">搜索“%1$s”的结果，总计%2$s条</string>
+    <string name="search_result">搜索“%1$s”的结果，总计%2$d条</string>
     <!-- 个人资料 -->
     <string name="person_detail_title">个人详细资料</string>
     <string name="person_detail_base">基本信息</string>

@@ -32,14 +32,12 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
         int height = 0;
 
         for (int i = 0; i < getItemCount(); i++) {
-
             try {
                 measureScrapChild(recycler, i,
                         widthSpec,
                         View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                         mMeasuredDimension);
             } catch (IndexOutOfBoundsException e) {
-
                 e.printStackTrace();
             }
 
@@ -56,12 +54,6 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
             }
         }
 
-        switch (widthMode) {
-            case View.MeasureSpec.EXACTLY:
-            case View.MeasureSpec.AT_MOST:
-            case View.MeasureSpec.UNSPECIFIED:
-        }
-
         switch (heightMode) {
             case View.MeasureSpec.EXACTLY:
                 height = heightSize;
@@ -74,7 +66,6 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec, int heightSpec, int[] measuredDimension) {
         View view = recycler.getViewForPosition(position);
-
         if (view != null) {
             RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
             int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,

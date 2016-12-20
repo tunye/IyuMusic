@@ -28,7 +28,7 @@ import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 
 import java.io.File;
@@ -230,8 +230,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         });
         adapter.setSelected(SettingConfigManager.instance.getLanguage());
         languageList.setAdapter(adapter);
-        languageList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
+        languageList.addItemDecoration(new GridDividerItemDecoration());
         languageDialog.setContentView(root);
         languageDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
             @Override

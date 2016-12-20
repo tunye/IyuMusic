@@ -37,7 +37,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
@@ -132,7 +132,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         progressBar = (ProgressBar) findViewById(R.id.progress);
         musicList = (RecyclerView) findViewById(R.id.music_recyclerview);
         musicList.setLayoutManager(new LinearLayoutManager(context));
-        musicList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        musicList.addItemDecoration(new GridDividerItemDecoration());
         adapter = new LocalMusicAdapter(context);
         adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override

@@ -157,7 +157,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_default"
-                android:background="@drawable/divider" />
+                android:background="@color/background_light" />
         </LinearLayout>
     </com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh>
 </LinearLayout>

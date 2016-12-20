@@ -27,7 +27,7 @@ import com.iyuba.music.request.mainpanelrequest.ClassifyNewsRequest;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -136,7 +136,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
             newsRecycleView.setAdapter(mAdAdapter);
             mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
         }
-        newsRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        newsRecycleView.addItemDecoration(new GridDividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }

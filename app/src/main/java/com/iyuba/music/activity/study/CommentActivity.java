@@ -43,7 +43,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.recycleview.GridDividerItemDecoration;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -145,7 +145,7 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
             }
         });
         commentRecycleView.setAdapter(commentAdapter);
-        commentRecycleView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        commentRecycleView.addItemDecoration(new GridDividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         commentView = (CommentView) findViewById(R.id.comment_view);
     }
