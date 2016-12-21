@@ -41,7 +41,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#ededed"
+            android:textColor="#dcdcdc"
             android:includeFontPadding="false"
             android:textSize="16sp" />
 
@@ -52,7 +52,7 @@
             android:layout_marginLeft="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_default"
             android:maxLines="1"
-            android:textColor="#dcdcdc"
+            android:textColor="#cdcdcd"
             android:textSize="@dimen/default_text" />
 
         <TextView
@@ -62,14 +62,14 @@
             android:layout_marginLeft="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_small"
             android:maxLines="1"
-            android:textColor="#dcdcdc"
+            android:textColor="#cdcdcd"
             android:textSize="@dimen/default_text" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_thin"
             android:layout_marginTop="@dimen/row_space_medium"
-            android:background="#dcdcdc" />
+            android:background="#cdcdcd" />
 
         <LinearLayout
             android:layout_width="match_parent"

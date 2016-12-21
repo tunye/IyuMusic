@@ -41,6 +41,7 @@ import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
@@ -297,7 +298,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 i.addCategory(Intent.CATEGORY_HOME);
                 startActivity(i);
             } else {
-                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("sleepFinish"));
+                ((MusicApplication) RuntimeManager.getApplication()).exit();
             }
         } else {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放

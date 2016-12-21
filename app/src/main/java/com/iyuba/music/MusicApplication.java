@@ -2,13 +2,10 @@ package com.iyuba.music;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
-import android.support.v4.content.LocalBroadcastManager;
 
 import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.entity.artical.StudyRecordUtil;
@@ -36,7 +33,6 @@ public class MusicApplication extends Application {
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
-    private SleepBroadcast sleepBroadcast;
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
@@ -61,9 +57,6 @@ public class MusicApplication extends Application {
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
-        sleepBroadcast = new SleepBroadcast();
-        IntentFilter intentFilter = new IntentFilter("sleepFinish");
-        LocalBroadcastManager.getInstance(this).registerReceiver(sleepBroadcast, intentFilter);
         //LeakCanary.install(this);
         //CrashHandler crashHandler = new CrashHandler(this);
         //Thread.setDefaultUncaughtExceptionHandler(crashHandler);
@@ -113,7 +106,7 @@ public class MusicApplication extends Application {
         }
     }
 
-    private void stopPlayService(){
+    private void stopPlayService() {
         if (getPlayerService().getPlayer().isPlaying()) {
             getPlayerService().getPlayer().stopPlayback();
             StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
@@ -124,7 +117,6 @@ public class MusicApplication extends Application {
     public void exit() {
         removeNotification();
         stopPlayService();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(sleepBroadcast);
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
@@ -162,12 +154,5 @@ public class MusicApplication extends Application {
 
     public void setPlayerService(PlayerService playerService) {
         this.playerService = playerService;
-    }
-
-    public class SleepBroadcast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            exit();
-        }
     }
 }

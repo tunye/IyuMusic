@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
@@ -35,6 +35,7 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
@@ -44,8 +45,6 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -136,7 +135,7 @@ public class MainLeftFragment extends BaseFragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("sleepFinish"));
+                ((MusicApplication) RuntimeManager.getApplication()).exit();
             }
         });
         menuList.setAdapter(operAdapter);

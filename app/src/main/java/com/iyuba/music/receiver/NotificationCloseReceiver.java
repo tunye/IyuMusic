@@ -10,11 +10,9 @@ package com.iyuba.music.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
-import com.iyuba.music.service.BigNotificationService;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
+import com.iyuba.music.MusicApplication;
+import com.iyuba.music.manager.RuntimeManager;
 
 /**
  * @author ct <br/>
@@ -24,11 +22,6 @@ public class NotificationCloseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        Intent i = new Intent(context, BigNotificationService.class);
-        i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
-        i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_REMOVE);
-        BigNotificationService.INSTANCE.setNotificationCommand(intent);
-        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("sleepFinish"));
+        ((MusicApplication) RuntimeManager.getApplication()).exit();
     }
 }
