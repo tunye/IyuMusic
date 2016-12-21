@@ -38,12 +38,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/row_space_medium"
-            android:layout_marginTop="@dimen/row_space_medium"
+            android:layout_marginTop="@dimen/row_space_default"
             android:ellipsize="end"
+            android:includeFontPadding="false"
             android:maxLines="1"
             android:textColor="#dcdcdc"
-            android:includeFontPadding="false"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/notify_singer"
