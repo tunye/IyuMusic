@@ -2,17 +2,22 @@ package com.iyuba.music;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.buaa.ct.skin.SkinManager;
+import com.iyuba.music.entity.artical.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
+import com.iyuba.music.service.BigNotificationService;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
@@ -31,12 +36,13 @@ public class MusicApplication extends Application {
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
+    private SleepBroadcast sleepBroadcast;
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
             if (sleepSecond == 0) {
                 baseHandler.removeCallbacks(this);
-                LocalBroadcastManager.getInstance(MusicApplication.this).sendBroadcast(new Intent("sleepFinish"));
+                exit();
             } else if (sleepSecond == 1) {
                 CustomToast.INSTANCE.showToast(R.string.sleep_time_finish);
                 sleepSecond--;
@@ -55,6 +61,9 @@ public class MusicApplication extends Application {
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
+        sleepBroadcast = new SleepBroadcast();
+        IntentFilter intentFilter = new IntentFilter("sleepFinish");
+        LocalBroadcastManager.getInstance(this).registerReceiver(sleepBroadcast, intentFilter);
         //LeakCanary.install(this);
         //CrashHandler crashHandler = new CrashHandler(this);
         //Thread.setDefaultUncaughtExceptionHandler(crashHandler);
@@ -95,8 +104,27 @@ public class MusicApplication extends Application {
         activityList.clear();
     }
 
-    public void exit() {
+    private void removeNotification() {
+        if (BigNotificationService.INSTANCE.isAlive) {
+            Intent i = new Intent(this, BigNotificationService.class);
+            i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
+            i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_REMOVE);
+            BigNotificationService.INSTANCE.setNotificationCommand(i);
+        }
+    }
+
+    private void stopPlayService(){
+        if (getPlayerService().getPlayer().isPlaying()) {
+            getPlayerService().getPlayer().stopPlayback();
+            StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
+        }
         stopService(playServiceIntent);
+    }
+
+    public void exit() {
+        removeNotification();
+        stopPlayService();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(sleepBroadcast);
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
@@ -134,5 +162,12 @@ public class MusicApplication extends Application {
 
     public void setPlayerService(PlayerService playerService) {
         this.playerService = playerService;
+    }
+
+    public class SleepBroadcast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            exit();
+        }
     }
 }

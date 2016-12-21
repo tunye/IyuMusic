@@ -34,7 +34,6 @@ import com.iyuba.music.entity.artical.Article;
 import com.iyuba.music.entity.artical.ArticleOp;
 import com.iyuba.music.entity.artical.LocalInfo;
 import com.iyuba.music.entity.artical.LocalInfoOp;
-import com.iyuba.music.entity.artical.StudyRecordUtil;
 import com.iyuba.music.fragment.MainFragment;
 import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
@@ -43,10 +42,8 @@ import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
-import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
-import com.iyuba.music.service.BigNotificationService;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
@@ -72,9 +69,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private View drawView;
     private TextView toolbarOper;
     private MaterialMenuView menu;
-    private LocalBroadcastManager localBroadcastManager;
     private ChangePropertyBroadcast changeProperty;
-    private SleepBroadcast sleepBroadcast;
     private boolean isExit = false;// 是否点过退出
 
     @Override
@@ -129,13 +124,9 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         } else {
             mPushAgent.disable();
         }
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter("changeProperty");
-        localBroadcastManager.registerReceiver(changeProperty, intentFilter);
-        sleepBroadcast = new SleepBroadcast();
-        intentFilter = new IntentFilter("sleepFinish");
-        localBroadcastManager.registerReceiver(sleepBroadcast, intentFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
     }
 
     protected void initWidget() {
@@ -258,10 +249,15 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        unRegistBroadcast();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         ((MusicApplication) getApplication()).popActivity(this);
-        unRegistBroadcast();
     }
 
     @Override
@@ -301,7 +297,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 i.addCategory(Intent.CATEGORY_HOME);
                 startActivity(i);
             } else {
-                exit();
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("sleepFinish"));
             }
         } else {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
@@ -324,23 +320,8 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void unRegistBroadcast() {
-        localBroadcastManager.unregisterReceiver(changeProperty);
-        localBroadcastManager.unregisterReceiver(sleepBroadcast);
-    }
-
-    private void stopPlayService() {
-        if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
-            ((MusicApplication) getApplication()).getPlayerService().getPlayer().stopPlayback();
-            StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
-        }
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(changeProperty);
         LocationUtil.getInstance().destroy();
-    }
-
-    private void exit() {
-        unRegistBroadcast();
-        removeNotification();
-        stopPlayService();
-        ((MusicApplication) getApplication()).exit();
     }
 
     private void resetDownLoadData() {
@@ -400,15 +381,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         }
     }
 
-    private void removeNotification() {
-        if (BigNotificationService.INSTANCE.isAlive) {
-            Intent i = new Intent(context, BigNotificationService.class);
-            i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
-            i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_REMOVE);
-            BigNotificationService.INSTANCE.setNotificationCommand(i);
-        }
-    }
-
     @Override
     public void notifyChange(int arg, String des) {
 
@@ -442,16 +414,8 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     class ChangePropertyBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            unRegistBroadcast();
             ((MusicApplication) getApplication()).clearActivityList();
             startActivity(new Intent(context, MainActivity.class));
-        }
-    }
-
-    class SleepBroadcast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            exit();
         }
     }
 }

@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_toRightOf="@+id/notify_pic_layout"
-        android:background="#44000000"
+        android:background="#343434"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -41,8 +41,9 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#bcbcbc"
-            android:textSize="15sp" />
+            android:textColor="#ededed"
+            android:includeFontPadding="false"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/notify_singer"
@@ -51,7 +52,7 @@
             android:layout_marginLeft="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_default"
             android:maxLines="1"
-            android:textColor="#ababab"
+            android:textColor="#dcdcdc"
             android:textSize="@dimen/default_text" />
 
         <TextView
@@ -61,14 +62,14 @@
             android:layout_marginLeft="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_small"
             android:maxLines="1"
-            android:textColor="#ababab"
+            android:textColor="#dcdcdc"
             android:textSize="@dimen/default_text" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_thin"
             android:layout_marginTop="@dimen/row_space_medium"
-            android:background="#999" />
+            android:background="#dcdcdc" />
 
         <LinearLayout
             android:layout_width="match_parent"

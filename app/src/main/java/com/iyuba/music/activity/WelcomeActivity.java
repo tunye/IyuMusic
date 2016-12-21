@@ -134,19 +134,17 @@ public class WelcomeActivity extends AppCompatActivity {
                 case 1:
                     if (activity.autoStart) {
                         activity.startActivity(new Intent(activity, MainActivity.class));
-                    } else {
-                        ((MusicApplication) activity.getApplication()).popActivity(activity);
-                        activity.finish();
                     }
+                    ((MusicApplication) activity.getApplication()).popActivity(activity);
+                    activity.finish();
                     break;
                 case 2:
                     if (activity.autoStart) {
                         activity.startActivity(new Intent(activity, MainActivity.class));
                         activity.startActivity(new Intent(activity, HelpUseActivity.class));
-                    } else {
-                        ((MusicApplication) activity.getApplication()).popActivity(activity);
-                        activity.finish();
                     }
+                    ((MusicApplication) activity.getApplication()).popActivity(activity);
+                    activity.finish();
                     break;
                 case 3:
                     String adUrl = SettingConfigManager.instance.getADUrl();
