@@ -40,7 +40,7 @@ public class WaitingDialog {
             } else {
                 animationMessage.setText(message);
             }
-            AVLoadingIndicatorView loading=(AVLoadingIndicatorView)layout.findViewById(R.id.waitting_animation);
+            AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
             loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
             return new Dialog(context, layout, false);
         }

@@ -125,8 +125,8 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--eggshell-->
         <activity android:name=".activity.eggshell.EggShellActivity" />
-        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator"/>
-        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList"/>
+        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator" />
+        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList" />
         <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity" />
         <activity android:name=".activity.eggshell.view_animations.MyActivity" />
         <activity android:name=".activity.eggshell.meizhi.MeizhiActivity" />

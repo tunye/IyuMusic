@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:indicatorName="PacmanIndicator"
-        app:indicatorColor="@color/skin_app_color" />
+        app:indicatorColor="@color/skin_app_color"
+        app:indicatorName="PacmanIndicator" />
 
     <TextView
         android:id="@+id/waitting_text"

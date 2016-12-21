@@ -16,10 +16,10 @@
         android:id="@+id/loading_indicator_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/text_color"
         android:layout_below="@+id/loading_indicator"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+        android:textColor="@color/text_color"
         android:textIsSelectable="true"
         android:textSize="18sp" />
 </RelativeLayout>

@@ -96,7 +96,7 @@ public class UploadFile {
             con.setDoInput(true);
             con.setDoOutput(true);
             con.setUseCaches(false);
-			/* 设定传送的method=POST */
+            /* 设定传送的method=POST */
             con.setRequestMethod("POST");
             con.setDoInput(true);
             con.setDoOutput(true);
