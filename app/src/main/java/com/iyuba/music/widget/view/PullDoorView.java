@@ -123,8 +123,8 @@ public class PullDoorView extends RelativeLayout {
             postInvalidate();
         } else {
             if (mCloseFlag) {
-                this.setVisibility(View.GONE);
                 LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("pulldoor.finish"));
+                this.setVisibility(View.GONE);
             }
         }
     }

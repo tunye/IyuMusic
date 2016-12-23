@@ -4,15 +4,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.iyuba.music.R;
 import com.iyuba.music.fragmentAdapter.HelpFragmentAdapter;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.umeng.analytics.MobclickAgent;
 
@@ -35,7 +39,14 @@ public class HelpUseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
+            window.setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         helpFinishBroadcast = new HelpFinishBroadcast();
@@ -106,13 +117,16 @@ public class HelpUseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         localBroadcastManager.unregisterReceiver(helpFinishBroadcast);
     }
 
     class HelpFinishBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            pi.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            localBroadcastManager.unregisterReceiver(helpFinishBroadcast);
             HelpUseActivity.this.finish();
         }
     }
