@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="comment-">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/comment/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/comment/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/comment/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

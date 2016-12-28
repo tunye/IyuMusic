@@ -58,8 +58,8 @@ public class MusicApplication extends Application {
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
         //LeakCanary.install(this);
-        //CrashHandler crashHandler = new CrashHandler(this);
-        //Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        CrashHandler crashHandler = new CrashHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
 
     @Override
