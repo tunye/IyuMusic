@@ -69,12 +69,12 @@ public class WelcomeActivity extends AppCompatActivity {
         AdPicRequest.getInstance().exeRequest(AdPicRequest.getInstance().generateUrl(ConstantManager.instance.getAppId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                handler.sendEmptyMessage(3);
+                handler.sendEmptyMessage(2);
             }
 
             @Override
             public void onServerError(String msg) {
-                handler.sendEmptyMessage(3);
+                handler.sendEmptyMessage(2);
             }
 
             @Override
@@ -168,7 +168,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         activity.finish();
                     }
                     break;
-                case 3:
+                case 2:
                     String adUrl = SettingConfigManager.instance.getADUrl();
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.footer.setImageResource(R.drawable.default_footer);
