@@ -10,6 +10,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -34,7 +35,8 @@ import java.util.ArrayList;
 public class WelcomeActivity extends AppCompatActivity {
     boolean autoStart = true;
     Context context;
-
+    private static final int STARTFORWEBAD = 100;
+    private boolean showAd, showGuide;
     ImageView footer, header;
     ArrayList<AdEntity> adEntities;
 
@@ -49,6 +51,15 @@ public class WelcomeActivity extends AppCompatActivity {
         autoStart = getIntent().getBooleanExtra("autoStart", true);
         footer = (ImageView) findViewById(R.id.welcome_footer);
         header = (ImageView) findViewById(R.id.welcome_header);
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", "https://www.baidu.com");
+                showAd = true;
+                startActivityForResult(intent, STARTFORWEBAD);
+            }
+        });
         getBannerPic();
         DBoper();
         ((MusicApplication) getApplication()).pushActivity(this);
@@ -90,18 +101,17 @@ public class WelcomeActivity extends AppCompatActivity {
             db.setVersion(0, 1);// 有需要数据库更改使用
             db.openDatabase();
             SettingConfigManager.instance.setUpgrade(true);
+            showGuide = true;
             ConfigManager.instance.putInt("version", currentVersion);
-            handler.sendEmptyMessageDelayed(2, 4000);
-        } else if (currentVersion == lastVersion) {
-            handler.sendEmptyMessageDelayed(1, 4000);
         } else if (currentVersion > lastVersion) {
             if (lastVersion < 72 && SettingConfigManager.instance.getOriginalSize() == 14) {
                 SettingConfigManager.instance.setOriginalSize(16);
             }
             ConfigManager.instance.putInt("version", currentVersion);
+            showGuide = true;
             SettingConfigManager.instance.setUpgrade(true);
-            handler.sendEmptyMessageDelayed(2, 4000);
         }
+        handler.sendEmptyMessageDelayed(1, 4000);
     }
 
     private void addShortcut(Class cls, String name, int picResId) {
@@ -122,6 +132,21 @@ public class WelcomeActivity extends AppCompatActivity {
         sendBroadcast(shortcutintent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == STARTFORWEBAD) {
+            if (autoStart) {
+                startActivity(new Intent(context, MainActivity.class));
+                if (showGuide) {
+                    startActivity(new Intent(context, HelpUseActivity.class));
+                }
+            }
+            ((MusicApplication) getApplication()).popActivity(this);
+            finish();
+        }
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
         @Override
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
@@ -132,19 +157,16 @@ public class WelcomeActivity extends AppCompatActivity {
                     SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl() + "@@@" + activity.adEntities.get(1).getPicUrl());
                     break;
                 case 1:
-                    if (activity.autoStart) {
-                        activity.startActivity(new Intent(activity, MainActivity.class));
+                    if (!activity.showAd) {
+                        if (activity.autoStart) {
+                            activity.startActivity(new Intent(activity, MainActivity.class));
+                            if (activity.showGuide) {
+                                activity.startActivity(new Intent(activity, HelpUseActivity.class));
+                            }
+                        }
+                        ((MusicApplication) activity.getApplication()).popActivity(activity);
+                        activity.finish();
                     }
-                    ((MusicApplication) activity.getApplication()).popActivity(activity);
-                    activity.finish();
-                    break;
-                case 2:
-                    if (activity.autoStart) {
-                        activity.startActivity(new Intent(activity, MainActivity.class));
-                        activity.startActivity(new Intent(activity, HelpUseActivity.class));
-                    }
-                    ((MusicApplication) activity.getApplication()).popActivity(activity);
-                    activity.finish();
                     break;
                 case 3:
                     String adUrl = SettingConfigManager.instance.getADUrl();
