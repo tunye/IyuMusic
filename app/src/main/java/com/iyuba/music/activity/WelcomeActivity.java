@@ -26,6 +26,7 @@ import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.RoundProgressBar;
 
 import java.util.ArrayList;
 
@@ -33,13 +34,15 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/11/16.
  */
 public class WelcomeActivity extends AppCompatActivity {
-    boolean autoStart = true;
-    Context context;
-    private static final int STARTFORWEBAD = 100;
-    private boolean showAd, showGuide;
-    ImageView footer, header;
-    ArrayList<AdEntity> adEntities;
-
+    private static final int START_FOR_WEBAD = 100;             // 进入开屏广告
+    private View escapeAd;
+    private ImageView footer, header;
+    private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
+    private ArrayList<AdEntity> adEntities;                     // 开屏广告对象
+    private boolean normalStart = true;                         // 是否正常进入程序
+    private boolean showAd;                                     // 是否进入广告
+    private boolean showGuide;                                  // 是否跳转开屏引导
+    private Context context;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
@@ -48,21 +51,46 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.welcome);
         context = this;
-        autoStart = getIntent().getBooleanExtra("autoStart", true);
+        normalStart = getIntent().getBooleanExtra("normalStart", true);
+        initWidget();
+        setListener();
+        getBannerPic();
+        initialDatabase();
+        ((MusicApplication) getApplication()).pushActivity(this);
+    }
+
+    private void initWidget() {
+        escapeAd = findViewById(R.id.welcome_escape_ad);
         footer = (ImageView) findViewById(R.id.welcome_footer);
         header = (ImageView) findViewById(R.id.welcome_header);
+        welcomeAdProgressbar = (RoundProgressBar) findViewById(R.id.welcome_ad_progressbar);
+        initWelcomeAdProgress();
+    }
+
+    private void setListener() {
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showAd = true;
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "https://www.baidu.com");
-                showAd = true;
-                startActivityForResult(intent, STARTFORWEBAD);
+                startActivityForResult(intent, START_FOR_WEBAD);
             }
         });
-        getBannerPic();
-        DBoper();
-        ((MusicApplication) getApplication()).pushActivity(this);
+        escapeAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handler.removeMessages(1);
+                handler.removeMessages(3);
+                handler.sendEmptyMessage(1);
+            }
+        });
+    }
+
+    private void initWelcomeAdProgress() {
+        welcomeAdProgressbar.setProgress(150);                  // 为progress设置一个初始值
+        welcomeAdProgressbar.setMax(4000);                      // 总计等待4s
+        handler.sendEmptyMessageDelayed(3, 500);                // 半秒刷新进度
     }
 
     private void getBannerPic() {
@@ -86,7 +114,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void DBoper() {
+    private void initialDatabase() {
         int lastVersion = ConfigManager.instance.loadInt("version");
         int currentVersion = 0;
         PackageInfo info = null;
@@ -98,20 +126,22 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         if ((info != null && info.firstInstallTime == info.lastUpdateTime) || lastVersion == 0) {
             ImportDatabase db = ImportDatabase.getInstance();
-            db.setVersion(0, 1);// 有需要数据库更改使用
+            db.setVersion(0, 1);                                // 有需要数据库更改使用
             db.openDatabase();
-            SettingConfigManager.instance.setUpgrade(true);
-            showGuide = true;
-            ConfigManager.instance.putInt("version", currentVersion);
+            appUpgrade(currentVersion);
         } else if (currentVersion > lastVersion) {
             if (lastVersion < 72 && SettingConfigManager.instance.getOriginalSize() == 14) {
-                SettingConfigManager.instance.setOriginalSize(16);
+                SettingConfigManager.instance.setOriginalSize(16);   // 修改默认文字大小
             }
-            ConfigManager.instance.putInt("version", currentVersion);
-            showGuide = true;
-            SettingConfigManager.instance.setUpgrade(true);
+            appUpgrade(currentVersion);
         }
-        handler.sendEmptyMessageDelayed(1, 4000);
+        handler.sendEmptyMessageDelayed(1, 5000);
+    }
+
+    private void appUpgrade(int currentVersion) {
+        showGuide = true;
+        SettingConfigManager.instance.setUpgrade(true);
+        ConfigManager.instance.putInt("version", currentVersion);
     }
 
     private void addShortcut(Class cls, String name, int picResId) {
@@ -135,8 +165,8 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == STARTFORWEBAD) {
-            if (autoStart) {
+        if (requestCode == START_FOR_WEBAD) {
+            if (normalStart) {
                 startActivity(new Intent(context, MainActivity.class));
                 if (showGuide) {
                     startActivity(new Intent(context, HelpUseActivity.class));
@@ -154,11 +184,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 case 0:
                     ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
                     ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
-                    SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl() + "@@@" + activity.adEntities.get(1).getPicUrl());
+                    SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl()
+                            + "@@@" + activity.adEntities.get(1).getPicUrl());
                     break;
                 case 1:
                     if (!activity.showAd) {
-                        if (activity.autoStart) {
+                        if (activity.normalStart) {
                             activity.startActivity(new Intent(activity, MainActivity.class));
                             if (activity.showGuide) {
                                 activity.startActivity(new Intent(activity, HelpUseActivity.class));
@@ -176,6 +207,16 @@ public class WelcomeActivity extends AppCompatActivity {
                         String[] adUrls = adUrl.split("@@@");
                         ImageUtil.loadImage(adUrls[0], activity.header);
                         ImageUtil.loadImage(adUrls[1], activity.footer);
+                    }
+                    break;
+                case 3:
+                    int progress = activity.welcomeAdProgressbar.getProgress();
+                    if (progress < 4000) {
+                        progress = progress < 500 ? 500 : progress + 500;
+                        activity.welcomeAdProgressbar.setProgress(progress);
+                        activity.handler.sendEmptyMessageDelayed(3, 500);
+                    } else {
+                        activity.welcomeAdProgressbar.setVisibility(View.INVISIBLE);
                     }
                     break;
             }

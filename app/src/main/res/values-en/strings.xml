@@ -500,4 +500,5 @@
     <string name="webview_source">Tbis website is provided by %1$s.</string>
     <string name="webview_technique">Google Chrome provided webview service.</string>
     <string name="webview_clip_board">Copy this link</string>
+
 </resources>

@@ -3,17 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/skin_app_color"
+    android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/welcome_header"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
         app:layout_heightPercent="86%"
-        app:layout_widthPercent="100%" />
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:id="@+id/welcome_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:id="@+id/welcome_escape_ad"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <com.iyuba.music.widget.RoundProgressBar
+                android:id="@+id/welcome_ad_progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cp_circleColor="@color/background"
+                app:cp_circleProgressColor="@color/skin_app_color"
+                app:cp_circleWidth="@dimen/line_default"
+                app:cp_textIsDisplayable="false" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/escape_ad" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#ededed"
+                android:textSize="@dimen/small_text"
+                android:text="@string/welcome_escape_ad" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/welcome_footer"

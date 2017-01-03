@@ -50,7 +50,6 @@
     <string name="file_size">大小</string>
     <string name="file_contents">内容</string>
     <string name="file_lastmodified">最后修改时间</string>
-
     <string name="file_remove">文件迁移</string>
     <string name="file_remove_info">文件正在移动中，请稍候……</string>
     <string name="file_path_move_success">迁移成功</string>
@@ -501,4 +500,5 @@
     <string name="webview_source">本网页由 %1$s 提供</string>
     <string name="webview_technique">Google Chrome内核提供技术支持</string>
     <string name="webview_clip_board">链接已复制</string>
+
 </resources>

@@ -501,4 +501,6 @@
     <string name="webview_source">本网页由 %1$s 提供</string>
     <string name="webview_technique">Google Chrome内核提供技术支持</string>
     <string name="webview_clip_board">链接已复制</string>
+    <!--开屏-->
+    <string name="welcome_escape_ad">跳过</string>
 </resources>
