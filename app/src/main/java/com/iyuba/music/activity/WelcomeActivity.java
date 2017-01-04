@@ -135,7 +135,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
             appUpgrade(currentVersion);
         }
-        handler.sendEmptyMessageDelayed(1, 5000);
+        handler.sendEmptyMessageDelayed(1, 4500);
     }
 
     private void appUpgrade(int currentVersion) {
