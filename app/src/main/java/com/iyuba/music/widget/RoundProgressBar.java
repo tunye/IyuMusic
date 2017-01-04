@@ -54,7 +54,7 @@ public class RoundProgressBar extends View {
         textSize = mTypedArray.getDimension(
                 R.styleable.circleProgressBar_cp_textSize, 16);
         roundWidth = mTypedArray.getDimension(
-                R.styleable.circleProgressBar_cp_circleWidth, 5);
+                R.styleable.circleProgressBar_cp_circleWidth, 6);
         max = mTypedArray.getInteger(R.styleable.circleProgressBar_cp_max, 100);
         textIsDisplayable = mTypedArray.getBoolean(
                 R.styleable.circleProgressBar_cp_textIsDisplayable, true);

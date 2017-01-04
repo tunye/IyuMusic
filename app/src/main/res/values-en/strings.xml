@@ -500,5 +500,6 @@
     <string name="webview_source">Tbis website is provided by %1$s.</string>
     <string name="webview_technique">Google Chrome provided webview service.</string>
     <string name="webview_clip_board">Copy this link</string>
-
+    <!--开屏-->
+    <string name="welcome_escape_ad">跳过</string>
 </resources>
