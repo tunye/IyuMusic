@@ -41,6 +41,6 @@ public class MusicActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        title.setText(R.string.artical_song);
+        title.setText(R.string.article_song);
     }
 }

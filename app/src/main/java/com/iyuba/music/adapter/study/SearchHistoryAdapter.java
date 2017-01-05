@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.iyuba.music.R;
-import com.iyuba.music.entity.artical.SearchHistory;
-import com.iyuba.music.entity.artical.SearchHistoryOp;
+import com.iyuba.music.entity.article.SearchHistory;
+import com.iyuba.music.entity.article.SearchHistoryOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 
 import java.util.ArrayList;

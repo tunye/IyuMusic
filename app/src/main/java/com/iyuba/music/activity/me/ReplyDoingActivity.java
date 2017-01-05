@@ -178,7 +178,7 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
         ImageUtil.loadAvatar(doing.getUid(), doingPhoto);
         doingUserName.setText(doing.getUsername());
         doingMessage.setText(doing.getMessage());
-        doingReplyCounts.setText(context.getString(R.string.artical_commentcount, doing.getReplynum()));
+        doingReplyCounts.setText(context.getString(R.string.article_commentcount, doing.getReplynum()));
         doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
         selectComment = new DoingComment();
         onRefresh(0);

@@ -8,7 +8,7 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.text.TextUtils;
 
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.util.Mathematics;
 
 import java.util.ArrayList;

@@ -30,7 +30,7 @@
                 android:id="@+id/welcome_ad_progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cp_circleColor="@color/background"
+                app:cp_circleColor="#dcdcdc"
                 app:cp_circleProgressColor="@color/skin_app_color"
                 app:cp_circleWidth="@dimen/line_thin"
                 app:cp_textIsDisplayable="false" />

@@ -13,8 +13,8 @@ import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
@@ -80,7 +80,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         holder.title.setTextColor(GetAppColor.instance.getAppColor(context));
         holder.content.setText(article.getContent());
         holder.time.setText(article.getTime().split(" ")[0]);
-        holder.readCount.setText(context.getString(R.string.artical_readcount, article.getReadCount()));
+        holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
         holder.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +93,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     downloadFile.downloadState = "start";
                     DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
-                    CustomToast.INSTANCE.showToast(R.string.artical_download_start);
+                    CustomToast.INSTANCE.showToast(R.string.article_download_start);
                 }
             }
         });
@@ -112,11 +112,11 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            content = (TextView) view.findViewById(R.id.artical_content);
-            time = (TextView) view.findViewById(R.id.artical_createtime);
-            pic = (ImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            title = (TextView) view.findViewById(R.id.article_title);
+            content = (TextView) view.findViewById(R.id.article_content);
+            time = (TextView) view.findViewById(R.id.article_createtime);
+            pic = (ImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }
 }

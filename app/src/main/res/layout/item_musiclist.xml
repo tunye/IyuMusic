@@ -13,7 +13,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/artical_image"
+            android:id="@+id/article_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="@dimen/row_space_big"
@@ -25,11 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/artical_image"
+            android:layout_toRightOf="@+id/article_image"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/artical_title"
+                android:id="@+id/article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -43,7 +43,7 @@
                 android:layout_marginTop="@dimen/row_space_big">
 
                 <TextView
-                    android:id="@+id/artical_announcer"
+                    android:id="@+id/article_announcer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -51,7 +51,7 @@
                     android:textSize="@dimen/medium_text" />
 
                 <TextView
-                    android:id="@+id/artical_readcount"
+                    android:id="@+id/article_readcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

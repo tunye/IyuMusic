@@ -13,10 +13,10 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.MusicAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -184,7 +184,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
             getNewsData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+            CustomToast.INSTANCE.showToast(R.string.article_load_all);
         }
     }
 
@@ -192,7 +192,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
         ClassifyNewsRequest.getInstance().exeRequest(ClassifyNewsRequest.getInstance().generateUrl(classify, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if ((ClassifySongList.this.getClass().getName() + classify).equals(StudyManager.instance.getListFragmentPos())) {
                     StudyManager.instance.setSourceArticleList(newsList);
@@ -202,7 +202,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (ClassifySongList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
                     StudyManager.instance.setSourceArticleList(newsList);
@@ -217,7 +217,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+                    CustomToast.INSTANCE.showToast(R.string.article_load_all);
                 } else {
                     newsList.addAll(netData);
                     newsAdapter.setDataSet(newsList);

@@ -231,36 +231,37 @@
     <!--word card-->
     <string name="word_select_null">Please select word</string>
     <string name="word_select_suggest">Please select word in the third tab</string>
-    <string name="wordcard_add">Add</string>
-    <string name="wordcard_add_already">Already added</string>
-    <string name="wordcard_close">Close</string>
+    <string name="word_card_add">Add</string>
+    <string name="word_card_add_already">Already added</string>
+    <string name="word_card_close">Close</string>
     <!--新闻列表-->
-    <string name="artical_local">Reading local data</string>
-    <string name="artical_singer">S: %1$s</string>
-    <string name="artical_announcer">B: %1$s</string>
-    <string name="artical_uploader">U: %1$s</string>
-    <string name="artical_readcount">Readcount %1$s</string>
-    <string name="artical_listcount">%1$s songs</string>
-    <string name="artical_duration">Duration %1$s</string>
-    <string name="artical_search_info">%1$s titles;%2$s texts matched</string>
-    <string name="artical_search_all">Search result is loaded</string>
-    <string name="artical_load_all">Article loading is completed</string>
-    <string name="artical_no_search">No search result</string>
-    <string name="atricle_search_clear_all">Clear all the search records</string>
-    <string name="atricle_search_clear_hint">Are you sure to clear all the search records?</string>
-    <string name="atricle_search_clear_sure">Clear</string>
-    <string name="artical_advice_1">Not satisfied?</string>
-    <string name="artical_advice_2">No matched result?</string>
-    <string name="artical_advice">Recommend</string>
-    <string name="artical_announcer_home">Home</string>
-    <string name="artical_download_fail">Download failed</string>
-    <string name="artical_download_success">Download success</string>
-    <string name="artical_download_start">Download start, you got it!</string>
-    <string name="artical_synchro">Synchro</string>
-    <string name="artical_edit">Edit</string>
-    <string name="artical_edit_finish">Done</string>
-    <string name="artical_fav_synchroing">Favorite list sychronization in process…</string>
-    <string name="artical_song">Classic Song</string>
+    <string name="article_local">Reading local data</string>
+    <string name="article_singer">S: %1$s</string>
+    <string name="article_announcer">B: %1$s</string>
+    <string name="article_uploader">U: %1$s</string>
+    <string name="article_read_count">Readcount %1$s</string>
+    <string name="article_list_count">%1$s songs</string>
+    <string name="article_duration">Duration %1$s</string>
+    <string name="article_search_info">%1$s titles;%2$s texts matched</string>
+    <string name="article_search_all">Search result is loaded</string>
+    <string name="article_load_all">Article loading is completed</string>
+    <string name="article_no_search">No search result</string>
+    <string name="article_search_clear_all">Clear all the search records</string>
+    <string name="article_search_clear_hint">Are you sure to clear all the search records?</string>
+    <string name="article_search_clear_sure">Clear</string>
+    <string name="article_advice_1">Not satisfied?</string>
+    <string name="article_advice_2">No matched result?</string>
+    <string name="article_advice">Recommend</string>
+    <string name="article_announcer_home">Home</string>
+    <string name="article_download_fail">Download failed</string>
+    <string name="article_download_success">Download success</string>
+    <string name="article_download_start">Download start, you got it!</string>
+    <string name="article_synchro">Synchro</string>
+    <string name="article_edit">Edit</string>
+    <string name="article_edit_finish">Done</string>
+    <string name="article_fav_synchroing">Favorite list sychronization in process…</string>
+    <string name="article_song">Classic Song</string>
+    <string name="article_song_list">All Classic Song List</string>
     <!--分类-->
     <string name="classify_group_person">User classification</string>
     <string name="classify_group_system">System classification</string>
@@ -298,11 +299,11 @@
     <string name="study_listen_finish">Study an article already, credits added 10 percents.</string>
     <!--评论-->
     <string name="comment_title">Comment</string>
-    <string name="artical_commentcount">%1$s comments</string>
-    <string name="commnet_agree_success">Upvote success</string>
+    <string name="article_commentcount">%1$s comments</string>
+    <string name="comment_agree_success">Upvote success</string>
     <string name="comment_agree_fail">Upvote failed</string>
     <string name="comment_already">You have made comment already</string>
-    <string name="commnet_against_success">Downvote success</string>
+    <string name="comment_against_success">Downvote success</string>
     <string name="comment_against_fail">Downvote failed</string>
     <string name="comment_get_all">Comment loading success</string>
     <string name="comment_play_fail">Comment play failed</string>
@@ -316,7 +317,7 @@
     <!--会员界面-->
     <string name="vip_recharge">Recharge</string>
     <string name="vip_title">VIP center</string>
-    <string name="vip_privilige">VIP privilege</string>
+    <string name="vip_privilege">VIP privilege</string>
     <string name="vip_symbol">VIP symbol</string>
     <string name="vip_symbol_content">Enjoy unique VIP symbol</string>
     <string name="vip_allapp">All APP VIP</string>
@@ -416,11 +417,11 @@
     <string name="search_do">Search</string>
     <string name="search_close">Close</string>
     <string name="search_result">Search“%1$s”, totally %2$d search results</string>
-    <string name="artical_download_over">Download already</string>
-    <string name="artical_downloading">Downloading</string>
-    <string name="artical_favor">Favorite success</string>
-    <string name="artical_favor_cancel">Favorite cancel success</string>
-    <string name="artical_share_success">Share success, score added %1$s, score now is %2$s</string>
+    <string name="article_download_over">Download already</string>
+    <string name="article_downloading">Downloading</string>
+    <string name="article_favor">Favorite success</string>
+    <string name="article_favor_cancel">Favorite cancel success</string>
+    <string name="article_share_success">Share success, score added %1$s, score now is %2$s</string>
     <!--read-->
     <string name="no_read">Would you like to comment this article?</string>
     <string name="read_del_fail">Delete song failed.</string>

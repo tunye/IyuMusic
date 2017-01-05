@@ -24,6 +24,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
@@ -89,6 +90,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initWelcomeAdProgress() {
+        welcomeAdProgressbar.setCricleProgressColor(GetAppColor.instance.getAppColor(context));
         welcomeAdProgressbar.setProgress(150);                  // 为progress设置一个初始值
         welcomeAdProgressbar.setMax(4000);                      // 总计等待4s
         handler.sendEmptyMessageDelayed(3, 500);                // 半秒刷新进度

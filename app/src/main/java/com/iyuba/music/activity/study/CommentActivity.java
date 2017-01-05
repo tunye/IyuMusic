@@ -24,7 +24,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
@@ -63,7 +63,7 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Article curArticle;
     private ImageView img;
-    private TextView articalTitle, singer, announecr, count;
+    private TextView articleTitle, singer, announecr, count;
     private RecyclerView commentRecycleView;
     private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
@@ -112,7 +112,7 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
         toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
 
         img = (ImageView) findViewById(R.id.article_img);
-        articalTitle = (TextView) findViewById(R.id.article_title);
+        articleTitle = (TextView) findViewById(R.id.article_title);
         announecr = (TextView) findViewById(R.id.article_announcer);
         singer = (TextView) findViewById(R.id.article_singer);
         count = (TextView) findViewById(R.id.article_comment_count);
@@ -220,10 +220,10 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
         title.setText(R.string.comment_title);
         curArticle = StudyManager.instance.getCurArticle();
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
-        articalTitle.setText(curArticle.getTitle());
-        announecr.setText(context.getString(R.string.artical_announcer, curArticle.getBroadcaster()));
-        singer.setText(context.getString(R.string.artical_singer, curArticle.getSinger()));
-        count.setText(context.getString(R.string.artical_commentcount, "0"));
+        articleTitle.setText(curArticle.getTitle());
+        announecr.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
+        singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
+        count.setText(context.getString(R.string.article_commentcount, "0"));
         onRefresh(0);
     }
 
@@ -362,7 +362,7 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
             switch (msg.what) {
                 case 0:
                     activity.commentAdapter.setDataSet(activity.comments);
-                    activity.count.setText(activity.getString(R.string.artical_commentcount, msg.obj.toString()));
+                    activity.count.setText(activity.getString(R.string.article_commentcount, msg.obj.toString()));
                     break;
                 case 1:
                     activity.startUploadVoice(msg.obj.toString());

@@ -11,10 +11,10 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.DownloadNewsAdapter;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
@@ -93,12 +93,12 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (toolbarOper.getText().equals(context.getString(R.string.artical_edit))) {
+                if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
-                    toolbarOper.setText(R.string.artical_edit_finish);
+                    toolbarOper.setText(R.string.article_edit_finish);
                 } else {
                     newsAdapter.setDelete(false);
-                    toolbarOper.setText(R.string.artical_edit);
+                    toolbarOper.setText(R.string.article_edit);
                     newsList = newsAdapter.getDataSet();
                     Article temp;
                     for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
@@ -122,7 +122,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.classify_local);
-        toolbarOper.setText(R.string.artical_edit);
+        toolbarOper.setText(R.string.article_edit);
         getData();
     }
 
@@ -176,7 +176,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     public void onBackPressed() {
         if (newsAdapter.isDelete()) {
             newsAdapter.setDelete(false);
-            toolbarOper.setText(R.string.artical_edit);
+            toolbarOper.setText(R.string.article_edit);
         } else {
             super.onBackPressed();
         }

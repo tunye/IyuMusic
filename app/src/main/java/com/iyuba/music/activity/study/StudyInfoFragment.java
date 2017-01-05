@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.ImageUtil;
@@ -47,8 +47,8 @@ public class StudyInfoFragment extends BaseFragment {
         Article curArticle = StudyManager.instance.getCurArticle();
         if (StudyManager.instance.getApp().equals("209")) {
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
-            announcer.setText(context.getString(R.string.artical_announcer, curArticle.getBroadcaster()));
-            singer.setText(context.getString(R.string.artical_singer, curArticle.getSinger()));
+            announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
+            singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
         } else {
             ImageUtil.loadImage(curArticle.getPicUrl(), img, R.drawable.default_music);
             singer.setText(curArticle.getTitle_cn());

@@ -16,8 +16,8 @@ import com.iyuba.music.activity.main.MusicActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.mainpanel.SongCategory;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -26,6 +26,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.banner.BannerView;
@@ -143,7 +144,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 });
             }
             newsViewHolder.text.setText(songCategory.getText());
-            newsViewHolder.count.setText(context.getString(R.string.artical_listcount, songCategory.getCount()));
+            newsViewHolder.count.setText(context.getString(R.string.article_list_count, songCategory.getCount()));
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + songCategory.getImgUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
         } else if (holder instanceof AdViewHolder) {
@@ -172,6 +173,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
+            bannerView.setSelectItemColor(GetAppColor.instance.getAppColor(view.getContext()));
         }
 
         void setBannerData(final List<BannerEntity> datas) {

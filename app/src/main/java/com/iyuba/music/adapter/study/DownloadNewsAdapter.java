@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -105,12 +105,12 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
         holder.title.setText(article.getTitle());
         if ("209".equals(article.getApp())) {
-            holder.singer.setText(context.getString(R.string.artical_singer, article.getSinger()));
-            holder.broadcaster.setText(context.getString(R.string.artical_announcer, article.getBroadcaster()));
+            holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         } else {
             holder.singer.setText(article.getContent());
         }
-        holder.readCount.setText(context.getString(R.string.artical_readcount, article.getReadCount()));
+        holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
         if (localInfoOp.findDataById(article.getApp(), article.getId()).getDownload() == 2) {
             final int id = article.getId();
             holder.download.setVisibility(View.VISIBLE);
@@ -167,12 +167,12 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            singer = (TextView) view.findViewById(R.id.artical_singer);
-            broadcaster = (TextView) view.findViewById(R.id.artical_announcer);
+            title = (TextView) view.findViewById(R.id.article_title);
+            singer = (TextView) view.findViewById(R.id.article_singer);
+            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
             download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
-            pic = (ImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            pic = (ImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
             delete = (CheckBox) view.findViewById(R.id.item_delete);
         }
     }

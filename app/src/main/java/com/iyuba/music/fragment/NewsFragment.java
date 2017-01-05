@@ -14,10 +14,10 @@ import com.iyuba.music.adapter.study.NewsAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -192,7 +192,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         NewsListRequest.getInstance().exeRequest(NewsListRequest.getInstance().generateUrl(maxid), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
                 if (!StudyManager.instance.isStartPlaying() && newsList.size() != 0) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
@@ -207,7 +207,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
                 if (!StudyManager.instance.isStartPlaying() && newsList.size() != 0) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
@@ -230,7 +230,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                         break;
                     case MySwipeRefreshLayout.BOTTOM_REFRESH:
                         if (netData.size() == 0) {
-                            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+                            CustomToast.INSTANCE.showToast(R.string.article_load_all);
                         } else {
                             newsList.addAll(netData);
                         }

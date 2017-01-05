@@ -152,9 +152,9 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             }
             def.setText(word.getDef());
             if (collected) {
-                add.setText(R.string.wordcard_add_already);
+                add.setText(R.string.word_card_add_already);
             } else {
-                add.setText(R.string.wordcard_add);
+                add.setText(R.string.word_card_add);
             }
         }
     }

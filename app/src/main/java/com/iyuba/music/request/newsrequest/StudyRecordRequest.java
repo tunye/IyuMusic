@@ -5,7 +5,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.entity.artical.StudyRecord;
+import com.iyuba.music.entity.article.StudyRecord;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;

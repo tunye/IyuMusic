@@ -12,7 +12,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.ShareAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.StudyManager;
@@ -203,7 +203,7 @@ public class ShareDialog {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
                 switch (apiEntity.getState()) {
                     case SUCCESS:
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.artical_share_success, apiEntity.getMessage(), apiEntity.getValue()));
+                        CustomToast.INSTANCE.showToast(context.getString(R.string.article_share_success, apiEntity.getMessage(), apiEntity.getValue()));
                         break;
                     case FAIL:
                         CustomToast.INSTANCE.showToast(apiEntity.getMessage());

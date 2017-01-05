@@ -68,6 +68,14 @@ public class BannerView extends RelativeLayout {
         setAttr(attrs);
     }
 
+    public void setSelectItemColor(int selectItemColor) {
+        this.selectItemColor = selectItemColor;
+    }
+
+    public void setUnselectedItemColor(int unselectedItemColor) {
+        this.unselectedItemColor = unselectedItemColor;
+    }
+
     private void setAttr(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.bannerview);
         selectItemColor = a.getColor(R.styleable.bannerview_banner_select_color, selectItemColor);

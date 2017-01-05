@@ -7,9 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.entity.artical.StudyRecord;
-import com.iyuba.music.entity.artical.StudyRecordOp;
-import com.iyuba.music.entity.artical.StudyRecordUtil;
+import com.iyuba.music.entity.article.StudyRecord;
+import com.iyuba.music.entity.article.StudyRecordOp;
+import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.listener.IOperationResult;

@@ -20,10 +20,10 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -182,7 +182,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
             getData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+            CustomToast.INSTANCE.showToast(R.string.article_load_all);
         }
     }
 
@@ -240,7 +240,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
         SimpleNewsListRequest.getInstance().exeRequest(getTitleUrl, app, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.instance.isStartPlaying()) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
@@ -255,7 +255,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.instance.isStartPlaying()) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));

@@ -20,7 +20,7 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/artical_image_layout"
+            android:id="@+id/article_image_layout"
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:layout_marginBottom="@dimen/row_space_big"
@@ -30,7 +30,7 @@
             android:layout_toRightOf="@+id/item_delete">
 
             <ImageView
-                android:id="@+id/artical_image"
+                android:id="@+id/article_image"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
                 android:scaleType="fitXY" />
@@ -51,11 +51,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/artical_image_layout"
+            android:layout_toRightOf="@+id/article_image_layout"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/artical_title"
+                android:id="@+id/article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -64,14 +64,14 @@
                 android:textSize="@dimen/big_text" />
 
             <LinearLayout
-                android:id="@+id/artical_info"
+                android:id="@+id/article_info"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/row_space_medium"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/artical_singer"
+                    android:id="@+id/article_singer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -86,7 +86,7 @@
                     android:layout_marginTop="@dimen/row_space_default">
 
                     <TextView
-                        android:id="@+id/artical_announcer"
+                        android:id="@+id/article_announcer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -94,7 +94,7 @@
                         android:textSize="@dimen/medium_text" />
 
                     <TextView
-                        android:id="@+id/artical_readcount"
+                        android:id="@+id/article_readcount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

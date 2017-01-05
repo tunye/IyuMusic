@@ -1,6 +1,6 @@
 package com.iyuba.music.manager;
 
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
 import java.util.Collections;

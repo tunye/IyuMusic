@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
@@ -107,12 +107,12 @@ public enum BigNotificationService {
         contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
         if (StudyManager.instance.getApp().equals("209")) {
             contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
-            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.artical_singer, curArticle.getSinger()));
-            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.artical_announcer, curArticle.getBroadcaster()));
+            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
+            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
         } else if (StudyManager.instance.getApp().equals("101")) {
             contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
-            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.artical_singer, curArticle.getSinger()));
-            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.artical_duration, curArticle.getBroadcaster()));
+            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
+            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_duration, curArticle.getBroadcaster()));
         } else {
             contentView.setTextViewText(R.id.notify_singer, curArticle.getTitle());
             contentView.setTextViewText(R.id.notify_title, curArticle.getTitle_cn());

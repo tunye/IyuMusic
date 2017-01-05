@@ -1,4 +1,4 @@
-package com.iyuba.music.entity.artical;
+package com.iyuba.music.entity.article;
 
 import com.google.gson.annotations.SerializedName;
 

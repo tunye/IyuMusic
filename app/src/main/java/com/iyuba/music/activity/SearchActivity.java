@@ -27,11 +27,11 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SearchHistoryAdapter;
 import com.iyuba.music.adapter.study.SearchNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
-import com.iyuba.music.entity.artical.SearchHistoryOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
+import com.iyuba.music.entity.article.SearchHistoryOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -261,7 +261,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             searchMusic();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.artical_search_all);
+            CustomToast.INSTANCE.showToast(R.string.article_search_all);
         }
     }
 
@@ -288,16 +288,16 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 swipeRefreshLayout.setRefreshing(false);
                 searchResult.setText(context.getString(R.string.search_result, searchContent.getText().toString(), listEntity.getTotalCount()));
                 if (listEntity.getState().equals(BaseListEntity.State.FAIL)) {
-                    adviceText.setText(R.string.artical_advice_2);
-                    CustomToast.INSTANCE.showToast(R.string.artical_no_search);
+                    adviceText.setText(R.string.article_advice_2);
+                    CustomToast.INSTANCE.showToast(R.string.article_no_search);
                     searchNewsAdapter.setDataSet(searchArrayList);
                     searchNewsAdapter.notifyDataSetChanged();
                 } else {
                     isLastPage = listEntity.isLastPage();
                     if (isLastPage) {
-                        CustomToast.INSTANCE.showToast(R.string.artical_search_all);
+                        CustomToast.INSTANCE.showToast(R.string.article_search_all);
                     } else {
-                        adviceText.setText(R.string.artical_advice_1);
+                        adviceText.setText(R.string.article_advice_1);
                         ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                         searchArrayList.addAll(netData);
                         if (SearchActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
@@ -327,7 +327,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     private LinearLayout initClearHistory() {
         LinearLayout footerParent = new LinearLayout(context);
         TextView textView = new TextView(context);
-        textView.setText(R.string.atricle_search_clear_all);
+        textView.setText(R.string.article_search_clear_all);
         textView.setTextSize(18);
         textView.setTextColor(context.getResources().getColor(R.color.text_color));
         textView.setPadding(0, 60, 0, 60);
@@ -346,8 +346,8 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     private void clearAll() {
         final MaterialDialog mMaterialDialog = new MaterialDialog(context);
         mMaterialDialog.setTitle(R.string.search_word_do);
-        mMaterialDialog.setMessage(R.string.atricle_search_clear_hint)
-                .setPositiveButton(R.string.atricle_search_clear_sure, new View.OnClickListener() {
+        mMaterialDialog.setMessage(R.string.article_search_clear_hint)
+                .setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mMaterialDialog.dismiss();

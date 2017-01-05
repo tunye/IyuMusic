@@ -14,8 +14,8 @@ import android.text.TextUtils;
 
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.original.LrcMaker;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
@@ -60,7 +60,7 @@ public class DownloadTask {
                     break;
                 case 2:
                     downloadFile.downloadState = "finish";
-                    CustomToast.INSTANCE.showToast(R.string.artical_download_success);
+                    CustomToast.INSTANCE.showToast(R.string.article_download_success);
                     new LocalInfoOp().updateDownload(downloadFile.id, app, 1);
                     if (finish != null) {
                         finish.finish();
@@ -72,7 +72,7 @@ public class DownloadTask {
                     break;
                 case 4:
                     new LocalInfoOp().updateDownload(id, app, 0);
-                    CustomToast.INSTANCE.showToast(R.string.artical_download_fail);
+                    CustomToast.INSTANCE.showToast(R.string.article_download_fail);
                     ArrayList<DownloadFile> files = DownloadManager.sInstance.fileList;
                     for (DownloadFile file : files) {
                         if (file.id == id) {

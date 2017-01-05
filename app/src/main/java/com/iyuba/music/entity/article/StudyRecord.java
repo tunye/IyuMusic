@@ -1,4 +1,4 @@
-package com.iyuba.music.entity.artical;
+package com.iyuba.music.entity.article;
 
 /**
  * Created by 10202 on 2015/12/15.

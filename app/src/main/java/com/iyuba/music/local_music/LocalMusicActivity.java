@@ -23,7 +23,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeActivity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.listener.IOnClickListener;

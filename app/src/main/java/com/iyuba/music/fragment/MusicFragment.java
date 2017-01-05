@@ -13,10 +13,10 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.MusicAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -132,7 +132,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
         MusicRequest.getInstance().exeRequest(MusicRequest.getInstance().generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.instance.isStartPlaying()) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
@@ -147,7 +147,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.instance.isStartPlaying()) {
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
@@ -167,7 +167,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+                    CustomToast.INSTANCE.showToast(R.string.article_load_all);
                 } else {
                     musicList.addAll(netData);
                     musicAdapter.setDataSet(musicList);
@@ -226,7 +226,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             getData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+            CustomToast.INSTANCE.showToast(R.string.article_load_all);
         }
     }
 

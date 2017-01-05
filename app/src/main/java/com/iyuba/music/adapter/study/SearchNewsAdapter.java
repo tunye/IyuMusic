@@ -12,8 +12,8 @@ import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
@@ -70,10 +70,10 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
         }
         final Article article = newsList.get(position);
         holder.title.setText(article.getTitle());
-        holder.singer.setText(context.getString(R.string.artical_singer, article.getSinger()));
-        holder.broadcaster.setText(context.getString(R.string.artical_announcer, article.getBroadcaster()));
+        holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+        holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         holder.time.setText(article.getTime().split(" ")[0]);
-        holder.readCount.setText(context.getString(R.string.artical_search_info, article.getTitleFind(), article.getTextFind()));
+        holder.readCount.setText(context.getString(R.string.article_search_info, article.getTitleFind(), article.getTextFind()));
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
                 holder.pic, R.drawable.default_music);
         holder.pic.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +88,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
                     downloadFile.downloadState = "start";
                     DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
-                    CustomToast.INSTANCE.showToast(R.string.artical_download_start);
+                    CustomToast.INSTANCE.showToast(R.string.article_download_start);
                 }
             }
         });
@@ -107,12 +107,12 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            singer = (TextView) view.findViewById(R.id.artical_singer);
-            broadcaster = (TextView) view.findViewById(R.id.artical_announcer);
-            time = (TextView) view.findViewById(R.id.artical_createtime);
-            pic = (ImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            title = (TextView) view.findViewById(R.id.article_title);
+            singer = (TextView) view.findViewById(R.id.article_singer);
+            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
+            time = (TextView) view.findViewById(R.id.article_createtime);
+            pic = (ImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }
 }

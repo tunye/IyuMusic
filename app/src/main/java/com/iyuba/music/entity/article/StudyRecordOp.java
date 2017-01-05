@@ -5,7 +5,7 @@
  * 创建日期
  * 版权声明
  */
-package com.iyuba.music.entity.artical;
+package com.iyuba.music.entity.article;
 
 import android.database.Cursor;
 

@@ -13,10 +13,10 @@ import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.AnnouncerNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
-import com.iyuba.music.entity.artical.LocalInfo;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfo;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
@@ -61,7 +61,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.artical_fav_synchroing)).create();
+        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.article_fav_synchroing)).create();
         initWidget();
         setListener();
         changeUIByPara();
@@ -144,12 +144,12 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         favorEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (favorEdit.getText().equals(context.getString(R.string.artical_edit))) {
+                if (favorEdit.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
-                    favorEdit.setText(R.string.artical_edit_finish);
+                    favorEdit.setText(R.string.article_edit_finish);
                 } else {
                     newsAdapter.setDelete(false);
-                    favorEdit.setText(R.string.artical_edit);
+                    favorEdit.setText(R.string.article_edit);
                     newsList = newsAdapter.getDataSet();
                     Article temp;
                     for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
@@ -172,8 +172,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.classify_favor);
-        favorSynchro.setText(R.string.artical_synchro);
-        favorEdit.setText(R.string.artical_edit);
+        favorSynchro.setText(R.string.article_synchro);
+        favorEdit.setText(R.string.article_edit);
     }
 
     protected void changeUIResumeByPara() {
@@ -227,7 +227,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     public void onBackPressed() {
         if (newsAdapter.isDelete()) {
             newsAdapter.setDelete(false);
-            favorEdit.setText(R.string.artical_edit);
+            favorEdit.setText(R.string.article_edit);
         } else {
             super.onBackPressed();
         }

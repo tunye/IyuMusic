@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadService;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.original.LrcMaker;
 import com.iyuba.music.entity.original.LrcParser;
 import com.iyuba.music.entity.original.Original;

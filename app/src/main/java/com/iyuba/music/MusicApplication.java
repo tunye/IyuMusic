@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.support.multidex.MultiDex;
 
 import com.buaa.ct.skin.SkinManager;
-import com.iyuba.music.entity.artical.StudyRecordUtil;
+import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;

@@ -15,8 +15,8 @@ import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.ArticleOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -24,6 +24,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
@@ -152,10 +153,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 });
             }
             newsViewHolder.title.setText(article.getTitle());
-            newsViewHolder.singer.setText(context.getString(R.string.artical_singer, article.getSinger()));
-            newsViewHolder.broadcaster.setText(context.getString(R.string.artical_announcer, article.getBroadcaster()));
+            newsViewHolder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+            newsViewHolder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
             newsViewHolder.time.setText(article.getTime().split(" ")[0]);
-            newsViewHolder.readCount.setText(context.getString(R.string.artical_readcount, article.getReadCount()));
+            newsViewHolder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
             newsViewHolder.pic.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +171,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 //                        downloadFile.downloadState = "start";
 //                        DownloadManager.Instance().fileList.add(downloadFile);
 //                        new DownloadTask(article).start();
-//                        CustomToast.INSTANCE.showToast(R.string.artical_download_start);
+//                        CustomToast.INSTANCE.showToast(R.string.article_download_start);
 //                    }
                 }
             });
@@ -188,12 +189,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         NewsViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            singer = (TextView) view.findViewById(R.id.artical_singer);
-            broadcaster = (TextView) view.findViewById(R.id.artical_announcer);
-            time = (TextView) view.findViewById(R.id.artical_createtime);
-            pic = (ImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            title = (TextView) view.findViewById(R.id.article_title);
+            singer = (TextView) view.findViewById(R.id.article_singer);
+            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
+            time = (TextView) view.findViewById(R.id.article_createtime);
+            pic = (ImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }
 
@@ -203,6 +204,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
+            bannerView.setSelectItemColor(GetAppColor.instance.getAppColor(view.getContext()));
         }
 
         void setBannerData(final List<BannerEntity> datas) {

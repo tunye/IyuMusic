@@ -92,7 +92,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
             getNewsData(newsList.get(newsList.size() - 1).getId(), MySwipeRefreshLayout.BOTTOM_REFRESH);
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+            CustomToast.INSTANCE.showToast(R.string.article_load_all);
         }
     }
 
@@ -113,6 +113,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                     BannerEntity bannerEntity = new BannerEntity();
                     bannerEntity.setOwnerid("2");
                     bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+                    bannerEntity.setDesc("全部原声歌曲列表");
                     bannerEntities.add(bannerEntity);
                     newsAdapter.setAdSet(bannerEntities);
                 }
@@ -127,7 +128,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.artical_local));
+                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -144,7 +145,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                         if (!isLastPage) {
                             newsList.addAll(netData);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.artical_load_all);
+                            CustomToast.INSTANCE.showToast(R.string.article_load_all);
                         }
                         break;
                 }

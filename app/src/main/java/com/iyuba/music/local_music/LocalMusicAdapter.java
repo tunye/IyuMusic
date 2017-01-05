@@ -11,7 +11,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
@@ -70,7 +70,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         Article article = musicList.get(position);
         holder.title.setText(article.getTitle());
         holder.singer.setText(article.getSinger());
-        holder.readCount.setText(context.getString(R.string.artical_duration, article.getBroadcaster()));
+        holder.readCount.setText(context.getString(R.string.article_duration, article.getBroadcaster()));
         switch (position % 3) {
             case 0:
                 holder.pic.setImageResource(R.drawable.default_music);
@@ -112,10 +112,10 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            singer = (TextView) view.findViewById(R.id.artical_announcer);
-            pic = (CircleImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            title = (TextView) view.findViewById(R.id.article_title);
+            singer = (TextView) view.findViewById(R.id.article_announcer);
+            pic = (CircleImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }
 }

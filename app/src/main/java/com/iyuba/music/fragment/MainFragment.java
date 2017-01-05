@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.local_music.LocalMusicActivity;

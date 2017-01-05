@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.entity.artical.Article;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
@@ -56,11 +56,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
         final Article article = newsList.get(position);
         holder.title.setText(article.getTitle());
-        holder.singer.setText(context.getString(R.string.artical_singer, article.getSinger()));
+        holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
         holder.singer.setSingleLine(false);
         holder.singer.setMaxLines(2);
         holder.time.setText(article.getTime().split(" ")[0]);
-        holder.readCount.setText(context.getString(R.string.artical_readcount, article.getReadCount()));
+        holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
         holder.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 //                    downloadFile.downloadState = "start";
 //                    DownloadManager.Instance().fileList.add(downloadFile);
 //                    new DownloadTask(newsList.get(position)).start();
-//                    CustomToast.INSTANCE.showToast(R.string.artical_download_start);
+//                    CustomToast.INSTANCE.showToast(R.string.article_download_start);
 //                }
             }
         });
@@ -93,12 +93,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.artical_title);
-            singer = (TextView) view.findViewById(R.id.artical_singer);
-            broadcaster = (TextView) view.findViewById(R.id.artical_announcer);
-            time = (TextView) view.findViewById(R.id.artical_createtime);
-            pic = (ImageView) view.findViewById(R.id.artical_image);
-            readCount = (TextView) view.findViewById(R.id.artical_readcount);
+            title = (TextView) view.findViewById(R.id.article_title);
+            singer = (TextView) view.findViewById(R.id.article_singer);
+            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
+            time = (TextView) view.findViewById(R.id.article_createtime);
+            pic = (ImageView) view.findViewById(R.id.article_image);
+            readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }
 }

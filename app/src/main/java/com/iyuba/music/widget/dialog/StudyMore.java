@@ -20,8 +20,8 @@ import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.artical.Article;
-import com.iyuba.music.entity.artical.LocalInfoOp;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -126,7 +126,7 @@ public class StudyMore {
                                 public void response(Object object) {
                                     if (object.toString().equals("del")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 0);
-                                        CustomToast.INSTANCE.showToast(R.string.artical_favor_cancel);
+                                        CustomToast.INSTANCE.showToast(R.string.article_favor_cancel);
                                         menuDrawable[1] = R.drawable.favor;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable);
                                     }
@@ -148,7 +148,7 @@ public class StudyMore {
                                 public void response(Object object) {
                                     if (object.toString().equals("insert")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 1);
-                                        CustomToast.INSTANCE.showToast(R.string.artical_favor);
+                                        CustomToast.INSTANCE.showToast(R.string.article_favor);
                                         menuDrawable[1] = R.drawable.favor_true;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable);
                                     }
@@ -159,7 +159,7 @@ public class StudyMore {
                     case 2:
                         int downloadState = localInfoOp.findDataById(app, curArticle.getId()).getDownload();
                         if (downloadState == 1) {
-                            CustomToast.INSTANCE.showToast(R.string.artical_download_over);
+                            CustomToast.INSTANCE.showToast(R.string.article_download_over);
                         } else if (downloadState == 0) {
                             localInfoOp.updateDownload(curArticle.getId(), app, 2);
                             menuDrawable[2] = R.drawable.downloading;
@@ -170,7 +170,7 @@ public class StudyMore {
                             DownloadManager.sInstance.fileList.add(downloadFile);
                             new DownloadTask(curArticle).start();
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.artical_downloading);
+                            CustomToast.INSTANCE.showToast(R.string.article_downloading);
                         }
                         break;
                     case 3:
