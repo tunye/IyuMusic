@@ -10,6 +10,6 @@
         android:layout_height="175dp"
         app:banner_align="RIGHT"
         app:banner_select_color="@color/skin_app_color"
-        app:banner_unselected_color="#ededed" />
+        app:banner_unselected_color="#dcdcdc" />
 
 </RelativeLayout>
