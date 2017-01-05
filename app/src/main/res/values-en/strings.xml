@@ -307,7 +307,7 @@
     <string name="comment_get_all">Comment loading success</string>
     <string name="comment_play_fail">Comment play failed</string>
     <string name="comment_send_fail">Comment send failed</string>
-    <string name="comment_reply">Reply%1$s: </string>
+    <string name="comment_reply">Reply %1$s: </string>
     <string name="comment_del_msg">Do you want to delete current comment?</string>
     <string name="comment_del">Delete</string>
     <string name="comment_del_fail">Comment deletion failed</string>
@@ -340,7 +340,7 @@
     <string name="vip_app">Life member of this APP-1100 Iyuba coins</string>
     <string name="vip_buy_alert">The price of this package membership is %1$s Iyuba coins, would you like to buy it?</string>
     <string name="vip_iyubi_not_enough">Iyuba coins balance is insufficient, do you still want to buy?</string>
-    <string name="vip_buy_success">Buy successfully, and Iyuba coins balancer is %1$s</string>
+    <string name="vip_buy_success">Buy successfully, and Iyuba coins balance is %1$s</string>
     <string name="vip_buy_fail">Buy failed due to %1$s</string>
     <!--更换头像-->
     <string name="changephoto_title">Iyuba profile picture</string>

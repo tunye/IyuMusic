@@ -34,7 +34,8 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/11/16.
  */
 public class WelcomeActivity extends AppCompatActivity {
-    private static final int START_FOR_WEBAD = 100;             // 进入开屏广告
+    public static final int START_FOR_WEBAD = 100;             // 进入开屏广告
+    public static final String NORMAL_START ="normalStart";
     private View escapeAd;
     private ImageView footer, header;
     private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
@@ -51,7 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.welcome);
         context = this;
-        normalStart = getIntent().getBooleanExtra("normalStart", true);
+        normalStart = getIntent().getBooleanExtra(NORMAL_START, true);
         initWidget();
         setListener();
         getBannerPic();

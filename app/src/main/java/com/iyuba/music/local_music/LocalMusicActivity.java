@@ -36,6 +36,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wnafee.vector.MorphButton;
@@ -98,7 +99,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         context = this;
         if (((MusicApplication) getApplication()).onlyForeground("LocalMusicActivity")) {
             Intent intent = new Intent(this, WelcomeActivity.class);
-            intent.putExtra("autoStart", false);
+            intent.putExtra(WelcomeActivity.NORMAL_START, false);
             startActivityForResult(intent, 102);
         } else {
             player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
@@ -243,11 +244,13 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {                               // 扫描的返回结果
             String path = data.getStringExtra("path");
-            musics = new ArrayList<>();
-            musics.addAll(MusicUtils.getAllSongs(context, path));
             ConfigManager.instance.putString("localMusicPath", path);
-            adapter.setDataSet(musics);
+            musics = MusicUtils.getAllSongs(context, path);
             statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
+            adapter.setDataSet(musics);
+            if (musics.size() == 0) {
+                CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
+            }
         } else if (requestCode == 102) {
             player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
             ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);

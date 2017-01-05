@@ -22,7 +22,7 @@ public class MusicUtils {
                 MediaStore.Audio.Media.IS_MUSIC + "=1", null, MediaStore.Audio.Media.TITLE);
 
         if (c == null || c.getCount() == 0) {
-            return null;
+            return new ArrayList<>();
         }
         ArrayList<Article> musics = new ArrayList<>();
         int id = c.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);

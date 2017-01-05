@@ -69,27 +69,15 @@
                     android:maxLines="2"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/medium_text" />
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/doing_reply_num"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/row_space_big"
-                    android:gravity="right|center_vertical">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dip"
-                        android:src="@drawable/replyicon" />
-
-                    <TextView
-                        android:id="@+id/doing_reply_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/row_space_default"
-                        android:gravity="center"
-                        android:textColor="@color/skin_app_color"
-                        android:textSize="@dimen/medium_text" />
-                </LinearLayout>
+                    android:layout_marginLeft="@dimen/row_space_medium"
+                    android:gravity="center"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/medium_text" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
