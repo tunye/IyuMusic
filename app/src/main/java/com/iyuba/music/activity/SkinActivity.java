@@ -49,7 +49,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSaveChangeDialog();
+                onBackPressed();
             }
         });
     }
@@ -81,7 +81,11 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
 
     @Override
     public void onBackPressed() {
-        showSaveChangeDialog();
+        if (initPos != SkinManager.getInstance().getCurrSkin()) {
+            showSaveChangeDialog();
+        } else {
+            finish();
+        }
     }
 
     private void showSaveChangeDialog() {
