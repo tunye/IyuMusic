@@ -477,6 +477,7 @@
     <string name="circle_load_all">朋友圈加载完毕</string>
     <!--eggshell-->
     <string name="eggshell_music_static">共有%1$d首音乐</string>
+    <string name="eggshell_music_no">当前文件夹无音乐文件</string>
     <string name="eggshell_random_play">随机播放</string>
     <string name="eggshell_scan">扫描</string>
     <!-- ground -->
