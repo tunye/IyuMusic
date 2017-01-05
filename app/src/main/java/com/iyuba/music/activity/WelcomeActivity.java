@@ -171,9 +171,6 @@ public class WelcomeActivity extends AppCompatActivity {
         if (requestCode == START_FOR_WEBAD) {
             if (normalStart) {
                 startActivity(new Intent(context, MainActivity.class));
-                if (showGuide) {
-                    startActivity(new Intent(context, HelpUseActivity.class));
-                }
             }
             ((MusicApplication) getApplication()).popActivity(this);
             finish();
