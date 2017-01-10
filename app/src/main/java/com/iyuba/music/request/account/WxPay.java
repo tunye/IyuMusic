@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -12,7 +14,6 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -53,7 +54,7 @@ public class WxPay {
                         if (0 == jsonObject.getInt("retcode")) {
                             apiEntity.setState(BaseApiEntity.State.SUCCESS);
                             PayReq req = new PayReq();
-                            req.appId=ConstantManager.WXSECRET;
+                            req.appId = ConstantManager.WXID;
                             req.partnerId = jsonObject.getString("mch_id");
                             req.prepayId = jsonObject.getString("prepayid");
                             req.nonceStr = jsonObject.getString("noncestr");
@@ -83,7 +84,7 @@ public class WxPay {
 
     public String generateUrl(String cost, String month, String productId) {
         HashMap<String, Object> paras = new HashMap<>();
-        paras.put("wxkey", ConstantManager.WXSECRET);
+        paras.put("wxkey", ConstantManager.WXID);
         paras.put("format", "json");
         paras.put("money", cost);
         paras.put("appid", ConstantManager.instance.getAppId());

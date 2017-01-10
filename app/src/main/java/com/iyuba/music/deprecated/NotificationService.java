@@ -75,7 +75,6 @@ public enum NotificationService {
     }
 
     public void removeNotification() {
-        Log.e("aaa", "!!");
         Context context = RuntimeManager.getContext();
         context.unregisterReceiver(pause);
         context.unregisterReceiver(before);

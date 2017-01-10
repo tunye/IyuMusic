@@ -3,6 +3,7 @@ package com.iyuba.music.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.iyuba.music.R;
@@ -28,7 +29,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
-        api = WXAPIFactory.createWXAPI(this, ConstantManager.WXSECRET);
+        api = WXAPIFactory.createWXAPI(this, ConstantManager.WXID, false);
         api.handleIntent(getIntent(), this);
     }
 

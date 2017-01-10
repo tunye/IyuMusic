@@ -90,7 +90,7 @@ public class MusicApplication extends Application {
         ChangePropery.updateNightMode(ConfigManager.instance.loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.instance.loadInt("language", 1));
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
-        PlatformConfig.setWeixin("wx182643cdcfc2b59f", ConstantManager.WXSECRET);
+        PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
         SkinManager.getInstance().init(this, "MusicSkin");

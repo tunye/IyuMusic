@@ -10,6 +10,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  */
 public class WelcomeActivity extends AppCompatActivity {
     public static final int START_FOR_WEBAD = 100;             // 进入开屏广告
-    public static final String NORMAL_START ="normalStart";
+    public static final String NORMAL_START = "normalStart";
     private View escapeAd;
     private ImageView footer, header;
     private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
@@ -127,7 +128,7 @@ public class WelcomeActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if ((info != null && info.firstInstallTime == info.lastUpdateTime) || lastVersion == 0) {
+        if (lastVersion == 0) {
             ImportDatabase db = ImportDatabase.getInstance();
             db.setVersion(0, 1);                                // 有需要数据库更改使用
             db.openDatabase();
@@ -143,8 +144,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void appUpgrade(int currentVersion) {
         showGuide = true;
-        SettingConfigManager.instance.setUpgrade(true);
         ConfigManager.instance.putInt("version", currentVersion);
+        SettingConfigManager.instance.setUpgrade(true);
     }
 
     private void addShortcut(Class cls, String name, int picResId) {

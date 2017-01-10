@@ -7,17 +7,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.AliPay;
 import com.iyuba.music.request.account.WxPay;
 import com.iyuba.music.util.GetAppColor;
@@ -37,8 +40,8 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 
 public class PayActivity extends BaseActivity {
-    private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
-    //private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
+    //private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
+    private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
     private static final String[] PAY_MONTH = {"1", "3", "6", "12", "0"};
     private static final String PAY_TYPE = "pay_type";
     private int goodsType;
@@ -64,7 +67,7 @@ public class PayActivity extends BaseActivity {
         context = this;
         goodsType = getIntent().getIntExtra(PAY_TYPE, 0);
         waitingDialog = new WaitingDialog.Builder(context).create();
-        msgApi = WXAPIFactory.createWXAPI(context, null);
+        msgApi = WXAPIFactory.createWXAPI(context, ConstantManager.WXID, false);
         initWidget();
         setListener();
         changeUIByPara();
