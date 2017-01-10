@@ -3,6 +3,7 @@ package com.iyuba.music.adapter.study;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,14 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.study.StudyActivity;
+import com.iyuba.music.download.DownloadFile;
+import com.iyuba.music.download.DownloadManager;
+import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -159,22 +164,26 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             newsViewHolder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
-            newsViewHolder.pic.setOnClickListener(new View.OnClickListener() {
+            newsViewHolder.downloadFlag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //if (DownloadTask.checkFileExists(article)) {
-                    onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, position);
-//                    } else {
-//                        new LocalInfoOp().updateDownload(article.getId(), "209", 2);
-//                        DownloadFile downloadFile = new DownloadFile();
-//                        downloadFile.id = article.getId();
-//                        downloadFile.downloadState = "start";
-//                        DownloadManager.Instance().fileList.add(downloadFile);
-//                        new DownloadTask(article).start();
-//                        CustomToast.INSTANCE.showToast(R.string.article_download_start);
-//                    }
+                    if (DownloadTask.checkFileExists(article)) {
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, position);
+                    } else {
+                        new LocalInfoOp().updateDownload(article.getId(), "209", 2);
+                        DownloadFile downloadFile = new DownloadFile();
+                        downloadFile.id = article.getId();
+                        downloadFile.downloadState = "start";
+                        DownloadManager.sInstance.fileList.add(downloadFile);
+                        new DownloadTask(article).start();
+                    }
                 }
             });
+            if (DownloadTask.checkFileExists(article)) {
+                newsViewHolder.downloadFlag.setImageResource(R.drawable.article_downloaded);
+            } else {
+                newsViewHolder.downloadFlag.setImageResource(R.drawable.article_download);
+            }
         } else if (holder instanceof AdViewHolder) {
             AdViewHolder headerViewHolder = (AdViewHolder) holder;
             headerViewHolder.setBannerData(adPicUrl);
@@ -182,10 +191,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     private static class NewsViewHolder extends RecycleViewHolder {
-
         TextView title, singer, broadcaster, time, readCount;
-        ImageView pic;
-
+        ImageView pic, downloadFlag;
 
         NewsViewHolder(View view) {
             super(view);
@@ -194,6 +201,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             broadcaster = (TextView) view.findViewById(R.id.article_announcer);
             time = (TextView) view.findViewById(R.id.article_createtime);
             pic = (ImageView) view.findViewById(R.id.article_image);
+            downloadFlag = (ImageView) view.findViewById(R.id.article_download);
             readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }

@@ -63,6 +63,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
             }
         });
         recyclerView.setAdapter(readAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

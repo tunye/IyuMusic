@@ -21,13 +21,13 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.SettingActivity;
-import com.iyuba.music.activity.me.VipCenterActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
 import com.iyuba.music.activity.me.CreditActivity;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
+import com.iyuba.music.activity.me.VipCenterActivity;
 import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
@@ -35,6 +35,7 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
@@ -158,20 +159,37 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 2:
-                        startActivity(new Intent(context, DiscoverActivity.class));
+                        if (AccountManager.instance.checkUserLogin()) {
+                            StringBuilder url = new StringBuilder();
+                            url.append("http://m.iyuba.com/i/getLeaderBoard.jsp?appId=")
+                                    .append(ConstantManager.instance.getAppId()).append("&uid=")
+                                    .append(AccountManager.instance.getUserId()).append("&sign=")
+                                    .append(MD5.getMD5ofStr(AccountManager.instance.getUserId()
+                                            + "leaderBoard" + ConstantManager.instance.getAppId()));
+                            Intent intent = new Intent();
+                            intent.setClass(context, WebViewActivity.class);
+                            intent.putExtra("url", url.toString());
+                            intent.putExtra("title", context.getString(R.string.oper_rank));
+                            startActivity(intent);
+                        } else {
+                            CustomDialog.showLoginDialog(context);
+                        }
                         break;
                     case 3:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        startActivity(new Intent(context, DiscoverActivity.class));
+                        break;
+                    case 4:
+                        if (AccountManager.instance.checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
-                    case 4:
+                    case 5:
                         startActivity(new Intent(context, LocalMusicActivity.class));
                         break;
-                    case 5:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                    case 6:
+                        if (AccountManager.instance.checkUserLogin()) {
                             StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
                             url.append("uid=").append(AccountManager.instance.getUserId()).append('&');
                             url.append("username=").append(AccountManager.instance.getUserName()).append('&');
@@ -185,7 +203,7 @@ public class MainLeftFragment extends BaseFragment {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
-                    case 6:
+                    case 7:
                         startActivity(new Intent(context, SettingActivity.class));
                         break;
                     default:

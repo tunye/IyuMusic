@@ -66,6 +66,7 @@ public class FollowFragment extends BaseRecyclerViewFragment implements MySwipeR
             }
         });
         recyclerView.setAdapter(friendAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

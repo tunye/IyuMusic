@@ -50,6 +50,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
             }
         });
         recyclerView.setAdapter(anouncerAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

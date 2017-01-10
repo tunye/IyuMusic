@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.text.ParseException;
@@ -27,14 +27,14 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdapter.MyViewHolder> {
+public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.MyViewHolder> {
     private ArrayList<Article> newsList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;
     private int type;
     private boolean delete;
 
-    public AnnouncerNewsAdapter(Context context) {
+    public SimpleNewsAdapter(Context context) {
         this.context = context;
         newsList = new ArrayList<>();
         type = 0;
@@ -42,7 +42,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
     }
 
 
-    public AnnouncerNewsAdapter(Context context, int type) {
+    public SimpleNewsAdapter(Context context, int type) {
         this.context = context;
         newsList = new ArrayList<>();
         this.type = type;
@@ -125,6 +125,9 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
                     e.printStackTrace();
                 }
                 break;
+            case 2:
+                holder.readCount.setText(context.getString(R.string.article_search_info, article.getTitleFind(), article.getTextFind()));
+                break;
         }
         if (delete) {
             holder.delete.setVisibility(View.VISIBLE);
@@ -138,7 +141,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
             }
         });
         holder.delete.setChecked(article.isDelete());
-        holder.pic.setOnClickListener(new View.OnClickListener() {
+        holder.downloadFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (DownloadTask.checkFileExists(article)) {
@@ -150,7 +153,6 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
                     downloadFile.downloadState = "start";
                     DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
-                    CustomToast.INSTANCE.showToast(R.string.article_download_start);
                 }
             }
         });
@@ -158,6 +160,11 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
         } else {
             ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
+        }
+        if (DownloadTask.checkFileExists(article)) {
+            holder.downloadFlag.setImageResource(R.drawable.article_downloaded);
+        } else {
+            holder.downloadFlag.setImageResource(R.drawable.article_download);
         }
     }
 
@@ -169,7 +176,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
     static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, broadcaster, time, readCount;
-        ImageView pic;
+        ImageView pic, downloadFlag;
         CheckBox delete;
 
         public MyViewHolder(View view) {
@@ -179,6 +186,7 @@ public class AnnouncerNewsAdapter extends RecyclerView.Adapter<AnnouncerNewsAdap
             broadcaster = (TextView) view.findViewById(R.id.article_announcer);
             time = (TextView) view.findViewById(R.id.article_createtime);
             pic = (ImageView) view.findViewById(R.id.article_image);
+            downloadFlag = (ImageView) view.findViewById(R.id.article_download);
             readCount = (TextView) view.findViewById(R.id.article_readcount);
             delete = (CheckBox) view.findViewById(R.id.item_delete);
         }

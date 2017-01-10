@@ -10,7 +10,7 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.adapter.study.AnnouncerNewsAdapter;
+import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -43,7 +43,7 @@ import java.util.EnumSet;
 public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     private RecyclerView newsRecycleView;
     private ArrayList<Article> newsList;
-    private AnnouncerNewsAdapter newsAdapter;
+    private SimpleNewsAdapter newsAdapter;
     private MySwipeRefreshLayout swipeRefreshLayout;
     private int curPage;
     private boolean isLastPage = false;
@@ -79,7 +79,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        newsAdapter = new AnnouncerNewsAdapter(context);
+        newsAdapter = new SimpleNewsAdapter(context);
         if (DownloadService.checkVip()) {
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override

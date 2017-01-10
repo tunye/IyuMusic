@@ -44,6 +44,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
         waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.read_loading)).create();
         readAdapter = new ReadAdapter(context);
         recyclerView.setAdapter(readAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

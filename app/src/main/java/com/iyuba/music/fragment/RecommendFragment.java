@@ -66,6 +66,7 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
             }
         });
         recyclerView.setAdapter(friendAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

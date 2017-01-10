@@ -76,7 +76,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
         holder.readCount.setText(context.getString(R.string.article_search_info, article.getTitleFind(), article.getTextFind()));
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
                 holder.pic, R.drawable.default_music);
-        holder.pic.setOnClickListener(new View.OnClickListener() {
+        holder.downloadFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (DownloadTask.checkFileExists(article)) {
@@ -92,6 +92,11 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
                 }
             }
         });
+        if (DownloadTask.checkFileExists(article)) {
+            holder.downloadFlag.setImageResource(R.drawable.article_downloaded);
+        } else {
+            holder.downloadFlag.setImageResource(R.drawable.article_download);
+        }
     }
 
     @Override
@@ -102,8 +107,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
     static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, broadcaster, time, readCount;
-        ImageView pic;
-
+        ImageView pic,downloadFlag;
 
         public MyViewHolder(View view) {
             super(view);
@@ -112,6 +116,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.My
             broadcaster = (TextView) view.findViewById(R.id.article_announcer);
             time = (TextView) view.findViewById(R.id.article_createtime);
             pic = (ImageView) view.findViewById(R.id.article_image);
+            downloadFlag = (ImageView) view.findViewById(R.id.article_download);
             readCount = (TextView) view.findViewById(R.id.article_readcount);
         }
     }

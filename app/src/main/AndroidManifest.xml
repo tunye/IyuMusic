@@ -65,7 +65,7 @@
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.me.VipCenterActivity" />
         <activity android:name=".activity.pay.BuyVipActivity" />
-        <activity android:name=".activity.pay.PayActivity"/>
+        <activity android:name=".activity.pay.PayActivity" />
         <activity android:name=".file.FileBrowserActivity" />
         <activity android:name=".file.PasteFileActivity" />
         <activity android:name=".file.FilePosActivity" />
@@ -148,14 +148,12 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:launchMode="singleTop" />
         <!--有道广告-->
         <!-- SDK中Activity配置 -->
         <!-- YouDaoBrowser用于所有的native广告，为必选配置 -->

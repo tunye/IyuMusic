@@ -11,7 +11,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.adapter.study.AnnouncerNewsAdapter;
+import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -46,7 +46,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class FavorSongActivity extends BaseActivity implements IOnClickListener {
     private RecyclerView newsRecycleView;
     private ArrayList<Article> newsList;
-    private AnnouncerNewsAdapter newsAdapter;
+    private SimpleNewsAdapter newsAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
     private MySwipeRefreshLayout swipeRefreshLayout;
@@ -82,7 +82,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         swipeRefreshLayout.setEnabled(false);
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        newsAdapter = new AnnouncerNewsAdapter(context, 1);
+        newsAdapter = new SimpleNewsAdapter(context, 1);
         newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

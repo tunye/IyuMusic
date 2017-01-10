@@ -62,6 +62,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         swipeRefreshLayout.setOnRefreshListener(this);
         newsList = new ArrayList<>();
         newsAdapter = new NewsAdapter(context);
+        setUserVisibleHint(true);
         return view;
     }
 
@@ -135,6 +136,23 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             getDbData(0);
         }
         newsAdapter.setDataSet(newsList);
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null)
+                bannerView.startAd();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null)
+                bannerView.stopAd();
+        }
     }
 
     /**
@@ -275,24 +293,6 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         super.onDestroy();
         if (mAdAdapter != null) {
             mAdAdapter.destroy();
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (newsAdapter != null) {
-                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
-                if (bannerView != null)
-                    bannerView.startAd();
-            }
-        } else {
-            if (newsAdapter != null) {
-                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
-                if (bannerView != null)
-                    bannerView.stopAd();
-            }
         }
     }
 }

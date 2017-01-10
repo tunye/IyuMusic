@@ -58,6 +58,7 @@
     <!--侧边栏操作-->
     <string name="oper_vip">会员</string>
     <string name="oper_credits">积分</string>
+    <string name="oper_rank">排行</string>
     <string name="oper_discover">发现</string>
     <string name="oper_message">消息</string>
     <string name="oper_activity">活动</string>

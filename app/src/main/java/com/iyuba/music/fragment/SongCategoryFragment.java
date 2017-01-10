@@ -57,6 +57,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
             }
         });
         recyclerView.setAdapter(newsAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

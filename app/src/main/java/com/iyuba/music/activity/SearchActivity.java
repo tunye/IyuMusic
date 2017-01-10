@@ -26,6 +26,7 @@ import com.iyuba.music.activity.study.RecommendSongActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SearchHistoryAdapter;
 import com.iyuba.music.adapter.study.SearchNewsAdapter;
+import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -57,7 +58,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     protected RelativeLayout searchBarLayout;
     private TextView search;
     private MaterialEditText searchContent;
-    private SearchNewsAdapter searchNewsAdapter;
+    private SimpleNewsAdapter searchNewsAdapter;
     private MySwipeRefreshLayout swipeRefreshLayout;
     private TextView searchResult;
     private View showLayout;
@@ -107,7 +108,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
-        searchNewsAdapter = new SearchNewsAdapter(context);
+        searchNewsAdapter = new SimpleNewsAdapter(context,2);
         searchNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

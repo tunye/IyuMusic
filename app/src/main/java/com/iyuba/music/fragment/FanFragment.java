@@ -66,6 +66,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
             }
         });
         recyclerView.setAdapter(friendAdapter);
+        setUserVisibleHint(true);
         return view;
     }
 

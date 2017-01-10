@@ -58,6 +58,7 @@
     <!--侧边栏操作-->
     <string name="oper_vip">VIP center</string>
     <string name="oper_credits">Credits</string>
+    <string name="oper_rank">Rank</string>
     <string name="oper_discover">Discover</string>
     <string name="oper_message">Messages</string>
     <string name="oper_moreapp">More APP</string>

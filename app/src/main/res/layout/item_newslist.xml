@@ -53,63 +53,76 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/article_image_layout"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/article_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text" />
+            android:layout_height="96dp"
+            android:layout_toRightOf="@+id/article_image_layout">
 
             <LinearLayout
-                android:id="@+id/article_info"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/row_space_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/article_singer"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/article_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:gravity="center"
                     android:maxLines="1"
-                    android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text" />
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/article_info"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/row_space_default">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/row_space_big"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/article_announcer"
+                        android:id="@+id/article_singer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:gravity="center"
+                        android:maxLines="1"
                         android:textColor="@color/text_gray_color"
                         android:textSize="@dimen/medium_text" />
 
-                    <TextView
-                        android:id="@+id/article_readcount"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/row_space_very_large"
-                        android:gravity="center"
-                        android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text" />
-                </RelativeLayout>
+                        android:layout_marginTop="@dimen/row_space_medium"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/article_announcer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/text_gray_color"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:id="@+id/article_readcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/row_space_big"
+                            android:gravity="center"
+                            android:textColor="@color/text_gray_color"
+                            android:textSize="@dimen/medium_text" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/article_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/row_space_large" />
+        </RelativeLayout>
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

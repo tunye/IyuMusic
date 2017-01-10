@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.MusicAdapter;
+import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -40,7 +41,7 @@ import java.util.EnumSet;
  */
 public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private ArrayList<Article> musicList;
-    private MusicAdapter musicAdapter;
+    private SimpleNewsAdapter musicAdapter;
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
     private int curPage;
@@ -61,7 +62,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
         View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         musicList = new ArrayList<>();
-        musicAdapter = new MusicAdapter(context);
+        musicAdapter = new SimpleNewsAdapter(context);
         if (DownloadService.checkVip()) {
             musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
@@ -199,6 +200,28 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null)
+                bannerView.startAd();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null)
+                bannerView.stopAd();
+        }
+    }
+
     /**
      * 下拉刷新
      *
@@ -241,23 +264,5 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     private void getDbData() {
         musicList.addAll(articleOp.findDataByMusic(musicList.size(), 20));
         musicAdapter.setDataSet(musicList);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (musicAdapter != null) {
-                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
-                if (bannerView != null)
-                    bannerView.startAd();
-            }
-        } else {
-            if (musicAdapter != null) {
-                BannerView bannerView = ((BannerView) recyclerView.getLayoutManager().getChildAt(0).findViewById(R.id.banner));
-                if (bannerView != null)
-                    bannerView.stopAd();
-            }
-        }
     }
 }
