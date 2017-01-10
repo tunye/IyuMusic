@@ -9,6 +9,8 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
@@ -20,6 +22,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -72,21 +75,26 @@ public class LrcRequest {
 
     public String generateUrl(int id, int type) {
         String url;
+        HashMap<String, Object> paras = new HashMap<>();
+        paras.put("appid", ConstantManager.instance.getAppId());
+        paras.put("uid", AccountManager.instance.checkUserLogin() ? AccountManager.instance.getUserId() : "0");
         switch (type) {
             case 0:
-                url = ParameterUrl.setRequestParameter(voaOriginalUrl, "voaid", id);
+                paras.put("voaid", id);
+                url = ParameterUrl.setRequestParameter(voaOriginalUrl, paras);
                 break;
             case 1:
-                url = ParameterUrl.setRequestParameter(bbcOriginalUrl, "bbcid", id);
+                paras.put("bbcid", id);
+                url = ParameterUrl.setRequestParameter(bbcOriginalUrl, paras);
                 break;
             case 2:
-                url = ParameterUrl.setRequestParameter(musicOriginalUrl, "SongId", id);
+                paras.put("SongId", id);
+                url = ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
                 break;
             default:
                 url = "";
                 break;
         }
         return url;
-
     }
 }

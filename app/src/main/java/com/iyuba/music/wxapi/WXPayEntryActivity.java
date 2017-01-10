@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.iyuba.music.R;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -50,6 +51,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (resp.errCode) {
                 case 0:
                     dialog.setMessage(R.string.pay_detail_success);
+                    AccountManager.instance.getPersonalInfo(null);
                     break;
                 case 1:
                     dialog.setMessage("支付失败");
@@ -61,7 +63,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                     dialog.setMessage("未知错误");
                     break;
             }
-            dialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+            dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();

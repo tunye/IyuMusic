@@ -1,6 +1,6 @@
 package com.iyuba.music.activity.pay;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +38,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class PayActivity extends BaseActivity {
     private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
+    //private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
     private static final String[] PAY_MONTH = {"1", "3", "6", "12", "0"};
     private static final String PAY_TYPE = "pay_type";
     private int goodsType;
@@ -50,10 +51,10 @@ public class PayActivity extends BaseActivity {
     private IWXAPI msgApi;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
-    public static void launch(Context context, int type) {
+    public static void launch(Activity context, int type, int requestCode) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra(PAY_TYPE, type);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -260,10 +261,11 @@ public class PayActivity extends BaseActivity {
                         AccountManager.instance.setUserInfo(userInfo);
                         final MaterialDialog dialog = new MaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
-                        dialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+                        dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 dialog.dismiss();
+                                activity.setResult(RESULT_OK);
                                 activity.finish();
                             }
                         });

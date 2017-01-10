@@ -124,12 +124,16 @@ public enum AccountManager {
                 , new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        result.fail(null);
+                        if (result != null) {
+                            result.fail(null);
+                        }
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        result.fail(null);
+                        if (result != null) {
+                            result.fail(null);
+                        }
                     }
 
                     @Override
@@ -138,9 +142,13 @@ public enum AccountManager {
                         if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
                             userInfo = (UserInfo) baseApiEntity.getData();
                             new UserInfoOp().saveData(userInfo);
-                            result.success(null);
+                            if (result != null) {
+                                result.success(null);
+                            }
                         } else {
-                            result.fail(null);
+                            if (result != null) {
+                                result.fail(null);
+                            }
                         }
                     }
                 });

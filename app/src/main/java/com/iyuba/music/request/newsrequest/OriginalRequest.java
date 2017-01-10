@@ -4,11 +4,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.google.gson.internal.ObjectConstructor;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -70,6 +74,10 @@ public class OriginalRequest {
     }
 
     public String generateUrl(int id) {
-        return ParameterUrl.setRequestParameter(musicOriginalUrl, "SongId", id);
+        HashMap<String,Object> paras=new HashMap<>();
+        paras.put("SongId", id);
+        paras.put("appid", ConstantManager.instance.getAppId());
+        paras.put("uid", AccountManager.instance.checkUserLogin()?AccountManager.instance.getUserId():"0");
+        return ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
     }
 }

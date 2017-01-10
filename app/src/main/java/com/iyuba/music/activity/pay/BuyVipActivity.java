@@ -15,6 +15,7 @@ import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -36,6 +37,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/12/29.
  */
 public class BuyVipActivity extends BaseActivity {
+    private final static int ONLINE_PAY_CODE = 101;
     private final static int[] price = {200, 600, 1000, 2000, 1100};
     private final static int[] priceMonth = {1, 3, 6, 12, 0};
     private int payType;
@@ -134,7 +136,7 @@ public class BuyVipActivity extends BaseActivity {
         if (payType == 1) {
             payByIyubiDialog(type);
         } else {
-            PayActivity.launch(this, type);
+            PayActivity.launch(this, type, ONLINE_PAY_CODE);
         }
     }
 
@@ -302,5 +304,13 @@ public class BuyVipActivity extends BaseActivity {
                 + ConstantManager.instance.getAppId());
         intent.putExtra("title", context.getString(R.string.vip_recharge));
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ONLINE_PAY_CODE && resultCode == RESULT_OK) {              // 刷新vip时长
+            AccountManager.instance.getPersonalInfo(null);
+        }
     }
 }

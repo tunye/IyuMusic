@@ -31,7 +31,6 @@ public class VipCenterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vip_center);
         context = this;

@@ -107,7 +107,7 @@ public class AboutActivity extends BaseActivity {
                 } catch (Exception e) {
                     final MaterialDialog dialog = new MaterialDialog(context);
                     dialog.setTitle(R.string.about_praise).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.app_sure, new OnClickListener() {
+                            setPositiveButton(R.string.app_accept, new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dialog.dismiss();

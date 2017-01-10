@@ -99,7 +99,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/row_space_very_large"
                         android:gravity="center"
-                        android:text="推广"
+                        android:text="广告"
                         android:textColor="@color/text_gray_color"
                         android:textSize="@dimen/medium_text" />
                 </RelativeLayout>
