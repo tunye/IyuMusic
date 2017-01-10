@@ -226,7 +226,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                                 finish();
                             }
                         })
-                        .setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                        .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
@@ -251,14 +251,14 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                     final MaterialDialog cancleAttentionDialog = new MaterialDialog(context);
                     cancleAttentionDialog.setTitle(R.string.app_name)
                             .setMessage(R.string.person_attention_cancel_hint)
-                            .setPositiveButton(R.string.accept, new View.OnClickListener() {
+                            .setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     cancleAttentionDialog.dismiss();
                                     cancelAttention();
                                 }
                             })
-                            .setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                            .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     cancleAttentionDialog.dismiss();

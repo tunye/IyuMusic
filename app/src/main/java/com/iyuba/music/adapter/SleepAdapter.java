@@ -67,7 +67,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         materialDialog.setContentView(pickerView);
         materialDialog.setTitle(sleepTextList.get(sleepTextList.size() - 1));
         final String customText = sleepTextList.get(sleepTextList.size() - 1);
-        materialDialog.setPositiveButton(R.string.accept, new View.OnClickListener() {
+        materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 materialDialog.dismiss();

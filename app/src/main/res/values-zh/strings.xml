@@ -2,14 +2,14 @@
     <string name="app_name">听歌学英语</string>
     <string name="hello_world">听歌学英语</string>
     <string name="app_intro">最受欢迎的英语应用</string>
-    <string name="know">朕已阅</string>
-    <string name="more">更多</string>
-    <string name="accept">确定</string>
-    <string name="sure">允许</string>
-    <string name="cancel">取消</string>
-    <string name="submit">提交</string>
+    <string name="app_know">朕已阅</string>
+    <string name="app_more">更多</string>
+    <string name="app_accept">确定</string>
+    <string name="app_sure">允许</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_submit">提交</string>
     <string name="select_all">全选</string>
-    <string name="buy">购买</string>
+    <string name="app_buy">购买</string>
     <string name="generic_server_down">服务器连接超时</string>
     <string name="no_internet">没有网络连接</string>
     <string name="generic_error">服务异常</string>
@@ -177,7 +177,7 @@
     <string name="setting_clearing">缓存正在删除</string>
     <!--睡眠-->
     <string name="sleep_title">睡眠设置</string>
-    <string name="sleep_hint">亲，app将在%1$s分钟后退出</string>
+    <string name="sleep_hint">亲，app将在%1$d分钟后退出</string>
     <string name="sleep_custom">%1$s小时%2$s分钟</string>
     <string name="sleep_hour">小时</string>
     <string name="sleep_minute">分钟</string>
@@ -347,13 +347,16 @@
     <string name="vip_iyubi">语币余额：%1$s</string>
     <string name="vip_deadline">会员期至：%1$s</string>
     <string name="vip_undeadline">您还不是会员</string>
-    <string name="vip_buy_iyubi">购买爱语币</string>
-    <string name="vip_month">全站会员1个月-200爱语币</string>
-    <string name="vip_three_month">全站会员3个月-600爱语币</string>
-    <string name="vip_half_year">全站会员6个月-1000爱语币</string>
-    <string name="vip_year">全站会员1整年-2000爱语币</string>
-    <string name="vip_app">本应用终身会员-1100爱语币</string>
-    <string name="vip_buy_alert">购买本套餐会员需花费%1$s爱语币，是否购买?</string>
+    <string name="vip_buy_money">在线支付</string>
+    <string name="vip_buy_iyubi">爱语币支付</string>
+    <string name="vip_buy_way">选择支付方式</string>
+    <string name="vip_buy_default">默认在线支付方式购买</string>
+    <string name="vip_month">全站会员1个月-￥19.9（200爱语币）</string>
+    <string name="vip_three_month">全站会员3个月-￥59.9（600爱语币）</string>
+    <string name="vip_half_year">全站会员6个月-￥99.9（1000爱语币)</string>
+    <string name="vip_year">全站会员1整年-￥199（2000爱语币）</string>
+    <string name="vip_app">本应用终身会员-￥99.9（1100爱语币）</string>
+    <string name="vip_buy_alert">购买本套餐会员需花费%1$d爱语币，是否购买?</string>
     <string name="vip_iyubi_not_enough">爱语币余额不足，是否购买?</string>
     <string name="vip_buy_success">购买成功，爱语币余额为%1$s</string>
     <string name="vip_buy_fail">购买失败，原因%1$s</string>
@@ -504,4 +507,19 @@
     <string name="webview_clip_board">链接已复制</string>
     <!--开屏-->
     <string name="welcome_escape_ad">跳过</string>
+    <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
+    <!--在线支付-->
+    <string name="pay_detail_title">订单支付</string>
+    <string name="pay_detail_user">欢迎用户：</string>
+    <string name="pay_detail_buy">订单内容：</string>
+    <string name="pay_detail_money">需要支付：</string>
+    <string name="pay_detail_bao_way_name">支付宝支付</string>
+    <string name="pay_detail_bao_way_content">推荐支付宝用户使用</string>
+    <string name="pay_detail_wx_way_name">微信支付</string>
+    <string name="pay_detail_wx_way_content">推荐微信5.0及以上版本的用户使用</string>
+    <string name="pay_detail_sure">确认支付</string>
+    <string name="pay_detail_money_content">%1$s元</string>
+    <string name="pay_detail_no_wechat">您尚未安装微信，无法使用微信支付</string>
+    <string name="pay_detail_generate_failed">订单拉取失败，请重试</string>
+    <string name="pay_detail_success">购买成功</string>
 </resources>

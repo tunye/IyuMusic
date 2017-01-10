@@ -233,7 +233,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageDialog.setContentView(root);
-        languageDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
+        languageDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 languageDialog.dismiss();
@@ -277,7 +277,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                             finish();
                         }
                     })
-                    .setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                    .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
@@ -286,7 +286,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         } else {
             mMaterialDialog.setMessage(R.string.personal_no_login)
-                    .setPositiveButton(R.string.accept, new View.OnClickListener() {
+                    .setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();

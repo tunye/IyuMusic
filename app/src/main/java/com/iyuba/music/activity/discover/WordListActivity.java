@@ -199,7 +199,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void normalToDelete() {
         deleteMode = true;
-        toolbarOper.setText(R.string.accept);
+        toolbarOper.setText(R.string.app_accept);
         statusBar.setVisibility(View.GONE);
     }
 
@@ -271,7 +271,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                             dialog.dismiss();
                         }
                     });
-                    dialog.setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                    dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             saveData();

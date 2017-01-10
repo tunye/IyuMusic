@@ -119,6 +119,9 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     /*截图*/
     compile 'com.isseiaoki:simplecropview:1.0.13'
+    /*google广告*/
+    compile 'com.google.firebase:firebase-ads:10.0.1'
+    compile 'com.google.android.gms:play-services:10.0.1'
     compile project(':smssdk')
     compile project(':PushSDK')
     compile project(':umengshare')

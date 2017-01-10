@@ -63,8 +63,9 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SkinActivity" />
         <activity android:name=".activity.TestActivity" />
-        <activity android:name=".activity.VipCenterActivity" />
-        <activity android:name=".activity.BuyVipActivity" />
+        <activity android:name=".activity.me.VipCenterActivity" />
+        <activity android:name=".activity.pay.BuyVipActivity" />
+        <activity android:name=".activity.pay.PayActivity"/>
         <activity android:name=".file.FileBrowserActivity" />
         <activity android:name=".file.PasteFileActivity" />
         <activity android:name=".file.FilePosActivity" />
@@ -179,6 +180,14 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--google 广告-->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
     </application>
 
 </manifest>

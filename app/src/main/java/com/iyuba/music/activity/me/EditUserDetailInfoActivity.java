@@ -330,7 +330,7 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         genderDialog.setContentView(root);
-        genderDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
+        genderDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 genderDialog.dismiss();

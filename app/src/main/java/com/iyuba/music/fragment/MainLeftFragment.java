@@ -21,7 +21,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.SettingActivity;
-import com.iyuba.music.activity.VipCenterActivity;
+import com.iyuba.music.activity.me.VipCenterActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
@@ -322,7 +322,7 @@ public class MainLeftFragment extends BaseFragment {
             snackbar.show();
         } else if (requestCode == 101 && resultCode == 2) {// 登录+注册的返回结果
             getPersonalInfo();
-            snackbar = Snackbar.make(root, R.string.personal_change_photo, Snackbar.LENGTH_LONG).setAction(R.string.accept, new View.OnClickListener() {
+            snackbar = Snackbar.make(root, R.string.personal_change_photo, Snackbar.LENGTH_LONG).setAction(R.string.app_accept, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, AboutActivity.class);

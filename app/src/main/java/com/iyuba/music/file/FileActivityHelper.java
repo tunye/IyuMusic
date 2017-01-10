@@ -89,7 +89,7 @@ public class FileActivityHelper {
                 }
             }
         });
-        dialog.setNegativeButton(R.string.cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -150,7 +150,7 @@ public class FileActivityHelper {
                 }
             }
         });
-        dialog.setNegativeButton(R.string.cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

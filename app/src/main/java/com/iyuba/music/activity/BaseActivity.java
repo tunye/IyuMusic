@@ -19,6 +19,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.util.GetAppColor;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 
 /**
@@ -45,6 +46,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        PushAgent.getInstance(context).onAppStart();
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

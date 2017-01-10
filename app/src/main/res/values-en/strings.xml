@@ -2,14 +2,14 @@
     <string name="app_name">IyuMusic</string>
     <string name="app_intro">The most popular APP of English learning</string>
     <string name="hello_world">IyuMusic</string>
-    <string name="know">Known</string>
-    <string name="more">More</string>
-    <string name="accept">OK</string>
-    <string name="sure">Sure</string>
-    <string name="cancel">Cancel</string>
-    <string name="submit">Submit</string>
+    <string name="app_know">Known</string>
+    <string name="app_more">More</string>
+    <string name="app_accept">OK</string>
+    <string name="app_sure">Sure</string>
+    <string name="app_cancel">Cancel</string>
+    <string name="app_submit">Submit</string>
     <string name="select_all">Select all</string>
-    <string name="buy">Buy</string>
+    <string name="app_buy">Buy</string>
     <string name="generic_server_down">Connection timed out</string>
     <string name="no_internet">No network connection</string>
     <string name="generic_error">Service exception</string>
@@ -177,7 +177,7 @@
     <string name="setting_clearing">Cache is being deleted</string>
     <!--睡眠-->
     <string name="sleep_title">Sleep mode</string>
-    <string name="sleep_hint">App will exit after %1$s minutes</string>
+    <string name="sleep_hint">App will exit after %1$d minutes</string>
     <string name="sleep_custom">%1$s hours %2$s minutes</string>
     <string name="sleep_hour">Hour</string>
     <string name="sleep_minute">Minute</string>
@@ -333,13 +333,16 @@
     <string name="vip_iyubi">Iyuba coins balance：%1$s </string>
     <string name="vip_deadline">Membership term：%1$s</string>
     <string name="vip_undeadline">You are not a member yet</string>
-    <string name="vip_buy_iyubi">Buy Iyuba coins</string>
-    <string name="vip_month">1 month all APP membership-200 Iyuba coins</string>
-    <string name="vip_three_month">3 months all APP membership-600 Iyuba coins</string>
-    <string name="vip_half_year">6 months all APP membership-1000 Iyuba coins</string>
-    <string name="vip_year">1 year All APP membership-2000 Iyuba coins</string>
-    <string name="vip_app">Life member of this APP-1100 Iyuba coins</string>
-    <string name="vip_buy_alert">The price of this package membership is %1$s Iyuba coins, would you like to buy it?</string>
+    <string name="vip_buy_money">Online pay</string>
+    <string name="vip_buy_iyubi">Iyubi pay</string>
+    <string name="vip_buy_way">Select pay way</string>
+    <string name="vip_buy_default">Default：online pay</string>
+    <string name="vip_month">1 month all APP membership-￥19.9 or 200 Iyuba coins</string>
+    <string name="vip_three_month">3 months all APP membership-￥59.9 or 600 Iyuba coins</string>
+    <string name="vip_half_year">6 months all APP membership-￥99.9 or 1000 Iyuba coins</string>
+    <string name="vip_year">1 year All APP membership-￥199 or 2000 Iyuba coins</string>
+    <string name="vip_app">Life member of this APP-￥99.9 or 1100 Iyuba coins</string>
+    <string name="vip_buy_alert">The price of this package membership is %1$d Iyuba coins, would you like to buy it?</string>
     <string name="vip_iyubi_not_enough">Iyuba coins balance is insufficient, do you still want to buy?</string>
     <string name="vip_buy_success">Buy successfully, and Iyuba coins balance is %1$s</string>
     <string name="vip_buy_fail">Buy failed due to %1$s</string>
@@ -504,4 +507,19 @@
     <string name="webview_clip_board">Copy this link</string>
     <!--开屏-->
     <string name="welcome_escape_ad">跳过</string>
+    <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
+    <!--在线支付-->
+    <string name="pay_detail_title">Pay</string>
+    <string name="pay_detail_user">Welcome：</string>
+    <string name="pay_detail_buy">Detail：</string>
+    <string name="pay_detail_money">Cost：</string>
+    <string name="pay_detail_bao_way_name">Alipay</string>
+    <string name="pay_detail_bao_way_content">Recommended Alipay users</string>
+    <string name="pay_detail_wx_way_name">Wechat Pay</string>
+    <string name="pay_detail_wx_way_content">Recommended Wechat users</string>
+    <string name="pay_detail_sure">Pay</string>
+    <string name="pay_detail_money_content">%1$s RMB</string>
+    <string name="pay_detail_no_wechat">your phone is not installed wechat, so you can not use this pay way.</string>
+    <string name="pay_detail_generate_failed">订单拉取失败，请重试</string>
+    <string name="pay_detail_success">购买成功</string>
 </resources>

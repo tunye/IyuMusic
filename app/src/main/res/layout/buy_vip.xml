@@ -95,7 +95,6 @@
         app:mrl_rippleColor="@color/text_complementary"
         app:mrl_rippleDuration="600">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -209,10 +208,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/background_light"></LinearLayout>
+        android:background="@color/background_light">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/vip_buy_default"
+            android:textColor="@color/text_complementary"
+            android:textSize="@dimen/medium_text" />
+    </LinearLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/iyubi_recharge"
+        android:id="@+id/vip_buy_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/row_space_very_large"
@@ -223,7 +231,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/vip_buy_iyubi"
+            android:text="@string/vip_buy_way"
             android:textColor="@color/skin_color_accent"
             android:textSize="@dimen/large_text" />
     </com.balysv.materialripple.MaterialRippleLayout>

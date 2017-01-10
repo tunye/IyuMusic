@@ -165,7 +165,7 @@ public class WebViewActivity extends BaseActivity {
         source.setText(context.getString(R.string.webview_source, hideMessage(url)));
         web.loadUrl(url);
         title.setText(titleText);
-        toolbarOper.setText(R.string.more);
+        toolbarOper.setText(R.string.app_more);
         loadProgress.setMax(100);
         loadProgress.setProgress(0);
     }

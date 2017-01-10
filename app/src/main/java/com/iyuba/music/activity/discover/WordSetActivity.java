@@ -129,7 +129,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
-        groupDialog.setPositiveButton(R.string.cancel, new View.OnClickListener() {
+        groupDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 groupDialog.dismiss();

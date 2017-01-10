@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background"
     android:layout_width="match_parent"
@@ -98,21 +98,29 @@
         android:id="@+id/study_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/study_indicator"
-        android:layout_below="@id/toolbar"
         android:layout_weight="1" />
 
     <com.iyuba.music.widget.imageview.PageIndicator
         android:id="@+id/study_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/musicbar"
-        android:layout_marginBottom="@dimen/row_space_large"
         android:layout_marginTop="@dimen/row_space_large"
+        android:layout_marginBottom="@dimen/row_space_large"
         app:pi_circlepadding="@dimen/row_space_medium"
         app:pi_count="3"
         app:pi_radius="@dimen/row_space_default"
         app:pi_stroke="@dimen/line_thin" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/musicbar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
     <RelativeLayout
         android:id="@+id/musicbar"
@@ -201,4 +209,4 @@
                 android:src="@drawable/single_replay" />
         </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

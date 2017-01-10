@@ -407,7 +407,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ActivityCompat.requestPermissions(VideoPlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},

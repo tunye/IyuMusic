@@ -75,7 +75,7 @@ public class RecommendSongActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        toolbarOper.setText(R.string.submit);
+        toolbarOper.setText(R.string.app_submit);
         title.setText(R.string.study_recommend_title);
     }
 

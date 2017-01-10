@@ -355,7 +355,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                         searchHistoryAdapter.setList("");
                     }
                 })
-                .setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mMaterialDialog.dismiss();

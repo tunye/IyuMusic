@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex;
 import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
@@ -19,6 +20,8 @@ import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 
 import java.util.ArrayList;
@@ -57,6 +60,19 @@ public class MusicApplication extends Application {
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
         //LeakCanary.install(this);
         CrashHandler crashHandler = new CrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
@@ -74,7 +90,7 @@ public class MusicApplication extends Application {
         ChangePropery.updateNightMode(ConfigManager.instance.loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.instance.loadInt("language", 1));
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
-        PlatformConfig.setWeixin("wx182643cdcfc2b59f", "5d5d3eaf4c6b69a278cf16c115014474");
+        PlatformConfig.setWeixin("wx182643cdcfc2b59f", ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
         SkinManager.getInstance().init(this, "MusicSkin");

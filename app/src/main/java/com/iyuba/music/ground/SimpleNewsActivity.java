@@ -131,7 +131,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 } catch (Exception e) {
                     final MaterialDialog dialog = new MaterialDialog(context);
                     dialog.setTitle(R.string.app_name).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.accept, new OnClickListener() {
+                            setPositiveButton(R.string.app_accept, new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dialog.dismiss();

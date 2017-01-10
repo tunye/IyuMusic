@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/row_space_large"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pay_detail_user"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/big_text" />
+
+            <TextView
+                android:id="@+id/pay_detail_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_default"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/big_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/row_space_large"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pay_detail_buy"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/big_text" />
+
+            <TextView
+                android:id="@+id/pay_detail_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_default"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/big_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/row_space_large"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pay_detail_money"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/big_text" />
+
+            <TextView
+                android:id="@+id/pay_detail_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_default"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/big_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/background_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/row_space_very_large"
+        android:layout_marginLeft="@dimen/row_space_large"
+        android:layout_marginTop="@dimen/row_space_very_large"
+        android:text="@string/vip_buy_way"
+        android:textColor="@color/text_complementary"
+        android:textSize="@dimen/big_text" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:background="@color/background_light" />
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/pay_detail_bao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="600">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/row_space_very_large"
+            android:layout_marginTop="@dimen/row_space_very_large"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_very_large"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:src="@drawable/pay_bao" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pay_detail_bao_way_name"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_medium"
+                    android:text="@string/pay_detail_bao_way_content"
+                    android:textColor="@color/text_gray_color"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/pay_detail_bao_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_medium"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:src="@drawable/ic_radio_button"
+                android:visibility="gone" />
+        </LinearLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:background="@color/background_light" />
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/pay_detail_wx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="600">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/row_space_very_large"
+            android:layout_marginTop="@dimen/row_space_very_large"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_space_very_large"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:src="@drawable/pay_wx" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pay_detail_wx_way_name"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_medium"
+                    android:text="@string/pay_detail_wx_way_content"
+                    android:textColor="@color/text_gray_color"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/pay_detail_wx_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/row_space_medium"
+                android:layout_marginRight="@dimen/row_space_very_large"
+                android:src="@drawable/ic_radio_button"
+                android:visibility="gone" />
+        </LinearLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:background="@color/background_light" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:background="@color/background_light" />
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/pay_detail_sure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:padding="@dimen/row_space_very_large"
+        app:mrl_rippleColor="@color/text_complementary"
+        app:mrl_rippleDuration="600">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/pay_detail_sure"
+            android:textColor="@color/skin_color_accent"
+            android:textSize="@dimen/large_text" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+</LinearLayout>

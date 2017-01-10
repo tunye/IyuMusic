@@ -51,6 +51,7 @@ import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.IUmengCallback;
 import com.umeng.message.PushAgent;
 
 import java.io.File;
@@ -117,13 +118,32 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void initBroadcast() {
-        //MobclickAgent.updateOnlineConfig(context);//友盟在线参数配置，在analyse不支持了
         PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
+        mPushAgent.setDebugMode(false);
         if (SettingConfigManager.instance.isPush()) {
-            mPushAgent.enable();
-            PushAgent.getInstance(context).onAppStart();
+            mPushAgent.enable(new IUmengCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(String s, String s1) {
+
+                }
+            });
         } else {
-            mPushAgent.disable();
+            mPushAgent.disable(new IUmengCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(String s, String s1) {
+
+                }
+            });
         }
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter("changeProperty");
@@ -175,7 +195,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                             context.startActivity(new Intent(context, DownloadSongActivity.class));
                         }
                     })
-                    .setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                    .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
@@ -198,16 +218,16 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void showWhatsNew() {
         if (SettingConfigManager.instance.isUpgrade()) {
+            SettingConfigManager.instance.setUpgrade(false);
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle("新版本特性");
             StringBuilder sb = new StringBuilder();
             sb.append("1.[软件维护] 修复使用过程中的若干异常问题").append("\n");
             sb.append("2.[海量曲库] 用户上传的经典乐曲，畅享英文歌曲");
             materialDialog.setMessage(sb.toString());
-            materialDialog.setPositiveButton(R.string.know, new View.OnClickListener() {
+            materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SettingConfigManager.instance.setUpgrade(false);
                     materialDialog.dismiss();
                 }
             });
@@ -217,6 +237,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             } else {
                 resetDownLoadData();
             }
+            materialDialog.setCanceledOnTouchOutside(false);
             materialDialog.show();
         }
     }
@@ -276,7 +297,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 final MaterialDialog materialDialog = new MaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -285,7 +306,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     }
                 });
                 materialDialog.show();
-
             }
         }
     }

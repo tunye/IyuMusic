@@ -94,7 +94,7 @@ public class FeedbackActivity extends BaseActivity {
                 contact.setText(userInfo.getUserEmail());
             }
         }
-        toolbarOper.setText(R.string.submit);
+        toolbarOper.setText(R.string.app_submit);
         title.setText(R.string.feedback_title);
         regex = regexContact(contact.getEditableText().toString());
     }

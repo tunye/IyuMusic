@@ -107,7 +107,7 @@ public class AboutActivity extends BaseActivity {
                 } catch (Exception e) {
                     final MaterialDialog dialog = new MaterialDialog(context);
                     dialog.setTitle(R.string.about_praise).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.accept, new OnClickListener() {
+                            setPositiveButton(R.string.app_sure, new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dialog.dismiss();
@@ -245,7 +245,7 @@ public class AboutActivity extends BaseActivity {
                         handler.sendEmptyMessage(0);
                         dialog.dismiss();
                     }
-                }).setNegativeButton(R.string.cancel, new OnClickListener() {
+                }).setNegativeButton(R.string.app_cancel, new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -312,7 +312,7 @@ public class AboutActivity extends BaseActivity {
                 final MaterialDialog materialDialog = new MaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.sure, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},

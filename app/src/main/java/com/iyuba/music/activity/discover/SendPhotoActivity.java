@@ -166,7 +166,7 @@ public class SendPhotoActivity extends BaseActivity {
                 SendPhotoActivity.this.finish();
             }
         });
-        materialDialog.setNegativeButton(R.string.cancel, new View.OnClickListener() {
+        materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 materialDialog.dismiss();
