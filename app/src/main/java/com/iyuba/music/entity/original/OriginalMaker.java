@@ -18,9 +18,7 @@ public class OriginalMaker {
 
     private OriginalMaker() {
         File file = new File(ConstantManager.instance.getOriginalFolder());
-        if (file.exists()) {
-
-        } else {
+        if (!file.exists()) {
             file.mkdirs();
         }
     }

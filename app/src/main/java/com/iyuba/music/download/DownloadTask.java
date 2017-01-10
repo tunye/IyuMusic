@@ -246,6 +246,7 @@ public class DownloadTask {
             }
             file = new File(path + ".tmp");
             try {
+                file.createNewFile();
                 URL url = new URL(fileUrl);
                 HttpURLConnection connection = (HttpURLConnection) url
                         .openConnection();

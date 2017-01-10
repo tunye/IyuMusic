@@ -18,9 +18,7 @@ public class LrcMaker {
 
     private LrcMaker() {
         File file = new File(ConstantManager.instance.getLrcFolder());
-        if (file.exists()) {
-
-        } else {
+        if (!file.exists()) {
             file.mkdirs();
         }
     }

@@ -95,6 +95,7 @@ public class FileOperation {
     public static void writeFileSDFileBuffer(String filename, String context, boolean cover) {
         try {
             File file = new File(filename);
+            file.createNewFile();
             //第二个参数意义是说是否以append方式添加内容
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, cover));
             bw.write(context);
