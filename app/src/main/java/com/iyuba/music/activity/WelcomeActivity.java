@@ -10,7 +10,6 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/11/16.
  */
 public class WelcomeActivity extends AppCompatActivity {
-    public static final int START_FOR_WEBAD = 100;             // 进入开屏广告
     public static final String NORMAL_START = "normalStart";
     private View escapeAd;
     private ImageView footer, header;
@@ -75,9 +73,10 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showAd = true;
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "https://www.baidu.com");
-                startActivityForResult(intent, START_FOR_WEBAD);
+                int nextActivity = normalStart ? 0 : 1;
+                WelcomeAdWebView.launch(context, "https://www.baidu.com", nextActivity);
+                ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
+                finish();
             }
         });
         escapeAd.setOnClickListener(new View.OnClickListener() {
@@ -164,18 +163,6 @@ public class WelcomeActivity extends AppCompatActivity {
         intent.addCategory("android.intent.category.LAUNCHER");
         shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
         sendBroadcast(shortcutintent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == START_FOR_WEBAD) {
-            if (normalStart) {
-                startActivity(new Intent(context, MainActivity.class));
-            }
-            ((MusicApplication) getApplication()).popActivity(this);
-            finish();
-        }
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {

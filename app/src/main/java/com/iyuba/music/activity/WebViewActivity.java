@@ -55,6 +55,13 @@ public class WebViewActivity extends BaseActivity {
             menu.dismiss();
         } else if (web.canGoBack()) {
             web.goBack(); // goBack()表示返回webView的上一页面
+            title.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String titleContent = web.getTitle();
+                    title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                }
+            }, 500);
         } else if (!web.canGoBack()) {
             finish();
         }

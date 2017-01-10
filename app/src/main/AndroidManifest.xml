@@ -46,6 +46,7 @@
             android:name=".activity.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.HelpUseActivity" />
+        <activity android:name=".activity.WelcomeAdWebView" />
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask" />
