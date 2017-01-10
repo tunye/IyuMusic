@@ -64,6 +64,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseSkinActivity implements ILocationListener {
     private static final int WRITE_EXTERNAL_TASK_CODE = 1;
+    private static final int WRITE_EXTERNAL_TASK_NO_EXE_CODE = 2;
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
     protected RelativeLayout toolBarLayout;
     private Context context;
@@ -239,6 +240,11 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             }
             materialDialog.setCanceledOnTouchOutside(false);
             materialDialog.show();
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
+            }
         }
     }
 

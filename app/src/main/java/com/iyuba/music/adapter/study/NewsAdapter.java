@@ -1,9 +1,14 @@
 package com.iyuba.music.adapter.study;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -175,7 +180,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 public void onClick(View v) {
                     if (DownloadTask.checkFileExists(article)) {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, position);
-                    } else {
+                    } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED) {
                         new LocalInfoOp().updateDownload(article.getId(), "209", 2);
                         DownloadFile downloadFile = new DownloadFile();
                         downloadFile.id = article.getId();
@@ -183,6 +189,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         DownloadManager.sInstance.fileList.add(downloadFile);
                         new DownloadTask(article).start();
                         notifyItemChanged(position);
+                    } else {
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
                 }
             });
