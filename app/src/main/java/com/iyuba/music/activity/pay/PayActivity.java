@@ -280,12 +280,12 @@ public class PayActivity extends BaseActivity {
                         if (TextUtils.equals(resultStatus, "8000")) {
                             CustomToast.INSTANCE.showToast("支付结果确认中");
                         } else if (TextUtils.equals(resultStatus, "6001")) {
-                            CustomToast.INSTANCE.showToast("您已取消支付");
+                            CustomToast.INSTANCE.showToast(R.string.pay_detail_fail);
                         } else if (TextUtils.equals(resultStatus, "6002")) {
                             CustomToast.INSTANCE.showToast("网络连接出错");
                         } else {
                             // 其他值就可以判断为支付失败，或者系统返回的错误
-                            CustomToast.INSTANCE.showToast("支付失败");
+                            CustomToast.INSTANCE.showToast(R.string.pay_detail_fail);
                         }
                     }
                     break;

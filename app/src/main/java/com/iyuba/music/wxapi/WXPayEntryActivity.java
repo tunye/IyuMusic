@@ -55,10 +55,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                     AccountManager.instance.getPersonalInfo(null);
                     break;
                 case 1:
-                    dialog.setMessage("支付失败");
+                    dialog.setMessage(R.string.pay_detail_fail);
                     break;
                 case 2:
-                    dialog.setMessage("您已取消支付");
+                    dialog.setMessage(R.string.pay_detail_cancel);
                     break;
                 default:
                     dialog.setMessage("未知错误");

@@ -523,5 +523,7 @@
     <string name="pay_detail_money_content">%1$s元</string>
     <string name="pay_detail_no_wechat">您尚未安装微信，无法使用微信支付</string>
     <string name="pay_detail_generate_failed">订单拉取失败，请重试</string>
-    <string name="pay_detail_success">购买成功</string>
+    <string name="pay_detail_success">支付成功</string>
+    <string name="pay_detail_fail">支付失败</string>
+    <string name="pay_detail_cancel">您已取消支付</string>
 </resources>

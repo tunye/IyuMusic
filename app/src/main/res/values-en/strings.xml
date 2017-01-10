@@ -521,6 +521,8 @@
     <string name="pay_detail_sure">Pay</string>
     <string name="pay_detail_money_content">%1$s RMB</string>
     <string name="pay_detail_no_wechat">your phone is not installed wechat, so you can not use this pay way.</string>
-    <string name="pay_detail_generate_failed">订单拉取失败，请重试</string>
-    <string name="pay_detail_success">购买成功</string>
+    <string name="pay_detail_generate_failed">Generate order failed, please try again</string>
+    <string name="pay_detail_success">Pay success</string>
+    <string name="pay_detail_fail">Pay failed</string>
+    <string name="pay_detail_cancel">Pay canceled</string>
 </resources>
