@@ -25,7 +25,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.study.RecommendSongActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SearchHistoryAdapter;
-import com.iyuba.music.adapter.study.SearchNewsAdapter;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;

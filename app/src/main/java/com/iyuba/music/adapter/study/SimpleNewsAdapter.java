@@ -1,8 +1,9 @@
 package com.iyuba.music.adapter.study;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +20,33 @@ import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
 public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.MyViewHolder> {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ArrayList<Article> newsList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+    private HashMap<String, RoundProgressBar> progresses = new HashMap<>();
     private Context context;
     private int type;
     private boolean delete;
+    private LocalInfoOp localInfoOp;
 
     public SimpleNewsAdapter(Context context) {
         this.context = context;
         newsList = new ArrayList<>();
         type = 0;
         this.delete = false;
+        localInfoOp = new LocalInfoOp();
     }
 
 
@@ -47,6 +55,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         newsList = new ArrayList<>();
         this.type = type;
         this.delete = false;
+        localInfoOp = new LocalInfoOp();
     }
 
     public boolean isDelete() {
@@ -129,6 +138,31 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                 holder.readCount.setText(context.getString(R.string.article_search_info, article.getTitleFind(), article.getTextFind()));
                 break;
         }
+        if (localInfoOp.findDataById(article.getApp(), article.getId()).getDownload() == 2) {
+            final int id = article.getId();
+            holder.download.setVisibility(View.VISIBLE);
+            holder.pic.setVisibility(View.GONE);
+            holder.timeBackground.setVisibility(View.GONE);
+            holder.time.setVisibility(View.GONE);
+            DownloadFile file;
+            for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
+                file = DownloadManager.sInstance.fileList.get(i);
+                if (file.id == id) {
+                    progresses.put(String.valueOf(file.id),
+                            holder.download);
+                    Message message = new Message();
+                    message.what = 1;
+                    message.obj = file;
+                    handler.sendMessage(message);
+                    break;
+                }
+            }
+        } else {
+            holder.download.setVisibility(View.GONE);
+            holder.pic.setVisibility(View.VISIBLE);
+            holder.timeBackground.setVisibility(View.VISIBLE);
+            holder.time.setVisibility(View.VISIBLE);
+        }
         if (delete) {
             holder.delete.setVisibility(View.VISIBLE);
         } else {
@@ -153,6 +187,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     downloadFile.downloadState = "start";
                     DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
+                    notifyItemChanged(position);
                 }
             }
         });
@@ -178,6 +213,8 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         TextView title, singer, broadcaster, time, readCount;
         ImageView pic, downloadFlag;
         CheckBox delete;
+        View timeBackground;
+        RoundProgressBar download;
 
         public MyViewHolder(View view) {
             super(view);
@@ -189,6 +226,61 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             downloadFlag = (ImageView) view.findViewById(R.id.article_download);
             readCount = (TextView) view.findViewById(R.id.article_readcount);
             delete = (CheckBox) view.findViewById(R.id.item_delete);
+            timeBackground = view.findViewById(R.id.article_createtime_background);
+            download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SimpleNewsAdapter> {
+        @Override
+        public void handleMessageByRef(final SimpleNewsAdapter adapter, Message msg) {
+            DownloadFile file;
+            RoundProgressBar tempBar;
+            switch (msg.what) {
+                case 1:
+                    file = (DownloadFile) msg.obj;
+                    Message message = new Message();
+                    if (file.downloadState.equals("start")) {
+                        tempBar = adapter.progresses.get(String.valueOf(file.id));
+                        tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_app_color));
+                        if (file.fileSize != 0 && file.downloadSize != 0) {
+                            tempBar.setMax(file.fileSize);
+                            tempBar.setProgress(file.downloadSize);
+                        } else {
+                            tempBar.setMax(1);
+                            tempBar.setProgress(0);
+                        }
+                        message.what = 1;
+                        message.obj = file;
+                        adapter.handler.sendMessageDelayed(message, 1500);
+                    } else if (file.downloadState.equals("half_finish")) {
+                        tempBar = adapter.progresses.get(String.valueOf(file.id));
+                        tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
+                        if (file.fileSize != 0 && file.downloadSize != 0) {
+                            tempBar.setMax(file.fileSize);
+                            tempBar.setProgress(file.downloadSize);
+                        } else {
+                            tempBar.setMax(1);
+                            tempBar.setProgress(0);
+                        }
+                        message.what = 1;
+                        message.obj = file;
+                        adapter.handler.sendMessageDelayed(message, 1500);
+                    } else if (file.downloadState.equals("finish")) {
+                        message.what = 2;
+                        message.obj = file;
+                        adapter.handler.removeMessages(msg.what);
+                        adapter.handler.sendMessage(message);
+                    }
+                    break;
+                case 2:
+                    file = (DownloadFile) msg.obj;
+                    tempBar = adapter.progresses.get(String.valueOf(file.id));
+                    tempBar.setVisibility(View.GONE);
+                    DownloadManager.sInstance.fileList.remove(file);
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
         }
     }
 }

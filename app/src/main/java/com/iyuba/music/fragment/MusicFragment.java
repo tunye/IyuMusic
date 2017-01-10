@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.adapter.study.MusicAdapter;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
