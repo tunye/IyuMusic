@@ -22,6 +22,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     private DownloadNewsAdapter newsAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
+    private MySwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
+        swipeRefreshLayout.setEnabled(false);
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
         newsAdapter = new DownloadNewsAdapter(context);
