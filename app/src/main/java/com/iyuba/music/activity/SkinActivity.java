@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.R;
@@ -34,6 +35,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         FlavorAdapter mAdapter = new FlavorAdapter(this);
         mAdapter.setItemClickListener(this);
@@ -52,12 +54,22 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
                 onBackPressed();
             }
         });
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (initPos != SkinManager.getInstance().getCurrSkin()) {
+                    Intent intent = new Intent("changeProperty");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                }
+            }
+        });
     }
 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.setting_skin);
+        toolbarOper.setText(R.string.dialog_save);
         initPos = SkinManager.getInstance().getCurrSkin();
     }
 
