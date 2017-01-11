@@ -140,6 +140,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                 }
                 break;
             case 2:
+                holder.broadcaster.setVisibility(View.GONE);
                 holder.readCount.setText(context.getString(R.string.article_search_info, article.getTitleFind(), article.getTextFind()));
                 break;
         }

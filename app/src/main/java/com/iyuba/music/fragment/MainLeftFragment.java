@@ -152,13 +152,6 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 1:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
-                            startActivity(new Intent(context, CreditActivity.class));
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
-                        break;
-                    case 2:
                         if (AccountManager.instance.checkUserLogin()) {
                             StringBuilder url = new StringBuilder();
                             url.append("http://m.iyuba.com/i/getLeaderBoard.jsp?appId=")
@@ -171,6 +164,13 @@ public class MainLeftFragment extends BaseFragment {
                             intent.putExtra("url", url.toString());
                             intent.putExtra("title", context.getString(R.string.oper_rank));
                             startActivity(intent);
+                        } else {
+                            CustomDialog.showLoginDialog(context);
+                        }
+                        break;
+                    case 2:
+                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                            startActivity(new Intent(context, CreditActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }

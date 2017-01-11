@@ -241,7 +241,7 @@
     <string name="article_singer">歌手 %1$s</string>
     <string name="article_announcer">播音 %1$s</string>
     <string name="article_uploader">上传 %1$s</string>
-    <string name="article_read_count">%1$s 播放</string>
+    <string name="article_read_count">播放 %1$s</string>
     <string name="article_list_count">%1$s 首</string>
     <string name="article_duration">时长 %1$s</string>
     <string name="article_search_info">匹配数:标题%1$s次;本文%2$s次</string>

@@ -24,8 +24,8 @@ public class OperAdapter extends BaseAdapter {
         menuTextList = new ArrayList<>();
 
         menuIconList.add(R.drawable.vip_icon);
-        menuIconList.add(R.drawable.credits_icon);
         menuIconList.add(R.drawable.rank_icon);
+        menuIconList.add(R.drawable.credits_icon);
         menuIconList.add(R.drawable.discover_icon);
         menuIconList.add(R.drawable.message_icon);
         menuIconList.add(R.drawable.local_music_icon);
@@ -33,8 +33,8 @@ public class OperAdapter extends BaseAdapter {
         menuIconList.add(R.drawable.setting_icon);
 
         menuTextList.add(R.string.oper_vip);
-        menuTextList.add(R.string.oper_credits);
         menuTextList.add(R.string.oper_rank);
+        menuTextList.add(R.string.oper_credits);
         menuTextList.add(R.string.oper_discover);
         menuTextList.add(R.string.oper_message);
         menuTextList.add(R.string.oper_local_music);

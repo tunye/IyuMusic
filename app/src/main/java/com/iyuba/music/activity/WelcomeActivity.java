@@ -74,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 showAd = true;
                 int nextActivity = normalStart ? 0 : 1;
-                WelcomeAdWebView.launch(context, "https://www.baidu.com", nextActivity);
+                WelcomeAdWebView.launch(context, "http://app.iyuba.com/", nextActivity);
                 ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
                 finish();
             }

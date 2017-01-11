@@ -102,13 +102,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
+                    android:layout_marginRight="@dimen/row_space_big"
                     android:textSize="@dimen/medium_text" />
 
                 <TextView
                     android:id="@+id/article_readcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/row_space_big"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text" />
