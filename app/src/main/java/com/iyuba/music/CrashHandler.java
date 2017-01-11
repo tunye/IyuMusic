@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.ObbInfo;
 import android.os.Build;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.iyuba.music.manager.ConstantManager;
 
 import java.io.DataOutputStream;
@@ -37,7 +39,7 @@ import java.util.Map;
 public class CrashHandler implements UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private MusicApplication application;
-    private Map<String, String> infos = new HashMap<>();
+    private Map<String, Object> infos = new HashMap<>();
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -46,6 +48,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public CrashHandler(MusicApplication application) {
         this.application = application;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+    }
+
+    public void createLogFile(String logMsg){
+        collectDeviceInfo(application.getApplicationContext());
+        saveLogInfo2File(logMsg);
     }
 
     /**
@@ -98,9 +105,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 String versionName = pi.versionName == null ? "null" : pi.versionName;
-                String versionCode = pi.versionCode + "";
                 infos.put("versionName", versionName);
-                infos.put("versionCode", versionCode);
+                infos.put("versionCode", pi.versionCode);
             }
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -109,7 +115,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
-                infos.put(field.getName(), field.get(null).toString());
+                infos.put(field.getName(), field.get(null));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -125,10 +131,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private String saveCrashInfo2File(Throwable ex) {
 
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> entry : infos.entrySet()) {
+        for (Map.Entry<String, Object> entry : infos.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
-            sb.append(key).append("=").append(value).append("\n");
+            sb.append(key).append("=").append(new Gson().toJson(entry.getValue())).append("\n");
         }
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -145,6 +150,37 @@ public class CrashHandler implements UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
             String fileName = "crash_" + time + "_" + timestamp + ".log";
+            File dir = new File(ConstantManager.instance.getCrashFolder());
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            FileOutputStream fos = new FileOutputStream(dir.getPath() + File.separator + fileName);
+            fos.write(sb.toString().getBytes());
+            fos.close();
+            return fileName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 保存错误信息到文件中
+     *
+     * @return 返回文件名称, 便于将文件传送到服务器
+     */
+    private String saveLogInfo2File(String logMsg) {
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Object> entry : infos.entrySet()) {
+            String key = entry.getKey();
+            sb.append(key).append("=").append(new Gson().toJson(entry.getValue())).append("\n");
+        }
+        sb.append(logMsg);
+        try {
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
+            String fileName = "log_" + time + "_" + timestamp + ".log";
             File dir = new File(ConstantManager.instance.getCrashFolder());
             if (!dir.exists()) {
                 dir.mkdirs();

@@ -91,7 +91,7 @@ public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 onBackPressed();
             }
         });
-        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         upArrow.setColorFilter(0xffededed, PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(upArrow);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);

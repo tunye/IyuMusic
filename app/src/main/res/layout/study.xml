@@ -111,17 +111,6 @@
         app:pi_radius="@dimen/row_space_default"
         app:pi_stroke="@dimen/line_thin" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/musicbar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
-
     <RelativeLayout
         android:id="@+id/musicbar"
         android:layout_width="match_parent"

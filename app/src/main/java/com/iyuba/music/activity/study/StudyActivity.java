@@ -19,13 +19,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.flyco.roundview.RoundTextView;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
@@ -65,10 +61,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private int aPosition, bPosition;// 区间播放
     private IntervalState intervalState;
     private boolean isDestroyed = false;
-    private AdView mAdView;
     IPlayerListener iPlayerListener = new IPlayerListener() {
-
-
         @Override
         public void onPrepare() {
             int i = player.getDuration();
@@ -127,9 +120,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (player.isPrepared()) {
             handler.sendEmptyMessage(0);
         }
-        if (mAdView != null) {
-            mAdView.resume();
-        }
     }
 
     @Override
@@ -143,9 +133,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         super.onDestroy();
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
     }
 
     @Override
@@ -238,17 +225,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         studyMoreDialog = new StudyMore(this);
         playSound.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
-        if (!DownloadService.checkVip()) {
-            initAdView();
-        }
-    }
-
-    private void initAdView() {
-//        MobileAds.initialize(this, "ca-app-pub-0386301933791128~8939406715");
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-        mAdView = (AdView) findViewById(R.id.ad_view);
-        mAdView.setVisibility(View.VISIBLE);
-        mAdView.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build());
     }
 
     @Override

@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
+import com.iyuba.music.CrashHandler;
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -256,6 +257,7 @@ public class PayActivity extends BaseActivity {
             switch (msg.what) {
                 case 0:
                     PayResult payResult = new PayResult((String) msg.obj);
+                    new CrashHandler((MusicApplication) activity.getApplication()).createLogFile(new Gson().toJson(payResult));
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
@@ -280,7 +282,7 @@ public class PayActivity extends BaseActivity {
                         if (TextUtils.equals(resultStatus, "8000")) {
                             CustomToast.INSTANCE.showToast("支付结果确认中");
                         } else if (TextUtils.equals(resultStatus, "6001")) {
-                            CustomToast.INSTANCE.showToast(R.string.pay_detail_fail);
+                            CustomToast.INSTANCE.showToast(R.string.pay_detail_cancel);
                         } else if (TextUtils.equals(resultStatus, "6002")) {
                             CustomToast.INSTANCE.showToast("网络连接出错");
                         } else {
