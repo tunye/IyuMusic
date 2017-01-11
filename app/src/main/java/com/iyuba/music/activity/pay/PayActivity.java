@@ -257,7 +257,6 @@ public class PayActivity extends BaseActivity {
             switch (msg.what) {
                 case 0:
                     PayResult payResult = new PayResult((String) msg.obj);
-                    new CrashHandler((MusicApplication) activity.getApplication()).createLogFile(new Gson().toJson(payResult));
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
