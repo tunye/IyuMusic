@@ -497,6 +497,9 @@ public class RegistActivity extends BaseActivity {
                         if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
                             activity.registByPhone.setVisibility(View.GONE);
                             activity.registByEmail.setVisibility(View.VISIBLE);
+                            activity.userName.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
+                            activity.userName.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
+                            activity.userPwd2.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
                             activity.email.setVisibility(View.GONE);
                             activity.changeUIResumeByPara();
                         } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {

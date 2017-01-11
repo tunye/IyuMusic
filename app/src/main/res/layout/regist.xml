@@ -96,7 +96,7 @@
                 android:maxLines="1"
                 app:met_baseColor="@color/text_gray_color"
                 app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
+                app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="3"
                 app:met_primaryColor="@color/skin_app_color" />
@@ -105,13 +105,12 @@
                 android:id="@+id/regist_pwd"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_small"
                 android:hint="@string/regist_pwd_hint"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:met_baseColor="@color/text_gray_color"
                 app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
+                app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="6"
                 app:met_primaryColor="@color/skin_app_color" />
@@ -120,13 +119,12 @@
                 android:id="@+id/regist_repwd"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_small"
                 android:hint="@string/regist_repwd_hint"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:met_baseColor="@color/text_gray_color"
                 app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
+                app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="6"
                 app:met_primaryColor="@color/skin_app_color" />
@@ -135,13 +133,12 @@
                 android:id="@+id/regist_email"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_small"
                 android:hint="@string/regist_email_hint"
                 android:imeOptions="actionSend"
                 android:maxLines="1"
                 app:met_baseColor="@color/text_gray_color"
                 app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
+                app:met_floatingLabel="none"
                 app:met_primaryColor="@color/skin_app_color" />
         </LinearLayout>
 
@@ -149,7 +146,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/row_space_default"
+            android:layout_marginTop="@dimen/row_space_large"
             android:orientation="horizontal">
 
             <CheckBox
@@ -164,7 +161,7 @@
                 android:id="@+id/regist_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#0179ff" />
+                android:textColor="@color/skin_app_color" />
         </LinearLayout>
 
         <com.flyco.roundview.RoundTextView
