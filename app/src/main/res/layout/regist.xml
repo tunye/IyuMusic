@@ -161,7 +161,7 @@
                 android:id="@+id/regist_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/skin_app_color" />
+                android:textColor="#009FE8"/>
         </LinearLayout>
 
         <com.flyco.roundview.RoundTextView
