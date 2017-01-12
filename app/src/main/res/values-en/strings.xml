@@ -86,6 +86,7 @@
     <string name="forget_pwd">Forget password</string>
     <string name="login_success">You have successfully logged in and welcome back %1$s</string>
     <string name="login_fail">Login failed, check username and password</string>
+    <string name="login_error">Account message got failed, please sign in again.</string>
     <!--我-->
     <string name="personal_logout">Logout</string>
     <string name="personal_logout_textmore">Log out current user</string>
