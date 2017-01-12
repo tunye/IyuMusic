@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/row_space_large"
-    android:paddingRight="@dimen/row_space_large">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_with_oper" />
 
 
     <com.iyuba.music.widget.original.OriginalView
@@ -19,6 +17,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/size_layout"
         android:layout_below="@+id/toolbar"
+        android:paddingLeft="@dimen/row_space_large"
+        android:paddingRight="@dimen/row_space_large"
         app:ori_showchinese="true" />
 
     <LinearLayout
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/background_light"
+        android:background="#dcdcdc"
         android:orientation="vertical">
 
         <LinearLayout
@@ -43,8 +43,8 @@
             android:layout_marginBottom="@dimen/row_space_default"
             android:paddingLeft="@dimen/row_space_big"
             android:paddingRight="@dimen/row_space_big"
-            app:backdropFillColor="@color/text_gray_color"
-            app:backdropStrokeColor="@color/text_gray_color"
+            app:backdropFillColor="#464646"
+            app:backdropStrokeColor="#464646"
             app:backdropStrokeWidth="@dimen/line_default"
             app:horizontalBarThickness="@dimen/line_default"
             app:progressDrawable="@drawable/transparent_progress"

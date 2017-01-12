@@ -526,4 +526,5 @@
     <string name="pay_detail_success">支付成功</string>
     <string name="pay_detail_fail">支付失败</string>
     <string name="pay_detail_cancel">您已取消支付</string>
+    <string name="app_no_change">该设定无变化</string>
 </resources>

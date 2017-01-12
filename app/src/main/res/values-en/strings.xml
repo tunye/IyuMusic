@@ -525,4 +525,5 @@
     <string name="pay_detail_success">Pay success</string>
     <string name="pay_detail_fail">Pay failed</string>
     <string name="pay_detail_cancel">Pay canceled</string>
+    <string name="app_no_change">该设定无变化</string>
 </resources>

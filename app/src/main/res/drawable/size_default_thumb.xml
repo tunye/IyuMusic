@@ -6,9 +6,9 @@
         android:width="24dp"
         android:height="24dp" />
     <stroke
-        android:width="6dp"
-        android:color="#e51c23" />
-    <solid android:color="#dd191d" />
+        android:width="0.5dp"
+        android:color="#343434" />
+    <solid android:color="#ededed" />
 
     <corners android:radius="1dp" />
 

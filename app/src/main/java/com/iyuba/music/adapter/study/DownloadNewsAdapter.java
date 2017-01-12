@@ -17,6 +17,7 @@ import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
@@ -188,7 +189,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                     Message message = new Message();
                     if (file.downloadState.equals("start")) {
                         tempBar = adapter.progresses.get(String.valueOf(file.id));
-                        tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_app_color));
+                        tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
                         if (file.fileSize != 0 && file.downloadSize != 0) {
                             tempBar.setMax(file.fileSize);
                             tempBar.setProgress(file.downloadSize);

@@ -13,6 +13,7 @@ import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
@@ -60,6 +61,8 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
                 if (initPos != SkinManager.getInstance().getCurrSkin()) {
                     Intent intent = new Intent("changeProperty");
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                } else {
+                    CustomToast.INSTANCE.showToast(R.string.app_no_change);
                 }
             }
         });

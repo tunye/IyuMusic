@@ -15,6 +15,8 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.original.OriginalView;
 import com.iyuba.music.widget.seekbar.DiscreteSlider;
@@ -61,7 +63,7 @@ public class OriginalSizeActivity extends BaseActivity {
     private OriginalView original;
     private DiscreteSlider discreteSlider;
     private LinearLayout tickMarkLabels;
-    private int sizePos;
+    private int sizePos, initPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class OriginalSizeActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         original = (OriginalView) findViewById(R.id.original);
         discreteSlider = (DiscreteSlider) findViewById(R.id.discrete_slider);
         tickMarkLabels = (LinearLayout) findViewById(R.id.tick_mark_labels);
@@ -91,7 +94,18 @@ public class OriginalSizeActivity extends BaseActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSaveChangeDialog();
+                onBackPressed();
+            }
+        });
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (initPos != sizePos) {
+                    SettingConfigManager.instance.setOriginalSize(posToSize(sizePos));
+                    finish();
+                }else{
+                    CustomToast.INSTANCE.showToast(R.string.app_no_change);
+                }
             }
         });
         discreteSlider.setOnDiscreteSliderChangeListener(new DiscreteSlider.OnDiscreteSliderChangeListener() {
@@ -100,7 +114,7 @@ public class OriginalSizeActivity extends BaseActivity {
                 if (sizePos != position) {
                     ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(getResources().getColor(R.color.text_color));
                     sizePos = position;
-                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(getResources().getColor(R.color.skin_app_color));
+                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(GetAppColor.instance.getAppColor(context));
                     original.setTextSize(posToSize(position));
                     original.setOriginalList(originalRows);
                 }
@@ -112,7 +126,8 @@ public class OriginalSizeActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.original_size_title);
-        sizePos = sizeToPos(SettingConfigManager.instance.getOriginalSize());
+        toolbarOper.setText(R.string.dialog_save);
+        initPos = sizePos = sizeToPos(SettingConfigManager.instance.getOriginalSize());
         original.setTextSize(SettingConfigManager.instance.getOriginalSize());
         original.setOriginalList(originalRows);
         discreteSlider.setSelected(sizePos);
@@ -176,7 +191,7 @@ public class OriginalSizeActivity extends BaseActivity {
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(14 + i * 2);
             if (i == initPos) {
-                tv.setTextColor(getResources().getColor(R.color.skin_app_color));
+                tv.setTextColor(GetAppColor.instance.getAppColor(context));
             } else {
                 tv.setTextColor(getResources().getColor(R.color.text_color));
             }
@@ -194,7 +209,11 @@ public class OriginalSizeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        showSaveChangeDialog();
+        if (initPos != sizePos) {
+            showSaveChangeDialog();
+        } else {
+            finish();
+        }
     }
 
     private void showSaveChangeDialog() {
