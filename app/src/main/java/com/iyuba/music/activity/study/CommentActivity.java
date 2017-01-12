@@ -49,11 +49,6 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2016/2/13.
  */
 public class CommentActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected RelativeLayout toolBarLayout;
-    protected TextView title;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Article curArticle;
     private ImageView img;

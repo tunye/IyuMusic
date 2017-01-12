@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
@@ -57,6 +58,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolbarOper= (TextView) findViewById(R.id.toolbar_oper);
         messageRecycleView = (RecyclerView) findViewById(R.id.message_recyclerview);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);

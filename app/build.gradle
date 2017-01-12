@@ -17,8 +17,8 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 80
-        versionName "8.0"
+        versionCode 79
+        versionName "8.0 beta"
         multiDexEnabled true
     }
     buildTypes {
