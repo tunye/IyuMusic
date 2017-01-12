@@ -17,9 +17,7 @@ public class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
         String oldState = NetWorkState.getInstance().getNetWorkState();
         String netWorkState = NetWorkType.getNetworkType(context);
         NetWorkState.getInstance().setNetWorkState(netWorkState);
-        if (netWorkState.equals(oldState)) {
-
-        } else {
+        if (!netWorkState.equals(oldState)) {
             if (TextUtils.equals(netWorkState, "NO-NET")) {
                 Toast.makeText(context, "网络不可用，如果继续，请先设置网络！", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.equals(oldState, "WIFI")) {

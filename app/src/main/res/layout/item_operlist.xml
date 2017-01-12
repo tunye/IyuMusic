@@ -4,7 +4,7 @@
     android:id="@+id/oper_ripple"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/row_space_very_large"
+    android:padding="@dimen/row_space_large"
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="600"
     app:mrl_rippleInAdapter="true">
@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/oper_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/row_space_large" />
 

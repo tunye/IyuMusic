@@ -13,7 +13,7 @@ public class NetWorkState {
     private static NetWorkState instance;
     private String netWorkState;
 
-    public NetWorkState() {
+    private NetWorkState() {
     }
 
     public static NetWorkState getInstance() {

@@ -40,6 +40,7 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -307,17 +308,15 @@ public class MainLeftFragment extends BaseFragment {
         int follow = Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
-            personalFollow.setTextColor(context.getResources().getColor(R.color.skin_app_color));
+            personalFollow.setTextColor(GetAppColor.instance.getAppColor(context));
         } else {
-            personalFollow.setTextColor(context.getResources().getColor(R.color.text_color));
             personalFollow.setText(context.getString(R.string.personal_follow, userInfo.getFollowing()));
         }
         int follower = Integer.parseInt(userInfo.getFollower());
         if (follower > 10000) {
             personalFan.setText(context.getString(R.string.personal_fan, follower / 10000 + "w"));
-            personalFan.setTextColor(context.getResources().getColor(R.color.skin_app_color));
+            personalFan.setTextColor(GetAppColor.instance.getAppColor(context));
         } else {
-            personalFan.setTextColor(context.getResources().getColor(R.color.text_color));
             personalFan.setText(context.getString(R.string.personal_fan, userInfo.getFollower()));
         }
         //personalMessage.setText(context.getString(R.string.personal_message, userInfo.getNotification()));
