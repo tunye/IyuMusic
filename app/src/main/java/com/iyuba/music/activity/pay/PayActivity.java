@@ -38,8 +38,8 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 
 public class PayActivity extends BaseActivity {
-    //private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
-    private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
+    private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
+    //private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
     private static final String[] PAY_MONTH = {"1", "3", "6", "12", "0"};
     private static final String PAY_TYPE = "pay_type";
     private int goodsType;

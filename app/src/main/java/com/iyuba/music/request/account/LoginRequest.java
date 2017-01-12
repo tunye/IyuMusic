@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.text.TextUtils;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -78,7 +80,7 @@ public class LoginRequest {
                                         userInfo.setUserEmail(xmlPullParser.nextText());
                                     }
                                     if ("jiFen".equals(nodeName)) {
-                                        if (xmlPullParser.nextText().equals("0")) {
+                                        if ("0".equals(xmlPullParser.nextText())) {
                                             apiEntity.setMessage("no");
                                         } else {
                                             apiEntity.setMessage("add");
@@ -88,7 +90,11 @@ public class LoginRequest {
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();
                                     if ("response".equals(nodeName)) {
-                                        apiEntity.setData(userInfo);
+                                        if (userInfo != null && !TextUtils.isEmpty(userInfo.getUid())) {
+                                            apiEntity.setData(userInfo);
+                                        } else {
+                                            apiEntity.setState(BaseApiEntity.State.ERROR);
+                                        }
                                         response.response(apiEntity);
                                     }
                                     break;

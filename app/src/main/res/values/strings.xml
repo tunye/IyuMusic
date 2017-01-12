@@ -87,6 +87,7 @@
     <string name="forget_pwd">忘记密码</string>
     <string name="login_success">登录成功，欢迎回来 %1$s</string>
     <string name="login_fail">登录失败，请检查用户名密码是否正确</string>
+    <string name="login_error">信息获取失败，请再次登录</string>
     <!--我-->
     <string name="personal_logout">注销</string>
     <string name="personal_logout_textmore">退出当前账号</string>
@@ -139,7 +140,7 @@
     <string name="about_market_error">您当前未安装应用市场，无法使用该功能。</string>
     <string name="about_developer_birth">产品诞生于: 北京航空航天大学 软件学院</string>
     <string name="about_developer_author">作者: 陈彤，北航在读研究生</string>
-    <string name="about_developer_contact">联系: 1020297404@qq.com</string>
+    <string name="about_developer_contact">联系: 745634460@qq.com</string>
     <string name="about_developer_thanks">感谢开源社区支持: volley、emojicon、aigestudio Downloader、rengwuxian materialedittext、代码家 androidanimations、balysv materialmenu、drakeet materialdialog、 traexrippleeffect、universalimageloader、FlycoRoundView_Lib，因为有了你们，产品变得更出色了。</string>
     <string name="about_developer_blog">csdn主页: http://my.csdn.net/chentong2419</string>
     <string name="about_developer_github">github主页: https://github.com/tunye</string>

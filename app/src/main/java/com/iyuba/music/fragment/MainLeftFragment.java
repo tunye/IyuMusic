@@ -44,6 +44,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -237,7 +238,6 @@ public class MainLeftFragment extends BaseFragment {
                     AccountManager.instance.setUserInfo(userInfo);
                     AccountManager.instance.login(AccountManager.instance.getUserName(), AccountManager.instance.getUserPwd(),
                             new IOperationResult() {
-
                                 @Override
                                 public void success(Object message) {
                                     if ("add".equals(message.toString())) {
@@ -285,12 +285,15 @@ public class MainLeftFragment extends BaseFragment {
 
             @Override
             public void fail(Object object) {
-                userInfo = new UserInfoOp()
-                        .selectData(AccountManager.instance.getUserId());
+                userInfo = new UserInfoOp().selectData(AccountManager.instance.getUserId());
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.getFollowing())) {
                     AccountManager.instance.setUserInfo(userInfo);
+                    handler.sendEmptyMessage(0);
+                } else {
+                    AccountManager.instance.setLoginState(AccountManager.LoginState.UNLOGIN);
+                    changeUIResumeByPara();
+                    CustomToast.INSTANCE.showToast("您的账号信息异常，请重新登录");
                 }
-                handler.sendEmptyMessage(0);
             }
         });
     }
@@ -362,11 +365,13 @@ public class MainLeftFragment extends BaseFragment {
         public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
             switch (msg.what) {
                 case 0:
-                    ImageUtil.loadAvatar(fragment.userInfo.getUid(), fragment.personalPhoto);
-                    fragment.setPersonalInfoContent();
-                    fragment.login.setVisibility(View.VISIBLE);
-                    fragment.noLogin.setVisibility(View.GONE);
-                    fragment.sign.setVisibility(View.VISIBLE);
+                    if (!TextUtils.isEmpty(fragment.userInfo.getUid())) {
+                        ImageUtil.loadAvatar(fragment.userInfo.getUid(), fragment.personalPhoto);
+                        fragment.setPersonalInfoContent();
+                        fragment.login.setVisibility(View.VISIBLE);
+                        fragment.noLogin.setVisibility(View.GONE);
+                        fragment.sign.setVisibility(View.VISIBLE);
+                    }
                     break;
             }
         }

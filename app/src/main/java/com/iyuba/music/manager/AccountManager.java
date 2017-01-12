@@ -106,9 +106,13 @@ public enum AccountManager {
                                 R.string.login_success, userInfo.getUsername()));
                         saveUserNameAndPwd();
                         rc.success(apiEntity.getMessage());
-                    } else {
+                    } else if (apiEntity.getState().equals(BaseApiEntity.State.FAIL)) {
                         loginState = LoginState.UNLOGIN;
                         rc.fail(context.getString(R.string.login_fail));
+                    } else {
+                        loginState = LoginState.UNLOGIN;
+                        saveUserNameAndPwd();
+                        rc.fail(context.getString(R.string.login_error));
                     }
                 }
             });

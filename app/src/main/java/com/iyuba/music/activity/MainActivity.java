@@ -220,8 +220,9 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle("新版本特性");
             StringBuilder sb = new StringBuilder();
-            sb.append("1.[软件维护] 修复使用过程中的若干异常问题").append("\n");
-            sb.append("2.[海量曲库] 用户上传的经典乐曲，畅享英文歌曲");
+            sb.append("1.[软件维护] 修复用户反馈若干异常").append("\n");
+            sb.append("2.[性能优化] 提高软件使用的稳定性").append("\n");
+            sb.append("3.[在线支付] 会员购买可以使用在线支付方式了！");
             materialDialog.setMessage(sb.toString());
             materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
                 @Override
