@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.ObbInfo;
 import android.os.Build;
 import android.os.Looper;
 import android.widget.Toast;
@@ -50,7 +49,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
     }
 
-    public void createLogFile(String logMsg){
+    public void createLogFile(String logMsg) {
         collectDeviceInfo(application.getApplicationContext());
         saveLogInfo2File(logMsg);
     }

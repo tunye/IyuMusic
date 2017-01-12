@@ -8,6 +8,7 @@
     <string name="app_sure">允许</string>
     <string name="app_cancel">取消</string>
     <string name="app_submit">提交</string>
+    <string name="app_no_change">该设定无变化</string>
     <string name="select_all">全选</string>
     <string name="app_buy">购买</string>
     <string name="generic_server_down">服务器连接超时</string>
@@ -526,5 +527,4 @@
     <string name="pay_detail_success">支付成功</string>
     <string name="pay_detail_fail">支付失败</string>
     <string name="pay_detail_cancel">您已取消支付</string>
-    <string name="app_no_change">该设定无变化</string>
 </resources>

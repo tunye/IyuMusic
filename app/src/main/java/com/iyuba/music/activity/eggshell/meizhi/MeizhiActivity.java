@@ -78,7 +78,7 @@ public class MeizhiActivity extends BaseActivity implements MySwipeRefreshLayout
     @Override
     protected void setListener() {
         super.setListener();
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
     }
 
     @Override

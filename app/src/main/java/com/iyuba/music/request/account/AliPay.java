@@ -43,6 +43,11 @@ public class AliPay {
         return instance;
     }
 
+    private static String generateCode(String userId) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return MD5.getMD5ofStr(userId + "iyuba" + df.format(System.currentTimeMillis()));
+    }
+
     public void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
@@ -100,10 +105,5 @@ public class AliPay {
         key = key + Math.abs(r.nextInt());
         key = key.substring(0, 15);
         return key;
-    }
-
-    private static String generateCode(String userId) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return MD5.getMD5ofStr(userId + "iyuba" + df.format(System.currentTimeMillis()));
     }
 }

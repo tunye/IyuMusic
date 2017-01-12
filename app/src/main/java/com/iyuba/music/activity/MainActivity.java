@@ -20,7 +20,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -66,7 +65,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     private static final int WRITE_EXTERNAL_TASK_NO_EXE_CODE = 2;
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
-    protected RelativeLayout toolBarLayout;
     private Context context;
     private DrawerLayout drawerLayout;
     private View drawView;
@@ -152,7 +150,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     protected void initWidget() {
-        toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         menu = (MaterialMenuView) findViewById(R.id.material_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

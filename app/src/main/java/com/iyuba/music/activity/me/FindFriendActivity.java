@@ -65,7 +65,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     @Override
     protected void initWidget() {
         super.initWidget();
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         recyclerView = (RecyclerView) findViewById(R.id.friendlist);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);

@@ -51,10 +51,10 @@ import java.util.List;
  * Created by 10202 on 2015/10/10.
  */
 public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private HashMap<String, RoundProgressBar> progresses = new HashMap<>();
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private HashMap<String, RoundProgressBar> progresses = new HashMap<>();
     private ArrayList<Article> newsList;
     private ArrayList<BannerEntity> adPicUrl;
     private Context context;

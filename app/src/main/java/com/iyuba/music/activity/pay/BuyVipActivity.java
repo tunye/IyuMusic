@@ -15,7 +15,6 @@ import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;

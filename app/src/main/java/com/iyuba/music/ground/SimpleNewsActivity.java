@@ -119,7 +119,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
     @Override
     protected void setListener() {
         super.setListener();
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolbarOper.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

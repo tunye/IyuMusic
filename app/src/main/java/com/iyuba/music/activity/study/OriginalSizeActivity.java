@@ -103,7 +103,7 @@ public class OriginalSizeActivity extends BaseActivity {
                 if (initPos != sizePos) {
                     SettingConfigManager.instance.setOriginalSize(posToSize(sizePos));
                     finish();
-                }else{
+                } else {
                     CustomToast.INSTANCE.showToast(R.string.app_no_change);
                 }
             }

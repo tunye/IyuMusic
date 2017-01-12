@@ -8,10 +8,7 @@ package com.iyuba.music.activity.me;
  */
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,12 +18,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.user.MostDetailInfo;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -36,7 +29,6 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.merequest.EditUserInfoRequest;
 import com.iyuba.music.request.merequest.LocateRequest;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.JudgeZodicaAndConstellation;
 import com.iyuba.music.util.LocationUtil;
@@ -55,11 +47,7 @@ import java.util.GregorianCalendar;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class EditUserDetailInfoActivity extends BaseSkinActivity {
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected TextView title, toolbarOper;
+public class EditUserDetailInfoActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView gender, birthday, zodiac, constellation;
     private MaterialEditText location, school, company, affectiveStatus, lookingFor, bio, interest;
@@ -71,24 +59,17 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
         setContentView(R.layout.edit_user_info);
         context = this;
         waitingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.person_detail_loading)).create();
         initWidget();
         setListener();
         changeUIByPara();
-        ((MusicApplication) getApplication()).pushActivity(this);
     }
 
+    @Override
     protected void initWidget() {
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        title = (TextView) findViewById(R.id.toolbar_title);
+        super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         userImage = (CircleImageView) findViewById(R.id.iveditPortrait);
         gender = (TextView) findViewById(R.id.editGender);
@@ -106,7 +87,6 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
     }
 
     private void setText() {
-
         if (!TextUtils.isEmpty(editUserInfo.getGender())) {
             if (editUserInfo.getGender().equals("1")) {
                 gender.setText(R.string.person_detail_sex_man);
@@ -133,13 +113,9 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
         ImageUtil.loadAvatar(AccountManager.instance.getUserId(), userImage);
     }
 
+    @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        super.setListener();
         changeImageLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -243,8 +219,9 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
         });
     }
 
+    @Override
     protected void changeUIByPara() {
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+        super.changeUIByPara();
         title.setText(R.string.person_detail_title);
         toolbarOper.setText(R.string.person_detail_submit);
         handler.sendEmptyMessage(0);
@@ -370,12 +347,6 @@ public class EditUserDetailInfoActivity extends BaseSkinActivity {
         );
         dialog.setTitle(R.string.person_detail_birth);
         dialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ((MusicApplication) getApplication()).popActivity(this);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<EditUserDetailInfoActivity> {

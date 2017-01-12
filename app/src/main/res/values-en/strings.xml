@@ -8,6 +8,7 @@
     <string name="app_sure">Sure</string>
     <string name="app_cancel">Cancel</string>
     <string name="app_submit">Submit</string>
+    <string name="app_no_change">Your set had not changed yet.</string>
     <string name="select_all">Select all</string>
     <string name="app_buy">Buy</string>
     <string name="generic_server_down">Connection timed out</string>
@@ -525,5 +526,4 @@
     <string name="pay_detail_success">Pay success</string>
     <string name="pay_detail_fail">Pay failed</string>
     <string name="pay_detail_cancel">Pay canceled</string>
-    <string name="app_no_change">该设定无变化</string>
 </resources>

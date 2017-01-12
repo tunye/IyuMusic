@@ -219,18 +219,22 @@
                 android:visibility="gone" />
         </LinearLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light" />
+
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/pay_detail_sure"
         android:layout_width="match_parent"

@@ -93,7 +93,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void setListener() {
         super.setListener();
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,7 +4,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.google.gson.internal.ObjectConstructor;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
@@ -74,10 +73,10 @@ public class OriginalRequest {
     }
 
     public String generateUrl(int id) {
-        HashMap<String,Object> paras=new HashMap<>();
+        HashMap<String, Object> paras = new HashMap<>();
         paras.put("SongId", id);
         paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.instance.checkUserLogin()?AccountManager.instance.getUserId():"0");
+        paras.put("uid", AccountManager.instance.checkUserLogin() ? AccountManager.instance.getUserId() : "0");
         return ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
     }
 }

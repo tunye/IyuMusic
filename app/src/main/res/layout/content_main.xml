@@ -9,8 +9,8 @@
         android:id="@+id/tab_indicator"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:orientation="horizontal"
         android:background="@color/background_dark"
+        android:orientation="horizontal"
         app:tab_item_count="4"
         app:tab_normal_color="@color/text_complementary"
         app:tab_shape="LINE" />

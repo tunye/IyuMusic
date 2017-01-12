@@ -100,9 +100,9 @@
                     android:id="@+id/article_announcer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_big"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
-                    android:layout_marginRight="@dimen/row_space_big"
                     android:textSize="@dimen/medium_text" />
 
                 <TextView

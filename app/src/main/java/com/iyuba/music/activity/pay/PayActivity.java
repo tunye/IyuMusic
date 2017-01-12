@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
-import com.iyuba.music.CrashHandler;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseApiEntity;

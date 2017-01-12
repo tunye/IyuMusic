@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/19.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseInputActivity {
     private MaterialAutoCompleteTextView username, userpwd;
     private TextView forgetPwd;
     private CheckBox autoLogin;

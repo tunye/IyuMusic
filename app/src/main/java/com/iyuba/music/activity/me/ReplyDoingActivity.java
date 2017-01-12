@@ -1,25 +1,19 @@
 package com.iyuba.music.activity.me;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
 import com.chaowen.commentlibrary.CommentView;
 import com.chaowen.commentlibrary.ContextManager;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.me.DoingCommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Doing;
@@ -31,12 +25,10 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.DoingCommentRequest;
 import com.iyuba.music.request.merequest.SendDoingCommentRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,13 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by 10202 on 2016/2/13.
  */
-public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefreshLayout.OnRefreshListener {
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected RelativeLayout toolBarLayout;
-    protected TextView title;
-
+public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener {
     private Doing doing;
     private CircleImageView doingPhoto;
     private TextView doingUserName, doingMessage, doingTime, doingReplyCounts;
@@ -68,15 +54,9 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         ContextManager.setInstance(this);//评论模块初始化
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
         setContentView(R.layout.reply_doings);
         context = this;
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         isLastPage = false;
         initWidget();
         setListener();
@@ -85,26 +65,15 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-
+    @Override
     protected void initWidget() {
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        title = (TextView) findViewById(R.id.toolbar_title);
-        toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
-
+        super.initWidget();
         noComment = findViewById(R.id.no_comment);
         doingPhoto = (CircleImageView) findViewById(R.id.doings_photo);
         doingUserName = (TextView) findViewById(R.id.doings_username);
@@ -137,13 +106,9 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
         commentView = (CommentView) findViewById(R.id.comment_view);
     }
 
+    @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        super.setListener();
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String s) {
@@ -171,8 +136,9 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
         });
     }
 
+    @Override
     protected void changeUIByPara() {
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+        super.changeUIByPara();
         title.setText(R.string.doing_title);
         doing = SocialManager.instance.getDoing();
         ImageUtil.loadAvatar(doing.getUid(), doingPhoto);
@@ -189,7 +155,6 @@ public class ReplyDoingActivity extends BaseSkinActivity implements MySwipeRefre
         super.onDestroy();
         SocialManager.instance.popDoing();
         ContextManager.destory();
-        ((MusicApplication) getApplication()).popActivity(this);
     }
 
     @Override

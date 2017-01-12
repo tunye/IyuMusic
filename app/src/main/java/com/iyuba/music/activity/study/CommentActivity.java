@@ -1,8 +1,6 @@
 package com.iyuba.music.activity.study;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,13 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
 import com.chaowen.commentlibrary.CommentView;
 import com.chaowen.commentlibrary.ContextManager;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -36,7 +32,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.CommentExpressRequest;
 import com.iyuba.music.request.newsrequest.CommentRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -44,7 +39,6 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +48,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by 10202 on 2016/2/13.
  */
-public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+public class CommentActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     protected Context context;
     protected MaterialRippleLayout back;
     protected MaterialMenu backIcon;
@@ -76,41 +70,24 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
         setContentView(R.layout.comment);
         context = this;
         isLastPage = false;
         initWidget();
         setListener();
         changeUIByPara();
-        ((MusicApplication) getApplication()).pushActivity(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-
+    @Override
     protected void initWidget() {
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        title = (TextView) findViewById(R.id.toolbar_title);
-        toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
-
+        super.initWidget();
         img = (ImageView) findViewById(R.id.article_img);
         articleTitle = (TextView) findViewById(R.id.article_title);
         announecr = (TextView) findViewById(R.id.article_announcer);
@@ -150,14 +127,10 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
         commentView = (CommentView) findViewById(R.id.comment_view);
     }
 
+    @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        super.setListener();
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String s) {
@@ -215,8 +188,9 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
         });
     }
 
+    @Override
     protected void changeUIByPara() {
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+        super.changeUIByPara();
         title.setText(R.string.comment_title);
         curArticle = StudyManager.instance.getCurArticle();
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
@@ -232,7 +206,6 @@ public class CommentActivity extends BaseSkinActivity implements MySwipeRefreshL
         super.onDestroy();
         commentAdapter.onDestroy();
         ContextManager.destory();
-        ((MusicApplication) getApplication()).popActivity(this);
     }
 
     @Override

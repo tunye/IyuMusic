@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,7 +24,7 @@ import com.umeng.message.PushAgent;
 /**
  * Created by 10202 on 2015/10/23.
  */
-public abstract class BaseActivity extends BaseSkinActivity {
+public abstract class BaseInputActivity extends BaseSkinActivity {
     protected Context context;
     protected MaterialRippleLayout back;
     protected MaterialMenu backIcon;
@@ -41,8 +40,6 @@ public abstract class BaseActivity extends BaseSkinActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
             window.setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         PushAgent.getInstance(context).onAppStart();
         ((MusicApplication) getApplication()).pushActivity(this);

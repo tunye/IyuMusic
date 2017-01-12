@@ -4,8 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,17 +12,12 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
 import com.chaowen.commentlibrary.CommentView;
 import com.chaowen.commentlibrary.ContextManager;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.me.ChattingAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.message.MessageLetterContent;
@@ -33,20 +26,13 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.ChattingRequest;
 import com.iyuba.music.request.merequest.SendMessageRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class ChattingActivity extends BaseSkinActivity {
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected RelativeLayout toolBarLayout;
-    protected TextView title, toolbaroper;
+public class ChattingActivity extends BaseInputActivity {
     private ChattingAdapter adapter;
     private ArrayList<MessageLetterContent> list;
     private ListView chatContent;
@@ -60,14 +46,8 @@ public class ChattingActivity extends BaseSkinActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
         setContentView(R.layout.chatting);
         context = this;
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         needPop = getIntent().getBooleanExtra("needpop", false);
         isLastPage = false;
@@ -77,20 +57,17 @@ public class ChattingActivity extends BaseSkinActivity {
         setListener();
         changeUIByPara();
         initMessages();
-        ((MusicApplication) getApplication()).pushActivity(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         chattingPage = 1;
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -103,28 +80,20 @@ public class ChattingActivity extends BaseSkinActivity {
             SocialManager.instance.popFriendName();
         }
         ContextManager.destory();
-        ((MusicApplication) getApplication()).popActivity(this);
     }
 
+    @Override
     protected void initWidget() {
-
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        title = (TextView) findViewById(R.id.toolbar_title);
-        toolbaroper = (TextView) findViewById(R.id.toolbar_oper);
-        toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
+        super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         chatContent = (ListView) findViewById(R.id.chatting_history);
         chatView = (CommentView) findViewById(R.id.chat_view);
     }
 
+    @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        toolbaroper.setOnClickListener(new View.OnClickListener() {
+        super.setListener();
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SocialManager.instance.pushFriendId(SocialManager.instance.getFriendId());
@@ -183,10 +152,11 @@ public class ChattingActivity extends BaseSkinActivity {
         });
     }
 
+    @Override
     protected void changeUIByPara() {
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+        super.changeUIByPara();
         title.setText(SocialManager.instance.getFriendName());
-        toolbaroper.setText(R.string.message_home);
+        toolbarOper.setText(R.string.message_home);
     }
 
     // 设置adapter

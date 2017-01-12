@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by 10202 on 2015/11/24.
  */
-public class RegistActivity extends BaseActivity {
+public class RegistActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
     private TextView protocolText;

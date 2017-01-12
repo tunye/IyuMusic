@@ -9,8 +9,8 @@ import android.os.Bundle;
  */
 
 public class WelcomeAdWebView extends WebViewActivity {
-    private int nextActivity;
     private static final String NEXT_ACTIVITY = "next_activity";
+    private int nextActivity;
 
     public static void launch(Context context, String url, int nextActivity) {
         Intent intent = new Intent(context, WelcomeAdWebView.class);

@@ -1,22 +1,14 @@
 package com.iyuba.music.activity.me;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenu;
 import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.me.MessageAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.message.MessageLetter;
@@ -28,22 +20,16 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.MessageRequest;
 import com.iyuba.music.request.merequest.SetMessageReadRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2016/1/2.
  */
-public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    protected Context context;
-    protected MaterialRippleLayout back;
-    protected MaterialMenu backIcon;
-    protected TextView title, toolbarOper;
+public class MessageActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     private RecyclerView messageRecycleView;
     private ArrayList<MessageLetter> messageLetters;
     private MessageAdapter messageAdapter;
@@ -54,13 +40,6 @@ public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
-        ((MusicApplication) getApplication()).pushActivity(this);
         setContentView(R.layout.message);
         context = this;
         isLastPage = false;
@@ -72,15 +51,12 @@ public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
         changeUIResumeByPara();
     }
 
+    @Override
     protected void initWidget() {
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        title = (TextView) findViewById(R.id.toolbar_title);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        super.initWidget();
         messageRecycleView = (RecyclerView) findViewById(R.id.message_recyclerview);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
@@ -111,14 +87,10 @@ public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshL
         swipeRefreshLayout.setRefreshing(true);
     }
 
+    @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        super.setListener();
+        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,17 +181,5 @@ public class MessageActivity extends BaseSkinActivity implements MySwipeRefreshL
     @Override
     public void onClick(View view, Object message) {
         messageRecycleView.scrollToPosition(0);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ((MusicApplication) getApplication()).popActivity(this);
     }
 }

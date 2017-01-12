@@ -107,7 +107,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
-        searchNewsAdapter = new SimpleNewsAdapter(context,2);
+        searchNewsAdapter = new SimpleNewsAdapter(context, 2);
         searchNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
