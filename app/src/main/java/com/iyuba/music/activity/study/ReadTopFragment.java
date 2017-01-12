@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.CommentAdapter;
@@ -137,14 +138,13 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
                 BaseListEntity listEntity = (BaseListEntity) object;
                 isLastPage = listEntity.isLastPage();
                 if (listEntity.getTotalCount() == 0) {
-                    getActivity().findViewById(R.id.no_read).setVisibility(View.VISIBLE);
+                    noData.setVisibility(View.VISIBLE);
+                    ((TextView) noData.findViewById(R.id.no_data_content)).setText(R.string.no_read);
                 } else {
                     readList.addAll((ArrayList<Comment>) listEntity.getData());
-                    getActivity().findViewById(R.id.no_read).setVisibility(View.GONE);
+                    noData.setVisibility(View.GONE);
                     readAdapter.setDataSet(readList);
-                    if (listEntity.getCurPage() == 1) {
-
-                    } else {
+                    if (listEntity.getCurPage() != 1) {
                         CustomToast.INSTANCE.showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
                     }
                 }

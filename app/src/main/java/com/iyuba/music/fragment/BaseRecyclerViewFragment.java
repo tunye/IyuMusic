@@ -22,6 +22,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements IOnClickLi
     public Context context;
     public RecyclerView recyclerView;
     public MySwipeRefreshLayout swipeRefreshLayout;
+    public View noData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements IOnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
+        noData = view.findViewById(R.id.no_data);
         return view;
     }
 
