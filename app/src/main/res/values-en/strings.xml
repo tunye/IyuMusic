@@ -94,7 +94,7 @@
     <string name="personal_no_login">You have not login to Iyuba account</string>
     <string name="personal_daily_login">Daily login, credits added 5 percents.</string>
     <string name="personal_change_photo">You have registered successfully, please select your portrait</string>
-    <string name="personal_grade">Grade: %1$s</string>
+    <string name="personal_grade">等级: %1$s</string>
     <string name="personal_credits">Credits: %1$s</string>
     <string name="personal_follow">Follow: %1$s</string>
     <string name="personal_fan">Fan: %1$s</string>
@@ -319,6 +319,9 @@
     <string name="no_comment">No comment yet, grab the second floor</string>
     <!--会员界面-->
     <string name="vip_recharge">Recharge</string>
+    <string name="vip_iyubi_title">Recharge Iyubi</string>
+    <string name="vip_iyubi_intro">Iyubi Goods</string>
+    <string name="vip_iyubi_web">Web</string>
     <string name="vip_title">VIP center</string>
     <string name="vip_privilege">VIP privilege</string>
     <string name="vip_symbol">VIP symbol</string>
@@ -345,6 +348,11 @@
     <string name="vip_half_year">6 months all APP membership-￥99.9 or 1000 Iyuba coins</string>
     <string name="vip_year">1 year All APP membership-￥199 or 2000 Iyuba coins</string>
     <string name="vip_app">Life member of this APP-￥99.9 or 1100 Iyuba coins</string>
+    <string name="iyubi200">Buy 200 iyubi with 10 iyubi-210 iyubi-￥19.9</string>
+    <string name="iyubi600">Buy 600 iyubi with 50 iyubi-650 iyubi-￥59.9</string>
+    <string name="iyubi1k">Buy 1000 iyubi with 100 iyubi-1100 iyubi-￥99.9</string>
+    <string name="iyubi6k">Buy 6000 iyubi with 500 iyubi-6500 iyubi-￥599</string>
+    <string name="iyubi1w">Buy 10000 iyubi with 2000 iyubi-12000 iyubi-￥999</string>
     <string name="vip_buy_alert">The price of this package membership is %1$d Iyuba coins, would you like to buy it?</string>
     <string name="vip_iyubi_not_enough">Iyuba coins balance is insufficient, do you still want to buy?</string>
     <string name="vip_buy_success">Buy successfully, and Iyuba coins balance is %1$s</string>

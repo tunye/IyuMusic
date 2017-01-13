@@ -67,6 +67,7 @@
         <activity android:name=".activity.me.VipCenterActivity" />
         <activity android:name=".activity.pay.BuyVipActivity" />
         <activity android:name=".activity.pay.PayActivity" />
+        <activity android:name=".activity.pay.BuyIyubiActivity" />
         <activity android:name=".file.FileBrowserActivity" />
         <activity android:name=".file.PasteFileActivity" />
         <activity android:name=".file.FilePosActivity" />
@@ -191,12 +192,12 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

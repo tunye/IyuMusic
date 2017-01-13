@@ -1,6 +1,7 @@
 package com.iyuba.music.request.account;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,21 +42,19 @@ public class LoginRequest {
     }
 
     public void exeRequest(String url, final IProtocolResponse response) {
+        Log.e("aaa", url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = null;
+                        UserInfo userInfo = new UserInfo();
                         String nodeName;
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
                                     nodeName = xmlPullParser.getName();
-                                    if ("response".equals(nodeName)) {
-                                        userInfo = new UserInfo();
-                                    }
                                     if ("result".equals(nodeName)) {
                                         String result = xmlPullParser.nextText();
                                         if (result.equals("101")) {
@@ -85,6 +84,9 @@ public class LoginRequest {
                                         } else {
                                             apiEntity.setMessage("add");
                                         }
+                                    }
+                                    if ("credits".equals(nodeName)) {
+                                        userInfo.setIcoins(xmlPullParser.nextText());
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,11 +37,12 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 
 public class PayActivity extends BaseActivity {
-    private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
     //private static final String[] PAY_MONEY = {"0.01", "0.01", "0.01", "0.01", "0.01"};
-    private static final String[] PAY_MONTH = {"1", "3", "6", "12", "0"};
     private static final String PAY_TYPE = "pay_type";
-    private int goodsType;
+    private static final String PAY_DETAIL = "pay_detail";
+    private static final String PAY_MONEY = "pay_money";
+    private static final String PAY_GOODS = "pay_goods";
+    private String payDetailString, payMoneyString, payGoods, payType;
     private TextView username, payDetail, payMoney;
     private ImageView wxSelected, baoSelected;
     private View wxView, baoView;
@@ -52,9 +52,12 @@ public class PayActivity extends BaseActivity {
     private IWXAPI msgApi;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
-    public static void launch(Activity context, int type, int requestCode) {
+    public static void launch(Activity context, String payDetail, String payMoney, String payGoods, String payType, int requestCode) {
         Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra(PAY_TYPE, type);
+        intent.putExtra(PAY_TYPE, payType);
+        intent.putExtra(PAY_DETAIL, payDetail);
+        intent.putExtra(PAY_MONEY, payMoney);
+        intent.putExtra(PAY_GOODS, payGoods);
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -63,7 +66,10 @@ public class PayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_detail);
         context = this;
-        goodsType = getIntent().getIntExtra(PAY_TYPE, 0);
+        payType = getIntent().getStringExtra(PAY_TYPE);
+        payDetailString = getIntent().getStringExtra(PAY_DETAIL);
+        payMoneyString = getIntent().getStringExtra(PAY_MONEY);
+        payGoods = getIntent().getStringExtra(PAY_GOODS);
         waitingDialog = new WaitingDialog.Builder(context).create();
         msgApi = WXAPIFactory.createWXAPI(context, ConstantManager.WXID, false);
         initWidget();
@@ -132,35 +138,14 @@ public class PayActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.pay_detail_title);
         username.setText(AccountManager.instance.getUserName());
-        String goodsDetail;
-        switch (goodsType) {
-            case 0:
-                goodsDetail = getString(R.string.vip_month);
-                break;
-            case 1:
-                goodsDetail = getString(R.string.vip_three_month);
-                break;
-            case 2:
-                goodsDetail = getString(R.string.vip_half_year);
-                break;
-            case 3:
-                goodsDetail = getString(R.string.vip_year);
-                break;
-            case 4:
-                goodsDetail = getString(R.string.vip_app);
-                break;
-            default:
-                goodsDetail = getString(R.string.vip_month);
-                break;
-        }
-        payDetail.setText(goodsDetail.split("-")[0]);
-        payMoney.setText(getString(R.string.pay_detail_money_content, PAY_MONEY[goodsType]));
+        payDetail.setText(payDetailString);
+        payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
         showBaoSelect();
     }
 
     private void wechatPay() {
         waitingDialog.show();
-        WxPay.getInstance().exeRequest(WxPay.getInstance().generateUrl(PAY_MONEY[goodsType], PAY_MONTH[goodsType], getProductId()), new IProtocolResponse() {
+        WxPay.getInstance().exeRequest(WxPay.getInstance().generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
@@ -191,7 +176,7 @@ public class PayActivity extends BaseActivity {
         waitingDialog.show();
         String subject = TextAttr.encode(payDetail.getText().toString());
         String body = TextAttr.encode(payMoney.getText().toString());
-        AliPay.getInstance().exeRequest(AliPay.getInstance().generateUrl(subject, body, PAY_MONEY[goodsType], PAY_MONTH[goodsType], getProductId()), new IProtocolResponse() {
+        AliPay.getInstance().exeRequest(AliPay.getInstance().generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
@@ -235,18 +220,6 @@ public class PayActivity extends BaseActivity {
         });
     }
 
-    @NonNull
-    private String getProductId() {
-        String productId = "0";
-        switch (goodsType) {
-            case 4:
-                productId = "10";
-                break;
-            default:
-                break;
-        }
-        return productId;
-    }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<PayActivity> {
         @Override

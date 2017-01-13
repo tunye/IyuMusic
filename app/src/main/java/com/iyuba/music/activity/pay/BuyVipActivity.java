@@ -2,6 +2,7 @@ package com.iyuba.music.activity.pay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,8 +38,9 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class BuyVipActivity extends BaseActivity {
     private final static int ONLINE_PAY_CODE = 101;
-    private final static int[] price = {200, 600, 1000, 2000, 1100};
-    private final static int[] priceMonth = {1, 3, 6, 12, 0};
+    private final static int[] PAY_GOODS = {200, 600, 1000, 2000, 1100};
+    private final static int[] PAY_MONTH = {1, 3, 6, 12, 0};
+    private static final String[] PAY_MONEY = {"19.9", "59.9", "99.9", "199", "99.9"};
     private int payType;
     private UserInfo userInfo;
     private MaterialRippleLayout month, threeMonth, halfYear, year, app, payWay;
@@ -126,7 +128,7 @@ public class BuyVipActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recharge();
+                startActivity(new Intent(context,BuyIyubiActivity.class));
             }
         });
     }
@@ -135,13 +137,48 @@ public class BuyVipActivity extends BaseActivity {
         if (payType == 1) {
             payByIyubiDialog(type);
         } else {
-            PayActivity.launch(this, type, ONLINE_PAY_CODE);
+            String goodsDetail;
+            switch (type) {
+                case 0:
+                    goodsDetail = getString(R.string.vip_month);
+                    break;
+                case 1:
+                    goodsDetail = getString(R.string.vip_three_month);
+                    break;
+                case 2:
+                    goodsDetail = getString(R.string.vip_half_year);
+                    break;
+                case 3:
+                    goodsDetail = getString(R.string.vip_year);
+                    break;
+                case 4:
+                    goodsDetail = getString(R.string.vip_app);
+                    break;
+                default:
+                    goodsDetail = getString(R.string.vip_month);
+                    break;
+            }
+            PayActivity.launch(this, goodsDetail.split("-")[0], PAY_MONEY[type],
+                    String.valueOf(PAY_MONTH[type]), getProductId(type), ONLINE_PAY_CODE);
         }
+    }
+
+    @NonNull
+    private String getProductId(int type) {
+        String productId = "0";
+        switch (type) {
+            case 4:
+                productId = "10";
+                break;
+            default:
+                break;
+        }
+        return productId;
     }
 
     private void payByIyubiDialog(final int pos) {
         final MaterialDialog materialDialog = new MaterialDialog(context);
-        materialDialog.setTitle(R.string.vip_title).setMessage(context.getString(R.string.vip_buy_alert, price[pos]));
+        materialDialog.setTitle(R.string.vip_title).setMessage(context.getString(R.string.vip_buy_alert, PAY_GOODS[pos]));
         materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,13 +253,13 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void buy(int type) {
-        if (Integer.parseInt(AccountManager.instance.getUserInfo().getIyubi()) < price[type]) {
+        if (Integer.parseInt(AccountManager.instance.getUserInfo().getIyubi()) < PAY_GOODS[type]) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
             materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recharge();
+                    context.startActivity(new Intent(context,BuyIyubiActivity.class));
                     materialDialog.dismiss();
                 }
             });
@@ -235,8 +272,8 @@ public class BuyVipActivity extends BaseActivity {
             materialDialog.show();
         } else if (type != 4) {
             PayRequest.getInstance().exeRequest(PayRequest.getInstance().generateUrl(new String[]
-                    {AccountManager.instance.getUserId(), String.valueOf(price[type]),
-                            String.valueOf(priceMonth[type])}), new IProtocolResponse() {
+                    {AccountManager.instance.getUserId(), String.valueOf(PAY_GOODS[type]),
+                            String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);
@@ -265,7 +302,7 @@ public class BuyVipActivity extends BaseActivity {
             });
         } else {
             PayForAppRequest.getInstance().exeRequest(PayForAppRequest.getInstance().generateUrl(new String[]
-                    {AccountManager.instance.getUserId(), String.valueOf(price[type])}), new IProtocolResponse() {
+                    {AccountManager.instance.getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);
@@ -293,16 +330,6 @@ public class BuyVipActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    private void recharge() {
-        Intent intent = new Intent();
-        intent.setClass(context, WebViewActivity.class);
-        intent.putExtra("url", "http://app.iyuba.com/wap/index.jsp?uid="
-                + AccountManager.instance.getUserId() + "&appid="
-                + ConstantManager.instance.getAppId());
-        intent.putExtra("title", context.getString(R.string.vip_recharge));
-        startActivity(intent);
     }
 
     @Override

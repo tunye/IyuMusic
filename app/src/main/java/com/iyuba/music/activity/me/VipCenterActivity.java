@@ -10,6 +10,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WebViewActivity;
+import com.iyuba.music.activity.pay.BuyIyubiActivity;
 import com.iyuba.music.activity.pay.BuyVipActivity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
@@ -148,13 +149,7 @@ public class VipCenterActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://app.iyuba.com/wap/index.jsp?uid="
-                        + AccountManager.instance.getUserId() + "&appid="
-                        + ConstantManager.instance.getAppId());
-                intent.putExtra("title", context.getString(R.string.vip_recharge));
-                startActivity(intent);
+                startActivity(new Intent(context,BuyIyubiActivity.class));
             }
         });
     }

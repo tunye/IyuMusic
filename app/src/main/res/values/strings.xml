@@ -334,6 +334,9 @@
     <string name="read_del_fail">跟唱删除失败</string>
     <!--会员界面-->
     <string name="vip_recharge">充语币</string>
+    <string name="vip_iyubi_title">爱语币充值</string>
+    <string name="vip_iyubi_intro">爱语币商品</string>
+    <string name="vip_iyubi_web">网页版</string>
     <string name="vip_title">会员中心</string>
     <string name="vip_privilege">VIP专享特权</string>
     <string name="vip_symbol">尊贵标识</string>
@@ -360,6 +363,11 @@
     <string name="vip_half_year">全站会员6个月-￥99.9（1000爱语币)</string>
     <string name="vip_year">全站会员1整年-￥199（2000爱语币）</string>
     <string name="vip_app">本应用终身会员-￥99.9（1100爱语币）</string>
+    <string name="iyubi200">买200送10爱语币-210爱语币-￥19.9</string>
+    <string name="iyubi600">买600送50爱语币-650爱语币-￥59.9</string>
+    <string name="iyubi1k">买1000送100爱语币-1100爱语币-￥99.9</string>
+    <string name="iyubi6k">买6000送500爱语币-6500爱语币-￥599</string>
+    <string name="iyubi1w">买10000送2000爱语币-12000爱语币-￥999</string>
     <string name="vip_buy_alert">购买本套餐会员需花费%1$d爱语币，是否购买?</string>
     <string name="vip_iyubi_not_enough">爱语币余额不足，是否购买?</string>
     <string name="vip_buy_success">购买成功，爱语币余额为%1$s</string>
