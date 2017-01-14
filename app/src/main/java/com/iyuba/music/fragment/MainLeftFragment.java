@@ -221,7 +221,6 @@ public class MainLeftFragment extends BaseFragment {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
-            getPersonalInfo();
         } else {
             login.setVisibility(View.GONE);
             noLogin.setVisibility(View.VISIBLE);

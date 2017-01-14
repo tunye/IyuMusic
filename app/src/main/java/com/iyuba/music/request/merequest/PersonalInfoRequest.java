@@ -1,5 +1,7 @@
 package com.iyuba.music.request.merequest;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -94,6 +96,9 @@ public class PersonalInfoRequest {
                                     }
                                     if ("relation".equals(nodeName)) {
                                         userInfo.setRelation(xmlPullParser.nextText());
+                                    }
+                                    if ("amount".equals(nodeName)) {
+                                        userInfo.setIyubi(xmlPullParser.nextText());
                                     }
                                     if ("expireTime".equals(nodeName)) {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
