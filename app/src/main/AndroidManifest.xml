@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <uses-feature android:name="android.hardware.camera" /> 
     <uses-feature
@@ -136,14 +137,7 @@
         <activity android:name=".activity.eggshell.meizhi.LocalPhotoActivity" />
         <activity
             android:name=".local_music.LocalMusicActivity"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/oper_local_music"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTop" />
         <activity android:name=".activity.eggshell.meizhi.MeizhiPhotoActivity" />
         <!--分享-->
         <activity

@@ -1,9 +1,12 @@
 package com.iyuba.music.activity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +22,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
@@ -57,6 +61,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setListener();
         getBannerPic();
         initialDatabase();
+        addShortcut(LocalMusicActivity.class, "本地播放器", R.mipmap.ic_launcher2);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
@@ -148,21 +153,23 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void addShortcut(Class cls, String name, int picResId) {
-        Intent shortcutintent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         // 不允许重复创建
-        shortcutintent.putExtra("duplicate", false);
-        // 需要现实的名称
-        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+        shortcutIntent.putExtra("duplicate", false);
+        // 需要显示的名称
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
         // 快捷图片
-        Parcelable icon = Intent.ShortcutIconResource.fromContext(getApplicationContext(), picResId);
-        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
         // 发送广播。OK
         Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), cls);
+        intent.setClass(this, cls);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setAction("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
-        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
-        sendBroadcast(shortcutintent);
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
+        sendBroadcast(shortcutIntent);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
