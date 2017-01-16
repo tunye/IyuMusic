@@ -9,11 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.chaowen.commentlibrary.CommentView;
 import com.chaowen.commentlibrary.ContextManager;
 import com.iyuba.music.R;
@@ -130,7 +127,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onSendText(String s) {
                 if (AccountManager.instance.checkUserLogin()) {
-                    CommentExpressRequest.getInstance().exeRequest(CommentExpressRequest.getInstance().generateUrl(
+                    CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
                             String.valueOf(curArticle.getId()), AccountManager.instance.getUserId(),
                             AccountManager.instance.getUserName(), s), new IProtocolResponse() {
                         @Override
@@ -253,7 +250,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDeleteRequest.getInstance().exeRequest(CommentDeleteRequest.getInstance().generateUrl(comments.get(position).getId()), new IProtocolResponse() {
+                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(comments.get(position).getId()), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
 
@@ -286,7 +283,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     }
 
     private void getCommentData() {
-        CommentRequest.getInstance().exeRequest(CommentRequest.getInstance().generateUrl(curArticle.getId(), commentPage), new IProtocolResponse() {
+        CommentRequest.exeRequest(CommentRequest.generateUrl(curArticle.getId(), commentPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

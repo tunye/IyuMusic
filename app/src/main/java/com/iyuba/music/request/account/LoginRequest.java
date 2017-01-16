@@ -1,7 +1,6 @@
 package com.iyuba.music.request.account;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,21 +27,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class LoginRequest {
-    private static LoginRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public LoginRequest() {
-    }
-
-    public static LoginRequest getInstance() {
-        if (instance == null) {
-            instance = new LoginRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa", url);
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -122,7 +107,8 @@ public class LoginRequest {
         }
     }
 
-    public String generateUrl(String[] paras) {
+    public static String generateUrl(String[] paras) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 11001);
         para.put("platform", "android");

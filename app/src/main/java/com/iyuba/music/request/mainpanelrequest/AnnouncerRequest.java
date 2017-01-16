@@ -24,20 +24,8 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class AnnouncerRequest {
-    private static AnnouncerRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/getStar.jsp";
-
-    public AnnouncerRequest() {
-    }
-
-    public static AnnouncerRequest getInstance() {
-        if (instance == null) {
-            instance = new AnnouncerRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(final IProtocolResponse response) {
+    public static void exeRequest(final IProtocolResponse response) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/getStar.jsp";
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     originalUrl, null, new Response.Listener<JSONObject>() {

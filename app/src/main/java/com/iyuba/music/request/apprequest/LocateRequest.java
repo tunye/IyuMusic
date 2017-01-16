@@ -1,4 +1,4 @@
-package com.iyuba.music.request.merequest;
+package com.iyuba.music.request.apprequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,19 +18,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class LocateRequest {
-    private static LocateRequest instance;
-
-    public LocateRequest() {
-    }
-
-    public static LocateRequest getInstance() {
-        if (instance == null) {
-            instance = new LocateRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -83,7 +71,7 @@ public class LocateRequest {
         }
     }
 
-    public String generateUrl(double latitude, double longitude) {
+    public static String generateUrl(double latitude, double longitude) {
         return "http://maps.google.cn/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&sensor=true&language=zh-CN";
     }
 }

@@ -109,7 +109,7 @@ public class FollowFragment extends BaseRecyclerViewFragment implements MySwipeR
     }
 
     private void getFriendData() {
-        FollowRequest.getInstance().exeRequest(FollowRequest.getInstance().generateUrl(SocialManager.instance.getFriendId(), curPage), new IProtocolResponse() {
+        FollowRequest.exeRequest(FollowRequest.generateUrl(SocialManager.instance.getFriendId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

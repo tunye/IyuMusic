@@ -237,7 +237,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
             lesson = "TED英语演讲";
             app = "229";
         }
-        SimpleNewsListRequest.getInstance().exeRequest(getTitleUrl, app, new IProtocolResponse() {
+        SimpleNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

@@ -26,21 +26,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class PayRequest {
-    private static PayRequest instance;
-    private final String originalUrl = "http://app.iyuba.com/pay/payVipApi.jsp";
-
-    public PayRequest() {
-    }
-
-    public static PayRequest getInstance() {
-        if (instance == null) {
-            instance = new PayRequest();
-
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -106,7 +92,8 @@ public class PayRequest {
         }
     }
 
-    public String generateUrl(String[] paras) {
+    public static String generateUrl(String[] paras) {
+        String originalUrl = "http://app.iyuba.com/pay/payVipApi.jsp";
         HashMap<String, Object> para = new HashMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);

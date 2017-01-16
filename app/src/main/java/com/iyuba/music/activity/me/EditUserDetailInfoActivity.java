@@ -26,8 +26,8 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.request.apprequest.LocateRequest;
 import com.iyuba.music.request.merequest.EditUserInfoRequest;
-import com.iyuba.music.request.merequest.LocateRequest;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.JudgeZodicaAndConstellation;
@@ -191,8 +191,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                EditUserInfoRequest.getInstance().exeRequest(EditUserInfoRequest.getInstance().
-                        generateUrl(AccountManager.instance.getUserId(), key, value), new IProtocolResponse() {
+                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.instance.getUserId(), key, value), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.INSTANCE.showToast(msg);
@@ -233,7 +232,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {
-            LocateRequest.getInstance().exeRequest(LocateRequest.getInstance().generateUrl(latitude, longitude), new IProtocolResponse() {
+            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);
@@ -256,8 +255,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void getDetaiInfo() {
-        UserInfoDetailRequest.getInstance().exeRequest(UserInfoDetailRequest.getInstance().
-                generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

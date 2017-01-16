@@ -97,7 +97,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void getBannerPic() {
-        AdPicRequest.getInstance().exeRequest(AdPicRequest.getInstance().generateUrl(ConstantManager.instance.getAppId()), new IProtocolResponse() {
+        AdPicRequest.exeRequest(AdPicRequest.generateUrl(ConstantManager.instance.getAppId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 handler.sendEmptyMessage(2);

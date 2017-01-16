@@ -20,20 +20,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class CommentCountRequest {
-    private static CommentCountRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/getShuoShuoCount.jsp";
-
-    public CommentCountRequest() {
-    }
-
-    public static CommentCountRequest getInstance() {
-        if (instance == null) {
-            instance = new CommentCountRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -57,7 +44,8 @@ public class CommentCountRequest {
         }
     }
 
-    public String generateUrl(int id) {
+    public static String generateUrl(int id) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/getShuoShuoCount.jsp";
         HashMap<String, Object> para = new HashMap<>();
         para.put("SongId", id);
         para.put("format", "json");

@@ -134,7 +134,7 @@ public class RegistActivity extends BaseInputActivity {
                 if (!phone.isCharactersCountValid() || !regexPhone()) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(phone);
                 } else {
-                    CheckPhoneRegisted.getInstance().exeRequest(CheckPhoneRegisted.getInstance().generateUrl(phone.getText().toString()), new IProtocolResponse() {
+                    CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.INSTANCE.showToast(msg);
@@ -388,9 +388,8 @@ public class RegistActivity extends BaseInputActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(protocol);
         } else {
             waittingDialog.show();
-            RegistRequest.getInstance().exeRequest(RegistRequest.getInstance().generateUrl
-                    (new String[]{userName.getText().toString(), userPwd.getText().toString(), email.getText().toString()
-                    }), new IProtocolResponse() {
+            RegistRequest.exeRequest(RegistRequest.generateUrl(new String[]{userName.getText().toString(),
+                    userPwd.getText().toString(), email.getText().toString()}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();
@@ -439,9 +438,8 @@ public class RegistActivity extends BaseInputActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(protocol);
         } else {
             waittingDialog.show();
-            RegistByPhoneRequest.getInstance().exeRequest(RegistByPhoneRequest.getInstance().generateUrl
-                    (new String[]{userName.getText().toString(), userPwd.getText().toString(), phone.getText().toString()
-                    }), new IProtocolResponse() {
+            RegistByPhoneRequest.exeRequest(RegistByPhoneRequest.generateUrl(new String[]{userName.getText()
+                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();

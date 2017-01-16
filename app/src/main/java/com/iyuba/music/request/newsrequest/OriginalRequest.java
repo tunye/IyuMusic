@@ -28,21 +28,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class OriginalRequest {
-    private static OriginalRequest instance;
-    private final String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getText.jsp";
-
-
-    public OriginalRequest() {
-    }
-
-    public static OriginalRequest getInstance() {
-        if (instance == null) {
-            instance = new OriginalRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -72,7 +58,8 @@ public class OriginalRequest {
         }
     }
 
-    public String generateUrl(int id) {
+    public static String generateUrl(int id) {
+        String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getText.jsp";
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("SongId", id);
         paras.put("appid", ConstantManager.instance.getAppId());

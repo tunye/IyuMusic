@@ -17,21 +17,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class FavorRequest {
-    private static FavorRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/updateCollect.jsp";
-    private String result;
-
-    public FavorRequest() {
-    }
-
-    public static FavorRequest getInstance() {
-        if (instance == null) {
-            instance = new FavorRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             StringRequest request = new StringRequest(url, new Response.Listener<String>() {
                 @Override
@@ -56,19 +42,12 @@ public class FavorRequest {
         }
     }
 
-    public String generateUrl(String userid, int voaid, String type) {
+    public static String generateUrl(String userid, int voaid, String type) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/updateCollect.jsp";
         HashMap<String, Object> para = new HashMap<>();
         para.put("userId", userid);
         para.put("voaId", voaid);
         para.put("type", type);
         return ParameterUrl.setRequestParameter(originalUrl, para);
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 }

@@ -28,22 +28,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class LrcRequest {
-    private static LrcRequest instance;
-    private final String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getLyrics.jsp";
-    private final String bbcOriginalUrl = "http://apps.iyuba.com/minutes/textApi.jsp";
-    private final String voaOriginalUrl = "http://apps.iyuba.com/voa/textNewApi.jsp";
-
-    public LrcRequest() {
-    }
-
-    public static LrcRequest getInstance() {
-        if (instance == null) {
-            instance = new LrcRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -73,7 +58,7 @@ public class LrcRequest {
         }
     }
 
-    public String generateUrl(int id, int type) {
+    public static String generateUrl(int id, int type) {
         String url;
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("appid", ConstantManager.instance.getAppId());
@@ -81,14 +66,17 @@ public class LrcRequest {
         switch (type) {
             case 0:
                 paras.put("voaid", id);
+                String voaOriginalUrl = "http://apps.iyuba.com/voa/textNewApi.jsp";
                 url = ParameterUrl.setRequestParameter(voaOriginalUrl, paras);
                 break;
             case 1:
                 paras.put("bbcid", id);
+                String bbcOriginalUrl = "http://apps.iyuba.com/minutes/textApi.jsp";
                 url = ParameterUrl.setRequestParameter(bbcOriginalUrl, paras);
                 break;
             case 2:
                 paras.put("SongId", id);
+                String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getLyrics.jsp";
                 url = ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
                 break;
             default:

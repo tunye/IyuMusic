@@ -17,20 +17,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/11/21.
  */
 public class FeedbackRequest {
-    private static FeedbackRequest instance;
-    private final String feedbackUrl = "http://api.iyuba.com/mobile/android/afterclass/feedback.plain";
-
-    public FeedbackRequest() {
-    }
-
-    public static FeedbackRequest getInstance() {
-        if (instance == null) {
-            instance = new FeedbackRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             StringRequest request = new StringRequest(url,
                     new Response.Listener<String>() {
@@ -51,7 +38,8 @@ public class FeedbackRequest {
         }
     }
 
-    public String generateUrl(String uid, String content, String contact) {
+    public static String generateUrl(String uid, String content, String contact) {
+        String feedbackUrl = "http://api.iyuba.com/mobile/android/afterclass/feedback.plain";
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("content", content);

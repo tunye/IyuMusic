@@ -30,25 +30,12 @@ import java.util.Random;
  */
 
 public class AliPay {
-    private static AliPay instance;
-    private final String originalUrl = "http://vip.iyuba.com/chargeapinew.jsp";
-
-    private AliPay() {
-    }
-
-    public static AliPay getInstance() {
-        if (instance == null) {
-            instance = new AliPay();
-        }
-        return instance;
-    }
-
     private static String generateCode(String userId) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return MD5.getMD5ofStr(userId + "iyuba" + df.format(System.currentTimeMillis()));
     }
 
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -81,7 +68,8 @@ public class AliPay {
         }
     }
 
-    public String generateUrl(String subject, String body, String cost, String month, String productId) {
+    public static String generateUrl(String subject, String body, String cost, String month, String productId) {
+        String originalUrl = "http://vip.iyuba.com/chargeapinew.jsp";
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("WIDseller_email", "iyuba@sina.com");
         paras.put("WIDout_trade_no", getOutTradeNo());
@@ -97,7 +85,7 @@ public class AliPay {
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 
-    private String getOutTradeNo() {
+    private static String getOutTradeNo() {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();
         String key = format.format(date);

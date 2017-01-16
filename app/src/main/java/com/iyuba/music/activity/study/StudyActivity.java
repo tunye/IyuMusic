@@ -487,7 +487,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void getCommentCount() {
-        CommentCountRequest.getInstance().exeRequest(CommentCountRequest.getInstance().generateUrl(StudyManager.instance.getCurArticle().getId()), new IProtocolResponse() {
+        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.instance.getCurArticle().getId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 comment.setText("0");

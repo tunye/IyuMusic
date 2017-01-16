@@ -25,20 +25,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class AdPicRequest {
-    private static AdPicRequest instance;
-    private final String originalUrl = "http://app.iyuba.com/dev/getStartPicApi.jsp";
-
-    public AdPicRequest() {
-    }
-
-    public static AdPicRequest getInstance() {
-        if (instance == null) {
-            instance = new AdPicRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -68,7 +55,8 @@ public class AdPicRequest {
         }
     }
 
-    public String generateUrl(String appId) {
+    public static String generateUrl(String appId) {
+        String originalUrl = "http://app.iyuba.com/dev/getStartPicApi.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "appId", appId);
     }
 }

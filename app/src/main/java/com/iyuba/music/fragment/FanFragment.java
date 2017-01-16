@@ -109,7 +109,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     }
 
     private void getFriendData() {
-        FanRequest.getInstance().exeRequest(FanRequest.getInstance().generateUrl(SocialManager.instance.getFriendId(), curPage), new IProtocolResponse() {
+        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.instance.getFriendId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

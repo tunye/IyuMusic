@@ -86,7 +86,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     }
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
-        LrcRequest.getInstance().exeRequest(LrcRequest.getInstance().generateUrl(id, 2), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 2), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

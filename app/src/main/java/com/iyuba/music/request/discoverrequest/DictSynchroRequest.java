@@ -27,11 +27,10 @@ import java.util.HashMap;
  */
 public class DictSynchroRequest {
     private static DictSynchroRequest instance;
-    private final String originalUrl = "http://word.iyuba.com/words/wordListService.jsp";
     private int totalPage, counts, currentPage;
-    private String uid, time;
+    private String uid;
 
-    public DictSynchroRequest() {
+    private DictSynchroRequest() {
     }
 
     public static DictSynchroRequest getInstance() {
@@ -42,7 +41,7 @@ public class DictSynchroRequest {
     }
 
     public void exeRequest(String url, final IProtocolResponse response) {
-        time = DateFormat.formatTime(Calendar.getInstance().getTime());
+        final String time = DateFormat.formatTime(Calendar.getInstance().getTime());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -117,6 +116,7 @@ public class DictSynchroRequest {
     }
 
     public String generateUrl(String uid, int page) {
+        String originalUrl = "http://word.iyuba.com/words/wordListService.jsp";
         this.uid = uid;
         HashMap<String, Object> map = new HashMap<>();
         map.put("u", uid);

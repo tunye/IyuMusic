@@ -58,7 +58,7 @@ public class StudyRecordUtil {
 
     public static void sendToNet(final StudyRecord temp, String userid, final boolean mustDel) {
         studyRecordOp.saveData(temp);
-        StudyRecordRequest.getInstance().exeRequest(StudyRecordRequest.getInstance().generateUrl(userid, temp), new IProtocolResponse() {
+        StudyRecordRequest.exeRequest(StudyRecordRequest.generateUrl(userid, temp), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
             }

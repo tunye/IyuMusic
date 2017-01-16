@@ -189,7 +189,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
     }
 
     private void getNewsData() {
-        ClassifyNewsRequest.getInstance().exeRequest(ClassifyNewsRequest.getInstance().generateUrl(classify, curPage), new IProtocolResponse() {
+        ClassifyNewsRequest.exeRequest(ClassifyNewsRequest.generateUrl(classify, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

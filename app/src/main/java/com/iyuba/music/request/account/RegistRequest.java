@@ -23,20 +23,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/11/25.
  */
 public class RegistRequest {
-    private static RegistRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public RegistRequest() {
-    }
-
-    public static RegistRequest getInstance() {
-        if (instance == null) {
-            instance = new RegistRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -65,7 +52,8 @@ public class RegistRequest {
         }
     }
 
-    public String generateUrl(String[] paras) {
+    public static String generateUrl(String[] paras) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 10002);
         para.put("platform", "android");

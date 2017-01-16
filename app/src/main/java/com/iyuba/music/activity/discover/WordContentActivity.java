@@ -242,7 +242,7 @@ public class WordContentActivity extends BaseActivity {
 
     private void getNetWord(final String wordkey, final IOperationResult finish) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            DictRequest.getInstance().exeRequest(DictRequest.getInstance().generateUrl(wordkey), new IProtocolResponse() {
+            DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     finish.fail(msg);
@@ -273,8 +273,7 @@ public class WordContentActivity extends BaseActivity {
 
     private void synchroYun(final String type) {
         final String userid = AccountManager.instance.getUserId();
-        DictUpdateRequest.getInstance().exeRequest(DictUpdateRequest.getInstance().generateUrl
-                        (userid, type, currentWord.getWord()),
+        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, type, currentWord.getWord()),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

@@ -20,20 +20,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class CommentAgreeRequest {
-    private static CommentAgreeRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/appApi//UnicomApi";
-
-    public CommentAgreeRequest() {
-    }
-
-    public static CommentAgreeRequest getInstance() {
-        if (instance == null) {
-            instance = new CommentAgreeRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -57,7 +44,8 @@ public class CommentAgreeRequest {
         }
     }
 
-    public String generateUrl(int protocol, int id) {
+    public static String generateUrl(int protocol, int id) {
+        String originalUrl = "http://daxue.iyuba.com/appApi//UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", protocol);
         para.put("id", id);

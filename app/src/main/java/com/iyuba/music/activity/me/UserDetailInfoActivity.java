@@ -98,7 +98,7 @@ public class UserDetailInfoActivity extends BaseActivity {
         if (!AccountManager.instance.getUserId().equals(SocialManager.instance.getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }
-        UserInfoDetailRequest.getInstance().exeRequest(UserInfoDetailRequest.getInstance().generateUrl(SocialManager.instance.getFriendId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.instance.getFriendId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

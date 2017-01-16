@@ -205,7 +205,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
     }
 
     private void getNewsData() {
-        AnnouncerNewsRequest.getInstance().exeRequest(AnnouncerNewsRequest.getInstance().generateUrl(announcer.getId(), curPage), new IProtocolResponse() {
+        AnnouncerNewsRequest.exeRequest(AnnouncerNewsRequest.generateUrl(announcer.getId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

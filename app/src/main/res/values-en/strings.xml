@@ -423,6 +423,7 @@
     <string name="friend_distance">Distance：%1$s metres</string>
     <string name="friend_lastlogin">Last login：%1$s</string>
     <string name="friend_load_all">Friends loading is completed</string>
+    <string name="friend_no_data">No data for this condition</string>
     <string name="friend_find">Find a friend</string>
     <string name="friend_find_error">Find friend error</string>
     <string name="friend_finding">Searching…</string>

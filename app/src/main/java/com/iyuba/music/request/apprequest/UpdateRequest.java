@@ -16,22 +16,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
  * Created by 10202 on 2015/11/20.
  */
 public class UpdateRequest {
-
-    private static UpdateRequest instance;
-    private final String updateUrl = "http://api.iyuba.com/mobile/android/iyumusic/islatestn.plain";
-
-
-    public UpdateRequest() {
-    }
-
-    public static UpdateRequest getInstance() {
-        if (instance == null) {
-            instance = new UpdateRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(final String url, final IProtocolResponse response) {
+    public static void exeRequest(final String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             StringRequest request = new StringRequest(url,
                     new Response.Listener<String>() {
@@ -59,7 +44,8 @@ public class UpdateRequest {
         }
     }
 
-    public String generateUrl(int version) {
+    public static String generateUrl(int version) {
+        String updateUrl = "http://api.iyuba.com/mobile/android/iyumusic/islatestn.plain";
         return ParameterUrl.setRequestParameter(updateUrl, "currver", version);
     }
 }

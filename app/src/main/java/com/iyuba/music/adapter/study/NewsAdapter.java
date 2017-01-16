@@ -69,7 +69,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     private static void getAppointArticle(String id) {
-        NewsesRequest.getInstance().exeRequest(NewsesRequest.getInstance().generateUrl(id), new IProtocolResponse() {
+        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

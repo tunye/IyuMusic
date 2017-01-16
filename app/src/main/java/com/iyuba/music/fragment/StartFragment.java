@@ -27,7 +27,6 @@ import java.util.ArrayList;
 public class StartFragment {
 
     public static void checkUpdate(Context context, final IOperationResult result) {
-        final UpdateRequest updateRequest = UpdateRequest.getInstance();
         int currentVersion = 0;
         try {
             currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
@@ -35,7 +34,7 @@ public class StartFragment {
             e.printStackTrace();
         }
         currentVersion = ConfigManager.instance.loadInt("updateVersion", currentVersion);
-        updateRequest.exeRequest(updateRequest.generateUrl(currentVersion), new IProtocolResponse() {
+        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 result.fail(-1);
@@ -99,8 +98,7 @@ public class StartFragment {
             for (Word temp : delWords) {
                 sb.append(temp.getWord()).append(',');
             }
-            DictUpdateRequest.getInstance().exeRequest(DictUpdateRequest.getInstance().generateUrl
-                            (userid, "delete", sb.toString()),
+            DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", sb.toString()),
                     new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -128,8 +126,7 @@ public class StartFragment {
             for (Word temp : insertWords) {
                 sb.append(temp.getWord()).append(',');
             }
-            DictUpdateRequest.getInstance().exeRequest(DictUpdateRequest.getInstance().generateUrl
-                            (userid, "insert", sb.toString()),
+            DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", sb.toString()),
                     new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {

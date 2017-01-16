@@ -197,7 +197,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
 
 
     private void getCommentData() {
-        DoingCommentRequest.getInstance().exeRequest(DoingCommentRequest.getInstance().generateUrl(doing.getDoid(), commentPage), new IProtocolResponse() {
+        DoingCommentRequest.exeRequest(DoingCommentRequest.generateUrl(doing.getDoid(), commentPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -248,7 +248,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         if (TextUtils.isEmpty(selectComment.getGrade())) {
             selectComment.setGrade("1");
         }
-        SendDoingCommentRequest.getInstance().exeRequest(SendDoingCommentRequest.getInstance().generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse() {
+        SendDoingCommentRequest.exeRequest(SendDoingCommentRequest.generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

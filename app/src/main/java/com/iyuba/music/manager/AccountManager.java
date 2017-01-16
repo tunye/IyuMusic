@@ -84,7 +84,7 @@ public enum AccountManager {
         String[] paras = new String[]{userName, userPwd, String.valueOf(LocationUtil.getInstance().getLongitude())
                 , String.valueOf(LocationUtil.getInstance().getLatitude())};
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            LoginRequest.getInstance().exeRequest(LoginRequest.getInstance().generateUrl(paras), new IProtocolResponse() {
+            LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     rc.fail(msg);
@@ -125,7 +125,7 @@ public enum AccountManager {
     }
 
     public void getPersonalInfo(final IOperationResult result) {
-        PersonalInfoRequest.getInstance().exeRequest(PersonalInfoRequest.getInstance().generateUrl(userId, userId), userInfo
+        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), userInfo
                 , new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

@@ -18,21 +18,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/11/24.
  */
 public class CheckPhoneRegisted {
-    private static CheckPhoneRegisted instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/sendMessage3.jsp";
-
-
-    public CheckPhoneRegisted() {
-    }
-
-    public static CheckPhoneRegisted getInstance() {
-        if (instance == null) {
-            instance = new CheckPhoneRegisted();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -56,7 +42,8 @@ public class CheckPhoneRegisted {
         }
     }
 
-    public String generateUrl(String phone) {
+    public static String generateUrl(String phone) {
+        String originalUrl = "http://api.iyuba.com.cn/sendMessage3.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "userphone", phone);
     }
 }

@@ -91,8 +91,8 @@ public class RecommendSongActivity extends BaseActivity {
             }
             CustomToast.INSTANCE.showToast(R.string.study_recommend_on_way);
             String uid = AccountManager.instance.getUserId();
-            RecommendSongRequest.getInstance().exeRequest(RecommendSongRequest.getInstance().generateUrl(uid,
-                    recommendTitle.getEditableText().toString(), recommendSinger.getEditableText().toString()), new IProtocolResponse() {
+            RecommendSongRequest.exeRequest(RecommendSongRequest.generateUrl(uid, recommendTitle.getEditableText().toString()
+                    , recommendSinger.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);

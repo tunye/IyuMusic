@@ -23,20 +23,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class SendDoingCommentRequest {
-    private static SendDoingCommentRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public SendDoingCommentRequest() {
-    }
-
-    public static SendDoingCommentRequest getInstance() {
-        if (instance == null) {
-            instance = new SendDoingCommentRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -60,7 +47,8 @@ public class SendDoingCommentRequest {
         }
     }
 
-    public String generateUrl(DoingComment doingComment, Doing doing, String fromUid, String fromMessage) {
+    public static String generateUrl(DoingComment doingComment, Doing doing, String fromUid, String fromMessage) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 30007);
         para.put("uid", doingComment.getUid());

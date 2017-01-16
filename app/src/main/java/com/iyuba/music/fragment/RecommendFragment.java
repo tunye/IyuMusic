@@ -109,7 +109,7 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
     }
 
     private void getFriendData() {
-        RecommendRequest.getInstance().exeRequest(RecommendRequest.getInstance().generateUrl(SocialManager.instance.getFriendId(), curPage,
+        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.instance.getFriendId(), curPage,
                 LocationUtil.getInstance().getLongitude(), LocationUtil.getInstance().getLatitude()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -126,12 +126,16 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
             @Override
             public void response(Object object) {
                 BaseListEntity listEntity = (BaseListEntity) object;
-                isLastPage = listEntity.isLastPage();
-                if (!isLastPage) {
-                    recommendsArrayList.addAll((ArrayList<RecommendFriend>) listEntity.getData());
-                    friendAdapter.setFriendList(recommendsArrayList);
-                } else {
-                    CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+                if (listEntity.getState().equals(BaseListEntity.State.SUCCESS)) {
+                    isLastPage = listEntity.isLastPage();
+                    if (!isLastPage) {
+                        recommendsArrayList.addAll((ArrayList<RecommendFriend>) listEntity.getData());
+                        friendAdapter.setFriendList(recommendsArrayList);
+                    } else {
+                        CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+                    }
+                } else if (listEntity.getState().equals(BaseListEntity.State.NODATA)) {
+                    CustomToast.INSTANCE.showToast(R.string.friend_no_data);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

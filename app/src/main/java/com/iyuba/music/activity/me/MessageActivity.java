@@ -58,7 +58,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper= (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         messageRecycleView = (RecyclerView) findViewById(R.id.message_recyclerview);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
@@ -75,8 +75,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
                 Intent intent = new Intent(context, ChattingActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
-                SetMessageReadRequest.getInstance().exeRequest(SetMessageReadRequest.getInstance().
-                        generateUrl(AccountManager.instance.getUserId(), messageLetter.getMessageid()));
+                SetMessageReadRequest.exeRequest(SetMessageReadRequest.generateUrl(AccountManager.instance.getUserId(), messageLetter.getMessageid()));
                 messageAdapter.setReaded(position);
             }
 
@@ -147,7 +146,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
     }
 
     private void getMessageData() {
-        MessageRequest.getInstance().exeRequest(MessageRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), messagePage), new IProtocolResponse() {
+        MessageRequest.exeRequest(MessageRequest.generateUrl(AccountManager.instance.getUserId(), messagePage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

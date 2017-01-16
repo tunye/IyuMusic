@@ -124,7 +124,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     private void getData() {
-        GradeRequest.getInstance().exeRequest(GradeRequest.getInstance().generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

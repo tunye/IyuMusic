@@ -21,20 +21,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class GradeRequest {
-    private static GradeRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/ecollege/getPaiming.jsp";
-
-    public GradeRequest() {
-    }
-
-    public static GradeRequest getInstance() {
-        if (instance == null) {
-            instance = new GradeRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -60,7 +47,8 @@ public class GradeRequest {
         }
     }
 
-    public String generateUrl(String uid) {
+    public static String generateUrl(String uid) {
+        String originalUrl = "http://daxue.iyuba.com/ecollege/getPaiming.jsp";
         HashMap<String, Object> para = new HashMap<>();
         para.put("format", "json");
         para.put("uid", uid);

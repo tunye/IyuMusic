@@ -310,8 +310,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void synchroYun(final String keyword) {
         final String userid = AccountManager.instance.getUserId();
-        DictUpdateRequest.getInstance().exeRequest(DictUpdateRequest.getInstance().generateUrl
-                        (userid, "delete", keyword),
+        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", keyword),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

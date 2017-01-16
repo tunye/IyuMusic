@@ -304,7 +304,7 @@ public class DownloadTask {
                 type = 0;
                 break;
         }
-        LrcRequest.getInstance().exeRequest(LrcRequest.getInstance().generateUrl(id, type), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -324,7 +324,7 @@ public class DownloadTask {
     }
 
     private void getWebOriginal(final int id) {
-        OriginalRequest.getInstance().exeRequest(OriginalRequest.getInstance().generateUrl(id), new IProtocolResponse() {
+        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

@@ -99,7 +99,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            BannerPicRequest.getInstance().exeRequest(BannerPicRequest.getInstance().generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
+            BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                 }
@@ -120,7 +120,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                 }
             });
         }
-        SongCategoryRequest.getInstance().exeRequest(SongCategoryRequest.getInstance().generateUrl(curPage), new IProtocolResponse() {
+        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

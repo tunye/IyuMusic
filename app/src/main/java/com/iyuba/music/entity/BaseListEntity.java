@@ -59,5 +59,5 @@ public class BaseListEntity {
         this.totalPage = totalPage;
     }
 
-    public enum State {SUCCESS, FAIL, ERROR}
+    public enum State {SUCCESS, FAIL, ERROR, NODATA}
 }

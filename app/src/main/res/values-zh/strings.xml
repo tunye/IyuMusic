@@ -437,6 +437,7 @@
     <string name="friend_distance">距离我：%1$s米</string>
     <string name="friend_lastlogin">上次登录时间：%1$s</string>
     <string name="friend_load_all">好友全部加载完成</string>
+    <string name="friend_no_data">没有找到合适好友</string>
     <string name="friend_find">搜索好友</string>
     <string name="friend_find_error">搜索好友异常</string>
     <string name="friend_finding">搜索好友中…</string>

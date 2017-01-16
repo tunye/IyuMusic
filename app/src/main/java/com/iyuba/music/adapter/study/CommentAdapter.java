@@ -183,7 +183,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public void onClick(View v) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.getInstance().exeRequest(CommentAgreeRequest.getInstance().generateUrl(61001, comment.getId()), new IProtocolResponse() {
+                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61001, comment.getId()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.INSTANCE.showToast(msg);
@@ -215,7 +215,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public void onClick(View v) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.getInstance().exeRequest(CommentAgreeRequest.getInstance().generateUrl(61002, comment.getId()), new IProtocolResponse() {
+                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61002, comment.getId()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.INSTANCE.showToast(msg);

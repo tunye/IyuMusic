@@ -179,7 +179,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            BannerPicRequest.getInstance().exeRequest(BannerPicRequest.getInstance().generateUrl("class.iyumusic"), new IProtocolResponse() {
+            BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     ArrayList<BannerEntity> bannerEntities = new ArrayList<>();
@@ -207,7 +207,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 }
             });
         }
-        NewsListRequest.getInstance().exeRequest(NewsListRequest.getInstance().generateUrl(maxid), new IProtocolResponse() {
+        NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

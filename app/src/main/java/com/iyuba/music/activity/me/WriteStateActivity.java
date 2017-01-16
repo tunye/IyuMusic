@@ -96,7 +96,7 @@ public class WriteStateActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waitingDialog.show();
             String uid = AccountManager.instance.getUserId();
-            WriteStateRequest.getInstance().exeRequest(WriteStateRequest.getInstance().generateUrl(uid, AccountManager.instance.getUserName(),
+            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.instance.getUserName(),
                     content.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {

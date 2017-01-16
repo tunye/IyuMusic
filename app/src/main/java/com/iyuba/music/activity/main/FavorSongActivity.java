@@ -201,7 +201,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     }
 
     private void cancelFavor(final Article article) {
-        FavorRequest.getInstance().exeRequest(FavorRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), article.getId(), "del"), new IProtocolResponse() {
+        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.instance.getUserId(), article.getId(), "del"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -245,7 +245,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
 
     private void getYunFavor() {
         waittingDialog.show();
-        FavorSynRequest.getInstance().exeRequest(FavorSynRequest.getInstance().generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

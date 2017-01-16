@@ -2,6 +2,7 @@ package com.iyuba.music.request.newsrequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyVolley;
@@ -17,31 +18,18 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class ReadCountAddRequest {
-    private static ReadCountAddRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-    private boolean result;
-
-    public ReadCountAddRequest() {
-    }
-
-    public static ReadCountAddRequest getInstance() {
-        if (instance == null) {
-            instance = new ReadCountAddRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        result = false;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
-                                    result = true;
+                                    if (response != null) {
+                                        response.response("success");
+                                    }
                                     break;
                                 case XmlPullParser.END_TAG:
                                     break;
@@ -63,7 +51,8 @@ public class ReadCountAddRequest {
         }
     }
 
-    public String generateUrl(int voaid, String app) {
+    public static String generateUrl(int voaid, String app) {
+        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 70001);
         para.put("counts", 1);
@@ -71,13 +60,5 @@ public class ReadCountAddRequest {
         para.put("appName", app);
         para.put("voaids", voaid);
         return ParameterUrl.setRequestParameter(originalUrl, para);
-    }
-
-    public boolean isResult() {
-        return result;
-    }
-
-    public void setResult(boolean result) {
-        this.result = result;
     }
 }

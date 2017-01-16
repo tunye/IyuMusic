@@ -151,7 +151,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.getInstance().exeRequest(PersonalInfoRequest.getInstance().generateUrl(tempUid, AccountManager.instance.getUserId()), userinfo
+            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.instance.getUserId()), userinfo
                     , new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -306,7 +306,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void getDoingData() {
-        DoingRequest.getInstance().exeRequest(DoingRequest.getInstance().generateUrl(userinfo.getUid(), doingPage), new IProtocolResponse() {
+        DoingRequest.exeRequest(DoingRequest.generateUrl(userinfo.getUid(), doingPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -381,8 +381,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void addAttention() {
-        AddAttentionRequest.getInstance().exeRequest(AddAttentionRequest.
-                getInstance().generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -406,8 +405,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void cancelAttention() {
-        CancelAttentionRequest.getInstance().exeRequest(CancelAttentionRequest.
-                getInstance().generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

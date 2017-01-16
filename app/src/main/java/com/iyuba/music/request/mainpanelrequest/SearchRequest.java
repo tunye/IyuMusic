@@ -26,20 +26,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class SearchRequest {
-    private static SearchRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/searchApi.jsp";
-
-    public SearchRequest() {
-    }
-
-    public static SearchRequest getInstance() {
-        if (instance == null) {
-            instance = new SearchRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -84,7 +71,8 @@ public class SearchRequest {
         }
     }
 
-    public String generateUrl(String key, int curPage) {
+    public static String generateUrl(String key, int curPage) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/searchApi.jsp";
         HashMap<String, Object> map = new HashMap<>();
         map.put("key", ParameterUrl.encode(ParameterUrl.encode(key)));
         map.put("pageNum", curPage);

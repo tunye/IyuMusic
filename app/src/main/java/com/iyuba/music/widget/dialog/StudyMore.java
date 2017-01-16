@@ -111,7 +111,7 @@ public class StudyMore {
                         break;
                     case 1:
                         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
-                            FavorRequest.getInstance().exeRequest(FavorRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.instance.getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -133,7 +133,7 @@ public class StudyMore {
                                 }
                             });
                         } else {
-                            FavorRequest.getInstance().exeRequest(FavorRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), curArticle.getId(), "insert"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.instance.getUserId(), curArticle.getId(), "insert"), new IProtocolResponse() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -232,7 +232,7 @@ public class StudyMore {
     }
 
     private void getAnnounceList() {
-        AnnouncerRequest.getInstance().exeRequest(new IProtocolResponse() {
+        AnnouncerRequest.exeRequest(new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

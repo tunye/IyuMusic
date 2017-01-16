@@ -242,7 +242,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private void refresh() {
         LocalInfoOp localInfoOp = new LocalInfoOp();
         localInfoOp.updateSee(article.getId(), article.getApp());
-        ReadCountAddRequest.getInstance().exeRequest(ReadCountAddRequest.getInstance().generateUrl(article.getId(), "music"));
+        ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
         getOriginal();
         videoView.reset();
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
@@ -336,7 +336,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
-        LrcRequest.getInstance().exeRequest(LrcRequest.getInstance().generateUrl(id, 0), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 0), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

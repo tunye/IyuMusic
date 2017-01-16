@@ -27,20 +27,7 @@ import java.util.HashMap;
  */
 
 public class WxPay {
-    private static WxPay instance;
-    private final String originalUrl = "http://vip.iyuba.com/weixinPay.jsp";
-
-    private WxPay() {
-    }
-
-    public static WxPay getInstance() {
-        if (instance == null) {
-            instance = new WxPay();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -80,7 +67,8 @@ public class WxPay {
         }
     }
 
-    public String generateUrl(String cost, String month, String productId) {
+    public static String generateUrl(String cost, String month, String productId) {
+        String originalUrl = "http://vip.iyuba.com/weixinPay.jsp";
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("wxkey", ConstantManager.WXID);
         paras.put("format", "json");
@@ -94,7 +82,7 @@ public class WxPay {
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 
-    private String generateSign(String appid, String uid, String money, String amount) {
+    private static String generateSign(String appid, String uid, String money, String amount) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         StringBuilder sb = new StringBuilder();
         sb.append(appid).append(uid).append(money).append(amount);
@@ -102,7 +90,7 @@ public class WxPay {
         return MD5.getMD5ofStr(sb.toString());
     }
 
-    private String buildWeixinSign(PayReq payReq, String key) {
+    private static String buildWeixinSign(PayReq payReq, String key) {
         StringBuilder sb = new StringBuilder();
         sb.append("appid=").append(payReq.appId);
         sb.append("&noncestr=").append(payReq.nonceStr);

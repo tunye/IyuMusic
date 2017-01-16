@@ -256,7 +256,7 @@ public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     private void getCircleData() {
-        CircleRequest.getInstance().exeRequest(CircleRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), curPage), new IProtocolResponse() {
+        CircleRequest.exeRequest(CircleRequest.generateUrl(AccountManager.instance.getUserId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

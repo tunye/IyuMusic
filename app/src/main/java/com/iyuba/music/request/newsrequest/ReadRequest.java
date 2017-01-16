@@ -26,20 +26,7 @@ import java.util.HashMap;
  * Created by 10202 on 2016/3/21.
  */
 public class ReadRequest {
-    private static ReadRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-
-    public ReadRequest() {
-    }
-
-    public static ReadRequest getInstance() {
-        if (instance == null) {
-            instance = new ReadRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -83,7 +70,8 @@ public class ReadRequest {
         }
     }
 
-    public String generateUrl(int id, int page, String sort) {
+    public static String generateUrl(int id, int page, String sort) {
+        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 600011);
         para.put("platform", "android");

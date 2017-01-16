@@ -197,14 +197,13 @@ public class AboutActivity extends BaseActivity {
      * 检查新版本
      */
     public void checkAppUpdate(final boolean fromUser) {
-        final UpdateRequest updateRequest = UpdateRequest.getInstance();
         int currentVersion = 0;
         try {
             currentVersion = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        updateRequest.exeRequest(updateRequest.generateUrl(currentVersion), new IProtocolResponse() {
+        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(R.string.about_update_fail);

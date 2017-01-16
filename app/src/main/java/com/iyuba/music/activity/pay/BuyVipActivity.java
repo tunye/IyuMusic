@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
@@ -19,7 +18,6 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.PayForAppRequest;
 import com.iyuba.music.request.account.PayRequest;
 import com.iyuba.music.util.ImageUtil;
@@ -128,7 +126,7 @@ public class BuyVipActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,BuyIyubiActivity.class));
+                startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
     }
@@ -259,7 +257,7 @@ public class BuyVipActivity extends BaseActivity {
             materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context,BuyIyubiActivity.class));
+                    context.startActivity(new Intent(context, BuyIyubiActivity.class));
                     materialDialog.dismiss();
                 }
             });
@@ -271,9 +269,8 @@ public class BuyVipActivity extends BaseActivity {
             });
             materialDialog.show();
         } else if (type != 4) {
-            PayRequest.getInstance().exeRequest(PayRequest.getInstance().generateUrl(new String[]
-                    {AccountManager.instance.getUserId(), String.valueOf(PAY_GOODS[type]),
-                            String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
+            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.instance.getUserId(),
+                    String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);
@@ -301,7 +298,7 @@ public class BuyVipActivity extends BaseActivity {
                 }
             });
         } else {
-            PayForAppRequest.getInstance().exeRequest(PayForAppRequest.getInstance().generateUrl(new String[]
+            PayForAppRequest.exeRequest(PayForAppRequest.generateUrl(new String[]
                     {AccountManager.instance.getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {

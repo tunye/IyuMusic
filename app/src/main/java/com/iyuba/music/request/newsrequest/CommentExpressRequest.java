@@ -21,20 +21,7 @@ import java.util.HashMap;
  * Created by 10202 on 2016/2/16.
  */
 public class CommentExpressRequest {
-    private static CommentExpressRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-
-    public CommentExpressRequest() {
-    }
-
-    public static CommentExpressRequest getInstance() {
-        if (instance == null) {
-            instance = new CommentExpressRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -58,7 +45,8 @@ public class CommentExpressRequest {
         }
     }
 
-    public String generateUrl(String... paras) {
+    public static String generateUrl(String... paras) {
+        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 60002);
         para.put("voaid", paras[0]);

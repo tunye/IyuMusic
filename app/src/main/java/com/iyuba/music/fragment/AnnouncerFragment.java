@@ -62,7 +62,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
     }
 
     private void getData() {
-        AnnouncerRequest.getInstance().exeRequest(new IProtocolResponse() {
+        AnnouncerRequest.exeRequest(new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 announcerList = announcerOp.findAll();

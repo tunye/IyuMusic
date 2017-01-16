@@ -24,20 +24,7 @@ import java.util.HashMap;
  */
 
 public class ShareRequest {
-    private static ShareRequest instance;
-    private final String originalUrl = "http://api.iyuba.com/credits/updateScore.jsp";
-
-    public ShareRequest() {
-    }
-
-    public static ShareRequest getInstance() {
-        if (instance == null) {
-            instance = new ShareRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -78,7 +65,8 @@ public class ShareRequest {
         }
     }
 
-    public String generateUrl(String uid, int id, int type) {
+    public static String generateUrl(String uid, int id, int type) {
+        String originalUrl = "http://api.iyuba.com/credits/updateScore.jsp";
         HashMap<String, Object> paras = new HashMap<>();
         if (type == 2) {
             paras.put("srid", 38);

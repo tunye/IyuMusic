@@ -148,8 +148,8 @@ public class FeedbackActivity extends BaseActivity {
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-            FeedbackRequest.getInstance().exeRequest(FeedbackRequest.getInstance().generateUrl(uid,
-                    ParameterUrl.encode(contentString), contact.getEditableText().toString()), new IProtocolResponse() {
+            FeedbackRequest.exeRequest(FeedbackRequest.generateUrl(uid, ParameterUrl.encode(contentString),
+                    contact.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);

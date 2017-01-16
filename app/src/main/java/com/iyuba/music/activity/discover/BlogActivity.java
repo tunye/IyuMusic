@@ -92,7 +92,7 @@ public class BlogActivity extends BaseActivity {
     }
 
     private void getData() {
-        BlogRequest.getInstance().exeRequest(BlogRequest.getInstance().generateUrl(id), new IProtocolResponse() {
+        BlogRequest.exeRequest(BlogRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

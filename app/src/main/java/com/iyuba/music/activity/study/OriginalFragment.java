@@ -159,7 +159,7 @@ public class OriginalFragment extends BaseFragment {
         } else {
             type = 0;
         }
-        LrcRequest.getInstance().exeRequest(LrcRequest.getInstance().generateUrl(id, type), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -187,7 +187,7 @@ public class OriginalFragment extends BaseFragment {
     }
 
     private void getWebOriginal(final int id, final IOperationFinish finish) {
-        OriginalRequest.getInstance().exeRequest(OriginalRequest.getInstance().generateUrl(id), new IProtocolResponse() {
+        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

@@ -9,12 +9,10 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.pay.BuyIyubiActivity;
 import com.iyuba.music.activity.pay.BuyVipActivity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.util.ImageUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -149,7 +147,7 @@ public class VipCenterActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,BuyIyubiActivity.class));
+                startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
     }

@@ -145,7 +145,7 @@ public class PayActivity extends BaseActivity {
 
     private void wechatPay() {
         waitingDialog.show();
-        WxPay.getInstance().exeRequest(WxPay.getInstance().generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse() {
+        WxPay.exeRequest(WxPay.generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
@@ -176,7 +176,7 @@ public class PayActivity extends BaseActivity {
         waitingDialog.show();
         String subject = TextAttr.encode(payDetail.getText().toString());
         String body = TextAttr.encode(payMoney.getText().toString());
-        AliPay.getInstance().exeRequest(AliPay.getInstance().generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
+        AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);

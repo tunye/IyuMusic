@@ -118,8 +118,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
     }
 
     private void getReadData() {
-        ReadRequest.getInstance().exeRequest(ReadRequest.getInstance().generateUrl(
-                StudyManager.instance.getCurArticle().getId(), readPage, "agree"), new IProtocolResponse() {
+        ReadRequest.exeRequest(ReadRequest.generateUrl(StudyManager.instance.getCurArticle().getId(), readPage, "agree"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -159,7 +158,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDeleteRequest.getInstance().exeRequest(CommentDeleteRequest.getInstance().generateUrl(readList.get(position).getId()), new IProtocolResponse() {
+                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(readList.get(position).getId()), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
 

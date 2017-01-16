@@ -29,20 +29,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class StudyRecordRequest {
-    private static StudyRecordRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/ecollege/updateStudyRecordNew.jsp";
-
-    public StudyRecordRequest() {
-    }
-
-    public static StudyRecordRequest getInstance() {
-        if (instance == null) {
-            instance = new StudyRecordRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -77,7 +64,8 @@ public class StudyRecordRequest {
         }
     }
 
-    public String generateUrl(String uid, StudyRecord studyRecord) {
+    public static String generateUrl(String uid, StudyRecord studyRecord) {
+        String originalUrl = "http://daxue.iyuba.com/ecollege/updateStudyRecordNew.jsp";
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
         HashMap<String, Object> para = new HashMap<>();

@@ -119,7 +119,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void getNetWord(final String wordkey, final IOperationFinish finish) {
-        DictRequest.getInstance().exeRequest(DictRequest.getInstance().generateUrl(wordkey), new IProtocolResponse() {
+        DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -249,8 +249,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
 
     private void synchroYun() {
         final String userid = AccountManager.instance.getUserId();
-        DictUpdateRequest.getInstance().exeRequest(DictUpdateRequest.getInstance().generateUrl
-                        (userid, "insert", keyword),
+        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", keyword),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

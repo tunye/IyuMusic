@@ -26,20 +26,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class CommentRequest {
-    private static CommentRequest instance;
-    private final String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-
-    public CommentRequest() {
-    }
-
-    public static CommentRequest getInstance() {
-        if (instance == null) {
-            instance = new CommentRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -86,7 +73,7 @@ public class CommentRequest {
         }
     }
 
-    public String generateUrl(int id, int page) {
+    public static String generateUrl(int id, int page) {
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 60001);
         para.put("platform", "android");
@@ -96,6 +83,7 @@ public class CommentRequest {
         para.put("pageNumber", page);
         para.put("pageCounts", 20);
         para.put("appName", "music");
+        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

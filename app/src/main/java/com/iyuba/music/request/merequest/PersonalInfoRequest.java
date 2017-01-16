@@ -1,7 +1,5 @@
 package com.iyuba.music.request.merequest;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -30,21 +28,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class PersonalInfoRequest {
-    private static PersonalInfoRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public PersonalInfoRequest() {
-
-    }
-
-    public static PersonalInfoRequest getInstance() {
-        if (instance == null) {
-            instance = new PersonalInfoRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final UserInfo user, final IProtocolResponse response) {
+    public static void exeRequest(String url, final UserInfo user, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -145,7 +129,8 @@ public class PersonalInfoRequest {
         }
     }
 
-    public String generateUrl(String id, String myid) {
+    public static String generateUrl(String id, String myid) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 20001);
         para.put("platform", "android");

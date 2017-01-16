@@ -26,20 +26,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class SongCategoryRequest {
-    private static SongCategoryRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/getStyles.jsp";
-
-    public SongCategoryRequest() {
-    }
-
-    public static SongCategoryRequest getInstance() {
-        if (instance == null) {
-            instance = new SongCategoryRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -74,7 +61,8 @@ public class SongCategoryRequest {
         }
     }
 
-    public String generateUrl(int curPage) {
+    public static String generateUrl(int curPage) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/getStyles.jsp";
         HashMap<String, Object> map = new HashMap<>();
         map.put("simpleflg", 1);
         map.put("pageNum", curPage);

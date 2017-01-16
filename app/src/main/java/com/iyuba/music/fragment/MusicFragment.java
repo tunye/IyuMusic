@@ -129,7 +129,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     }
 
     private void getData() {
-        MusicRequest.getInstance().exeRequest(MusicRequest.getInstance().generateUrl(curPage), new IProtocolResponse() {
+        MusicRequest.exeRequest(MusicRequest.generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

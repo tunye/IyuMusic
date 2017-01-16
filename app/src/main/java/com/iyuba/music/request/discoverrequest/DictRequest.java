@@ -23,20 +23,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/8.
  */
 public class DictRequest {
-    private static DictRequest instance;
-    private final String originalUrl = "http://word.iyuba.com/words/apiWord.jsp";
-
-    public DictRequest() {
-    }
-
-    public static DictRequest getInstance() {
-        if (instance == null) {
-            instance = new DictRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -110,7 +97,8 @@ public class DictRequest {
         }
     }
 
-    public String generateUrl(String word) {
+    public static String generateUrl(String word) {
+        String originalUrl = "http://word.iyuba.com/words/apiWord.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "q", ParameterUrl.encode(word));
     }
 }

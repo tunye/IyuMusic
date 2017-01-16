@@ -105,7 +105,7 @@ public class ChattingActivity extends BaseInputActivity {
         chatView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(final String s) {
-                SendMessageRequest.getInstance().exeRequest(SendMessageRequest.getInstance().generateUrl(
+                SendMessageRequest.exeRequest(SendMessageRequest.generateUrl(
                         AccountManager.instance.getUserId(), SocialManager.instance.getFriendName(), s), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
@@ -207,7 +207,7 @@ public class ChattingActivity extends BaseInputActivity {
     }
 
     private void getChattingContent() {
-        ChattingRequest.getInstance().exeRequest(ChattingRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), SocialManager.instance.getFriendId(), chattingPage), new IProtocolResponse() {
+        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.instance.getUserId(), SocialManager.instance.getFriendId(), chattingPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

@@ -154,7 +154,7 @@ public class PlayerService extends Service {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
                 StudyManager.instance.setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                 localInfoOp.updateSee(article.getId(), article.getApp());
-                ReadCountAddRequest.getInstance().exeRequest(ReadCountAddRequest.getInstance().generateUrl(article.getId(), "music"));
+                ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
             }
             String playPath = getUrl(article);
             if (playPath.contains("http")) {

@@ -177,7 +177,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     }
 
     private void getFriendData(String s) {
-        SearchFriendRequest.getInstance().exeRequest(SearchFriendRequest.getInstance().generateUrl(SocialManager.instance.getFriendId(), s, curPage), new IProtocolResponse() {
+        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(SocialManager.instance.getFriendId(), s, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

@@ -21,20 +21,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class SendMessageRequest {
-    private static SendMessageRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public SendMessageRequest() {
-    }
-
-    public static SendMessageRequest getInstance() {
-        if (instance == null) {
-            instance = new SendMessageRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -58,7 +45,8 @@ public class SendMessageRequest {
         }
     }
 
-    public String generateUrl(String uid, String uname, String content) {
+    public static String generateUrl(String uid, String uname, String content) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 60002);
         para.put("uid", uid);

@@ -382,7 +382,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     new File(ConstantManager.instance.getMusicFolder() + File.separator + fileName).delete();
                 }
             }
-            NewsesRequest.getInstance().exeRequest(NewsesRequest.getInstance().generateUrl(StringBuilder.toString()), new IProtocolResponse() {
+            NewsesRequest.exeRequest(NewsesRequest.generateUrl(StringBuilder.toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
 

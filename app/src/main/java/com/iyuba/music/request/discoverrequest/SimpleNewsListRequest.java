@@ -22,19 +22,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class SimpleNewsListRequest {
-    private static SimpleNewsListRequest instance;
-
-    public SimpleNewsListRequest() {
-    }
-
-    public static SimpleNewsListRequest getInstance() {
-        if (instance == null) {
-            instance = new SimpleNewsListRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final String app, final IProtocolResponse response) {
+    public static void exeRequest(String url, final String app, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {

@@ -266,7 +266,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     private void searchMusic() {
-        SearchRequest.getInstance().exeRequest(SearchRequest.getInstance().generateUrl(searchContent.getText().toString(), curPage), new IProtocolResponse() {
+        SearchRequest.exeRequest(SearchRequest.generateUrl(searchContent.getText().toString(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 swipeRefreshLayout.setRefreshing(false);

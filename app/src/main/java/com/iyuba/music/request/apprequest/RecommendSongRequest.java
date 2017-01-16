@@ -20,20 +20,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/11/21.
  */
 public class RecommendSongRequest {
-    private static RecommendSongRequest instance;
-    private final String feedbackUrl = "http://apps.iyuba.com/afterclass/suggestApi.jsp";
-
-    public RecommendSongRequest() {
-    }
-
-    public static RecommendSongRequest getInstance() {
-        if (instance == null) {
-            instance = new RecommendSongRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -58,7 +45,8 @@ public class RecommendSongRequest {
         }
     }
 
-    public String generateUrl(String uid, String title, String singer) {
+    public static String generateUrl(String uid, String title, String singer) {
+        String feedbackUrl = "http://apps.iyuba.com/afterclass/suggestApi.jsp";
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("songtitle", ParameterUrl.encode(title));

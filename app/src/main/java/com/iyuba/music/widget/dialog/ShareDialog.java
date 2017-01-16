@@ -187,7 +187,7 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ShareRequest.getInstance().exeRequest(ShareRequest.getInstance().generateUrl(AccountManager.instance.getUserId(), article.getId(), type), new IProtocolResponse() {
+        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.instance.getUserId(), article.getId(), type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

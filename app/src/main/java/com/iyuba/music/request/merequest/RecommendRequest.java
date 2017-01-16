@@ -27,20 +27,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/9/30.
  */
 public class RecommendRequest {
-    private static RecommendRequest instance;
-    private final String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-
-    public RecommendRequest() {
-    }
-
-    public static RecommendRequest getInstance() {
-        if (instance == null) {
-            instance = new RecommendRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -48,8 +35,8 @@ public class RecommendRequest {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         String resultCode = jsonObject.getString("result");
+                        BaseListEntity baseListEntity = new BaseListEntity();
                         if ("711".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
                             Type listType = new TypeToken<ArrayList<RecommendFriend>>() {
                             }.getType();
                             ArrayList<RecommendFriend> list = new Gson().fromJson(jsonObject.getString("data"), listType);
@@ -59,7 +46,12 @@ public class RecommendRequest {
                                 baseListEntity.setIsLastPage(false);
                                 baseListEntity.setData(list);
                             }
+                            baseListEntity.setState(BaseListEntity.State.SUCCESS);
                             response.response(baseListEntity);
+                        } else if ("710".equals(resultCode)) {
+                            baseListEntity.setState(BaseListEntity.State.NODATA);
+                        } else if ("000".equals(resultCode)) {
+                            response.onServerError(RuntimeManager.getString(R.string.data_error));
                         }
                     } catch (JSONException e) {
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
@@ -77,7 +69,8 @@ public class RecommendRequest {
         }
     }
 
-    public String generateUrl(String uid, int page, double x, double y) {
+    public static String generateUrl(String uid, int page, double x, double y) {
+        String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 70002);
         para.put("uid", uid);

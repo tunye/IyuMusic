@@ -30,20 +30,7 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class FavorSynRequest {
-    private static FavorSynRequest instance;
-    private final String originalUrl = "http://apps.iyuba.com/afterclass/getCollect.jsp";
-
-    public FavorSynRequest() {
-    }
-
-    public static FavorSynRequest getInstance() {
-        if (instance == null) {
-            instance = new FavorSynRequest();
-        }
-        return instance;
-    }
-
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -76,7 +63,8 @@ public class FavorSynRequest {
         }
     }
 
-    public String generateUrl(String userid) {
+    public static String generateUrl(String userid) {
+        String originalUrl = "http://apps.iyuba.com/afterclass/getCollect.jsp";
         HashMap<String, Object> para = new HashMap<>();
         para.put("userId", userid);
         para.put("pageNumber", 1);
