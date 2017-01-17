@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
     <uses-feature android:name="android.hardware.camera" /> 
     <uses-feature
@@ -137,6 +138,7 @@
         <activity android:name=".activity.eggshell.meizhi.LocalPhotoActivity" />
         <activity
             android:name=".local_music.LocalMusicActivity"
+            android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".activity.eggshell.meizhi.MeizhiPhotoActivity" />
         <!--分享-->
@@ -176,7 +178,7 @@
             android:value="5375a4a756240b3f7d005886" />
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="66ed3a5025834fda91c044763b3eaf13"></meta-data>
+            android:value="66ed3a5025834fda91c044763b3eaf13" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />

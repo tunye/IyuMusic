@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -61,7 +62,6 @@ public class WelcomeActivity extends AppCompatActivity {
         setListener();
         getBannerPic();
         initialDatabase();
-        addShortcut(LocalMusicActivity.class, "本地播放器", R.mipmap.ic_launcher2);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
@@ -125,7 +125,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void initialDatabase() {
         int lastVersion = ConfigManager.instance.loadInt("version");
         int currentVersion = 0;
-        PackageInfo info = null;
+        PackageInfo info;
         try {
             info = getPackageManager().getPackageInfo(getPackageName(), 0);
             currentVersion = info.versionCode;
@@ -150,26 +150,44 @@ public class WelcomeActivity extends AppCompatActivity {
         showGuide = true;
         ConfigManager.instance.putInt("version", currentVersion);
         SettingConfigManager.instance.setUpgrade(true);
+        addShortcut(WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
     private void addShortcut(Class cls, String name, int picResId) {
-        Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-        // 不允许重复创建
-        shortcutIntent.putExtra("duplicate", false);
-        // 需要显示的名称
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-        // 快捷图片
-        Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-        // 发送广播。OK
-        Intent intent = new Intent();
-        intent.setClass(this, cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setAction("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.LAUNCHER");
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
-        sendBroadcast(shortcutIntent);
+        if (!checkShortCutExists(name)) {
+            Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+            // 不允许重复创建
+            shortcutIntent.putExtra("duplicate", false);
+            // 需要显示的名称
+            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+            // 快捷图片
+            Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
+            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+            // 发送广播。OK
+            Intent intent = new Intent();
+            intent.setClass(this, cls);
+            intent.putExtra(NORMAL_START, false);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setAction("android.intent.action.MAIN");
+            intent.addCategory("android.intent.category.LAUNCHER");
+            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
+            sendBroadcast(shortcutIntent);
+        }
+    }
+
+    public boolean checkShortCutExists(String name) {
+        boolean isInstallShortcut = false;
+        final ContentResolver cr = getContentResolver();
+        final String AUTHORITY = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ?
+                "com.android.launcher3.settings" : "com.android.launcher2.settings";
+        final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
+        Cursor c = cr.query(CONTENT_URI, new String[]{"title", "iconResource"}, "title=?",
+                new String[]{name}, null);
+        if (c != null && c.getCount() > 0) {
+            isInstallShortcut = true;
+        }
+        return isInstallShortcut;
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
@@ -189,6 +207,8 @@ public class WelcomeActivity extends AppCompatActivity {
                             if (activity.showGuide) {
                                 activity.startActivity(new Intent(activity, HelpUseActivity.class));
                             }
+                        } else {
+                            activity.startActivity(new Intent(activity, LocalMusicActivity.class));
                         }
                         ((MusicApplication) activity.getApplication()).popActivity(activity);
                         activity.finish();

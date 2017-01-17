@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.iyuba.music.local_music.LocalMusicActivity;
+
 /**
  * Created by 10202 on 2017/1/10.
  */
@@ -32,6 +34,7 @@ public class WelcomeAdWebView extends WebViewActivity {
                 startActivity(new Intent(WelcomeAdWebView.this, MainActivity.class));
                 break;
             case 1:
+                startActivity(new Intent(WelcomeAdWebView.this, LocalMusicActivity.class));
                 break;
         }
         super.finish();

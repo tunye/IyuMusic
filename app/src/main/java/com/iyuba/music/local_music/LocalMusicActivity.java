@@ -22,7 +22,6 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
-import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
 import com.iyuba.music.listener.ChangeUIBroadCast;
@@ -62,8 +61,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private TextView currentTime;
     private MorphButton pause;
     private IPlayerListener iPlayerListener = new IPlayerListener() {
-
-
         @Override
         public void onPrepare() {
             player.start();
@@ -97,14 +94,8 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eggshell_music_main);
         context = this;
-        if (((MusicApplication) getApplication()).onlyForeground("LocalMusicActivity")) {
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            intent.putExtra(WelcomeActivity.NORMAL_START, false);
-            startActivityForResult(intent, 102);
-        } else {
-            player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-            ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
-        }
+        player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+        ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         initWidget();
         setListener();
         changeUIByPara();
@@ -251,9 +242,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             if (musics.size() == 0) {
                 CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
             }
-        } else if (requestCode == 102) {
-            player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-            ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         }
     }
 
