@@ -68,7 +68,12 @@ public class WriteStateActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        super.setListener();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
