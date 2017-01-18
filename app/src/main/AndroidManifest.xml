@@ -166,12 +166,6 @@
             android:launchMode="singleTask" />
 
         <service android:name=".service.PlayerService" />
-
-        <receiver android:name=".network.NetWorkChangeBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
         <!--分享-->
         <meta-data
             android:name="UMENG_APPKEY"
