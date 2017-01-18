@@ -26,7 +26,15 @@
             android:layout_marginLeft="@dimen/row_space_default"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text" />
-
+        <TextView
+            android:id="@+id/music_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/music_random_play"
+            android:layout_marginRight="@dimen/row_space_large"
+            android:text="@string/eggshell_music_link"
+            android:textColor="@color/skin_app_color"
+            android:textSize="@dimen/large_text" />
         <TextView
             android:id="@+id/music_random_play"
             android:layout_width="wrap_content"

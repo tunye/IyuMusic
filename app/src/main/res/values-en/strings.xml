@@ -492,10 +492,11 @@
     <string name="circle_blog_time">publish time：%1$s</string>
     <string name="circle_load_all">Moments loading is completed</string>
     <!--eggshell-->
-    <string name="eggshell_music_static">%1$d musics in total</string>
+    <string name="eggshell_music_static">%1$d musics</string>
     <string name="eggshell_music_no">There is no music file in this folder.</string>
     <string name="eggshell_random_play">Random play</string>
-    <string name="eggshell_scan">Scan</string>
+    <string name="eggshell_music_link">Create link</string>
+    <string name="eggshell_music_scan">Scan</string>
     <!--ground-->
     <string name="voa_speical">VOA Speical English</string>
     <string name="voa_cs">VOA English</string>

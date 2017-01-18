@@ -1,17 +1,12 @@
 package com.iyuba.music.activity;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -29,6 +24,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
+import com.iyuba.music.util.CreateLinkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -150,28 +146,7 @@ public class WelcomeActivity extends AppCompatActivity {
         showGuide = true;
         ConfigManager.instance.putInt("version", currentVersion);
         SettingConfigManager.instance.setUpgrade(true);
-        addShortcut(WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
-    }
-
-    private void addShortcut(Class cls, String name, int picResId) {
-        Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-        // 不允许重复创建
-        shortcutIntent.putExtra("duplicate", false);
-        // 需要显示的名称
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-        // 快捷图片
-        Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-        // 发送广播。OK
-        Intent intent = new Intent();
-        intent.setClass(this, cls);
-        intent.putExtra(NORMAL_START, false);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setAction("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.LAUNCHER");
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
-        sendBroadcast(shortcutIntent);
+        CreateLinkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
@@ -179,10 +154,12 @@ public class WelcomeActivity extends AppCompatActivity {
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
-                    ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
-                    SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl()
-                            + "@@@" + activity.adEntities.get(1).getPicUrl());
+                    if (!activity.isDestroyed()) {
+                        ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
+                        ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
+                        SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl()
+                                + "@@@" + activity.adEntities.get(1).getPicUrl());
+                    }
                     break;
                 case 1:
                     if (!activity.showAd) {
@@ -202,7 +179,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     String adUrl = SettingConfigManager.instance.getADUrl();
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.footer.setImageResource(R.drawable.default_footer);
-                    } else {
+                    } else if (!activity.isDestroyed()) {
                         String[] adUrls = adUrl.split("@@@");
                         ImageUtil.loadImage(adUrls[0], activity.header);
                         ImageUtil.loadImage(adUrls[1], activity.footer);

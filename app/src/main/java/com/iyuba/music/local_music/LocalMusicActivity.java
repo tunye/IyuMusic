@@ -22,6 +22,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
+import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
 import com.iyuba.music.listener.ChangeUIBroadCast;
@@ -32,6 +33,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.util.CreateLinkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -55,7 +57,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private ArrayList<Article> musics;
     private LocalMusicAdapter adapter;
     private StandardPlayer player;
-    private TextView statistic, randomPlay;
+    private TextView statistic, randomPlay, createLink;
     private ImageView playMode, next, before;
     private ProgressBar progressBar;
     private TextView currentTime;
@@ -116,6 +118,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         statistic = (TextView) findViewById(R.id.music_statistic);
         randomPlay = (TextView) findViewById(R.id.music_random_play);
+        createLink = (TextView) findViewById(R.id.music_link);
         currentTime = (TextView) findViewById(R.id.current_time);
         pause = (MorphButton) findViewById(R.id.play);
         before = (ImageView) findViewById(R.id.formmer);
@@ -150,6 +153,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     protected void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        createLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateLinkUtil.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
+            }
+        });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,7 +222,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.oper_local_music);
-        toolbarOper.setText(R.string.eggshell_scan);
+        toolbarOper.setText(R.string.eggshell_music_scan);
         pause.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
         if (!TextUtils.isEmpty(ConfigManager.instance.loadString("localMusicPath"))) {

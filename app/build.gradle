@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "com.iyuba.music"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 79
         versionName "8.0 beta"
