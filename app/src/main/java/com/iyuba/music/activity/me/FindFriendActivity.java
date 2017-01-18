@@ -142,8 +142,10 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     public void onPause() {
         super.onPause();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+        }
+    }{}
 
     /**
      * 下拉刷新

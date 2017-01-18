@@ -130,7 +130,9 @@ public class FeedbackActivity extends BaseActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(content);
         } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            if (getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+            }
             waitingDialog.show();
             String uid;
             if (AccountManager.instance.checkUserLogin()) {

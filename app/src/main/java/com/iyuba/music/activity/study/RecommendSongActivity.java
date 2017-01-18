@@ -42,13 +42,6 @@ public class RecommendSongActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    @Override
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);

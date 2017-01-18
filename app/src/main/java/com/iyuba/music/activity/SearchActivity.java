@@ -179,16 +179,12 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (search.getText().equals(context.getString(R.string.search_do))) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                     new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
                     onRefresh(0);
                 } else {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm.isActive()) {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
                     finish();
                 }
             }
@@ -226,8 +222,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override

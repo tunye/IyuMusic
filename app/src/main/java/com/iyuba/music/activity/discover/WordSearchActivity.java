@@ -28,6 +28,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -79,14 +80,12 @@ public class WordSearchActivity extends BaseSkinActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (search.getText().equals(context.getString(R.string.search_do))) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                     searchWord(searchContent.getEditableText().toString());
                     searchContent.setText("");
                 } else {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(search.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     finish();
                 }
             }
@@ -146,8 +145,7 @@ public class WordSearchActivity extends BaseSkinActivity {
     @Override
     public void onPause() {
         super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        MobclickAgent.onPause(this);
     }
 
     @Override

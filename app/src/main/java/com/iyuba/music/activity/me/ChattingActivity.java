@@ -69,7 +69,9 @@ public class ChattingActivity extends BaseInputActivity {
     protected void onPause() {
         super.onPause();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+        }
     }
 
     @Override
@@ -83,6 +85,13 @@ public class ChattingActivity extends BaseInputActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (chatView.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
@@ -92,7 +101,12 @@ public class ChattingActivity extends BaseInputActivity {
 
     @Override
     protected void setListener() {
-        super.setListener();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
