@@ -495,7 +495,7 @@
     <string name="eggshell_music_static">共%1$d首</string>
     <string name="eggshell_music_no">当前文件夹无音乐文件</string>
     <string name="eggshell_random_play">随机播放</string>
-    <string name="eggshell_music_link">创建快捷方式</string>
+    <string name="eggshell_music_link">添加图标</string>
     <string name="eggshell_music_scan">扫描</string>
     <!-- ground -->
     <string name="voa_speical">VOA慢速英语</string>
