@@ -123,9 +123,9 @@ public enum BigNotificationService {
         notificationBuilder.setContentTitle(context.getString(R.string.app_name));
         notificationBuilder.setContentText(curArticle.getTitle());
         notificationBuilder.setPriority(Notification.PRIORITY_MAX);
-        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
-        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.mipmap.ic_launcher));
+        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
         notificationBuilder.setOngoing(true);   //Create OnGoing Status Bar
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
