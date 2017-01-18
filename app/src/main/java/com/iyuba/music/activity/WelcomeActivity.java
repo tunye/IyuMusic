@@ -154,40 +154,24 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void addShortcut(Class cls, String name, int picResId) {
-        if (!checkShortCutExists(name)) {
-            Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-            // 不允许重复创建
-            shortcutIntent.putExtra("duplicate", false);
-            // 需要显示的名称
-            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-            // 快捷图片
-            Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
-            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-            // 发送广播。OK
-            Intent intent = new Intent();
-            intent.setClass(this, cls);
-            intent.putExtra(NORMAL_START, false);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.setAction("android.intent.action.MAIN");
-            intent.addCategory("android.intent.category.LAUNCHER");
-            shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
-            sendBroadcast(shortcutIntent);
-        }
-    }
-
-    public boolean checkShortCutExists(String name) {
-        boolean isInstallShortcut = false;
-        final ContentResolver cr = getContentResolver();
-        final String AUTHORITY = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ?
-                "com.android.launcher3.settings" : "com.android.launcher2.settings";
-        final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/favorites?notify=true");
-        Cursor c = cr.query(CONTENT_URI, new String[]{"title", "iconResource"}, "title=?",
-                new String[]{name}, null);
-        if (c != null && c.getCount() > 0) {
-            isInstallShortcut = true;
-        }
-        return isInstallShortcut;
+        Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        // 不允许重复创建
+        shortcutIntent.putExtra("duplicate", false);
+        // 需要显示的名称
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+        // 快捷图片
+        Parcelable icon = Intent.ShortcutIconResource.fromContext(this, picResId);
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        // 发送广播。OK
+        Intent intent = new Intent();
+        intent.setClass(this, cls);
+        intent.putExtra(NORMAL_START, false);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setAction("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.LAUNCHER");
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
+        sendBroadcast(shortcutIntent);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {

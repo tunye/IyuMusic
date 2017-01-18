@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 
@@ -13,6 +14,7 @@ import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.network.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.service.BigNotificationService;
@@ -36,6 +38,7 @@ public class MusicApplication extends Application {
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
+    private NetWorkChangeBroadcastReceiver netWorkChange;
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
@@ -94,6 +97,9 @@ public class MusicApplication extends Application {
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
         SkinManager.getInstance().init(this, "MusicSkin");
+        netWorkChange=new NetWorkChangeBroadcastReceiver();
+        IntentFilter intentFilter=new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(netWorkChange, intentFilter);
     }
 
     public void pushActivity(Activity activity) {
@@ -131,6 +137,7 @@ public class MusicApplication extends Application {
     }
 
     public void exit() {
+        unregisterReceiver(netWorkChange);
         removeNotification();
         stopPlayService();
         ImageUtil.clearMemoryCache(this);
