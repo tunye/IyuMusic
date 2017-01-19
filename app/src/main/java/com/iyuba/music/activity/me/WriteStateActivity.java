@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.chaowen.commentlibrary.ContextManager;
-import com.chaowen.commentlibrary.EmojiView;
+import com.buaa.ct.comment.ContextManager;
+import com.buaa.ct.comment.EmojiView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;

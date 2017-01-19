@@ -28,7 +28,7 @@
         app:met_maxCharacters="60"
         app:met_primaryColor="@color/skin_app_color" />
 
-    <com.chaowen.commentlibrary.EmojiView
+    <com.buaa.ct.comment.EmojiView
         android:id="@+id/emoji"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

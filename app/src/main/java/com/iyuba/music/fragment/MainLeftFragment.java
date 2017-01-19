@@ -213,7 +213,6 @@ public class MainLeftFragment extends BaseFragment {
                 }
             }
         });
-
     }
 
     private void changeUIResumeByPara() {
@@ -221,6 +220,9 @@ public class MainLeftFragment extends BaseFragment {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(AccountManager.instance.getUserInfo().getFollower())) {
+                getPersonalInfo();
+            }
         } else {
             login.setVisibility(View.GONE);
             noLogin.setVisibility(View.VISIBLE);

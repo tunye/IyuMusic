@@ -104,7 +104,7 @@
             android:textSize="@dimen/medium_text" />
     </RelativeLayout>
 
-    <com.chaowen.commentlibrary.CommentView
+    <com.buaa.ct.comment.CommentView
         android:id="@+id/comment_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

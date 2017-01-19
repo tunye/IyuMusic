@@ -11,8 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chaowen.commentlibrary.CommentView;
-import com.chaowen.commentlibrary.ContextManager;
+import com.buaa.ct.comment.CommentView;
+import com.buaa.ct.comment.ContextManager;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.study.CommentAdapter;
@@ -49,7 +49,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Article curArticle;
     private ImageView img;
-    private TextView articleTitle, singer, announecr, count;
+    private TextView articleTitle, singer, announcer, count;
     private RecyclerView commentRecycleView;
     private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
@@ -84,7 +84,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         super.initWidget();
         img = (ImageView) findViewById(R.id.article_img);
         articleTitle = (TextView) findViewById(R.id.article_title);
-        announecr = (TextView) findViewById(R.id.article_announcer);
+        announcer = (TextView) findViewById(R.id.article_announcer);
         singer = (TextView) findViewById(R.id.article_singer);
         count = (TextView) findViewById(R.id.article_comment_count);
         commentRecycleView = (RecyclerView) findViewById(R.id.comment_recyclerview);
@@ -190,7 +190,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         curArticle = StudyManager.instance.getCurArticle();
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
         articleTitle.setText(curArticle.getTitle());
-        announecr.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
+        announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
         singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
         count.setText(context.getString(R.string.article_commentcount, "0"));
         onRefresh(0);

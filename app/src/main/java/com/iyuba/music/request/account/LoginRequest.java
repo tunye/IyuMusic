@@ -1,6 +1,7 @@
 package com.iyuba.music.request.account;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,6 +29,7 @@ import java.util.HashMap;
  */
 public class LoginRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
+        Log.e("aaa",url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -77,7 +79,7 @@ public class LoginRequest {
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();
                                     if ("response".equals(nodeName)) {
-                                        if (userInfo != null && !TextUtils.isEmpty(userInfo.getUid())) {
+                                        if (!TextUtils.isEmpty(userInfo.getUid())) {
                                             apiEntity.setData(userInfo);
                                         } else {
                                             apiEntity.setState(BaseApiEntity.State.ERROR);

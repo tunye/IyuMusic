@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.chaowen.commentlibrary.CommentView;
-import com.chaowen.commentlibrary.ContextManager;
+import com.buaa.ct.comment.CommentView;
+import com.buaa.ct.comment.ContextManager;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseInputActivity;
