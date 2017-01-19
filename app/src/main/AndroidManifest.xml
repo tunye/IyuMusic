@@ -118,16 +118,6 @@
         <activity android:name=".activity.main.FavorSongActivity" />
         <activity android:name=".activity.main.DownloadSongActivity" />
         <activity android:name=".activity.main.MusicActivity" />
-        <!--获取图片-->
-        <activity
-            android:name="com.yongchun.library.view.ImageSelectorActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.yongchun.library.view.ImagePreviewActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="com.yongchun.library.view.ImageCropActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--eggshell-->
         <activity android:name=".activity.eggshell.EggShellActivity" />
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator" />

@@ -1,6 +1,8 @@
 package com.iyuba.music.activity.me;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,9 +12,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.imageselector.utils.FileUtils;
+import com.buaa.ct.imageselector.view.ImageCropActivity;
+import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -25,9 +32,7 @@ import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
-import com.yongchun.library.utils.FileUtils;
-import com.yongchun.library.view.ImageCropActivity;
-import com.yongchun.library.view.ImageSelectorActivity;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,6 +64,10 @@ public class ChangePhotoActivity extends BaseActivity {
         initWidget();
         setListener();
         changeUIByPara();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
     }
 
     @Override

@@ -1,12 +1,16 @@
 package com.iyuba.music.activity.discover;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 
 import com.buaa.ct.comment.ContextManager;
 import com.buaa.ct.comment.EmojiView;
+import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -31,7 +36,6 @@ import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.yongchun.library.view.ImageSelectorActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,6 +66,10 @@ public class SendPhotoActivity extends BaseActivity {
         initWidget();
         setListener();
         changeUIByPara();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
     }
 
     @Override
@@ -115,6 +123,7 @@ public class SendPhotoActivity extends BaseActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(content);
         } else if (images.size() == 0) {
             YoYo.with(Techniques.Shake).duration(500).playOn(photo);
+            CustomToast.INSTANCE.showToast("尚未选择图片");
         } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
