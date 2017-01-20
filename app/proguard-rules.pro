@@ -160,17 +160,24 @@
 -keep class com.tencent.open.PKDialog$* {*;}
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
-
--dontwarn retrofit2.**
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
-
--keep class okhttp3.** { *; }
--keep interface okhttp3.** { *; }
--dontwarn okhttp3.**
-
--keep class javax.xml.stream.** { *; }
+#alipay
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+# 广场包注解
+#-dontwarn retrofit2.**
+#-keepclasseswithmembers class * {
+#    @retrofit2.http.* <methods>;
+#}
+#
+#-keep class okhttp3.** { *; }
+#-keep interface okhttp3.** { *; }
+#-dontwarn okhttp3.**
+#
+#-keep class javax.xml.stream.** { *; }
 
 
 
