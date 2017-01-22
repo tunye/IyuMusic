@@ -147,7 +147,6 @@ public static final int *;
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 #有道广告
--libraryjars libs/youdaosdk-3.9.8.jar
 -keep class com.youdao.sdk.** { *;}
 
 
