@@ -1,10 +1,15 @@
 package com.iyuba.music.activity.study;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +27,7 @@ import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
@@ -31,6 +37,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -39,6 +46,15 @@ import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.umeng.socialize.UMShareAPI;
 import com.wnafee.vector.MorphButton;
+import com.youdao.sdk.nativeads.ImageService;
+import com.youdao.sdk.nativeads.NativeErrorCode;
+import com.youdao.sdk.nativeads.NativeResponse;
+import com.youdao.sdk.nativeads.RequestParameters;
+import com.youdao.sdk.nativeads.YouDaoNative;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -61,6 +77,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private int aPosition, bPosition;// 区间播放
     private IntervalState intervalState;
     private boolean isDestroyed = false;
+    private YouDaoNative youdaoNative;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
@@ -133,6 +150,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         super.onDestroy();
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
+        if (youdaoNative != null) {
+            youdaoNative.destroy();
+        }
     }
 
     @Override
@@ -225,6 +245,83 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         studyMoreDialog = new StudyMore(this);
         playSound.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
+        if (!DownloadService.checkVip()) {
+            initAd();
+        } else {
+            youdaoNative = null;
+        }
+    }
+
+    private void initAd() {
+        final View adView = findViewById(R.id.youdao_ad);
+        final ImageView photoImage = (ImageView) findViewById(R.id.photoImage);
+        final TextView appText = (TextView) findViewById(R.id.appText);
+
+        youdaoNative = new YouDaoNative(context, "60004ead2eb4d475af89df8a75240b99",
+                new YouDaoNative.YouDaoNativeListener() {
+                    @Override
+                    public void onNativeImpression(View view, NativeResponse nativeResponse) {
+
+                    }
+
+                    @Override
+                    public void onNativeClick(View view, NativeResponse nativeResponse) {
+
+                    }
+
+                    @Override
+                    public void onNativeLoad(final NativeResponse nativeResponse) {
+                        List<String> imageUrls = new ArrayList<>();
+                        if (nativeResponse.getIconImageUrl() != null) {
+                            imageUrls.add(nativeResponse.getIconImageUrl());
+                        } else {
+                            imageUrls.add(nativeResponse.getMainImageUrl());
+                        }
+                        adView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                nativeResponse.handleClick(adView);
+                            }
+                        });
+                        String title = nativeResponse.getTitle();
+                        appText.setText(title);
+                        ImageService.get(context, imageUrls, new ImageService.ImageServiceListener() {
+                            @TargetApi(Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onSuccess(final Map<String, Bitmap> bitmaps) {
+                                if (nativeResponse.getIconImageUrl() != null || nativeResponse.getMainImageUrl() != null) {
+                                    Bitmap bitMap = bitmaps.get(nativeResponse.getIconImageUrl());
+                                    if (bitMap == null) {
+                                        bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
+                                    }
+                                    if (bitMap != null) {
+                                        photoImage.setBackground(new BitmapDrawable(bitMap));
+                                        photoImage.setVisibility(View.VISIBLE);
+                                        nativeResponse.recordImpression(photoImage);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFail() {
+                            }
+                        });
+                        adView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onNativeFail(NativeErrorCode nativeErrorCode) {
+
+                    }
+                });
+        Location location = new Location("appPos");
+        location.setLatitude(LocationUtil.getInstance().getLatitude());
+        location.setLongitude(LocationUtil.getInstance().getLongitude());
+        location.setAccuracy(100);
+
+        RequestParameters requestParameters = new RequestParameters.Builder()
+                .location(location).build();
+        youdaoNative.makeRequest(requestParameters);
     }
 
     @Override
