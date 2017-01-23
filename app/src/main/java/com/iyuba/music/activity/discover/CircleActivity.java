@@ -100,7 +100,6 @@ public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLa
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         collapsingToolbar.setTitle(context.getString(R.string.circle_title));
         collapsingToolbar.setCollapsedTitleTextColor(0xffededed);
-        collapsingToolbar.setContentScrimColor(GetAppColor.instance.getAppColor(context));
         ImageView toolbarImage = (ImageView) findViewById(R.id.toolbar_image);
         ImageUtil.loadImage(toolbarImage, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.instance.getUserId(),
                 0, new ImageUtil.OnDrawableLoadListener() {
