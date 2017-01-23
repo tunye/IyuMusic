@@ -151,7 +151,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.instance.getUserId())
+            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.instance.getUserId()),userinfo
                     , new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -167,11 +167,9 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                         public void response(Object object) {
                             BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                             if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
-                                userinfo = AccountManager.instance.getUserInfo();
+                                userinfo = (UserInfo) baseApiEntity.getData();
                                 setContent();
                                 setRelationShip();
-                            } else {
-                                CustomToast.INSTANCE.showToast(R.string.person_getinfo_fail);
                             }
                         }
                     });

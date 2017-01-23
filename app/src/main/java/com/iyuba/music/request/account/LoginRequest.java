@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
@@ -14,6 +15,7 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
 import com.iyuba.music.volley.XMLRequest;
@@ -33,6 +35,7 @@ import java.util.HashMap;
  */
 public class LoginRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
+        Log.e("aaa", url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -41,6 +44,7 @@ public class LoginRequest {
                         UserInfo userInfo = new UserInfo();
                         String nodeName;
                         BaseApiEntity apiEntity = new BaseApiEntity();
+                        Log.e("aaa", new Gson().toJson(xmlPullParser));
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
@@ -132,7 +136,7 @@ public class LoginRequest {
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 11001);
         para.put("platform", "android");
-        para.put("username", paras[0]);
+        para.put("username", TextAttr.encode(TextAttr.encode(paras[0])));
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("x", paras[2]);
         para.put("y", paras[3]);

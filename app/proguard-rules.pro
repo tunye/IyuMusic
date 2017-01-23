@@ -148,6 +148,8 @@ public static final int *;
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 #有道广告
 -keep class com.youdao.sdk.** { *;}
+#指示器
+-keep class com.wnafee.vector.**{*;}
 
 
 

@@ -124,36 +124,36 @@ public enum AccountManager {
     }
 
     public void getPersonalInfo(final IOperationResult result) {
-        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), new IProtocolResponse() {
-                    @Override
-                    public void onNetError(String msg) {
-                        if (result != null) {
-                            result.fail(null);
-                        }
-                    }
+        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), userInfo, new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+                if (result != null) {
+                    result.fail(null);
+                }
+            }
 
-                    @Override
-                    public void onServerError(String msg) {
-                        if (result != null) {
-                            result.fail(null);
-                        }
-                    }
+            @Override
+            public void onServerError(String msg) {
+                if (result != null) {
+                    result.fail(null);
+                }
+            }
 
-                    @Override
-                    public void response(Object object) {
-                        BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                        if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
-                            new UserInfoOp().saveData(userInfo);
-                            if (result != null) {
-                                result.success(null);
-                            }
-                        } else {
-                            if (result != null) {
-                                result.fail(null);
-                            }
-                        }
+            @Override
+            public void response(Object object) {
+                BaseApiEntity baseApiEntity = (BaseApiEntity) object;
+                if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    new UserInfoOp().saveData(userInfo);
+                    if (result != null) {
+                        result.success(null);
                     }
-                });
+                } else {
+                    if (result != null) {
+                        result.fail(null);
+                    }
+                }
+            }
+        });
     }
 
     public String getUserPwd() {

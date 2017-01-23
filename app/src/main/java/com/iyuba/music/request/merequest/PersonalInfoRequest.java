@@ -28,19 +28,21 @@ import java.util.HashMap;
  * Created by 10202 on 2015/10/8.
  */
 public class PersonalInfoRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url,final UserInfo userInfo, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = AccountManager.instance.getUserInfo();
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
                                     nodeName = xmlPullParser.getName();
+                                    if ("username".equals(nodeName)) {
+                                        userInfo.setUsername(xmlPullParser.nextText());
+                                    }
                                     if ("doings".equals(nodeName)) {
                                         userInfo.setDoings(xmlPullParser.nextText());
                                     }
@@ -91,7 +93,7 @@ public class PersonalInfoRequest {
                                     nodeName = xmlPullParser.getName();
                                     if ("response".equals(nodeName)) {
                                         apiEntity.setState(BaseApiEntity.State.SUCCESS);
-                                        AccountManager.instance.setUserInfo(userInfo);
+                                        apiEntity.setData(userInfo);
                                     } else {
                                         apiEntity.setState(BaseApiEntity.State.FAIL);
                                     }

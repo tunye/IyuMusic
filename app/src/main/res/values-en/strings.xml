@@ -399,7 +399,6 @@
     <!--个人中心-->
     <string name="person_title">Personal center</string>
     <string name="doing_title">Reply</string>
-    <string name="person_getinfo_fail">Getting information failed</string>
     <string name="person_detail">Details</string>
     <string name="person_message">Send private message</string>
     <string name="person_attention">Attention</string>

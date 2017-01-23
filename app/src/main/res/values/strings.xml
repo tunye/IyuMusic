@@ -414,7 +414,6 @@
     <!--个人中心-->
     <string name="person_title">个人中心</string>
     <string name="doing_title">回复动态</string>
-    <string name="person_getinfo_fail">信息拉取失败</string>
     <string name="person_detail">详细信息</string>
     <string name="person_message">发私信</string>
     <string name="person_attention">加关注</string>

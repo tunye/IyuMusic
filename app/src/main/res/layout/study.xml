@@ -223,11 +223,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/bg_rectangle_with_solid"
+            android:background="#77000000"
             android:gravity="center_vertical"
-            android:padding="@dimen/row_space_small"
+            android:padding="@dimen/line_thin"
             android:text=" 广告 "
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
+            android:textColor="#ededed"
+            android:textSize="12sp" />
     </RelativeLayout>
 </LinearLayout>
