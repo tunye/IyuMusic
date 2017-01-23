@@ -31,12 +31,12 @@ import java.util.Locale;
  * @author 陈彤
  * @version 1.0
  */
-public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.MyViewHolder> {
+public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.MyViewHolder> {
     private Context context;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private ArrayList<Article> mList = new ArrayList<>();
 
-    public SimpleNewsAdapter(Context context) {
+    public GroundNewsAdapter(Context context) {
         this.context = context;
         mList = new ArrayList<>();
     }

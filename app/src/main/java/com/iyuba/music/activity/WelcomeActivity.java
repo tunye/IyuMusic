@@ -146,7 +146,7 @@ public class WelcomeActivity extends AppCompatActivity {
         showGuide = true;
         ConfigManager.instance.putInt("version", currentVersion);
         SettingConfigManager.instance.setUpgrade(true);
-        CreateLinkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
+        //CreateLinkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {

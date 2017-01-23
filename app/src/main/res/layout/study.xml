@@ -201,38 +201,16 @@
     <RelativeLayout
         android:id="@+id/youdao_ad"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:clickable="true"
         android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/photoImage"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:scaleType="matrix" />
-
-        <TextView
-            android:id="@+id/appText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/photoImage"
-            android:textColor="@color/text_color"
-            android:textSize="17sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:scaleType="matrix"
-            android:src="@drawable/youdao_ad_arrow" />
+            android:layout_centerHorizontal="true"/>
 
         <ImageView
             android:layout_width="match_parent"

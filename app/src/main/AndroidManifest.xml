@@ -84,7 +84,7 @@
         <activity android:name=".activity.discover.SendPhotoActivity" />
         <activity android:name=".activity.discover.CircleActivity" />
         <activity android:name=".ground.AppGroundActivity" />
-        <activity android:name=".ground.SimpleNewsActivity" />
+        <activity android:name=".ground.GroundNewsActivity" />
         <activity
             android:name=".ground.VideoPlayerActivity"
             android:launchMode="singleTop" />

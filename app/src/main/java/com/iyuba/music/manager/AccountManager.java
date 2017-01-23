@@ -58,9 +58,7 @@ public enum AccountManager {
         ConfigManager.instance.putString("userName", userName);
         ConfigManager.instance.putString("userPwd", userPwd);
         ConfigManager.instance.putString("userId", userId);
-        if (TextUtils.isEmpty(userId)) {
-
-        } else {
+        if (!TextUtils.isEmpty(userId)) {
             HistoryLogin login = new HistoryLogin();
             login.setUserid(Integer.parseInt(userId));
             login.setUserName(userName);
@@ -100,6 +98,7 @@ public enum AccountManager {
                     BaseApiEntity apiEntity = (BaseApiEntity) object;
                     if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
                         userInfo = (UserInfo) apiEntity.getData();
+                        new UserInfoOp().saveData(userInfo);
                         loginState = LoginState.LOGIN;
                         userId = userInfo.getUid();
                         CustomToast.INSTANCE.showToast(context.getString(
@@ -125,8 +124,7 @@ public enum AccountManager {
     }
 
     public void getPersonalInfo(final IOperationResult result) {
-        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), userInfo
-                , new IProtocolResponse() {
+        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
                         if (result != null) {
@@ -145,7 +143,6 @@ public enum AccountManager {
                     public void response(Object object) {
                         BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                         if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
-                            userInfo = (UserInfo) baseApiEntity.getData();
                             new UserInfoOp().saveData(userInfo);
                             if (result != null) {
                                 result.success(null);

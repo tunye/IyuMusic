@@ -255,9 +255,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void initAd() {
         final View adView = findViewById(R.id.youdao_ad);
         final ImageView photoImage = (ImageView) findViewById(R.id.photoImage);
-        final TextView appText = (TextView) findViewById(R.id.appText);
-
-        youdaoNative = new YouDaoNative(context, "60004ead2eb4d475af89df8a75240b99",
+        youdaoNative = new YouDaoNative(context, "230d59b7c0a808d01b7041c2d127da95",
                 new YouDaoNative.YouDaoNativeListener() {
                     @Override
                     public void onNativeImpression(View view, NativeResponse nativeResponse) {
@@ -272,28 +270,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
                         List<String> imageUrls = new ArrayList<>();
-                        if (nativeResponse.getIconImageUrl() != null) {
-                            imageUrls.add(nativeResponse.getIconImageUrl());
-                        } else {
-                            imageUrls.add(nativeResponse.getMainImageUrl());
-                        }
+                        imageUrls.add(nativeResponse.getMainImageUrl());
                         adView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 nativeResponse.handleClick(adView);
                             }
                         });
-                        String title = nativeResponse.getTitle();
-                        appText.setText(title);
                         ImageService.get(context, imageUrls, new ImageService.ImageServiceListener() {
                             @TargetApi(Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onSuccess(final Map<String, Bitmap> bitmaps) {
-                                if (nativeResponse.getIconImageUrl() != null || nativeResponse.getMainImageUrl() != null) {
-                                    Bitmap bitMap = bitmaps.get(nativeResponse.getIconImageUrl());
-                                    if (bitMap == null) {
-                                        bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
-                                    }
+                                if (nativeResponse.getMainImageUrl() != null) {
+                                    Bitmap bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
                                     if (bitMap != null) {
                                         photoImage.setBackground(new BitmapDrawable(bitMap));
                                         photoImage.setVisibility(View.VISIBLE);

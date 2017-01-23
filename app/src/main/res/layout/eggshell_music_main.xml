@@ -33,7 +33,7 @@
             android:layout_toLeftOf="@+id/music_random_play"
             android:layout_marginRight="@dimen/row_space_large"
             android:text="@string/eggshell_music_link"
-            android:textColor="@color/skin_app_color"
+            android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text" />
         <TextView
             android:id="@+id/music_random_play"
@@ -42,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/row_space_medium"
             android:text="@string/eggshell_random_play"
-            android:textColor="@color/skin_app_color"
+            android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text" />
     </RelativeLayout>
 

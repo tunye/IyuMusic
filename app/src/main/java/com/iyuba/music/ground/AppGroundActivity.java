@@ -73,7 +73,7 @@ public class AppGroundActivity extends BaseActivity {
     class ItemClickListener implements OnItemClickListener {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             HashMap<String, Object> item = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
-            Intent intent = new Intent(context, SimpleNewsActivity.class);
+            Intent intent = new Intent(context, GroundNewsActivity.class);
             intent.putExtra("type", item.get("ItemText").toString());
             startActivity(intent);
         }

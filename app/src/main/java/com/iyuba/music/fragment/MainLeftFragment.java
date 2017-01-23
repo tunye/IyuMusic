@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
@@ -44,7 +46,6 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -156,11 +157,11 @@ public class MainLeftFragment extends BaseFragment {
                     case 1:
                         if (AccountManager.instance.checkUserLogin()) {
                             StringBuilder url = new StringBuilder();
-                            url.append("http://m.iyuba.com/i/getLeaderBoard.jsp?appId=")
+                            url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
                                     .append(ConstantManager.instance.getAppId()).append("&uid=")
                                     .append(AccountManager.instance.getUserId()).append("&sign=")
                                     .append(MD5.getMD5ofStr(AccountManager.instance.getUserId()
-                                            + "leaderBoard" + ConstantManager.instance.getAppId()));
+                                            + "ranking" + ConstantManager.instance.getAppId()));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);
                             intent.putExtra("url", url.toString());
@@ -287,14 +288,12 @@ public class MainLeftFragment extends BaseFragment {
             @Override
             public void fail(Object object) {
                 userInfo = new UserInfoOp().selectData(AccountManager.instance.getUserId());
-                if (userInfo != null && !TextUtils.isEmpty(userInfo.getFollowing())) {
+                if (userInfo != null && !TextUtils.isEmpty(userInfo.getFollowing())) {     // 获取不到时采用历史数据
                     AccountManager.instance.setUserInfo(userInfo);
-                    handler.sendEmptyMessage(0);
                 } else {
-                    AccountManager.instance.setLoginState(AccountManager.LoginState.UNLOGIN);
-                    changeUIResumeByPara();
-                    CustomToast.INSTANCE.showToast("您的账号信息异常，请重新登录");
+                    userInfo = AccountManager.instance.getUserInfo();
                 }
+                handler.sendEmptyMessage(0);
             }
         });
     }
@@ -302,28 +301,27 @@ public class MainLeftFragment extends BaseFragment {
     private void setPersonalInfoContent() {
         personalName.setText(userInfo.getUsername());
         personalGrade.setText(context.getString(R.string.personal_grade,
-                UserInfo.getLevelName(context, Integer.parseInt(userInfo.getIcoins()))));
-        personalCredits.setText(context.getString(R.string.personal_credits, userInfo.getIcoins()));
+                UserInfo.getLevelName(context, TextUtils.isEmpty(userInfo.getIcoins()) ? 0 : Integer.parseInt(userInfo.getIcoins()))));
+        personalCredits.setText(context.getString(R.string.personal_credits, TextUtils.isEmpty(userInfo.getIcoins()) ? "0" : userInfo.getIcoins()));
         if (TextUtils.isEmpty(userInfo.getText()) || "null".equals(userInfo.getText())) {
             personalSign.setText(R.string.personal_nosign);
         } else {
             personalSign.setText(userInfo.getText());
         }
-        int follow = Integer.parseInt(userInfo.getFollowing());
+        int follow = TextUtils.isEmpty(userInfo.getFollowing()) ? 0 : Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
             personalFollow.setTextColor(GetAppColor.instance.getAppColor(context));
         } else {
-            personalFollow.setText(context.getString(R.string.personal_follow, userInfo.getFollowing()));
+            personalFollow.setText(context.getString(R.string.personal_follow, String.valueOf(follow)));
         }
-        int follower = Integer.parseInt(userInfo.getFollower());
+        int follower = TextUtils.isEmpty(userInfo.getFollower()) ? 0 : Integer.parseInt(userInfo.getFollower());
         if (follower > 10000) {
             personalFan.setText(context.getString(R.string.personal_fan, follower / 10000 + "w"));
             personalFan.setTextColor(GetAppColor.instance.getAppColor(context));
         } else {
-            personalFan.setText(context.getString(R.string.personal_fan, userInfo.getFollower()));
+            personalFan.setText(context.getString(R.string.personal_fan, String.valueOf(follower)));
         }
-        //personalMessage.setText(context.getString(R.string.personal_message, userInfo.getNotification()));
     }
 
     @Override

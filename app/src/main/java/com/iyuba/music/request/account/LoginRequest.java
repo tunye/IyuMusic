@@ -22,6 +22,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -29,7 +33,6 @@ import java.util.HashMap;
  */
 public class LoginRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa",url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -74,6 +77,21 @@ public class LoginRequest {
                                     }
                                     if ("credits".equals(nodeName)) {
                                         userInfo.setIcoins(xmlPullParser.nextText());
+                                    }
+                                    if ("expireTime".equals(nodeName)) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        long time = Long.parseLong(xmlPullParser.nextText());
+                                        long allLife = Calendar.getInstance().SECOND;
+                                        try {
+                                            allLife = sdf.parse("2099-01-01").getTime() / 1000;
+                                        } catch (ParseException e) {
+
+                                        }
+                                        if (time > allLife) {
+                                            userInfo.setDeadline("终身VIP");
+                                        } else {
+                                            userInfo.setDeadline(sdf.format(new Date(time * 1000)));
+                                        }
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:

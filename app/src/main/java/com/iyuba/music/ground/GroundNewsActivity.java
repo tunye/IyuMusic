@@ -47,9 +47,9 @@ import me.drakeet.materialdialog.MaterialDialog;
  * @version 1.0
  * @para "type"新闻类别（VOA慢速、常速、BBC(3)、美语、视频）
  */
-public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     private MySwipeRefreshLayout swipeRefreshLayout;
-    private SimpleNewsAdapter simpleNewsAdapter;
+    private GroundNewsAdapter groundNewsAdapter;
     private ArrayList<Article> newsArrayList = new ArrayList<>();
     private RecyclerView newsList;
     private String curNewsType;
@@ -74,7 +74,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
         initWidget();
         setListener();
         changeUIByPara();
-        simpleNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        groundNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
@@ -84,7 +84,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     context.startActivity(intent);
                 } else {
                     StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(SimpleNewsActivity.this.getClass().getName());
+                    StudyManager.instance.setListFragmentPos(GroundNewsActivity.this.getClass().getName());
                     StudyManager.instance.setSourceArticleList(newsArrayList);
                     StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(lesson)));
                     StudyManager.instance.setCurArticle(newsArrayList.get(position));
@@ -103,14 +103,14 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        simpleNewsAdapter = new SimpleNewsAdapter(context);
+        groundNewsAdapter = new GroundNewsAdapter(context);
         newsList = (RecyclerView) findViewById(R.id.news_recyclerview);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         newsList.setLayoutManager(new LinearLayoutManager(context));
-        newsList.setAdapter(simpleNewsAdapter);
+        newsList.setAdapter(groundNewsAdapter);
         newsList.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
@@ -247,7 +247,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     StudyManager.instance.setSourceArticleList(newsArrayList);
                     StudyManager.instance.setCurArticle(newsArrayList.get(0));
                     StudyManager.instance.setApp(app);
-                } else if (SimpleNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
+                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
                     StudyManager.instance.setSourceArticleList(newsArrayList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -262,7 +262,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     StudyManager.instance.setSourceArticleList(newsArrayList);
                     StudyManager.instance.setCurArticle(newsArrayList.get(0));
                     StudyManager.instance.setApp(app);
-                } else if (SimpleNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
+                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
                     StudyManager.instance.setSourceArticleList(newsArrayList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -280,7 +280,7 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                         StudyManager.instance.setSourceArticleList(newsArrayList);
                         StudyManager.instance.setCurArticle(newsArrayList.get(0));
                         StudyManager.instance.setApp(app);
-                    } else if (SimpleNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
+                    } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
                         StudyManager.instance.setSourceArticleList(newsArrayList);
                     }
                     LocalInfo localinfo;
@@ -294,13 +294,13 @@ public class SimpleNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     }
                     articleOp.saveData(netData);
                 }
-                simpleNewsAdapter.setData(newsArrayList);
+                groundNewsAdapter.setData(newsArrayList);
             }
         });
     }
 
     private void getDbData() {
         newsArrayList.addAll(articleOp.findDataByAll(app, newsArrayList.size(), 20));
-        simpleNewsAdapter.setData(newsArrayList);
+        groundNewsAdapter.setData(newsArrayList);
     }
 }

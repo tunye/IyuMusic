@@ -6,6 +6,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
@@ -18,42 +19,28 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
 public class PersonalInfoRequest {
-    public static void exeRequest(String url, final UserInfo user, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = user;
+                        UserInfo userInfo = AccountManager.instance.getUserInfo();
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
                                     nodeName = xmlPullParser.getName();
-                                    if ("result".equals(nodeName)) {
-                                        if ("201".equals(xmlPullParser.nextText())) {
-                                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
-                                        } else {
-                                            apiEntity.setState(BaseApiEntity.State.FAIL);
-                                        }
-                                    }
-                                    if ("username".equals(nodeName)) {
-                                        userInfo.setUsername(xmlPullParser.nextText());
-                                    }
-                                    if ("icoins".equals(nodeName)) {
-                                        userInfo.setIcoins(xmlPullParser.nextText());
-                                    }
                                     if ("doings".equals(nodeName)) {
                                         userInfo.setDoings(xmlPullParser.nextText());
                                     }
@@ -87,11 +74,11 @@ public class PersonalInfoRequest {
                                     if ("expireTime".equals(nodeName)) {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                         long time = Long.parseLong(xmlPullParser.nextText());
-                                        long allLife = Calendar.getInstance().SECOND;
+                                        long allLife = System.currentTimeMillis() / 1000;
                                         try {
                                             allLife = sdf.parse("2099-01-01").getTime() / 1000;
                                         } catch (ParseException e) {
-
+                                            e.printStackTrace();
                                         }
                                         if (time > allLife) {
                                             userInfo.setDeadline("终身VIP");
@@ -103,9 +90,12 @@ public class PersonalInfoRequest {
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();
                                     if ("response".equals(nodeName)) {
-                                        apiEntity.setData(userInfo);
-                                        response.response(apiEntity);
+                                        apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                        AccountManager.instance.setUserInfo(userInfo);
+                                    } else {
+                                        apiEntity.setState(BaseApiEntity.State.FAIL);
                                     }
+                                    response.response(apiEntity);
                                     break;
                             }
                         }

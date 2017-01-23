@@ -27,7 +27,7 @@
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_launcher_circle" />
+                android:src="@mipmap/ic_launcher" />
 
             <LinearLayout
                 android:id="@+id/l1"
