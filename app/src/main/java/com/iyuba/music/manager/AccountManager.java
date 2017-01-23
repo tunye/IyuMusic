@@ -143,6 +143,7 @@ public enum AccountManager {
             public void response(Object object) {
                 BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                 if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    userInfo = (UserInfo) baseApiEntity.getData();
                     new UserInfoOp().saveData(userInfo);
                     if (result != null) {
                         result.success(null);
