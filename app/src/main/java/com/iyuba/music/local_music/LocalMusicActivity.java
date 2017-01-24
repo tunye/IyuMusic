@@ -181,10 +181,14 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StudyManager.instance.getApp().equals("101")) {
-                    sendBroadcast(new Intent("iyumusic.pause"));
+                if (musics.size() != 0) {
+                    if (StudyManager.instance.getApp().equals("101")) {
+                        sendBroadcast(new Intent("iyumusic.pause"));
+                    } else {
+                        randomPlay();
+                    }
                 } else {
-                    randomPlay();
+                    CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
                 }
             }
         });
@@ -307,15 +311,19 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     private void randomPlay() {
-        int position = new Random().nextInt(musics.size());
-        StudyManager.instance.setSourceArticleList(musics);
-        StudyManager.instance.setListFragmentPos(LocalMusicActivity.this.getClass().getName());
-        StudyManager.instance.setCurArticle(musics.get(position));
-        StudyManager.instance.setStartPlaying(true);
-        musicList.scrollToPosition(position);
-        adapter.setCurPos(position);
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.instance.getCurArticle(), false);
+        if (musics.size() != 0) {
+            int position = new Random().nextInt(musics.size());
+            StudyManager.instance.setSourceArticleList(musics);
+            StudyManager.instance.setListFragmentPos(LocalMusicActivity.this.getClass().getName());
+            StudyManager.instance.setCurArticle(musics.get(position));
+            StudyManager.instance.setStartPlaying(true);
+            musicList.scrollToPosition(position);
+            adapter.setCurPos(position);
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(
+                    StudyManager.instance.getCurArticle(), false);
+        } else {
+            CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
+        }
     }
 
     private void refresh() {
