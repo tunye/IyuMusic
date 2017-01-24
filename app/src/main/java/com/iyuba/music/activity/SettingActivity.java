@@ -19,6 +19,7 @@ import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.file.FileUtil;
+import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -42,7 +43,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     Dialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin;
+    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin,versionFeature;
     private RoundRelativeLayout language, night, push, sleep, clear;
     private TextView currLanguage, currSleep, currClear, currSkin;
     private CheckBox currNight, currPush;
@@ -64,6 +65,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.initWidget();
         share = (RoundRelativeLayout) findViewById(R.id.setting_share);
         skin = (RoundRelativeLayout) findViewById(R.id.setting_skin);
+        versionFeature=(RoundRelativeLayout)findViewById(R.id.setting_version_feature);
         feedback = (RoundRelativeLayout) findViewById(R.id.setting_feedback);
         helpUse = (RoundRelativeLayout) findViewById(R.id.setting_help_use);
         wordSet = (RoundRelativeLayout) findViewById(R.id.setting_word_set);
@@ -86,6 +88,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void setListener() {
         super.setListener();
         skin.setOnClickListener(this);
+        versionFeature.setOnClickListener(this);
         feedback.setOnClickListener(this);
         helpUse.setOnClickListener(this);
         wordSet.setOnClickListener(this);
@@ -141,6 +144,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.setting_version_feature:
+                StartFragment.showVersionFeature(context);
+                break;
             case R.id.setting_skin:
             case R.id.setting_curr_skin:
                 startActivity(new Intent(context, SkinActivity.class));

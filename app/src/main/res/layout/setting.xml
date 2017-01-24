@@ -327,7 +327,34 @@
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default" />
                 </com.flyco.roundview.RoundRelativeLayout>
+                <com.flyco.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_version_feature"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_backgroundPressColor="@color/background_light"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/new_version_features"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <com.iyuba.music.widget.imageview.GoImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        app:go_color="@color/background_complementary"
+                        app:go_direction="LEFT"
+                        app:go_stroke="@dimen/line_default" />
+                </com.flyco.roundview.RoundRelativeLayout>
                 <com.flyco.roundview.RoundRelativeLayout
                     android:id="@+id/setting_help_use"
                     android:layout_width="match_parent"

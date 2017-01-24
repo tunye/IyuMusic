@@ -217,27 +217,13 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private void showWhatsNew() {
         if (SettingConfigManager.instance.isUpgrade()) {
             SettingConfigManager.instance.setUpgrade(false);
-            final MaterialDialog materialDialog = new MaterialDialog(context);
-            materialDialog.setTitle("新版本特性");
-            StringBuilder sb = new StringBuilder();
-            sb.append("1.[软件维护] 修复用户反馈若干异常").append("\n");
-            sb.append("2.[性能优化] 提高软件使用的稳定性").append("\n");
-            sb.append("3.[在线支付] 会员购买可以使用在线支付方式了！");
-            materialDialog.setMessage(sb.toString());
-            materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    materialDialog.dismiss();
-                }
-            });
+            StartFragment.showVersionFeature(context);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
             } else {
                 resetDownLoadData();
             }
-            materialDialog.setCanceledOnTouchOutside(false);
-            materialDialog.show();
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {

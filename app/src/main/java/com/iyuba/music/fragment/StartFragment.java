@@ -5,7 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.article.StudyRecord;
 import com.iyuba.music.entity.article.StudyRecordOp;
@@ -20,6 +22,8 @@ import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 
 import java.util.ArrayList;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -142,5 +146,23 @@ public class StartFragment {
                         }
                     });
         }
+    }
+
+    public static void showVersionFeature(Context context) {
+        final MaterialDialog materialDialog = new MaterialDialog(context);
+        materialDialog.setTitle(R.string.new_version_features);
+        StringBuilder sb = new StringBuilder();
+        sb.append("1.[软件维护] 修复用户反馈若干异常").append("\n");
+        sb.append("2.[性能优化] 提高软件使用的稳定性").append("\n");
+        sb.append("3.[在线支付] 会员购买可以使用在线支付方式了！");
+        materialDialog.setMessage(sb.toString());
+        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
     }
 }

@@ -146,6 +146,7 @@
     <string name="about_eggshell_open">Eggshell mode has opened</string>
     <string name="about_go_eggshell">Go</string>
     <string name="about_eggshell_opening">%1$s clicks is needed to open Eggshell mode</string>
+    <string name="new_version_features">new version features</string>
     <!--反馈-->
     <string name="feedback_title">Feedback</string>
     <string name="feedback_content_hint">Your comments and feedback are welcomed and appreciated</string>

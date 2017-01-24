@@ -30,7 +30,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.request.discoverrequest.SimpleNewsListRequest;
+import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
@@ -237,7 +237,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
             lesson = "TED英语演讲";
             app = "229";
         }
-        SimpleNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse() {
+        GroundNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));

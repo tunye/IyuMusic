@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/9/30.
  */
-public class SimpleNewsListRequest {
+public class GroundNewsListRequest {
     public static void exeRequest(String url, final String app, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
