@@ -66,6 +66,12 @@ public class PlayerService extends Service {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        flags = Service.START_FLAG_REDELIVERY;
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         audioManager.abandonAudioFocus(mListener);
