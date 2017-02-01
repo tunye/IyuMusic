@@ -199,7 +199,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void normalToDelete() {
         deleteMode = true;
-        toolbarOper.setText(R.string.app_accept);
+        toolbarOper.setText(R.string.app_del);
         statusBar.setVisibility(View.GONE);
     }
 

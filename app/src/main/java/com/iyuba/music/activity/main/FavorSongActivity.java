@@ -146,7 +146,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             public void onClick(View v) {
                 if (favorEdit.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
-                    favorEdit.setText(R.string.article_edit_finish);
+                    favorEdit.setText(R.string.app_del);
                 } else {
                     newsAdapter.setDelete(false);
                     favorEdit.setText(R.string.article_edit);

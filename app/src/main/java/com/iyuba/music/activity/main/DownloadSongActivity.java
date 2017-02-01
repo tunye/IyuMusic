@@ -99,7 +99,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             public void onClick(View v) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
-                    toolbarOper.setText(R.string.article_edit_finish);
+                    toolbarOper.setText(R.string.app_del);
                 } else {
                     newsAdapter.setDelete(false);
                     toolbarOper.setText(R.string.article_edit);

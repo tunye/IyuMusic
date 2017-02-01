@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/row_space_large"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/word_mean"
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text" />
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/row_space_medium"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/word_example"
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text" />

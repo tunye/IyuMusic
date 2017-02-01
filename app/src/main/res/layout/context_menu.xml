@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="100"
-            app:rv_backgroundColor="#abffffff"
+            app:rv_backgroundColor="#baffffff"
             app:rv_cornerRadius="@dimen/corner_radius_default">
 
             <ListView
@@ -25,19 +25,25 @@
 
         </com.flyco.roundview.RoundLinearLayout>
 
-        <com.flyco.roundview.RoundTextView
+        <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/cancle"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_large"
-            android:alpha="100"
-            android:gravity="center"
-            android:padding="@dimen/row_space_big"
-            android:text="取消"
-            android:textColor="#0179ff"
-            android:textSize="@dimen/large_text"
-            app:rv_backgroundColor="#abffffff"
-            app:rv_backgroundPressColor="#db4e46"
-            app:rv_cornerRadius="@dimen/corner_radius_default" />
+            app:mrl_rippleColor="#db4e46"
+            app:mrl_rippleDuration="600">
+
+            <com.flyco.roundview.RoundTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/row_space_big"
+                android:text="@string/app_cancel"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/large_text"
+                app:rv_backgroundColor="#baffffff"
+                app:rv_backgroundPressColor="#db4e46"
+                app:rv_cornerRadius="@dimen/corner_radius_default" />
+        </com.balysv.materialripple.MaterialRippleLayout>
     </LinearLayout>
 </RelativeLayout>

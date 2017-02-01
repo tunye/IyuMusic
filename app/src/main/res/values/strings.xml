@@ -7,6 +7,7 @@
     <string name="app_accept">确定</string>
     <string name="app_sure">允许</string>
     <string name="app_cancel">取消</string>
+    <string name="app_del">删除</string>
     <string name="app_submit">提交</string>
     <string name="app_no_change">该设定无变化</string>
     <string name="select_all">全选</string>
@@ -523,6 +524,7 @@
     <string name="welcome_escape_ad">跳过</string>
     <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
     <!--在线支付-->
+    <string name="pay_detail_oper">支付</string>
     <string name="pay_detail_title">订单支付</string>
     <string name="pay_detail_user">欢迎用户：</string>
     <string name="pay_detail_buy">订单内容：</string>

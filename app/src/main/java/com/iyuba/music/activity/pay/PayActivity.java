@@ -80,6 +80,7 @@ public class PayActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         username = (TextView) findViewById(R.id.pay_detail_user);
         payDetail = (TextView) findViewById(R.id.pay_detail_buy);
         payMoney = (TextView) findViewById(R.id.pay_detail_money);
@@ -105,20 +106,26 @@ public class PayActivity extends BaseActivity {
                 showBaoSelect();
             }
         });
-        paySure.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener payListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (wxSelected.getVisibility() == View.VISIBLE) {
-                    if (msgApi.isWXAppInstalled()) {
-                        wechatPay();
-                    } else {
-                        CustomToast.INSTANCE.showToast(R.string.pay_detail_no_wechat);
-                    }
-                } else {
-                    aliPay();
-                }
+                pay();
             }
-        });
+        };
+        toolbarOper.setOnClickListener(payListener);
+        paySure.setOnClickListener(payListener);
+    }
+
+    private void pay() {
+        if (wxSelected.getVisibility() == View.VISIBLE) {
+            if (msgApi.isWXAppInstalled()) {
+                wechatPay();
+            } else {
+                CustomToast.INSTANCE.showToast(R.string.pay_detail_no_wechat);
+            }
+        } else {
+            aliPay();
+        }
     }
 
     private void showWxSelect() {
@@ -137,6 +144,7 @@ public class PayActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.pay_detail_title);
+        toolbarOper.setText(R.string.pay_detail_oper);
         username.setText(AccountManager.instance.getUserName());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));

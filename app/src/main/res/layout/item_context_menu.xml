@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="#0179ff"
+            android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text" />
     </com.balysv.materialripple.MaterialRippleLayout>
 </com.flyco.roundview.RoundLinearLayout>

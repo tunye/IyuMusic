@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
-import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.MenuAdapter;
 import com.iyuba.music.listener.IOperationResultInt;
@@ -38,7 +37,7 @@ public class ContextMenu {
     }
 
     private void init() {
-        RoundTextView cancel = (RoundTextView) root.findViewById(R.id.cancle);
+        View cancel = root.findViewById(R.id.cancle);
         cancel.setOnClickListener(new View.OnClickListener() {
 
             @Override

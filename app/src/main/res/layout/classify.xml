@@ -15,13 +15,13 @@
             android:layout_height="wrap_content"
             android:text="@string/classify_group_person"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/person_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_space_very_large"
+            android:layout_marginTop="@dimen/row_space_big"
             android:horizontalSpacing="@dimen/row_space_very_large"
             android:numColumns="3"
             android:stretchMode="columnWidth" />
@@ -29,16 +29,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_space_large"
+            android:layout_marginTop="@dimen/row_space_very_large"
             android:text="@string/classify_group_system"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/system_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/row_space_very_large"
+            android:layout_marginTop="@dimen/row_space_big"
             android:horizontalSpacing="@dimen/row_space_very_large"
             android:numColumns="3"
             android:stretchMode="columnWidth"
