@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -172,87 +170,20 @@ public class FlexibleView extends RelativeLayout {
     }
 
     private void resetState() {
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, -actualDistance);
-        translateAnimation.setInterpolator(new AccelerateInterpolator());
-        translateAnimation.setDuration(600);
-        actualDistance = 0;
         if (webView != null) {
-            webView.startAnimation(translateAnimation);
-            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    webView.clearAnimation();
-                    webView.setY(0);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+            webView.animate().translationYBy(-actualDistance).setDuration(600)
+                    .setInterpolator(new AccelerateInterpolator()).start();
         } else if (scrollView != null) {
-            scrollView.startAnimation(translateAnimation);
-            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    scrollView.clearAnimation();
-                    scrollView.setY(0);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+            scrollView.animate().translationYBy(-actualDistance).setDuration(600)
+                    .setInterpolator(new AccelerateInterpolator()).start();
         } else if (adapterView != null) {
-            adapterView.startAnimation(translateAnimation);
-            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    adapterView.clearAnimation();
-                    adapterView.setY(0);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        } else {
-            customView.startAnimation(translateAnimation);
-            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    customView.clearAnimation();
-                    customView.setY(0);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+            adapterView.animate().translationYBy(-actualDistance).setDuration(600)
+                    .setInterpolator(new AccelerateInterpolator()).start();
+        } else if (customView != null) {
+            customView.animate().translationYBy(-actualDistance).setDuration(600)
+                    .setInterpolator(new AccelerateInterpolator()).start();
         }
+        actualDistance = 0;
     }
 
     public void setMaxMove(int maxMove) {

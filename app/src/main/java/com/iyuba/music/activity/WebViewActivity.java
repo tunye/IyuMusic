@@ -38,6 +38,7 @@ public class WebViewActivity extends BaseActivity {
     private TextView source;
     private ValueAnimator progressBarAnimator;
     private int mCurrentProgress;
+    private View progressLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class WebViewActivity extends BaseActivity {
             web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
         loadProgress = (ProgressBar) findViewById(R.id.load_progress);
+        progressLayout = findViewById(R.id.load_progress_layout);
         progressBarAnimator = new ValueAnimator().setDuration(300);
         progressBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -199,10 +201,10 @@ public class WebViewActivity extends BaseActivity {
             progressBarAnimator.end();
         }
         progressBarAnimator.setIntValues(mCurrentProgress, newProgress);
-        if (newProgress >= 100) {
-            loadProgress.setVisibility(View.GONE);
+        if (newProgress >= 100 || mCurrentProgress >= 100) {
+            progressLayout.setVisibility(View.GONE);
         } else {
-            loadProgress.setVisibility(View.VISIBLE);
+            progressLayout.setVisibility(View.VISIBLE);
         }
         progressBarAnimator.start();
         mCurrentProgress = newProgress;
