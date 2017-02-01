@@ -201,7 +201,7 @@ public class WebViewActivity extends BaseActivity {
             progressBarAnimator.end();
         }
         progressBarAnimator.setIntValues(mCurrentProgress, newProgress);
-        if (newProgress >= 100 || mCurrentProgress >= 100) {
+        if (newProgress >= 100) {
             progressLayout.setVisibility(View.GONE);
         } else {
             progressLayout.setVisibility(View.VISIBLE);

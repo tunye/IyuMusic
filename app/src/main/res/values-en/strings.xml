@@ -200,10 +200,10 @@
     <string name="word_saying_manualchange">Manual</string>
     <string name="word_saying_next">Next</string>
     <!--word search-->
-    <string name="search_word_title">Look up a word</string>
+    <string name="search_word_title">Look up new words</string>
     <string name="search_word_hint">Please enter content</string>
     <string name="search_word_null">Please enter a word</string>
-    <string name="search_word_do">Search</string>
+    <string name="search_word_do">Find</string>
     <!--word single-->
     <string name="word_title">Word</string>
     <string name="word_mean">Explanation</string>
@@ -419,7 +419,7 @@
     <string name="person_attention_cancel_hint">Concel the current attention?</string>
     <!--好友中心-->
     <string name="friend_title">Friend center</string>
-    <string name="friend_search">Search</string>
+    <string name="friend_search">Find</string>
     <string name="friend_distance">Distance：%1$s metres</string>
     <string name="friend_lastlogin">Last login：%1$s</string>
     <string name="friend_load_all">Friends loading is completed</string>
@@ -429,7 +429,7 @@
     <string name="friend_finding">Searching…</string>
     <string name="no_friend">No friend yet</string>
     <!--搜索-->
-    <string name="search_do">Search</string>
+    <string name="search_do">Find</string>
     <string name="search_close">Close</string>
     <string name="search_result">Search“%1$s”, totally %2$d search results</string>
     <string name="article_download_over">Download already</string>

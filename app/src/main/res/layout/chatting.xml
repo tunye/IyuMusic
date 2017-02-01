@@ -20,7 +20,7 @@
         android:scrollbars="vertical"
         android:transcriptMode="alwaysScroll" />
 
-    <com.chaowen.commentlibrary.CommentView
+    <com.buaa.ct.comment.CommentView
         android:id="@+id/chat_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

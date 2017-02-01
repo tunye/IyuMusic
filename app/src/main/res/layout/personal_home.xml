@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+                android:layout_marginLeft="@dimen/row_space_big" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,20 +57,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#cdcdcd"
+                android:layout_marginRight="@dimen/row_space_large"
                 android:textSize="@dimen/big_text" />
 
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:background="#cdcdcd" />
 
             <TextView
                 android:id="@+id/fans_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/row_space_large"
                 android:textColor="#cdcdcd"
                 android:textSize="@dimen/big_text" />
         </LinearLayout>

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/4/21.
  */
-public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener, AppBarLayout.OnOffsetChangedListener {
+public class CircleActivity extends AppCompatActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener, AppBarLayout.OnOffsetChangedListener {
     private Context context;
     private RecyclerView circleRecycleView;
     private ArrayList<Circle> circles;
@@ -68,12 +69,6 @@ public class CircleActivity extends BaseSkinActivity implements MySwipeRefreshLa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
         setContentView(R.layout.circle);
         context = this;
         myPalette = new MyPalette();
