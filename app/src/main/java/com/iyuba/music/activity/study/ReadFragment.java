@@ -41,7 +41,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         curArticle = StudyManager.instance.getCurArticle();
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.read_loading)).create();
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_loading));
         readAdapter = new ReadAdapter(context);
         recyclerView.setAdapter(readAdapter);
         setUserVisibleHint(true);

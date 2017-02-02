@@ -61,7 +61,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.article_fav_synchroing)).create();
+        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.article_fav_synchroing));
         initWidget();
         setListener();
         changeUIByPara();

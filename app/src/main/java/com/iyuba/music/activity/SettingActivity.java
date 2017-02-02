@@ -54,7 +54,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         context = this;
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(getString(R.string.setting_clearing)).create();
+        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.setting_clearing));
         initWidget();
         setListener();
         changeUIByPara();

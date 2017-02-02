@@ -32,7 +32,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
     protected RelativeLayout toolBarLayout;
     protected TextView title, toolbarOper;
 
-    @TargetApi(19)
+    //@TargetApi(19)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

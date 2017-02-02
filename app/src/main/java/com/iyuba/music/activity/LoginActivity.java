@@ -88,7 +88,7 @@ public class LoginActivity extends BaseInputActivity {
         autoLogin = (CheckBox) findViewById(R.id.auto_login);
         forgetPwd = (TextView) findViewById(R.id.forget_pwd);
         login = (RoundTextView) findViewById(R.id.login);
-        waitingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.login_on_way)).create();
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.login_on_way));
     }
 
     @Override

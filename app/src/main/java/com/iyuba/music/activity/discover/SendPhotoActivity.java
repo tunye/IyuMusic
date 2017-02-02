@@ -80,7 +80,7 @@ public class SendPhotoActivity extends BaseActivity {
         content = (MaterialEditText) findViewById(R.id.feedback_content);
         photo = (ImageView) findViewById(R.id.state_image);
         emojiView = (EmojiView) findViewById(R.id.emoji);
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.photo_on_way)).create();
+        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.photo_on_way));
     }
 
     @Override

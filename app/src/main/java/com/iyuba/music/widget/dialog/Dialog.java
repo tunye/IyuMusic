@@ -122,26 +122,21 @@ public class Dialog extends AppCompatDialog {
     @Override
     public void show() {
         super.show();
-        // set dialog enter animations
         view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
-        backView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_root_show_amination));
     }
 
-    public void show(int animStyle) {
+    public void showAnim(int animStyle) {
         super.show();
         backView.startAnimation(AnimationUtils.loadAnimation(context, animStyle));
     }
 
-    @Override
-    public void dismiss() {
+    public void dismissAnim() {
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.dialog_main_hide_amination);
         anim.setAnimationListener(animationListener);
-        Animation backAnim = AnimationUtils.loadAnimation(context, R.anim.dialog_root_hide_amination);
         view.startAnimation(anim);
-        backView.startAnimation(backAnim);
     }
 
-    public void dismiss(int animStyle) {
+    public void dismissAnim(int animStyle) {
         Animation anim = AnimationUtils.loadAnimation(context, animStyle);
         anim.setAnimationListener(animationListener);
         backView.startAnimation(anim);

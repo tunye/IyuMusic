@@ -81,7 +81,7 @@ public class ContextMenu {
     }
 
     public void dismiss() {
-        dialog.dismiss();
+        dialog.dismissAnim();
     }
 
     public boolean isShown() {

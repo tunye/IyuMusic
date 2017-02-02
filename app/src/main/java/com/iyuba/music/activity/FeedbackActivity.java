@@ -55,7 +55,7 @@ public class FeedbackActivity extends BaseActivity {
         mainContent = findViewById(R.id.feedback_main);
         content = (MaterialEditText) findViewById(R.id.feedback_content);
         contact = (MaterialEditText) findViewById(R.id.feedback_contact);
-        waitingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.feedback_on_way)).create();
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.feedback_on_way));
     }
 
     @Override

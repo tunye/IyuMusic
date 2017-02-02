@@ -123,12 +123,12 @@ public class ChattingActivity extends BaseInputActivity {
                         AccountManager.instance.getUserId(), SocialManager.instance.getFriendName(), s), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-
+                        CustomToast.INSTANCE.showToast(R.string.message_send_fail);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-
+                        CustomToast.INSTANCE.showToast(R.string.message_send_fail);
                     }
 
                     @Override

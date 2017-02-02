@@ -15,34 +15,18 @@ import com.wang.avi.AVLoadingIndicatorView;
  */
 public class WaitingDialog {
 
-    public static class Builder {
+    public static Dialog create(Context context, String message) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.waitting, null);
 
-        private Context context;
-        private String message;
-
-        public Builder(Context context) {
-            this.context = context;
-            this.message = null;
+        TextView animationMessage = (TextView) layout.findViewById(R.id.waitting_text);
+        if (TextUtils.isEmpty(message)) {
+            animationMessage.setVisibility(View.GONE);
+        } else {
+            animationMessage.setText(message);
         }
-
-        public Builder setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Dialog create() {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View layout = inflater.inflate(R.layout.waitting, null);
-
-            TextView animationMessage = (TextView) layout.findViewById(R.id.waitting_text);
-            if (TextUtils.isEmpty(message)) {
-                animationMessage.setVisibility(View.GONE);
-            } else {
-                animationMessage.setText(message);
-            }
-            AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
-            loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
-            return new Dialog(context, layout, false);
-        }
+        AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
+        loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
+        return new Dialog(context, layout, false);
     }
 }

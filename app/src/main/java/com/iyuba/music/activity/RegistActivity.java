@@ -106,7 +106,7 @@ public class RegistActivity extends BaseInputActivity {
         userPwd = (MaterialEditText) findViewById(R.id.regist_pwd);
         userPwd2 = (MaterialEditText) findViewById(R.id.regist_repwd);
         email = (MaterialEditText) findViewById(R.id.regist_email);
-        waittingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.regist_on_way)).create();
+        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.regist_on_way));
     }
 
     @Override

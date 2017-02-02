@@ -72,7 +72,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
         wordStatistic = (TextView) findViewById(R.id.word_statistic);
         wordList.setLayoutManager(new LinearLayoutManager(this));
         wordList.addItemDecoration(new DividerItemDecoration());
-        waitingDialog = new WaitingDialog.Builder(context).setMessage(context.getString(R.string.word_synchroing)).create();
+        waitingDialog =  WaitingDialog.create(context, context.getString(R.string.word_synchroing));
     }
 
     @Override

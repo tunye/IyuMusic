@@ -78,7 +78,7 @@ public class PersonalInfoRequest {
                                         long time = Long.parseLong(xmlPullParser.nextText());
                                         long allLife = System.currentTimeMillis() / 1000;
                                         try {
-                                            allLife = sdf.parse("2099-01-01").getTime() / 1000;
+                                            allLife = sdf.parse("2099-12-31").getTime() / 1000;
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }

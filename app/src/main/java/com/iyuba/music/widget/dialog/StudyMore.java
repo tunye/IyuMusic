@@ -261,12 +261,12 @@ public class StudyMore {
     }
 
     public void show() {
-        dialog.show(R.anim.bottom_in);
+        dialog.showAnim(R.anim.bottom_in);
         shown = true;
     }
 
     public void dismiss() {
-        dialog.dismiss(R.anim.bottom_out);
+        dialog.dismissAnim(R.anim.bottom_out);
     }
 
     public boolean isShown() {

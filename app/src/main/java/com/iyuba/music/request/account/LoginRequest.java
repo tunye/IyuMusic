@@ -24,10 +24,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -84,18 +83,20 @@ public class LoginRequest {
                                     }
                                     if ("expireTime".equals(nodeName)) {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                        long time = Long.parseLong(xmlPullParser.nextText());
-                                        long allLife = Calendar.getInstance().SECOND;
+                                        long time = Long.parseLong(xmlPullParser.nextText()) * 1000;
+                                        long allLife = System.currentTimeMillis();
                                         try {
-                                            allLife = sdf.parse("2099-01-01").getTime() / 1000;
+                                            allLife = sdf.parse("2099-12-31").getTime();
                                         } catch (ParseException e) {
 
                                         }
+                                        Log.e("aaa", time + " " + allLife);
                                         if (time > allLife) {
                                             userInfo.setDeadline("终身VIP");
                                         } else {
-                                            userInfo.setDeadline(sdf.format(new Date(time * 1000)));
+                                            userInfo.setDeadline(sdf.format(new Timestamp(time)));
                                         }
+                                        Log.e("aaa", userInfo.getDeadline());
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:
