@@ -52,7 +52,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         adPicUrl = new ArrayList<>();
     }
 
-    private static void getAppointArticle(String id) {
+    private static void getAppointArticle(final Context context,String id) {
         NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -77,7 +77,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
                 StudyManager.instance.setSourceArticleList(netData);
                 StudyManager.instance.setCurArticle(netData.get(0));
-                RuntimeManager.getContext().startActivity(new Intent(RuntimeManager.getContext(), StudyActivity.class));
+                context.startActivity(new Intent(context, StudyActivity.class));
             }
         });
     }
@@ -190,7 +190,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                         case "1":
                             Article tempArticle = new ArticleOp().findById("209", Integer.parseInt(data.getName()));
                             if (tempArticle.getId() == 0) {
-                                getAppointArticle(data.getName());
+                                getAppointArticle(view.getContext(),data.getName());
                             } else {
                                 StudyManager.instance.setStartPlaying(true);
                                 StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");

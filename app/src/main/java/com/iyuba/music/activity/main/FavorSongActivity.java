@@ -204,7 +204,9 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.INSTANCE.getUserId(), article.getId(), "del"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-
+                if (!article.getApp().equals("209")) {
+                    localInfoOp.updateFavor(article.getId(), article.getApp(), 0);
+                }
             }
 
             @Override

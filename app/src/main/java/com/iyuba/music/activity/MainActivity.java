@@ -351,16 +351,16 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                         Pattern p = Pattern.compile(regEx);
                         Matcher m = p.matcher(fileName);
                         int id = Integer.parseInt(m.replaceAll("").trim());
-                        LocalInfo temp = lOp.findDataById("209", id);
+                        LocalInfo temp = lOp.findDataById(ConstantManager.instance.getAppId(), id);
                         if (temp == null || temp.getId() == 0) {
                             temp = new LocalInfo();
                             temp.setId(id);
-                            temp.setApp("209");
+                            temp.setApp(ConstantManager.instance.getAppId());
                             temp.setDownload(1);
                             temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                             lOp.saveData(temp);
                         } else {
-                            lOp.updateDownload(id, "209", 1);
+                            lOp.updateDownload(id, ConstantManager.instance.getAppId(), 1);
                         }
                         StringBuilder.append(id).append(',');
                     }
