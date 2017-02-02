@@ -70,24 +70,6 @@ public class PersonalInfoRequest {
                                     if ("relation".equals(nodeName)) {
                                         userInfo.setRelation(xmlPullParser.nextText());
                                     }
-                                    if ("amount".equals(nodeName)) {
-                                        userInfo.setIyubi(xmlPullParser.nextText());
-                                    }
-                                    if ("expireTime".equals(nodeName)) {
-                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                        long time = Long.parseLong(xmlPullParser.nextText());
-                                        long allLife = System.currentTimeMillis() / 1000;
-                                        try {
-                                            allLife = sdf.parse("2099-12-31").getTime() / 1000;
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-                                        if (time > allLife) {
-                                            userInfo.setDeadline("终身VIP");
-                                        } else {
-                                            userInfo.setDeadline(sdf.format(new Date(time * 1000)));
-                                        }
-                                    }
                                     break;
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();

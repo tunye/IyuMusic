@@ -118,7 +118,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         favorSynchro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     getYunFavor();
                 } else {
                     final MaterialDialog dialog = new MaterialDialog(context);
@@ -201,7 +201,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     }
 
     private void cancelFavor(final Article article) {
-        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.instance.getUserId(), article.getId(), "del"), new IProtocolResponse() {
+        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.INSTANCE.getUserId(), article.getId(), "del"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -245,7 +245,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
 
     private void getYunFavor() {
         waittingDialog.show();
-        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.INSTANCE.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

@@ -139,11 +139,11 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
 
     protected void changeUIResumeByPara() {
         String tempUid = SocialManager.instance.getFriendId();
-        if (tempUid.equals(AccountManager.instance.getUserId())) {//himself
+        if (tempUid.equals(AccountManager.INSTANCE.getUserId())) {//himself
             myControl.setVisibility(View.VISIBLE);
             otherControl.setVisibility(View.GONE);
             toolbarOper.setVisibility(View.VISIBLE);
-            userinfo = AccountManager.instance.getUserInfo();
+            userinfo = AccountManager.INSTANCE.getUserInfo();
             setContent();
         } else {//other
             myControl.setVisibility(View.GONE);
@@ -151,7 +151,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.instance.getUserId()),userinfo
+            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.INSTANCE.getUserId()),userinfo
                     , new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -220,7 +220,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                             @Override
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
-                                AccountManager.instance.loginOut();
+                                AccountManager.INSTANCE.loginOut();
                                 finish();
                             }
                         })
@@ -233,7 +233,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                 mMaterialDialog.show();
                 break;
             case R.id.personal_img:
-                if (SocialManager.instance.getFriendId().equals(AccountManager.instance.getUserId())) {
+                if (SocialManager.instance.getFriendId().equals(AccountManager.INSTANCE.getUserId())) {
                     startActivity(new Intent(context, ChangePhotoActivity.class));
                 } else {
                     Intent intent = new Intent(context, MeizhiPhotoActivity.class);
@@ -379,7 +379,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void addAttention() {
-        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.INSTANCE.getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -403,7 +403,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void cancelAttention() {
-        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.instance.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.INSTANCE.getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

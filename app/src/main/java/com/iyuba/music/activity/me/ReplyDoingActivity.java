@@ -241,8 +241,8 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         String fromMessage = selectComment.getMessage();
         selectComment.setDateline(String.valueOf(System.currentTimeMillis() / 1000));
         selectComment.setMessage(s);
-        selectComment.setUid(AccountManager.instance.getUserId());
-        selectComment.setUsername(AccountManager.instance.getUserName());
+        selectComment.setUid(AccountManager.INSTANCE.getUserId());
+        selectComment.setUsername(AccountManager.INSTANCE.getUserName());
         if (TextUtils.isEmpty(selectComment.getId())) {
             selectComment.setUpid("0");
         } else {

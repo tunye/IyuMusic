@@ -193,7 +193,7 @@ public class LoginActivity extends BaseInputActivity {
             username.setText(usernameString);
             userpwd.setText(userpwdString);
             waitingDialog.show();
-            AccountManager.instance.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
+            AccountManager.INSTANCE.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();
@@ -215,7 +215,7 @@ public class LoginActivity extends BaseInputActivity {
     private void login() {
         if (username.isCharactersCountValid() && userpwd.isCharactersCountValid()) {
             waitingDialog.show();
-            AccountManager.instance.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
+            AccountManager.INSTANCE.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();

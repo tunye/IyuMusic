@@ -75,7 +75,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
                 Intent intent = new Intent(context, ChattingActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
-                SetMessageReadRequest.exeRequest(SetMessageReadRequest.generateUrl(AccountManager.instance.getUserId(), messageLetter.getMessageid()));
+                SetMessageReadRequest.exeRequest(SetMessageReadRequest.generateUrl(AccountManager.INSTANCE.getUserId(), messageLetter.getMessageid()));
                 messageAdapter.setReaded(position);
             }
 
@@ -95,7 +95,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(AccountManager.instance.getUserId());
+                SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
                 Intent intent = new Intent(context, FriendCenter.class);
                 intent.putExtra("type", "0");
                 intent.putExtra("intenttype", "chat");
@@ -146,7 +146,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
     }
 
     private void getMessageData() {
-        MessageRequest.exeRequest(MessageRequest.generateUrl(AccountManager.instance.getUserId(), messagePage), new IProtocolResponse() {
+        MessageRequest.exeRequest(MessageRequest.generateUrl(AccountManager.INSTANCE.getUserId(), messagePage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

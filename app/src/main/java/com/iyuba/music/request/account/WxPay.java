@@ -74,11 +74,11 @@ public class WxPay {
         paras.put("format", "json");
         paras.put("money", cost);
         paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.instance.getUserId());
+        paras.put("uid", AccountManager.INSTANCE.getUserId());
         paras.put("amount", month);
         paras.put("productid", productId);
         paras.put("sign", generateSign(ConstantManager.instance.getAppId(),
-                AccountManager.instance.getUserId(), cost, month));
+                AccountManager.INSTANCE.getUserId(), cost, month));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 

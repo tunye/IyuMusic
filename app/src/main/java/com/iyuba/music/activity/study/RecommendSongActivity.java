@@ -56,7 +56,7 @@ public class RecommendSongActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     submit();
                 } else {
                     CustomDialog.showLoginDialog(context);
@@ -83,7 +83,7 @@ public class RecommendSongActivity extends BaseActivity {
                 imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
             }
             CustomToast.INSTANCE.showToast(R.string.study_recommend_on_way);
-            String uid = AccountManager.instance.getUserId();
+            String uid = AccountManager.INSTANCE.getUserId();
             RecommendSongRequest.exeRequest(RecommendSongRequest.generateUrl(uid, recommendTitle.getEditableText().toString()
                     , recommendSinger.getEditableText().toString()), new IProtocolResponse() {
                 @Override

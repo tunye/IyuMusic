@@ -78,10 +78,10 @@ public class AliPay {
         paras.put("WIDtotal_fee", cost);
         paras.put("WIDdefaultbank", "");
         paras.put("app_id", ConstantManager.instance.getAppId());
-        paras.put("userId", AccountManager.instance.getUserId());
+        paras.put("userId", AccountManager.INSTANCE.getUserId());
         paras.put("amount", month);
         paras.put("product_id", productId);
-        paras.put("code", generateCode(AccountManager.instance.getUserId()));
+        paras.put("code", generateCode(AccountManager.INSTANCE.getUserId()));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 

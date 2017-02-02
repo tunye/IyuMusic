@@ -95,7 +95,7 @@ public class UserDetailInfoActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.person_detail_title);
         toolbarOper.setText(R.string.person_detail_edit);
-        if (!AccountManager.instance.getUserId().equals(SocialManager.instance.getFriendId())) {
+        if (!AccountManager.INSTANCE.getUserId().equals(SocialManager.instance.getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }
         UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.instance.getFriendId()), new IProtocolResponse() {

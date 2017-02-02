@@ -48,11 +48,11 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
         readAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     if (position == -1) {
                         position = 0;
                     }
-                    if (AccountManager.instance.getUserId()
+                    if (AccountManager.INSTANCE.getUserId()
                             .equals(readList.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     }

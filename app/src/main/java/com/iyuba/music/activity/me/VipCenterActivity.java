@@ -41,7 +41,7 @@ public class VipCenterActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        userInfo = AccountManager.instance.getUserInfo();
+        userInfo = AccountManager.INSTANCE.getUserInfo();
         changeUIResumeByPara();
     }
 
@@ -169,7 +169,7 @@ public class VipCenterActivity extends BaseActivity {
             vipUpdateText.setText(R.string.vip_buy);
             vipDeadline.setText(context.getString(R.string.vip_undeadline));
         }
-        ImageUtil.loadAvatar(AccountManager.instance.getUserId(), vipPhoto);
+        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), vipPhoto);
         vipName.setText(userInfo.getUsername());
         vipIyubi.setText(context.getString(R.string.vip_iyubi, userInfo.getIyubi()));
     }

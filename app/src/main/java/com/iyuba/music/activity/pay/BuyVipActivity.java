@@ -60,7 +60,7 @@ public class BuyVipActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        userInfo = AccountManager.instance.getUserInfo();
+        userInfo = AccountManager.INSTANCE.getUserInfo();
         changeUIResumeByPara();
     }
 
@@ -236,7 +236,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void changeUIResumeByPara() {
-        ImageUtil.loadAvatar(AccountManager.instance.getUserId(), vipPhoto);
+        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.vip));
             vipUpdateText.setText(R.string.vip_update);
@@ -251,7 +251,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void buy(int type) {
-        if (Integer.parseInt(AccountManager.instance.getUserInfo().getIyubi()) < PAY_GOODS[type]) {
+        if (Integer.parseInt(AccountManager.INSTANCE.getUserInfo().getIyubi()) < PAY_GOODS[type]) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
             materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
@@ -269,7 +269,7 @@ public class BuyVipActivity extends BaseActivity {
             });
             materialDialog.show();
         } else if (type != 4) {
-            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.instance.getUserId(),
+            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.INSTANCE.getUserId(),
                     String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
@@ -287,7 +287,7 @@ public class BuyVipActivity extends BaseActivity {
                     if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
                         userInfo = (UserInfo) apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
-                        AccountManager.instance.setUserInfo(userInfo);
+                        AccountManager.INSTANCE.setUserInfo(userInfo);
                         CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
                         changeUIResumeByPara();
@@ -299,7 +299,7 @@ public class BuyVipActivity extends BaseActivity {
             });
         } else {
             PayForAppRequest.exeRequest(PayForAppRequest.generateUrl(new String[]
-                    {AccountManager.instance.getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
+                    {AccountManager.INSTANCE.getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.INSTANCE.showToast(msg);
@@ -316,7 +316,7 @@ public class BuyVipActivity extends BaseActivity {
                     if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
                         userInfo = (UserInfo) baseApiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
-                        AccountManager.instance.setUserInfo(userInfo);
+                        AccountManager.INSTANCE.setUserInfo(userInfo);
                         CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
                         changeUIResumeByPara();
@@ -333,7 +333,7 @@ public class BuyVipActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ONLINE_PAY_CODE && resultCode == RESULT_OK) {              // 刷新vip时长
-            AccountManager.instance.getPersonalInfo(null);
+            AccountManager.INSTANCE.refreshVipStatus();
         }
     }
 }

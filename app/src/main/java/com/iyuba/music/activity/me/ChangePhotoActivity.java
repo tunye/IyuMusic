@@ -91,7 +91,7 @@ public class ChangePhotoActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.changephoto_title);
-        ImageUtil.loadAvatar(AccountManager.instance.getUserId(), photo);
+        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), photo);
     }
 
     private void initContextMunu() {
@@ -114,7 +114,7 @@ public class ChangePhotoActivity extends BaseActivity {
                     ImageSelectorActivity.start(ChangePhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, false, true, true);
                 } else if (index == 2) {
                     Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.instance.getUserId());
+                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.INSTANCE.getUserId());
                     context.startActivity(intent);
                 }
             }
@@ -187,7 +187,7 @@ public class ChangePhotoActivity extends BaseActivity {
                     activity.handler.sendEmptyMessageDelayed(1, 1000);
                     break;
                 case 1:
-                    ImageUtil.loadAvatar(AccountManager.instance.getUserId(), activity.photo);
+                    ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), activity.photo);
                     break;
             }
         }
@@ -199,7 +199,7 @@ public class ChangePhotoActivity extends BaseActivity {
 
             super.run();
             UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
-                    + AccountManager.instance.getUserId(), new File(imgPath), new IOperationResult() {
+                    + AccountManager.INSTANCE.getUserId(), new File(imgPath), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     handler.sendEmptyMessage(0);

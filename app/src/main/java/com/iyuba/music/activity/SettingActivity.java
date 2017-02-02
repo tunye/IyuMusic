@@ -273,13 +273,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void logout() {
         final MaterialDialog mMaterialDialog = new MaterialDialog(context);
         mMaterialDialog.setTitle(R.string.app_name);
-        if (AccountManager.instance.checkUserLogin()) {
+        if (AccountManager.INSTANCE.checkUserLogin()) {
             mMaterialDialog.setMessage(R.string.personal_logout_textmore)
                     .setPositiveButton(R.string.personal_logout_exit, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
-                            AccountManager.instance.loginOut();
+                            AccountManager.INSTANCE.loginOut();
                             finish();
                         }
                     })

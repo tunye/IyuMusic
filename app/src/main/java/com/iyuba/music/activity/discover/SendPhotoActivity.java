@@ -244,7 +244,7 @@ public class SendPhotoActivity extends BaseActivity {
         public void run() {
             super.run();
             UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar/photo?uid="
-                            + AccountManager.instance.getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
+                            + AccountManager.INSTANCE.getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
                     new File(images.get(0)), new IOperationResult() {
                         @Override
                         public void success(Object object) {

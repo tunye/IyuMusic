@@ -86,7 +86,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     PersonalWordOp personalWordOp = new PersonalWordOp();
                     StringBuilder sb = new StringBuilder();
                     for (Word temp : deleteList) {
-                        personalWordOp.tryToDeleteWord(temp.getWord(), AccountManager.instance.getUserId());
+                        personalWordOp.tryToDeleteWord(temp.getWord(), AccountManager.INSTANCE.getUserId());
                         sb.append(temp.getWord()).append(',');
                     }
                     synchroYun(sb.toString());
@@ -96,7 +96,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     if (deleteList.size() != 0)
                         CustomToast.INSTANCE.showToast(R.string.wordlist_delete);
                 } else {
-                    if (AccountManager.instance.checkUserLogin()) {
+                    if (AccountManager.INSTANCE.checkUserLogin()) {
                         synchroFromNet(1);
                     } else {
                         CustomDialog.showLoginDialog(context);
@@ -205,8 +205,8 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     }
 
     private void getPersonalDataList() {
-        if (AccountManager.instance.checkUserLogin()) {
-            wordArrayList = new PersonalWordOp().findDataByAll(AccountManager.instance.getUserId());
+        if (AccountManager.INSTANCE.checkUserLogin()) {
+            wordArrayList = new PersonalWordOp().findDataByAll(AccountManager.INSTANCE.getUserId());
         } else {
             wordArrayList = new PersonalWordOp().findDataByAll("0");
         }
@@ -244,7 +244,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void synchroFromNet(final int page) {
         waitingDialog.show();
         DictSynchroRequest.getInstance().exeRequest(DictSynchroRequest.getInstance().generateUrl(
-                AccountManager.instance.getUserId(), page), new IProtocolResponse() {
+                AccountManager.INSTANCE.getUserId(), page), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -310,7 +310,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     }
 
     private void synchroYun(final String keyword) {
-        final String userid = AccountManager.instance.getUserId();
+        final String userid = AccountManager.INSTANCE.getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", keyword),
                 new IProtocolResponse() {
                     @Override

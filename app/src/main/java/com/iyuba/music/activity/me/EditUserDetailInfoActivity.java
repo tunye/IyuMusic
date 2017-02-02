@@ -110,7 +110,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
         lookingFor.setText(editUserInfo.getLookingfor());
         bio.setText(editUserInfo.getBio());
         interest.setText(editUserInfo.getInterest());
-        ImageUtil.loadAvatar(AccountManager.instance.getUserId(), userImage);
+        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), userImage);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.instance.getUserId(), key, value), new IProtocolResponse() {
+                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.INSTANCE.getUserId(), key, value), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.INSTANCE.showToast(msg);
@@ -255,7 +255,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void getDetaiInfo() {
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.INSTANCE.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

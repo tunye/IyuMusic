@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,11 +13,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.buaa.ct.skin.BaseSkinActivity;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
@@ -37,7 +34,6 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.discoverrequest.CircleRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
@@ -96,7 +92,7 @@ public class CircleActivity extends AppCompatActivity implements MySwipeRefreshL
         collapsingToolbar.setTitle(context.getString(R.string.circle_title));
         collapsingToolbar.setCollapsedTitleTextColor(0xffededed);
         ImageView toolbarImage = (ImageView) findViewById(R.id.toolbar_image);
-        ImageUtil.loadImage(toolbarImage, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.instance.getUserId(),
+        ImageUtil.loadImage(toolbarImage, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.INSTANCE.getUserId(),
                 0, new ImageUtil.OnDrawableLoadListener() {
                     @Override
                     public void onSuccess(GlideDrawable drawable) {
@@ -253,7 +249,7 @@ public class CircleActivity extends AppCompatActivity implements MySwipeRefreshL
     }
 
     private void getCircleData() {
-        CircleRequest.exeRequest(CircleRequest.generateUrl(AccountManager.instance.getUserId(), curPage), new IProtocolResponse() {
+        CircleRequest.exeRequest(CircleRequest.generateUrl(AccountManager.INSTANCE.getUserId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

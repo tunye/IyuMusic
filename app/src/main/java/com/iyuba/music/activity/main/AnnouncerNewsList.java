@@ -154,7 +154,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     SocialManager.instance.pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
                     intent.putExtra("needpop", true);

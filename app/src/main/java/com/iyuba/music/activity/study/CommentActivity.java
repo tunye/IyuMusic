@@ -105,8 +105,8 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         commentAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (AccountManager.instance.checkUserLogin()) {
-                    if (AccountManager.instance.getUserId()
+                if (AccountManager.INSTANCE.checkUserLogin()) {
+                    if (AccountManager.INSTANCE.getUserId()
                             .equals(comments.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     } else {//不是自己  回复
@@ -136,10 +136,10 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String s) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
-                            String.valueOf(curArticle.getId()), AccountManager.instance.getUserId(),
-                            AccountManager.instance.getUserName(), s), new IProtocolResponse() {
+                            String.valueOf(curArticle.getId()), AccountManager.INSTANCE.getUserId(),
+                            AccountManager.INSTANCE.getUserName(), s), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.INSTANCE.showToast(msg);
@@ -171,7 +171,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                 if (i == 0) {
                     CustomToast.INSTANCE.showToast(R.string.comment_sound_short);
                 } else {
-                    if (AccountManager.instance.checkUserLogin()) {
+                    if (AccountManager.INSTANCE.checkUserLogin()) {
                         handler.obtainMessage(1, s).sendToTarget();
                     } else {
                         CustomDialog.showLoginDialog(context);
@@ -365,7 +365,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             StringBuilder sb = new StringBuilder(
                     "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
             sb.append("&userid=").append(
-                    AccountManager.instance.getUserId());
+                    AccountManager.INSTANCE.getUserId());
             sb.append("&shuoshuotype=").append(1);
             sb.append("&voaid=").append(curArticle.getId());
             final File file = new File(filePath);

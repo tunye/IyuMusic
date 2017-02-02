@@ -63,7 +63,7 @@ public class StartFragment {
 
     public static void cleanLocalData() {
         cleanStudyRecord();
-        if (AccountManager.instance.checkUserLogin()) {
+        if (AccountManager.INSTANCE.checkUserLogin()) {
             cleanWordDelData();
             cleanWordInsertData();
         }
@@ -76,8 +76,8 @@ public class StartFragment {
             Message message;
             Bundle bundle;
             String userid = "0";
-            if (AccountManager.instance.checkUserLogin()) {
-                userid = AccountManager.instance.getUserId();
+            if (AccountManager.INSTANCE.checkUserLogin()) {
+                userid = AccountManager.INSTANCE.getUserId();
             }
             Handler handler = new Handler();
             for (StudyRecord record : records) {
@@ -95,7 +95,7 @@ public class StartFragment {
 
     private static void cleanWordDelData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
-        final String userid = AccountManager.instance.getUserId();
+        final String userid = AccountManager.INSTANCE.getUserId();
         ArrayList<Word> delWords = personalWordOp.findDataByDelete(userid);
         if (delWords.size() != 0) {
             StringBuilder sb = new StringBuilder();
@@ -122,7 +122,7 @@ public class StartFragment {
 
     private static void cleanWordInsertData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
-        final String userid = AccountManager.instance.getUserId();
+        final String userid = AccountManager.INSTANCE.getUserId();
         ArrayList<Word> insertWords = personalWordOp.findDataByInsert(userid);
         if (insertWords.size() == 0) {
         } else {

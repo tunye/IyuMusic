@@ -97,9 +97,9 @@ public class WordContentActivity extends BaseActivity {
         wordCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     if (!collected) {
-                        currentWord.setUser(AccountManager.instance.getUserId());
+                        currentWord.setUser(AccountManager.INSTANCE.getUserId());
                         currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                         currentWord.setViewCount("1");
                         currentWord.setIsdelete("-1");
@@ -108,7 +108,7 @@ public class WordContentActivity extends BaseActivity {
                         synchroYun("insert");
                     } else {
                         wordCollect.setBackgroundResource(R.drawable.word_uncollect);
-                        new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.instance.getUserId());
+                        new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.INSTANCE.getUserId());
                         synchroYun("delete");
                     }
                     collected = !collected;
@@ -142,8 +142,8 @@ public class WordContentActivity extends BaseActivity {
             }
             waitingDialog.show();
         }
-        if (AccountManager.instance.checkUserLogin()) {
-            if (new PersonalWordOp().findDataByName(appointWord, AccountManager.instance.getUserId()) != null) {
+        if (AccountManager.INSTANCE.checkUserLogin()) {
+            if (new PersonalWordOp().findDataByName(appointWord, AccountManager.INSTANCE.getUserId()) != null) {
                 collected = true;
                 wordCollect.setBackgroundResource(R.drawable.word_collect);
             } else {
@@ -179,9 +179,9 @@ public class WordContentActivity extends BaseActivity {
             }
         });
         if (SettingConfigManager.instance.isWordAutoAdd()) {
-            if (AccountManager.instance.checkUserLogin()) {
+            if (AccountManager.INSTANCE.checkUserLogin()) {
                 if (!collected) {
-                    currentWord.setUser(AccountManager.instance.getUserId());
+                    currentWord.setUser(AccountManager.INSTANCE.getUserId());
                     currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                     currentWord.setViewCount("1");
                     currentWord.setIsdelete("-1");
@@ -272,7 +272,7 @@ public class WordContentActivity extends BaseActivity {
     }
 
     private void synchroYun(final String type) {
-        final String userid = AccountManager.instance.getUserId();
+        final String userid = AccountManager.INSTANCE.getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, type, currentWord.getWord()),
                 new IProtocolResponse() {
                     @Override

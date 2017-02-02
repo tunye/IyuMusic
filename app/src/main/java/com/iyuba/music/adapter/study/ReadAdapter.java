@@ -188,7 +188,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         holder.recordSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.instance.checkUserLogin()) {
+                if (AccountManager.INSTANCE.checkUserLogin()) {
                     new UploadVoice().start();
                 } else {
                     CustomDialog.showLoginDialog(context);
@@ -329,7 +329,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             StringBuilder sb = new StringBuilder(
                     "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
             sb.append("&userid=").append(
-                    AccountManager.instance.getUserId());
+                    AccountManager.INSTANCE.getUserId());
             sb.append("&shuoshuotype=").append(2);
             sb.append("&voaid=").append(curArticle.getId());
             final File file = new File(ConstantManager.instance.getRecordFile());

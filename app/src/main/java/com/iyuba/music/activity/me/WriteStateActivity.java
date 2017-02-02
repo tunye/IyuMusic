@@ -90,8 +90,8 @@ public class WriteStateActivity extends BaseActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waitingDialog.show();
-            String uid = AccountManager.instance.getUserId();
-            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.instance.getUserName(),
+            String uid = AccountManager.INSTANCE.getUserId();
+            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.INSTANCE.getUserName(),
                     content.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {

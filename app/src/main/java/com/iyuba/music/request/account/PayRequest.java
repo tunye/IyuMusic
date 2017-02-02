@@ -32,7 +32,7 @@ public class PayRequest {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = AccountManager.instance.getUserInfo();
+                        UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {

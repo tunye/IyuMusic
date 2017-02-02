@@ -88,8 +88,8 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (AccountManager.instance.checkUserLogin()) {
-            UserInfo userInfo = AccountManager.instance.getUserInfo();
+        if (AccountManager.INSTANCE.checkUserLogin()) {
+            UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
             if (!TextUtils.isEmpty(userInfo.getUserEmail())) {
                 contact.setText(userInfo.getUserEmail());
             }
@@ -135,8 +135,8 @@ public class FeedbackActivity extends BaseActivity {
             }
             waitingDialog.show();
             String uid;
-            if (AccountManager.instance.checkUserLogin()) {
-                uid = AccountManager.instance.getUserId();
+            if (AccountManager.INSTANCE.checkUserLogin()) {
+                uid = AccountManager.INSTANCE.getUserId();
             } else {
                 uid = "0";
             }

@@ -76,7 +76,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://api.iyuba.com/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.instance.getUserId());
+                intent.putExtra("url", "http://api.iyuba.com/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.INSTANCE.getUserId());
                 intent.putExtra("title", context.getString(R.string.credits_details));
                 startActivity(intent);
             }
@@ -86,10 +86,10 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.instance.getUserId()
+                intent.putExtra("url", "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.INSTANCE.getUserId()
                         + "&appid=" + ConstantManager.instance.getAppId() + "&username="
-                        + AccountManager.instance.getUserName() + "&sign=" +
-                        MD5.getMD5ofStr("iyuba" + AccountManager.instance.getUserId() + "camstory"));
+                        + AccountManager.INSTANCE.getUserName() + "&sign=" +
+                        MD5.getMD5ofStr("iyuba" + AccountManager.INSTANCE.getUserId() + "camstory"));
                 intent.putExtra("title", context.getString(R.string.campaign_exchange));
                 startActivity(intent);
             }
@@ -124,7 +124,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     private void getData() {
-        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.instance.getUserId()), new IProtocolResponse() {
+        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.INSTANCE.getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);
@@ -171,7 +171,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         public void handleMessageByRef(final CreditActivity activity, Message msg) {
             switch (msg.what) {
                 case 1:
-                    activity.counts.withNumber(Integer.parseInt(AccountManager.instance.getUserInfo().getIcoins())).start();
+                    activity.counts.withNumber(Integer.parseInt(AccountManager.INSTANCE.getUserInfo().getIcoins())).start();
                     activity.rank.withNumber(Integer.parseInt(activity.rankPos)).start();
                     activity.creditDuration.setText(activity.getString(R.string.credits_study_time, activity.exeStudyTime(Integer.parseInt(activity.duration))));
                     break;

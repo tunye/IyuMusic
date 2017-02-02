@@ -54,15 +54,15 @@ public class DiscoverActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 1:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 2:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
-                            SocialManager.instance.pushFriendId(AccountManager.instance.getUserId());
+                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                            SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
                             intent.putExtra("type", "2");
                             intent.putExtra("needPop", true);
@@ -75,7 +75,7 @@ public class DiscoverActivity extends BaseActivity {
                         startActivity(new Intent(context, AppGroundActivity.class));
                         break;
                     case 5:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
                             startActivity(new Intent(context, CampaignActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);

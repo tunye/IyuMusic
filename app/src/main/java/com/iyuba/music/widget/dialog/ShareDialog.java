@@ -37,7 +37,7 @@ public class ShareDialog {
     private UMShareListener shareMorePeopleListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            if (AccountManager.instance.checkUserLogin()) {
+            if (AccountManager.INSTANCE.checkUserLogin()) {
                 getScore(2);
             }
         }
@@ -55,7 +55,7 @@ public class ShareDialog {
     private UMShareListener shareSinglePeopleListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            if (AccountManager.instance.checkUserLogin()) {
+            if (AccountManager.INSTANCE.checkUserLogin()) {
                 getScore(1);
             }
         }
@@ -187,7 +187,7 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.instance.getUserId(), article.getId(), type), new IProtocolResponse() {
+        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.INSTANCE.getUserId(), article.getId(), type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

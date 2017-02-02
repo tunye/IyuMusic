@@ -51,7 +51,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (resp.errCode) {
                 case 0:
                     dialog.setMessage(R.string.pay_detail_success);
-                    AccountManager.instance.getPersonalInfo(null);
+                    AccountManager.INSTANCE.refreshVipStatus();
                     break;
                 case -1:
                     dialog.setMessage(R.string.pay_detail_fail);

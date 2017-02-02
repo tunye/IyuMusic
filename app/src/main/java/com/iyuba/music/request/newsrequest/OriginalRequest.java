@@ -63,7 +63,7 @@ public class OriginalRequest {
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("SongId", id);
         paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.instance.checkUserLogin() ? AccountManager.instance.getUserId() : "0");
+        paras.put("uid", AccountManager.INSTANCE.checkUserLogin() ? AccountManager.INSTANCE.getUserId() : "0");
         return ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
     }
 }

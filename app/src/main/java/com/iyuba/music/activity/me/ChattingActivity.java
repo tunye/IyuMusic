@@ -120,7 +120,7 @@ public class ChattingActivity extends BaseInputActivity {
             @Override
             public void onSendText(final String s) {
                 SendMessageRequest.exeRequest(SendMessageRequest.generateUrl(
-                        AccountManager.instance.getUserId(), SocialManager.instance.getFriendName(), s), new IProtocolResponse() {
+                        AccountManager.INSTANCE.getUserId(), SocialManager.instance.getFriendName(), s), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.INSTANCE.showToast(R.string.message_send_fail);
@@ -138,7 +138,7 @@ public class ChattingActivity extends BaseInputActivity {
                             MessageLetterContent letterContent = new MessageLetterContent();
                             letterContent.setContent(s);
                             letterContent.setDirection(1);
-                            letterContent.setAuthorid(AccountManager.instance.getUserId());
+                            letterContent.setAuthorid(AccountManager.INSTANCE.getUserId());
                             letterContent.setDate(String.valueOf(System.currentTimeMillis() / 1000));
                             list.add(letterContent);
                             adapter.setList(list);
@@ -175,7 +175,7 @@ public class ChattingActivity extends BaseInputActivity {
 
     // 设置adapter
     private void setAdapterForThis() {
-        adapter = new ChattingAdapter(this, AccountManager.instance.getUserId());
+        adapter = new ChattingAdapter(this, AccountManager.INSTANCE.getUserId());
         chatContent.setAdapter(adapter);
         chatContent.setOnItemClickListener(new OnItemClickListener() {
 
@@ -221,7 +221,7 @@ public class ChattingActivity extends BaseInputActivity {
     }
 
     private void getChattingContent() {
-        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.instance.getUserId(), SocialManager.instance.getFriendId(), chattingPage), new IProtocolResponse() {
+        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.INSTANCE.getUserId(), SocialManager.instance.getFriendId(), chattingPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.INSTANCE.showToast(msg);

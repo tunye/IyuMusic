@@ -32,8 +32,8 @@ public class StudyRecordUtil {
             studyRecord.setFlag(flag);
             UserInfoOp userInfoOp = new UserInfoOp();
             String userid = "0";
-            if (AccountManager.instance.checkUserLogin()) {
-                userid = AccountManager.instance.getUserId();
+            if (AccountManager.INSTANCE.checkUserLogin()) {
+                userid = AccountManager.INSTANCE.getUserId();
             }
             studyRecord.setLesson(lesson);
             studyRecord.setId(StudyManager.instance.getCurArticle().getId());

@@ -58,8 +58,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     public CommentAdapter(Context context) {
         this.context = context;
         commentAgreeOp = new CommentAgreeOp();
-        if (AccountManager.instance.checkUserLogin()) {
-            uid = AccountManager.instance.getUserId();
+        if (AccountManager.INSTANCE.checkUserLogin()) {
+            uid = AccountManager.INSTANCE.getUserId();
         } else {
             uid = "0";
         }

@@ -25,7 +25,7 @@ import java.util.Date;
  * Created by 10202 on 2015/11/18.
  */
 public enum AccountManager {
-    instance;
+    INSTANCE;
     private Context context;
     private UserInfo userInfo;
     private LoginState loginState;
@@ -152,6 +152,34 @@ public enum AccountManager {
                     if (result != null) {
                         result.fail(null);
                     }
+                }
+            }
+        });
+    }
+
+    public void refreshVipStatus() {
+        String[] paras = new String[]{userName, userPwd, String.valueOf(LocationUtil.getInstance().getLongitude())
+                , String.valueOf(LocationUtil.getInstance().getLatitude())};
+        LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+
+            }
+
+            @Override
+            public void onServerError(String msg) {
+
+            }
+
+            @Override
+            public void response(Object object) {
+                BaseApiEntity apiEntity = (BaseApiEntity) object;
+                if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    UserInfo temp = (UserInfo) apiEntity.getData();
+                    userInfo.setIyubi(temp.getIyubi());
+                    userInfo.setVipStatus(temp.getVipStatus());
+                    userInfo.setDeadline(temp.getDeadline());
+                    new UserInfoOp().saveData(userInfo);
                 }
             }
         });

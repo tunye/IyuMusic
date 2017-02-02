@@ -145,7 +145,7 @@ public class PayActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.pay_detail_title);
         toolbarOper.setText(R.string.pay_detail_oper);
-        username.setText(AccountManager.instance.getUserName());
+        username.setText(AccountManager.INSTANCE.getUserName());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
         showBaoSelect();
@@ -238,9 +238,9 @@ public class PayActivity extends BaseActivity {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        UserInfo userInfo = AccountManager.instance.getUserInfo();
+                        UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
                         userInfo.setVipStatus("1");
-                        AccountManager.instance.setUserInfo(userInfo);
+                        AccountManager.INSTANCE.setUserInfo(userInfo);
                         final MaterialDialog dialog = new MaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
                         dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {

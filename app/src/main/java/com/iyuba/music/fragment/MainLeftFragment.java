@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
@@ -106,7 +104,7 @@ public class MainLeftFragment extends BaseFragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(AccountManager.instance.getUserId());
+                SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -148,19 +146,19 @@ public class MainLeftFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
                             startActivity(new Intent(context, VipCenterActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 1:
-                        if (AccountManager.instance.checkUserLogin()) {
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
                             StringBuilder url = new StringBuilder();
                             url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
                                     .append(ConstantManager.instance.getAppId()).append("&uid=")
-                                    .append(AccountManager.instance.getUserId()).append("&sign=")
-                                    .append(MD5.getMD5ofStr(AccountManager.instance.getUserId()
+                                    .append(AccountManager.INSTANCE.getUserId()).append("&sign=")
+                                    .append(MD5.getMD5ofStr(AccountManager.INSTANCE.getUserId()
                                             + "ranking" + ConstantManager.instance.getAppId()));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);
@@ -172,7 +170,7 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 2:
-                        if (AccountManager.instance.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
                             startActivity(new Intent(context, CreditActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
@@ -182,7 +180,7 @@ public class MainLeftFragment extends BaseFragment {
                         startActivity(new Intent(context, DiscoverActivity.class));
                         break;
                     case 4:
-                        if (AccountManager.instance.checkUserLogin()) {
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
@@ -192,11 +190,11 @@ public class MainLeftFragment extends BaseFragment {
                         startActivity(new Intent(context, LocalMusicActivity.class));
                         break;
                     case 6:
-                        if (AccountManager.instance.checkUserLogin()) {
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
                             StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
-                            url.append("uid=").append(AccountManager.instance.getUserId()).append('&');
-                            url.append("username=").append(AccountManager.instance.getUserName()).append('&');
-                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.instance.getUserId() + "camstory"));
+                            url.append("uid=").append(AccountManager.INSTANCE.getUserId()).append('&');
+                            url.append("username=").append(AccountManager.INSTANCE.getUserName()).append('&');
+                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.INSTANCE.getUserId() + "camstory"));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);
                             intent.putExtra("url", url.toString());
@@ -217,11 +215,11 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void changeUIResumeByPara() {
-        if (AccountManager.instance.checkUserLogin()) {
+        if (AccountManager.INSTANCE.checkUserLogin()) {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(AccountManager.instance.getUserInfo().getFollower())) {
+            if (TextUtils.isEmpty(AccountManager.INSTANCE.getUserInfo().getFollower())) {
                 getPersonalInfo();
             }
         } else {
@@ -233,12 +231,12 @@ public class MainLeftFragment extends BaseFragment {
 
     private void autoLogin() {
         if (SettingConfigManager.instance.isAutoLogin()) { // 自动登录
-            AccountManager.instance.setLoginState(AccountManager.LoginState.LOGIN);
-            if (!TextUtils.isEmpty(AccountManager.instance.getUserName()) && !TextUtils.isEmpty(AccountManager.instance.getUserPwd())) {
+            AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.LOGIN);
+            if (!TextUtils.isEmpty(AccountManager.INSTANCE.getUserName()) && !TextUtils.isEmpty(AccountManager.INSTANCE.getUserPwd())) {
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                    userInfo = new UserInfoOp().selectData(AccountManager.instance.getUserId());
-                    AccountManager.instance.setUserInfo(userInfo);
-                    AccountManager.instance.login(AccountManager.instance.getUserName(), AccountManager.instance.getUserPwd(),
+                    userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
+                    AccountManager.INSTANCE.setUserInfo(userInfo);
+                    AccountManager.INSTANCE.login(AccountManager.INSTANCE.getUserName(), AccountManager.INSTANCE.getUserPwd(),
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {
@@ -265,33 +263,33 @@ public class MainLeftFragment extends BaseFragment {
                     localLogin();
                 }
             } else {
-                AccountManager.instance.setLoginState(AccountManager.LoginState.UNLOGIN);
+                AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.UNLOGIN);
             }
         }
     }
 
     private void localLogin() {
-        AccountManager.instance.setLoginState(AccountManager.LoginState.LOGIN);
-        userInfo = new UserInfoOp().selectData(AccountManager.instance.getUserId());
-        AccountManager.instance.setUserInfo(userInfo);
+        AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.LOGIN);
+        userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
+        AccountManager.INSTANCE.setUserInfo(userInfo);
         handler.sendEmptyMessage(0);
     }
 
     private void getPersonalInfo() {
-        AccountManager.instance.getPersonalInfo(new IOperationResult() {
+        AccountManager.INSTANCE.getPersonalInfo(new IOperationResult() {
             @Override
             public void success(Object object) {
-                userInfo = AccountManager.instance.getUserInfo();
+                userInfo = AccountManager.INSTANCE.getUserInfo();
                 handler.sendEmptyMessage(0);
             }
 
             @Override
             public void fail(Object object) {
-                userInfo = new UserInfoOp().selectData(AccountManager.instance.getUserId());
+                userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.getFollowing())) {     // 获取不到时采用历史数据
-                    AccountManager.instance.setUserInfo(userInfo);
+                    AccountManager.INSTANCE.setUserInfo(userInfo);
                 } else {
-                    userInfo = AccountManager.instance.getUserInfo();
+                    userInfo = AccountManager.INSTANCE.getUserInfo();
                 }
                 handler.sendEmptyMessage(0);
             }

@@ -100,7 +100,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void initialContent() {
-        collected = (personalWordOp.findDataByName(keyword.toLowerCase(), AccountManager.instance.getUserId()) != null);
+        collected = (personalWordOp.findDataByName(keyword.toLowerCase(), AccountManager.INSTANCE.getUserId()) != null);
         word = wordSetOp.findDataByKey(keyword);
         if (word != null) {
             setViewContent();
@@ -176,9 +176,9 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                 }
             });
         } else if (view.equals(add)) {
-            if (AccountManager.instance.checkUserLogin()) {
+            if (AccountManager.INSTANCE.checkUserLogin()) {
                 if (!collected) {
-                    word.setUser(AccountManager.instance.getUserId());
+                    word.setUser(AccountManager.INSTANCE.getUserId());
                     word.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                     word.setViewCount("1");
                     word.setIsdelete("-1");
@@ -248,7 +248,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void synchroYun() {
-        final String userid = AccountManager.instance.getUserId();
+        final String userid = AccountManager.INSTANCE.getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", keyword),
                 new IProtocolResponse() {
                     @Override

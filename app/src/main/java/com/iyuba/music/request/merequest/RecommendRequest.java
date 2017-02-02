@@ -30,7 +30,6 @@ import java.util.HashMap;
  */
 public class RecommendRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa",url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             JsonObjectRequest request = new JsonObjectRequest(
                     url, null, new Response.Listener<JSONObject>() {

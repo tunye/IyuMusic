@@ -28,13 +28,13 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
 public class LoginRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa", url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -43,7 +43,6 @@ public class LoginRequest {
                         UserInfo userInfo = new UserInfo();
                         String nodeName;
                         BaseApiEntity apiEntity = new BaseApiEntity();
-                        Log.e("aaa", new Gson().toJson(xmlPullParser));
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
                                 case XmlPullParser.START_TAG:
@@ -82,21 +81,19 @@ public class LoginRequest {
                                         userInfo.setIcoins(xmlPullParser.nextText());
                                     }
                                     if ("expireTime".equals(nodeName)) {
-                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
                                         long time = Long.parseLong(xmlPullParser.nextText()) * 1000;
                                         long allLife = System.currentTimeMillis();
                                         try {
                                             allLife = sdf.parse("2099-12-31").getTime();
                                         } catch (ParseException e) {
-
+                                            e.printStackTrace();
                                         }
-                                        Log.e("aaa", time + " " + allLife);
                                         if (time > allLife) {
                                             userInfo.setDeadline("终身VIP");
                                         } else {
                                             userInfo.setDeadline(sdf.format(new Timestamp(time)));
                                         }
-                                        Log.e("aaa", userInfo.getDeadline());
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:
@@ -112,10 +109,7 @@ public class LoginRequest {
                                     break;
                             }
                         }
-                    } catch (XmlPullParserException e) {
-                        e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
-                    } catch (IOException e) {
+                    } catch (XmlPullParserException | IOException e) {
                         e.printStackTrace();
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
                     }
