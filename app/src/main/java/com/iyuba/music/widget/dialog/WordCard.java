@@ -27,6 +27,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.textview.JustifyTextView;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.nineoldandroids.animation.Animator;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -88,7 +89,9 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         def = (JustifyTextView) root.findViewById(R.id.word_def);
         speaker = (ImageView) root.findViewById(R.id.word_speaker);
         add = (RoundTextView) root.findViewById(R.id.word_add);
+        AddRippleEffect.addRippleEffect(add);
         close = (RoundTextView) root.findViewById(R.id.word_close);
+        AddRippleEffect.addRippleEffect(close);
         loading = (AVLoadingIndicatorView) root.findViewById(R.id.word_loading);
         loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
         wordContent = root.findViewById(R.id.word_content);

@@ -15,6 +15,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.util.Arrays;
 
@@ -42,12 +43,19 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     protected void initWidget() {
         super.initWidget();
         playMode = (RoundRelativeLayout) findViewById(R.id.study_set_playmode);
+        AddRippleEffect.addRippleEffect(playMode);
         nextMode = (RoundRelativeLayout) findViewById(R.id.study_set_nextmode);
+        AddRippleEffect.addRippleEffect(nextMode);
         autoRound = (RoundRelativeLayout) findViewById(R.id.study_set_auto_round);
+        AddRippleEffect.addRippleEffect(autoRound);
         downLoad = (RoundRelativeLayout) findViewById(R.id.study_set_download);
+        AddRippleEffect.addRippleEffect(downLoad);
         headplugPlay = (RoundRelativeLayout) findViewById(R.id.study_set_headplug_play);
+        AddRippleEffect.addRippleEffect(headplugPlay);
         headplugPause = (RoundRelativeLayout) findViewById(R.id.study_set_headplug_pause);
+        AddRippleEffect.addRippleEffect(headplugPause);
         originalSize = (RoundRelativeLayout) findViewById(R.id.study_set_original_size);
+        AddRippleEffect.addRippleEffect(originalSize);
         currPlayMode = (TextView) findViewById(R.id.study_set_playmode_current);
         currNextMode = (TextView) findViewById(R.id.study_set_nextmode_current);
         currDownLoad = (TextView) findViewById(R.id.study_set_download_current);

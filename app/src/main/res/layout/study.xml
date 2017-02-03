@@ -58,7 +58,6 @@
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/big_text"
                 app:rv_backgroundColor="#ededed"
-                app:rv_backgroundPressColor="@color/text_gray_color"
                 app:rv_isRadiusHalfHeight="true" />
 
             <ImageView

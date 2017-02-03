@@ -43,6 +43,10 @@ public class ShareRequest {
                                 apiEntity.setState(BaseApiEntity.State.FAIL);
                                 apiEntity.setMessage(jsonObject.getString("message"));
                                 break;
+                            case 203:
+                                apiEntity.setState(BaseApiEntity.State.FAIL);
+                                apiEntity.setMessage(jsonObject.getString("message"));
+                                break;
                             default:
                                 apiEntity.setState(BaseApiEntity.State.ERROR);
                                 apiEntity.setMessage(RuntimeManager.getString(R.string.unknown_error));

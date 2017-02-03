@@ -31,6 +31,7 @@ import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     Dialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin,versionFeature;
+    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature;
     private RoundRelativeLayout language, night, push, sleep, clear;
     private TextView currLanguage, currSleep, currClear, currSkin;
     private CheckBox currNight, currPush;
@@ -54,7 +55,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         context = this;
-        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.setting_clearing));
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.setting_clearing));
         initWidget();
         setListener();
         changeUIByPara();
@@ -64,17 +65,29 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void initWidget() {
         super.initWidget();
         share = (RoundRelativeLayout) findViewById(R.id.setting_share);
+        AddRippleEffect.addRippleEffect(share);
         skin = (RoundRelativeLayout) findViewById(R.id.setting_skin);
-        versionFeature=(RoundRelativeLayout)findViewById(R.id.setting_version_feature);
+        AddRippleEffect.addRippleEffect(skin);
+        versionFeature = (RoundRelativeLayout) findViewById(R.id.setting_version_feature);
+        AddRippleEffect.addRippleEffect(versionFeature);
         feedback = (RoundRelativeLayout) findViewById(R.id.setting_feedback);
+        AddRippleEffect.addRippleEffect(feedback);
         helpUse = (RoundRelativeLayout) findViewById(R.id.setting_help_use);
+        AddRippleEffect.addRippleEffect(helpUse);
         wordSet = (RoundRelativeLayout) findViewById(R.id.setting_word_set);
+        AddRippleEffect.addRippleEffect(wordSet);
         studySet = (RoundRelativeLayout) findViewById(R.id.setting_study_set);
+        AddRippleEffect.addRippleEffect(studySet);
         language = (RoundRelativeLayout) findViewById(R.id.setting_language);
+        AddRippleEffect.addRippleEffect(language);
         night = (RoundRelativeLayout) findViewById(R.id.setting_night);
+        AddRippleEffect.addRippleEffect(night);
         push = (RoundRelativeLayout) findViewById(R.id.setting_push);
+        AddRippleEffect.addRippleEffect(push);
         sleep = (RoundRelativeLayout) findViewById(R.id.setting_sleep);
+        AddRippleEffect.addRippleEffect(sleep);
         clear = (RoundRelativeLayout) findViewById(R.id.setting_clear);
+        AddRippleEffect.addRippleEffect(clear);
         currClear = (TextView) findViewById(R.id.setting_curr_clear);
         currLanguage = (TextView) findViewById(R.id.setting_curr_language);
         currSleep = (TextView) findViewById(R.id.setting_curr_sleep);
@@ -82,6 +95,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         currNight = (CheckBox) findViewById(R.id.setting_curr_night);
         currPush = (CheckBox) findViewById(R.id.setting_curr_push);
         logout = (RoundTextView) findViewById(R.id.setting_logout);
+        AddRippleEffect.addRippleEffect(logout);
     }
 
     @Override

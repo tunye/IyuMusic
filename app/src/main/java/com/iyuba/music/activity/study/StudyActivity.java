@@ -44,6 +44,7 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.umeng.socialize.UMShareAPI;
 import com.wnafee.vector.MorphButton;
 import com.youdao.sdk.nativeads.ImageService;
@@ -241,6 +242,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         playMode = (ImageView) findViewById(R.id.play_mode);
         interval = (ImageView) findViewById(R.id.interval);
         comment = (RoundTextView) findViewById(R.id.study_comment);
+        AddRippleEffect.addRippleEffect(comment);
         studyMode = (ImageView) findViewById(R.id.study_mode);
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         studyMoreDialog = new StudyMore(this);

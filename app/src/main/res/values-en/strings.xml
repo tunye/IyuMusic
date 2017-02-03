@@ -6,6 +6,7 @@
     <string name="app_more">More</string>
     <string name="app_accept">OK</string>
     <string name="app_sure">Sure</string>
+    <string name="app_del">Del</string>
     <string name="app_cancel">Cancel</string>
     <string name="app_submit">Submit</string>
     <string name="app_no_change">Your set had not changed yet.</string>
@@ -537,4 +538,6 @@
     <string name="pay_detail_success">Pay success</string>
     <string name="pay_detail_fail">Pay failed</string>
     <string name="pay_detail_cancel">Pay canceled</string>
+    <string name="pay_detail_oper">Pay</string>
+    <string name="pay_detail_going">The order is on the way. please wait for a secend.</string>
 </resources>

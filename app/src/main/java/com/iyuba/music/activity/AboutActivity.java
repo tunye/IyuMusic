@@ -29,6 +29,7 @@ import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;
 import java.util.Calendar;
@@ -84,9 +85,13 @@ public class AboutActivity extends BaseActivity {
         super.initWidget();
         root = findViewById(R.id.root);
         praise = (RoundRelativeLayout) findViewById(R.id.praise);
+        AddRippleEffect.addRippleEffect(praise);
         website = (RoundRelativeLayout) findViewById(R.id.website);
+        AddRippleEffect.addRippleEffect(website);
         developer = (RoundRelativeLayout) findViewById(R.id.developer);
+        AddRippleEffect.addRippleEffect(developer);
         appUpdate = (RoundRelativeLayout) findViewById(R.id.update);
+        AddRippleEffect.addRippleEffect(appUpdate);
         appNewImg = findViewById(R.id.newApp);
         version = (TextView) findViewById(R.id.version);
         copyright = (TextView) findViewById(R.id.copyright);

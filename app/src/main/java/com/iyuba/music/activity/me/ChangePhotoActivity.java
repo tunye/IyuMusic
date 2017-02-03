@@ -32,6 +32,7 @@ import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 
 import java.io.File;
@@ -76,6 +77,7 @@ public class ChangePhotoActivity extends BaseActivity {
         root = findViewById(R.id.root);
         photo = (CircleImageView) findViewById(R.id.photo);
         change = (RoundTextView) findViewById(R.id.change);
+        AddRippleEffect.addRippleEffect(change);
         menu = new ContextMenu(context);
         initContextMunu();
     }

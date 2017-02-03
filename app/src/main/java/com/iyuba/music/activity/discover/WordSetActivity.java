@@ -14,6 +14,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.util.Arrays;
 
@@ -41,12 +42,16 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     protected void initWidget() {
         super.initWidget();
         group = (RoundRelativeLayout) findViewById(R.id.word_set_group);
+        AddRippleEffect.addRippleEffect(group);
         currGroup = (TextView) findViewById(R.id.word_set_group_current);
         showDef = (RoundRelativeLayout) findViewById(R.id.word_set_show_def);
+        AddRippleEffect.addRippleEffect(showDef);
         currShowDef = (CheckBox) findViewById(R.id.word_set_show_def_current);
         autoAudio = (RoundRelativeLayout) findViewById(R.id.word_set_play);
+        AddRippleEffect.addRippleEffect(autoAudio);
         currAutoAudio = (CheckBox) findViewById(R.id.word_set_play_current);
         autoAdd = (RoundRelativeLayout) findViewById(R.id.word_set_auto_add);
+        AddRippleEffect.addRippleEffect(autoAdd);
         currAutoAdd = (CheckBox) findViewById(R.id.word_set_auto_add_current);
     }
 

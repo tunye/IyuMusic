@@ -33,6 +33,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.regex.Matcher;
@@ -95,11 +96,13 @@ public class RegistActivity extends BaseInputActivity {
         photo = (CircleImageView) findViewById(R.id.regist_photo);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         regist = (RoundTextView) findViewById(R.id.regist);
+        AddRippleEffect.addRippleEffect(regist);
         protocol = (CheckBox) findViewById(R.id.regist_protocol_checkbox);
         protocolText = (TextView) findViewById(R.id.regist_protocol);
         registByPhone = findViewById(R.id.regist_by_phone);
         registByEmail = findViewById(R.id.regist_by_email);
         getMessageCode = (RoundTextView) findViewById(R.id.get_msg_code);
+        AddRippleEffect.addRippleEffect(getMessageCode);
         phone = (MaterialEditText) findViewById(R.id.regist_phone);
         messageCode = (MaterialEditText) findViewById(R.id.regist_msg_code);
         userName = (MaterialEditText) findViewById(R.id.regist_username);

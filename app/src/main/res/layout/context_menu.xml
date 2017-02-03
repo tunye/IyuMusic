@@ -25,25 +25,18 @@
 
         </com.flyco.roundview.RoundLinearLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+
+        <com.flyco.roundview.RoundTextView
             android:id="@+id/cancle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_large"
-            app:mrl_rippleColor="#db4e46"
-            app:mrl_rippleDuration="600">
-
-            <com.flyco.roundview.RoundTextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/row_space_big"
-                android:text="@string/app_cancel"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text"
-                app:rv_backgroundColor="#baffffff"
-                app:rv_backgroundPressColor="#db4e46"
-                app:rv_cornerRadius="@dimen/corner_radius_default" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+            android:gravity="center"
+            android:padding="@dimen/row_space_big"
+            android:text="@string/app_cancel"
+            android:textColor="@color/skin_app_color"
+            android:textSize="@dimen/large_text"
+            app:rv_backgroundColor="#baffffff"
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
     </LinearLayout>
 </RelativeLayout>

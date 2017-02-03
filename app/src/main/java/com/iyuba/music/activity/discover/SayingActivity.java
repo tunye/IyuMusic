@@ -17,6 +17,7 @@ import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.textview.JustifyTextView;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.nineoldandroids.animation.Animator;
 
 import java.util.Random;
@@ -49,6 +50,7 @@ public class SayingActivity extends BaseActivity {
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         sayingContent = findViewById(R.id.saying_content);
         next = (RoundTextView) findViewById(R.id.saying_next);
+        AddRippleEffect.addRippleEffect(next);
     }
 
     @Override

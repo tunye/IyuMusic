@@ -20,7 +20,6 @@
             android:id="@+id/word_set_group"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
-            app:rv_backgroundPressColor="@color/background_light"
             app:rv_cornerRadius_TL="@dimen/corner_radius_big"
             app:rv_cornerRadius_TR="@dimen/corner_radius_big"
             app:rv_strokeColor="@color/background_light"
@@ -51,7 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginTop="@dimen/list_divider_margin"
-            app:rv_backgroundPressColor="@color/background_light"
             app:rv_strokeColor="@color/background_light"
             app:rv_strokeWidth="@dimen/line_thin">
 
@@ -79,7 +77,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginTop="@dimen/list_divider_margin"
-            app:rv_backgroundPressColor="@color/background_light"
             app:rv_strokeColor="@color/background_light"
             app:rv_strokeWidth="@dimen/line_thin">
 
@@ -108,7 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginTop="@dimen/list_divider_margin"
-            app:rv_backgroundPressColor="@color/background_light"
             app:rv_cornerRadius_BL="@dimen/corner_radius_big"
             app:rv_cornerRadius_BR="@dimen/corner_radius_big"
             app:rv_strokeColor="@color/background_light"

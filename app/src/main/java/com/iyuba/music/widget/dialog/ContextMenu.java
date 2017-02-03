@@ -10,6 +10,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.MenuAdapter;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class ContextMenu {
 
     private void init() {
         View cancel = root.findViewById(R.id.cancle);
+        AddRippleEffect.addRippleEffect(cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
 
             @Override

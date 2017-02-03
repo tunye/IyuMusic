@@ -26,6 +26,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.Dialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class LoginActivity extends BaseInputActivity {
         autoLogin = (CheckBox) findViewById(R.id.auto_login);
         forgetPwd = (TextView) findViewById(R.id.forget_pwd);
         login = (RoundTextView) findViewById(R.id.login);
+        AddRippleEffect.addRippleEffect(login);
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.login_on_way));
     }
 
