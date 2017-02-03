@@ -22,7 +22,7 @@ public class ContextMenu {
     private ArrayList<String> operText;
     private Context context;
     private IOperationResultInt operationResultInt;
-    private Dialog dialog;
+    private IyubaDialog iyubaDialog;
     private boolean shown;
 
     public ContextMenu(Context context) {
@@ -68,8 +68,8 @@ public class ContextMenu {
                 dismiss();
             }
         });
-        dialog = new Dialog(context, root, true);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, true);
+        iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;
@@ -78,12 +78,12 @@ public class ContextMenu {
     }
 
     public void show() {
-        dialog.show();
+        iyubaDialog.show();
         shown = true;
     }
 
     public void dismiss() {
-        dialog.dismissAnim();
+        iyubaDialog.dismissAnim();
     }
 
     public boolean isShown() {

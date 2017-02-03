@@ -19,7 +19,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class ReadFragment extends BaseRecyclerViewFragment {
     private ReadAdapter readAdapter;
     private Article curArticle;
-    private Dialog waittingDialog;
+    private IyubaDialog waittingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

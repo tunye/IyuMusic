@@ -24,7 +24,7 @@ import com.iyuba.music.request.discoverrequest.DictSynchroRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
@@ -45,7 +45,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private ArrayList<Word> wordArrayList;
     private ArrayList<WordParent> wordParents;
     private ArrayList<Word> deleteList;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
     private boolean deleteMode;
 
     @Override

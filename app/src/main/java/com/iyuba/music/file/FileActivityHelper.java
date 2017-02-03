@@ -13,7 +13,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
@@ -174,12 +174,12 @@ public class FileActivityHelper {
                     View.GONE);
         }
         MaterialRippleLayout sure = (MaterialRippleLayout) layout.findViewById(R.id.button_accept);
-        final Dialog dialog = new Dialog(context, layout);
-        dialog.show();
+        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout);
+        iyubaDialog.show();
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                iyubaDialog.dismiss();
             }
         });
     }

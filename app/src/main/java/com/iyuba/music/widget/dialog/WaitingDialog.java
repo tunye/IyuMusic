@@ -15,7 +15,7 @@ import com.wang.avi.AVLoadingIndicatorView;
  */
 public class WaitingDialog {
 
-    public static Dialog create(Context context, String message) {
+    public static IyubaDialog create(Context context, String message) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.waitting, null);
 
@@ -27,6 +27,6 @@ public class WaitingDialog {
         }
         AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
         loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
-        return new Dialog(context, layout, false);
+        return new IyubaDialog(context, layout, false);
     }
 }

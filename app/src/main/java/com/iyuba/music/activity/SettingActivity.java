@@ -27,7 +27,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
@@ -42,7 +42,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/11/26.
  */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
-    Dialog waittingDialog;
+    IyubaDialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature;
     private RoundRelativeLayout language, night, push, sleep, clear;

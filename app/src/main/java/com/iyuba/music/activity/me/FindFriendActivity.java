@@ -27,7 +27,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.SearchFriendRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -49,7 +49,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     private View search;
     private RoundLinearLayout searchLayout;
     private MaterialEditText searchContent;
-    private Dialog waittingDialog;
+    private IyubaDialog waittingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

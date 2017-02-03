@@ -49,7 +49,7 @@ public class StudyMore {
     private int[] menuDrawable;
     private String[] menuText;
     private StudyMenuAdapter studyMenuAdapter;
-    private Dialog dialog;
+    private IyubaDialog iyubaDialog;
     private String app;
 
     public StudyMore(Activity activity) {
@@ -222,8 +222,8 @@ public class StudyMore {
                 dismiss();
             }
         });
-        dialog = new Dialog(context, root, true, 0);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;
@@ -261,12 +261,12 @@ public class StudyMore {
     }
 
     public void show() {
-        dialog.showAnim(R.anim.bottom_in);
+        iyubaDialog.showAnim(R.anim.bottom_in);
         shown = true;
     }
 
     public void dismiss() {
-        dialog.dismissAnim(R.anim.bottom_out);
+        iyubaDialog.dismissAnim(R.anim.bottom_out);
     }
 
     public boolean isShown() {

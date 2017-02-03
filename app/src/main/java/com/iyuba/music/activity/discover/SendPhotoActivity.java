@@ -32,7 +32,7 @@ import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -50,7 +50,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class SendPhotoActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
-    private Dialog waittingDialog;
+    private IyubaDialog waittingDialog;
     private ArrayList<String> images;
     private EmojiView emojiView;
     private ImageView photo;

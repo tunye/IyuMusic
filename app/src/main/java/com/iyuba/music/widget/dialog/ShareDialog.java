@@ -33,7 +33,7 @@ public class ShareDialog {
     private Context context;
     private boolean shown;
     private Article article;
-    private Dialog dialog;
+    private IyubaDialog iyubaDialog;
     private UMShareListener shareMorePeopleListener = new UMShareListener() {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
@@ -168,8 +168,8 @@ public class ShareDialog {
                 dismiss();
             }
         });
-        dialog = new Dialog(context, root, true, 0);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;
@@ -178,12 +178,12 @@ public class ShareDialog {
     }
 
     public void show() {
-        dialog.showAnim(R.anim.bottom_in);
+        iyubaDialog.showAnim(R.anim.bottom_in);
         shown = true;
     }
 
     public void dismiss() {
-        dialog.dismissAnim(R.anim.bottom_out);
+        iyubaDialog.dismissAnim(R.anim.bottom_out);
     }
 
     private void getScore(int type) {

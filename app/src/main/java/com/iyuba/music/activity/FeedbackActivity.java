@@ -22,7 +22,7 @@ import com.iyuba.music.request.apprequest.FeedbackRequest;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -36,7 +36,7 @@ public class FeedbackActivity extends BaseActivity {
     private MaterialEditText contact, content;
     private boolean regex;
     private View mainContent;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

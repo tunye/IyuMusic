@@ -24,7 +24,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -47,7 +47,7 @@ public class PayActivity extends BaseActivity {
     private ImageView wxSelected, baoSelected;
     private View wxView, baoView;
     private View paySure;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
 
     private IWXAPI msgApi;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());

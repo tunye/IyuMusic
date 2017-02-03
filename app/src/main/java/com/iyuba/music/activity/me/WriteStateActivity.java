@@ -21,7 +21,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -33,7 +33,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 public class WriteStateActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
     private EmojiView emojiView;
 
     @Override

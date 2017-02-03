@@ -89,8 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/row_space_medium">
+            android:layout_gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/main_former"

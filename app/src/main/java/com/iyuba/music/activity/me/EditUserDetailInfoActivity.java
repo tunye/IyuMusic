@@ -34,7 +34,7 @@ import com.iyuba.music.util.JudgeZodicaAndConstellation;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
@@ -54,7 +54,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     private View changeImageLayout;
     private CircleImageView userImage;
     private MostDetailInfo editUserInfo;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

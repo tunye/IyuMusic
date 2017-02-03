@@ -16,7 +16,7 @@
         app:ori_timeline_padding="10dp"
         app:ori_timeline_radius="20" />
 
-    <com.iyuba.music.widget.dialog.WordCard
+    <com.iyuba.music.widget.iyubaDialog.WordCard
         android:id="@+id/wordcard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

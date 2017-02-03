@@ -24,7 +24,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
@@ -39,7 +39,7 @@ public class LoginActivity extends BaseInputActivity {
     private TextView forgetPwd;
     private CheckBox autoLogin;
     private RoundTextView login;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

@@ -31,7 +31,7 @@ import com.iyuba.music.request.account.RegistByPhoneRequest;
 import com.iyuba.music.request.account.RegistRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -54,7 +54,7 @@ public class RegistActivity extends BaseInputActivity {
     private CheckBox protocol;
     private View registByPhone, registByEmail;
     private CircleImageView photo;
-    private Dialog waittingDialog;
+    private IyubaDialog waittingDialog;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

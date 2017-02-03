@@ -30,7 +30,7 @@ import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
@@ -51,7 +51,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     private ArticleOp articleOp;
     private MySwipeRefreshLayout swipeRefreshLayout;
     private TextView favorSynchro, favorEdit;
-    private Dialog waittingDialog;
+    private IyubaDialog waittingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

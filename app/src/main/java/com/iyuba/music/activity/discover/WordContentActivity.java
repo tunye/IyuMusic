@@ -26,7 +26,7 @@ import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.dialog.Dialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.textview.JustifyTextView;
@@ -43,7 +43,7 @@ public class WordContentActivity extends BaseActivity {
     private JustifyTextView example;
     private ImageView speaker;
     private boolean fromHtml;
-    private Dialog waitingDialog;
+    private IyubaDialog waitingDialog;
     private Word currentWord;
     private ImageView wordCollect;
     private boolean collected;

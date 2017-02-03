@@ -19,7 +19,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
 
 
-public class Dialog extends AppCompatDialog {
+public class IyubaDialog extends AppCompatDialog {
 
     private Context context;
     private View contentView;
@@ -39,7 +39,7 @@ public class Dialog extends AppCompatDialog {
             view.post(new Runnable() {
                 @Override
                 public void run() {
-                    Dialog.super.dismiss();
+                    IyubaDialog.super.dismiss();
                 }
             });
         }
@@ -49,7 +49,7 @@ public class Dialog extends AppCompatDialog {
     private OnDismissListener listener;
     private int marginDimension;
 
-    public Dialog(Context context, View v) {
+    public IyubaDialog(Context context, View v) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
         this.contentView = v;
@@ -57,7 +57,7 @@ public class Dialog extends AppCompatDialog {
         marginDimension = 10;
     }
 
-    public Dialog(Context context, View v, boolean cancle) {
+    public IyubaDialog(Context context, View v, boolean cancle) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
         this.contentView = v;
@@ -65,7 +65,7 @@ public class Dialog extends AppCompatDialog {
         marginDimension = 10;
     }
 
-    public Dialog(Context context, View v, boolean cancle, int marginDimension) {
+    public IyubaDialog(Context context, View v, boolean cancle, int marginDimension) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
         this.contentView = v;
@@ -74,7 +74,7 @@ public class Dialog extends AppCompatDialog {
     }
 
 
-    public Dialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
+    public IyubaDialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
         this.contentView = v;
@@ -125,18 +125,18 @@ public class Dialog extends AppCompatDialog {
         view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
     }
 
-    public void showAnim(int animStyle) {
+    void showAnim(int animStyle) {
         super.show();
         backView.startAnimation(AnimationUtils.loadAnimation(context, animStyle));
     }
 
-    public void dismissAnim() {
+    void dismissAnim() {
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.dialog_main_hide_amination);
         anim.setAnimationListener(animationListener);
         view.startAnimation(anim);
     }
 
-    public void dismissAnim(int animStyle) {
+    void dismissAnim(int animStyle) {
         Animation anim = AnimationUtils.loadAnimation(context, animStyle);
         anim.setAnimationListener(animationListener);
         backView.startAnimation(anim);
