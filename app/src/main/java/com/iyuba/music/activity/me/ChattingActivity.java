@@ -97,6 +97,7 @@ public class ChattingActivity extends BaseInputActivity {
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         chatContent = (ListView) findViewById(R.id.chatting_history);
         chatView = (CommentView) findViewById(R.id.chat_view);
+        chatContent.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
     }
 
     @Override

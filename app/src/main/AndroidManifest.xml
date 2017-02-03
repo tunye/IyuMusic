@@ -105,7 +105,7 @@
         <activity android:name=".activity.me.ChattingActivity" />
         <activity
             android:name=".activity.me.PersonalHomeActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity android:name=".activity.me.ReplyDoingActivity" />
         <activity android:name=".activity.me.FriendCenter" />
         <activity android:name=".activity.me.FindFriendActivity" />

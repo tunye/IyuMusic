@@ -1,32 +1,35 @@
 package com.iyuba.music.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.iyuba.music.R;
+import com.iyuba.music.manager.RuntimeManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateFormat {
-    private static SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static SimpleDateFormat year = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Date parseTime(String date) throws ParseException {
-        return time.parse(date);
+        return timeFormat.parse(date);
     }
 
     public static Date parseYear(String date) throws ParseException {
-        return year.parse(date);
+        return yearFormat.parse(date);
     }
 
     public static String formatTime(Date date) {
-        return time.format(date);
+        return timeFormat.format(date);
     }
 
     public static String formatYear(Date date) {
-        return year.format(date);
+        return yearFormat.format(date);
     }
 
     public static String showTime(Context context, Date ctime) {
@@ -56,34 +59,47 @@ public class DateFormat {
         return r;
     }
 
-    public static String contentShowTime(Date ctime, Date compareTime) {
+    public static String contentShowTime(Date time, Date compareTime) {
         long compareTimeLong = compareTime.getTime();
-        long nowTimeLong = System.currentTimeMillis();
-        long ctimelong = ctime.getTime();
-        long result = Math.abs(compareTimeLong - ctimelong);
+        long timeLong = time.getTime();
+        long result = Math.abs(compareTimeLong - timeLong);
         String r;
         if (result < 300000) {// 五分钟内
             r = "";
-        } else if (nowTimeLong - ctimelong < 86400000) {
-            if (result >= 300000 && result < 86400000 && ctime.getDay() == compareTime.getDay()) {// 一天内
-                SimpleDateFormat hour = new SimpleDateFormat("HH:mm");
-                r = hour.format(ctime);
+        } else if (System.currentTimeMillis() - timeLong < 86400000) {
+            if (daysMinus(time, compareTime) == 0) {// 一天内
+                SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
+                r = hour.format(time);
+            } else if (Math.abs(daysMinus(time, compareTime)) == 1) {// 差一天
+                SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
+                r = RuntimeManager.getString(R.string.message_lastday) + hour.format(time);
             } else {
-                SimpleDateFormat hour = new SimpleDateFormat("MM-dd HH:mm");
-                r = hour.format(ctime);
+                SimpleDateFormat hour = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
+                r = hour.format(time);
             }
         } else {// 本年度
             Calendar today = Calendar.getInstance();
             Calendar target = Calendar.getInstance();
-            target.setTime(ctime);
+            target.setTime(time);
             if (target.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
-                SimpleDateFormat hour = new SimpleDateFormat("MM-dd HH:mm");
-                r = hour.format(ctime);
+                SimpleDateFormat hour = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
+                r = hour.format(time);
             } else {
-                SimpleDateFormat hour = new SimpleDateFormat("yy-MM-dd HH:mm");
-                r = hour.format(ctime);
+                SimpleDateFormat hour = new SimpleDateFormat("yyyy年MM月dd日 HH:mm", Locale.CHINA);
+                r = hour.format(time);
             }
         }
         return r;
     }
+
+    private static int daysMinus(Date fDate, Date oDate) {
+        Calendar aCalendar = Calendar.getInstance();
+        aCalendar.setTime(fDate);
+        int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        aCalendar.setTime(oDate);
+        int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
+        return day2 - day1;
+    }
+
+
 }

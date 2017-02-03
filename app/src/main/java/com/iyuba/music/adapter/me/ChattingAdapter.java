@@ -21,6 +21,7 @@ import com.iyuba.music.util.ImageUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,7 +59,7 @@ public class ChattingAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         final MessageLetterContent message = mList.get(position);
         if (message.getAuthorid().equals(uid)) {
             message.setDirection(1);
@@ -83,18 +84,24 @@ public class ChattingAdapter extends BaseAdapter {
         holder.text.setText(message.getContent());
         String contentShowTime;
         if (position + 1 == getCount()) {
-            contentShowTime = DateFormat.contentShowTime(new Date(Long.parseLong(message.getDate()) * 1000), new Date());
             if (getCount() == 1) {
-                if (TextUtils.isEmpty(contentShowTime)) {
-                    SimpleDateFormat hour = new SimpleDateFormat("HH:mm");
-                    contentShowTime = hour.format(new Date(Long.parseLong(message.getDate()) * 1000));
-                }
+                SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
+                contentShowTime = hour.format(new Date(Long.parseLong(message.getDate()) * 1000));
+            } else {
+                Date messageDate = new Date(Long.parseLong(message.getDate()) * 1000);
+                Date lastMessageDate = new Date(Long.parseLong(getItem(position - 1).getDate()) * 1000);
+                contentShowTime = getShowTimeString(messageDate, lastMessageDate);
             }
         } else if (position == 0) {
-            SimpleDateFormat hour = new SimpleDateFormat("yy-MM-dd HH:mm");
-            contentShowTime = hour.format(new Date(Long.parseLong(message.getDate()) * 1000));
+            contentShowTime = DateFormat.contentShowTime(new Date(Long.parseLong(message.getDate()) * 1000), new Date());
+            if (TextUtils.isEmpty(contentShowTime)) {
+                SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
+                contentShowTime = hour.format(new Date(Long.parseLong(message.getDate()) * 1000));
+            }
         } else {
-            contentShowTime = DateFormat.contentShowTime(new Date(Long.parseLong(message.getDate()) * 1000), new Date(Long.parseLong(getItem(position - 1).getDate()) * 1000));
+            Date messageDate = new Date(Long.parseLong(message.getDate()) * 1000);
+            Date lastMessageDate = new Date(Long.parseLong(getItem(position - 1).getDate()) * 1000);
+            contentShowTime = getShowTimeString(messageDate, lastMessageDate);
         }
         if (TextUtils.isEmpty(contentShowTime)) {
             holder.timeLayout.setVisibility(View.GONE);
@@ -114,6 +121,20 @@ public class ChattingAdapter extends BaseAdapter {
             }
         });
         return convertView;
+    }
+
+    private String getShowTimeString(Date messageDate, Date lastMessageDate) {
+        String contentShowTime;
+        if (messageDate.getTime() - lastMessageDate.getTime() > System.currentTimeMillis() - messageDate.getTime()) {
+            contentShowTime = DateFormat.contentShowTime(messageDate, new Date());
+            if (TextUtils.isEmpty(contentShowTime) && messageDate.getTime() - lastMessageDate.getTime() > 300000) {
+                SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
+                contentShowTime = hour.format(messageDate);
+            }
+        } else {
+            contentShowTime = DateFormat.contentShowTime(messageDate, lastMessageDate);
+        }
+        return contentShowTime;
     }
 
     static class ViewHolder {

@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,12 +65,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         if (item instanceof Fans) {
             Fans fan = (Fans) item;
             holder.userName.setText(fan.getUsername());
-            holder.userState.setText(fan.getDoing());
+            holder.userState.setText(TextUtils.isEmpty(fan.getDoing()) ? context.getString(R.string.personal_nosign) : fan.getDoing());
             ImageUtil.loadAvatar(fan.getUid(), holder.userPhoto);
         } else if (item instanceof Follows) {
             Follows follow = (Follows) item;
             holder.userName.setText(follow.getUsername());
-            holder.userState.setText(follow.getDoing());
+            holder.userState.setText(TextUtils.isEmpty(follow.getDoing()) ? context.getString(R.string.personal_nosign) : follow.getDoing());
             ImageUtil.loadAvatar(follow.getUid(), holder.userPhoto);
         } else if (item instanceof RecommendFriend) {
             RecommendFriend recommendFriend = (RecommendFriend) item;
