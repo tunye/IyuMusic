@@ -13,8 +13,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateFormat {
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
     public static Date parseTime(String date) throws ParseException {
         return timeFormat.parse(date);
@@ -51,7 +51,7 @@ public class DateFormat {
             long seconds = result / 3600000;
             r = seconds + context.getString(R.string.message_hour_ago);
         } else if (result < 172800000) {// 昨天
-            SimpleDateFormat hour = new SimpleDateFormat(" HH:mm");
+            SimpleDateFormat hour = new SimpleDateFormat(" HH:mm", Locale.CHINA);
             r = context.getString(R.string.message_lastday) + hour.format(ctime);
         } else {// 日期格式
             r = formatYear(ctime);

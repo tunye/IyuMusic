@@ -41,7 +41,6 @@ public class ParameterUrl {
                 return URLEncoder.encode(content, "UTF-8");
             }
         } catch (UnsupportedEncodingException e) {
-
             e.printStackTrace();
         }
         return null;
@@ -51,7 +50,6 @@ public class ParameterUrl {
         try {
             return URLDecoder.decode(content, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-
             e.printStackTrace();
         }
         return null;

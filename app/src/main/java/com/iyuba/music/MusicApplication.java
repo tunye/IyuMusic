@@ -88,18 +88,20 @@ public class MusicApplication extends Application {
     }
 
     private void prepareForApp() {
-        RuntimeManager.setApplication(this);
-        RuntimeManager.setApplicationContext(this.getApplicationContext());
+        RuntimeManager.initRuntimeManager(this);
+        // 程序皮肤、字符集、夜间模式初始化
         ChangePropery.updateNightMode(ConfigManager.instance.loadBoolean("night", false));
-        ChangePropery.updateLanguageMode(ConfigManager.instance.loadInt("language", 1));
+        ChangePropery.updateLanguageMode(ConfigManager.instance.loadInt("language", 0));
+        SkinManager.getInstance().init(this, "MusicSkin");
+        // 注册网络监听
+        netWorkChange = new NetWorkChangeBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(netWorkChange, intentFilter);
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
+        // 共享平台
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
-        SkinManager.getInstance().init(this, "MusicSkin");
-        netWorkChange=new NetWorkChangeBroadcastReceiver();
-        IntentFilter intentFilter=new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(netWorkChange, intentFilter);
     }
 
     public void pushActivity(Activity activity) {

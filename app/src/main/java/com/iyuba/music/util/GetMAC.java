@@ -34,7 +34,7 @@ public class GetMAC {
 
     }
 
-    public static String callCmd(String cmd, String filter) {
+    private static String callCmd(String cmd, String filter) {
         String result = "";
         String line = "";
         try {

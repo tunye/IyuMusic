@@ -18,21 +18,21 @@ import java.io.IOException;
 public class ImportDatabase {
     private static final String DB_NAME = "music.sqlite"; // 保存的数据库文件名
     private static final int BUFFER_SIZE = 8192;
-    private static ImportDatabase instance;
-    private DBOpenHelper mdbhelper;
-    private String DB_PATH;
+    private DBOpenHelper mDBHelper;
+    private String dbPath;
     private int lastVersion, currentVersion;
 
     private ImportDatabase() {
-        mdbhelper = new DBOpenHelper(RuntimeManager.getContext(), DB_NAME, null, 1);
-        DB_PATH = RuntimeManager.getContext().getDatabasePath(DB_NAME).getAbsolutePath();
+        mDBHelper = new DBOpenHelper(RuntimeManager.getContext(), DB_NAME, null, 1);
+        dbPath = RuntimeManager.getContext().getDatabasePath(DB_NAME).getAbsolutePath();
+    }
+
+    private static class InstanceHelper {
+        private static ImportDatabase instance = new ImportDatabase();
     }
 
     public static ImportDatabase getInstance() {
-        if (instance == null) {
-            instance = new ImportDatabase();
-        }
-        return instance;
+        return InstanceHelper.instance;
     }
 
     public void setVersion(int lastVersion, int curVersion) {
@@ -41,12 +41,12 @@ public class ImportDatabase {
     }
 
     public SQLiteDatabase getWritableDatabase() {
-        return mdbhelper.getWritableDatabase();
+        return mDBHelper.getWritableDatabase();
     }
 
     public void openDatabase() {
         lastVersion = ConfigManager.instance.loadInt("database_version");
-        File database = new File(DB_PATH);
+        File database = new File(dbPath);
         if (currentVersion > lastVersion) {
             if (database.exists()) {
                 database.delete();
@@ -64,12 +64,12 @@ public class ImportDatabase {
         try {
             BufferedInputStream bis = new BufferedInputStream(RuntimeManager.getContext()
                     .getResources().openRawResource(R.raw.music));
-            File file = new File(DB_PATH);
+            File file = new File(dbPath);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
-            BufferedOutputStream bfos = new BufferedOutputStream(new FileOutputStream(DB_PATH));
+            BufferedOutputStream bfos = new BufferedOutputStream(new FileOutputStream(dbPath));
             byte[] buffer = new byte[BUFFER_SIZE];
             int count;
             while ((count = bis.read(buffer)) > 0) {

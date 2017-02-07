@@ -33,7 +33,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.CreateLinkUtil;
+import com.iyuba.music.util.CreateAppLnkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -156,7 +156,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         createLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateLinkUtil.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
+                CreateAppLnkUtil.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
             }
         });
         toolbarOper.setOnClickListener(new View.OnClickListener() {

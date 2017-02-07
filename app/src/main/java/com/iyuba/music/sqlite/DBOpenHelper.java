@@ -12,8 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public DBOpenHelper(Context context, String name, CursorFactory factory,
-                        int version) {
+    DBOpenHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

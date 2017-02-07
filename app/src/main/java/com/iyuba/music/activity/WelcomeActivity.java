@@ -24,7 +24,6 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
-import com.iyuba.music.util.CreateLinkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -146,7 +145,7 @@ public class WelcomeActivity extends AppCompatActivity {
         showGuide = true;
         ConfigManager.instance.putInt("version", currentVersion);
         SettingConfigManager.instance.setUpgrade(true);
-        //CreateLinkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
+        //CreateAppLnkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {

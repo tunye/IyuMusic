@@ -61,10 +61,6 @@ public enum StudyManager {
         }
     }
 
-    public ArrayList<Article> getCurArticleList() {
-        return curArticleList;
-    }
-
     public String getApp() {
         return app;
     }

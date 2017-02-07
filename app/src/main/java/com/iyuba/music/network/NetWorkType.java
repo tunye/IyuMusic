@@ -12,7 +12,7 @@ import com.iyuba.music.listener.IOperationResult;
  * Created by 10202 on 2015/10/8.
  */
 public class NetWorkType {
-    static String strNetworkType;
+    private static String strNetworkType;
 
     public static String getNetworkType(final Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

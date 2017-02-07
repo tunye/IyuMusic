@@ -10,7 +10,7 @@ import com.iyuba.music.activity.WelcomeActivity;
  * Created by 10202 on 2017/1/18.
  */
 
-public class CreateLinkUtil {
+public class CreateAppLnkUtil {
     public static void addLocalMusicLink(Context context, Class cls, String name, int picResId) {
         Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         // 不允许重复创建
