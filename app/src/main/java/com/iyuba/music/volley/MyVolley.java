@@ -12,7 +12,7 @@ import com.iyuba.music.manager.RuntimeManager;
 public class MyVolley {
     private RequestQueue mRequestQueue;
 
-    MyVolley() {
+    private MyVolley() {
         mRequestQueue = Volley.newRequestQueue(RuntimeManager.getContext());
     }
 

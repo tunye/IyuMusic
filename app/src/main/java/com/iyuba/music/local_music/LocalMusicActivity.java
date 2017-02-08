@@ -299,13 +299,13 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private void setPlayModeImage(int state) {
         switch (state) {
             case 0:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.single_replay));
+                playMode.setImageResource(R.drawable.single_replay);
                 break;
             case 1:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.list_play));
+                playMode.setImageResource(R.drawable.list_play);
                 break;
             case 2:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.random_play));
+                playMode.setImageResource(R.drawable.random_play);
                 break;
         }
     }

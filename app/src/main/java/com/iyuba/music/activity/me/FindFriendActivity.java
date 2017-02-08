@@ -145,7 +145,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
         if (getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
         }
-    }{}
+    }
 
     /**
      * 下拉刷新

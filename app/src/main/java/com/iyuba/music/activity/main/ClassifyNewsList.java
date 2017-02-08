@@ -235,8 +235,6 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
                             localinfo.setApp(temp.getApp());
                             localinfo.setId(temp.getId());
                             localInfoOp.saveData(localinfo);
-                        } else {
-
                         }
                     }
                     articleOp.saveData(netData);

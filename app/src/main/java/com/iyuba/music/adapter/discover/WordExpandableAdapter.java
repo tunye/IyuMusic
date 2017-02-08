@@ -87,12 +87,12 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
         return tryTodeleteList;
     }
 
-    public class WordChildViewHolder extends ChildViewHolder {
-        public TextView key, def;
+    class WordChildViewHolder extends ChildViewHolder {
+        private TextView key, def;
         private CheckBox delete;
         private MaterialRippleLayout rippleView;
 
-        public WordChildViewHolder(View itemView) {
+        WordChildViewHolder(View itemView) {
             super(itemView);
             key = (TextView) itemView.findViewById(R.id.word_key);
             def = (TextView) itemView.findViewById(R.id.word_def);
@@ -100,7 +100,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             rippleView = (MaterialRippleLayout) itemView.findViewById(R.id.word_ripple);
         }
 
-        public void bind(final Word word) {
+        void bind(final Word word) {
             key.setText(word.getWord());
             def.setText(word.getDef());
             delete.setChecked(tryTodeleteList.contains(word));
@@ -133,20 +133,20 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
         }
     }
 
-    public class WordParentViewHolder extends ParentViewHolder {
+    class WordParentViewHolder extends ParentViewHolder {
         private static final float INITIAL_POSITION = 0.0f;
         private static final float ROTATED_POSITION = 180f;
         private static final float PIVOT_VALUE = 0.5f;
         private static final long DEFAULT_ROTATE_DURATION_MS = 200;
-        public TextView parentContent;
-        public ImageView expandableStatus;
+        TextView parentContent;
+        ImageView expandableStatus;
 
         /**
          * Public constructor for the CustomViewHolder.
          *
          * @param itemView the view of the parent item. Find/modify views using this.
          */
-        public WordParentViewHolder(View itemView) {
+        WordParentViewHolder(View itemView) {
             super(itemView);
             parentContent = (TextView) itemView.findViewById(R.id.parent_content);
             expandableStatus = (ImageView) itemView.findViewById(R.id.expandable_status);
@@ -164,7 +164,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             expandableStatus.setBackgroundResource(R.drawable.expandable_state);
         }
 
-        public void bind(final WordParent parent) {
+        void bind(final WordParent parent) {
             parentContent.setText(parent.getParentContent());
         }
 

@@ -9,8 +9,7 @@ import android.view.View;
  * Created by 10202 on 2016/5/18.
  */
 public class ScrollToTopBehavior extends CoordinatorLayout.Behavior<View> {
-    int offsetTotal = 0;
-    boolean scrolling = false;
+    private int offsetTotal = 0;
 
     public ScrollToTopBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,19 +25,17 @@ public class ScrollToTopBehavior extends CoordinatorLayout.Behavior<View> {
         offset(child, dyConsumed);
     }
 
-    public void offset(View child, int dy) {
+    private void offset(View child, int dy) {
         int old = offsetTotal;
         int top = offsetTotal - dy;
         top = Math.max(top, -child.getHeight());
         top = Math.min(top, 0);
         offsetTotal = top;
         if (old == offsetTotal) {
-            scrolling = false;
             return;
         }
         int delta = offsetTotal - old;
         child.offsetTopAndBottom(delta);
-        scrolling = true;
     }
 
 }

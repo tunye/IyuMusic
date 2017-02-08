@@ -161,11 +161,11 @@ public class VipCenterActivity extends BaseActivity {
 
     private void changeUIResumeByPara() {
         if (userInfo.getVipStatus().equals("1")) {
-            vipStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.vip));
+            vipStatus.setImageResource(R.drawable.vip);
             vipUpdateText.setText(R.string.vip_update);
             vipDeadline.setText(context.getString(R.string.vip_deadline, userInfo.getDeadline()));
         } else {
-            vipStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.unvip));
+            vipStatus.setImageResource(R.drawable.unvip);
             vipUpdateText.setText(R.string.vip_buy);
             vipDeadline.setText(context.getString(R.string.vip_undeadline));
         }

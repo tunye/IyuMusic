@@ -137,7 +137,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecycleViewHolder holder, int position) {
         if (holder instanceof DiscoverViewHolder) {
             final DiscoverViewHolder viewHolder = (DiscoverViewHolder) holder;
             final Discover discover = getItem(position);
@@ -145,7 +145,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 viewHolder.rippleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onRecycleViewItemClickListener.onItemClick(viewHolder.rippleView, position);
+                        onRecycleViewItemClickListener.onItemClick(viewHolder.rippleView, holder.getAdapterPosition());
                     }
                 });
             }
@@ -154,13 +154,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    static class DiscoverViewHolder extends RecycleViewHolder {
+    private static class DiscoverViewHolder extends RecycleViewHolder {
         MaterialRippleLayout rippleView;
         TextView text;
         ImageView icon;
 
 
-        public DiscoverViewHolder(View view) {
+        DiscoverViewHolder(View view) {
             super(view);
             rippleView = (MaterialRippleLayout) view.findViewById(R.id.discover_ripple);
             text = (TextView) view.findViewById(R.id.discover_text);
@@ -168,9 +168,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    static class BlankViewHolder extends RecycleViewHolder {
+    private static class BlankViewHolder extends RecycleViewHolder {
 
-        public BlankViewHolder(View view) {
+        BlankViewHolder(View view) {
             super(view);
         }
     }

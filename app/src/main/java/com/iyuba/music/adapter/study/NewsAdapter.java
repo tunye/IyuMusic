@@ -154,7 +154,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, final int position) {
+    public void onBindViewHolder(RecycleViewHolder holder,  int position) {
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             final Article article = getItem(position);
@@ -162,8 +162,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 newsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos = newsViewHolder.getLayoutPosition();
-                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, newsViewHolder.getLayoutPosition());
                     }
                 });
             }
@@ -178,7 +177,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (DownloadTask.checkFileExists(article)) {
-                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, position);
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, newsViewHolder.getLayoutPosition());
                     } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
                         new LocalInfoOp().updateDownload(article.getId(), "209", 2);
@@ -187,7 +186,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         downloadFile.downloadState = "start";
                         DownloadManager.sInstance.fileList.add(downloadFile);
                         new DownloadTask(article).start();
-                        notifyItemChanged(position);
+                        notifyItemChanged(newsViewHolder.getLayoutPosition());
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
@@ -302,37 +301,41 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 case 1:
                     file = (DownloadFile) msg.obj;
                     Message message = new Message();
-                    if (file.downloadState.equals("start")) {
-                        tempBar = adapter.progresses.get(String.valueOf(file.id));
-                        tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
-                        if (file.fileSize != 0 && file.downloadSize != 0) {
-                            tempBar.setMax(file.fileSize);
-                            tempBar.setProgress(file.downloadSize);
-                        } else {
-                            tempBar.setMax(1);
-                            tempBar.setProgress(0);
-                        }
-                        message.what = 1;
-                        message.obj = file;
-                        adapter.handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("half_finish")) {
-                        tempBar = adapter.progresses.get(String.valueOf(file.id));
-                        tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
-                        if (file.fileSize != 0 && file.downloadSize != 0) {
-                            tempBar.setMax(file.fileSize);
-                            tempBar.setProgress(file.downloadSize);
-                        } else {
-                            tempBar.setMax(1);
-                            tempBar.setProgress(0);
-                        }
-                        message.what = 1;
-                        message.obj = file;
-                        adapter.handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("finish")) {
-                        message.what = 2;
-                        message.obj = file;
-                        adapter.handler.removeMessages(msg.what);
-                        adapter.handler.sendMessage(message);
+                    switch (file.downloadState) {
+                        case "start":
+                            tempBar = adapter.progresses.get(String.valueOf(file.id));
+                            tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
+                            if (file.fileSize != 0 && file.downloadSize != 0) {
+                                tempBar.setMax(file.fileSize);
+                                tempBar.setProgress(file.downloadSize);
+                            } else {
+                                tempBar.setMax(1);
+                                tempBar.setProgress(0);
+                            }
+                            message.what = 1;
+                            message.obj = file;
+                            adapter.handler.sendMessageDelayed(message, 1500);
+                            break;
+                        case "half_finish":
+                            tempBar = adapter.progresses.get(String.valueOf(file.id));
+                            tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
+                            if (file.fileSize != 0 && file.downloadSize != 0) {
+                                tempBar.setMax(file.fileSize);
+                                tempBar.setProgress(file.downloadSize);
+                            } else {
+                                tempBar.setMax(1);
+                                tempBar.setProgress(0);
+                            }
+                            message.what = 1;
+                            message.obj = file;
+                            adapter.handler.sendMessageDelayed(message, 1500);
+                            break;
+                        case "finish":
+                            message.what = 2;
+                            message.obj = file;
+                            adapter.handler.removeMessages(msg.what);
+                            adapter.handler.sendMessage(message);
+                            break;
                     }
                     break;
                 case 2:

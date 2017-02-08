@@ -76,7 +76,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
     @Override
     public void onRefresh(int index) {
         curPage = 1;
-        getNewsData(index, MySwipeRefreshLayout.TOP_REFRESH);
+        getNewsData(MySwipeRefreshLayout.TOP_REFRESH);
     }
 
     /**
@@ -90,14 +90,14 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
         } else if (!isLastPage) {
             curPage++;
-            getNewsData(newsList.get(newsList.size() - 1).getId(), MySwipeRefreshLayout.BOTTOM_REFRESH);
+            getNewsData(MySwipeRefreshLayout.BOTTOM_REFRESH);
         } else {
             swipeRefreshLayout.setRefreshing(false);
             CustomToast.INSTANCE.showToast(R.string.article_load_all);
         }
     }
 
-    private void getNewsData(final int maxid, final int refreshType) {
+    private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
             BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                 @Override

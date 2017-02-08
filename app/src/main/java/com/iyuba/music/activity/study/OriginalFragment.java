@@ -152,12 +152,18 @@ public class OriginalFragment extends BaseFragment {
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
         int type;
-        if (StudyManager.instance.getApp().equals("215") || StudyManager.instance.getApp().equals("221") || StudyManager.instance.getApp().equals("231")) {
-            type = 1;
-        } else if (StudyManager.instance.getApp().equals("209")) {
-            type = 2;
-        } else {
-            type = 0;
+        switch (StudyManager.instance.getApp()) {
+            case "215":
+            case "221":
+            case "231":
+                type = 1;
+                break;
+            case "209":
+                type = 2;
+                break;
+            default:
+                type = 0;
+                break;
         }
         LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
             @Override

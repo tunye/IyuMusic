@@ -198,9 +198,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 if ("".equals(text)) {
                     CustomToast.INSTANCE.showToast(R.string.word_select_null);
                 } else {
-                    if (wordCard.isShowing()) {
-
-                    } else {
+                    if (!wordCard.isShowing()) {
                         wordCard.show();
                     }
                     wordCard.resetWord(text);
@@ -264,13 +262,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private void setPlayModeImage(int state) {
         switch (state) {
             case 0:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.single_replay));
+                playMode.setImageResource(R.drawable.single_replay);
                 break;
             case 1:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.list_play));
+                playMode.setImageResource(R.drawable.list_play);
                 break;
             case 2:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.random_play));
+                playMode.setImageResource(R.drawable.random_play);
                 break;
         }
     }
@@ -298,10 +296,10 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private void setStudyTranslateImage(int state) {
         switch (state) {
             case 1:
-                studyTranslate.setImageDrawable(context.getResources().getDrawable(R.drawable.video_translate));
+                studyTranslate.setImageResource(R.drawable.video_translate);
                 break;
             case 0:
-                studyTranslate.setImageDrawable(context.getResources().getDrawable(R.drawable.video_untranslate));
+                studyTranslate.setImageResource(R.drawable.video_untranslate);
                 break;
         }
     }

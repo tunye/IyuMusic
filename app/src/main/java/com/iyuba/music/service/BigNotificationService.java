@@ -105,18 +105,22 @@ public enum BigNotificationService {
         contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
         contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
         contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
-        if (StudyManager.instance.getApp().equals("209")) {
-            contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
-            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
-            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
-        } else if (StudyManager.instance.getApp().equals("101")) {
-            contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
-            contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
-            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_duration, curArticle.getBroadcaster()));
-        } else {
-            contentView.setTextViewText(R.id.notify_singer, curArticle.getTitle());
-            contentView.setTextViewText(R.id.notify_title, curArticle.getTitle_cn());
-            contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.app_intro));
+        switch (StudyManager.instance.getApp()) {
+            case "209":
+                contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
+                contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
+                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
+                break;
+            case "101":
+                contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
+                contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
+                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_duration, curArticle.getBroadcaster()));
+                break;
+            default:
+                contentView.setTextViewText(R.id.notify_singer, curArticle.getTitle());
+                contentView.setTextViewText(R.id.notify_title, curArticle.getTitle_cn());
+                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.app_intro));
+                break;
         }
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);

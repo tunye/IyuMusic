@@ -29,8 +29,7 @@ public class MusicActivity extends BaseActivity {
         super.initWidget();
         Fragment fragment = new MusicFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.music_fragment, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.music_fragment, fragment).commit();
     }
 
     @Override

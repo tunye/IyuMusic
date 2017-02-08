@@ -158,7 +158,7 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
         setVideoURI(Uri.parse(path));
     }
 
-    public void setVideoURI(Uri uri) {
+    private void setVideoURI(Uri uri) {
         mUri = uri;
         openVideo();
     }

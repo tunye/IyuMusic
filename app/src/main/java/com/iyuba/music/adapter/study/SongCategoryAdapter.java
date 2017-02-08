@@ -159,7 +159,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         ImageView pic;
 
 
-        public NewsViewHolder(View view) {
+        NewsViewHolder(View view) {
             super(view);
             text = (TextView) view.findViewById(R.id.songlist_text);
             pic = (ImageView) view.findViewById(R.id.songlist_image);

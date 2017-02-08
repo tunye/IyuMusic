@@ -244,7 +244,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         return spanCount;
     }
 
-    public void drawGridHorizontal(Canvas c, RecyclerView parent) {
+    private void drawGridHorizontal(Canvas c, RecyclerView parent) {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
@@ -264,7 +264,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    public void drawGridVertical(Canvas c, RecyclerView parent) {
+    private void drawGridVertical(Canvas c, RecyclerView parent) {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);

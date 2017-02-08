@@ -100,9 +100,7 @@ public class DiscreteSeekBar extends AppCompatSeekBar {
     }
 
     public void setPosition(int position) {
-        if (position > stepSize) {
-
-        } else {
+        if (position <= stepSize) {
             superOldProgress = getProgress();
             ObjectAnimator animation = ObjectAnimator.ofInt(this, PROGRESS_PROPERTY, superOldProgress, position * MULTIPLIER);
             animation.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));

@@ -18,6 +18,7 @@ import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -55,10 +56,10 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         List<String> hours = new ArrayList<>();
         List<String> minutes = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            hours.add(String.format("%02d", i));
+            hours.add(String.format(Locale.CHINA, "%02d", i));
         }
         for (int i = 0; i < 60; i++) {
-            minutes.add(String.format("%02d", i));
+            minutes.add(String.format(Locale.CHINA, "%02d", i));
         }
         minute_pv.setData(minutes);
         hour_pv.setData(hours);

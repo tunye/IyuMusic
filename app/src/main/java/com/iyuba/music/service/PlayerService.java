@@ -154,9 +154,7 @@ public class PlayerService extends Service {
     public void startPlay(Article article, boolean modeChange) {
         if (article.getId() == curArticle.getId() && !modeChange) {
         } else {
-            if (StudyManager.instance.getApp().equals("101")) {
-
-            } else {
+            if (!StudyManager.instance.getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
                 StudyManager.instance.setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                 localInfoOp.updateSee(article.getId(), article.getApp());

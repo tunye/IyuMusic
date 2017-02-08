@@ -3,7 +3,6 @@ package com.iyuba.music.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
@@ -17,8 +16,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.util.MD5;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/1.
@@ -125,50 +122,18 @@ public class CampaignActivity extends BaseActivity {
                     title.setText(R.string.campaign_recharge);
                     url = getRechargeUrl();
                 }
-                if (TextUtils.isEmpty(url)) {
-
-                } else {
-                    web.loadUrl(url);
-                    loadProgress.setProgress(0);
-                }
+                web.loadUrl(url);
                 loadProgress.setProgress(0);
             }
         });
-    }
-
-    @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        loadProgress.setMax(100);
     }
 
     protected void changeUIResumeByPara() {
         toolbarOper.setText(R.string.campaign_recharge);
         title.setText(R.string.campaign_exchange);
         url = getExchangeUrl();
-        if (TextUtils.isEmpty(url)) {
-            final MaterialDialog dialog = new MaterialDialog(context);
-            dialog.setTitle(R.string.login_login);
-            dialog.setMessage(R.string.personal_no_login);
-            dialog.setPositiveButton(R.string.login_login, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    dialog.dismiss();
-                }
-            });
-            dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CampaignActivity.this.finish();
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        } else {
-            web.loadUrl(url);
-            loadProgress.setProgress(0);
-        }
+        web.loadUrl(url);
+        loadProgress.setProgress(0);
     }
 
     @Override

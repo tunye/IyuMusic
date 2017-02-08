@@ -90,14 +90,14 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         fileViewHolder.icon.setBackgroundResource(fileInfo.getIconResourceId());
     }
 
-    static class FileViewHolder extends RecycleViewHolder {
+    private static class FileViewHolder extends RecycleViewHolder {
 
         TextView name;
         ImageView icon;
         TextView content;
 
 
-        public FileViewHolder(View view) {
+        FileViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.file_name);
             content = (TextView) view.findViewById(R.id.file_info);

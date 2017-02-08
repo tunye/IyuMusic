@@ -12,11 +12,11 @@ import com.iyuba.music.listener.IOperationResult;
  * Created by 10202 on 2015/10/8.
  */
 public class NetWorkType {
-    private static String strNetworkType;
 
     public static String getNetworkType(final Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        String strNetworkType;
         if (networkInfo != null && networkInfo.isConnected()) {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 strNetworkType = "WIFI";

@@ -49,8 +49,8 @@ public class MusicUtils {
         return musics;
     }
 
-    public static Cursor query(Context context, Uri uri, String[] projection,
-                               String selection, String[] selectionArgs, String sortOrder) {
+    private static Cursor query(Context context, Uri uri, String[] projection,
+                                String selection, String[] selectionArgs, String sortOrder) {
         ContentResolver resolver = context.getContentResolver();
         return resolver.query(uri, projection, selection, selectionArgs,
                 sortOrder);

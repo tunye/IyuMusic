@@ -73,8 +73,6 @@ public class StartFragment {
         StudyRecordOp studyRecordOp = new StudyRecordOp();
         if (studyRecordOp.hasData()) {
             ArrayList<StudyRecord> records = studyRecordOp.selectData();
-            Message message;
-            Bundle bundle;
             String userid = "0";
             if (AccountManager.INSTANCE.checkUserLogin()) {
                 userid = AccountManager.INSTANCE.getUserId();
@@ -124,8 +122,7 @@ public class StartFragment {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
         final String userid = AccountManager.INSTANCE.getUserId();
         ArrayList<Word> insertWords = personalWordOp.findDataByInsert(userid);
-        if (insertWords.size() == 0) {
-        } else {
+        if (insertWords.size() != 0) {
             StringBuilder sb = new StringBuilder();
             for (Word temp : insertWords) {
                 sb.append(temp.getWord()).append(',');

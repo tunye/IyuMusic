@@ -252,8 +252,6 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                             localinfo.setApp(temp.getApp());
                             localinfo.setId(temp.getId());
                             localInfoOp.saveData(localinfo);
-                        } else {
-
                         }
                     }
                     articleOp.saveData(netData);

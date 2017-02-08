@@ -54,7 +54,6 @@ public class AboutActivity extends BaseActivity {
     private boolean update;
     private boolean isCurrent;
     private int cookie;
-    private Snackbar snackbar;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
@@ -291,8 +290,8 @@ public class AboutActivity extends BaseActivity {
             startActivity(new Intent(context, EggShellActivity.class));
         } else if (cookie == 0) {
             SettingConfigManager.instance.setEggShell(true);
-            snackbar = Snackbar.make(root, context.getString(R.string.about_eggshell_open),
-                    Snackbar.LENGTH_LONG).setAction(R.string.about_go_eggshell, new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(root, context.getString(R.string.about_eggshell_open),
+                    Snackbar.LENGTH_LONG).setAction(R.string.about_go_eggshell, new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(context, EggShellActivity.class));

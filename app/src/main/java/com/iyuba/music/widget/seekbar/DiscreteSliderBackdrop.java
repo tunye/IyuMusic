@@ -36,17 +36,14 @@ public class DiscreteSliderBackdrop extends FrameLayout {
     // region Constructors
     public DiscreteSliderBackdrop(Context context) {
         super(context);
-        init(context, null);
     }
 
     public DiscreteSliderBackdrop(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
     }
 
     public DiscreteSliderBackdrop(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
     }
     // endregion
 
@@ -87,10 +84,6 @@ public class DiscreteSliderBackdrop extends FrameLayout {
                 (height / 2) - ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1)),
                 width - discreteSliderBackdropRightMargin,
                 (height / 2) + ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1))), xRadius, yRadius, fillPaint);
-    }
-
-    // region Helper Methods
-    private void init(Context context, AttributeSet attrs) {
     }
 
     private void setUpFillPaint() {

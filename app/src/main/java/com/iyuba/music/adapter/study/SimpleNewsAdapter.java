@@ -97,16 +97,16 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (delete) {
                         holder.delete.setChecked(!holder.delete.isChecked());
-                        newsList.get(position).setDelete(holder.delete.isChecked());
+                        newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
                     } else {
-                        onRecycleViewItemClickListener.onItemClick(holder.itemView, position);
+                        onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                     }
                 }
             });
@@ -178,7 +178,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newsList.get(position).setDelete(holder.delete.isChecked());
+                newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
             }
         });
         holder.delete.setChecked(article.isDelete());
@@ -186,7 +186,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             @Override
             public void onClick(View v) {
                 if (DownloadTask.checkFileExists(article)) {
-                    onRecycleViewItemClickListener.onItemClick(holder.itemView, position);
+                    onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                 } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
                     new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
@@ -195,7 +195,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     downloadFile.downloadState = "start";
                     DownloadManager.sInstance.fileList.add(downloadFile);
                     new DownloadTask(article).start();
-                    notifyItemChanged(position);
+                    notifyItemChanged(holder.getAdapterPosition());
                 } else {
                     ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }
@@ -250,37 +250,41 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                 case 1:
                     file = (DownloadFile) msg.obj;
                     Message message = new Message();
-                    if (file.downloadState.equals("start")) {
-                        tempBar = adapter.progresses.get(String.valueOf(file.id));
-                        tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
-                        if (file.fileSize != 0 && file.downloadSize != 0) {
-                            tempBar.setMax(file.fileSize);
-                            tempBar.setProgress(file.downloadSize);
-                        } else {
-                            tempBar.setMax(1);
-                            tempBar.setProgress(0);
-                        }
-                        message.what = 1;
-                        message.obj = file;
-                        adapter.handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("half_finish")) {
-                        tempBar = adapter.progresses.get(String.valueOf(file.id));
-                        tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
-                        if (file.fileSize != 0 && file.downloadSize != 0) {
-                            tempBar.setMax(file.fileSize);
-                            tempBar.setProgress(file.downloadSize);
-                        } else {
-                            tempBar.setMax(1);
-                            tempBar.setProgress(0);
-                        }
-                        message.what = 1;
-                        message.obj = file;
-                        adapter.handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("finish")) {
-                        message.what = 2;
-                        message.obj = file;
-                        adapter.handler.removeMessages(msg.what);
-                        adapter.handler.sendMessage(message);
+                    switch (file.downloadState) {
+                        case "start":
+                            tempBar = adapter.progresses.get(String.valueOf(file.id));
+                            tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
+                            if (file.fileSize != 0 && file.downloadSize != 0) {
+                                tempBar.setMax(file.fileSize);
+                                tempBar.setProgress(file.downloadSize);
+                            } else {
+                                tempBar.setMax(1);
+                                tempBar.setProgress(0);
+                            }
+                            message.what = 1;
+                            message.obj = file;
+                            adapter.handler.sendMessageDelayed(message, 1500);
+                            break;
+                        case "half_finish":
+                            tempBar = adapter.progresses.get(String.valueOf(file.id));
+                            tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
+                            if (file.fileSize != 0 && file.downloadSize != 0) {
+                                tempBar.setMax(file.fileSize);
+                                tempBar.setProgress(file.downloadSize);
+                            } else {
+                                tempBar.setMax(1);
+                                tempBar.setProgress(0);
+                            }
+                            message.what = 1;
+                            message.obj = file;
+                            adapter.handler.sendMessageDelayed(message, 1500);
+                            break;
+                        case "finish":
+                            message.what = 2;
+                            message.obj = file;
+                            adapter.handler.removeMessages(msg.what);
+                            adapter.handler.sendMessage(message);
+                            break;
                     }
                     break;
                 case 2:

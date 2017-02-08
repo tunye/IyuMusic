@@ -335,7 +335,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 clearAll();
             }
         });
-        footerParent.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.clear_search));
+        footerParent.setBackgroundResource(R.drawable.clear_search);
         return footerParent;
     }
 

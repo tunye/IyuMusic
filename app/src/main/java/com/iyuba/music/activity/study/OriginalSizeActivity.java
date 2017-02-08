@@ -1,6 +1,5 @@
 package com.iyuba.music.activity.study;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -134,11 +133,7 @@ public class OriginalSizeActivity extends BaseActivity {
         tickMarkLabels.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT >= 16) {
-                    tickMarkLabels.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                } else {
-                    tickMarkLabels.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
+                tickMarkLabels.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 addTickMarkTextLabels(sizePos);
             }
         });

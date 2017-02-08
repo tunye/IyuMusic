@@ -42,12 +42,16 @@ public class UserDetailInfoActivity extends BaseActivity {
     private void setText() {
 
         tvUserName.setText(SocialManager.instance.getFriendName());
-        if (userDetailInfo.gender.equals("1")) {
-            tvGender.setText(context.getString(R.string.person_detail_sex_man));
-        } else if (userDetailInfo.gender.equals("2")) {
-            tvGender.setText(context.getString(R.string.person_detail_sex_woman));
-        } else if (userDetailInfo.gender.equals("0")) {
-            tvGender.setText(context.getString(R.string.person_detail_sex_undefined));
+        switch (userDetailInfo.gender) {
+            case "0":
+                tvGender.setText(context.getString(R.string.person_detail_sex_undefined));
+                break;
+            case "1":
+                tvGender.setText(context.getString(R.string.person_detail_sex_man));
+                break;
+            case "2":
+                tvGender.setText(context.getString(R.string.person_detail_sex_woman));
+                break;
         }
         tvResideLocation.setText(userDetailInfo.getResideLocation());
         tvBirthday.setText(userDetailInfo.getBirthday());

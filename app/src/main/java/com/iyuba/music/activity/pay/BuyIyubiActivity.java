@@ -150,10 +150,10 @@ public class BuyIyubiActivity extends BaseActivity {
     private void changeUIResumeByPara() {
         ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
-            vipStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.vip));
+            vipStatus.setImageResource(R.drawable.vip);
             vipDeadline.setText(context.getString(R.string.vip_deadline, userInfo.getDeadline()));
         } else {
-            vipStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.unvip));
+            vipStatus.setImageResource(R.drawable.unvip);
             vipDeadline.setText(context.getString(R.string.vip_undeadline));
         }
         vipName.setText(userInfo.getUsername());

@@ -12,7 +12,7 @@ class PingIPThread extends Thread {
     private static final String url = "https://www.baidu.com";                          //百度
     private IOperationResult resultListner;
 
-    public PingIPThread(IOperationResult resultListner) {
+    PingIPThread(IOperationResult resultListner) {
         this.resultListner = resultListner;
     }
 
@@ -20,9 +20,8 @@ class PingIPThread extends Thread {
     public void run() {
         int intTimeout = 2;
         try {
-            HttpURLConnection urlConnection = null;
             URL url = new URL(PingIPThread.url);
-            urlConnection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);

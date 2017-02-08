@@ -19,6 +19,7 @@ import com.iyuba.music.widget.CustomToast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -63,16 +64,15 @@ public enum AccountManager {
             login.setUserid(Integer.parseInt(userId));
             login.setUserName(userName);
             login.setUserPwd(userPwd);
-            login.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            login.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date()));
             new HistoryLoginOp().saveData(login);
         }
     }
 
     public String[] getUserNameAndPwd() {
-        String[] nameAndPwd = new String[]{
+        return new String[]{
                 ConfigManager.instance.loadString("userName"),
                 ConfigManager.instance.loadString("userPwd")};
-        return nameAndPwd;
     }
 
     public void login(final String userName, String userPwd,

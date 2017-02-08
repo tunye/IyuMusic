@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.BaseSkinActivity;
-import com.flyco.roundview.RoundLinearLayout;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.discover.WordSearchAdapter;
@@ -42,7 +41,6 @@ public class WordSearchActivity extends BaseSkinActivity {
     protected RelativeLayout searchBarLayout;
     private WordSearchAdapter wordSearchAdapter;
     private ArrayList<Word> wordArrayList;
-    private RoundLinearLayout searchLayout;
     private MaterialEditText searchContent;
     private WordSetOp wordSetOp;
     private TextView search;
@@ -66,7 +64,6 @@ public class WordSearchActivity extends BaseSkinActivity {
         searchBarLayout = (RelativeLayout) findViewById(R.id.search_bar);
         searchContent = (MaterialEditText) findViewById(R.id.search_content);
         searchContent.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchLayout = (RoundLinearLayout) findViewById(R.id.search_layout);
         search = (TextView) findViewById(R.id.search);
         RecyclerView wordList = (RecyclerView) findViewById(R.id.word_search_list);
         wordList.setLayoutManager(new LinearLayoutManager(this));

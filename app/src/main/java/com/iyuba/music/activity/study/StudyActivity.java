@@ -286,7 +286,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                                 if (nativeResponse.getMainImageUrl() != null) {
                                     Bitmap bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
                                     if (bitMap != null) {
-                                        photoImage.setBackground(new BitmapDrawable(bitMap));
+                                        photoImage.setImageBitmap(bitMap);
                                         photoImage.setVisibility(View.VISIBLE);
                                         nativeResponse.recordImpression(photoImage);
                                     }
@@ -398,11 +398,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setPlayModeImage(SettingConfigManager.instance.getStudyPlayMode());
         switch (StudyManager.instance.getMusicType()) {
             case 0:
-                studyMode.setImageDrawable(context.getResources().getDrawable(R.drawable.study_annoucer_mode));
+                studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                studyMode.setImageDrawable(context.getResources().getDrawable(R.drawable.study_singer_mode));
+                studyMode.setImageResource(R.drawable.study_singer_mode);
                 studyTranslate.setVisibility(View.GONE);
                 break;
         }
@@ -478,13 +478,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void setPlayModeImage(int state) {
         switch (state) {
             case 0:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.single_replay));
+                playMode.setImageResource(R.drawable.single_replay);
                 break;
             case 1:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.list_play));
+                playMode.setImageResource(R.drawable.list_play);
                 break;
             case 2:
-                playMode.setImageDrawable(context.getResources().getDrawable(R.drawable.random_play));
+                playMode.setImageResource(R.drawable.random_play);
                 break;
         }
 
@@ -507,11 +507,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void setStudyModeImage(int state) {
         switch (state) {
             case 0:
-                studyMode.setImageDrawable(context.getResources().getDrawable(R.drawable.study_annoucer_mode));
+                studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                studyMode.setImageDrawable(context.getResources().getDrawable(R.drawable.study_singer_mode));
+                studyMode.setImageResource(R.drawable.study_singer_mode);
                 studyTranslate.setVisibility(View.GONE);
                 break;
         }
@@ -527,10 +527,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void setStudyTranslateImage(int state) {
         switch (state) {
             case 1:
-                studyTranslate.setImageDrawable(context.getResources().getDrawable(R.drawable.study_translate));
+                studyTranslate.setImageResource(R.drawable.study_translate);
                 break;
             case 0:
-                studyTranslate.setImageDrawable(context.getResources().getDrawable(R.drawable.study_no_translate));
+                studyTranslate.setImageResource(R.drawable.study_no_translate);
                 break;
         }
         int currPage = viewPager.getCurrentItem();
@@ -542,7 +542,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         switch (mode) {
             case 0:
                 intervalState = IntervalState.NONE;
-                interval.setImageDrawable(context.getResources().getDrawable(R.drawable.interval_none));
+                interval.setImageResource(R.drawable.interval_none);
                 break;
             case 1:
                 switch (intervalState) {
@@ -550,14 +550,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         intervalState = IntervalState.START;
                         aPosition = player.getCurrentPosition();
                         CustomToast.INSTANCE.showToast(R.string.study_a_position);
-                        interval.setImageDrawable(context.getResources().getDrawable(R.drawable.interval_start));
+                        interval.setImageResource(R.drawable.interval_start);
                         break;
                     case START:
                         intervalState = IntervalState.END;
                         bPosition = player.getCurrentPosition();
                         CustomToast.INSTANCE.showToast(R.string.study_b_position);
                         handler.sendEmptyMessage(1);
-                        interval.setImageDrawable(context.getResources().getDrawable(R.drawable.interval_end));
+                        interval.setImageResource(R.drawable.interval_end);
                         break;
                     case END:
                         CustomToast.INSTANCE.showToast(R.string.study_ab_cancle);

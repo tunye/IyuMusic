@@ -210,7 +210,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         if (localFile.exists()) {
             return localUrl.toString();
         } else {
-            return url.toString();
+            return url;
         }
     }
 
@@ -317,10 +317,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         }
     }
 
-    public class UploadVoice extends Thread {
-
-        public UploadVoice() {
-        }
+    private class UploadVoice extends Thread {
 
         @Override
         public void run() {

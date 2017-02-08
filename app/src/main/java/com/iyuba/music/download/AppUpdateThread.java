@@ -112,8 +112,6 @@ public class AppUpdateThread {
                 connection.disconnect();
                 reNameFile(fileFullPath + ".tmp", fileFullPath);
                 downloadFinish.finish();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
