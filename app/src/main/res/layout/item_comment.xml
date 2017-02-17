@@ -59,7 +59,6 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/comment_agree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -84,7 +83,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/comment_against"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/row_space_very_large"

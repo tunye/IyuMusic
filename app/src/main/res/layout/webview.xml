@@ -37,7 +37,6 @@
     </LinearLayout>
 
     <com.iyuba.music.widget.view.FlexibleView
-        android:id="@+id/flexible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">

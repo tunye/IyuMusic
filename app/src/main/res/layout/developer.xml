@@ -16,7 +16,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/developer_birth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_developer_birth"
@@ -24,7 +23,6 @@
             android:textSize="@dimen/big_text" />
 
         <TextView
-            android:id="@+id/developer_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_medium"
@@ -33,7 +31,6 @@
             android:textSize="@dimen/big_text" />
 
         <TextView
-            android:id="@+id/developer_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_medium"
@@ -42,7 +39,6 @@
             android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.textview.JustifyTextView
-            android:id="@+id/developer_thanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_medium"

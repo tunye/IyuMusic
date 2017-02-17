@@ -26,7 +26,6 @@
             ri:border_thickness="@dimen/line_default" />
 
         <LinearLayout
-            android:id="@+id/recommend_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recommend_photo"

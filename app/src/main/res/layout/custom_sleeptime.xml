@@ -28,7 +28,6 @@
         android:layout_toRightOf="@id/hour_tv" />
 
     <TextView
-        android:id="@+id/second_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
