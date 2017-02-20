@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -117,11 +116,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.instance.getCurArticle(), false);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     RECORD_AUDIO_TASK_CODE);
         }
         initWidget();
@@ -414,7 +412,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults.length == permissions.length
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
         } else {
             final MaterialDialog materialDialog = new MaterialDialog(context);
@@ -423,7 +421,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityCompat.requestPermissions(StudyActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    ActivityCompat.requestPermissions(StudyActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             RECORD_AUDIO_TASK_CODE);
                     materialDialog.dismiss();
                 }
