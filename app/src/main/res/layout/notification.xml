@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/notify_pic_layout"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_centerVertical="true">
 
         <ImageView
@@ -17,75 +16,63 @@
             android:scaleType="centerCrop" />
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/row_space_medium"
+            android:padding="@dimen/row_space_default"
             android:src="@drawable/ic_launcher_circle" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="64dp"
         android:layout_toRightOf="@+id/notify_pic_layout"
         android:background="#4c4c4c"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/row_space_big">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="69dp"
-            android:layout_marginLeft="@dimen/row_space_medium"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/control_bar"
+            android:gravity="center_vertical|left"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/notify_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_large"
                 android:ellipsize="end"
-                android:includeFontPadding="false"
                 android:maxLines="1"
-                android:textColor="#dcdcdc"
-                android:textSize="15sp" />
+                android:textColor="#cdcdcd"
+                android:textSize="@dimen/medium_text" />
 
             <TextView
                 android:id="@+id/notify_singer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_medium"
+                android:layout_marginTop="@dimen/row_space_default"
                 android:maxLines="1"
-                android:textColor="#cdcdcd"
-                android:textSize="@dimen/default_text" />
-
-            <TextView
-                android:id="@+id/notify_announcer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_small"
-                android:maxLines="1"
-                android:textColor="#cdcdcd"
+                android:textColor="#bcbcbc"
                 android:textSize="@dimen/default_text" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_thin"
-            android:layout_marginTop="@dimen/row_space_medium"
-            android:background="#bcbcbc" />
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
+            android:id="@+id/control_bar"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/row_space_medium"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/notify_formmer"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:src="@drawable/formmer" />
 
@@ -93,7 +80,6 @@
                 android:id="@+id/notify_play"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:src="@drawable/pause" />
 
@@ -101,19 +87,17 @@
                 android:id="@+id/notify_latter"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:src="@drawable/latter" />
-        </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/notify_close"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/row_space_large"
-        android:paddingRight="@dimen/row_space_large"
-        android:src="@drawable/ic_action_close_common" />
+            <ImageView
+                android:id="@+id/notify_close"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/row_space_big"
+                android:paddingBottom="@dimen/row_space_big"
+                android:src="@drawable/ic_action_close_common" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

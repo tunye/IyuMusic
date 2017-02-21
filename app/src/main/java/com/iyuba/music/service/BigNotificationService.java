@@ -109,17 +109,17 @@ public enum BigNotificationService {
             case "209":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
                 contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
-                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
+                //contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
                 break;
             case "101":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
                 contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
-                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_duration, curArticle.getBroadcaster()));
+                //contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.article_duration, curArticle.getBroadcaster()));
                 break;
             default:
                 contentView.setTextViewText(R.id.notify_singer, curArticle.getTitle());
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle_cn());
-                contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.app_intro));
+                //contentView.setTextViewText(R.id.notify_announcer, context.getString(R.string.app_intro));
                 break;
         }
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);

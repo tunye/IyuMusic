@@ -10,12 +10,15 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <com.iyuba.music.widget.textview.JustifyTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:scaleType="centerCrop"
-        android:background="@drawable/wx_offical_accounts" />
+        android:lineSpacingMultiplier="1.5"
+        android:text="@string/share_content"
+        android:textColor="@color/text_color"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/big_text" />
 
     <LinearLayout
         android:layout_width="match_parent"

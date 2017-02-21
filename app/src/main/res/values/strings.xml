@@ -64,7 +64,7 @@
     <string name="oper_discover">发现</string>
     <string name="oper_message">消息</string>
     <string name="oper_activity">活动</string>
-    <string name="oper_wx">微信公众号</string>
+    <string name="oper_wx">关注公众号</string>
     <string name="oper_bigdata">i学习</string>
     <string name="oper_setting">设置</string>
     <string name="oper_about">关于我们</string>
@@ -527,6 +527,7 @@
     <!--微信公众号-->
     <string name="share_to_circle">分享至朋友圈</string>
     <string name="share_to_friend">分享给好友</string>
+    <string name="share_content">听歌小伙伴，很高兴您的点击。请跟随我的步伐，一起走进——听歌学英语公众号（iyubasong）：分享 + 关注\n（分享之后进入页面即可关注）\n\n公众号的功用：\n1.每日新歌早知道；\n2.客服+小编，在线随时交流；\n3.主播实时动态</string>
     <!--在线支付-->
     <string name="pay_detail_oper">支付</string>
     <string name="pay_detail_title">订单支付</string>
