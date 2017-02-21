@@ -87,6 +87,11 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         discover.setText(R.string.oper_file);
         discover.setType(TYPE_ITEM);
         discoverList.add(discover);
+        discover = new Discover();
+        discover.setDrawable(R.drawable.local_music_icon);
+        discover.setText(R.string.oper_local_music);
+        discover.setType(TYPE_ITEM);
+        discoverList.add(discover);
         if (SettingConfigManager.instance.isEggShell()) {
             discover = new Discover();
             discover.setDrawable(R.drawable.eggshell_icon);

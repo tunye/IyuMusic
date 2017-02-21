@@ -37,7 +37,7 @@ public class OperAdapter extends BaseAdapter {
         menuTextList.add(R.string.oper_credits);
         menuTextList.add(R.string.oper_discover);
         menuTextList.add(R.string.oper_message);
-        menuTextList.add(R.string.oper_local_music);
+        menuTextList.add(R.string.oper_wx);
         menuTextList.add(R.string.oper_bigdata);
         menuTextList.add(R.string.oper_setting);
     }

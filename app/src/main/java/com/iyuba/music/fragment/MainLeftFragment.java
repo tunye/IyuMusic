@@ -22,6 +22,7 @@ import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.SettingActivity;
 import com.iyuba.music.activity.WebViewActivity;
+import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
 import com.iyuba.music.activity.me.CreditActivity;
@@ -33,7 +34,6 @@ import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
@@ -187,7 +187,7 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 5:
-                        startActivity(new Intent(context, LocalMusicActivity.class));
+                        startActivity(new Intent(context, WxOfficialAccountActivity.class));
                         break;
                     case 6:
                         if (AccountManager.INSTANCE.checkUserLogin()) {

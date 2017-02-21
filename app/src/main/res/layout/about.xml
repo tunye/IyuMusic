@@ -223,7 +223,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/about_communicate"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/row_space_big"
+                android:layout_marginTop="@dimen/row_space_large"
                 android:gravity="center"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/medium_text" />

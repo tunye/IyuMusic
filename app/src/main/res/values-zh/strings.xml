@@ -64,6 +64,7 @@
     <string name="oper_discover">发现</string>
     <string name="oper_message">消息</string>
     <string name="oper_activity">活动</string>
+    <string name="oper_wx">微信公众号</string>
     <string name="oper_bigdata">i学习</string>
     <string name="oper_setting">设置</string>
     <string name="oper_about">关于我们</string>
@@ -523,6 +524,9 @@
     <!--开屏-->
     <string name="welcome_escape_ad">跳过</string>
     <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
+    <!--微信公众号-->
+    <string name="share_to_circle">分享至朋友圈</string>
+    <string name="share_to_friend">分享给好友</string>
     <!--在线支付-->
     <string name="pay_detail_oper">支付</string>
     <string name="pay_detail_title">订单支付</string>
