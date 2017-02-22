@@ -63,10 +63,10 @@ public class MusicApplication extends Application {
     public void onCreate() {
         super.onCreate();//必须调用父类方法
         prepareForApp();
+        pushSdkInit();
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
-        pushSdkInit();
         CrashHandler crashHandler = new CrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
@@ -78,12 +78,10 @@ public class MusicApplication extends Application {
             @Override
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
-                Log.e("aaa", "deviceToken" + deviceToken);
             }
 
             @Override
             public void onFailure(String s, String s1) {
-
             }
         });
         mPushAgent.setDebugMode(false);

@@ -117,6 +117,25 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void initBroadcast() {
+        if (SettingConfigManager.instance.isUpgrade()) {
+            PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
+            IUmengCallback umengCallback = new IUmengCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(String s, String s1) {
+
+                }
+            };
+            if (SettingConfigManager.instance.isPush()) {
+                mPushAgent.enable(umengCallback);
+            } else {
+                mPushAgent.disable(umengCallback);
+            }
+        }
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter("changeProperty");
         LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
