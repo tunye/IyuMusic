@@ -14,7 +14,7 @@ import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONException;
 import org.json.JSONObject;

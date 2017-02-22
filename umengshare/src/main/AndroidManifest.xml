@@ -3,15 +3,10 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity
-            android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:excludeFromRecents="true" />
-        <activity android:name="com.ct.umengshare.ShareActivity" />
 
         <activity
-            android:name="com.ct.umengshare.wbapi.WBShareActivity"
+            android:name="com.ct.umengshare.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -19,15 +14,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
-
-        <service
-            android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"></service>
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -45,6 +31,7 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 

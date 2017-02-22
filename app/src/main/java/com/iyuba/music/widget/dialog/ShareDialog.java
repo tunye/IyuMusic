@@ -36,6 +36,11 @@ public class ShareDialog {
     private IyubaDialog iyubaDialog;
     private UMShareListener shareMorePeopleListener = new UMShareListener() {
         @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
         public void onResult(SHARE_MEDIA share_media) {
             if (AccountManager.INSTANCE.checkUserLogin()) {
                 getScore(2);
@@ -44,15 +49,20 @@ public class ShareDialog {
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mKeyword + "分享失败");
+            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mKeyword + "分享取消");
+            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
         }
     };
     private UMShareListener shareSinglePeopleListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
         @Override
         public void onResult(SHARE_MEDIA share_media) {
             if (AccountManager.INSTANCE.checkUserLogin()) {
@@ -62,12 +72,12 @@ public class ShareDialog {
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mKeyword + "分享失败");
+            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mKeyword + "分享取消");
+            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
         }
     };
 
@@ -84,8 +94,8 @@ public class ShareDialog {
         GridView moreGrid = (GridView) root.findViewById(R.id.study_menu);
         moreGrid.setNumColumns(3);
         int[] menuDrawable = new int[]{R.drawable.umeng_socialize_wxcircle, R.drawable.umeng_socialize_wechat,
-                R.drawable.umeng_socialize_sina_on, R.drawable.umeng_socialize_qq_on,
-                R.drawable.umeng_socialize_qzone_on, R.drawable.umeng_socialize_sms_on,};
+                R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
+                R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_sms,};
         String[] menuText = context.getResources().getStringArray(R.array.share);
         ShareAdapter shareAdapter = new ShareAdapter(context);
         shareAdapter.setDataSet(menuText, menuDrawable);
@@ -99,53 +109,35 @@ public class ShareDialog {
                 } else {
                     music = new UMusic(DownloadService.getSongUrl(article.getApp(), article.getMusicUrl()));
                 }
+                music.setTitle(article.getTitle());
+                music.setmTargetUrl(getShareUrl());
+                music.setDescription(article.getContent());
+                music.setThumb(new UMImage(activity, getPicUrl()));
                 switch (position) {
                     case 0:
-                        music.setAuthor(article.getSinger());
-                        music.setTitle(article.getTitle());
-                        music.setTargetUrl(getShareUrl());
-                        music.setThumb(new UMImage(activity, getPicUrl()));
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                                .withText(article.getSinger())
                                 .withMedia(music).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
                     case 1:
-                        music.setAuthor(article.getSinger());
-                        music.setTitle(article.getTitle());
-                        music.setTargetUrl(getShareUrl());
-                        music.setThumb(getPicUrl());
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
-                                .withText(article.getSinger())
                                 .withMedia(music).setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
                     case 2:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.SINA)
-                                .withText("#听歌学英语# " + article.getTitle() + article.getContent())
-                                .withTargetUrl(getShareUrl())
+                                .withText("#听歌学英语# " + article.getTitle() + " — " + article.getSinger())
                                 .withMedia(music).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
                     case 3:
-                        music.setAuthor(article.getSinger());
-                        music.setTitle(article.getTitle());
-                        music.setTargetUrl(getShareUrl());
-                        music.setThumb(getPicUrl());
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.QQ)
-                                .withText(article.getSinger())
-                                .withTargetUrl(getShareUrl())
                                 .withMedia(music).setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
                     case 4:
-                        music.setAuthor(article.getSinger());
-                        music.setTitle(article.getTitle());
-                        music.setTargetUrl(getShareUrl());
-                        music.setThumb(getPicUrl());
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.QZONE)
-                                .withText(article.getSinger())
-                                .withTargetUrl(getShareUrl())
+                                .withText(article.getTitle() + " — " + article.getSinger())
                                 .withMedia(music).setCallback(shareMorePeopleListener)
                                 .share();
                         break;

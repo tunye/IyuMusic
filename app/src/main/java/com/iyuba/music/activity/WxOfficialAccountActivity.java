@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.iyuba.music.R;
+import com.iyuba.music.widget.CustomToast;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 /**
  * Created by 10202 on 2017/2/21.
@@ -56,14 +59,30 @@ public class WxOfficialAccountActivity extends BaseActivity {
     }
 
     private void share(boolean circleShare) {
-        UMImage umImage=new UMImage(context,R.mipmap.ic_launcher);
-        umImage.setTargetUrl("http://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA5MjI4NjUwNA==&from=singlemessage#wechat_redirect");
-        umImage.setThumb("关注听歌学英语微信公众号");
-        umImage.setTitle("关注听歌学英语微信公众号");
+        UMWeb web = new UMWeb("http://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA5MjI4NjUwNA==&from=singlemessage#wechat_redirect");
+        web.setTitle("听歌学英语");//标题
+        web.setThumb(new UMImage(context, R.mipmap.ic_launcher));  //缩略图
+        web.setDescription("关注听歌学英语微信公众号");//描述
+
         new ShareAction(this).setPlatform(circleShare ? SHARE_MEDIA.WEIXIN_CIRCLE : SHARE_MEDIA.WEIXIN)
-                .withText("关注听歌学英语微信公众号")
-                .withMedia(umImage)
-                .withTargetUrl("http://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA5MjI4NjUwNA==&from=singlemessage#wechat_redirect")
-                .share();
+                .withMedia(web).setCallback(new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+            }
+
+            @Override
+            public void onResult(SHARE_MEDIA share_media) {
+                CustomToast.INSTANCE.showToast("请点击分享内容关注听歌学英语公众号");
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media) {
+                CustomToast.INSTANCE.showToast("操作取消");
+            }
+        }).share();
     }
 }

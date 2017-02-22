@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SocialSDK_Sina_Full">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/umengshare/libs/SocialSDK_Sina_Full.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
