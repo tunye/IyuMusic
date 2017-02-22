@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.entity.article.StudyRecordUtil;
@@ -65,12 +66,19 @@ public class MusicApplication extends Application {
         activityList = new ArrayList<>();
         playServiceIntent = new Intent(this, PlayerService.class);
         startService(playServiceIntent);
+        pushSdkInit();
+        CrashHandler crashHandler = new CrashHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+    }
+
+    private void pushSdkInit() {
         PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.register(new IUmengRegisterCallback() {
 
             @Override
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
+                Log.e("aaa", "deviceToken" + deviceToken);
             }
 
             @Override
@@ -78,9 +86,7 @@ public class MusicApplication extends Application {
 
             }
         });
-        //LeakCanary.install(this);
-        CrashHandler crashHandler = new CrashHandler(this);
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        mPushAgent.setDebugMode(false);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class MusicApplication extends Application {
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 共享平台
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
-        PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294","http://www.iyuba.com");
+        PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
         UMShareConfig config = new UMShareConfig();
         config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);

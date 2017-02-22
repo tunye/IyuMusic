@@ -32,6 +32,8 @@ import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.umeng.message.IUmengCallback;
+import com.umeng.message.PushAgent;
 
 import java.io.File;
 import java.util.Arrays;
@@ -193,7 +195,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_push:
                 currPush.setChecked(!currPush.isChecked());
-                SettingConfigManager.instance.setPush(!SettingConfigManager.instance.isPush());
+                setPushState();
                 break;
             case R.id.setting_clear:
                 waittingDialog.show();
@@ -216,7 +218,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 onNightChanged();
                 break;
             case R.id.setting_curr_push:
-                SettingConfigManager.instance.setPush(!SettingConfigManager.instance.isPush());
+                setPushState();
                 break;
             case R.id.setting_word_set:
                 startActivity(new Intent(context, WordSetActivity.class));
@@ -227,6 +229,36 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.setting_logout:
                 logout();
                 break;
+        }
+    }
+
+    private void setPushState() {
+        SettingConfigManager.instance.setPush(!SettingConfigManager.instance.isPush());
+        PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
+        if (SettingConfigManager.instance.isPush()) {
+            mPushAgent.enable(new IUmengCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(String s, String s1) {
+
+                }
+            });
+        } else {
+            mPushAgent.disable(new IUmengCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(String s, String s1) {
+
+                }
+            });
         }
     }
 

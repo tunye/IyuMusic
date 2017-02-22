@@ -95,7 +95,7 @@ public class ShareDialog {
         moreGrid.setNumColumns(3);
         int[] menuDrawable = new int[]{R.drawable.umeng_socialize_wxcircle, R.drawable.umeng_socialize_wechat,
                 R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
-                R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_sms,};
+                R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_fav,};
         String[] menuText = context.getResources().getStringArray(R.array.share);
         ShareAdapter shareAdapter = new ShareAdapter(context);
         shareAdapter.setDataSet(menuText, menuDrawable);
@@ -142,8 +142,9 @@ public class ShareDialog {
                                 .share();
                         break;
                     case 5:
-                        new ShareAction(activity).setPlatform(SHARE_MEDIA.SMS)
-                                .withText(article.getTitle() + article.getContent() + getShareUrl())
+                        new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_FAVORITE)
+                                .withText("听歌学英语 " + article.getTitle() + " — " + article.getSinger())
+                                .withMedia(music)
                                 .setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
