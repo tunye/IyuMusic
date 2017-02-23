@@ -398,6 +398,7 @@
     <string name="message_lastday">Yesterday</string>
     <string name="message_home">Home page</string>
     <string name="message_send_fail">Send failed.</string>
+    <string name="message_clip_board">The message has been copied.</string>
     <!--个人中心-->
     <string name="person_title">Personal center</string>
     <string name="doing_title">Reply</string>
@@ -522,6 +523,13 @@
     <!--开屏-->
     <string name="welcome_escape_ad">跳过</string>
     <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
+    <!--微信公众号-->
+    <string name="wx_clip_board">The official accounts has been copied.</string>
+    <string name="share_to_circle">分享至朋友圈关注公众号</string>
+    <string name="share_to_friend">分享给好友关注公众号</string>
+    <string name="share_no_wechat">Your phone is not installed wechat, so you can not search this official accounts.</string>
+    <string name="share_to_wx">跳转微信关注公众号</string>
+    <string name="share_content">听歌小伙伴，很高兴您的点击。请跟随我的步伐，一起走进——听歌学英语公众号（iyubasong）：分享 + 关注\n（分享之后进入页面即可关注）\n\n公众号的功用：\n1.每日新歌早知道；\n2.客服+小编，在线随时交流；\n3.主播实时动态</string>
     <!--在线支付-->
     <string name="pay_detail_title">Pay</string>
     <string name="pay_detail_user">Welcome：</string>
@@ -533,7 +541,7 @@
     <string name="pay_detail_wx_way_content">Recommended Wechat users</string>
     <string name="pay_detail_sure">Pay</string>
     <string name="pay_detail_money_content">%1$s RMB</string>
-    <string name="pay_detail_no_wechat">your phone is not installed wechat, so you can not use this pay way.</string>
+    <string name="pay_detail_no_wechat">Your phone is not installed wechat, so you can not use this pay way.</string>
     <string name="pay_detail_generate_failed">Generate order failed, please try again</string>
     <string name="pay_detail_success">Pay success</string>
     <string name="pay_detail_fail">Pay failed</string>

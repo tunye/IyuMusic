@@ -1,5 +1,10 @@
 package com.iyuba.music.activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,7 +21,7 @@ import com.umeng.socialize.media.UMWeb;
  */
 
 public class WxOfficialAccountActivity extends BaseActivity {
-    View shareToFriend, shareToCircle;
+    View shareToFriend, shareToCircle, shareToWx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
         super.initWidget();
         shareToFriend = findViewById(R.id.share_to_friend);
         shareToCircle = findViewById(R.id.share_to_circle);
+        shareToWx = findViewById(R.id.share_to_wx);
     }
 
     @Override
@@ -48,6 +54,22 @@ public class WxOfficialAccountActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 share(false);
+            }
+        });
+        shareToWx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("wx official accounts", "iyubasong");
+                clipboard.setPrimaryClip(clip);
+                CustomToast.INSTANCE.showToast(R.string.wx_clip_board);
+                try {
+                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    CustomToast.INSTANCE.showToast(R.string.share_no_wechat);
+                }
             }
         });
     }

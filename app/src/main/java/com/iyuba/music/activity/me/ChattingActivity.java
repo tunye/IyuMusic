@@ -186,7 +186,7 @@ public class ChattingActivity extends BaseInputActivity {
                 ClipData clip = ClipData.newPlainText("chat message",
                         adapter.getItem(arg2).getContent());
                 clipboard.setPrimaryClip(clip);
-                CustomToast.INSTANCE.showToast(R.string.webview_clip_board);
+                CustomToast.INSTANCE.showToast(R.string.message_clip_board);
             }
         });
         chatContent.setOnScrollListener(new OnScrollListener() {

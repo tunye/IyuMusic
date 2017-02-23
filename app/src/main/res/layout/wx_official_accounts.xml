@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:lineSpacingMultiplier="1.5"
         android:text="@string/share_content"
         android:textColor="@color/text_color"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/big_text" />
 
     <LinearLayout
@@ -28,10 +28,24 @@
         android:orientation="vertical">
 
         <com.flyco.roundview.RoundTextView
+            android:id="@+id/share_to_wx"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="@dimen/row_space_big"
+            android:text="@string/share_to_wx"
+            android:textColor="#ededed"
+            android:textSize="@dimen/large_text"
+            app:rv_backgroundColor="@color/skin_app_color"
+            app:rv_cornerRadius="@dimen/corner_radius_big" />
+
+        <com.flyco.roundview.RoundTextView
             android:id="@+id/share_to_friend"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_big"
             android:gravity="center"
             android:padding="@dimen/row_space_big"
             android:text="@string/share_to_friend"
