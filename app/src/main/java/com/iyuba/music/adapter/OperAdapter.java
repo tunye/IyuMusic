@@ -28,7 +28,7 @@ public class OperAdapter extends BaseAdapter {
         menuIconList.add(R.drawable.credits_icon);
         menuIconList.add(R.drawable.discover_icon);
         menuIconList.add(R.drawable.message_icon);
-        menuIconList.add(R.drawable.local_music_icon);
+        menuIconList.add(R.drawable.official_accounts_icon);
         menuIconList.add(R.drawable.bigdata_icon);
         menuIconList.add(R.drawable.setting_icon);
 

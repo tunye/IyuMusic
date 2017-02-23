@@ -526,12 +526,12 @@
     <string name="welcome_escape_ad">跳过</string>
     <string name="banner_ad_unit_id">ca-app-pub-0386301933791128/2474070714</string>
     <!--微信公众号-->
-    <string name="wx_clip_board">微信号已复制</string>
-    <string name="share_to_circle">分享至朋友圈关注公众号</string>
-    <string name="share_to_friend">分享给好友关注公众号</string>
-    <string name="share_to_wx">跳转微信关注公众号</string>
+    <string name="wx_clip_board">微信号已复制，请在微信搜索中粘贴</string>
+    <string name="share_to_circle">分享至朋友圈点击关注</string>
+    <string name="share_to_friend">分享给好友点击关注</string>
+    <string name="share_to_wx">跳转微信搜索公众号</string>
     <string name="share_no_wechat">您尚未安装微信，无法搜索关注</string>
-    <string name="share_content">听歌小伙伴，很高兴您的点击。请跟随我的步伐，一起走进——听歌学英语公众号（iyubasong）：分享 + 关注\n（分享之后进入页面即可关注）\n\n公众号的功用：\n1.每日新歌早知道；\n2.客服+小编，在线随时交流；\n3.主播实时动态</string>
+    <string name="share_content">关注听歌微信公众号，获取更多主播时事动态，随时随地与小编交流。\n\n方法1：点击直接跳转微信客户端并自动复制公众号iyubasong，在微信搜索栏中黏贴并搜索，进入公众号点击关注。\n方法2：点击分享至好友或朋友圈，打开链接关注公众号。</string>
     <!--在线支付-->
     <string name="pay_detail_oper">支付</string>
     <string name="pay_detail_title">订单支付</string>

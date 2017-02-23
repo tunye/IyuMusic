@@ -66,7 +66,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 try {
                     Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
                     startActivity(intent);
-                } catch (ActivityNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     CustomToast.INSTANCE.showToast(R.string.share_no_wechat);
                 }
