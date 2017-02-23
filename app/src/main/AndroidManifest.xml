@@ -67,7 +67,7 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SkinActivity" />
         <activity android:name=".activity.TestActivity" />
-        <activity android:name=".activity.WxOfficialAccountActivity"/>
+        <activity android:name=".activity.WxOfficialAccountActivity" />
         <activity android:name=".activity.me.VipCenterActivity" />
         <activity android:name=".activity.pay.BuyVipActivity" />
         <activity android:name=".activity.pay.PayActivity" />

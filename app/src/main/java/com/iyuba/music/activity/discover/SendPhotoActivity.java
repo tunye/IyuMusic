@@ -26,8 +26,10 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.eggshell.meizhi.LocalPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -80,7 +82,7 @@ public class SendPhotoActivity extends BaseActivity {
         content = (MaterialEditText) findViewById(R.id.feedback_content);
         photo = (ImageView) findViewById(R.id.state_image);
         emojiView = (EmojiView) findViewById(R.id.emoji);
-        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.photo_on_way));
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.photo_on_way));
     }
 
     @Override
@@ -121,14 +123,40 @@ public class SendPhotoActivity extends BaseActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(content);
         } else if (!content.isCharactersCountValid()) {
             YoYo.with(Techniques.Shake).duration(500).playOn(content);
-        } else if (images.size() == 0) {
-            YoYo.with(Techniques.Shake).duration(500).playOn(photo);
-            CustomToast.INSTANCE.showToast("尚未选择图片");
         } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waittingDialog.show();
-            new UploadThread().start();
+            if (images.size() == 0) {
+                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.INSTANCE.getUserId(), AccountManager.INSTANCE.getUserName(),
+                        content.getEditableText().toString()), new IProtocolResponse() {
+                    @Override
+                    public void onNetError(String msg) {
+                        CustomToast.INSTANCE.showToast(msg);
+                        handler.sendEmptyMessage(1);
+                    }
+
+                    @Override
+                    public void onServerError(String msg) {
+                        CustomToast.INSTANCE.showToast(msg);
+                        handler.sendEmptyMessage(1);
+                    }
+
+                    @Override
+                    public void response(Object object) {
+                        handler.sendEmptyMessage(1);
+                        String result = (String) object;
+                        if ("351".equals(result)) {
+                            handler.sendEmptyMessage(0);
+                            handler.sendEmptyMessage(1);
+                        } else {
+                            CustomToast.INSTANCE.showToast(R.string.photo_fail);
+                        }
+                    }
+                });
+            } else {
+                new UploadThread().start();
+            }
         }
     }
 
