@@ -200,7 +200,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             }
                             message.what = 1;
                             message.obj = file;
-                            adapter.handler.sendMessageDelayed(message, 1500);
+                            adapter.handler.sendMessageDelayed(message, 300);
                             break;
                         case "half_finish":
                             tempBar = adapter.progresses.get(String.valueOf(file.id));
@@ -214,7 +214,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             }
                             message.what = 1;
                             message.obj = file;
-                            adapter.handler.sendMessageDelayed(message, 1500);
+                            adapter.handler.sendMessageDelayed(message, 300);
                             break;
                         case "finish":
                             message.what = 2;

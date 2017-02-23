@@ -71,6 +71,7 @@
     <string name="oper_friends">Friends</string>
     <string name="oper_ground">Ground</string>
     <string name="oper_activity">New activities</string>
+    <string name="oper_wx">Official Accounts</string>
     <string name="oper_bigdata">iStudy</string>
     <string name="oper_local_music">Local Music</string>
     <string name="oper_file">File Operation</string>
