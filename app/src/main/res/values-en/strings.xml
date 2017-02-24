@@ -91,8 +91,8 @@
     <string name="login_error">Account message got failed, please sign in again.</string>
     <!--我-->
     <string name="personal_logout">Logout</string>
-    <string name="personal_logout_textmore">Log out current user</string>
-    <string name="personal_logout_exit">Logout</string>
+    <string name="personal_logout_textmore">Sign Out Account</string>
+    <string name="personal_logout_exit">Sign Out</string>
     <string name="personal_no_login">You have not login to Iyuba account</string>
     <string name="personal_daily_login">Daily login, credits added 5 percents.</string>
     <string name="personal_change_photo">You have registered successfully, please select your portrait</string>
@@ -148,7 +148,7 @@
     <string name="about_eggshell_open">Eggshell mode has opened</string>
     <string name="about_go_eggshell">Go</string>
     <string name="about_eggshell_opening">%1$s clicks is needed to open Eggshell mode</string>
-    <string name="new_version_features">new version features</string>
+    <string name="new_version_features">New version features</string>
     <!--反馈-->
     <string name="feedback_title">Feedback</string>
     <string name="feedback_content_hint">Your comments and feedback are welcomed and appreciated</string>
@@ -272,7 +272,7 @@
     <string name="classify_group_person">User classification</string>
     <string name="classify_group_system">System classification</string>
     <string name="classify_favor">My favor</string>
-    <string name="classify_local">Local song list</string>
+    <string name="classify_local">Local song</string>
     <string name="classify_history">History</string>
     <string name="classify_pop">Pop</string>
     <string name="classify_rural">Rural</string>
@@ -280,8 +280,8 @@
     <string name="classify_fork">Fork</string>
     <string name="classify_classic">Classic</string>
     <string name="classify_rock">Rock</string>
-    <string name="classify_dance">Dance music</string>
-    <string name="classify_video">Video music</string>
+    <string name="classify_dance">Dance</string>
+    <string name="classify_video">Video</string>
     <string name="classify_grammy">Grammy</string>
     <!--学习页面-->
     <string name="study_share">Share</string>
@@ -483,6 +483,7 @@
     <string name="credits_rank">Rank</string>
     <string name="credits_details">Credits History</string>
     <string name="credits_helper">Rules</string>
+    <string name="credits_loading">Data loading</string>
     <string name="credits_study_time">Study duration %1$s</string>
     <!--朋友圈-->
     <string name="circle_title">Moments</string>

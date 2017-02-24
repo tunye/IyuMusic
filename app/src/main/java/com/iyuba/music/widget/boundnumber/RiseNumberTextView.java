@@ -20,7 +20,7 @@ public class RiseNumberTextView extends TextView implements RiseNumberBase {
 
     private float fromNumber;
 
-    private long duration = 1000;
+    private long duration = 800;
     /**
      * 1.int 2.float
      */

@@ -484,6 +484,7 @@
     <string name="credits_rank">学习全站排名</string>
     <string name="credits_details">积分累加情况</string>
     <string name="credits_helper">规则</string>
+    <string name="credits_loading">数据获取中</string>
     <string name="credits_study_time">学习时长 %1$s</string>
     <!--朋友圈-->
     <string name="circle_title">朋友圈</string>
