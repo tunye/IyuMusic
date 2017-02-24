@@ -26,6 +26,7 @@
     <string name="to_local_go">Sure</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="storage_permission">Permission</string>
+    <string name="storage_permission_cancel">Permission denied，can no use this function.</string>
     <string name="storage_permission_content">If you don\'t give this permission,you can\'t use this function~</string>
     <!-- 文件管理器-->
     <string name="file_title">File manager</string>
@@ -366,6 +367,7 @@
     <string name="changephoto_intro">Upload photo to show your personality, and get +20 credits</string>
     <string name="changephoto_change">Change profile picture</string>
     <string name="changephoto_camera">Camera</string>
+    <string name="changephoto_camera_cancel">The operation has been canceled.</string>
     <string name="changephoto_see">See big picture</string>
     <string name="changephoto_gallery">Select from photo album</string>
     <string name="changephoto_success">Upload profile picture success</string>

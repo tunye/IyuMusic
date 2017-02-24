@@ -302,7 +302,7 @@ public class PlayerService extends Service {
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     // 重新获得焦点，且符合播放条件，开始播放
-                    if (!player.isPlaying() && mPausedByTransientLossOfFocus) {
+                    if (!player.isPlaying()) {
                         mPausedByTransientLossOfFocus = false;
                         sendBroadcast(new Intent("iyumusic.pause"));
                     }

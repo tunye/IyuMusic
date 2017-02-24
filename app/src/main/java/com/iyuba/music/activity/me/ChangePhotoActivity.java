@@ -6,18 +6,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.buaa.ct.imageselector.utils.FileUtils;
 import com.buaa.ct.imageselector.view.ImageCropActivity;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.flyco.roundview.RoundTextView;
@@ -34,11 +31,11 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
-
 import java.io.File;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/18.
@@ -105,12 +102,11 @@ public class ChangePhotoActivity extends BaseActivity {
             @Override
             public void performance(int index) {
                 if (index == 0) {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                        File cameraFile = FileUtils.createCameraFile(context);
-                        imgPath = cameraFile.getAbsolutePath();
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-                        startActivityForResult(cameraIntent, ImageSelectorActivity.REQUEST_CAMERA);
+                    if (ContextCompat.checkSelfPermission(ChangePhotoActivity.this, Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.CAMERA}, 101);
+                    } else {
+                        imgPath = ImageSelectorActivity.startCameraDirect(context);
                     }
                 } else if (index == 1) {
                     ImageSelectorActivity.start(ChangePhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, false, true, true);
@@ -132,26 +128,62 @@ public class ChangePhotoActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            100);
+                    materialDialog.dismiss();
+                }
+            });
+        } else if (requestCode == 101 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.CAMERA},
+                            101);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case ImageSelectorActivity.REQUEST_CAMERA:
-                ImageCropActivity.startCrop(this, imgPath);
-                break;
-            case ImageSelectorActivity.REQUEST_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    ArrayList<String> images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
-                    imgPath = images.get(0);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case ImageSelectorActivity.REQUEST_CAMERA:
+                    ImageCropActivity.startCrop(this, imgPath);
+                    break;
+                case ImageSelectorActivity.REQUEST_IMAGE:
+                    if (resultCode == RESULT_OK) {
+                        ArrayList<String> images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
+                        imgPath = images.get(0);
+                        photo.setImageBitmap(getImage());
+                        new UploadThread().start();
+                    }
+                    break;
+                case ImageCropActivity.REQUEST_CROP:
+                    imgPath = data.getStringExtra(ImageCropActivity.OUTPUT_PATH);
                     photo.setImageBitmap(getImage());
                     new UploadThread().start();
-                }
-                break;
-            case ImageCropActivity.REQUEST_CROP:
-                imgPath = data.getStringExtra(ImageCropActivity.OUTPUT_PATH);
-                photo.setImageBitmap(getImage());
-                new UploadThread().start();
-                break;
+                    break;
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == ImageSelectorActivity.REQUEST_CAMERA) {
+                CustomToast.INSTANCE.showToast(R.string.changephoto_camera_cancel);
+            }
         }
     }
 

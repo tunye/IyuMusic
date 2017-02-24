@@ -73,9 +73,12 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         setListener();
         changeUIByPara();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 100);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
         }
     }
 
@@ -222,8 +225,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length == permissions.length
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
         } else {
             final MaterialDialog materialDialog = new MaterialDialog(context);
@@ -232,8 +234,24 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityCompat.requestPermissions(CommentActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    ActivityCompat.requestPermissions(CommentActivity.this, new String[]{Manifest.permission.RECORD_AUDIO},
                             100);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
+        }
+        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+        } else {
+            final MaterialDialog materialDialog = new MaterialDialog(context);
+            materialDialog.setTitle(R.string.storage_permission);
+            materialDialog.setMessage(R.string.storage_permission_content);
+            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityCompat.requestPermissions(CommentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            101);
                     materialDialog.dismiss();
                 }
             });

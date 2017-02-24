@@ -183,11 +183,12 @@ public class SendPhotoActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == ImageSelectorActivity.REQUEST_IMAGE) {
             images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
             photo.setImageBitmap(saveImage(ConstantManager.instance.getEnvir() + "/temp.jpg", images.get(0)));
+        } else if (resultCode == -2) {
+            CustomToast.INSTANCE.showToast(R.string.storage_permission_cancel);
         } else if (requestCode == 101 && resultCode == 1) {//删除
             images = new ArrayList<>();
             photo.setImageResource(R.drawable.circle_photo_add);
             new File(ConstantManager.instance.getEnvir() + "/temp.jpg").delete();
-        } else if (requestCode == 101 && resultCode == 0) {//未删除
         }
     }
 

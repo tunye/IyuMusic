@@ -26,6 +26,7 @@
     <string name="no_net_to_local">当前没有网络，是否听本地已下载音乐？</string>
     <string name="to_local_go">确定</string>
     <string name="storage_permission">权限请求</string>
+    <string name="storage_permission_cancel">权限请求失败，无法使用当前功能</string>
     <string name="storage_permission_content">如您不允许本权限，则无法行使当前功能哦~</string>
     <!-- 文件管理器-->
     <string name="file_title">文件管理器</string>
@@ -380,6 +381,7 @@
     <string name="changephoto_intro">上传靓照，展现个性，积分+20</string>
     <string name="changephoto_change">更换头像</string>
     <string name="changephoto_camera">拍照</string>
+    <string name="changephoto_camera_cancel">拍照已取消</string>
     <string name="changephoto_see">查看大图</string>
     <string name="changephoto_gallery">从相册选择</string>
     <string name="changephoto_success">头像上传成功</string>
