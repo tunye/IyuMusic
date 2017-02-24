@@ -162,12 +162,13 @@ public class PlayerService extends Service {
             }
             String playPath = getUrl(article);
             if (playPath.contains("http")) {
-                if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+                if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                     player.reset();
                     player.setVideoPath(playPath);
                     setNotification();
-                } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-                    CustomToast.INSTANCE.showToast(R.string.net_speed_slow);
+                    if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+                        CustomToast.INSTANCE.showToast(R.string.net_speed_slow);
+                    }
                 } else {
                     CustomToast.INSTANCE.showToast(R.string.no_internet);
                 }

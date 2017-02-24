@@ -413,6 +413,7 @@ public class RegistActivity extends BaseInputActivity {
                     BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                     int result = (int) baseApiEntity.getData();
                     if (result == 111) {
+                        CustomToast.INSTANCE.showToast(R.string.regist_success);
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());

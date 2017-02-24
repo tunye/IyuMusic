@@ -16,7 +16,7 @@
     <string name="no_internet">没有网络连接</string>
     <string name="generic_error">服务异常</string>
     <string name="data_error">数据解析异常</string>
-    <string name="net_speed_slow">请切换至更优质网络使用本功能</string>
+    <string name="net_speed_slow">建议切换至更优质网络使用本功能</string>
     <string name="bug_exit">很抱歉，程序出现异常，即将退出</string>
     <string name="alert_home">再按一次返回桌面</string>
     <string name="alert_exit">再按一次退出程序</string>

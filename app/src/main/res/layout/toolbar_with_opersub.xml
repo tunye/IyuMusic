@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/skin_app_color"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/title_padding">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mrl_rippleColor="@color/toolbar_ripple_color"
+            app:mrl_rippleDuration="400">
+
+            <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/back_material"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mm_color="#ededed"
+                app:mm_strokeWidth="2" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#ededed"
+            android:textSize="@dimen/title_text" />
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/toolbar_oper_ripple"
+            android:padding="@dimen/row_space_default"
+            app:mrl_rippleColor="@color/toolbar_ripple_color"
+            app:mrl_rippleDuration="250">
+
+            <TextView
+                android:id="@+id/toolbar_oper_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/row_space_default"
+                android:textColor="#ededed"
+                android:textSize="@dimen/large_text" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/toolbar_oper_ripple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/row_space_default"
+            app:mrl_rippleColor="@color/toolbar_ripple_color"
+            app:mrl_rippleDuration="250">
+
+            <TextView
+                android:id="@+id/toolbar_oper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/row_space_default"
+                android:textColor="#ededed"
+                android:textSize="@dimen/large_text" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -123,7 +123,8 @@
     <string name="regist_userid_same">That user name already exists. Please enter a different one</string>
     <string name="regist_email_same">That email account already exists. Please enter a different one</string>
     <string name="regist_code_on_way">Verification code has been sent, please wait</string>
-    <string name="regist_fail">Registration failed! Please try again</string>
+    <string name="regist_success">Sign up success!</string>
+    <string name="regist_fail">Sign up failed! Please try again</string>
     <!--关于界面-->
     <string name="about_title">About</string>
     <string name="about_praise">Give me a praise</string>

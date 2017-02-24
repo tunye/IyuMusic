@@ -62,13 +62,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         if (!handleException(ex) && mDefaultHandler != null) {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                application.exit();
-            }
+            application.exit();
         }
     }
 
