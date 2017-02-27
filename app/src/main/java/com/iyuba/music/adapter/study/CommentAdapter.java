@@ -26,15 +26,13 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.newsrequest.CommentAgreeRequest;
-import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
@@ -158,7 +156,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 }
             });
         }
-        ImageUtil.loadAvatar(comment.getUserid(), commentViewHolder.pic);
+        commentViewHolder.pic.init(comment.getUserid(), comment.getVip() == 1);
         int repeat = commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid);
         if (repeat == 0) {
             commentViewHolder.agreeView.setBackgroundResource(R.drawable.agree);
@@ -326,7 +324,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         TextView name, time, content, agreeCount, againstCount;
         ImageView voiceImg, agreeView, againstView;
         View voice;
-        CircleImageView pic;
+        VipPhoto pic;
         TextView voiceTime;
         MaterialRippleLayout root;
         ProgressBar loading;
@@ -340,7 +338,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             time = (TextView) view.findViewById(R.id.comment_time);
             agreeCount = (TextView) view.findViewById(R.id.comment_agree_text);
             againstCount = (TextView) view.findViewById(R.id.comment_against_text);
-            pic = (CircleImageView) view.findViewById(R.id.comment_image);
+            pic = (VipPhoto) view.findViewById(R.id.comment_image);
             agreeView = (ImageView) view.findViewById(R.id.comment_agree_img);
             againstView = (ImageView) view.findViewById(R.id.comment_against_img);
             voice = view.findViewById(R.id.comment_voice);

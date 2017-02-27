@@ -149,9 +149,10 @@ public class StartFragment {
         final MaterialDialog materialDialog = new MaterialDialog(context);
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
-        sb.append("1.[软件维护] 修复用户反馈若干异常").append("\n");
+        sb.append("1.[软件维护] 修复烦人的bug").append("\n");
         sb.append("2.[性能优化] 提高软件使用的稳定性").append("\n");
-        sb.append("3.[在线支付] 会员购买可以使用在线支付方式了！");
+        sb.append("3.[UI调整] 更美观的界面期待您的使用").append("\n");
+        sb.append("4.[在线支付] 会员购买可以使用在线支付方式了！");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
             @Override

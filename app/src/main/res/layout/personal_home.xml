@@ -15,7 +15,7 @@
         android:background="@drawable/person_background"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.imageview.VipPhoto
             android:id="@+id/personal_img"
             android:layout_width="60dp"
             android:layout_height="60dp"

@@ -11,14 +11,12 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.doings.Doing;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -26,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder> {
     private ArrayList<Doing> doings;
     private Context context;
+    private boolean isVip;
     private OnRecycleViewItemClickListener itemClickListener;
 
     public DoingAdapter(Context context) {
@@ -36,6 +35,10 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
     public void setDoingList(ArrayList<Doing> doings) {
         this.doings = doings;
         notifyDataSetChanged();
+    }
+
+    public void setVip(boolean vip) {
+        isVip = vip;
     }
 
     public void setItemClickListener(OnRecycleViewItemClickListener itemClickListener) {
@@ -61,7 +64,7 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
         holder.doingCounts.setText(context.getString(R.string.person_reply_num, doing.getReplynum()));
         holder.doingContent.setText(doing.getMessage());
         holder.doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
-        ImageUtil.loadAvatar(doing.getUid(), holder.doingPhoto);
+        holder.doingPhoto.init(doing.getUid(), isVip);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
 
         TextView doingUserName, doingTime, doingCounts;
         JustifyTextView doingContent;
-        CircleImageView doingPhoto;
+        VipPhoto doingPhoto;
 
         public MyViewHolder(View view) {
             super(view);
@@ -81,7 +84,7 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
             doingCounts = (TextView) view.findViewById(R.id.doing_reply_num);
             doingContent = (JustifyTextView) view.findViewById(R.id.doing_content);
             doingTime = (TextView) view.findViewById(R.id.doing_dateline);
-            doingPhoto = (CircleImageView) view.findViewById(R.id.doing_photo);
+            doingPhoto = (VipPhoto) view.findViewById(R.id.doing_photo);
         }
     }
 }

@@ -43,7 +43,6 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.umeng.socialize.UMShareAPI;
 import com.wnafee.vector.MorphButton;
 import com.youdao.sdk.nativeads.ImageService;
@@ -410,10 +409,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults.length == permissions.length
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        } else {
+        if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);

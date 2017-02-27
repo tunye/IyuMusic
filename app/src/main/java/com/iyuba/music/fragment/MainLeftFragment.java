@@ -41,12 +41,10 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.CustomDialog;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.imageview.VipPhoto;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -61,7 +59,7 @@ public class MainLeftFragment extends BaseFragment {
     private MaterialRippleLayout login, noLogin, sign;
     private ListView menuList;
     private OperAdapter operAdapter;
-    private CircleImageView personalPhoto;
+    private VipPhoto personalPhoto;
     private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
     private TextView personalSign;
     //底部
@@ -88,7 +86,7 @@ public class MainLeftFragment extends BaseFragment {
         noLogin = (MaterialRippleLayout) root.findViewById(R.id.personal_nologin);
         sign = (MaterialRippleLayout) root.findViewById(R.id.sign_layout);
         menuList = (ListView) root.findViewById(R.id.oper_list);
-        personalPhoto = (CircleImageView) root.findViewById(R.id.personal_photo);
+        personalPhoto = (VipPhoto) root.findViewById(R.id.personal_photo);
         personalName = (TextView) root.findViewById(R.id.personal_name);
         personalGrade = (TextView) root.findViewById(R.id.personal_grade);
         personalCredits = (TextView) root.findViewById(R.id.personal_credit);
@@ -363,7 +361,7 @@ public class MainLeftFragment extends BaseFragment {
             switch (msg.what) {
                 case 0:
                     if (!TextUtils.isEmpty(fragment.userInfo.getUid())) {
-                        ImageUtil.loadAvatar(fragment.userInfo.getUid(), fragment.personalPhoto);
+                        fragment.personalPhoto.init(fragment.userInfo.getUid(), "1".equals(fragment.userInfo.getVipStatus()));
                         fragment.setPersonalInfoContent();
                         fragment.login.setVisibility(View.VISIBLE);
                         fragment.noLogin.setVisibility(View.GONE);

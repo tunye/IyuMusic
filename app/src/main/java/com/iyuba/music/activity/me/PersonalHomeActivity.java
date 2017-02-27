@@ -26,14 +26,13 @@ import com.iyuba.music.request.merequest.AddAttentionRequest;
 import com.iyuba.music.request.merequest.CancelAttentionRequest;
 import com.iyuba.music.request.merequest.DoingRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
-import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
@@ -47,7 +46,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     private boolean isLastPage = false;
     private UserInfo userinfo;
     //上部
-    private CircleImageView personPhoto;
+    private VipPhoto personPhoto;
     private ImageView personSex;
     private Button otherDetail, message, attent, detail, fix, credits;
     private View myControl, otherControl;
@@ -79,7 +78,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         myControl = findViewById(R.id.my_oper);
         otherControl = findViewById(R.id.other_oper);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        personPhoto = (CircleImageView) findViewById(R.id.personal_img);
+        personPhoto = (VipPhoto) findViewById(R.id.personal_img);
         personSex = (ImageView) findViewById(R.id.name_sex);
         detail = (Button) findViewById(R.id.personal_detail);
         otherDetail = (Button) findViewById(R.id.personal_other_detail);
@@ -151,7 +150,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.INSTANCE.getUserId()),userinfo
+            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.INSTANCE.getUserId()), userinfo
                     , new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -329,6 +328,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                     findViewById(R.id.no_doing).setVisibility(View.GONE);
                     doings.addAll((ArrayList<Doing>) listEntity.getData());
                     doingAdapter.setDoingList(doings);
+                    doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
 //                    if (doingPage == 1) {
 //
 //                    } else {
@@ -354,7 +354,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         } else {
             personSex.setBackgroundResource(R.drawable.user_info_male);
         }
-        ImageUtil.loadAvatar(userinfo.getUid(), personPhoto);
+        personPhoto.init(userinfo.getUid(), "1".equals(userinfo.getVipStatus()));
     }
 
     private void setRelationShip() {

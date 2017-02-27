@@ -73,8 +73,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         context = this;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
         }
         StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         if (player != null && player.isPlaying()) {
@@ -399,9 +398,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        } else {
+        if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);

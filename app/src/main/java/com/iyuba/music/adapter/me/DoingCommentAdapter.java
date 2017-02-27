@@ -14,14 +14,12 @@ import com.iyuba.music.entity.doings.DoingComment;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -68,7 +66,7 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         holder.doingUserName.setText(doing.getUsername());
         holder.doingContent.setText(doing.getMessage());
         holder.doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
-        ImageUtil.loadAvatar(doing.getUid(), holder.doingPhoto);
+        holder.doingPhoto.init(doing.getUid(), doing.getVip() == 1);
         holder.doingPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,14 +87,14 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
 
         TextView doingUserName, doingTime;
         JustifyTextView doingContent;
-        CircleImageView doingPhoto;
+        VipPhoto doingPhoto;
 
         public MyViewHolder(View view) {
             super(view);
             doingUserName = (TextView) view.findViewById(R.id.doing_username);
             doingContent = (JustifyTextView) view.findViewById(R.id.doing_content);
             doingTime = (TextView) view.findViewById(R.id.doing_dateline);
-            doingPhoto = (CircleImageView) view.findViewById(R.id.doing_photo);
+            doingPhoto = (VipPhoto) view.findViewById(R.id.doing_photo);
         }
     }
 }

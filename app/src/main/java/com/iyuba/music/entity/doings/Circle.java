@@ -26,6 +26,8 @@ public class Circle {
     private long dateline;
     @SerializedName("image")
     private String image;
+    @SerializedName("vip")
+    private int vip;
 
     public int getId() {
         return id;
@@ -105,5 +107,13 @@ public class Circle {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }

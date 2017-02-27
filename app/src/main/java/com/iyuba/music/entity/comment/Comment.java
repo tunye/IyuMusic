@@ -22,6 +22,8 @@ public class Comment {
     private int shuoshuoType;
     @SerializedName("CreateDate")
     private String createDate;
+    @SerializedName("vip")
+    private int vip;
 
     public int getId() {
         return id;
@@ -85,5 +87,13 @@ public class Comment {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }

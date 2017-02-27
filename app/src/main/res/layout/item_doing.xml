@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.imageview.VipPhoto
             android:id="@+id/doing_photo"
             android:layout_width="48dp"
             android:layout_height="48dp"

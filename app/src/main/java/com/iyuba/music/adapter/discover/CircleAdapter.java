@@ -20,13 +20,12 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -106,7 +105,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
                 break;
         }
         holder.circleTime.setText(DateFormat.showTime(context, new Date(circle.getDateline() * 1000)));
-        ImageUtil.loadAvatar(circle.getUid(), holder.circlePhoto);
+        holder.circlePhoto.init(circle.getUid(), circle.getVip() == 1);
         holder.circlePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +138,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
 
         TextView circleUserName, circleTime, circleCounts, circleType;
         JustifyTextView circleContent;
-        CircleImageView circlePhoto;
+        VipPhoto circlePhoto;
         ImageView circleImg;
 
         public MyViewHolder(View view) {
@@ -149,7 +148,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
             circleCounts = (TextView) view.findViewById(R.id.circle_pmnum);
             circleContent = (JustifyTextView) view.findViewById(R.id.circle_content);
             circleTime = (TextView) view.findViewById(R.id.circle_dateline);
-            circlePhoto = (CircleImageView) view.findViewById(R.id.circle_photo);
+            circlePhoto = (VipPhoto) view.findViewById(R.id.circle_photo);
             circleImg = (ImageView) view.findViewById(R.id.circle_img);
         }
     }

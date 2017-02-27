@@ -9,6 +9,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Circle;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
@@ -69,6 +70,7 @@ public class CircleRequest {
         para.put("protocol", 31001);
         para.put("uid", uid);
         para.put("find", 2);
+        para.put("appid", ConstantManager.instance.getAppId());
         para.put("feeds", "blog,doing,album");
         para.put("pageNumber", page);
         para.put("pageCounts", 20);

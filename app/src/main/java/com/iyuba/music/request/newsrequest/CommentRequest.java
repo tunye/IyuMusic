@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -9,6 +11,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
@@ -79,6 +82,7 @@ public class CommentRequest {
         para.put("platform", "android");
         para.put("format", "json");
         para.put("voaid", id);
+        para.put("appid", ConstantManager.instance.getAppId());
         para.put("shuoshuotype", 0);
         para.put("pageNumber", page);
         para.put("pageCounts", 20);

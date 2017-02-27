@@ -22,6 +22,8 @@ public class DoingComment {
     private String dateline;// 回复发布时间，系统秒数
     @SerializedName("ip")
     private String ip;
+    @SerializedName("vip")
+    private int vip;
 
     public String getMessage() {
         return message;
@@ -85,5 +87,13 @@ public class DoingComment {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }

@@ -79,9 +79,7 @@ public class ReadActivity extends BaseActivity {
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        } else {
+        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
@@ -95,9 +93,7 @@ public class ReadActivity extends BaseActivity {
             });
             materialDialog.show();
         }
-        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        } else {
+        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
