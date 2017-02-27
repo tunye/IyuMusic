@@ -46,6 +46,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
     private int type;
     private boolean delete;
     private LocalInfoOp localInfoOp;
+    private boolean deleteAll;
 
     public SimpleNewsAdapter(Context context) {
         this.context = context;
@@ -70,6 +71,21 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
 
     public void setDelete(boolean delete) {
         this.delete = delete;
+        notifyDataSetChanged();
+    }
+
+    public void setDeleteAll() {
+        if (deleteAll) {
+            for (Article article : newsList) {
+                article.setDelete(false);
+            }
+            deleteAll = false;
+        } else {
+            for (Article article : newsList) {
+                article.setDelete(true);
+            }
+            deleteAll = true;
+        }
         notifyDataSetChanged();
     }
 

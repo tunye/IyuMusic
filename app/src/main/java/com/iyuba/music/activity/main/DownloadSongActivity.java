@@ -29,6 +29,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by 10202 on 2016/3/7.
  */
@@ -39,12 +41,13 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
     private MySwipeRefreshLayout swipeRefreshLayout;
+    private TextView toolBarOperSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.classify_with_oper);
+        setContentView(R.layout.classify_with_opersub);
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
@@ -56,6 +59,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setEnabled(false);
@@ -94,15 +98,50 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     protected void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+        toolBarOperSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (toolBarOperSub.getText().equals(getString(R.string.select_all))) {
+                    newsAdapter.setDeleteAll();
+                } else {
+                    final MaterialDialog dialog = new MaterialDialog(context);
+                    dialog.setTitle(R.string.article_clear_all);
+                    dialog.setMessage(R.string.article_clear_download_hint);
+                    dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            newsAdapter.setDataSet(new ArrayList<Article>());
+                            Article temp;
+                            for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
+                                temp = it.next();
+                                it.remove();
+                                deleteFile(temp.getId(), temp.getApp());
+                                localInfoOp.updateDownload(temp.getId(), temp.getApp(), 0);
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
+                    toolBarOperSub.setText(R.string.article_select_all);
                     toolbarOper.setText(R.string.app_del);
                 } else {
                     newsAdapter.setDelete(false);
                     toolbarOper.setText(R.string.article_edit);
+                    toolBarOperSub.setText(R.string.article_clear);
                     newsList = newsAdapter.getDataSet();
                     Article temp;
                     for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
@@ -127,6 +166,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         super.changeUIByPara();
         title.setText(R.string.classify_local);
         toolbarOper.setText(R.string.article_edit);
+        toolBarOperSub.setText(R.string.article_clear);
         getData();
     }
 
@@ -181,6 +221,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         if (newsAdapter.isDelete()) {
             newsAdapter.setDelete(false);
             toolbarOper.setText(R.string.article_edit);
+            toolBarOperSub.setText(R.string.article_clear);
         } else {
             super.onBackPressed();
         }

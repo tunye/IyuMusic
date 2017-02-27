@@ -256,6 +256,9 @@
     <string name="article_no_search">No search result</string>
     <string name="article_search_clear_all">Clear all the search records</string>
     <string name="article_search_clear_hint">Are you sure to clear all the search records?</string>
+    <string name="article_clear_all">Clear all records</string>
+    <string name="article_clear_hint">Are you sure to clear all these records?</string>
+    <string name="article_clear_download_hint">Are you sure to clear all these download records? You\'ll delete the local music file the same time.</string>
     <string name="article_search_clear_sure">Clear</string>
     <string name="article_advice_1">Not satisfied?</string>
     <string name="article_advice_2">No matched result?</string>
@@ -265,6 +268,8 @@
     <string name="article_download_success">Download success</string>
     <string name="article_download_start">Download start, you got it!</string>
     <string name="article_synchro">Synchro</string>
+    <string name="article_clear">Clear</string>
+    <string name="article_select_all">All</string>
     <string name="article_edit">Edit</string>
     <string name="article_edit_finish">Done</string>
     <string name="article_fav_synchroing">Favorite list sychronization in process…</string>

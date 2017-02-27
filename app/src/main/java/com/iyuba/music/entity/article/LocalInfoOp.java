@@ -181,6 +181,15 @@ public class LocalInfoOp extends BaseEntityOp {
         db.close();
     }
 
+    public void deleteSee(int id, String app) {
+        getDatabase();
+        db.execSQL("update " + TABLE_NAME + " set " + TIMES + "=0,"
+                        + SEETIME + "='" + DateFormat.formatTime(Calendar.getInstance().getTime())
+                        + "' where id=? and app = ?",
+                new String[]{String.valueOf(id), app});
+        db.close();
+    }
+
     public void updateFavor(int id, String app, int state) {
         getDatabase();
         db.execSQL("update " + TABLE_NAME + " set " + FAVOURITE + "=? ,"
@@ -196,6 +205,14 @@ public class LocalInfoOp extends BaseEntityOp {
                         + DOWNTIME + "='" + DateFormat.formatTime(Calendar.getInstance().getTime())
                         + "' where id=? and app = ?",
                 new String[]{String.valueOf(state), String.valueOf(id), app});
+        db.close();
+    }
+
+    public void clearSee() {
+        getDatabase();
+        db.execSQL("update " + TABLE_NAME + " set " + TIMES + "=0,"
+                        + SEETIME + "='" + DateFormat.formatTime(Calendar.getInstance().getTime())
+                        + "' where " + TIMES + ">0", new String[]{});
         db.close();
     }
 }

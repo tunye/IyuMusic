@@ -42,7 +42,7 @@ public class FavorSynRequest {
                     try {
                         baseListEntity.setTotalCount(jsonObject.getInt("counts"));
                         ArrayList<Article> list = new Gson().fromJson(jsonObject.getString("data"), listType);
-                        if (list.get(list.size() - 1) == null) {
+                        if (list.size() > 0 && list.get(list.size() - 1) == null) {
                             list.remove(list.size() - 1);
                         }
                         baseListEntity.setData(list);

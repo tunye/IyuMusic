@@ -125,6 +125,7 @@
     <string name="regist_userid_same">该用户名已使用，请使用其他用户名注册</string>
     <string name="regist_email_same">该邮箱已使用，请使用其他邮箱注册</string>
     <string name="regist_code_on_way">验证码已经在路上了，请让它飞一会</string>
+    <string name="regist_success">注册成功</string>
     <string name="regist_fail">注册失败，请重试</string>
     <!--关于界面-->
     <string name="about_title">关  于</string>
@@ -254,6 +255,9 @@
     <string name="article_search_all">搜索结果加载完毕</string>
     <string name="article_search_clear_all">清空搜索记录</string>
     <string name="article_search_clear_hint">确定清空已有搜索记录吗？</string>
+    <string name="article_clear_all">清空记录</string>
+    <string name="article_clear_hint">确定清空已有听歌记录吗？</string>
+    <string name="article_clear_download_hint">确定清空已有听下载记录吗？这将删除所有本地文件！</string>
     <string name="article_search_clear_sure">清除</string>
     <string name="article_load_all">文章列表加载完毕</string>
     <string name="article_no_search">搜索无结果</string>
@@ -266,6 +270,8 @@
     <string name="article_download_start">开始下载, get到新技巧~</string>
     <string name="article_synchro">同步</string>
     <string name="article_edit">编辑</string>
+    <string name="article_clear">清空</string>
+    <string name="article_select_all">全选</string>
     <string name="article_edit_finish">完成</string>
     <string name="article_fav_synchroing">收藏列表同步中…</string>
     <string name="article_favor_cancel">取消收藏成功</string>

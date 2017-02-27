@@ -37,6 +37,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
     private Context context;
     private LocalInfoOp localInfoOp;
     private boolean delete;
+    private boolean deleteAll;
 
     public DownloadNewsAdapter(Context context) {
         this.context = context;
@@ -51,6 +52,21 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     public void setDelete(boolean delete) {
         this.delete = delete;
+        notifyDataSetChanged();
+    }
+
+    public void setDeleteAll() {
+        if (deleteAll) {
+            for (Article article : newsList) {
+                article.setDelete(false);
+            }
+            deleteAll = false;
+        } else {
+            for (Article article : newsList) {
+                article.setDelete(true);
+            }
+            deleteAll = true;
+        }
         notifyDataSetChanged();
     }
 

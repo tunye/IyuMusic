@@ -75,10 +75,12 @@ public class CircleActivity extends BaseActivity implements MySwipeRefreshLayout
                         doing.setDateline(String.valueOf(circle.getDateline()));
                         doing.setUsername(circle.getUsername());
                         SocialManager.instance.pushDoing(doing);
+                        Intent intent = new Intent(context, ReplyDoingActivity.class);
+                        intent.putExtra(ReplyDoingActivity.VIP_FLG, circle.getVip() == 1);
                         startActivity(new Intent(context, ReplyDoingActivity.class));
                         break;
                     case "picid":
-                        Intent intent = new Intent(context, MeizhiPhotoActivity.class);
+                        intent = new Intent(context, MeizhiPhotoActivity.class);
                         intent.putExtra("url", "http://static1.iyuba.com/data/attachment/album/" + circle.getImage());
                         context.startActivity(intent);
                         break;

@@ -30,6 +30,7 @@ import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -50,18 +51,18 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
     private MySwipeRefreshLayout swipeRefreshLayout;
-    private TextView favorSynchro, favorEdit;
+    private TextView toolBarOperSub;
     private IyubaDialog waittingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.classify_favor);
+        setContentView(R.layout.classify_with_opersub);
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
-        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.article_fav_synchroing));
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.article_fav_synchroing));
         initWidget();
         setListener();
         changeUIByPara();
@@ -76,8 +77,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     @Override
     protected void initWidget() {
         super.initWidget();
-        favorSynchro = (TextView) findViewById(R.id.favor_synchro);
-        favorEdit = (TextView) findViewById(R.id.favor_edit);
+        toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setEnabled(false);
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
@@ -115,41 +116,31 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     protected void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        favorSynchro.setOnClickListener(new View.OnClickListener() {
+        toolBarOperSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
-                    getYunFavor();
+                if (toolBarOperSub.getText().equals(getString(R.string.article_synchro))) {
+                    if (AccountManager.INSTANCE.checkUserLogin()) {
+                        getYunFavor();
+                    } else {
+                        CustomDialog.showLoginDialog(context);
+                    }
                 } else {
-                    final MaterialDialog dialog = new MaterialDialog(context);
-                    dialog.setTitle(R.string.login_login);
-                    dialog.setMessage(R.string.personal_no_login);
-                    dialog.setPositiveButton(R.string.login_login, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivityForResult(new Intent(context, LoginActivity.class), 101);
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
+                    newsAdapter.setDeleteAll();
                 }
             }
         });
-        favorEdit.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (favorEdit.getText().equals(context.getString(R.string.article_edit))) {
+                if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     newsAdapter.setDelete(true);
-                    favorEdit.setText(R.string.app_del);
+                    toolbarOper.setText(R.string.app_del);
+                    toolBarOperSub.setText(R.string.article_select_all);
                 } else {
                     newsAdapter.setDelete(false);
-                    favorEdit.setText(R.string.article_edit);
+                    toolbarOper.setText(R.string.article_edit);
+                    toolBarOperSub.setText(R.string.article_synchro);
                     newsList = newsAdapter.getDataSet();
                     Article temp;
                     for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
@@ -172,8 +163,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.classify_favor);
-        favorSynchro.setText(R.string.article_synchro);
-        favorEdit.setText(R.string.article_edit);
+        toolBarOperSub.setText(R.string.article_synchro);
+        toolbarOper.setText(R.string.article_edit);
     }
 
     protected void changeUIResumeByPara() {
@@ -229,7 +220,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     public void onBackPressed() {
         if (newsAdapter.isDelete()) {
             newsAdapter.setDelete(false);
-            favorEdit.setText(R.string.article_edit);
+            toolbarOper.setText(R.string.article_edit);
+            toolBarOperSub.setText(R.string.article_synchro);
         } else {
             super.onBackPressed();
         }

@@ -25,22 +25,21 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.DoingCommentRequest;
 import com.iyuba.music.request.merequest.SendDoingCommentRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by 10202 on 2016/2/13.
  */
 public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener {
+    public static final String VIP_FLG = "vip_flg";
     private Doing doing;
-    private CircleImageView doingPhoto;
+    private VipPhoto doingPhoto;
     private TextView doingUserName, doingMessage, doingTime, doingReplyCounts;
     private ArrayList<DoingComment> comments;
     private DoingCommentAdapter commentAdapter;
@@ -50,6 +49,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     private int commentPage;
     private boolean isLastPage = false;
     private DoingComment selectComment;
+    private boolean isVip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         setContentView(R.layout.reply_doings);
         context = this;
         isLastPage = false;
+        isVip = getIntent().getBooleanExtra(VIP_FLG, false);
         initWidget();
         setListener();
         changeUIByPara();
@@ -77,7 +78,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     protected void initWidget() {
         super.initWidget();
         noComment = findViewById(R.id.no_comment);
-        doingPhoto = (CircleImageView) findViewById(R.id.doings_photo);
+        doingPhoto = (VipPhoto) findViewById(R.id.doings_photo);
         doingUserName = (TextView) findViewById(R.id.doings_username);
         doingMessage = (TextView) findViewById(R.id.doings_message);
         doingTime = (TextView) findViewById(R.id.doings_time);
@@ -144,7 +145,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         super.changeUIByPara();
         title.setText(R.string.doing_title);
         doing = SocialManager.instance.getDoing();
-        ImageUtil.loadAvatar(doing.getUid(), doingPhoto);
+        doingPhoto.init(doing.getUid(),isVip);
         doingUserName.setText(doing.getUsername());
         doingMessage.setText(doing.getMessage());
         doingReplyCounts.setText(context.getString(R.string.article_commentcount, doing.getReplynum()));

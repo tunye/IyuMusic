@@ -101,7 +101,9 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             @Override
             public void onItemClick(View view, int position) {
                 SocialManager.instance.pushDoing(doings.get(position));
-                startActivity(new Intent(context, ReplyDoingActivity.class));
+                Intent intent = new Intent(context, ReplyDoingActivity.class);
+                intent.putExtra(ReplyDoingActivity.VIP_FLG, "1".equals(userinfo.getVipStatus()));
+                startActivity(intent);
             }
 
             @Override
