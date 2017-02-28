@@ -101,6 +101,7 @@
         <activity android:name=".activity.study.RecommendSongActivity" />
         <activity android:name=".activity.study.ReadActivity" />
         <activity android:name=".activity.study.OriginalSizeActivity" />
+        <activity android:name=".activity.me.MeActivity"/>
         <activity android:name=".activity.me.MessageActivity" />
         <activity android:name=".activity.me.ChangePhotoActivity" />
         <activity android:name=".activity.me.WriteStateActivity" />

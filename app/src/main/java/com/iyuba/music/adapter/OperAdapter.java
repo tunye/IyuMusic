@@ -20,25 +20,25 @@ public class OperAdapter extends BaseAdapter {
     private static final ArrayList<Integer> menuIconList;
 
     static {
-        menuIconList = new ArrayList<>();
-        menuTextList = new ArrayList<>();
+        menuIconList = new ArrayList<>(12);
+        menuTextList = new ArrayList<>(12);
 
         menuIconList.add(R.drawable.vip_icon);
-        menuIconList.add(R.drawable.rank_icon);
-        menuIconList.add(R.drawable.credits_icon);
+        menuIconList.add(R.drawable.moreapp_icon);
         menuIconList.add(R.drawable.discover_icon);
-        menuIconList.add(R.drawable.message_icon);
+        menuIconList.add(R.drawable.discover_icon);
+        menuIconList.add(R.drawable.discover_icon);
+        menuIconList.add(R.drawable.discover_icon);
         menuIconList.add(R.drawable.official_accounts_icon);
-        menuIconList.add(R.drawable.bigdata_icon);
         menuIconList.add(R.drawable.setting_icon);
 
         menuTextList.add(R.string.oper_vip);
-        menuTextList.add(R.string.oper_rank);
-        menuTextList.add(R.string.oper_credits);
+        menuTextList.add(R.string.oper_ground);
         menuTextList.add(R.string.oper_discover);
-        menuTextList.add(R.string.oper_message);
+        menuTextList.add(R.string.oper_me);
+        menuTextList.add(R.string.setting_night_hint);
+        menuTextList.add(R.string.setting_sleep_hint);
         menuTextList.add(R.string.oper_wx);
-        menuTextList.add(R.string.oper_bigdata);
         menuTextList.add(R.string.oper_setting);
     }
 

@@ -37,12 +37,7 @@ public class ClassifyFragment extends BaseFragment {
         final ClassifyAdapter systemAdapter = new ClassifyAdapter(context, 1);
         person.setAdapter(personAdapter);
         system.setAdapter(systemAdapter);
-        person.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
         system.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

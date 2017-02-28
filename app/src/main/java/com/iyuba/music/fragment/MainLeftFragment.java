@@ -21,11 +21,13 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.SettingActivity;
+import com.iyuba.music.activity.SleepActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
 import com.iyuba.music.activity.me.CreditActivity;
+import com.iyuba.music.activity.me.MeActivity;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.me.VipCenterActivity;
@@ -33,6 +35,7 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
+import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -43,6 +46,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 
@@ -151,56 +155,22 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 1:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            StringBuilder url = new StringBuilder();
-                            url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
-                                    .append(ConstantManager.instance.getAppId()).append("&uid=")
-                                    .append(AccountManager.INSTANCE.getUserId()).append("&sign=")
-                                    .append(MD5.getMD5ofStr(AccountManager.INSTANCE.getUserId()
-                                            + "ranking" + ConstantManager.instance.getAppId()));
-                            Intent intent = new Intent();
-                            intent.setClass(context, WebViewActivity.class);
-                            intent.putExtra("url", url.toString());
-                            intent.putExtra("title", context.getString(R.string.oper_rank));
-                            startActivity(intent);
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
+                        startActivity(new Intent(context, AppGroundActivity.class));
                         break;
                     case 2:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
-                            startActivity(new Intent(context, CreditActivity.class));
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
-                        break;
-                    case 3:
                         startActivity(new Intent(context, DiscoverActivity.class));
                         break;
+                    case 3:
+                        startActivity(new Intent(context, MeActivity.class));
+                        break;
                     case 4:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            startActivity(new Intent(context, MessageActivity.class));
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
+                        CustomToast.INSTANCE.showToast("夜间模式");
                         break;
                     case 5:
-                        startActivity(new Intent(context, WxOfficialAccountActivity.class));
+                        startActivity(new Intent(context, SleepActivity.class));
                         break;
                     case 6:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
-                            url.append("uid=").append(AccountManager.INSTANCE.getUserId()).append('&');
-                            url.append("username=").append(AccountManager.INSTANCE.getUserName()).append('&');
-                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.INSTANCE.getUserId() + "camstory"));
-                            Intent intent = new Intent();
-                            intent.setClass(context, WebViewActivity.class);
-                            intent.putExtra("url", url.toString());
-                            intent.putExtra("title", context.getString(R.string.oper_bigdata));
-                            startActivity(intent);
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
+                        startActivity(new Intent(context, WxOfficialAccountActivity.class));
                         break;
                     case 7:
                         startActivity(new Intent(context, SettingActivity.class));

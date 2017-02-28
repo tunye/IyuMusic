@@ -145,7 +145,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/row_space_very_large">
+                    android:layout_margin="@dimen/row_space_large">
 
                     <ImageView
                         android:id="@+id/sign_icon"
@@ -160,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/row_space_very_large"
                         android:layout_toRightOf="@+id/sign_icon"
                         android:ellipsize="end"
                         android:maxLines="1"

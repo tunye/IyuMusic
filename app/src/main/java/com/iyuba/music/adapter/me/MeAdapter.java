@@ -1,4 +1,4 @@
-package com.iyuba.music.adapter.discover;
+package com.iyuba.music.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +20,12 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
+public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private static final int TYPE_BLANK = 0;
     private static final int TYPE_ITEM = 1;
     private static final ArrayList<Discover> discoverList;
+
+
     static {
         ArrayList<Integer> menuTextList = new ArrayList<>(15);
         ArrayList<Integer> menuIconList = new ArrayList<>(15);
@@ -31,23 +33,27 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         Discover blank = new Discover();
         blank.setType(TYPE_BLANK);
 
-        menuIconList.add(R.drawable.circle_icon);
-        menuIconList.add(R.drawable.message_icon);
         menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.word_search_icon);
-        menuIconList.add(R.drawable.word_saying_icon);
-        menuIconList.add(R.drawable.word_list_icon);
-        menuIconList.add(R.drawable.file_oper_icon);
-        menuIconList.add(R.drawable.local_music_icon);
+        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.credits_icon);
+        menuIconList.add(R.drawable.rank_icon);
+        menuIconList.add(R.drawable.bigdata_icon);
+        menuIconList.add(R.drawable.activity_icon);
 
-        menuTextList.add(R.string.oper_circle);
-        menuTextList.add(R.string.oper_message);
-        menuTextList.add(R.string.oper_recommend);
-        menuTextList.add(R.string.word_search_title);
-        menuTextList.add(R.string.word_saying_title);
-        menuTextList.add(R.string.word_list_title);
-        menuTextList.add(R.string.oper_file);
-        menuTextList.add(R.string.oper_local_music);
+        menuTextList.add(R.string.oper_follow);
+        menuTextList.add(R.string.oper_fan);
+        menuTextList.add(R.string.oper_friends);
+        menuTextList.add(R.string.oper_download);
+        menuTextList.add(R.string.oper_favor);
+        menuTextList.add(R.string.oper_listen);
+        menuTextList.add(R.string.oper_credits);
+        menuTextList.add(R.string.oper_rank);
+        menuTextList.add(R.string.oper_bigdata);
+        menuTextList.add(R.string.oper_activity);
 
         discoverList = new ArrayList<>(15);
         discoverList.add(blank);
@@ -62,20 +68,13 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 discoverList.add(blank);
             }
         }
-        if (SettingConfigManager.instance.isEggShell()) {
-            item = new Discover();
-            item.setDrawable(R.drawable.eggshell_icon);
-            item.setText(R.string.oper_eggshell);
-            item.setType(TYPE_ITEM);
-            discoverList.add(item);
-        }
         discoverList.add(blank);
     }
 
     private Context context;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
 
-    public DiscoverAdapter(Context context) {
+    public MeAdapter(Context context) {
         this.context = context;
     }
 

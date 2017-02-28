@@ -12,6 +12,7 @@ import com.iyuba.music.activity.CampaignActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.activity.me.FriendCenter;
+import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
 import com.iyuba.music.ground.AppGroundActivity;
@@ -55,14 +56,21 @@ public class DiscoverActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 1:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 2:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                            startActivity(new Intent(context, MessageActivity.class));
+                        } else {
+                            CustomDialog.showLoginDialog(context);
+                        }
+                        break;
+                    case 3:
+                        if (AccountManager.INSTANCE.checkUserLogin()) {
                             SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
                             intent.putExtra("type", "2");
@@ -75,36 +83,29 @@ public class DiscoverActivity extends BaseActivity {
                     case 4:
                         startActivity(new Intent(context, AppGroundActivity.class));
                         break;
-                    case 5:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
-                            startActivity(new Intent(context, CampaignActivity.class));
-                        } else {
-                            CustomDialog.showLoginDialog(context);
-                        }
-                        break;
-                    case 6:
+                    case -6:
                         Intent intent = new Intent();
                         intent.setClass(context, WebViewActivity.class);
                         intent.putExtra("url", "http://app.iyuba.com/android");
                         intent.putExtra("title", context.getString(R.string.oper_moreapp));
                         startActivity(intent);
                         break;
-                    case 8:
+                    case 5:
                         startActivity(new Intent(context, WordSearchActivity.class));
                         break;
-                    case 9:
+                    case 6:
                         startActivity(new Intent(context, SayingActivity.class));
                         break;
-                    case 10:
+                    case 7:
                         startActivity(new Intent(context, WordListActivity.class));
                         break;
-                    case 12:
+                    case 9:
                         startActivity(new Intent(context, FileBrowserActivity.class));
                         break;
-                    case 13:
+                    case 10:
                         startActivity(new Intent(context, LocalMusicActivity.class));
                         break;
-                    case 14:
+                    case 11:
                         if (SettingConfigManager.instance.isEggShell()) {
                             startActivity(new Intent(context, EggShellActivity.class));
                         }
