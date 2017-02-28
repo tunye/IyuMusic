@@ -19,16 +19,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
 public class PersonalInfoRequest {
-    public static void exeRequest(String url,final UserInfo userInfo, final IProtocolResponse response) {
+    public static void exeRequest(String url, final UserInfo userInfo, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -69,6 +66,9 @@ public class PersonalInfoRequest {
                                     }
                                     if ("relation".equals(nodeName)) {
                                         userInfo.setRelation(xmlPullParser.nextText());
+                                    }
+                                    if ("vipStatus".equals(nodeName) && !userInfo.getUid().equals(AccountManager.INSTANCE.getUserId())) {
+                                        userInfo.setVipStatus(xmlPullParser.nextText());
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:

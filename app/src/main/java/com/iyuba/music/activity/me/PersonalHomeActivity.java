@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -169,6 +170,9 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                             BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                             if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
                                 userinfo = (UserInfo) baseApiEntity.getData();
+                                Log.e("aaa", userinfo.getVipStatus() + " " + userinfo.getUid());
+                                doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
+                                doingAdapter.notifyDataSetChanged();
                                 setContent();
                                 setRelationShip();
                             }
