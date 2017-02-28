@@ -86,7 +86,6 @@
     <string name="oper_circle">朋友圈</string>
     <string name="oper_message">消息</string>
     <string name="oper_recommend">推荐好友</string>
-    <string name="oper_moreapp">更多应用</string>
     <string name="oper_local_music">本地播放器</string>
     <string name="oper_file">文件管理</string>
     <string name="oper_eggshell">彩蛋</string>
@@ -183,15 +182,15 @@
     <string name="setting_title">设  置</string>
     <string name="setting_language_hint">界面语言</string>
     <string name="setting_push_hint">推送消息</string>
-
+    <string name="setting_moreapp">更多应用</string>
     <string name="setting_clean_hint">清除缓存</string>
     <string name="setting_word_set">单词设置</string>
     <string name="setting_study_set">播放设置</string>
     <string name="setting_skin">皮肤设置</string>
     <string name="setting_app_share">推荐本应用</string>
     <string name="setting_about">关于我们</string>
-    <string name="setting_feedback">意见反馈</string>
-    <string name="setting_help_use">使用帮助</string>
+    <string name="setting_feedback">帮助与反馈</string>
+    <string name="setting_help_use">功能介绍</string>
     <string name="setting_share_content">我正在使用%1$sAndroid版，感觉不错，你也来试试吧。下载地址</string>
     <string name="setting_share_ways">选择分享方式</string>
     <string name="setting_clearing">缓存正在删除</string>

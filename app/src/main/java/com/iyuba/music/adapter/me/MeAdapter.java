@@ -34,7 +34,7 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         blank.setType(TYPE_BLANK);
 
         menuIconList.add(R.drawable.follow_icon);
-        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.fan_icon);
         menuIconList.add(R.drawable.search_icon);
         menuIconList.add(R.drawable.download_icon);
         menuIconList.add(R.drawable.favor_icon);

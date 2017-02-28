@@ -37,6 +37,7 @@
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="#baffffff"
+            app:rv_backgroundPressColor="#baffffff"
             app:rv_cornerRadius="@dimen/corner_radius_default" />
     </LinearLayout>
 </RelativeLayout>

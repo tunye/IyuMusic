@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.view.AddRippleEffect;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -78,6 +79,9 @@ public class WxOfficialAccountActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.oper_wx);
+        AddRippleEffect.addRippleEffect(shareToCircle);
+        AddRippleEffect.addRippleEffect(shareToWx);
+        AddRippleEffect.addRippleEffect(shareToFriend);
     }
 
     private void share(boolean circleShare) {

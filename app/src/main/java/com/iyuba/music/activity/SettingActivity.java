@@ -46,10 +46,10 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     IyubaDialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature;
-    private RoundRelativeLayout language, night, push, sleep, clear;
-    private TextView currLanguage, currSleep, currClear, currSkin;
-    private CheckBox currNight, currPush;
+    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature,moreApp;
+    private RoundRelativeLayout language, push, clear;
+    private TextView currLanguage, currClear, currSkin;
+    private CheckBox  currPush;
     private RoundTextView logout;
 
     @Override
@@ -74,6 +74,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         AddRippleEffect.addRippleEffect(versionFeature);
         feedback = (RoundRelativeLayout) findViewById(R.id.setting_feedback);
         AddRippleEffect.addRippleEffect(feedback);
+        moreApp = (RoundRelativeLayout) findViewById(R.id.setting_more_app);
+        AddRippleEffect.addRippleEffect(moreApp);
         helpUse = (RoundRelativeLayout) findViewById(R.id.setting_help_use);
         AddRippleEffect.addRippleEffect(helpUse);
         wordSet = (RoundRelativeLayout) findViewById(R.id.setting_word_set);
@@ -82,19 +84,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         AddRippleEffect.addRippleEffect(studySet);
         language = (RoundRelativeLayout) findViewById(R.id.setting_language);
         AddRippleEffect.addRippleEffect(language);
-        night = (RoundRelativeLayout) findViewById(R.id.setting_night);
-        AddRippleEffect.addRippleEffect(night);
         push = (RoundRelativeLayout) findViewById(R.id.setting_push);
         AddRippleEffect.addRippleEffect(push);
-        sleep = (RoundRelativeLayout) findViewById(R.id.setting_sleep);
-        AddRippleEffect.addRippleEffect(sleep);
         clear = (RoundRelativeLayout) findViewById(R.id.setting_clear);
         AddRippleEffect.addRippleEffect(clear);
         currClear = (TextView) findViewById(R.id.setting_curr_clear);
         currLanguage = (TextView) findViewById(R.id.setting_curr_language);
-        currSleep = (TextView) findViewById(R.id.setting_curr_sleep);
         currSkin = (TextView) findViewById(R.id.setting_curr_skin);
-        currNight = (CheckBox) findViewById(R.id.setting_curr_night);
         currPush = (CheckBox) findViewById(R.id.setting_curr_push);
         logout = (RoundTextView) findViewById(R.id.setting_logout);
         AddRippleEffect.addRippleEffect(logout);
@@ -111,16 +107,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         studySet.setOnClickListener(this);
         language.setOnClickListener(this);
         currLanguage.setOnClickListener(this);
-        night.setOnClickListener(this);
         push.setOnClickListener(this);
-        sleep.setOnClickListener(this);
         clear.setOnClickListener(this);
-        currSleep.setOnClickListener(this);
-        currNight.setOnClickListener(this);
         currPush.setOnClickListener(this);
         currSkin.setOnClickListener(this);
         logout.setOnClickListener(this);
         share.setOnClickListener(this);
+        moreApp.setOnClickListener(this);
     }
 
     @Override
@@ -130,16 +123,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     protected void changeUIResumeByPara() {
-        currNight.setChecked(SettingConfigManager.instance.isNight());
         currPush.setChecked(SettingConfigManager.instance.isPush());
-        int sleepSecond = ((MusicApplication) getApplication()).getSleepSecond();
-        if (sleepSecond == 0) {
-            currSleep.setText(R.string.sleep_no_set);
-            handler.removeMessages(0);
-        } else {
-            currSleep.setText(Mathematics.formatTime(sleepSecond));
-            handler.sendEmptyMessage(0);
-        }
         currLanguage.setText(getLanguage(SettingConfigManager.instance.getLanguage()));
         currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
         handler.sendEmptyMessage(1);
@@ -148,7 +132,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeMessages(0);
     }
 
     @Override
@@ -189,10 +172,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.setting_curr_language:
                 popLanguageDialog();
                 break;
-            case R.id.setting_night:
-                currNight.setChecked(!currNight.isChecked());
-                onNightChanged();
-                break;
             case R.id.setting_push:
                 currPush.setChecked(!currPush.isChecked());
                 setPushState();
@@ -210,13 +189,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     }
                 }).start();
                 break;
-            case R.id.setting_sleep:
-            case R.id.setting_curr_sleep:
-                startActivity(new Intent(context, SleepActivity.class));
-                break;
-            case R.id.setting_curr_night:
-                onNightChanged();
-                break;
             case R.id.setting_curr_push:
                 setPushState();
                 break;
@@ -225,6 +197,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_study_set:
                 startActivity(new Intent(context, StudySetActivity.class));
+                break;
+            case R.id.setting_more_app:
+                Intent intent = new Intent();
+                intent.setClass(context, WebViewActivity.class);
+                intent.putExtra("url", "http://app.iyuba.com/android");
+                intent.putExtra("title", context.getString(R.string.setting_moreapp));
+                startActivity(intent);
                 break;
             case R.id.setting_logout:
                 logout();
@@ -352,10 +331,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void handleMessageByRef(final SettingActivity activity, Message msg) {
             switch (msg.what) {
-                case 0:
-                    activity.currSleep.setText(Mathematics.formatTime(((MusicApplication) activity.getApplication()).getSleepSecond()));
-                    activity.handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
                 case 1:
                     long size = 0;
                     size = size + FileUtil.getTotalCacheSize(activity);

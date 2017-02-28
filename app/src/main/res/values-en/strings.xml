@@ -64,7 +64,7 @@
     <string name="oper_rank">Rank</string>
     <string name="oper_discover">Discover</string>
     <string name="oper_message">Messages</string>
-    <string name="oper_moreapp">More APP</string>
+    <string name="setting_moreapp">More APP</string>
     <string name="oper_setting">Settings</string>
     <string name="oper_about">About App</string>
     <string name="oper_exit">Exit App</string>
@@ -177,9 +177,9 @@
     <string name="setting_study_set">Player setting</string>
     <string name="setting_skin">Skin setting</string>
     <string name="setting_app_share">Share this APP</string>
-    <string name="setting_about">About us</string>
-    <string name="setting_feedback">Feedback</string>
-    <string name="setting_help_use">Help</string>
+    <string name="setting_about">About Us</string>
+    <string name="setting_feedback">Help And Feedback</string>
+    <string name="setting_help_use">Function Intro</string>
     <string name="setting_share_content">Current version %1$sAndroid is nice, try it. Download site</string>
     <string name="setting_share_ways">Select the way to share</string>
     <string name="setting_clearing">Cache is being deleted</string>

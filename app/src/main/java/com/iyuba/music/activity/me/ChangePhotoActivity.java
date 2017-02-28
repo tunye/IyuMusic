@@ -216,12 +216,14 @@ public class ChangePhotoActivity extends BaseActivity {
         public void handleMessageByRef(final ChangePhotoActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    ImageUtil.clearImageAllCache(activity);
                     CustomToast.INSTANCE.showToast(R.string.changephoto_success);
-                    activity.handler.sendEmptyMessageDelayed(1, 1000);
+                    Message message = new Message();
+                    message.what = 1;
+                    message.obj = msg.obj;
+                    activity.handler.sendMessageDelayed(message, 1000);
                     break;
                 case 1:
-                    ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), activity.photo);
+                    ImageUtil.loadImage(msg.obj.toString(), activity.photo, R.drawable.default_photo);
                     break;
             }
         }
@@ -236,7 +238,10 @@ public class ChangePhotoActivity extends BaseActivity {
                     + AccountManager.INSTANCE.getUserId(), new File(imgPath), new IOperationResult() {
                 @Override
                 public void success(Object object) {
-                    handler.sendEmptyMessage(0);
+                    Message message = new Message();
+                    message.what = 0;
+                    message.obj = object;
+                    handler.sendMessage(message);
                     showSnackBar();
                 }
 

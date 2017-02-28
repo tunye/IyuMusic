@@ -56,5 +56,6 @@
         android:textColor="#ededed"
         android:textSize="@dimen/large_text"
         roundTextView:rv_backgroundColor="@color/skin_app_color"
+        roundTextView:rv_backgroundPressColor="@color/skin_app_color"
         roundTextView:rv_cornerRadius="@dimen/corner_radius_big" />
 </RelativeLayout>

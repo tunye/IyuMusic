@@ -60,22 +60,33 @@
     <string name="file_path_move_exception">迁移过程中有异常，请您重新选择文件夹或手动迁移</string>
     <!--侧边栏操作-->
     <string name="oper_vip">会员</string>
-    <string name="oper_credits">积分</string>
-    <string name="oper_rank">排行</string>
+    <string name="oper_ground">应用广场</string>
     <string name="oper_discover">发现</string>
-    <string name="oper_message">消息</string>
-    <string name="oper_activity">活动</string>
+    <string name="oper_me">个人</string>
+    <string name="setting_night_hint">夜间模式</string>
+    <string name="oper_night_on">开启</string>
+    <string name="oper_night_off">关闭</string>
+    <string name="setting_sleep_hint">睡眠模式</string>
     <string name="oper_wx">关注公众号</string>
-    <string name="oper_bigdata">i学习</string>
     <string name="oper_setting">设置</string>
     <string name="oper_about">关于我们</string>
     <string name="oper_exit">退出应用</string>
-
+    <!--个人-->
+    <string name="oper_follow">关注</string>
+    <string name="oper_fan">粉丝</string>
+    <string name="oper_friends">搜索朋友</string>
+    <string name="oper_download">我的下载</string>
+    <string name="oper_favor">我的收藏</string>
+    <string name="oper_listen">我听过的</string>
+    <string name="oper_credits">积分</string>
+    <string name="oper_rank">排行</string>
+    <string name="oper_bigdata">i学习</string>
+    <string name="oper_activity">活动</string>
+    <!--发现-->
     <string name="oper_circle">朋友圈</string>
-    <string name="oper_friends">添加好友</string>
-    <string name="oper_ground">广场</string>
-    <string name="oper_moreapp">更多应用</string>
-    <string name="oper_local_music">本地音乐</string>
+    <string name="oper_message">消息</string>
+    <string name="oper_recommend">推荐好友</string>
+    <string name="oper_local_music">本地播放器</string>
     <string name="oper_file">文件管理</string>
     <string name="oper_eggshell">彩蛋</string>
     <!--登录-->
@@ -170,17 +181,16 @@
     <!--设置页面-->
     <string name="setting_title">设  置</string>
     <string name="setting_language_hint">界面语言</string>
-    <string name="setting_night_hint">夜间模式</string>
     <string name="setting_push_hint">推送消息</string>
-    <string name="setting_sleep_hint">睡眠模式</string>
+    <string name="setting_moreapp">更多应用</string>
     <string name="setting_clean_hint">清除缓存</string>
     <string name="setting_word_set">单词设置</string>
     <string name="setting_study_set">播放设置</string>
     <string name="setting_skin">皮肤设置</string>
     <string name="setting_app_share">推荐本应用</string>
     <string name="setting_about">关于我们</string>
-    <string name="setting_feedback">意见反馈</string>
-    <string name="setting_help_use">使用帮助</string>
+    <string name="setting_feedback">帮助与反馈</string>
+    <string name="setting_help_use">功能介绍</string>
     <string name="setting_share_content">我正在使用%1$sAndroid版，感觉不错，你也来试试吧。下载地址</string>
     <string name="setting_share_ways">选择分享方式</string>
     <string name="setting_clearing">缓存正在删除</string>

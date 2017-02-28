@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.CampaignActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.activity.me.FriendCenter;
@@ -79,16 +78,6 @@ public class DiscoverActivity extends BaseActivity {
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
-                        break;
-                    case 4:
-                        startActivity(new Intent(context, AppGroundActivity.class));
-                        break;
-                    case -6:
-                        Intent intent = new Intent();
-                        intent.setClass(context, WebViewActivity.class);
-                        intent.putExtra("url", "http://app.iyuba.com/android");
-                        intent.putExtra("title", context.getString(R.string.oper_moreapp));
-                        startActivity(intent);
                         break;
                     case 5:
                         startActivity(new Intent(context, WordSearchActivity.class));

@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -142,7 +141,7 @@ public class MainLeftFragment extends BaseFragment {
             }
         });
         menuList.setAdapter(operAdapter);
-        ((SimpleItemAnimator)menuList.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) menuList.getItemAnimator()).setSupportsChangeAnimations(false);
         // menuList.getItemAnimator().setChangeDuration(0); 或者采用这个方案
         menuList.setLayoutManager(new LinearLayoutManager(context));
         menuList.addItemDecoration(new DividerItemDecoration());
@@ -333,6 +332,12 @@ public class MainLeftFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeMessages(0);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {

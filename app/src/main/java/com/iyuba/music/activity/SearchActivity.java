@@ -129,7 +129,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         searchResult = (TextView) findViewById(R.id.search_result);
         adviceText = (TextView) findViewById(R.id.search_advice);
         adviceBtn = (RoundTextView) findViewById(R.id.search_advice_button);
-        AddRippleEffect.addRippleEffect(adviceBtn);
     }
 
     protected void setListener() {

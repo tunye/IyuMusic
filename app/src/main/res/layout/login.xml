@@ -153,5 +153,6 @@
         android:textColor="#ededed"
         android:textSize="@dimen/large_text"
         app:rv_backgroundColor="@color/skin_app_color"
+        app:rv_backgroundPressColor="@color/skin_app_color"
         app:rv_cornerRadius="@dimen/corner_radius_big" />
 </RelativeLayout>
