@@ -83,6 +83,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         } else {// 已读
             holder.isNew.setVisibility(View.GONE);
         }
+        if (messageLetter.getVip() == 1) {
+            holder.vipState.setVisibility(View.VISIBLE);
+        } else {
+            holder.vipState.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -95,7 +100,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         TextView messageUserName, messageTime, messageCounts;
         JustifyTextView messageLastContent;
         ImageView messagePhoto;
-        ImageView isNew;
+        ImageView isNew, vipState;
 
         public MyViewHolder(View view) {
             super(view);
@@ -105,6 +110,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             messageTime = (TextView) view.findViewById(R.id.message_dateline);
             messagePhoto = (ImageView) view.findViewById(R.id.message_photo);
             isNew = (ImageView) view.findViewById(R.id.isNew);
+            vipState = (ImageView) view.findViewById(R.id.vip_photo_status);
         }
     }
 }

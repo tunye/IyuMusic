@@ -12,6 +12,8 @@ public class SearchFriend {
     private String username;// 我关注的用户名
     @SerializedName("doing")
     private String doing;
+    @SerializedName("vip")
+    private int vip;
 
     public String getUid() {
         return uid;
@@ -35,5 +37,13 @@ public class SearchFriend {
 
     public void setDoing(String doing) {
         this.doing = doing;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }

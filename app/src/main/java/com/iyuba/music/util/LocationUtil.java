@@ -38,8 +38,8 @@ public class LocationUtil {
      */
     private MyLocationListener mLocationListener = null;
 
-    private double latitude = 0.0;
-    private double longitude = 0.0;
+    private double latitude = 39.9;
+    private double longitude = 116.3;
     private Timer mGpsTimer = new Timer();
     private Handler mGpsTimerHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -50,15 +50,15 @@ public class LocationUtil {
                 try {
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
                 } catch (SecurityException e) {
-                    latitude = 0;
-                    longitude = 0;
+                    latitude = 39.9;
+                    longitude = 116.3;
                 }
             } else {
                 try {
                     locationManager.removeUpdates(mLocationListener);
                 } catch (SecurityException e) {
-                    latitude = 0;
-                    longitude = 0;
+                    latitude = 39.9;
+                    longitude = 116.3;
                 }
                 if (iLocationListener != null) {
                     iLocationListener.notifyChange(GPSTIMEOUT, null);
@@ -96,8 +96,8 @@ public class LocationUtil {
                 iLocationListener.notifyChange(REFRESHGPS_COMPLETED, null);
             }
         } catch (SecurityException e) {
-            latitude = 0;
-            longitude = 0;
+            latitude = 39.9;
+            longitude = 116.3;
         }
     }
 

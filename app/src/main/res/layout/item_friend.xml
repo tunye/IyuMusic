@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.imageview.VipPhoto
             android:id="@+id/friend_photo"
             android:layout_width="60dip"
             android:layout_height="60dip"

@@ -16,6 +16,8 @@ public class Fans {
     private String mutual;// 是否互相关注，1为是
     @SerializedName("doing")
     private String doing;
+    @SerializedName("vip")
+    private int vip;
 
     public String getUid() {
         return uid;
@@ -58,4 +60,11 @@ public class Fans {
         this.doing = doing;
     }
 
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
+    }
 }

@@ -27,6 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/isnew" />
+
+            <ImageView
+                android:id="@+id/vip_photo_status"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/vip_status" />
         </FrameLayout>
 
         <LinearLayout

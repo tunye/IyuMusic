@@ -16,6 +16,8 @@ public class RecommendFriend {
     private String gender;
     @SerializedName("signTime")
     private String lastLogin;
+    @SerializedName("vip")
+    private int vip;
 
     public String getUid() {
         return uid;
@@ -55,5 +57,13 @@ public class RecommendFriend {
 
     public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }

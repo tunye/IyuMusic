@@ -20,6 +20,8 @@ public class MessageLetter {
     private String date;// 最后一条私信发送时间
     @SerializedName("isnew")
     private String isnew; // 1代表未读 0代表已读
+    @SerializedName("vip")
+    private int vip;
 
     public String getFriendid() {
         return friendid;
@@ -75,5 +77,13 @@ public class MessageLetter {
 
     public void setIsnew(String isnew) {
         this.isnew = isnew;
+    }
+
+    public int getVip() {
+        return vip;
+    }
+
+    public void setVip(int vip) {
+        this.vip = vip;
     }
 }
