@@ -62,18 +62,18 @@
     <string name="oper_vip">会员</string>
     <string name="oper_ground">应用广场</string>
     <string name="oper_discover">发现</string>
-    <string name="oper_me">个人</string>
-    <string name="setting_night_hint">夜间模式</string>
+    <string name="oper_me">个人中心</string>
+    <string name="oper_night">夜间模式</string>
     <string name="oper_night_on">开启</string>
     <string name="oper_night_off">关闭</string>
-    <string name="setting_sleep_hint">睡眠模式</string>
+    <string name="oper_sleep">睡眠模式</string>
     <string name="oper_wx">关注公众号</string>
-    <string name="oper_setting">设置</string>
+    <string name="oper_setting">应用设置</string>
     <string name="oper_about">关于我们</string>
     <string name="oper_exit">退出应用</string>
     <!--个人-->
-    <string name="oper_follow">关注</string>
-    <string name="oper_fan">粉丝</string>
+    <string name="oper_follow">我关注的</string>
+    <string name="oper_fan">我的粉丝</string>
     <string name="oper_friends">搜索朋友</string>
     <string name="oper_download">我的下载</string>
     <string name="oper_favor">我的收藏</string>
@@ -84,7 +84,7 @@
     <string name="oper_activity">活动</string>
     <!--发现-->
     <string name="oper_circle">朋友圈</string>
-    <string name="oper_message">消息</string>
+    <string name="oper_message">消息会话</string>
     <string name="oper_recommend">推荐好友</string>
     <string name="oper_local_music">本地播放器</string>
     <string name="oper_file">文件管理</string>

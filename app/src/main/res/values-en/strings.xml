@@ -60,22 +60,34 @@
     <string name="file_path_move_exception">If failed to move file, please reselect the folder or move with your hand</string>
     <!--侧边栏操作-->
     <string name="oper_vip">VIP center</string>
-    <string name="oper_credits">Credits</string>
-    <string name="oper_rank">Rank</string>
+    <string name="oper_ground">App Ground</string>
     <string name="oper_discover">Discover</string>
-    <string name="oper_message">Messages</string>
-    <string name="setting_moreapp">More APP</string>
-    <string name="oper_setting">Settings</string>
-    <string name="oper_about">About App</string>
-    <string name="oper_exit">Exit App</string>
-    <string name="oper_circle">Moments</string>
-    <string name="oper_friends">Friends</string>
-    <string name="oper_ground">Ground</string>
-    <string name="oper_activity">New activities</string>
+    <string name="oper_me">Me</string>
+    <string name="oper_night">Night</string>
+    <string name="oper_night_on">On</string>
+    <string name="oper_night_off">Off</string>
+    <string name="oper_sleep">Sleep</string>
     <string name="oper_wx">Official Accounts</string>
+    <string name="oper_setting">Settings</string>
+    <string name="oper_about">About</string>
+    <string name="oper_exit">Exit</string>
+    <!--个人-->
+    <string name="oper_follow">Follow</string>
+    <string name="oper_fan">Fan</string>
+    <string name="oper_friends">Search Friends</string>
+    <string name="oper_download">My Download</string>
+    <string name="oper_favor">My Favor</string>
+    <string name="oper_listen">My Listen</string>
+    <string name="oper_credits">Credits</string>
+    <string name="oper_rank">Ranking</string>
     <string name="oper_bigdata">iStudy</string>
+    <string name="oper_activity">Campaign</string>
+    <!--发现-->
+    <string name="oper_circle">Moments</string>
+    <string name="oper_message">Message</string>
+    <string name="oper_recommend">Recommend Friends</string>
     <string name="oper_local_music">Local Music</string>
-    <string name="oper_file">File Operation</string>
+    <string name="oper_file">File Manager</string>
     <string name="oper_eggshell">Eggshell</string>
     <!--登录-->
     <string name="login_title">Login</string>
@@ -169,15 +181,14 @@
     <!--设置页面-->
     <string name="setting_title">Setting</string>
     <string name="setting_language_hint">Language setting</string>
-    <string name="setting_night_hint">Night mode</string>
     <string name="setting_push_hint">Push message</string>
-    <string name="setting_sleep_hint">Sleep mode</string>
     <string name="setting_clean_hint">Clean cache</string>
     <string name="setting_word_set">Word setting</string>
     <string name="setting_study_set">Player setting</string>
     <string name="setting_skin">Skin setting</string>
     <string name="setting_app_share">Share this APP</string>
     <string name="setting_about">About Us</string>
+    <string name="setting_moreapp">More App</string>
     <string name="setting_feedback">Help And Feedback</string>
     <string name="setting_help_use">Function Intro</string>
     <string name="setting_share_content">Current version %1$sAndroid is nice, try it. Download site</string>

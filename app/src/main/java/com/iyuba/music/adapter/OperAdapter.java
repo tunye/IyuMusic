@@ -43,8 +43,8 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList.add(R.string.oper_ground);
         menuTextList.add(R.string.oper_discover);
         menuTextList.add(R.string.oper_me);
-        menuTextList.add(R.string.setting_night_hint);
-        menuTextList.add(R.string.setting_sleep_hint);
+        menuTextList.add(R.string.oper_night);
+        menuTextList.add(R.string.oper_sleep);
         menuTextList.add(R.string.oper_wx);
         menuTextList.add(R.string.oper_setting);
     }
@@ -79,12 +79,12 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         });
         holder.menuText.setText(context.getString(menuTextList.get(position)));
         holder.menuIcon.setImageResource(menuIconList.get(position));
-        if (holder.menuText.getText().equals(context.getString(R.string.setting_night_hint))) {
+        if (holder.menuText.getText().equals(context.getString(R.string.oper_night))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(SettingConfigManager.instance.isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
-        if (holder.menuText.getText().equals(context.getString(R.string.setting_sleep_hint))) {
+        if (holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             int sleepSecond = ((MusicApplication) ((Activity) context).getApplication()).getSleepSecond();
@@ -93,6 +93,11 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
             } else {
                 holder.menuResult.setText(Mathematics.formatTime(sleepSecond));
             }
+        }
+        if (!holder.menuText.getText().equals(context.getString(R.string.oper_night)) &&
+                !holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
+            holder.menuResult.setVisibility(View.GONE);
+            holder.go.setVisibility(View.VISIBLE);
         }
     }
 
