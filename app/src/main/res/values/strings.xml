@@ -64,6 +64,8 @@
     <string name="oper_discover">发现</string>
     <string name="oper_me">个人</string>
     <string name="setting_night_hint">夜间模式</string>
+    <string name="oper_night_on">开启</string>
+    <string name="oper_night_off">关闭</string>
     <string name="setting_sleep_hint">睡眠模式</string>
     <string name="oper_wx">关注公众号</string>
     <string name="oper_setting">设置</string>

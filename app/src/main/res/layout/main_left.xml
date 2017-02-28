@@ -176,14 +176,12 @@
         </com.balysv.materialripple.MaterialRippleLayout>
     </RelativeLayout>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/oper_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/exit_panel"
-        android:layout_below="@+id/login_panel"
-        android:divider="@color/background_light"
-        android:dividerHeight="@dimen/line_thin" />
+        android:layout_below="@+id/login_panel" />
 
     <LinearLayout
         android:id="@+id/exit_panel"

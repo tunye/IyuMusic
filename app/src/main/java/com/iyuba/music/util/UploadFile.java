@@ -1,5 +1,7 @@
 package com.iyuba.music.util;
 
+import android.util.Log;
+
 import com.iyuba.music.listener.IOperationResult;
 
 import org.json.JSONException;
@@ -76,7 +78,7 @@ public class UploadFile {
             JSONObject jsonObject = new JSONObject(success.substring(
                     success.indexOf("{"), success.lastIndexOf("}") + 1));
             if (jsonObject.getString("status").equals("0")) {
-                result.success(null);
+                result.success(jsonObject.getString("bigUrl"));
             } else {
                 result.fail(null);
             }
@@ -125,7 +127,7 @@ public class UploadFile {
             /* close streams */
             fStream.close();
             ds.flush();
-			/* 取得Response内容 */
+            /* 取得Response内容 */
             InputStream is = con.getInputStream();
             int ch;
             StringBuilder b = new StringBuilder();

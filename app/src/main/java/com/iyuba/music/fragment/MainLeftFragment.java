@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -22,13 +25,11 @@ import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.SettingActivity;
 import com.iyuba.music.activity.SleepActivity;
-import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
 import com.iyuba.music.activity.me.CreditActivity;
 import com.iyuba.music.activity.me.MeActivity;
-import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.me.VipCenterActivity;
 import com.iyuba.music.activity.me.WriteStateActivity;
@@ -38,17 +39,16 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -61,7 +61,7 @@ public class MainLeftFragment extends BaseFragment {
     //侧边栏
     private UserInfo userInfo;
     private MaterialRippleLayout login, noLogin, sign;
-    private ListView menuList;
+    private RecyclerView menuList;
     private OperAdapter operAdapter;
     private VipPhoto personalPhoto;
     private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
@@ -85,11 +85,10 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void initWidget() {
-        menuList = (ListView) root.findViewById(R.id.oper_list);
+        menuList = (RecyclerView) root.findViewById(R.id.oper_list);
         login = (MaterialRippleLayout) root.findViewById(R.id.personal_login);
         noLogin = (MaterialRippleLayout) root.findViewById(R.id.personal_nologin);
         sign = (MaterialRippleLayout) root.findViewById(R.id.sign_layout);
-        menuList = (ListView) root.findViewById(R.id.oper_list);
         personalPhoto = (VipPhoto) root.findViewById(R.id.personal_photo);
         personalName = (TextView) root.findViewById(R.id.personal_name);
         personalGrade = (TextView) root.findViewById(R.id.personal_grade);
@@ -143,9 +142,13 @@ public class MainLeftFragment extends BaseFragment {
             }
         });
         menuList.setAdapter(operAdapter);
-        menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ((SimpleItemAnimator)menuList.getItemAnimator()).setSupportsChangeAnimations(false);
+        // menuList.getItemAnimator().setChangeDuration(0); 或者采用这个方案
+        menuList.setLayoutManager(new LinearLayoutManager(context));
+        menuList.addItemDecoration(new DividerItemDecoration());
+        operAdapter.setItemClickListener(new OperAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClicked(View view, int position) {
                 switch (position) {
                     case 0:
                         if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
@@ -164,7 +167,9 @@ public class MainLeftFragment extends BaseFragment {
                         startActivity(new Intent(context, MeActivity.class));
                         break;
                     case 4:
-                        CustomToast.INSTANCE.showToast("夜间模式");
+                        SettingConfigManager.instance.setNight(!SettingConfigManager.instance.isNight());
+                        ChangePropery.updateNightMode(SettingConfigManager.instance.isNight());
+                        LocalBroadcastManager.getInstance(getActivity().getApplication()).sendBroadcast(new Intent("changeProperty"));
                         break;
                     case 5:
                         startActivity(new Intent(context, SleepActivity.class));
@@ -194,6 +199,11 @@ public class MainLeftFragment extends BaseFragment {
             login.setVisibility(View.GONE);
             noLogin.setVisibility(View.VISIBLE);
             sign.setVisibility(View.GONE);
+        }
+        int sleepSecond = ((MusicApplication) getActivity().getApplication()).getSleepSecond();
+        handler.removeMessages(1);
+        if (sleepSecond != 0) {
+            handler.sendEmptyMessage(1);
         }
     }
 
@@ -337,6 +347,10 @@ public class MainLeftFragment extends BaseFragment {
                         fragment.noLogin.setVisibility(View.GONE);
                         fragment.sign.setVisibility(View.VISIBLE);
                     }
+                    break;
+                case 1:
+                    fragment.operAdapter.notifyItemChanged(5);
+                    fragment.handler.sendEmptyMessageDelayed(1, 1000);
                     break;
             }
         }

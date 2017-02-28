@@ -33,12 +33,12 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         Discover blank = new Discover();
         blank.setType(TYPE_BLANK);
 
+        menuIconList.add(R.drawable.follow_icon);
         menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.friend_icon);
-        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.search_icon);
+        menuIconList.add(R.drawable.download_icon);
+        menuIconList.add(R.drawable.favor_icon);
+        menuIconList.add(R.drawable.listen_icon);
         menuIconList.add(R.drawable.credits_icon);
         menuIconList.add(R.drawable.rank_icon);
         menuIconList.add(R.drawable.bigdata_icon);
