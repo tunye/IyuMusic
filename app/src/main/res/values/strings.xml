@@ -60,7 +60,7 @@
     <string name="file_path_move_exception">迁移过程中有异常，请您重新选择文件夹或手动迁移</string>
     <!--侧边栏操作-->
     <string name="oper_vip">会员</string>
-    <string name="oper_ground">应用广场</string>
+    <string name="oper_ground">广场</string>
     <string name="oper_discover">发现</string>
     <string name="oper_me">个人中心</string>
     <string name="oper_night">夜间模式</string>
