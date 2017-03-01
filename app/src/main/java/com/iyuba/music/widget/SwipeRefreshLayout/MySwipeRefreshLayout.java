@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.annotation.IntDef;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -21,6 +22,9 @@ import android.widget.AbsListView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.widget.CustomToast;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
 /**
@@ -53,11 +57,6 @@ import com.iyuba.music.widget.CustomToast;
 public class MySwipeRefreshLayout extends ViewGroup {
     public static final int TOP_REFRESH = 0;
     public static final int BOTTOM_REFRESH = 1;
-    // Maps to ProgressBar.Large style
-    public static final int LARGE = MaterialProgressDrawable.LARGE;
-    // Maps to ProgressBar default style
-    public static final int DEFAULT = MaterialProgressDrawable.DEFAULT;
-    private static final String LOG_TAG = MySwipeRefreshLayout.class.getSimpleName();
     private static final int MAX_ALPHA = 255;
     private static final int STARTING_PROGRESS_ALPHA = (int) (.3f * MAX_ALPHA);
     private static final int CIRCLE_DIAMETER = 40;
@@ -95,7 +94,8 @@ public class MySwipeRefreshLayout extends ViewGroup {
     protected int mFrom;
     protected int mOriginalOffsetTop;
     private View mTarget; // the target of the gesture
-    private MySwipeRefreshLayoutDirection mDirection;
+    @MySwipeRefreshLayoutDirection
+    private int mDirection;
     private boolean mBothDirection;
     private OnRefreshListener mListener;
     private boolean mRefreshing = false;
@@ -273,13 +273,13 @@ public class MySwipeRefreshLayout extends ViewGroup {
         a.recycle();
 
         final TypedArray a2 = context.obtainStyledAttributes(attrs, R.styleable.myswiperefreshlayout);
-        MySwipeRefreshLayoutDirection direction
-                = MySwipeRefreshLayoutDirection.getFromInt(a2.getInt(R.styleable.myswiperefreshlayout_direction, 0));
-        if (direction != MySwipeRefreshLayoutDirection.BOTH) {
+        @MySwipeRefreshLayoutDirection
+        int direction = a2.getInt(R.styleable.myswiperefreshlayout_direction, 0);
+        if (direction != BOTH) {
             mDirection = direction;
             mBothDirection = false;
         } else {
-            mDirection = MySwipeRefreshLayoutDirection.TOP;
+            mDirection = TOP;
             mBothDirection = true;
         }
         a2.recycle();
@@ -734,12 +734,11 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 }
                 if (mBothDirection) {
                     if (y > mInitialMotionY) {
-                        setRawDirection(MySwipeRefreshLayoutDirection.TOP);
+                        setRawDirection(TOP);
                     } else if (y < mInitialMotionY) {
-                        setRawDirection(MySwipeRefreshLayoutDirection.BOTTOM);
+                        setRawDirection(BOTTOM);
                     }
-                    if ((mDirection == MySwipeRefreshLayoutDirection.BOTTOM && canChildScrollDown())
-                            || (mDirection == MySwipeRefreshLayoutDirection.TOP && canChildScrollUp())) {
+                    if ((mDirection == BOTTOM && canChildScrollDown()) || (mDirection == TOP && canChildScrollUp())) {
                         return false;
                     }
                 }
@@ -858,7 +857,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
 
                     // int targetY = mOriginalOffsetTop + (int) ((slingshotDist * dragPercent) + extraMove);
                     int targetY;
-                    if (mDirection == MySwipeRefreshLayoutDirection.TOP) {
+                    if (mDirection == TOP) {
                         targetY = mOriginalOffsetTop + (int) ((slingshotDist * dragPercent) + extraMove);
                     } else {
                         targetY = mOriginalOffsetTop - (int) ((slingshotDist * dragPercent) + extraMove);
@@ -1048,12 +1047,13 @@ public class MySwipeRefreshLayout extends ViewGroup {
         }
     }
 
-    public MySwipeRefreshLayoutDirection getDirection() {
-        return mBothDirection ? MySwipeRefreshLayoutDirection.BOTH : mDirection;
+    @MySwipeRefreshLayoutDirection
+    public int getDirection() {
+        return mBothDirection ? BOTH : mDirection;
     }
 
-    public void setDirection(MySwipeRefreshLayoutDirection direction) {
-        if (direction == MySwipeRefreshLayoutDirection.BOTH) {
+    public void setDirection(@MySwipeRefreshLayoutDirection int direction) {
+        if (direction == BOTH) {
             mBothDirection = true;
         } else {
             mBothDirection = false;
@@ -1072,7 +1072,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
     }
 
     // only TOP or Bottom
-    private void setRawDirection(MySwipeRefreshLayoutDirection direction) {
+    private void setRawDirection(@MySwipeRefreshLayoutDirection int direction) {
         if (mDirection == direction) {
             return;
         }
@@ -1122,5 +1122,14 @@ public class MySwipeRefreshLayout extends ViewGroup {
         void onLoad(int index);
     }
 
+    public static final int TOP = 0x00;
+    public static final int BOTTOM = 0x01;
+    public static final int BOTH = 0x02;
+
+    @IntDef({TOP, BOTTOM, BOTH})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MySwipeRefreshLayoutDirection {
+
+    }
 
 }
