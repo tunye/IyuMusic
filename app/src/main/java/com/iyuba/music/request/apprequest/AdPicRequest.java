@@ -4,11 +4,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
@@ -18,8 +19,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -31,14 +31,11 @@ public class AdPicRequest {
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    BaseListEntity baseListEntity = new BaseListEntity();
-                    Type listType = new TypeToken<ArrayList<AdEntity>>() {
-                    }.getType();
+                    BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
-                        baseListEntity.setTotalCount(2);
-                        ArrayList<AdEntity> list = new Gson().fromJson(jsonObject.getString("data"), listType);
-                        baseListEntity.setData(list);
-                        response.response(baseListEntity);
+                        baseApiEntity.setState(BaseApiEntity.SUCCESS);
+                        baseApiEntity.setData(new Gson().fromJson(jsonObject.getString("data"), AdEntity.class));
+                        response.response(baseApiEntity);
                     } catch (JSONException e) {
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
                     }
@@ -55,8 +52,11 @@ public class AdPicRequest {
         }
     }
 
-    public static String generateUrl(String appId) {
-        String originalUrl = "http://app.iyuba.com/dev/getStartPicApi.jsp";
-        return ParameterUrl.setRequestParameter(originalUrl, "appId", appId);
+    public static String generateUrl() {
+        String originalUrl = "http://app.iyuba.com/dev/getAdEntryAll.jsp";
+        HashMap<String, Object> paras = new HashMap<>();
+        paras.put("appId", ConstantManager.getInstance().getAppId());
+        paras.put("flag", 1);
+        return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 }

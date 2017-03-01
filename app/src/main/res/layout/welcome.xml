@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:scaleType="centerCrop"
+        android:src="@drawable/default_footer"
         app:layout_heightPercent="14%"
         app:layout_widthPercent="100%" />
 </android.support.percent.PercentFrameLayout>

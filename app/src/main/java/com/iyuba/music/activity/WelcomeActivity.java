@@ -9,18 +9,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.entity.BaseListEntity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
@@ -28,8 +29,6 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
-
-import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/11/16.
@@ -39,7 +38,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private View escapeAd;
     private ImageView footer, header;
     private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
-    private ArrayList<AdEntity> adEntities;                     // 开屏广告对象
+    private AdEntity adEntity;                                  // 开屏广告对象
     private boolean normalStart = true;                         // 是否正常进入程序
     private boolean showAd;                                     // 是否进入广告
     private boolean showGuide;                                  // 是否跳转开屏引导
@@ -72,11 +71,14 @@ public class WelcomeActivity extends AppCompatActivity {
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAd = true;
-                int nextActivity = normalStart ? 0 : 1;
-                WelcomeAdWebView.launch(context, "http://app.iyuba.com/android", nextActivity);
-                ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
-                finish();
+                if (adEntity != null) {
+                    showAd = true;
+                    int nextActivity = normalStart ? 0 : 1;
+                    WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
+                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), nextActivity);
+                    ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
+                    finish();
+                }
             }
         });
         escapeAd.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void getBannerPic() {
-        AdPicRequest.exeRequest(AdPicRequest.generateUrl(ConstantManager.getInstance().getAppId()), new IProtocolResponse() {
+        AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 handler.sendEmptyMessage(2);
@@ -110,8 +112,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                adEntities = (ArrayList<AdEntity>) listEntity.getData();
+                BaseApiEntity apiEntity = (BaseApiEntity) object;
+                adEntity = (AdEntity) apiEntity.getData();
                 handler.sendEmptyMessage(0);
             }
         });
@@ -145,7 +147,6 @@ public class WelcomeActivity extends AppCompatActivity {
         showGuide = true;
         ConfigManager.getInstance().putInt("version", currentVersion);
         SettingConfigManager.getInstance().setUpgrade(true);
-        //CreateAppLnkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
@@ -154,10 +155,9 @@ public class WelcomeActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 0:
                     if (!activity.isDestroyed()) {
-                        ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
-                        ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
-                        SettingConfigManager.getInstance().setADUrl(activity.adEntities.get(0).getPicUrl()
-                                + "@@@" + activity.adEntities.get(1).getPicUrl());
+                        ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
+                        SettingConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
+                                + "@@@" + activity.adEntity.getLoadUrl());
                     }
                     break;
                 case 1:
@@ -180,8 +180,10 @@ public class WelcomeActivity extends AppCompatActivity {
                         activity.footer.setImageResource(R.drawable.default_footer);
                     } else if (!activity.isDestroyed()) {
                         String[] adUrls = adUrl.split("@@@");
+                        activity.adEntity = new AdEntity();
+                        activity.adEntity.setPicUrl(adUrls[0]);
+                        activity.adEntity.setLoadUrl(adUrls[1]);
                         ImageUtil.loadImage(adUrls[0], activity.header);
-                        ImageUtil.loadImage(adUrls[1], activity.footer);
                     }
                     break;
                 case 3:
