@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -105,6 +106,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         commentRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        ((SimpleItemAnimator) commentRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         commentAdapter = new CommentAdapter(context);
         commentAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override

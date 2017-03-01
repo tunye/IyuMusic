@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -128,6 +129,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         musicList = (RecyclerView) findViewById(R.id.music_recyclerview);
         musicList.setLayoutManager(new LinearLayoutManager(context));
         musicList.addItemDecoration(new DividerItemDecoration());
+        ((SimpleItemAnimator) musicList.getItemAnimator()).setSupportsChangeAnimations(false);
         adapter = new LocalMusicAdapter(context);
         adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override

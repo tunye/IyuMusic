@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.TextView;
 
@@ -65,6 +66,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         messageRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        ((SimpleItemAnimator) messageRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         messageAdapter = new MessageAdapter(context);
         messageAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override

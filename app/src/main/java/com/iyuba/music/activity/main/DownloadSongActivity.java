@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.TextView;
 
@@ -65,6 +66,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         swipeRefreshLayout.setEnabled(false);
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        ((SimpleItemAnimator) newsRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         newsAdapter = new DownloadNewsAdapter(context);
         newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override

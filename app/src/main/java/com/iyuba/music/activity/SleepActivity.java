@@ -3,6 +3,7 @@ package com.iyuba.music.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 
 import com.iyuba.music.MusicApplication;
@@ -33,6 +34,7 @@ public class SleepActivity extends BaseActivity {
         RecyclerView listView = (RecyclerView) findViewById(R.id.sleep_list);
         listView.setLayoutManager(new LinearLayoutManager(context));
         listView.addItemDecoration(new DividerItemDecoration());
+        ((SimpleItemAnimator) listView.getItemAnimator()).setSupportsChangeAnimations(false);
         adapter = new SleepAdapter(context);
         listView.setAdapter(adapter);
     }
