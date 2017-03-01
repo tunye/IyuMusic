@@ -47,20 +47,21 @@ android {
         javaMaxHeapSize "2g"
     }
     productFlavors {
-        wandoujia {}
         baidu {}
-        m360 {}
-        yingyonghui {}
-        iyuba {}
-        huawei {}
-        qq {}
         xiaomi {}
-        meizu {}
-        eoe {}
+        m360 {}
+        qq {}
+        huawei {}
+        iyuba {}
+        pp {}
         oppo {}
+        meizu {}
         lenovo {}
-        pipi {}
-        samsung {}
+        letv {}
+        vivo {}
+        jinli {}
+        mumayi {}
+        wandoujia {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
