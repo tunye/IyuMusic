@@ -122,7 +122,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         videoView = (VideoView) findViewById(R.id.videoView_small);
         originalView = (OriginalSynView) findViewById(R.id.original);
         largePause = (ImageView) findViewById(R.id.large_pause);
-        playSound.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
+        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -171,12 +171,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
                 if (user) {
-                    currTime.setTextColor(GetAppColor.instance.getAppColor(context));
-                    duration.setTextColor(GetAppColor.instance.getAppColor(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                    duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     videoView.seekTo(progress);
                 } else {
-                    currTime.setTextColor(GetAppColor.instance.getAppColorLight(context));
-                    duration.setTextColor(GetAppColor.instance.getAppColorLight(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
                 }
                 currTime.setText(Mathematics.formatTime(progress / 1000));
             }
@@ -195,7 +195,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onSelectText(String text) {
                 if ("".equals(text)) {
-                    CustomToast.INSTANCE.showToast(R.string.word_select_null);
+                    CustomToast.getInstance().showToast(R.string.word_select_null);
                 } else {
                     if (!wordCard.isShowing()) {
                         wordCard.show();
@@ -232,8 +232,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     protected void changeUIResumeByPara() {
         setPauseImage(false);
-        setPlayModeImage(SettingConfigManager.instance.getStudyPlayMode());
-        setStudyTranslateImage(SettingConfigManager.instance.getStudyTranslate());
+        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
+        setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate());
     }
 
     private void refresh() {
@@ -246,9 +246,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             String append = "http://staticvip.iyuba.com/video/voa/" + articles.get(currPos).getId() + ".mp4";
             videoView.setVideoPath(append);
         } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            CustomToast.INSTANCE.showToast(R.string.net_speed_slow);
+            CustomToast.getInstance().showToast(R.string.net_speed_slow);
         } else {
-            CustomToast.INSTANCE.showToast(R.string.no_internet);
+            CustomToast.getInstance().showToast(R.string.no_internet);
         }
     }
 
@@ -321,7 +321,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         getWebLrc(article.getId(), new IOperationFinish() {
             @Override
             public void finish() {
-                if (SettingConfigManager.instance.getStudyTranslate() == 1) {
+                if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
                     originalView.setShowChinese(true);
                 } else {
                     originalView.setShowChinese(false);
@@ -336,12 +336,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         LrcRequest.exeRequest(LrcRequest.generateUrl(id, 0), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -363,10 +363,10 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_mode:
-                int nextMusicType = SettingConfigManager.instance.getStudyPlayMode();
+                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.instance.setStudyPlayMode(nextMusicType);
-                StudyManager.instance.generateArticleList();
+                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
                 break;
             case R.id.play:
@@ -381,9 +381,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 refresh();
                 break;
             case R.id.translate:
-                int musicTranslate = SettingConfigManager.instance.getStudyTranslate();
+                int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
-                SettingConfigManager.instance.setStudyTranslate(musicTranslate);
+                SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
                 setStudyTranslateImage(musicTranslate);
                 if (musicTranslate == 1) {
                     originalView.setShowChinese(true);

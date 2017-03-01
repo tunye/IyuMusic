@@ -1,11 +1,9 @@
 package com.iyuba.music.request.account;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
@@ -50,9 +48,9 @@ public class LoginRequest {
                                     if ("result".equals(nodeName)) {
                                         String result = xmlPullParser.nextText();
                                         if (result.equals("101")) {
-                                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                            apiEntity.setState(BaseApiEntity.SUCCESS);
                                         } else {
-                                            apiEntity.setState(BaseApiEntity.State.FAIL);
+                                            apiEntity.setState(BaseApiEntity.FAIL);
                                         }
                                     }
                                     if ("uid".equals(nodeName)) {
@@ -102,7 +100,7 @@ public class LoginRequest {
                                         if (!TextUtils.isEmpty(userInfo.getUid())) {
                                             apiEntity.setData(userInfo);
                                         } else {
-                                            apiEntity.setState(BaseApiEntity.State.ERROR);
+                                            apiEntity.setState(BaseApiEntity.ERROR);
                                         }
                                         response.response(apiEntity);
                                     }
@@ -135,7 +133,7 @@ public class LoginRequest {
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("x", paras[2]);
         para.put("y", paras[3]);
-        para.put("appid", ConstantManager.instance.getAppId());
+        para.put("appid", ConstantManager.getInstance().getAppId());
         para.put("format", "xml");
         para.put("sign", MD5.getMD5ofStr("11001" + paras[0]
                 + MD5.getMD5ofStr(paras[1]) + "iyubaV2"));

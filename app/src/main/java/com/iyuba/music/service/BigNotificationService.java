@@ -24,8 +24,11 @@ import com.iyuba.music.receiver.NotificationNextReceiver;
 import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
-public enum BigNotificationService {
-    INSTANCE;
+public class BigNotificationService {
+    private static class SingleInstanceHelper {
+        private static BigNotificationService instance = new BigNotificationService();
+    }
+
     public static final String NOTIFICATION_SERVICE = "notification_service";
     public static final String COMMAND = "cmd";
     public static final String COMMAND_SHOW = "show";
@@ -41,7 +44,7 @@ public enum BigNotificationService {
     private Notification notification;
     private NotificationManager notificationManager;
 
-    BigNotificationService() {
+    private BigNotificationService() {
         Context context = RuntimeManager.getContext();
         IntentFilter ifr = new IntentFilter("iyumusic.close");
         close = new NotificationCloseReceiver();
@@ -55,6 +58,10 @@ public enum BigNotificationService {
         ifr = new IntentFilter("iyumusic.before");
         before = new NotificationBeforeReceiver();
         context.registerReceiver(before, ifr);
+    }
+
+    public static BigNotificationService getInstance() {
+        return SingleInstanceHelper.instance;
     }
 
     public void setNotificationCommand(Intent intent) {
@@ -91,9 +98,9 @@ public enum BigNotificationService {
             notification = new Notification();
         }
         Context context = RuntimeManager.getContext();
-        Article curArticle = StudyManager.instance.getCurArticle();
+        Article curArticle = StudyManager.getInstance().getCurArticle();
         Intent intent;
-        if (StudyManager.instance.getApp().equals("101")) {
+        if (StudyManager.getInstance().getApp().equals("101")) {
             intent = new Intent(context, LocalMusicActivity.class);
         } else {
             intent = new Intent(context, StudyActivity.class);
@@ -105,7 +112,7 @@ public enum BigNotificationService {
         contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
         contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
         contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
-        switch (StudyManager.instance.getApp()) {
+        switch (StudyManager.getInstance().getApp()) {
             case "209":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
                 contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.article_singer, curArticle.getSinger()));
@@ -141,7 +148,7 @@ public enum BigNotificationService {
         }
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
-        if (!StudyManager.instance.getApp().equals("101")) {
+        if (!StudyManager.getInstance().getApp().equals("101")) {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
                     R.id.notify_img, notification, NOTIFICATION_ID);
             Glide.with(context).load(imgUrl).asBitmap().animate(R.anim.fade_in).into(notificationTarget);

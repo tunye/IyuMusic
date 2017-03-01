@@ -62,12 +62,12 @@ public class OriginalSynFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.original_syn, null);
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         originalView = (OriginalSynView) view.findViewById(R.id.original);
-        originalView.setTextSize(SettingConfigManager.instance.getOriginalSize());
+        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
             @Override
             public void onSelectText(String text) {
                 if (TextUtils.isEmpty(text)) {
-                    CustomToast.INSTANCE.showToast(R.string.word_select_suggest);
+                    CustomToast.getInstance().showToast(R.string.word_select_suggest);
                 } else {
                     if (!wordCard.isShowing()) {
                         wordCard.show();
@@ -94,18 +94,18 @@ public class OriginalSynFragment extends BaseFragment {
     }
 
     public void refresh() {
-        article = StudyManager.instance.getCurArticle();
+        article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }
 
     private void getOriginal() {
-        if (StudyManager.instance.getMusicType() == 0) {//原唱
+        if (StudyManager.getInstance().getMusicType() == 0) {//原唱
             if (LrcParser.getInstance().fileExist(article.getId())) {
                 LrcParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
                     @Override
                     public void success(Object object) {
                         originalList = (ArrayList<Original>) object;
-                        if (SettingConfigManager.instance.getStudyTranslate() == 1) {
+                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
                             originalView.setShowChinese(true);
                         } else {
                             originalView.setShowChinese(false);
@@ -119,7 +119,7 @@ public class OriginalSynFragment extends BaseFragment {
                         getWebLrc(article.getId(), new IOperationFinish() {
                             @Override
                             public void finish() {
-                                if (SettingConfigManager.instance.getStudyTranslate() == 1) {
+                                if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
                                     originalView.setShowChinese(true);
                                 } else {
                                     originalView.setShowChinese(false);
@@ -134,7 +134,7 @@ public class OriginalSynFragment extends BaseFragment {
                 getWebLrc(article.getId(), new IOperationFinish() {
                     @Override
                     public void finish() {
-                        if (SettingConfigManager.instance.getStudyTranslate() == 1) {
+                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
                             originalView.setShowChinese(true);
                         } else {
                             originalView.setShowChinese(false);
@@ -183,7 +183,7 @@ public class OriginalSynFragment extends BaseFragment {
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
         int type;
-        switch (StudyManager.instance.getApp()) {
+        switch (StudyManager.getInstance().getApp()) {
             case "215":
             case "221":
             case "231":
@@ -199,12 +199,12 @@ public class OriginalSynFragment extends BaseFragment {
         LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -227,12 +227,12 @@ public class OriginalSynFragment extends BaseFragment {
         OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override

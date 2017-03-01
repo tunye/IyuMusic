@@ -121,7 +121,7 @@ public class PayActivity extends BaseActivity {
             if (msgApi.isWXAppInstalled()) {
                 wechatPay();
             } else {
-                CustomToast.INSTANCE.showToast(R.string.pay_detail_no_wechat);
+                CustomToast.getInstance().showToast(R.string.pay_detail_no_wechat);
             }
         } else {
             aliPay();
@@ -130,14 +130,14 @@ public class PayActivity extends BaseActivity {
 
     private void showWxSelect() {
         wxSelected.setVisibility(View.VISIBLE);
-        wxSelected.setColorFilter(GetAppColor.instance.getAppColor(context));
+        wxSelected.setColorFilter(GetAppColor.getInstance().getAppColor(context));
         baoSelected.setVisibility(View.GONE);
     }
 
     private void showBaoSelect() {
         wxSelected.setVisibility(View.GONE);
         baoSelected.setVisibility(View.VISIBLE);
-        baoSelected.setColorFilter(GetAppColor.instance.getAppColor(context));
+        baoSelected.setColorFilter(GetAppColor.getInstance().getAppColor(context));
     }
 
     @Override
@@ -145,7 +145,7 @@ public class PayActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.pay_detail_title);
         toolbarOper.setText(R.string.pay_detail_oper);
-        username.setText(AccountManager.INSTANCE.getUserName());
+        username.setText(AccountManager.getInstance().getUserName());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
         showBaoSelect();
@@ -156,13 +156,13 @@ public class PayActivity extends BaseActivity {
         WxPay.exeRequest(WxPay.generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 waitingDialog.dismiss();
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 waitingDialog.dismiss();
             }
 
@@ -170,11 +170,11 @@ public class PayActivity extends BaseActivity {
             public void response(Object object) {
                 waitingDialog.dismiss();
                 BaseApiEntity result = (BaseApiEntity) object;
-                if (result.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                if (BaseApiEntity.isSuccess(result)) {
                     PayReq req = (PayReq) result.getData();
                     msgApi.sendReq(req);
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 }
             }
         });
@@ -187,13 +187,13 @@ public class PayActivity extends BaseActivity {
         AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 waitingDialog.dismiss();
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 waitingDialog.dismiss();
             }
 
@@ -201,7 +201,7 @@ public class PayActivity extends BaseActivity {
             public void response(Object object) {
                 BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                 waitingDialog.dismiss();
-                if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                if (BaseApiEntity.isSuccess(baseApiEntity)) {
                     final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()
                             + "\"&" + "sign_type=\"RSA\"";
                     Runnable payRunnable = new Runnable() {
@@ -222,7 +222,7 @@ public class PayActivity extends BaseActivity {
                     Thread payThread = new Thread(payRunnable);
                     payThread.start();
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.pay_detail_generate_failed);
+                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 }
             }
         });
@@ -238,9 +238,9 @@ public class PayActivity extends BaseActivity {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
+                        UserInfo userInfo = AccountManager.getInstance().getUserInfo();
                         userInfo.setVipStatus("1");
-                        AccountManager.INSTANCE.setUserInfo(userInfo);
+                        AccountManager.getInstance().setUserInfo(userInfo);
                         final MaterialDialog dialog = new MaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
                         dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
@@ -257,14 +257,14 @@ public class PayActivity extends BaseActivity {
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，
                         // 最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, "8000")) {
-                            CustomToast.INSTANCE.showToast("支付结果确认中");
+                            CustomToast.getInstance().showToast("支付结果确认中");
                         } else if (TextUtils.equals(resultStatus, "6001")) {
-                            CustomToast.INSTANCE.showToast(R.string.pay_detail_cancel);
+                            CustomToast.getInstance().showToast(R.string.pay_detail_cancel);
                         } else if (TextUtils.equals(resultStatus, "6002")) {
-                            CustomToast.INSTANCE.showToast("网络连接出错");
+                            CustomToast.getInstance().showToast("网络连接出错");
                         } else {
                             // 其他值就可以判断为支付失败，或者系统返回的错误
-                            CustomToast.INSTANCE.showToast(R.string.pay_detail_fail);
+                            CustomToast.getInstance().showToast(R.string.pay_detail_fail);
                         }
                     }
                     break;

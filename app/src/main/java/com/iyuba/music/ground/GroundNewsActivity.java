@@ -83,11 +83,11 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     intent.putExtra("articleList", newsArrayList);
                     context.startActivity(intent);
                 } else {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(GroundNewsActivity.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsArrayList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(lesson)));
-                    StudyManager.instance.setCurArticle(newsArrayList.get(position));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(lesson)));
+                    StudyManager.getInstance().setCurArticle(newsArrayList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -182,7 +182,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
             getData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+            CustomToast.getInstance().showToast(R.string.article_load_all);
         }
     }
 
@@ -240,30 +240,30 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         GroundNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.instance.isStartPlaying()) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsArrayList);
-                    StudyManager.instance.setCurArticle(newsArrayList.get(0));
-                    StudyManager.instance.setApp(app);
-                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsArrayList);
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    StudyManager.getInstance().setApp(app);
+                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.instance.isStartPlaying()) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsArrayList);
-                    StudyManager.instance.setCurArticle(newsArrayList.get(0));
-                    StudyManager.instance.setApp(app);
-                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsArrayList);
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    StudyManager.getInstance().setApp(app);
+                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -275,13 +275,13 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 if (!baseListEntity.isLastPage()) {
                     ArrayList<Article> netData = (ArrayList<Article>) baseListEntity.getData();
                     newsArrayList.addAll(netData);
-                    if (!StudyManager.instance.isStartPlaying()) {
-                        StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                        StudyManager.instance.setSourceArticleList(newsArrayList);
-                        StudyManager.instance.setCurArticle(newsArrayList.get(0));
-                        StudyManager.instance.setApp(app);
-                    } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsArrayList);
+                    if (!StudyManager.getInstance().isStartPlaying()) {
+                        StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                        StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                        StudyManager.getInstance().setApp(app);
+                    } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsArrayList);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {

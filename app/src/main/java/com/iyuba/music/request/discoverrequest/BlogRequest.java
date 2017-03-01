@@ -32,7 +32,7 @@ public class BlogRequest {
                         String resultCode = jsonObject.getString("result");
                         BaseApiEntity baseApiEntity = new BaseApiEntity();
                         if ("251".equals(resultCode)) {
-                            baseApiEntity.setState(BaseApiEntity.State.SUCCESS);
+                            baseApiEntity.setState(BaseApiEntity.SUCCESS);
                             baseApiEntity.setData(jsonObject.getString("subject"));
                             baseApiEntity.setMessage(jsonObject.getString("message"));
                             StringBuilder sb = new StringBuilder();

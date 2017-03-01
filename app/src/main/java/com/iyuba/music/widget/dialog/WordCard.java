@@ -91,7 +91,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         add = (RoundTextView) root.findViewById(R.id.word_add);
         close = (RoundTextView) root.findViewById(R.id.word_close);
         loading = (AVLoadingIndicatorView) root.findViewById(R.id.word_loading);
-        loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
+        loading.setIndicatorColor(GetAppColor.getInstance().getAppColor(context));
         wordContent = root.findViewById(R.id.word_content);
         wordOperation = root.findViewById(R.id.word_operation);
         speaker.setOnClickListener(this);
@@ -101,7 +101,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void initialContent() {
-        collected = (personalWordOp.findDataByName(keyword.toLowerCase(), AccountManager.INSTANCE.getUserId()) != null);
+        collected = (personalWordOp.findDataByName(keyword.toLowerCase(), AccountManager.getInstance().getUserId()) != null);
         word = wordSetOp.findDataByKey(keyword);
         if (word != null) {
             setViewContent();
@@ -123,12 +123,12 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -142,7 +142,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     private void setViewContent() {
         if (word == null) {
             this.dismiss();
-            CustomToast.INSTANCE.showToast(R.string.word_null);
+            CustomToast.getInstance().showToast(R.string.word_null);
         } else {
             wordContent.setVisibility(VISIBLE);
             wordOperation.setVisibility(VISIBLE);
@@ -177,16 +177,16 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                 }
             });
         } else if (view.equals(add)) {
-            if (AccountManager.INSTANCE.checkUserLogin()) {
+            if (AccountManager.getInstance().checkUserLogin()) {
                 if (!collected) {
-                    word.setUser(AccountManager.INSTANCE.getUserId());
+                    word.setUser(AccountManager.getInstance().getUserId());
                     word.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                     word.setViewCount("1");
                     word.setIsdelete("-1");
                     new PersonalWordOp().saveData(word);
                     synchroYun();
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.word_add);
+                    CustomToast.getInstance().showToast(R.string.word_add);
                 }
             } else {
                 CustomDialog.showLoginDialog(context);
@@ -249,23 +249,23 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void synchroYun() {
-        final String userid = AccountManager.INSTANCE.getUserId();
+        final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", keyword),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void response(Object object) {
                         personalWordOp.insertWord(keyword, userid);
-                        CustomToast.INSTANCE.showToast(R.string.word_add);
+                        CustomToast.getInstance().showToast(R.string.word_add);
                     }
                 });
     }

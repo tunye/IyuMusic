@@ -84,11 +84,11 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(ClassifyNewsList.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(ClassifyNewsList.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -104,11 +104,11 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(ClassifyNewsList.this.getClass().getName() + classify);
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(ClassifyNewsList.this.getClass().getName() + classify);
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -184,7 +184,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
             getNewsData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+            CustomToast.getInstance().showToast(R.string.article_load_all);
         }
     }
 
@@ -192,20 +192,20 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
         ClassifyNewsRequest.exeRequest(ClassifyNewsRequest.generateUrl(classify, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if ((ClassifyNewsList.this.getClass().getName() + classify).equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if ((ClassifyNewsList.this.getClass().getName() + classify).equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (ClassifyNewsList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (ClassifyNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -217,19 +217,19 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    CustomToast.INSTANCE.showToast(R.string.article_load_all);
+                    CustomToast.getInstance().showToast(R.string.article_load_all);
                 } else {
                     newsList.addAll(netData);
                     newsAdapter.setDataSet(newsList);
                     if (curPage != 1) {
-                        CustomToast.INSTANCE.showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
                     }
-                    if (ClassifyNewsList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsList);
+                    if (ClassifyNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsList);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.instance.getAppId());
+                        temp.setApp(ConstantManager.getInstance().getAppId());
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());
@@ -257,7 +257,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
     }
 
     private void getDbData() {
-        newsList.addAll(articleOp.findDataByCategory(ConstantManager.instance.getAppId(), classify, newsList.size(), 20));
+        newsList.addAll(articleOp.findDataByCategory(ConstantManager.getInstance().getAppId(), classify, newsList.size(), 20));
         newsAdapter.setDataSet(newsList);
     }
 }

@@ -140,12 +140,12 @@ public class RegistActivity extends BaseInputActivity {
                     CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void onServerError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
@@ -342,7 +342,7 @@ public class RegistActivity extends BaseInputActivity {
             return;
         if (cur.moveToNext()) {
             String smsbody = cur.getString(cur.getColumnIndex("body"));
-            if (smsbody.contains(ConstantManager.instance.getAppName())) {
+            if (smsbody.contains(ConstantManager.getInstance().getAppName())) {
                 String regEx = "[^0-9]";
                 Pattern p = Pattern.compile(regEx);
                 Matcher m = p.matcher(smsbody);
@@ -398,13 +398,13 @@ public class RegistActivity extends BaseInputActivity {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void onServerError(String msg) {
                     waittingDialog.dismiss();
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
@@ -413,20 +413,20 @@ public class RegistActivity extends BaseInputActivity {
                     BaseApiEntity baseApiEntity = (BaseApiEntity) object;
                     int result = (int) baseApiEntity.getData();
                     if (result == 111) {
-                        CustomToast.INSTANCE.showToast(R.string.regist_success);
+                        CustomToast.getInstance().showToast(R.string.regist_success);
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());
                         setResult(1, intent);
                         RegistActivity.this.finish();
                     } else if (result == 112) {
-                        CustomToast.INSTANCE.showToast(R.string.regist_userid_same);
+                        CustomToast.getInstance().showToast(R.string.regist_userid_same);
                         userName.setError(context.getString(R.string.regist_userid_same));
                     } else if (result == 113) {
-                        CustomToast.INSTANCE.showToast(R.string.regist_email_same);
+                        CustomToast.getInstance().showToast(R.string.regist_email_same);
                         email.setError(context.getString(R.string.regist_email_same));
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.regist_fail + " " + baseApiEntity.getMessage());
+                        CustomToast.getInstance().showToast(R.string.regist_fail + " " + baseApiEntity.getMessage());
                     }
                 }
             });
@@ -449,13 +449,13 @@ public class RegistActivity extends BaseInputActivity {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void onServerError(String msg) {
                     waittingDialog.dismiss();
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
@@ -469,10 +469,10 @@ public class RegistActivity extends BaseInputActivity {
                         setResult(1, intent);
                         RegistActivity.this.finish();
                     } else if (result == 112) {
-                        CustomToast.INSTANCE.showToast(R.string.regist_userid_same);
+                        CustomToast.getInstance().showToast(R.string.regist_userid_same);
                         userName.setError(context.getString(R.string.regist_userid_same));
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.regist_fail);
+                        CustomToast.getInstance().showToast(R.string.regist_fail);
                     }
                 }
             });
@@ -507,7 +507,7 @@ public class RegistActivity extends BaseInputActivity {
                             activity.email.setVisibility(View.GONE);
                             activity.changeUIResumeByPara();
                         } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                            CustomToast.INSTANCE.showToast(R.string.regist_code_on_way);
+                            CustomToast.getInstance().showToast(R.string.regist_code_on_way);
                         }
                     } else {
                         activity.messageCode.setError(activity.getString(R.string.matches_msg_code));

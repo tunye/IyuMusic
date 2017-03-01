@@ -47,9 +47,9 @@ public class AliPay {
                         if ("1".equals(jsonObject.getString("result"))) {
                             apiEntity.setData(TextAttr.decode(jsonObject.getString("orderInfo")));
                             apiEntity.setValue(jsonObject.getString("sign"));
-                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                            apiEntity.setState(BaseApiEntity.SUCCESS);
                         } else {
-                            apiEntity.setState(BaseApiEntity.State.FAIL);
+                            apiEntity.setState(BaseApiEntity.FAIL);
                         }
                         response.response(apiEntity);
                     } catch (JSONException e) {
@@ -77,11 +77,11 @@ public class AliPay {
         paras.put("WIDbody", body);
         paras.put("WIDtotal_fee", cost);
         paras.put("WIDdefaultbank", "");
-        paras.put("app_id", ConstantManager.instance.getAppId());
-        paras.put("userId", AccountManager.INSTANCE.getUserId());
+        paras.put("app_id", ConstantManager.getInstance().getAppId());
+        paras.put("userId", AccountManager.getInstance().getUserId());
         paras.put("amount", month);
         paras.put("product_id", productId);
-        paras.put("code", generateCode(AccountManager.INSTANCE.getUserId()));
+        paras.put("code", generateCode(AccountManager.getInstance().getUserId()));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 

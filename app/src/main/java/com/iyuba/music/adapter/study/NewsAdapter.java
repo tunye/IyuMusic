@@ -84,14 +84,14 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 BaseListEntity listEntity = (BaseListEntity) object;
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.instance.getAppId());
+                    temp.setApp(ConstantManager.getInstance().getAppId());
                 }
                 new ArticleOp().saveData(netData);
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");
-                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                StudyManager.instance.setSourceArticleList(netData);
-                StudyManager.instance.setCurArticle(netData.get(0));
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setListFragmentPos("SongCategoryFragment.class");
+                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setSourceArticleList(netData);
+                StudyManager.getInstance().setCurArticle(netData.get(0));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
         });
@@ -184,7 +184,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         DownloadFile downloadFile = new DownloadFile();
                         downloadFile.id = article.getId();
                         downloadFile.downloadState = "start";
-                        DownloadManager.sInstance.fileList.add(downloadFile);
+                        DownloadManager.getInstance().fileList.add(downloadFile);
                         new DownloadTask(article).start();
                         notifyItemChanged(newsViewHolder.getLayoutPosition());
                     } else {
@@ -199,8 +199,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 newsViewHolder.timeBackground.setVisibility(View.GONE);
                 newsViewHolder.time.setVisibility(View.GONE);
                 DownloadFile file;
-                for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
-                    file = DownloadManager.sInstance.fileList.get(i);
+                for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
+                    file = DownloadManager.getInstance().fileList.get(i);
                     if (file.id == id) {
                         progresses.put(String.valueOf(file.id),
                                 newsViewHolder.download);
@@ -254,7 +254,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
-            bannerView.setSelectItemColor(GetAppColor.instance.getAppColor(view.getContext()));
+            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor(view.getContext()));
         }
 
         void setBannerData(final List<BannerEntity> datas) {
@@ -269,22 +269,22 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             view.getContext().startActivity(intent);
                             break;
                         case "1":
-                            Article tempArticle = new ArticleOp().findById(ConstantManager.instance.getAppId(), Integer.parseInt(data.getName()));
+                            Article tempArticle = new ArticleOp().findById(ConstantManager.getInstance().getAppId(), Integer.parseInt(data.getName()));
                             if (tempArticle.getId() == 0) {
                                 getAppointArticle(view.getContext(), data.getName());
                             } else {
-                                StudyManager.instance.setStartPlaying(true);
-                                StudyManager.instance.setListFragmentPos("NewsFragment.class");
-                                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
+                                StudyManager.getInstance().setStartPlaying(true);
+                                StudyManager.getInstance().setListFragmentPos("NewsFragment.class");
+                                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
                                 ArrayList<Article> articles = new ArrayList<>();
                                 articles.add(tempArticle);
-                                StudyManager.instance.setSourceArticleList(articles);
-                                StudyManager.instance.setCurArticle(tempArticle);
+                                StudyManager.getInstance().setSourceArticleList(articles);
+                                StudyManager.getInstance().setCurArticle(tempArticle);
                                 view.getContext().startActivity(new Intent(view.getContext(), StudyActivity.class));
                             }
                             break;
                         case "2":
-                            CustomToast.INSTANCE.showToast(R.string.app_intro);
+                            CustomToast.getInstance().showToast(R.string.app_intro);
                             break;
                     }
                 }
@@ -304,7 +304,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     switch (file.downloadState) {
                         case "start":
                             tempBar = adapter.progresses.get(String.valueOf(file.id));
-                            tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
+                            tempBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(adapter.context));
                             if (file.fileSize != 0 && file.downloadSize != 0) {
                                 tempBar.setMax(file.fileSize);
                                 tempBar.setProgress(file.downloadSize);
@@ -342,7 +342,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     file = (DownloadFile) msg.obj;
                     tempBar = adapter.progresses.get(String.valueOf(file.id));
                     tempBar.setVisibility(View.GONE);
-                    DownloadManager.sInstance.fileList.remove(file);
+                    DownloadManager.getInstance().fileList.remove(file);
                     adapter.notifyDataSetChanged();
                     break;
             }

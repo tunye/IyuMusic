@@ -70,7 +70,7 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         holder.doingPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(doing.getUid());
+                SocialManager.getInstance().pushFriendId(doing.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);

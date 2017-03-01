@@ -80,11 +80,11 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setListFragmentPos(NewsFragment.this.getClass().getName());
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(position - 1));
+                    StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(position - 1));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -100,11 +100,11 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setListFragmentPos(NewsFragment.this.getClass().getName());
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position) - 1));
+                    StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position) - 1));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -210,30 +210,30 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
-                if (!StudyManager.instance.isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setCurArticle(newsList.get(0));
-                    StudyManager.instance.setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
-                if (!StudyManager.instance.isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setCurArticle(newsList.get(0));
-                    StudyManager.instance.setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -248,25 +248,25 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                         break;
                     case MySwipeRefreshLayout.BOTTOM_REFRESH:
                         if (netData.size() == 0) {
-                            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+                            CustomToast.getInstance().showToast(R.string.article_load_all);
                         } else {
                             newsList.addAll(netData);
                         }
                         break;
                 }
-                if (!StudyManager.instance.isStartPlaying()) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setCurArticle(newsList.get(0));
-                    StudyManager.instance.setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
                 newsAdapter.setDataSet(newsList);
                 LocalInfo localinfo;
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.instance.getAppId());
+                    temp.setApp(ConstantManager.getInstance().getAppId());
                     localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                     if (localinfo.getId() == 0) {
                         localinfo.setApp(temp.getApp());
@@ -281,9 +281,9 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getDbData(int maxId) {
         if (maxId == 0) {
-            newsList = articleOp.findDataByAll(ConstantManager.instance.getAppId(), 0, 20);
+            newsList = articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), 0, 20);
         } else {
-            newsList.addAll(articleOp.findDataByAll(ConstantManager.instance.getAppId(), newsList.size(), 20));
+            newsList.addAll(articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), newsList.size(), 20));
         }
         newsAdapter.setDataSet(newsList);
     }

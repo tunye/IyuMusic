@@ -59,10 +59,10 @@ public class SayingActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SettingConfigManager.instance.getSayingMode() == 1) {
-                    SettingConfigManager.instance.setSayingMode(0);
+                if (SettingConfigManager.getInstance().getSayingMode() == 1) {
+                    SettingConfigManager.getInstance().setSayingMode(0);
                 } else {
-                    SettingConfigManager.instance.setSayingMode(1);
+                    SettingConfigManager.getInstance().setSayingMode(1);
                 }
                 changeUIResumeByPara();
             }
@@ -82,7 +82,7 @@ public class SayingActivity extends BaseActivity {
     }
 
     protected void changeUIResumeByPara() {
-        if (SettingConfigManager.instance.getSayingMode() == 1) {
+        if (SettingConfigManager.getInstance().getSayingMode() == 1) {
             toolbarOper.setText(R.string.word_saying_manualchange);
             next.setVisibility(View.INVISIBLE);
         } else {
@@ -140,7 +140,7 @@ public class SayingActivity extends BaseActivity {
                     Saying saying = new SayingOp().findDataById(activity.getRandomId());
                     activity.chinese.setText(saying.getChinese());
                     activity.english.setText(saying.getEnglish());
-                    if (SettingConfigManager.instance.getSayingMode() == 0) {
+                    if (SettingConfigManager.getInstance().getSayingMode() == 0) {
                         activity.handler.removeMessages(0);
                     } else {
                         activity.handler.sendEmptyMessageDelayed(0, 4500);

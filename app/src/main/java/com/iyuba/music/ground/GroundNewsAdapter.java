@@ -67,8 +67,8 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
             });
         }
         final Article article = mList.get(position);
-        if (SettingConfigManager.instance.getLanguage() == 2 ||
-                (SettingConfigManager.instance.getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
+        if (SettingConfigManager.getInstance().getLanguage() == 2 ||
+                (SettingConfigManager.getInstance().getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
             holder.title.setText(article.getTitle());
         } else {
             if (TextUtils.isEmpty(article.getTitle_cn())) {
@@ -77,7 +77,7 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
                 holder.title.setText(article.getTitle_cn());
             }
         }
-        holder.title.setTextColor(GetAppColor.instance.getAppColor(context));
+        holder.title.setTextColor(GetAppColor.getInstance().getAppColor(context));
         holder.content.setText(article.getContent());
         holder.time.setText(article.getTime().split(" ")[0]);
         holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
@@ -91,9 +91,9 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
                     DownloadFile downloadFile = new DownloadFile();
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
-                    DownloadManager.sInstance.fileList.add(downloadFile);
+                    DownloadManager.getInstance().fileList.add(downloadFile);
                     new DownloadTask(article).start();
-                    CustomToast.INSTANCE.showToast(R.string.article_download_start);
+                    CustomToast.getInstance().showToast(R.string.article_download_start);
                 }
             }
         });

@@ -30,7 +30,7 @@ public class EggShellActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_shell);
         context = this;
-        SettingConfigManager.instance.setEggShell(true);
+        SettingConfigManager.getInstance().setEggShell(true);
         initWidget();
         setListener();
         changeUIByPara();

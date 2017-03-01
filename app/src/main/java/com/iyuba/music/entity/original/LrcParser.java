@@ -32,10 +32,10 @@ public class LrcParser {
 
     public boolean fileExist(int para) {
         String fileUrl;
-        if (StudyManager.instance.getApp().equals("209")) {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + para + ".lrc";
+        if (StudyManager.getInstance().getApp().equals("209")) {
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + StudyManager.instance.getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         File file = new File(fileUrl);
         return file.exists();
@@ -46,10 +46,10 @@ public class LrcParser {
      */
     public void getOriginal(int para, IOperationResult result) {
         String fileUrl;
-        if (StudyManager.instance.getApp().equals("209")) {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + para + ".lrc";
+        if (StudyManager.getInstance().getApp().equals("209")) {
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + StudyManager.instance.getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         File file = new File(fileUrl);
         if (!file.exists())

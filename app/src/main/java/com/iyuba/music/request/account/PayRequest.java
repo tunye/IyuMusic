@@ -32,7 +32,7 @@ public class PayRequest {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
+                        UserInfo userInfo = AccountManager.getInstance().getUserInfo();
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
@@ -45,9 +45,9 @@ public class PayRequest {
                                     if ("result".equals(nodeName)) {
                                         String result = xmlPullParser.nextText();
                                         if (result.equals("1")) {
-                                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                            apiEntity.setState(BaseApiEntity.SUCCESS);
                                         } else {
-                                            apiEntity.setState(BaseApiEntity.State.FAIL);
+                                            apiEntity.setState(BaseApiEntity.FAIL);
                                         }
                                     }
                                     if ("msg".equals(nodeName)) {
@@ -97,9 +97,9 @@ public class PayRequest {
         HashMap<String, Object> para = new HashMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);
-        para.put("appId", ConstantManager.instance.getAppId());
+        para.put("appId", ConstantManager.getInstance().getAppId());
         para.put("productId", paras[2]);
-        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.instance.getAppId()
+        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.getInstance().getAppId()
                 + paras[0] + paras[2] + "iyuba"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }

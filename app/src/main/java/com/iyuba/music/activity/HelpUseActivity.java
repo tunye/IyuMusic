@@ -41,8 +41,8 @@ public class HelpUseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
+            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -60,7 +60,7 @@ public class HelpUseActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int arg0) {
-                pi.setDirection(PageIndicator.Direction.NONE);
+                pi.setDirection(PageIndicator.NONE);
                 pi.setCurrentItem(viewPager.getCurrentItem());
             }
 
@@ -68,10 +68,10 @@ public class HelpUseActivity extends AppCompatActivity {
             public void onPageScrolled(int arg0, float arg1, int arg2) {
                 if (lastChange != 0 && arg1 != 0) {
                     if (lastChange > arg1) {//左滑
-                        pi.setDirection(PageIndicator.Direction.LEFT);
+                        pi.setDirection(PageIndicator.LEFT);
                         pi.setMovePercent(arg0 + 1, arg1);
                     } else {
-                        pi.setDirection(PageIndicator.Direction.RIGHT);
+                        pi.setDirection(PageIndicator.RIGHT);
                         pi.setMovePercent(arg0, arg1);
                     }
                 }

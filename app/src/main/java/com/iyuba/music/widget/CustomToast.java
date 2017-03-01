@@ -8,12 +8,22 @@ import com.iyuba.music.manager.RuntimeManager;
 /**
  * 重载后toast 可同时触发
  */
-public enum CustomToast {
-    // enum 维持一个单例
-    INSTANCE;
+public class CustomToast {
+    private static class SingleInstanceHelper {
+        private static CustomToast instance = new CustomToast();
+    }
+
     public static final int LENGTH_SHORT = Toast.LENGTH_SHORT;
     public static final int LENGTH_LONG = Toast.LENGTH_LONG;
     private Toast mToast;
+
+    private CustomToast() {
+
+    }
+
+    public static CustomToast getInstance() {
+        return SingleInstanceHelper.instance;
+    }
 
     public void showToast(String text) {
         showToast(text, LENGTH_SHORT);

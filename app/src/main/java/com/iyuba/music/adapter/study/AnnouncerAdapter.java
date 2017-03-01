@@ -64,7 +64,7 @@ public class AnnouncerAdapter extends RecyclerView.Adapter<AnnouncerAdapter.MyVi
             @Override
             @TargetApi(21)
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(announcer.getUid());
+                SocialManager.getInstance().pushFriendId(announcer.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);

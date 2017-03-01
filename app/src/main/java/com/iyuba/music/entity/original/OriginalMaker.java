@@ -17,7 +17,7 @@ public class OriginalMaker {
     private static OriginalMaker instance;
 
     private OriginalMaker() {
-        File file = new File(ConstantManager.instance.getOriginalFolder());
+        File file = new File(ConstantManager.getInstance().getOriginalFolder());
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -35,10 +35,10 @@ public class OriginalMaker {
      */
     public void makeOriginal(int para, ArrayList<Original> original) {
         String fileUrl;
-        if (StudyManager.instance.getApp().equals("209")) {
-            fileUrl = ConstantManager.instance.getOriginalFolder() + File.separator + para + ".lrc";
+        if (StudyManager.getInstance().getApp().equals("209")) {
+            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.instance.getOriginalFolder() + File.separator + StudyManager.instance.getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         StringBuilder sb = new StringBuilder();
         for (Original lrc : original) {

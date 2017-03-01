@@ -82,7 +82,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         if (holder.menuText.getText().equals(context.getString(R.string.oper_night))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            holder.menuResult.setText(SettingConfigManager.instance.isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            holder.menuResult.setText(SettingConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
         if (holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);

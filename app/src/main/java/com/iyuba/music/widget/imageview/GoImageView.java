@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.iyuba.music.R;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by 10202 on 2016/4/1.
@@ -15,14 +19,15 @@ import com.iyuba.music.R;
 public class GoImageView extends View {
     private int color;
     private float lineWidth;
-    private Direction direction;
+    @Direction
+    private int direction;
     private Paint paint;
 
     public GoImageView(Context context) {
         this(context, null);
         color = context.getResources().getColor(R.color.background_light);
         lineWidth = 12;
-        direction = Direction.LEFT;
+        direction = LEFT;
         initPaint();
     }
 
@@ -33,16 +38,16 @@ public class GoImageView extends View {
         int directionIndex = a.getInt(R.styleable.GoImageView_go_direction, 0);
         switch (directionIndex) {
             case 0:
-                direction = Direction.LEFT;
+                direction = LEFT;
                 break;
             case 1:
-                direction = Direction.RIGHT;
+                direction = RIGHT;
                 break;
             case 2:
-                direction = Direction.TOP;
+                direction = TOP;
                 break;
             case 3:
-                direction = Direction.BOTTOM;
+                direction = BOTTOM;
                 break;
         }
         color = a.getColor(R.styleable.GoImageView_go_color, context.getResources().getColor(R.color.background_light));
@@ -124,5 +129,13 @@ public class GoImageView extends View {
         paint.setStrokeWidth(lineWidth);//设置画笔宽度
     }
 
-    public enum Direction {TOP, LEFT, RIGHT, BOTTOM}
+    public static final int TOP = 0x01;
+    public static final int LEFT = 0x02;
+    public static final int RIGHT = 0x03;
+    public static final int BOTTOM = 0x04;
+
+    @IntDef({TOP, LEFT, RIGHT, BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Direction {
+    }
 }

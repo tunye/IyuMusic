@@ -144,16 +144,16 @@ public class CampaignActivity extends BaseActivity {
     }
 
     private String getRechargeUrl() {
-        String userId = AccountManager.INSTANCE.getUserId();
+        String userId = AccountManager.getInstance().getUserId();
         String token = MD5.getMD5ofStr(userId + "iyuba");
         return "http://m.iyuba.com/m_login/present.jsp?uid=" + userId + "&token=" + token;
     }
 
 
     private String getExchangeUrl() {
-        return "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.INSTANCE.getUserId()
-                + "&appid=" + ConstantManager.instance.getAppId() + "&username="
-                + AccountManager.INSTANCE.getUserName() + "&sign=" +
-                MD5.getMD5ofStr("iyuba" + AccountManager.INSTANCE.getUserId() + "camstory");
+        return "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
+                + "&appid=" + ConstantManager.getInstance().getAppId() + "&username="
+                + AccountManager.getInstance().getUserName() + "&sign=" +
+                MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory");
     }
 }

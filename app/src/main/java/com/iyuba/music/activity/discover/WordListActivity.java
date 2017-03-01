@@ -86,7 +86,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     PersonalWordOp personalWordOp = new PersonalWordOp();
                     StringBuilder sb = new StringBuilder();
                     for (Word temp : deleteList) {
-                        personalWordOp.tryToDeleteWord(temp.getWord(), AccountManager.INSTANCE.getUserId());
+                        personalWordOp.tryToDeleteWord(temp.getWord(), AccountManager.getInstance().getUserId());
                         sb.append(temp.getWord()).append(',');
                     }
                     synchroYun(sb.toString());
@@ -94,9 +94,9 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     getDataList();
                     buildAdapter();
                     if (deleteList.size() != 0)
-                        CustomToast.INSTANCE.showToast(R.string.wordlist_delete);
+                        CustomToast.getInstance().showToast(R.string.wordlist_delete);
                 } else {
-                    if (AccountManager.INSTANCE.checkUserLogin()) {
+                    if (AccountManager.getInstance().checkUserLogin()) {
                         synchroFromNet(1);
                     } else {
                         CustomDialog.showLoginDialog(context);
@@ -205,8 +205,8 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     }
 
     private void getPersonalDataList() {
-        if (AccountManager.INSTANCE.checkUserLogin()) {
-            wordArrayList = new PersonalWordOp().findDataByAll(AccountManager.INSTANCE.getUserId());
+        if (AccountManager.getInstance().checkUserLogin()) {
+            wordArrayList = new PersonalWordOp().findDataByAll(AccountManager.getInstance().getUserId());
         } else {
             wordArrayList = new PersonalWordOp().findDataByAll("0");
         }
@@ -214,7 +214,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void sortWordList(int order) {
         if (order == -1) {
-            order = SettingConfigManager.instance.getWordOrder();
+            order = SettingConfigManager.getInstance().getWordOrder();
         }
         if (order == 1) {
             Collections.sort(wordArrayList, new Comparator<Word>() {
@@ -234,7 +234,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void getDataList() {
         getPersonalDataList();
         if (wordArrayList.size() == 0) {
-            CustomToast.INSTANCE.showToast(R.string.word_no_collect);
+            CustomToast.getInstance().showToast(R.string.word_no_collect);
         } else {
             sortWordList(-1);
             wordParents = WordParent.generateWordParent(wordArrayList);
@@ -244,16 +244,16 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void synchroFromNet(final int page) {
         waitingDialog.show();
         DictSynchroRequest.getInstance().exeRequest(DictSynchroRequest.getInstance().generateUrl(
-                AccountManager.INSTANCE.getUserId(), page), new IProtocolResponse() {
+                AccountManager.getInstance().getUserId(), page), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 waitingDialog.dismiss();
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 waitingDialog.dismiss();
             }
 
@@ -281,7 +281,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     });
                     dialog.show();
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.word_synchro_final);
+                    CustomToast.getInstance().showToast(R.string.word_synchro_final);
                     saveData();
                 }
             }
@@ -310,17 +310,17 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     }
 
     private void synchroYun(final String keyword) {
-        final String userid = AccountManager.INSTANCE.getUserId();
+        final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", keyword),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override

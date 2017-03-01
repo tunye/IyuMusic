@@ -101,7 +101,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         doingAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.instance.pushDoing(doings.get(position));
+                SocialManager.getInstance().pushDoing(doings.get(position));
                 Intent intent = new Intent(context, ReplyDoingActivity.class);
                 intent.putExtra(ReplyDoingActivity.VIP_FLG, "1".equals(userinfo.getVipStatus()));
                 startActivity(intent);
@@ -140,12 +140,12 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     protected void changeUIResumeByPara() {
-        String tempUid = SocialManager.instance.getFriendId();
-        if (tempUid.equals(AccountManager.INSTANCE.getUserId())) {//himself
+        String tempUid = SocialManager.getInstance().getFriendId();
+        if (tempUid.equals(AccountManager.getInstance().getUserId())) {//himself
             myControl.setVisibility(View.VISIBLE);
             otherControl.setVisibility(View.GONE);
             toolbarOper.setVisibility(View.VISIBLE);
-            userinfo = AccountManager.INSTANCE.getUserInfo();
+            userinfo = AccountManager.getInstance().getUserInfo();
             setContent();
         } else {//other
             myControl.setVisibility(View.GONE);
@@ -153,24 +153,23 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.INSTANCE.getUserId()), userinfo
+            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.getInstance().getUserId()), userinfo
                     , new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void onServerError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void response(Object object) {
                             BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                            if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                            if (BaseApiEntity.isSuccess(baseApiEntity)) {
                                 userinfo = (UserInfo) baseApiEntity.getData();
-                                Log.e("aaa", userinfo.getVipStatus() + " " + userinfo.getUid());
                                 doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
                                 doingAdapter.notifyDataSetChanged();
                                 setContent();
@@ -209,7 +208,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             getDoingData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.person_doings_load_all);
+            CustomToast.getInstance().showToast(R.string.person_doings_load_all);
         }
     }
 
@@ -225,7 +224,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                             @Override
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
-                                AccountManager.INSTANCE.loginOut();
+                                AccountManager.getInstance().loginOut();
                                 finish();
                             }
                         })
@@ -238,11 +237,11 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                 mMaterialDialog.show();
                 break;
             case R.id.personal_img:
-                if (SocialManager.instance.getFriendId().equals(AccountManager.INSTANCE.getUserId())) {
+                if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
                     startActivity(new Intent(context, ChangePhotoActivity.class));
                 } else {
                     Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.instance.getFriendId());
+                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
                     context.startActivity(intent);
                 }
                 break;
@@ -271,30 +270,30 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                 }
                 break;
             case R.id.fans_attention:
-                SocialManager.instance.pushFriendId(SocialManager.instance.getFriendId());
+                SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 Intent intent = new Intent(context, FriendCenter.class);
                 intent.putExtra("type", "0");
                 intent.putExtra("needPop", true);
                 startActivity(intent);
                 break;
             case R.id.fans_fans:
-                SocialManager.instance.pushFriendId(SocialManager.instance.getFriendId());
+                SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 intent = new Intent(context, FriendCenter.class);
                 intent.putExtra("type", "1");
                 intent.putExtra("needPop", true);
                 startActivity(intent);
                 break;
             case R.id.personal_message:
-                SocialManager.instance.pushFriendId(userinfo.getUid());
-                SocialManager.instance.pushFriendName(userinfo.getUsername());
+                SocialManager.getInstance().pushFriendId(userinfo.getUid());
+                SocialManager.getInstance().pushFriendName(userinfo.getUsername());
                 intent = new Intent(context, ChattingActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
                 break;
             case R.id.personal_other_detail:
             case R.id.personal_detail:
-                SocialManager.instance.pushFriendId(userinfo.getUid());
-                SocialManager.instance.pushFriendName(userinfo.getUsername());
+                SocialManager.getInstance().pushFriendId(userinfo.getUid());
+                SocialManager.getInstance().pushFriendName(userinfo.getUsername());
                 intent = new Intent(context, UserDetailInfoActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -317,7 +316,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -328,7 +327,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                     if (doingPage == 1) {
                         findViewById(R.id.no_doing).setVisibility(View.VISIBLE);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.person_doings_load_all);
+                        CustomToast.getInstance().showToast(R.string.person_doings_load_all);
                     }
                 } else {
                     findViewById(R.id.no_doing).setVisibility(View.GONE);
@@ -338,7 +337,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
 //                    if (doingPage == 1) {
 //
 //                    } else {
-//                        CustomToast.INSTANCE.showToast(doingPage + "/" + listEntity.getTotalPage(), 800);
+//                        CustomToast.getInstance().showToast(doingPage + "/" + listEntity.getTotalPage(), 800);
 //                    }
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -385,7 +384,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void addAttention() {
-        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.INSTANCE.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -400,16 +399,16 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             public void response(Object object) {
                 if (object.toString().equals("500")) {
                     attent.setText(R.string.person_attention_already);
-                    CustomToast.INSTANCE.showToast(R.string.person_attention_success);
+                    CustomToast.getInstance().showToast(R.string.person_attention_success);
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.person_attention_fail);
+                    CustomToast.getInstance().showToast(R.string.person_attention_fail);
                 }
             }
         });
     }
 
     private void cancelAttention() {
-        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.INSTANCE.getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -424,9 +423,9 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             public void response(Object object) {
                 if (object.toString().equals("510")) {
                     attent.setText(R.string.person_attention);
-                    CustomToast.INSTANCE.showToast(R.string.person_attention_cancel_success);
+                    CustomToast.getInstance().showToast(R.string.person_attention_cancel_success);
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.person_attention_cancel_fail);
+                    CustomToast.getInstance().showToast(R.string.person_attention_cancel_fail);
                 }
             }
         });
@@ -436,7 +435,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     public void onDestroy() {
         super.onDestroy();
         if (needPop) {
-            SocialManager.instance.popFriendId();
+            SocialManager.getInstance().popFriendId();
         }
     }
 }

@@ -79,11 +79,11 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(DownloadSongActivity.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(DownloadSongActivity.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -154,8 +154,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                             localInfoOp.updateDownload(temp.getId(), temp.getApp(), 0);
                         }
                     }
-                    if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsList);
+                    if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsList);
                     }
                     newsAdapter.setDataSet(newsList);
                 }
@@ -189,13 +189,13 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             newsList.add(article);
         }
         newsAdapter.setDataSet(newsList);
-        if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-            StudyManager.instance.setSourceArticleList(newsList);
+        if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+            StudyManager.getInstance().setSourceArticleList(newsList);
         }
     }
 
     private void deleteFile(int id, String app) {
-        String baseUrl = ConstantManager.instance.getMusicFolder() + File.separator;
+        String baseUrl = ConstantManager.getInstance().getMusicFolder() + File.separator;
         if (app.equals("209")) {
             File deleteFile = new File(baseUrl + id + ".mp3");
             if (deleteFile.exists()) {

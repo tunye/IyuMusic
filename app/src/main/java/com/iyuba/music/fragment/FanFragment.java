@@ -48,9 +48,9 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
         friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.instance.pushFriendId(fansArrayList.get(position).getUid());
+                SocialManager.getInstance().pushFriendId(fansArrayList.get(position).getUid());
                 if ("chat".equals(((FriendCenter) getActivity()).getIntentMessage())) {
-                    SocialManager.instance.pushFriendName(fansArrayList.get(position).getUsername());
+                    SocialManager.getInstance().pushFriendName(fansArrayList.get(position).getUsername());
                     Intent intent = new Intent(context, ChattingActivity.class);
                     intent.putExtra("needpop", true);
                     startActivity(intent);
@@ -104,21 +104,21 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
             getFriendData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+            CustomToast.getInstance().showToast(R.string.friend_load_all);
         }
     }
 
     private void getFriendData() {
-        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.instance.getFriendId(), curPage), new IProtocolResponse() {
+        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -128,15 +128,15 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     if (curPage == 1) {
-                        CustomToast.INSTANCE.showToast(R.string.no_friend);
+                        CustomToast.getInstance().showToast(R.string.no_friend);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+                        CustomToast.getInstance().showToast(R.string.friend_load_all);
                     }
                 } else {
                     fansArrayList.addAll((ArrayList<Fans>) listEntity.getData());
                     friendAdapter.setFriendList(fansArrayList);
                     if (curPage != 1) {
-                        CustomToast.INSTANCE.showToast(curPage + "/" + listEntity.getTotalPage(), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), 800);
                     }
                 }
                 swipeRefreshLayout.setRefreshing(false);

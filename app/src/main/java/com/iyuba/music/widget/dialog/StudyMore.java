@@ -62,7 +62,7 @@ public class StudyMore {
     }
 
     private void init() {
-        app = StudyManager.instance.getApp();
+        app = StudyManager.getInstance().getApp();
         GridView moreGrid = (GridView) root.findViewById(R.id.study_menu);
         if (app.equals("209")) {
             menuDrawable = new int[]{R.drawable.share, R.drawable.favor,
@@ -77,7 +77,7 @@ public class StudyMore {
         }
         studyMenuAdapter = new StudyMenuAdapter(context);
         final LocalInfoOp localInfoOp = new LocalInfoOp();
-        final Article curArticle = StudyManager.instance.getCurArticle();
+        final Article curArticle = StudyManager.getInstance().getCurArticle();
         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
             menuDrawable[1] = R.drawable.favor_true;
         } else {
@@ -92,7 +92,7 @@ public class StudyMore {
             menuDrawable[2] = R.drawable.download;
         }
         if (app.equals("209")) {
-            if (SettingConfigManager.instance.isNight()) {
+            if (SettingConfigManager.getInstance().isNight()) {
                 menuDrawable[6] = R.drawable.night_true;
             } else {
                 menuDrawable[6] = R.drawable.night;
@@ -106,12 +106,12 @@ public class StudyMore {
                 Intent intent;
                 switch (position) {
                     case 0:
-                        ShareDialog shareDialog = new ShareDialog(activity, StudyManager.instance.getCurArticle());
+                        ShareDialog shareDialog = new ShareDialog(activity, StudyManager.getInstance().getCurArticle());
                         shareDialog.show();
                         break;
                     case 1:
                         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.INSTANCE.getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -126,14 +126,14 @@ public class StudyMore {
                                 public void response(Object object) {
                                     if (object.toString().equals("del")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 0);
-                                        CustomToast.INSTANCE.showToast(R.string.article_favor_cancel);
+                                        CustomToast.getInstance().showToast(R.string.article_favor_cancel);
                                         menuDrawable[1] = R.drawable.favor;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable);
                                     }
                                 }
                             });
                         } else {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.INSTANCE.getUserId(), curArticle.getId(), "insert"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "insert"), new IProtocolResponse() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -148,7 +148,7 @@ public class StudyMore {
                                 public void response(Object object) {
                                     if (object.toString().equals("insert")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 1);
-                                        CustomToast.INSTANCE.showToast(R.string.article_favor);
+                                        CustomToast.getInstance().showToast(R.string.article_favor);
                                         menuDrawable[1] = R.drawable.favor_true;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable);
                                     }
@@ -159,7 +159,7 @@ public class StudyMore {
                     case 2:
                         int downloadState = localInfoOp.findDataById(app, curArticle.getId()).getDownload();
                         if (downloadState == 1) {
-                            CustomToast.INSTANCE.showToast(R.string.article_download_over);
+                            CustomToast.getInstance().showToast(R.string.article_download_over);
                         } else if (downloadState == 0) {
                             localInfoOp.updateDownload(curArticle.getId(), app, 2);
                             menuDrawable[2] = R.drawable.downloading;
@@ -167,10 +167,10 @@ public class StudyMore {
                             DownloadFile downloadFile = new DownloadFile();
                             downloadFile.id = curArticle.getId();
                             downloadFile.downloadState = "start";
-                            DownloadManager.sInstance.fileList.add(downloadFile);
+                            DownloadManager.getInstance().fileList.add(downloadFile);
                             new DownloadTask(curArticle).start();
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.article_downloading);
+                            CustomToast.getInstance().showToast(R.string.article_downloading);
                         }
                         break;
                     case 3:
@@ -185,25 +185,25 @@ public class StudyMore {
                         break;
                     case 5:
                         if (curArticle.getSimple() == 0) {
-                            Announcer announcer = new AnnouncerOp().findById(StudyManager.instance.getCurArticle().getStar());
+                            Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
                             if (announcer == null || announcer.getId() == 0) {
                                 getAnnounceList();
                             } else {
-                                SocialManager.instance.pushFriendId(announcer.getUid());
+                                SocialManager.getInstance().pushFriendId(announcer.getUid());
                                 intent = new Intent(context, PersonalHomeActivity.class);
                                 intent.putExtra("needpop", true);
                                 context.startActivity(intent);
                             }
                         } else {
-                            SocialManager.instance.pushFriendId("928");
+                            SocialManager.getInstance().pushFriendId("928");
                             intent = new Intent(context, PersonalHomeActivity.class);
                             intent.putExtra("needpop", true);
                             context.startActivity(intent);
                         }
                         break;
                     case 6:
-                        SettingConfigManager.instance.setNight(!SettingConfigManager.instance.isNight());
-                        ChangePropery.updateNightMode(SettingConfigManager.instance.isNight());
+                        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
+                        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
                         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
                         break;
                     case 7:
@@ -235,12 +235,12 @@ public class StudyMore {
         AnnouncerRequest.exeRequest(new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -248,8 +248,8 @@ public class StudyMore {
                 ArrayList<Announcer> announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
                 new AnnouncerOp().saveData(announcerList);
                 for (Announcer announcer : announcerList) {
-                    if (announcer.getName().equals(StudyManager.instance.getCurArticle().getStar())) {
-                        SocialManager.instance.pushFriendId(announcer.getUid());
+                    if (announcer.getName().equals(StudyManager.getInstance().getCurArticle().getStar())) {
+                        SocialManager.getInstance().pushFriendId(announcer.getUid());
                         Intent intent = new Intent(context, PersonalHomeActivity.class);
                         intent.putExtra("needpop", true);
                         context.startActivity(intent);

@@ -100,10 +100,10 @@ public class OriginalSizeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (initPos != sizePos) {
-                    SettingConfigManager.instance.setOriginalSize(posToSize(sizePos));
+                    SettingConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
                     finish();
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.app_no_change);
+                    CustomToast.getInstance().showToast(R.string.app_no_change);
                 }
             }
         });
@@ -113,7 +113,7 @@ public class OriginalSizeActivity extends BaseActivity {
                 if (sizePos != position) {
                     ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(getResources().getColor(R.color.text_color));
                     sizePos = position;
-                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(GetAppColor.instance.getAppColor(context));
+                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(GetAppColor.getInstance().getAppColor(context));
                     original.setTextSize(posToSize(position));
                     original.setOriginalList(originalRows);
                 }
@@ -126,8 +126,8 @@ public class OriginalSizeActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.original_size_title);
         toolbarOper.setText(R.string.dialog_save);
-        initPos = sizePos = sizeToPos(SettingConfigManager.instance.getOriginalSize());
-        original.setTextSize(SettingConfigManager.instance.getOriginalSize());
+        initPos = sizePos = sizeToPos(SettingConfigManager.getInstance().getOriginalSize());
+        original.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         original.setOriginalList(originalRows);
         discreteSlider.setSelected(sizePos);
         tickMarkLabels.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -186,7 +186,7 @@ public class OriginalSizeActivity extends BaseActivity {
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(14 + i * 2);
             if (i == initPos) {
-                tv.setTextColor(GetAppColor.instance.getAppColor(context));
+                tv.setTextColor(GetAppColor.getInstance().getAppColor(context));
             } else {
                 tv.setTextColor(getResources().getColor(R.color.text_color));
             }
@@ -215,7 +215,7 @@ public class OriginalSizeActivity extends BaseActivity {
         CustomDialog.saveChangeDialog(context, new IOperationResult() {
             @Override
             public void success(Object object) {
-                SettingConfigManager.instance.setOriginalSize(posToSize(sizePos));
+                SettingConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
                 finish();
             }
 

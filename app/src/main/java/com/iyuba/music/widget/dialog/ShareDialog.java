@@ -42,19 +42,19 @@ public class ShareDialog {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            if (AccountManager.INSTANCE.checkUserLogin()) {
+            if (AccountManager.getInstance().checkUserLogin()) {
                 getScore(2);
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
         }
     };
     private UMShareListener shareSinglePeopleListener = new UMShareListener() {
@@ -65,19 +65,19 @@ public class ShareDialog {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            if (AccountManager.INSTANCE.checkUserLogin()) {
+            if (AccountManager.getInstance().checkUserLogin()) {
                 getScore(1);
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            CustomToast.INSTANCE.showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
         }
     };
 
@@ -104,7 +104,7 @@ public class ShareDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dismiss();
                 UMusic music;
-                if (StudyManager.instance.getApp().equals("209") && article.getSimple() == 0) {
+                if (StudyManager.getInstance().getApp().equals("209") && article.getSimple() == 0) {
                     music = new UMusic(DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl()));
                 } else {
                     music = new UMusic(DownloadService.getSongUrl(article.getApp(), article.getMusicUrl()));
@@ -180,7 +180,7 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.INSTANCE.getUserId(), article.getId(), type), new IProtocolResponse() {
+        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -195,13 +195,13 @@ public class ShareDialog {
             public void response(Object object) {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
                 switch (apiEntity.getState()) {
-                    case SUCCESS:
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.article_share_success, apiEntity.getMessage(), apiEntity.getValue()));
+                    case BaseApiEntity.SUCCESS:
+                        CustomToast.getInstance().showToast(context.getString(R.string.article_share_success, apiEntity.getMessage(), apiEntity.getValue()));
                         break;
-                    case FAIL:
-                        CustomToast.INSTANCE.showToast(apiEntity.getMessage());
+                    case BaseApiEntity.FAIL:
+                        CustomToast.getInstance().showToast(apiEntity.getMessage());
                         break;
-                    case ERROR:
+                    case BaseApiEntity.ERROR:
                         break;
                 }
             }
@@ -210,7 +210,7 @@ public class ShareDialog {
 
     private String getShareUrl() {
         String url;
-        switch (StudyManager.instance.getApp()) {
+        switch (StudyManager.getInstance().getApp()) {
             case "201":
             case "218":
                 url = "http://m.iyuba.com/voaS/play.jsp?id=" + article.getId();
@@ -243,7 +243,7 @@ public class ShareDialog {
     }
 
     private String getPicUrl() {
-        switch (StudyManager.instance.getApp()) {
+        switch (StudyManager.getInstance().getApp()) {
             case "209":
                 return "http://static.iyuba.com/images/song/" + article.getPicUrl();
             default:

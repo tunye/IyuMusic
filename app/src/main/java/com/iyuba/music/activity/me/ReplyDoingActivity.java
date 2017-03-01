@@ -144,7 +144,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.doing_title);
-        doing = SocialManager.instance.getDoing();
+        doing = SocialManager.getInstance().getDoing();
         doingPhoto.init(doing.getUid(),isVip);
         doingUserName.setText(doing.getUsername());
         doingMessage.setText(doing.getMessage());
@@ -157,7 +157,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SocialManager.instance.popDoing();
+        SocialManager.getInstance().popDoing();
         ContextManager.destory();
     }
 
@@ -195,7 +195,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
             getCommentData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.comment_get_all);
+            CustomToast.getInstance().showToast(R.string.comment_get_all);
         }
     }
 
@@ -204,12 +204,12 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         DoingCommentRequest.exeRequest(DoingCommentRequest.generateUrl(doing.getDoid(), commentPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -220,7 +220,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
                     if (commentPage == 1) {
                         noComment.setVisibility(View.VISIBLE);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.person_doings_load_all);
+                        CustomToast.getInstance().showToast(R.string.person_doings_load_all);
                     }
                 } else {
                     noComment.setVisibility(View.GONE);
@@ -229,7 +229,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
                     if (commentPage == 1) {
 
                     } else {
-                        CustomToast.INSTANCE.showToast(commentPage + "/" + (Integer.parseInt(doing.getReplynum()) / 20 + (Integer.parseInt(doing.getReplynum()) % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(commentPage + "/" + (Integer.parseInt(doing.getReplynum()) / 20 + (Integer.parseInt(doing.getReplynum()) % 20 == 0 ? 0 : 1)), 800);
                     }
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -242,8 +242,8 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         String fromMessage = selectComment.getMessage();
         selectComment.setDateline(String.valueOf(System.currentTimeMillis() / 1000));
         selectComment.setMessage(s);
-        selectComment.setUid(AccountManager.INSTANCE.getUserId());
-        selectComment.setUsername(AccountManager.INSTANCE.getUserName());
+        selectComment.setUid(AccountManager.getInstance().getUserId());
+        selectComment.setUsername(AccountManager.getInstance().getUserName());
         if (TextUtils.isEmpty(selectComment.getId())) {
             selectComment.setUpid("0");
         } else {
@@ -255,12 +255,12 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         SendDoingCommentRequest.exeRequest(SendDoingCommentRequest.generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -272,7 +272,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
                     }
                     commentView.clearText();
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.message_send_fail);
+                    CustomToast.getInstance().showToast(R.string.message_send_fail);
                 }
             }
         });

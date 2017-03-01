@@ -79,8 +79,8 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
+            getWindow().setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         }
         setContentView(R.layout.search);
         context = this;
@@ -112,11 +112,11 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         searchNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos(SearchActivity.this.getClass().getName());
-                StudyManager.instance.setSourceArticleList(searchArrayList);
-                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                StudyManager.instance.setCurArticle(searchArrayList.get(position));
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setListFragmentPos(SearchActivity.this.getClass().getName());
+                StudyManager.getInstance().setSourceArticleList(searchArrayList);
+                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setCurArticle(searchArrayList.get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
 
@@ -256,7 +256,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             searchMusic();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_search_all);
+            CustomToast.getInstance().showToast(R.string.article_search_all);
         }
     }
 
@@ -265,13 +265,13 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             @Override
             public void onNetError(String msg) {
                 swipeRefreshLayout.setRefreshing(false);
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
                 swipeRefreshLayout.setRefreshing(false);
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -282,29 +282,29 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 BaseListEntity listEntity = (BaseListEntity) object;
                 swipeRefreshLayout.setRefreshing(false);
                 searchResult.setText(context.getString(R.string.search_result, searchContent.getText().toString(), listEntity.getTotalCount()));
-                if (listEntity.getState().equals(BaseListEntity.State.FAIL)) {
+                if (BaseListEntity.isFail(listEntity)) {
                     adviceText.setText(R.string.article_advice_2);
-                    CustomToast.INSTANCE.showToast(R.string.article_no_search);
+                    CustomToast.getInstance().showToast(R.string.article_no_search);
                     searchNewsAdapter.setDataSet(searchArrayList);
                     searchNewsAdapter.notifyDataSetChanged();
                 } else {
                     isLastPage = listEntity.isLastPage();
                     if (isLastPage) {
-                        CustomToast.INSTANCE.showToast(R.string.article_search_all);
+                        CustomToast.getInstance().showToast(R.string.article_search_all);
                     } else {
                         adviceText.setText(R.string.article_advice_1);
                         ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                         searchArrayList.addAll(netData);
-                        if (SearchActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                            StudyManager.instance.setSourceArticleList(searchArrayList);
+                        if (SearchActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                            StudyManager.getInstance().setSourceArticleList(searchArrayList);
                         }
                         searchNewsAdapter.setDataSet(searchArrayList);
                         if (curPage != 1) {
-                            CustomToast.INSTANCE.showToast(curPage + "/" + listEntity.getTotalPage(), 800);
+                            CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), 800);
                         }
                         LocalInfo localinfo;
                         for (Article temp : netData) {
-                            temp.setApp(ConstantManager.instance.getAppId());
+                            temp.setApp(ConstantManager.getInstance().getAppId());
                             localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                             if (localinfo.getId() == 0) {
                                 localinfo.setApp(temp.getApp());

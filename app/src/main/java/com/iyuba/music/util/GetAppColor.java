@@ -12,12 +12,19 @@ import java.util.List;
 /**
  * Created by 10202 on 2016/7/19.
  */
-public enum GetAppColor {
-    instance;
+public class GetAppColor {
+    private static class SingleInstanceHelper {
+        private static GetAppColor instance = new GetAppColor();
+    }
+
     private List<String> flavorsDef;
 
-    GetAppColor() {
+    private GetAppColor() {
         flavorsDef = Arrays.asList(RuntimeManager.getContext().getResources().getStringArray(R.array.flavors_def));
+    }
+
+    public static GetAppColor getInstance() {
+        return SingleInstanceHelper.instance;
     }
 
     public static int getResource(Context context, String colorName) {

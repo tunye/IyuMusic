@@ -88,10 +88,10 @@ public class MainFragment extends BaseFragment {
         broadCast = new MainChangeUIBroadCast();
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.main");
         context.registerReceiver(broadCast, intentFilter);
-        pause.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
-        progressBar.setCricleProgressColor(GetAppColor.instance.getAppColor(context));
+        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
         progressBar.setMax(100);
-        viewPagerIndicator.setHighLightColor(GetAppColor.instance.getAppColor(context));
+        viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor(context));
         setContent();
         setImageState(false);
     }
@@ -135,7 +135,7 @@ public class MainFragment extends BaseFragment {
         root.findViewById(R.id.rotate_image_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("101".equals(StudyManager.instance.getApp())) {
+                if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -145,7 +145,7 @@ public class MainFragment extends BaseFragment {
         root.findViewById(R.id.song_info_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("101".equals(StudyManager.instance.getApp())) {
+                if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -155,13 +155,13 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setContent() {
-        curArticle = StudyManager.instance.getCurArticle();
+        curArticle = StudyManager.getInstance().getCurArticle();
         if (curArticle == null || TextUtils.isEmpty(curArticle.getTitle())) {
             curArticleTitle.setText(R.string.app_name);
             curArticleInfo.setText(R.string.app_intro);
             pic.setImageResource(R.mipmap.ic_launcher);
         } else {
-            switch (StudyManager.instance.getApp()) {
+            switch (StudyManager.getInstance().getApp()) {
                 case "101":
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
@@ -179,7 +179,7 @@ public class MainFragment extends BaseFragment {
                     break;
             }
         }
-        if (SettingConfigManager.instance.isAutoRound()) {
+        if (SettingConfigManager.getInstance().isAutoRound()) {
             initAnimation();
         }
     }
@@ -191,22 +191,22 @@ public class MainFragment extends BaseFragment {
     }
 
     private void startAnimation() {
-        if (SettingConfigManager.instance.isAutoRound()) {
+        if (SettingConfigManager.getInstance().isAutoRound()) {
             pic.startAnimation(operatingAnim);
         }
     }
 
     private void pauseAnimation() {
-        if (SettingConfigManager.instance.isAutoRound()) {
+        if (SettingConfigManager.getInstance().isAutoRound()) {
             pic.clearAnimation();
         }
     }
 
     private void playNewSong() {
-        curArticle = StudyManager.instance.getCurArticle();
+        curArticle = StudyManager.getInstance().getCurArticle();
         final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
         playerService.startPlay(curArticle, false);
-        playerService.setCurArticle(StudyManager.instance.getCurArticle());
+        playerService.setCurArticle(StudyManager.getInstance().getCurArticle());
         player = playerService.getPlayer();
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -250,7 +250,7 @@ public class MainFragment extends BaseFragment {
 
     private void latterClick() {
         if (player == null) {
-            StudyManager.instance.next();
+            StudyManager.getInstance().next();
             playNewSong();
         } else {
             context.sendBroadcast(new Intent("iyumusic.next"));

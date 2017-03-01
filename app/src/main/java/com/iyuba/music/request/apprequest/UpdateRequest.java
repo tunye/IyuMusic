@@ -25,10 +25,10 @@ public class UpdateRequest {
                             String[] content = message.split(",");
                             BaseApiEntity apiEntity = new BaseApiEntity();
                             if (content[0].equals("NO")) {
-                                apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                apiEntity.setState(BaseApiEntity.SUCCESS);
                                 apiEntity.setValue(content[2].replace("||", "@@@"));
                             } else {
-                                apiEntity.setState(BaseApiEntity.State.FAIL);
+                                apiEntity.setState(BaseApiEntity.FAIL);
                             }
                             response.response(apiEntity);
                         }

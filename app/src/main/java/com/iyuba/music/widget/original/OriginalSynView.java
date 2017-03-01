@@ -278,7 +278,7 @@ public class OriginalSynView extends ScrollView implements
         textView.setTextColor(context.getResources().getColor(R.color.text_color));
         textView = (TextPage) subtitleLayout
                 .getChildAt(current);
-        textView.setTextColor(GetAppColor.instance.getAppColorLight(context));
+        textView.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
         lastParagraph = current;
         return textView.getTop() + textView.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
     }
@@ -286,7 +286,7 @@ public class OriginalSynView extends ScrollView implements
     private void drawTimeCanvas(Canvas canvas, String time, float y) {
         //时间线画笔
         Paint mPaintForTimeLine = new Paint();
-        mPaintForTimeLine.setColor(GetAppColor.instance.getAppColorLight(context));
+        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight(context));
         mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔

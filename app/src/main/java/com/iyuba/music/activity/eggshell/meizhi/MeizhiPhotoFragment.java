@@ -58,11 +58,11 @@ public class MeizhiPhotoFragment extends DialogFragment {
     }
 
     private void saveFile(Bitmap bm, String fileName) throws IOException {
-        File folder = new File(ConstantManager.instance.getImgFile());
+        File folder = new File(ConstantManager.getInstance().getImgFile());
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        File myCaptureFile = new File(ConstantManager.instance.getImgFile(), fileName);
+        File myCaptureFile = new File(ConstantManager.getInstance().getImgFile(), fileName);
         if (!myCaptureFile.exists()) {
             myCaptureFile.createNewFile();
         }
@@ -74,7 +74,7 @@ public class MeizhiPhotoFragment extends DialogFragment {
         Uri uri = Uri.fromFile(myCaptureFile);
         intent.setData(uri);
         context.sendBroadcast(intent);
-        CustomToast.INSTANCE.showToast(R.string.photo_downloaded);
+        CustomToast.getInstance().showToast(R.string.photo_downloaded);
     }
 
     @Override

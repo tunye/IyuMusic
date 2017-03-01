@@ -37,7 +37,7 @@ public class WxPay {
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         apiEntity.setMessage(jsonObject.getString("retmsg"));
                         if (0 == jsonObject.getInt("retcode")) {
-                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                            apiEntity.setState(BaseApiEntity.SUCCESS);
                             PayReq req = new PayReq();
                             req.appId = ConstantManager.WXID;
                             req.partnerId = jsonObject.getString("mch_id");
@@ -48,7 +48,7 @@ public class WxPay {
                             req.sign = buildWeixinSign(req, jsonObject.getString("mch_key"));
                             apiEntity.setData(req);
                         } else {
-                            apiEntity.setState(BaseApiEntity.State.FAIL);
+                            apiEntity.setState(BaseApiEntity.FAIL);
                         }
                         response.response(apiEntity);
                     } catch (JSONException e) {
@@ -73,12 +73,12 @@ public class WxPay {
         paras.put("wxkey", ConstantManager.WXID);
         paras.put("format", "json");
         paras.put("money", cost);
-        paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.INSTANCE.getUserId());
+        paras.put("appid", ConstantManager.getInstance().getAppId());
+        paras.put("uid", AccountManager.getInstance().getUserId());
         paras.put("amount", month);
         paras.put("productid", productId);
-        paras.put("sign", generateSign(ConstantManager.instance.getAppId(),
-                AccountManager.INSTANCE.getUserId(), cost, month));
+        paras.put("sign", generateSign(ConstantManager.getInstance().getAppId(),
+                AccountManager.getInstance().getUserId(), cost, month));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 

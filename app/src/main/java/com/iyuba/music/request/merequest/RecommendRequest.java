@@ -48,10 +48,10 @@ public class RecommendRequest {
                                 baseListEntity.setIsLastPage(false);
                                 baseListEntity.setData(list);
                             }
-                            baseListEntity.setState(BaseListEntity.State.SUCCESS);
+                            baseListEntity.setState(BaseListEntity.SUCCESS);
                             response.response(baseListEntity);
                         } else if ("710".equals(resultCode)) {
-                            baseListEntity.setState(BaseListEntity.State.NODATA);
+                            baseListEntity.setState(BaseListEntity.NODATA);
                         } else if ("000".equals(resultCode)) {
                             response.onServerError(RuntimeManager.getString(R.string.data_error));
                         }

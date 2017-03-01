@@ -114,7 +114,7 @@ public class ChattingAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(message.getAuthorid());
+                SocialManager.getInstance().pushFriendId(message.getAuthorid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);

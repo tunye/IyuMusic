@@ -47,7 +47,7 @@ public class BuyIyubiActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        userInfo = AccountManager.INSTANCE.getUserInfo();
+        userInfo = AccountManager.getInstance().getUserInfo();
         changeUIResumeByPara();
     }
 
@@ -148,7 +148,7 @@ public class BuyIyubiActivity extends BaseActivity {
     }
 
     private void changeUIResumeByPara() {
-        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), vipPhoto);
+        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageResource(R.drawable.vip);
             vipDeadline.setText(context.getString(R.string.vip_deadline, userInfo.getDeadline()));
@@ -164,8 +164,8 @@ public class BuyIyubiActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(context, WebViewActivity.class);
         intent.putExtra("url", "http://app.iyuba.com/wap/index.jsp?uid="
-                + AccountManager.INSTANCE.getUserId() + "&appid="
-                + ConstantManager.instance.getAppId());
+                + AccountManager.getInstance().getUserId() + "&appid="
+                + ConstantManager.getInstance().getAppId());
         intent.putExtra("title", context.getString(R.string.vip_recharge));
         startActivity(intent);
     }
@@ -174,7 +174,7 @@ public class BuyIyubiActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ONLINE_PAY_CODE && resultCode == RESULT_OK) {              // 刷新vip时长
-            AccountManager.INSTANCE.refreshVipStatus();
+            AccountManager.getInstance().refreshVipStatus();
         }
     }
 }

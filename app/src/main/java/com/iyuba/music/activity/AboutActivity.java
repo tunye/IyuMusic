@@ -185,8 +185,8 @@ public class AboutActivity extends BaseActivity {
         isCurrent = false;
         cookie = 5;
         DownloadFile file;
-        for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
-            file = DownloadManager.sInstance.fileList.get(i);
+        for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
+            file = DownloadManager.getInstance().fileList.get(i);
             if (file.id == -1) {
                 Message message = new Message();
                 message.what = 2;
@@ -210,22 +210,22 @@ public class AboutActivity extends BaseActivity {
         UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.about_update_fail);
+                CustomToast.getInstance().showToast(R.string.about_update_fail);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(R.string.about_update_fail);
+                CustomToast.getInstance().showToast(R.string.about_update_fail);
             }
 
             @Override
             public void response(Object object) {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
-                if (apiEntity.getState().equals(BaseApiEntity.State.FAIL)) {
+                if (BaseApiEntity.isFail(apiEntity)) {
                     appNewImg.setVisibility(View.INVISIBLE);
                     if (fromUser) {
                         isCurrent = true;
-                        CustomToast.INSTANCE.showToast(R.string.about_update_noneed);
+                        CustomToast.getInstance().showToast(R.string.about_update_noneed);
                     }
                 } else {
                     String[] para = apiEntity.getValue().split("@@@");
@@ -260,12 +260,12 @@ public class AboutActivity extends BaseActivity {
     private void startDownLoad() {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
-        File file = new File(ConstantManager.instance.getUpdateFolder());
+        File file = new File(ConstantManager.getInstance().getUpdateFolder());
         if (!file.exists()) {
             file.mkdirs();
         }
-        for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
-            if (DownloadManager.sInstance.fileList.get(i).id == -1) {
+        for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
+            if (DownloadManager.getInstance().fileList.get(i).id == -1) {
                 return;
             }
         }
@@ -274,9 +274,9 @@ public class AboutActivity extends BaseActivity {
         downloadFile.downloadState = "start";
         downloadFile.fileAppend = ".apk";
         downloadFile.downLoadAddress = appUpdateUrl;
-        downloadFile.filePath = ConstantManager.instance.getUpdateFolder() + File.separator;
+        downloadFile.filePath = ConstantManager.getInstance().getUpdateFolder() + File.separator;
         downloadFile.fileName = "iyumusic";
-        DownloadManager.sInstance.fileList.add(downloadFile);
+        DownloadManager.getInstance().fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();
         appUpdateThread.start();
         Message message = new Message();
@@ -286,10 +286,10 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void openCookie() {
-        if (SettingConfigManager.instance.isEggShell()) {
+        if (SettingConfigManager.getInstance().isEggShell()) {
             startActivity(new Intent(context, EggShellActivity.class));
         } else if (cookie == 0) {
-            SettingConfigManager.instance.setEggShell(true);
+            SettingConfigManager.getInstance().setEggShell(true);
             Snackbar snackbar = Snackbar.make(root, context.getString(R.string.about_eggshell_open),
                     Snackbar.LENGTH_LONG).setAction(R.string.about_go_eggshell, new OnClickListener() {
                 @Override
@@ -300,7 +300,7 @@ public class AboutActivity extends BaseActivity {
             ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
             snackbar.show();
         } else {
-            CustomToast.INSTANCE.showToast(context.getString(R.string.about_eggshell_opening, String.valueOf(cookie)));
+            CustomToast.getInstance().showToast(context.getString(R.string.about_eggshell_opening, String.valueOf(cookie)));
             cookie--;
         }
     }

@@ -90,11 +90,11 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -110,11 +110,11 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -154,8 +154,8 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
-                    SocialManager.instance.pushFriendId(announcer.getUid());
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    SocialManager.getInstance().pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
                     intent.putExtra("needpop", true);
                     startActivity(intent);
@@ -200,7 +200,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             getNewsData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+            CustomToast.getInstance().showToast(R.string.article_load_all);
         }
     }
 
@@ -208,20 +208,20 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
         AnnouncerNewsRequest.exeRequest(AnnouncerNewsRequest.generateUrl(announcer.getId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(newsList);
+                if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -233,20 +233,20 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    CustomToast.INSTANCE.showToast(R.string.article_load_all);
+                    CustomToast.getInstance().showToast(R.string.article_load_all);
                 } else {
                     newsList.addAll(netData);
                     newsAdapter.setDataSet(newsList);
                     if (curPage == 1) {
                     } else {
-                        CustomToast.INSTANCE.showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
                     }
-                    if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsList);
+                    if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsList);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.instance.getAppId());
+                        temp.setApp(ConstantManager.getInstance().getAppId());
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());

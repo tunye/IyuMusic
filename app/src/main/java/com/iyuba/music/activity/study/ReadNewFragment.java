@@ -48,11 +48,11 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
         readAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
+                if (AccountManager.getInstance().checkUserLogin()) {
                     if (position == -1) {
                         position = 0;
                     }
-                    if (AccountManager.INSTANCE.getUserId()
+                    if (AccountManager.getInstance().getUserId()
                             .equals(readList.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     }
@@ -105,7 +105,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
             getReadData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.read_get_all);
+            CustomToast.getInstance().showToast(R.string.read_get_all);
         }
     }
 
@@ -116,17 +116,17 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
     }
 
     private void getReadData() {
-        ReadRequest.exeRequest(ReadRequest.generateUrl(StudyManager.instance.getCurArticle().getId(),
+        ReadRequest.exeRequest(ReadRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId(),
                 readPage, "no"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -145,7 +145,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
                     if (listEntity.getCurPage() == 1) {
 
                     } else {
-                        CustomToast.INSTANCE.showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
+                        CustomToast.getInstance().showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
                     }
                 }
             }
@@ -175,7 +175,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
                         if (object.toString().equals("1")) {
                             readAdapter.removeData(position);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.read_del_fail);
+                            CustomToast.getInstance().showToast(R.string.read_del_fail);
                         }
                     }
                 });

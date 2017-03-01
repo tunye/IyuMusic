@@ -1,6 +1,6 @@
 package com.iyuba.music.manager;
 
-import android.content.Context;
+import android.support.annotation.IntDef;
 import android.text.TextUtils;
 
 import com.iyuba.music.R;
@@ -17,6 +17,8 @@ import com.iyuba.music.request.merequest.PersonalInfoRequest;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -25,40 +27,46 @@ import java.util.Locale;
 /**
  * Created by 10202 on 2015/11/18.
  */
-public enum AccountManager {
-    INSTANCE;
-    private Context context;
+public class AccountManager {
+    private static class SingleInstanceHelper {
+        private static AccountManager instance = new AccountManager();
+    }
+
     private UserInfo userInfo;
-    private LoginState loginState;
+    @LoginState
+    private int loginState;
     private String userId; // 用户ID
     private String userName; // 用户姓名
     private String userPwd; // 用户密码
 
-    AccountManager() {
-        context = RuntimeManager.getContext();
-        loginState = LoginState.UNLOGIN;
+    private AccountManager() {
+        loginState = SIGN_OUT;
+    }
+
+    public static AccountManager getInstance() {
+        return SingleInstanceHelper.instance;
     }
 
     public boolean checkUserLogin() {
-        return loginState.equals(LoginState.LOGIN);
+        return loginState == SIGN_IN;
     }
 
     public boolean loginOut() {
         new UserInfoOp().delete(userId);
-        loginState = LoginState.UNLOGIN;
+        loginState = SIGN_OUT;
         userId = ""; // 用户ID
         userName = ""; // 用户姓名
         userPwd = ""; // 用户密码
         userInfo = new UserInfo();
         saveUserNameAndPwd();
-        SettingConfigManager.instance.setAutoLogin(false);
+        SettingConfigManager.getInstance().setAutoLogin(false);
         return true;
     }
 
-    public void saveUserNameAndPwd() {
-        ConfigManager.instance.putString("userName", userName);
-        ConfigManager.instance.putString("userPwd", userPwd);
-        ConfigManager.instance.putString("userId", userId);
+    private void saveUserNameAndPwd() {
+        ConfigManager.getInstance().putString("userName", userName);
+        ConfigManager.getInstance().putString("userPwd", userPwd);
+        ConfigManager.getInstance().putString("userId", userId);
         if (!TextUtils.isEmpty(userId)) {
             HistoryLogin login = new HistoryLogin();
             login.setUserid(Integer.parseInt(userId));
@@ -69,10 +77,10 @@ public enum AccountManager {
         }
     }
 
-    public String[] getUserNameAndPwd() {
+    private String[] getUserNameAndPwd() {
         return new String[]{
-                ConfigManager.instance.loadString("userName"),
-                ConfigManager.instance.loadString("userPwd")};
+                ConfigManager.getInstance().loadString("userName"),
+                ConfigManager.getInstance().loadString("userPwd")};
     }
 
     public void login(final String userName, String userPwd,
@@ -96,30 +104,30 @@ public enum AccountManager {
                 @Override
                 public void response(Object object) {
                     BaseApiEntity apiEntity = (BaseApiEntity) object;
-                    if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    if (BaseApiEntity.isSuccess(apiEntity)) {
                         userInfo = (UserInfo) apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
-                        loginState = LoginState.LOGIN;
+                        loginState = SIGN_IN;
                         userId = userInfo.getUid();
-                        CustomToast.INSTANCE.showToast(context.getString(
+                        CustomToast.getInstance().showToast(RuntimeManager.getContext().getString(
                                 R.string.login_success, userInfo.getUsername()));
                         saveUserNameAndPwd();
                         rc.success(apiEntity.getMessage());
-                    } else if (apiEntity.getState().equals(BaseApiEntity.State.FAIL)) {
-                        loginState = LoginState.UNLOGIN;
-                        SettingConfigManager.instance.setAutoLogin(false);
-                        rc.fail(context.getString(R.string.login_fail));
+                    } else if (BaseApiEntity.isFail(apiEntity)) {
+                        loginState = SIGN_OUT;
+                        SettingConfigManager.getInstance().setAutoLogin(false);
+                        rc.fail(RuntimeManager.getString(R.string.login_fail));
                     } else {
-                        loginState = LoginState.UNLOGIN;
-                        SettingConfigManager.instance.setAutoLogin(false);
-                        rc.fail(context.getString(R.string.login_error));
+                        loginState = SIGN_OUT;
+                        SettingConfigManager.getInstance().setAutoLogin(false);
+                        rc.fail(RuntimeManager.getString(R.string.login_error));
                     }
                 }
             });
         } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            rc.fail(context.getString(R.string.net_speed_slow));
+            rc.fail(RuntimeManager.getString(R.string.net_speed_slow));
         } else {
-            rc.fail(context.getString(R.string.no_internet));
+            rc.fail(RuntimeManager.getString(R.string.no_internet));
         }
     }
 
@@ -142,7 +150,7 @@ public enum AccountManager {
             @Override
             public void response(Object object) {
                 BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                if (BaseApiEntity.isSuccess(baseApiEntity)) {
                     userInfo = (UserInfo) baseApiEntity.getData();
                     new UserInfoOp().saveData(userInfo);
                     if (result != null) {
@@ -174,7 +182,7 @@ public enum AccountManager {
             @Override
             public void response(Object object) {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
-                if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                if (BaseApiEntity.isSuccess(apiEntity)) {
                     UserInfo temp = (UserInfo) apiEntity.getData();
                     userInfo.setIyubi(temp.getIyubi());
                     userInfo.setVipStatus(temp.getVipStatus());
@@ -197,14 +205,15 @@ public enum AccountManager {
         return userId;
     }
 
-    public LoginState getLoginState() {
+    @LoginState
+    public int getLoginState() {
         return loginState;
     }
 
-    public void setLoginState(LoginState state) {
+    public void setLoginState(@LoginState int state) {
         loginState = state;
-        if (loginState.equals(LoginState.LOGIN)) {
-            userId = ConfigManager.instance.loadString("userId");
+        if (loginState == SIGN_IN) {
+            userId = ConfigManager.getInstance().loadString("userId");
             String[] nameAndPwd = getUserNameAndPwd();
             userName = nameAndPwd[0];
             userPwd = nameAndPwd[1];
@@ -219,5 +228,11 @@ public enum AccountManager {
         this.userInfo = userInfo;
     }
 
-    public enum LoginState {UNLOGIN, LOGIN}
+    public static final int SIGN_OUT = 0x01;
+    public static final int SIGN_IN = 0x02;
+
+    @IntDef({SIGN_OUT, SIGN_IN})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LoginState {
+    }
 }

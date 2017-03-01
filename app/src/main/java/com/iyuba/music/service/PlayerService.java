@@ -154,9 +154,9 @@ public class PlayerService extends Service {
     public void startPlay(Article article, boolean modeChange) {
         if (article.getId() == curArticle.getId() && !modeChange) {
         } else {
-            if (!StudyManager.instance.getApp().equals("101")) {
+            if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
-                StudyManager.instance.setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
+                StudyManager.getInstance().setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                 localInfoOp.updateSee(article.getId(), article.getApp());
                 ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
             }
@@ -167,10 +167,10 @@ public class PlayerService extends Service {
                     player.setVideoPath(playPath);
                     setNotification();
                     if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                        CustomToast.INSTANCE.showToast(R.string.net_speed_slow);
+                        CustomToast.getInstance().showToast(R.string.net_speed_slow);
                     }
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.no_internet);
+                    CustomToast.getInstance().showToast(R.string.no_internet);
                 }
             } else {
                 player.reset();
@@ -182,31 +182,31 @@ public class PlayerService extends Service {
 
     public void next(boolean finish) {
         if (finish) {
-            StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 1);
+            StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 1);
         } else {
-            StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
+            StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
         }
-        StudyManager.instance.next();
+        StudyManager.getInstance().next();
     }
 
     public void before() {
-        StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
-        StudyManager.instance.before();
+        StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
+        StudyManager.getInstance().before();
     }
 
     public String getUrl(Article article) {
         String url;
         StringBuilder localUrl = new StringBuilder();
         File localFile;
-        switch (StudyManager.instance.getApp()) {
+        switch (StudyManager.getInstance().getApp()) {
             case "209":
-                if (StudyManager.instance.getMusicType() == 0) {
+                if (StudyManager.getInstance().getMusicType() == 0) {
                     url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
-                    localUrl.append(ConstantManager.instance.getMusicFolder()).append(File.separator).append(article.getId()).append(".mp3");
+                    localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getId()).append(".mp3");
                     localFile = new File(localUrl.toString());
                 } else {
                     url = DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl());
-                    localUrl.append(ConstantManager.instance.getMusicFolder()).append(File.separator).append(article.getId()).append("s.mp3");
+                    localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getId()).append("s.mp3");
                     localFile = new File(localUrl.toString());
                 }
                 if (localFile.exists()) {
@@ -218,7 +218,7 @@ public class PlayerService extends Service {
                 return article.getMusicUrl();
             default:
                 url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
-                localUrl.append(ConstantManager.instance.getMusicFolder()).append(File.separator).append(article.getApp()).append("-").append(article.getId()).append(".mp3");
+                localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getApp()).append("-").append(article.getId()).append(".mp3");
                 localFile = new File(localUrl.toString());
                 if (localFile.exists()) {
                     return localUrl.toString();
@@ -230,16 +230,16 @@ public class PlayerService extends Service {
 
     private void setNotification() {
         String url;
-        if (StudyManager.instance.getApp().equals("209")) {
-            url = "http://staticvip.iyuba.com/images/song/" + StudyManager.instance.getCurArticle().getPicUrl();
+        if (StudyManager.getInstance().getApp().equals("209")) {
+            url = "http://staticvip.iyuba.com/images/song/" + StudyManager.getInstance().getCurArticle().getPicUrl();
         } else {
-            url = StudyManager.instance.getCurArticle().getPicUrl();
+            url = StudyManager.getInstance().getCurArticle().getPicUrl();
         }
         Intent intent = new Intent(RuntimeManager.getContext(), BigNotificationService.class);
         intent.setAction(BigNotificationService.NOTIFICATION_SERVICE);
         intent.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_SHOW);
         intent.putExtra(BigNotificationService.NOTIFICATION_PIC, url);
-        BigNotificationService.INSTANCE.setNotificationCommand(intent);
+        BigNotificationService.getInstance().setNotificationCommand(intent);
     }
 
     public void registerBroadcastReceiver() {

@@ -111,8 +111,8 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         commentAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
-                    if (AccountManager.INSTANCE.getUserId()
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    if (AccountManager.getInstance().getUserId()
                             .equals(comments.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     } else {//不是自己  回复
@@ -142,18 +142,18 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String s) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
+                if (AccountManager.getInstance().checkUserLogin()) {
                     CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
-                            String.valueOf(curArticle.getId()), AccountManager.INSTANCE.getUserId(),
-                            AccountManager.INSTANCE.getUserName(), s), new IProtocolResponse() {
+                            String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
+                            AccountManager.getInstance().getUserName(), s), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void onServerError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
@@ -162,7 +162,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                                 commentView.clearText();
                                 handler.sendEmptyMessage(2);
                             } else {
-                                CustomToast.INSTANCE.showToast(R.string.comment_send_fail);
+                                CustomToast.getInstance().showToast(R.string.comment_send_fail);
                             }
                         }
                     });
@@ -175,9 +175,9 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onSendVoice(String s, int i) {
                 if (i == 0) {
-                    CustomToast.INSTANCE.showToast(R.string.comment_sound_short);
+                    CustomToast.getInstance().showToast(R.string.comment_sound_short);
                 } else {
-                    if (AccountManager.INSTANCE.checkUserLogin()) {
+                    if (AccountManager.getInstance().checkUserLogin()) {
                         handler.obtainMessage(1, s).sendToTarget();
                     } else {
                         CustomDialog.showLoginDialog(context);
@@ -201,7 +201,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.comment_title);
-        curArticle = StudyManager.instance.getCurArticle();
+        curArticle = StudyManager.getInstance().getCurArticle();
         ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
         articleTitle.setText(curArticle.getTitle());
         announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
@@ -284,7 +284,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             getCommentData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.comment_get_all);
+            CustomToast.getInstance().showToast(R.string.comment_get_all);
         }
     }
 
@@ -316,7 +316,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                         if (object.toString().equals("1")) {
                             commentAdapter.removeData(position);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.comment_del_fail);
+                            CustomToast.getInstance().showToast(R.string.comment_del_fail);
                         }
                     }
                 });
@@ -336,13 +336,13 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         CommentRequest.exeRequest(CommentRequest.generateUrl(curArticle.getId(), commentPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -360,7 +360,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     if (listEntity.getCurPage() == 1) {
 
                     } else {
-                        CustomToast.INSTANCE.showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
+                        CustomToast.getInstance().showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
                     }
                 }
             }
@@ -404,7 +404,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             StringBuilder sb = new StringBuilder(
                     "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
             sb.append("&userid=").append(
-                    AccountManager.INSTANCE.getUserId());
+                    AccountManager.getInstance().getUserId());
             sb.append("&shuoshuotype=").append(1);
             sb.append("&voaid=").append(curArticle.getId());
             final File file = new File(filePath);
@@ -417,7 +417,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
 
                 @Override
                 public void fail(Object object) {
-                    CustomToast.INSTANCE.showToast(R.string.comment_send_fail);
+                    CustomToast.getInstance().showToast(R.string.comment_send_fail);
                 }
             });
         }

@@ -26,7 +26,7 @@ public class WaitingDialog {
             animationMessage.setText(message);
         }
         AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
-        loading.setIndicatorColor(GetAppColor.instance.getAppColor(context));
+        loading.setIndicatorColor(GetAppColor.getInstance().getAppColor(context));
         return new IyubaDialog(context, layout, false);
     }
 }

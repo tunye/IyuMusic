@@ -62,8 +62,8 @@ public class OriginalRequest {
         String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getText.jsp";
         HashMap<String, Object> paras = new HashMap<>();
         paras.put("SongId", id);
-        paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.INSTANCE.checkUserLogin() ? AccountManager.INSTANCE.getUserId() : "0");
+        paras.put("appid", ConstantManager.getInstance().getAppId());
+        paras.put("uid", AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0");
         return ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
     }
 }

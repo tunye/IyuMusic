@@ -66,7 +66,7 @@ public class ReadActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        title.setText(StudyManager.instance.getCurArticle().getTitle());
+        title.setText(StudyManager.getInstance().getCurArticle().getTitle());
     }
 
     @Override

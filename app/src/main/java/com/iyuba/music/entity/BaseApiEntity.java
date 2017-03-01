@@ -1,19 +1,26 @@
 package com.iyuba.music.entity;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by 10202 on 2016/3/17.
  */
 public class BaseApiEntity {
-    private State state;
+    @State
+    private int state;
     private String message;
     private String value;
     private Object data;
 
-    public State getState() {
+    @State
+    public int getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(@State int state) {
         this.state = state;
     }
 
@@ -41,5 +48,24 @@ public class BaseApiEntity {
         this.data = data;
     }
 
-    public enum State {SUCCESS, FAIL, ERROR}
+    public static final int SUCCESS = 0x01;
+    public static final int FAIL = 0x02;
+    public static final int ERROR = 0x03;
+
+    public static boolean isSuccess(BaseApiEntity result) {
+        return result.getState() == SUCCESS;
+    }
+
+    public static boolean isFail(BaseApiEntity result) {
+        return result.getState() == FAIL;
+    }
+
+    public static boolean isError(BaseApiEntity result) {
+        return result.getState() == ERROR;
+    }
+
+    @IntDef({SUCCESS, FAIL, ERROR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface State {
+    }
 }

@@ -61,8 +61,8 @@ public class LrcRequest {
     public static String generateUrl(int id, int type) {
         String url;
         HashMap<String, Object> paras = new HashMap<>();
-        paras.put("appid", ConstantManager.instance.getAppId());
-        paras.put("uid", AccountManager.INSTANCE.checkUserLogin() ? AccountManager.INSTANCE.getUserId() : "0");
+        paras.put("appid", ConstantManager.getInstance().getAppId());
+        paras.put("uid", AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0");
         switch (type) {
             case 0:
                 paras.put("voaid", id);

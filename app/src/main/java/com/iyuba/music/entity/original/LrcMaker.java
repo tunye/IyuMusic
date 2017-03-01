@@ -17,7 +17,7 @@ public class LrcMaker {
     private static LrcMaker instance;
 
     private LrcMaker() {
-        File file = new File(ConstantManager.instance.getLrcFolder());
+        File file = new File(ConstantManager.getInstance().getLrcFolder());
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -35,10 +35,10 @@ public class LrcMaker {
      */
     public void makeOriginal(int para, ArrayList<Original> original) {
         String fileUrl;
-        if (StudyManager.instance.getApp().equals("209")) {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + para + ".lrc";
+        if (StudyManager.getInstance().getApp().equals("209")) {
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.instance.getLrcFolder() + File.separator + StudyManager.instance.getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.getInstance().getLrcFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         StringBuilder sb = new StringBuilder();
         for (Original lrc : original) {

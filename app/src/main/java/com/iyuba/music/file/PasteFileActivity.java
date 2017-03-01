@@ -118,13 +118,13 @@ public class PasteFileActivity extends BaseActivity {
             public void onClick(View v) {
                 final File src = new File(currentPasteFilePath);
                 if (!src.exists()) {
-                    CustomToast.INSTANCE.showToast(R.string.file_noexists);
+                    CustomToast.getInstance().showToast(R.string.file_noexists);
                     return;
                 }
                 String newPath = FileUtil.combinPath(currentPath, src.getName());
                 final File tar = new File(newPath);
                 if (tar.exists()) {
-                    CustomToast.INSTANCE.showToast(R.string.file_exists);
+                    CustomToast.getInstance().showToast(R.string.file_exists);
                     return;
                 }
 

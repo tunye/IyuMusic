@@ -69,11 +69,11 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
         newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos(ListenSongActivity.this.getClass().getName());
-                StudyManager.instance.setSourceArticleList(newsList);
-                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                StudyManager.instance.setCurArticle(newsList.get(position));
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setListFragmentPos(ListenSongActivity.this.getClass().getName());
+                StudyManager.getInstance().setSourceArticleList(newsList);
+                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setCurArticle(newsList.get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
 
@@ -136,8 +136,8 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
                             localInfoOp.deleteSee(temp.getId(), temp.getApp());
                         }
                     }
-                    if (ListenSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsList);
+                    if (ListenSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsList);
                     }
                     newsAdapter.setDataSet(newsList);
                 }
@@ -169,8 +169,8 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
             newsList.add(article);
         }
         newsAdapter.setDataSet(newsList);
-        if (ListenSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-            StudyManager.instance.setSourceArticleList(newsList);
+        if (ListenSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+            StudyManager.getInstance().setSourceArticleList(newsList);
         }
     }
 

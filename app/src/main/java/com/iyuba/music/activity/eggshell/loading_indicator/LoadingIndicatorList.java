@@ -82,7 +82,7 @@ public class LoadingIndicatorList extends BaseActivity {
             @Override
             public void onBindViewHolder(IndicatorHolder holder, final int position) {
                 holder.indicatorView.setIndicator(INDICATORS[position]);
-                holder.indicatorView.setIndicatorColor(GetAppColor.instance.getAppColor(context));
+                holder.indicatorView.setIndicatorColor(GetAppColor.getInstance().getAppColor(context));
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

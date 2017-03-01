@@ -54,7 +54,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         isRecord = false;
         originals = new ArrayList<>();
         player = new SimplePlayer(context);
-        curArticle = StudyManager.instance.getCurArticle();
+        curArticle = StudyManager.getInstance().getCurArticle();
         player.setVideoPath(getPath());
         mediaRecorder = new MediaRecorder();
     }
@@ -165,7 +165,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         holder.recordPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simplePlayer.setVideoPath(ConstantManager.instance.getRecordFile());
+                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile());
                 simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -188,7 +188,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         holder.recordSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
+                if (AccountManager.getInstance().checkUserLogin()) {
                     new UploadVoice().start();
                 } else {
                     CustomDialog.showLoginDialog(context);
@@ -205,7 +205,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private String getPath() {
         String url = DownloadService.getSongUrl(curArticle.getApp(), curArticle.getMusicUrl());
         StringBuilder localUrl = new StringBuilder();
-        localUrl.append(ConstantManager.instance.getMusicFolder()).append(File.separator).append(curArticle.getId()).append(".mp3");
+        localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(curArticle.getId()).append(".mp3");
         File localFile = new File(localUrl.toString());
         if (localFile.exists()) {
             return localUrl.toString();
@@ -220,7 +220,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 .setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder
                 .setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setOutputFile(ConstantManager.instance.getRecordFile());
+        mediaRecorder.setOutputFile(ConstantManager.getInstance().getRecordFile());
         try {
             mediaRecorder.prepare();
             mediaRecorder.start();
@@ -326,20 +326,20 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             StringBuilder sb = new StringBuilder(
                     "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
             sb.append("&userid=").append(
-                    AccountManager.INSTANCE.getUserId());
+                    AccountManager.getInstance().getUserId());
             sb.append("&shuoshuotype=").append(2);
             sb.append("&voaid=").append(curArticle.getId());
-            final File file = new File(ConstantManager.instance.getRecordFile());
+            final File file = new File(ConstantManager.getInstance().getRecordFile());
             UploadFile.postSound(sb.toString(), file, new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     file.delete();
-                    CustomToast.INSTANCE.showToast(R.string.read_send_success);
+                    CustomToast.getInstance().showToast(R.string.read_send_success);
                 }
 
                 @Override
                 public void fail(Object object) {
-                    CustomToast.INSTANCE.showToast(R.string.read_send_fail);
+                    CustomToast.getInstance().showToast(R.string.read_send_fail);
                 }
             });
         }

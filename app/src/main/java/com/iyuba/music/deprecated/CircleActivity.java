@@ -94,7 +94,7 @@
 //        collapsingToolbar.setTitle(context.getString(R.string.circle_title));
 //        collapsingToolbar.setCollapsedTitleTextColor(0xffededed);
 //        ImageView toolbarImage = (ImageView) findViewById(R.id.toolbar_image);
-//        ImageUtil.loadImage(toolbarImage, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.INSTANCE.getUserId(),
+//        ImageUtil.loadImage(toolbarImage, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId(),
 //                0, new ImageUtil.OnDrawableLoadListener() {
 //                    @Override
 //                    public void onSuccess(GlideDrawable drawable) {
@@ -141,7 +141,7 @@
 //                        doing.setUid(circle.getUid());
 //                        doing.setDateline(String.valueOf(circle.getDateline()));
 //                        doing.setUsername(circle.getUsername());
-//                        SocialManager.instance.pushDoing(doing);
+//                        SocialManager.getInstance().pushDoing(doing);
 //                        startActivity(new Intent(context, ReplyDoingActivity.class));
 //                        break;
 //                    case "picid":
@@ -246,21 +246,21 @@
 //            getCircleData();
 //        } else {
 //            swipeRefreshLayout.setRefreshing(false);
-//            CustomToast.INSTANCE.showToast(R.string.circle_load_all);
+//            CustomToast.getInstance().showToast(R.string.circle_load_all);
 //        }
 //    }
 //
 //    private void getCircleData() {
-//        CircleRequest.exeRequest(CircleRequest.generateUrl(AccountManager.INSTANCE.getUserId(), curPage), new IProtocolResponse() {
+//        CircleRequest.exeRequest(CircleRequest.generateUrl(AccountManager.getInstance().getUserId(), curPage), new IProtocolResponse() {
 //            @Override
 //            public void onNetError(String msg) {
-//                CustomToast.INSTANCE.showToast(msg);
+//                CustomToast.getInstance().showToast(msg);
 //                swipeRefreshLayout.setRefreshing(false);
 //            }
 //
 //            @Override
 //            public void onServerError(String msg) {
-//                CustomToast.INSTANCE.showToast(msg);
+//                CustomToast.getInstance().showToast(msg);
 //                swipeRefreshLayout.setRefreshing(false);
 //            }
 //
@@ -270,14 +270,14 @@
 //                BaseListEntity listEntity = (BaseListEntity) object;
 //                isLastPage = listEntity.isLastPage();
 //                if (isLastPage) {
-//                    CustomToast.INSTANCE.showToast(R.string.circle_load_all);
+//                    CustomToast.getInstance().showToast(R.string.circle_load_all);
 //                } else {
 //                    circles.addAll((ArrayList<Circle>) listEntity.getData());
 //                    circleAdapter.setCircleList(circles);
 //                    if (curPage == 1) {
 //
 //                    } else {
-//                        CustomToast.INSTANCE.showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
+//                        CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
 //                    }
 //                }
 //            }

@@ -95,11 +95,11 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setListFragmentPos(FavorSongActivity.this.getClass().getName());
-                    StudyManager.instance.setSourceArticleList(newsList);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(FavorSongActivity.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -120,7 +120,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             @Override
             public void onClick(View v) {
                 if (toolBarOperSub.getText().equals(getString(R.string.article_synchro))) {
-                    if (AccountManager.INSTANCE.checkUserLogin()) {
+                    if (AccountManager.getInstance().checkUserLogin()) {
                         getYunFavor();
                     } else {
                         CustomDialog.showLoginDialog(context);
@@ -150,8 +150,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                             cancelFavor(temp);
                         }
                     }
-                    if (FavorSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(newsList);
+                    if (FavorSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(newsList);
                     }
                     newsAdapter.setDataSet(newsList);
                 }
@@ -186,13 +186,13 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             newsList.add(article);
         }
         newsAdapter.setDataSet(newsList);
-        if (FavorSongActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-            StudyManager.instance.setSourceArticleList(newsList);
+        if (FavorSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+            StudyManager.getInstance().setSourceArticleList(newsList);
         }
     }
 
     private void cancelFavor(final Article article) {
-        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.INSTANCE.getUserId(), article.getId(), "del"), new IProtocolResponse() {
+        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), "del"), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 if (!article.getApp().equals("209")) {
@@ -239,7 +239,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
 
     private void getYunFavor() {
         waittingDialog.show();
-        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.INSTANCE.getUserId()), new IProtocolResponse() {
+        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 
@@ -257,7 +257,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                 if (netData.size() != 0) {
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.instance.getAppId());
+                        temp.setApp(ConstantManager.getInstance().getAppId());
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());

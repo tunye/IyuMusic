@@ -64,7 +64,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
                     Intent intent = new Intent("changeProperty");
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.app_no_change);
+                    CustomToast.getInstance().showToast(R.string.app_no_change);
                 }
             }
         });

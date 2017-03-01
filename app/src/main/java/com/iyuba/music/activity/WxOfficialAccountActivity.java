@@ -63,13 +63,13 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("wx official accounts", "iyubasong");
                 clipboard.setPrimaryClip(clip);
-                CustomToast.INSTANCE.showToast(R.string.wx_clip_board);
+                CustomToast.getInstance().showToast(R.string.wx_clip_board);
                 try {
                     Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    CustomToast.INSTANCE.showToast(R.string.share_no_wechat);
+                    CustomToast.getInstance().showToast(R.string.share_no_wechat);
                 }
             }
         });
@@ -98,7 +98,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
 
             @Override
             public void onResult(SHARE_MEDIA share_media) {
-                CustomToast.INSTANCE.showToast("请点击分享内容关注听歌学英语公众号");
+                CustomToast.getInstance().showToast("请点击分享内容关注听歌学英语公众号");
             }
 
             @Override
@@ -107,7 +107,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
 
             @Override
             public void onCancel(SHARE_MEDIA share_media) {
-                CustomToast.INSTANCE.showToast("操作取消");
+                CustomToast.getInstance().showToast("操作取消");
             }
         }).share();
     }

@@ -144,7 +144,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
             String fileName = "crash_" + time + "_" + timestamp + ".log";
-            File dir = new File(ConstantManager.instance.getCrashFolder());
+            File dir = new File(ConstantManager.getInstance().getCrashFolder());
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -175,7 +175,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
             String fileName = "log_" + time + "_" + timestamp + ".log";
-            File dir = new File(ConstantManager.instance.getCrashFolder());
+            File dir = new File(ConstantManager.getInstance().getCrashFolder());
             if (!dir.exists()) {
                 dir.mkdirs();
             }

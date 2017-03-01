@@ -56,8 +56,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     public CommentAdapter(Context context) {
         this.context = context;
         commentAgreeOp = new CommentAgreeOp();
-        if (AccountManager.INSTANCE.checkUserLogin()) {
-            uid = AccountManager.INSTANCE.getUserId();
+        if (AccountManager.getInstance().checkUserLogin()) {
+            uid = AccountManager.getInstance().getUserId();
         } else {
             uid = "0";
         }
@@ -183,12 +183,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61001, comment.getId()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void onServerError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
@@ -199,12 +199,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.agreeCount);
                                 notifyItemChanged(commentViewHolder.getLayoutPosition());
                             } else if (object.toString().equals("000")) {
-                                CustomToast.INSTANCE.showToast(R.string.comment_agree_fail);
+                                CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
                         }
                     });
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.comment_already);
+                    CustomToast.getInstance().showToast(R.string.comment_already);
                 }
             }
         });
@@ -215,12 +215,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61002, comment.getId()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
                         public void onServerError(String msg) {
-                            CustomToast.INSTANCE.showToast(msg);
+                            CustomToast.getInstance().showToast(msg);
                         }
 
                         @Override
@@ -231,19 +231,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.againstCount);
                                 notifyItemChanged(commentViewHolder.getLayoutPosition());
                             } else if (object.toString().equals("000")) {
-                                CustomToast.INSTANCE.showToast(R.string.comment_agree_fail);
+                                CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
                         }
                     });
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.comment_already);
+                    CustomToast.getInstance().showToast(R.string.comment_already);
                 }
             }
         });
         commentViewHolder.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(comments.get(commentViewHolder.getLayoutPosition()).getUserid());
+                SocialManager.getInstance().pushFriendId(comments.get(commentViewHolder.getLayoutPosition()).getUserid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);
@@ -299,7 +299,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 handler.removeMessages(1);
                 notifyItemChanged(position);
                 playingVoiceLoading.setVisibility(View.GONE);
-                CustomToast.INSTANCE.showToast(R.string.comment_play_fail);
+                CustomToast.getInstance().showToast(R.string.comment_play_fail);
                 return false;
             }
         });

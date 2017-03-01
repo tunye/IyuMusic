@@ -19,13 +19,13 @@ public class WordParent implements ParentListItem {
         ArrayList<WordParent> wordParents = new ArrayList<>();
         int j = 0;
         WordParent wordParent = new WordParent();
-        wordParent.setParentContent(getContentByPara(SettingConfigManager.instance.getWordOrder(), wordArrayList.get(0)));
+        wordParent.setParentContent(getContentByPara(SettingConfigManager.getInstance().getWordOrder(), wordArrayList.get(0)));
         wordParent.setInitiallyExpanded(true);
         wordParent.setParentIndex(j++);
         ArrayList<Word> temp = new ArrayList<>();
         temp.add(wordArrayList.get(0));
         for (int i = 0; i < wordArrayList.size() - 1; i++) {
-            if (getCompareResultByPara(SettingConfigManager.instance.getWordOrder(),
+            if (getCompareResultByPara(SettingConfigManager.getInstance().getWordOrder(),
                     wordArrayList.get(i), wordArrayList.get(i + 1))) {
                 temp.add(wordArrayList.get(i + 1));
             } else {
@@ -36,7 +36,7 @@ public class WordParent implements ParentListItem {
                 wordParent = new WordParent();
                 wordParent.setInitiallyExpanded(true);
                 wordParent.setParentIndex(j++);
-                wordParent.setParentContent(getContentByPara(SettingConfigManager.instance.getWordOrder(), wordArrayList.get(i + 1)));
+                wordParent.setParentContent(getContentByPara(SettingConfigManager.getInstance().getWordOrder(), wordArrayList.get(i + 1)));
             }
         }
         wordParent.setWordArrayList(temp);

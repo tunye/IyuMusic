@@ -60,7 +60,7 @@ public class RegistRequest {
         para.put("username", paras[0]);
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("email", paras[2]);
-        para.put("appid", ConstantManager.instance.getAppId());
+        para.put("appid", ConstantManager.getInstance().getAppId());
         para.put("format", "json");
         para.put("sign", MD5.getMD5ofStr("10002" + paras[0]
                 + MD5.getMD5ofStr(paras[1]) + paras[2] + "iyubaV2"));

@@ -3,8 +3,10 @@ package com.iyuba.music.manager;
 /**
  * Created by 10202 on 2015/11/18.
  */
-public enum SettingConfigManager {
-    instance;
+public class SettingConfigManager {
+    private static class SingleInstanceHelper{
+        private static SettingConfigManager instance=new SettingConfigManager();
+    }
     private final static String EGGSHELL_TAG = "eggshell";
     private final static String PUSH_TAG = "push";
     private final static String LANGUAGE_TAG = "language";
@@ -34,31 +36,35 @@ public enum SettingConfigManager {
             autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;
     private String lastADUrl;
 
-    SettingConfigManager() {
-        push = ConfigManager.instance.loadBoolean(PUSH_TAG, true);
-        night = ConfigManager.instance.loadBoolean(NIGHT_TAG);
-        language = ConfigManager.instance.loadInt(LANGUAGE_TAG);
-        autoLogin = ConfigManager.instance.loadBoolean(AUTO_LOGIN_TAG, true);
-        autoplay = ConfigManager.instance.loadBoolean(AUTO_PLAY_TAG);
-        autostop = ConfigManager.instance.loadBoolean(AUTO_STOP_TAG, true);
-        lastADUrl = ConfigManager.instance.loadString(AD_TAG);
+    private SettingConfigManager() {
+        push = ConfigManager.getInstance().loadBoolean(PUSH_TAG, true);
+        night = ConfigManager.getInstance().loadBoolean(NIGHT_TAG);
+        language = ConfigManager.getInstance().loadInt(LANGUAGE_TAG);
+        autoLogin = ConfigManager.getInstance().loadBoolean(AUTO_LOGIN_TAG, true);
+        autoplay = ConfigManager.getInstance().loadBoolean(AUTO_PLAY_TAG);
+        autostop = ConfigManager.getInstance().loadBoolean(AUTO_STOP_TAG, true);
+        lastADUrl = ConfigManager.getInstance().loadString(AD_TAG);
 
-        sayingMode = ConfigManager.instance.loadInt(SAYING_MODE_TAG);
-        wordDefShow = ConfigManager.instance.loadBoolean(WORD_DEF_SHOW_TAG, true);
-        wordOrder = ConfigManager.instance.loadInt(WORD_ORDER_TAG);
-        wordAutoPlay = ConfigManager.instance.loadBoolean(WORD_AUTO_PLAY_TAG, true);
-        wordAutoAdd = ConfigManager.instance.loadBoolean(WORD_AUTO_ADD_TAG);
+        sayingMode = ConfigManager.getInstance().loadInt(SAYING_MODE_TAG);
+        wordDefShow = ConfigManager.getInstance().loadBoolean(WORD_DEF_SHOW_TAG, true);
+        wordOrder = ConfigManager.getInstance().loadInt(WORD_ORDER_TAG);
+        wordAutoPlay = ConfigManager.getInstance().loadBoolean(WORD_AUTO_PLAY_TAG, true);
+        wordAutoAdd = ConfigManager.getInstance().loadBoolean(WORD_AUTO_ADD_TAG);
 
-        originalSize = ConfigManager.instance.loadInt(ORIGINAL_SIZE, 16);
-        studyPlayMode = ConfigManager.instance.loadInt(STUDY_PLAY_MODE, 1);
-        studyMode = ConfigManager.instance.loadInt(STUDY_MODE, 1);
-        studyTranslate = ConfigManager.instance.loadInt(STUDY_TRANSLATE, 1);
+        originalSize = ConfigManager.getInstance().loadInt(ORIGINAL_SIZE, 16);
+        studyPlayMode = ConfigManager.getInstance().loadInt(STUDY_PLAY_MODE, 1);
+        studyMode = ConfigManager.getInstance().loadInt(STUDY_MODE, 1);
+        studyTranslate = ConfigManager.getInstance().loadInt(STUDY_TRANSLATE, 1);
 
-        eggshell = ConfigManager.instance.loadBoolean(EGGSHELL_TAG);
-        upgrade = ConfigManager.instance.loadBoolean(UPGRADE_TAG);
-        autoRound = ConfigManager.instance.loadBoolean(AUTOROUND, true);
-        autoDownload = ConfigManager.instance.loadBoolean(DOWNLOADMEANWHILE);
-        download = ConfigManager.instance.loadInt(DOWNLOAD, 0);
+        eggshell = ConfigManager.getInstance().loadBoolean(EGGSHELL_TAG);
+        upgrade = ConfigManager.getInstance().loadBoolean(UPGRADE_TAG);
+        autoRound = ConfigManager.getInstance().loadBoolean(AUTOROUND, true);
+        autoDownload = ConfigManager.getInstance().loadBoolean(DOWNLOADMEANWHILE);
+        download = ConfigManager.getInstance().loadInt(DOWNLOAD, 0);
+    }
+
+    public static SettingConfigManager getInstance(){
+        return SingleInstanceHelper.instance;
     }
 
     public boolean isPush() {
@@ -67,8 +73,8 @@ public enum SettingConfigManager {
 
 
     public void setPush(boolean push) {
-        instance.push = push;
-        ConfigManager.instance.putBoolean(PUSH_TAG, push);
+        this.push = push;
+        ConfigManager.getInstance().putBoolean(PUSH_TAG, push);
     }
 
 
@@ -77,8 +83,8 @@ public enum SettingConfigManager {
     }
 
     public void setNight(boolean night) {
-        instance.night = night;
-        ConfigManager.instance.putBoolean(NIGHT_TAG, night);
+        this.night = night;
+        ConfigManager.getInstance().putBoolean(NIGHT_TAG, night);
     }
 
     public int getLanguage() {
@@ -87,8 +93,8 @@ public enum SettingConfigManager {
 
 
     public void setLanguage(int language) {
-        instance.language = language;
-        ConfigManager.instance.putInt(LANGUAGE_TAG, language);
+        this.language = language;
+        ConfigManager.getInstance().putInt(LANGUAGE_TAG, language);
     }
 
     public boolean isAutoLogin() {
@@ -97,8 +103,8 @@ public enum SettingConfigManager {
 
 
     public void setAutoLogin(boolean autoLogin) {
-        instance.autoLogin = autoLogin;
-        ConfigManager.instance.putBoolean(AUTO_LOGIN_TAG, autoLogin);
+        this.autoLogin = autoLogin;
+        ConfigManager.getInstance().putBoolean(AUTO_LOGIN_TAG, autoLogin);
     }
 
     public boolean isAutoPlay() {
@@ -106,8 +112,8 @@ public enum SettingConfigManager {
     }
 
     public void setAutoPlay(boolean autoPlay) {
-        instance.autoplay = autoPlay;
-        ConfigManager.instance.putBoolean(AUTO_PLAY_TAG, autoPlay);
+        this.autoplay = autoPlay;
+        ConfigManager.getInstance().putBoolean(AUTO_PLAY_TAG, autoPlay);
     }
 
     public boolean isAutoStop() {
@@ -115,8 +121,8 @@ public enum SettingConfigManager {
     }
 
     public void setAutoStop(boolean autoStop) {
-        instance.autostop = autoStop;
-        ConfigManager.instance.putBoolean(AUTO_STOP_TAG, autoStop);
+        this.autostop = autoStop;
+        ConfigManager.getInstance().putBoolean(AUTO_STOP_TAG, autoStop);
     }
 
     public String getADUrl() {
@@ -124,8 +130,8 @@ public enum SettingConfigManager {
     }
 
     public void setADUrl(String url) {
-        instance.lastADUrl = url;
-        ConfigManager.instance.putString(AD_TAG, url);
+        this.lastADUrl = url;
+        ConfigManager.getInstance().putString(AD_TAG, url);
     }
 
     public int getSayingMode() {
@@ -133,8 +139,8 @@ public enum SettingConfigManager {
     }
 
     public void setSayingMode(int mode) {
-        instance.sayingMode = mode;
-        ConfigManager.instance.putInt(SAYING_MODE_TAG, mode);
+        this.sayingMode = mode;
+        ConfigManager.getInstance().putInt(SAYING_MODE_TAG, mode);
     }
 
     public boolean isWordDefShow() {
@@ -142,8 +148,8 @@ public enum SettingConfigManager {
     }
 
     public void setWordDefShow(boolean show) {
-        instance.wordDefShow = show;
-        ConfigManager.instance.putBoolean(WORD_DEF_SHOW_TAG, show);
+        this.wordDefShow = show;
+        ConfigManager.getInstance().putBoolean(WORD_DEF_SHOW_TAG, show);
     }
 
     public int getWordOrder() {
@@ -151,8 +157,8 @@ public enum SettingConfigManager {
     }
 
     public void setWordOrder(int order) {
-        instance.wordOrder = order;
-        ConfigManager.instance.putInt(WORD_ORDER_TAG, order);
+        this.wordOrder = order;
+        ConfigManager.getInstance().putInt(WORD_ORDER_TAG, order);
     }
 
     public boolean isWordAutoPlay() {
@@ -160,8 +166,8 @@ public enum SettingConfigManager {
     }
 
     public void setWordAutoPlay(boolean play) {
-        instance.wordAutoPlay = play;
-        ConfigManager.instance.putBoolean(WORD_AUTO_PLAY_TAG, play);
+        this.wordAutoPlay = play;
+        ConfigManager.getInstance().putBoolean(WORD_AUTO_PLAY_TAG, play);
     }
 
     public boolean isWordAutoAdd() {
@@ -169,8 +175,8 @@ public enum SettingConfigManager {
     }
 
     public void setWordAutoAdd(boolean add) {
-        instance.wordAutoAdd = add;
-        ConfigManager.instance.putBoolean(WORD_AUTO_ADD_TAG, add);
+        this.wordAutoAdd = add;
+        ConfigManager.getInstance().putBoolean(WORD_AUTO_ADD_TAG, add);
     }
 
     public int getStudyMode() {
@@ -178,8 +184,8 @@ public enum SettingConfigManager {
     }
 
     public void setStudyMode(int mode) {
-        instance.studyMode = mode;
-        ConfigManager.instance.putInt(STUDY_MODE, mode);
+        this.studyMode = mode;
+        ConfigManager.getInstance().putInt(STUDY_MODE, mode);
     }
 
     public int getStudyTranslate() {
@@ -187,8 +193,8 @@ public enum SettingConfigManager {
     }
 
     public void setStudyTranslate(int mode) {
-        instance.studyTranslate = mode;
-        ConfigManager.instance.putInt(STUDY_TRANSLATE, mode);
+        this.studyTranslate = mode;
+        ConfigManager.getInstance().putInt(STUDY_TRANSLATE, mode);
     }
 
     public int getStudyPlayMode() {
@@ -196,8 +202,8 @@ public enum SettingConfigManager {
     }
 
     public void setStudyPlayMode(int mode) {
-        instance.studyPlayMode = mode;
-        ConfigManager.instance.putInt(STUDY_PLAY_MODE, mode);
+        this.studyPlayMode = mode;
+        ConfigManager.getInstance().putInt(STUDY_PLAY_MODE, mode);
     }
 
     public boolean isEggShell() {
@@ -205,8 +211,8 @@ public enum SettingConfigManager {
     }
 
     public void setEggShell(boolean eggShell) {
-        instance.eggshell = eggShell;
-        ConfigManager.instance.putBoolean(EGGSHELL_TAG, eggShell);
+        this.eggshell = eggShell;
+        ConfigManager.getInstance().putBoolean(EGGSHELL_TAG, eggShell);
     }
 
     public boolean isUpgrade() {
@@ -214,8 +220,8 @@ public enum SettingConfigManager {
     }
 
     public void setUpgrade(boolean upgrade) {
-        instance.upgrade = upgrade;
-        ConfigManager.instance.putBoolean(UPGRADE_TAG, upgrade);
+        this.upgrade = upgrade;
+        ConfigManager.getInstance().putBoolean(UPGRADE_TAG, upgrade);
     }
 
     public boolean isAutoRound() {
@@ -223,8 +229,8 @@ public enum SettingConfigManager {
     }
 
     public void setAutoRound(boolean round) {
-        instance.autoRound = round;
-        ConfigManager.instance.putBoolean(AUTOROUND, round);
+        this.autoRound = round;
+        ConfigManager.getInstance().putBoolean(AUTOROUND, round);
     }
 
     public boolean isDownloadMeanwhile() {
@@ -232,8 +238,8 @@ public enum SettingConfigManager {
     }
 
     public void setDownloadMeanwhile(boolean meanwhile) {
-        instance.autoDownload = meanwhile;
-        ConfigManager.instance.putBoolean(DOWNLOADMEANWHILE, meanwhile);
+        this.autoDownload = meanwhile;
+        ConfigManager.getInstance().putBoolean(DOWNLOADMEANWHILE, meanwhile);
     }
 
     public int getDownloadMode() {
@@ -241,8 +247,8 @@ public enum SettingConfigManager {
     }
 
     public void setDownloadMode(int mode) {
-        instance.download = mode;
-        ConfigManager.instance.putInt(DOWNLOAD, mode);
+        this.download = mode;
+        ConfigManager.getInstance().putInt(DOWNLOAD, mode);
     }
 
     public int getOriginalSize() {
@@ -250,7 +256,7 @@ public enum SettingConfigManager {
     }
 
     public void setOriginalSize(int size) {
-        instance.originalSize = size;
-        ConfigManager.instance.putInt(ORIGINAL_SIZE, size);
+        this.originalSize = size;
+        ConfigManager.getInstance().putInt(ORIGINAL_SIZE, size);
     }
 }

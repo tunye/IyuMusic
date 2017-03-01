@@ -9,14 +9,20 @@ import android.support.annotation.NonNull;
  *         <p/>
  *         功能：配置文件管理
  */
-public enum ConfigManager {
-    instance;
+public class ConfigManager {
+    private static class SingleInstanceHelper{
+        private static ConfigManager instance=new ConfigManager();
+    }
     public static final String CONFIG_NAME = "IyuMusic";
     private SharedPreferences preferences;
 
-    ConfigManager() {
+    private ConfigManager() {
         int mode = Activity.MODE_PRIVATE;
         preferences = RuntimeManager.getContext().getSharedPreferences(CONFIG_NAME, mode);
+    }
+
+    public static ConfigManager getInstance(){
+        return SingleInstanceHelper.instance;
     }
 
     public void putBoolean(String name, boolean value) {

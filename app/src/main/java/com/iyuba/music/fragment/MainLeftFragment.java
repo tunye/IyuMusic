@@ -104,7 +104,7 @@ public class MainLeftFragment extends BaseFragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
+                SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -150,7 +150,7 @@ public class MainLeftFragment extends BaseFragment {
             public void onItemClicked(View view, int position) {
                 switch (position) {
                     case 0:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, VipCenterActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
@@ -166,8 +166,8 @@ public class MainLeftFragment extends BaseFragment {
                         startActivity(new Intent(context, MeActivity.class));
                         break;
                     case 4:
-                        SettingConfigManager.instance.setNight(!SettingConfigManager.instance.isNight());
-                        ChangePropery.updateNightMode(SettingConfigManager.instance.isNight());
+                        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
+                        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
                         LocalBroadcastManager.getInstance(getActivity().getApplication()).sendBroadcast(new Intent("changeProperty"));
                         break;
                     case 5:
@@ -187,11 +187,11 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void changeUIResumeByPara() {
-        if (AccountManager.INSTANCE.checkUserLogin()) {
+        if (AccountManager.getInstance().checkUserLogin()) {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(AccountManager.INSTANCE.getUserInfo().getFollower())) {
+            if (TextUtils.isEmpty(AccountManager.getInstance().getUserInfo().getFollower())) {
                 getPersonalInfo();
             }
         } else {
@@ -207,13 +207,13 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void autoLogin() {
-        if (SettingConfigManager.instance.isAutoLogin()) { // 自动登录
-            AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.LOGIN);
-            if (!TextUtils.isEmpty(AccountManager.INSTANCE.getUserName()) && !TextUtils.isEmpty(AccountManager.INSTANCE.getUserPwd())) {
+        if (SettingConfigManager.getInstance().isAutoLogin()) { // 自动登录
+            AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
+            if (!TextUtils.isEmpty(AccountManager.getInstance().getUserName()) && !TextUtils.isEmpty(AccountManager.getInstance().getUserPwd())) {
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                    userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
-                    AccountManager.INSTANCE.setUserInfo(userInfo);
-                    AccountManager.INSTANCE.login(AccountManager.INSTANCE.getUserName(), AccountManager.INSTANCE.getUserPwd(),
+                    userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
+                    AccountManager.getInstance().setUserInfo(userInfo);
+                    AccountManager.getInstance().login(AccountManager.getInstance().getUserName(), AccountManager.getInstance().getUserPwd(),
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {
@@ -240,33 +240,33 @@ public class MainLeftFragment extends BaseFragment {
                     localLogin();
                 }
             } else {
-                AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.UNLOGIN);
+                AccountManager.getInstance().setLoginState(AccountManager.SIGN_OUT);
             }
         }
     }
 
     private void localLogin() {
-        AccountManager.INSTANCE.setLoginState(AccountManager.LoginState.LOGIN);
-        userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
-        AccountManager.INSTANCE.setUserInfo(userInfo);
+        AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
+        userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
+        AccountManager.getInstance().setUserInfo(userInfo);
         handler.sendEmptyMessage(0);
     }
 
     private void getPersonalInfo() {
-        AccountManager.INSTANCE.getPersonalInfo(new IOperationResult() {
+        AccountManager.getInstance().getPersonalInfo(new IOperationResult() {
             @Override
             public void success(Object object) {
-                userInfo = AccountManager.INSTANCE.getUserInfo();
+                userInfo = AccountManager.getInstance().getUserInfo();
                 handler.sendEmptyMessage(0);
             }
 
             @Override
             public void fail(Object object) {
-                userInfo = new UserInfoOp().selectData(AccountManager.INSTANCE.getUserId());
+                userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
                 if (userInfo != null && !TextUtils.isEmpty(userInfo.getFollowing())) {     // 获取不到时采用历史数据
-                    AccountManager.INSTANCE.setUserInfo(userInfo);
+                    AccountManager.getInstance().setUserInfo(userInfo);
                 } else {
-                    userInfo = AccountManager.INSTANCE.getUserInfo();
+                    userInfo = AccountManager.getInstance().getUserInfo();
                 }
                 handler.sendEmptyMessage(0);
             }
@@ -286,14 +286,14 @@ public class MainLeftFragment extends BaseFragment {
         int follow = TextUtils.isEmpty(userInfo.getFollowing()) ? 0 : Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
-            personalFollow.setTextColor(GetAppColor.instance.getAppColor(context));
+            personalFollow.setTextColor(GetAppColor.getInstance().getAppColor(context));
         } else {
             personalFollow.setText(context.getString(R.string.personal_follow, String.valueOf(follow)));
         }
         int follower = TextUtils.isEmpty(userInfo.getFollower()) ? 0 : Integer.parseInt(userInfo.getFollower());
         if (follower > 10000) {
             personalFan.setText(context.getString(R.string.personal_fan, follower / 10000 + "w"));
-            personalFan.setTextColor(GetAppColor.instance.getAppColor(context));
+            personalFan.setTextColor(GetAppColor.getInstance().getAppColor(context));
         } else {
             personalFan.setText(context.getString(R.string.personal_fan, String.valueOf(follower)));
         }

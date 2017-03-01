@@ -28,12 +28,12 @@ public class HeadsetPlugReceiver extends BroadcastReceiver {
         if (((MusicApplication) getApplication()).getPlayerService() != null) {
             StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
             if (intent.getIntExtra("state", 0) == 1) {
-                boolean isAutoPlay = SettingConfigManager.instance.isAutoPlay();
+                boolean isAutoPlay = SettingConfigManager.getInstance().isAutoPlay();
                 if (isAutoPlay && player.isPrepared() && !player.isPlaying()) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
             } else if (intent.getIntExtra("state", 0) == 0) {
-                boolean isAutoStop = SettingConfigManager.instance.isAutoStop();
+                boolean isAutoStop = SettingConfigManager.getInstance().isAutoStop();
                 if (isAutoStop && player.isPlaying()) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }

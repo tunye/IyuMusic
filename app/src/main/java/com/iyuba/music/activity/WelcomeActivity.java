@@ -90,14 +90,14 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initWelcomeAdProgress() {
-        welcomeAdProgressbar.setCricleProgressColor(GetAppColor.instance.getAppColor(context));
+        welcomeAdProgressbar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
         welcomeAdProgressbar.setProgress(150);                  // 为progress设置一个初始值
         welcomeAdProgressbar.setMax(4000);                      // 总计等待4s
         handler.sendEmptyMessageDelayed(3, 500);                // 半秒刷新进度
     }
 
     private void getBannerPic() {
-        AdPicRequest.exeRequest(AdPicRequest.generateUrl(ConstantManager.instance.getAppId()), new IProtocolResponse() {
+        AdPicRequest.exeRequest(AdPicRequest.generateUrl(ConstantManager.getInstance().getAppId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 handler.sendEmptyMessage(2);
@@ -118,7 +118,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initialDatabase() {
-        int lastVersion = ConfigManager.instance.loadInt("version");
+        int lastVersion = ConfigManager.getInstance().loadInt("version");
         int currentVersion = 0;
         PackageInfo info;
         try {
@@ -133,8 +133,8 @@ public class WelcomeActivity extends AppCompatActivity {
             db.openDatabase();
             appUpgrade(currentVersion);
         } else if (currentVersion > lastVersion) {
-            if (lastVersion < 72 && SettingConfigManager.instance.getOriginalSize() == 14) {
-                SettingConfigManager.instance.setOriginalSize(16);   // 修改默认文字大小
+            if (lastVersion < 72 && SettingConfigManager.getInstance().getOriginalSize() == 14) {
+                SettingConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
             }
             appUpgrade(currentVersion);
         }
@@ -143,8 +143,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void appUpgrade(int currentVersion) {
         showGuide = true;
-        ConfigManager.instance.putInt("version", currentVersion);
-        SettingConfigManager.instance.setUpgrade(true);
+        ConfigManager.getInstance().putInt("version", currentVersion);
+        SettingConfigManager.getInstance().setUpgrade(true);
         //CreateAppLnkUtil.addLocalMusicLink(WelcomeActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
     }
 
@@ -156,7 +156,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (!activity.isDestroyed()) {
                         ImageUtil.loadImage(activity.adEntities.get(0).getPicUrl(), activity.header);
                         ImageUtil.loadImage(activity.adEntities.get(1).getPicUrl(), activity.footer);
-                        SettingConfigManager.instance.setADUrl(activity.adEntities.get(0).getPicUrl()
+                        SettingConfigManager.getInstance().setADUrl(activity.adEntities.get(0).getPicUrl()
                                 + "@@@" + activity.adEntities.get(1).getPicUrl());
                     }
                     break;
@@ -175,7 +175,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                     break;
                 case 2:
-                    String adUrl = SettingConfigManager.instance.getADUrl();
+                    String adUrl = SettingConfigManager.getInstance().getADUrl();
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.footer.setImageResource(R.drawable.default_footer);
                     } else if (!activity.isDestroyed()) {

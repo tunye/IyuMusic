@@ -109,7 +109,7 @@ public class WebViewActivity extends BaseActivity {
                     ClipData clip = ClipData.newPlainText("url link", url);
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setPrimaryClip(clip);
-                    CustomToast.INSTANCE.showToast(R.string.webview_clip_board);
+                    CustomToast.getInstance().showToast(R.string.webview_clip_board);
                 }
             }
         });

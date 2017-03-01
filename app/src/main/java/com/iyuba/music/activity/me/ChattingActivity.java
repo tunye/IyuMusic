@@ -78,8 +78,8 @@ public class ChattingActivity extends BaseInputActivity {
     public void onDestroy() {
         super.onDestroy();
         if (needPop) {
-            SocialManager.instance.popFriendId();
-            SocialManager.instance.popFriendName();
+            SocialManager.getInstance().popFriendId();
+            SocialManager.getInstance().popFriendName();
         }
         ContextManager.destory();
     }
@@ -111,7 +111,7 @@ public class ChattingActivity extends BaseInputActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(SocialManager.instance.getFriendId());
+                SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -121,15 +121,15 @@ public class ChattingActivity extends BaseInputActivity {
             @Override
             public void onSendText(final String s) {
                 SendMessageRequest.exeRequest(SendMessageRequest.generateUrl(
-                        AccountManager.INSTANCE.getUserId(), SocialManager.instance.getFriendName(), s), new IProtocolResponse() {
+                        AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendName(), s), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(R.string.message_send_fail);
+                        CustomToast.getInstance().showToast(R.string.message_send_fail);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(R.string.message_send_fail);
+                        CustomToast.getInstance().showToast(R.string.message_send_fail);
                     }
 
                     @Override
@@ -139,12 +139,12 @@ public class ChattingActivity extends BaseInputActivity {
                             MessageLetterContent letterContent = new MessageLetterContent();
                             letterContent.setContent(s);
                             letterContent.setDirection(1);
-                            letterContent.setAuthorid(AccountManager.INSTANCE.getUserId());
+                            letterContent.setAuthorid(AccountManager.getInstance().getUserId());
                             letterContent.setDate(String.valueOf(System.currentTimeMillis() / 1000));
                             list.add(letterContent);
                             adapter.setList(list);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.message_send_fail);
+                            CustomToast.getInstance().showToast(R.string.message_send_fail);
                         }
                     }
                 });
@@ -170,13 +170,13 @@ public class ChattingActivity extends BaseInputActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        title.setText(SocialManager.instance.getFriendName());
+        title.setText(SocialManager.getInstance().getFriendName());
         toolbarOper.setText(R.string.message_home);
     }
 
     // 设置adapter
     private void setAdapterForThis() {
-        adapter = new ChattingAdapter(this, AccountManager.INSTANCE.getUserId());
+        adapter = new ChattingAdapter(this, AccountManager.getInstance().getUserId());
         chatContent.setAdapter(adapter);
         chatContent.setOnItemClickListener(new OnItemClickListener() {
 
@@ -186,7 +186,7 @@ public class ChattingActivity extends BaseInputActivity {
                 ClipData clip = ClipData.newPlainText("chat message",
                         adapter.getItem(arg2).getContent());
                 clipboard.setPrimaryClip(clip);
-                CustomToast.INSTANCE.showToast(R.string.message_clip_board);
+                CustomToast.getInstance().showToast(R.string.message_clip_board);
             }
         });
         chatContent.setOnScrollListener(new OnScrollListener() {
@@ -201,7 +201,7 @@ public class ChattingActivity extends BaseInputActivity {
                             if (!isLastPage) {
                                 getChattingContent();
                             } else {
-                                CustomToast.INSTANCE.showToast(R.string.message_load_all);
+                                CustomToast.getInstance().showToast(R.string.message_load_all);
                             }
                         }
                         break;
@@ -222,15 +222,15 @@ public class ChattingActivity extends BaseInputActivity {
     }
 
     private void getChattingContent() {
-        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.INSTANCE.getUserId(), SocialManager.instance.getFriendId(), chattingPage), new IProtocolResponse() {
+        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendId(), chattingPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
@@ -238,7 +238,7 @@ public class ChattingActivity extends BaseInputActivity {
                 BaseListEntity baseListEntity = (BaseListEntity) object;
                 if (baseListEntity.isLastPage()) {
                     isLastPage = true;
-                    CustomToast.INSTANCE.showToast(R.string.message_load_all);
+                    CustomToast.getInstance().showToast(R.string.message_load_all);
                 } else {
                     chattingPage++;
                     ArrayList<MessageLetterContent> contents = (ArrayList<MessageLetterContent>) baseListEntity.getData();

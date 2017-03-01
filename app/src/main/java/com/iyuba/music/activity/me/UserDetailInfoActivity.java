@@ -41,7 +41,7 @@ public class UserDetailInfoActivity extends BaseActivity {
 
     private void setText() {
 
-        tvUserName.setText(SocialManager.instance.getFriendName());
+        tvUserName.setText(SocialManager.getInstance().getFriendName());
         switch (userDetailInfo.gender) {
             case "0":
                 tvGender.setText(context.getString(R.string.person_detail_sex_undefined));
@@ -99,19 +99,19 @@ public class UserDetailInfoActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.person_detail_title);
         toolbarOper.setText(R.string.person_detail_edit);
-        if (!AccountManager.INSTANCE.getUserId().equals(SocialManager.instance.getFriendId())) {
+        if (!AccountManager.getInstance().getUserId().equals(SocialManager.getInstance().getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.instance.getFriendId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.getInstance().getFriendId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 finish();
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 finish();
             }
 
@@ -128,8 +128,8 @@ public class UserDetailInfoActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         if (needPop) {
-            SocialManager.instance.popFriendId();
-            SocialManager.instance.popFriendName();
+            SocialManager.getInstance().popFriendId();
+            SocialManager.getInstance().popFriendName();
         }
     }
 }

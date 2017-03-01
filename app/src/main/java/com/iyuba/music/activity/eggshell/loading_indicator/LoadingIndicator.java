@@ -39,6 +39,6 @@ public class LoadingIndicator extends BaseActivity {
         title.setText("加载小动画");
         loadingIndicatorName.setText(getIntent().getStringExtra("indicator"));
         loadingIndicatorView.setIndicator(getIntent().getStringExtra("indicator"));
-        loadingIndicatorView.setIndicatorColor(GetAppColor.instance.getAppColor(context));
+        loadingIndicatorView.setIndicatorColor(GetAppColor.getInstance().getAppColor(context));
     }
 }

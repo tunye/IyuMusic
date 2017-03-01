@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -25,6 +26,8 @@ import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.util.ImageUtil;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -50,7 +53,8 @@ public class BannerView extends RelativeLayout {
     private int selectItemColor = 0xffffffff, unselectedItemColor = 0xff808080;
     private int shadowColor = 0x66000000;
     private boolean isAutoStart;
-    private Align align;
+    @Align
+    private int align;
     private IOnClickListener onClickListener;
 
     public BannerView(Context context) {
@@ -85,13 +89,13 @@ public class BannerView extends RelativeLayout {
         int alignInt = a.getInt(R.styleable.bannerview_banner_align, 1);
         switch (alignInt) {
             case 0:
-                align = Align.LEFT;
+                align = LEFT;
                 break;
             case 1:
-                align = Align.CENTER;
+                align = CENTER;
                 break;
             case 2:
-                align = Align.RIGHT;
+                align = RIGHT;
                 break;
         }
         a.recycle();
@@ -240,7 +244,14 @@ public class BannerView extends RelativeLayout {
         return super.dispatchTouchEvent(ev);
     }
 
-    public enum Align {LEFT, CENTER, RIGHT}
+    public static final int LEFT = 0x01;
+    public static final int CENTER = 0x02;
+    public static final int RIGHT = 0x03;
+
+    @IntDef({LEFT, CENTER, RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Align {
+    }
 
     private class ScrollTask implements Runnable {
 

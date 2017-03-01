@@ -27,8 +27,8 @@ public class NotificationBeforeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         ((MusicApplication) getApplication()).getPlayerService().before();
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.instance.getCurArticle(), false);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.instance.getCurArticle());
+        ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
         ((MusicApplication) getApplication()).getPlayerService().getPlayer().start();
         if (((MusicApplication) getApplication()).isAppointForeground("StudyActivity")) {
             Intent i = new Intent("com.iyuba.music.study");

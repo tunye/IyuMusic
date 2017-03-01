@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -51,6 +52,8 @@ import com.youdao.sdk.nativeads.NativeResponse;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.YouDaoNative;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +77,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private ImageView former, latter, playMode, interval, studyMode, studyMore, studyTranslate;
     private RoundTextView comment;
     private int aPosition, bPosition;// 区间播放
-    private IntervalState intervalState;
+    @IntervalState
+    private int intervalState;
     private boolean isDestroyed = false;
     private YouDaoNative youdaoNative;
     IPlayerListener iPlayerListener = new IPlayerListener() {
@@ -114,7 +118,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         context = this;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.instance.getCurArticle(), false);
+                StudyManager.getInstance().getCurArticle(), false);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限
@@ -166,19 +170,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_mode:
-                int nextMusicType = SettingConfigManager.instance.getStudyPlayMode();
+                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.instance.setStudyPlayMode(nextMusicType);
-                StudyManager.instance.generateArticleList();
+                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
                 break;
             case R.id.play:
                 setPauseImage(true);
                 break;
             case R.id.study_mode:
-                int musicType = SettingConfigManager.instance.getStudyMode();
+                int musicType = SettingConfigManager.getInstance().getStudyMode();
                 musicType = (musicType + 1) % 2;
-                SettingConfigManager.instance.setStudyMode(musicType);
+                SettingConfigManager.getInstance().setStudyMode(musicType);
                 setStudyModeImage(musicType);
                 break;
             case R.id.interval:
@@ -202,16 +206,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
             case R.id.study_translate:
-                int musicTranslate = SettingConfigManager.instance.getStudyTranslate();
+                int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
-                SettingConfigManager.instance.setStudyTranslate(musicTranslate);
+                SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
                 setStudyTranslateImage(musicTranslate);
                 break;
             case R.id.study_comment:
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                     startActivity(new Intent(context, CommentActivity.class));
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.no_internet);
+                    CustomToast.getInstance().showToast(R.string.no_internet);
                 }
                 break;
         }
@@ -242,7 +246,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyMode = (ImageView) findViewById(R.id.study_mode);
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         studyMoreDialog = new StudyMore(this);
-        playSound.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
+        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
         if (!DownloadService.checkVip()) {
             initAd();
         } else {
@@ -320,10 +324,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (lastChange != 0 && positionOffset != 0) {
                     if (lastChange > positionOffset) {//左滑
-                        pageIndicator.setDirection(PageIndicator.Direction.LEFT);
+                        pageIndicator.setDirection(PageIndicator.LEFT);
                         pageIndicator.setMovePercent(position + 1, positionOffset);
                     } else {
-                        pageIndicator.setDirection(PageIndicator.Direction.RIGHT);
+                        pageIndicator.setDirection(PageIndicator.RIGHT);
                         pageIndicator.setMovePercent(position, positionOffset);
                     }
                 }
@@ -332,7 +336,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onPageSelected(int position) {
-                pageIndicator.setDirection(PageIndicator.Direction.NONE);
+                pageIndicator.setDirection(PageIndicator.NONE);
                 pageIndicator.setCurrentItem(viewPager.getCurrentItem());
             }
 
@@ -345,12 +349,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
                 if (user) {
-                    currTime.setTextColor(GetAppColor.instance.getAppColor(context));
-                    duration.setTextColor(GetAppColor.instance.getAppColor(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                    duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     player.seekTo(progress);
                 } else {
-                    currTime.setTextColor(GetAppColor.instance.getAppColorLight(context));
-                    duration.setTextColor(GetAppColor.instance.getAppColorLight(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
                 }
                 currTime.setText(Mathematics.formatTime(progress / 1000));
             }
@@ -379,20 +383,20 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle().getId() == StudyManager.instance.getCurArticle().getId()) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle().getId() == StudyManager.getInstance().getCurArticle().getId()) {
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
         } else {
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.instance.getCurArticle());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
         }
         setIntervalImage(0);
     }
 
     protected void changeUIResumeByPara() {
-        setPlayModeImage(SettingConfigManager.instance.getStudyPlayMode());
-        switch (StudyManager.instance.getMusicType()) {
+        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
+        switch (StudyManager.getInstance().getMusicType()) {
             case 0:
                 studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
@@ -427,14 +431,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void startPlay() {
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.instance.getCurArticle(), false);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.instance.getCurArticle());
+                StudyManager.getInstance().getCurArticle(), false);
+        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
         player.start();
     }
 
     private void refresh(boolean defaultPos) {
         handler.sendEmptyMessage(2);
-        if (SettingConfigManager.instance.getStudyPlayMode() == 0) {
+        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0) {
             if (defaultPos) {
                 viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
                 viewPager.setCurrentItem(1);
@@ -452,12 +456,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 viewPager.setCurrentItem(currPage);
             }
         }
-        if (StudyManager.instance.getCurArticle().getSimple() == 1) {
+        if (StudyManager.getInstance().getCurArticle().getSimple() == 1) {
             studyMode.setVisibility(View.GONE);
             comment.setVisibility(View.VISIBLE);
             studyTranslate.setVisibility(View.VISIBLE);
             getCommentCount();
-        } else if (!StudyManager.instance.getApp().equals("209")) {
+        } else if (!StudyManager.getInstance().getApp().equals("209")) {
             studyMode.setVisibility(View.GONE);
             comment.setVisibility(View.GONE);
             studyTranslate.setVisibility(View.VISIBLE);
@@ -509,9 +513,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.instance.getCurArticle(), true);
+                StudyManager.getInstance().getCurArticle(), true);
         handler.sendEmptyMessage(2);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.instance.getCurArticle());
+        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
         int currPage = viewPager.getCurrentItem();
         viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(currPage);
@@ -534,26 +538,26 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void setIntervalImage(int mode) {
         switch (mode) {
             case 0:
-                intervalState = IntervalState.NONE;
+                intervalState = NONE;
                 interval.setImageResource(R.drawable.interval_none);
                 break;
             case 1:
                 switch (intervalState) {
                     case NONE:
-                        intervalState = IntervalState.START;
+                        intervalState = START;
                         aPosition = player.getCurrentPosition();
-                        CustomToast.INSTANCE.showToast(R.string.study_a_position);
+                        CustomToast.getInstance().showToast(R.string.study_a_position);
                         interval.setImageResource(R.drawable.interval_start);
                         break;
                     case START:
-                        intervalState = IntervalState.END;
+                        intervalState = END;
                         bPosition = player.getCurrentPosition();
-                        CustomToast.INSTANCE.showToast(R.string.study_b_position);
+                        CustomToast.getInstance().showToast(R.string.study_b_position);
                         handler.sendEmptyMessage(1);
                         interval.setImageResource(R.drawable.interval_end);
                         break;
                     case END:
-                        CustomToast.INSTANCE.showToast(R.string.study_ab_cancle);
+                        CustomToast.getInstance().showToast(R.string.study_ab_cancle);
                         handler.sendEmptyMessage(2);
                         break;
                 }
@@ -568,7 +572,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void getCommentCount() {
-        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.instance.getCurArticle().getId()), new IProtocolResponse() {
+        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 comment.setText("0");
@@ -590,7 +594,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    public enum IntervalState {START, END, NONE}
+    public static final int START = 0x01;
+    public static final int END = 0x02;
+    public static final int NONE = 0x03;
+
+    @IntDef({START, END, NONE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface IntervalState {
+    }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<StudyActivity> {
         @Override
@@ -600,7 +611,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     activity.currTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
                     activity.seekBar.setProgress(activity.player.getCurrentPosition());
                     activity.handler.sendEmptyMessageDelayed(0, 1000);
-                    if (activity.intervalState.equals(IntervalState.END)) {
+                    if (activity.intervalState == END) {
                         if (Math.abs(activity.player.getCurrentPosition() - activity.bPosition) <= 1000) {
                             activity.handler.sendEmptyMessage(1);
                         }

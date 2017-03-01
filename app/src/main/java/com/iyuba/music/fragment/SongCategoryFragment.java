@@ -93,7 +93,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
             getNewsData(MySwipeRefreshLayout.BOTTOM_REFRESH);
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+            CustomToast.getInstance().showToast(R.string.article_load_all);
         }
     }
 
@@ -123,13 +123,13 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
         SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -146,7 +146,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                         if (!isLastPage) {
                             newsList.addAll(netData);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+                            CustomToast.getInstance().showToast(R.string.article_load_all);
                         }
                         break;
                 }

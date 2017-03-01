@@ -168,8 +168,8 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             holder.timeBackground.setVisibility(View.GONE);
             holder.time.setVisibility(View.GONE);
             DownloadFile file;
-            for (int i = 0; i < DownloadManager.sInstance.fileList.size(); i++) {
-                file = DownloadManager.sInstance.fileList.get(i);
+            for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
+                file = DownloadManager.getInstance().fileList.get(i);
                 if (file.id == id) {
                     progresses.put(String.valueOf(file.id),
                             holder.download);
@@ -209,7 +209,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     DownloadFile downloadFile = new DownloadFile();
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
-                    DownloadManager.sInstance.fileList.add(downloadFile);
+                    DownloadManager.getInstance().fileList.add(downloadFile);
                     new DownloadTask(article).start();
                     notifyItemChanged(holder.getAdapterPosition());
                 } else {
@@ -269,7 +269,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     switch (file.downloadState) {
                         case "start":
                             tempBar = adapter.progresses.get(String.valueOf(file.id));
-                            tempBar.setCricleProgressColor(GetAppColor.instance.getAppColor(adapter.context));
+                            tempBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(adapter.context));
                             if (file.fileSize != 0 && file.downloadSize != 0) {
                                 tempBar.setMax(file.fileSize);
                                 tempBar.setProgress(file.downloadSize);
@@ -307,7 +307,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     file = (DownloadFile) msg.obj;
                     tempBar = adapter.progresses.get(String.valueOf(file.id));
                     tempBar.setVisibility(View.GONE);
-                    DownloadManager.sInstance.fileList.remove(file);
+                    DownloadManager.getInstance().fileList.remove(file);
                     adapter.notifyDataSetChanged();
                     break;
             }

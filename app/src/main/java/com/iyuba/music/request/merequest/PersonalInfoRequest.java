@@ -67,17 +67,17 @@ public class PersonalInfoRequest {
                                     if ("relation".equals(nodeName)) {
                                         userInfo.setRelation(xmlPullParser.nextText());
                                     }
-                                    if ("vipStatus".equals(nodeName) && !userInfo.getUid().equals(AccountManager.INSTANCE.getUserId())) {
+                                    if ("vipStatus".equals(nodeName) && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
                                         userInfo.setVipStatus(xmlPullParser.nextText());
                                     }
                                     break;
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();
                                     if ("response".equals(nodeName)) {
-                                        apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                        apiEntity.setState(BaseApiEntity.SUCCESS);
                                         apiEntity.setData(userInfo);
                                     } else {
-                                        apiEntity.setState(BaseApiEntity.State.FAIL);
+                                        apiEntity.setState(BaseApiEntity.FAIL);
                                     }
                                     response.response(apiEntity);
                                     break;

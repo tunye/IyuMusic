@@ -30,7 +30,7 @@ public class FileActivityHelper {
         File f = new File(path);
         File[] files = f.listFiles();
         if (files == null) {
-            CustomToast.INSTANCE.showToast(String.format(
+            CustomToast.getInstance().showToast(String.format(
                     RuntimeManager.getString(R.string.file_cannotopen), path));
             return null;
         }
@@ -73,18 +73,18 @@ public class FileActivityHelper {
                 dialog.dismiss();
                 String newName = fileName.getText().toString();
                 if (TextUtils.isEmpty(newName)) {
-                    CustomToast.INSTANCE.showToast(R.string.file_create_fail);
+                    CustomToast.getInstance().showToast(R.string.file_create_fail);
                     return;
                 }
                 String fullFileName = FileUtil.combinPath(path, newName);
                 File newFile = new File(fullFileName);
                 if (newFile.exists()) {
-                    CustomToast.INSTANCE.showToast(R.string.file_exists);
+                    CustomToast.getInstance().showToast(R.string.file_exists);
                 } else {
                     if (newFile.mkdir()) {
                         finish.finish();
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.file_create_fail);
+                        CustomToast.getInstance().showToast(R.string.file_create_fail);
                     }
                 }
             }
@@ -134,18 +134,18 @@ public class FileActivityHelper {
                 dialog.dismiss();
                 String newName = fileName.getText().toString();
                 if (TextUtils.isEmpty(newName)) {
-                    CustomToast.INSTANCE.showToast(R.string.file_create_fail);
+                    CustomToast.getInstance().showToast(R.string.file_create_fail);
                     return;
                 }
                 String fullFileName = FileUtil.combinPath(f.getParent(), newName);
                 File newFile = new File(fullFileName);
                 if (newFile.exists()) {
-                    CustomToast.INSTANCE.showToast(R.string.file_exists);
+                    CustomToast.getInstance().showToast(R.string.file_exists);
                 } else {
                     if (f.renameTo(newFile)) {
                         finish.finish();
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.file_rename_fail);
+                        CustomToast.getInstance().showToast(R.string.file_rename_fail);
                     }
                 }
             }

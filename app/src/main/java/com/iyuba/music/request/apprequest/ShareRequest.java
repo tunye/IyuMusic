@@ -35,20 +35,20 @@ public class ShareRequest {
                         int result = jsonObject.getInt("result");
                         switch (result) {
                             case 200:
-                                apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                apiEntity.setState(BaseApiEntity.SUCCESS);
                                 apiEntity.setValue(jsonObject.getString("totalcredit"));
                                 apiEntity.setMessage(jsonObject.getString("addcredit"));
                                 break;
                             case 201:
-                                apiEntity.setState(BaseApiEntity.State.FAIL);
+                                apiEntity.setState(BaseApiEntity.FAIL);
                                 apiEntity.setMessage(jsonObject.getString("message"));
                                 break;
                             case 203:
-                                apiEntity.setState(BaseApiEntity.State.FAIL);
+                                apiEntity.setState(BaseApiEntity.FAIL);
                                 apiEntity.setMessage(jsonObject.getString("message"));
                                 break;
                             default:
-                                apiEntity.setState(BaseApiEntity.State.ERROR);
+                                apiEntity.setState(BaseApiEntity.ERROR);
                                 apiEntity.setMessage(RuntimeManager.getString(R.string.unknown_error));
                                 break;
                         }

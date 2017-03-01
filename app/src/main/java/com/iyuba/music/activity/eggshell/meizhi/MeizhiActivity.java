@@ -107,7 +107,7 @@ public class MeizhiActivity extends BaseActivity implements MySwipeRefreshLayout
     @Override
     public void onLoad(int index) {
         if (isLastPage) {
-            CustomToast.INSTANCE.showToast("妹纸加载完了，您可真爱看妹子~");
+            CustomToast.getInstance().showToast("妹纸加载完了，您可真爱看妹子~");
         } else {
             curPage++;
             getData();

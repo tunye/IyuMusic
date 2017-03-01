@@ -66,7 +66,7 @@ public class CustomDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ConfigManager.instance.putInt("updateVersion", Integer.parseInt(para[1]));
+                ConfigManager.getInstance().putInt("updateVersion", Integer.parseInt(para[1]));
                 Intent intent = new Intent(context, AboutActivity.class);
                 intent.putExtra("update", true);
                 intent.putExtra("url", para[2]);
@@ -78,7 +78,7 @@ public class CustomDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ConfigManager.instance.putInt("updateVersion", Integer.parseInt(para[1]));
+                ConfigManager.getInstance().putInt("updateVersion", Integer.parseInt(para[1]));
             }
         });
         dialog.show();

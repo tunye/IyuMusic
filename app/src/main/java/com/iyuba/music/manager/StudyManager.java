@@ -8,8 +8,11 @@ import java.util.Collections;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public enum StudyManager {
-    instance;
+public class StudyManager {
+    private static class SingleInstanceHelper {
+        private static StudyManager instance = new StudyManager();
+    }
+
     private Article curArticle;
     private ArrayList<Article> sourceArticleList;
     private ArrayList<Article> curArticleList;
@@ -19,9 +22,13 @@ public enum StudyManager {
     private String startTime;
     private boolean isStartPlaying;
 
-    StudyManager() {
-        app = "209";
+    private StudyManager() {
+        app = ConstantManager.getInstance().getAppId();
         sourceArticleList = new ArrayList<>();
+    }
+
+    public static StudyManager getInstance(){
+        return SingleInstanceHelper.instance;
     }
 
     public void next() {
@@ -50,7 +57,7 @@ public enum StudyManager {
     public void setCurArticle(Article curArticle) {
         this.curArticle = curArticle;
         this.app = curArticle.getApp();
-        if (SettingConfigManager.instance.getStudyPlayMode() == 0) {
+        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0) {
             if (curArticleList == null) {
                 curArticleList = new ArrayList<>();
                 curArticleList.add(curArticle);
@@ -99,7 +106,7 @@ public enum StudyManager {
         } else if (curArticle.getSimple() == 1) {
             return 0;
         } else {
-            return SettingConfigManager.instance.getStudyMode();
+            return SettingConfigManager.getInstance().getStudyMode();
         }
     }
 
@@ -113,7 +120,7 @@ public enum StudyManager {
 
     public void generateArticleList() {
         curArticleList = new ArrayList<>();
-        switch (SettingConfigManager.instance.getStudyPlayMode()) {
+        switch (SettingConfigManager.getInstance().getStudyPlayMode()) {
             case 0:
                 curArticleList.add(curArticle);
                 break;

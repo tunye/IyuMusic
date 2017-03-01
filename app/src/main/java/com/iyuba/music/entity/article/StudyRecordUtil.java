@@ -24,7 +24,7 @@ public class StudyRecordUtil {
     private static StudyRecordOp studyRecordOp = new StudyRecordOp();
 
     public static void recordStop(String lesson, int flag) {
-        if (StudyManager.instance.getApp().equals("101")) {
+        if (StudyManager.getInstance().getApp().equals("101")) {
 
         } else {
             StudyRecord studyRecord = new StudyRecord();
@@ -32,12 +32,12 @@ public class StudyRecordUtil {
             studyRecord.setFlag(flag);
             UserInfoOp userInfoOp = new UserInfoOp();
             String userid = "0";
-            if (AccountManager.INSTANCE.checkUserLogin()) {
-                userid = AccountManager.INSTANCE.getUserId();
+            if (AccountManager.getInstance().checkUserLogin()) {
+                userid = AccountManager.getInstance().getUserId();
             }
             studyRecord.setLesson(lesson);
-            studyRecord.setId(StudyManager.instance.getCurArticle().getId());
-            studyRecord.setStartTime(StudyManager.instance.getStartTime());
+            studyRecord.setId(StudyManager.getInstance().getCurArticle().getId());
+            studyRecord.setStartTime(StudyManager.getInstance().getStartTime());
             int originalTime = userInfoOp.selectStudyTime(userid);
             int addTime = 0;
             try {
@@ -73,12 +73,12 @@ public class StudyRecordUtil {
             @Override
             public void response(Object object) {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
-                if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                if (BaseApiEntity.isSuccess(apiEntity)) {
                     studyRecordOp.deleteData(temp);
                     if (apiEntity.getMessage().equals("no")) {
 
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.study_listen_finish);
+                        CustomToast.getInstance().showToast(R.string.study_listen_finish);
                     }
                 } else {
 

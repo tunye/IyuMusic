@@ -55,22 +55,22 @@ public class DiscoverActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 1:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 2:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 3:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
                             intent.putExtra("type", "2");
                             intent.putExtra("needPop", true);
@@ -95,7 +95,7 @@ public class DiscoverActivity extends BaseActivity {
                         startActivity(new Intent(context, LocalMusicActivity.class));
                         break;
                     case 11:
-                        if (SettingConfigManager.instance.isEggShell()) {
+                        if (SettingConfigManager.getInstance().isEggShell()) {
                             startActivity(new Intent(context, EggShellActivity.class));
                         }
                         break;

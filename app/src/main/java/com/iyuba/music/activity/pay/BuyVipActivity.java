@@ -60,7 +60,7 @@ public class BuyVipActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        userInfo = AccountManager.INSTANCE.getUserInfo();
+        userInfo = AccountManager.getInstance().getUserInfo();
         changeUIResumeByPara();
     }
 
@@ -236,7 +236,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void changeUIResumeByPara() {
-        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), vipPhoto);
+        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageResource(R.drawable.vip);
             vipUpdateText.setText(R.string.vip_update);
@@ -251,7 +251,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void buy(int type) {
-        if (Integer.parseInt(AccountManager.INSTANCE.getUserInfo().getIyubi()) < PAY_GOODS[type]) {
+        if (Integer.parseInt(AccountManager.getInstance().getUserInfo().getIyubi()) < PAY_GOODS[type]) {
             final MaterialDialog materialDialog = new MaterialDialog(context);
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
             materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
@@ -269,59 +269,59 @@ public class BuyVipActivity extends BaseActivity {
             });
             materialDialog.show();
         } else if (type != 4) {
-            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.INSTANCE.getUserId(),
+            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.getInstance().getUserId(),
                     String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void response(Object object) {
                     BaseApiEntity apiEntity = (BaseApiEntity) object;
-                    if (apiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    if (BaseApiEntity.isSuccess(apiEntity)) {
                         userInfo = (UserInfo) apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
-                        AccountManager.INSTANCE.setUserInfo(userInfo);
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_success,
+                        AccountManager.getInstance().setUserInfo(userInfo);
+                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
                         changeUIResumeByPara();
                     } else {
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_fail,
+                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_fail,
                                 apiEntity.getMessage()));
                     }
                 }
             });
         } else {
             PayForAppRequest.exeRequest(PayForAppRequest.generateUrl(new String[]
-                    {AccountManager.INSTANCE.getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
+                    {AccountManager.getInstance().getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void response(Object object) {
                     BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                    if (baseApiEntity.getState().equals(BaseApiEntity.State.SUCCESS)) {
+                    if (BaseApiEntity.isSuccess(baseApiEntity)) {
                         userInfo = (UserInfo) baseApiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
-                        AccountManager.INSTANCE.setUserInfo(userInfo);
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_success,
+                        AccountManager.getInstance().setUserInfo(userInfo);
+                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
                         changeUIResumeByPara();
                     } else {
-                        CustomToast.INSTANCE.showToast(context.getString(R.string.vip_buy_fail,
+                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_fail,
                                 baseApiEntity.getMessage()));
                     }
                 }
@@ -333,7 +333,7 @@ public class BuyVipActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ONLINE_PAY_CODE && resultCode == RESULT_OK) {              // 刷新vip时长
-            AccountManager.INSTANCE.refreshVipStatus();
+            AccountManager.getInstance().refreshVipStatus();
         }
     }
 }

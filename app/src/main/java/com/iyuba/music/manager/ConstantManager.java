@@ -7,8 +7,10 @@ import java.io.File;
 /**
  * Created by 10202 on 2015/10/16.
  */
-public enum ConstantManager {
-    instance;
+public class ConstantManager {
+    private static class SingleInstanceHelper{
+        private static ConstantManager instance=new ConstantManager();
+    }
     public final static String SMSAPPID = "19f74c7fb89c";
     public final static String SMSAPPSECRET = "a4f1e7a1e13c63162cc987f9cc9785e0";
     public final static String YOUDAOSECRET = "b932187c3ec9f01c9ef45ad523510edd";
@@ -30,7 +32,7 @@ public enum ConstantManager {
     private String recordFile;
     private String imgFile;
 
-    ConstantManager() {
+    private ConstantManager() {
         envir = Environment.getExternalStorageDirectory() + "/iyuba/music";
         appId = "209";
         appName = "听歌学英语";
@@ -42,6 +44,10 @@ public enum ConstantManager {
         crashFolder = envir + File.separator + "crash";
         recordFile = envir + File.separator + "sound.amr";
         imgFile = envir + File.separator + "image";
+    }
+
+    public static ConstantManager getInstance(){
+        return SingleInstanceHelper.instance;
     }
 
     public static String getSongUrl() {

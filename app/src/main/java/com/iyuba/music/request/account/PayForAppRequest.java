@@ -32,7 +32,7 @@ public class PayForAppRequest {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
+                        UserInfo userInfo = AccountManager.getInstance().getUserInfo();
                         BaseApiEntity baseApiEntity = new BaseApiEntity();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
@@ -45,9 +45,9 @@ public class PayForAppRequest {
                                     if ("result".equals(nodeName)) {
                                         String result = xmlPullParser.nextText();
                                         if (result.equals("1")) {
-                                            baseApiEntity.setState(BaseApiEntity.State.SUCCESS);
+                                            baseApiEntity.setState(BaseApiEntity.SUCCESS);
                                         } else {
-                                            baseApiEntity.setState(BaseApiEntity.State.FAIL);
+                                            baseApiEntity.setState(BaseApiEntity.FAIL);
                                         }
                                     }
                                     if ("msg".equals(nodeName)) {
@@ -98,9 +98,9 @@ public class PayForAppRequest {
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);
         para.put("month", 0);
-        para.put("appId", ConstantManager.instance.getAppId());
+        para.put("appId", ConstantManager.getInstance().getAppId());
         para.put("productId", 0);
-        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.instance.getAppId()
+        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.getInstance().getAppId()
                 + paras[0] + "00iyuba"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }

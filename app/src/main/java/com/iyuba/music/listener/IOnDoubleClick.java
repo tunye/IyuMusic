@@ -32,7 +32,7 @@ public class IOnDoubleClick implements View.OnTouchListener {
                             count = 0;
                             firClick = 0;
                             secClick = 0;
-                            CustomToast.INSTANCE.showToast(failMsg);
+                            CustomToast.getInstance().showToast(failMsg);
                         }
                     }
                 }, 1000);

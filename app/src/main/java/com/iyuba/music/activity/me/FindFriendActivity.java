@@ -77,7 +77,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
         friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.instance.pushFriendId(searchArrayList.get(position).getUid());
+                SocialManager.getInstance().pushFriendId(searchArrayList.get(position).getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -104,7 +104,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
             public void onClick(View v) {
                 if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(searchLayout);
-                    CustomToast.INSTANCE.showToast(R.string.search_word_null);
+                    CustomToast.getInstance().showToast(R.string.search_word_null);
                 } else {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
@@ -120,7 +120,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
 
                 if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(searchLayout);
-                    CustomToast.INSTANCE.showToast(R.string.search_word_null);
+                    CustomToast.getInstance().showToast(R.string.search_word_null);
                 } else {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
@@ -174,21 +174,21 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
             getFriendData(searchContent.getEditableText().toString());
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+            CustomToast.getInstance().showToast(R.string.friend_load_all);
         }
     }
 
     private void getFriendData(String s) {
-        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(SocialManager.instance.getFriendId(), s, curPage), new IProtocolResponse() {
+        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(SocialManager.getInstance().getFriendId(), s, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -196,17 +196,17 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
             public void response(Object object) {
                 waittingDialog.dismiss();
                 BaseListEntity listEntity = (BaseListEntity) object;
-                if (listEntity.getState().equals(BaseListEntity.State.SUCCESS)) {
+                if (BaseListEntity.isSuccess(listEntity)) {
                     isLastPage = listEntity.isLastPage();
                     searchArrayList.addAll((ArrayList<SearchFriend>) listEntity.getData());
                     friendAdapter.setFriendList(searchArrayList);
                     if (curPage == 1) {
 
                     } else {
-                        CustomToast.INSTANCE.showToast(curPage + "/" + listEntity.getTotalPage(), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), 800);
                     }
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.friend_find_error);
+                    CustomToast.getInstance().showToast(R.string.friend_find_error);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

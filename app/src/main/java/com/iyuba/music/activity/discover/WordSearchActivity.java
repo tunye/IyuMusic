@@ -49,8 +49,8 @@ public class WordSearchActivity extends BaseSkinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
+            getWindow().setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         }
         setContentView(R.layout.word_search);
         context = this;

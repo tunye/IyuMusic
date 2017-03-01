@@ -39,8 +39,8 @@ public abstract class BaseActivity extends BaseSkinActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
+            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }

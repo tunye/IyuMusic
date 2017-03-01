@@ -38,7 +38,7 @@ public class SearchFriendRequest {
                         BaseListEntity baseListEntity = new BaseListEntity();
                         String resultCode = jsonObject.getString("result");
                         if ("591".equals(resultCode)) {
-                            baseListEntity.setState(BaseListEntity.State.SUCCESS);
+                            baseListEntity.setState(BaseListEntity.SUCCESS);
                             Type listType = new TypeToken<ArrayList<SearchFriend>>() {
                             }.getType();
                             ArrayList<SearchFriend> list = new Gson().fromJson(jsonObject.getString("data"), listType);
@@ -51,7 +51,7 @@ public class SearchFriendRequest {
                             baseListEntity.setData(list);
                             response.response(baseListEntity);
                         } else {
-                            baseListEntity.setState(BaseListEntity.State.FAIL);
+                            baseListEntity.setState(BaseListEntity.FAIL);
                             response.response(baseListEntity);
                         }
                     } catch (JSONException e) {

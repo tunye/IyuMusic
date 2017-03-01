@@ -7,16 +7,22 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public enum SocialManager {
-    instance;
+public class SocialManager {
+    private static class SingleInstanceHelper{
+        private static SocialManager instance=new SocialManager();
+    }
     private ArrayList<String> friendId;
     private ArrayList<String> friendName;
     private ArrayList<Doing> doing;
 
-    SocialManager() {
+    private SocialManager() {
         friendId = new ArrayList<>();
         friendName = new ArrayList<>();
         doing = new ArrayList<>();
+    }
+
+    public static SocialManager getInstance(){
+        return SingleInstanceHelper.instance;
     }
 
     public String getFriendId() {

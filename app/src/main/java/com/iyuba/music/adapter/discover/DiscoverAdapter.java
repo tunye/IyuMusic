@@ -62,7 +62,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 discoverList.add(blank);
             }
         }
-        if (SettingConfigManager.instance.isEggShell()) {
+        if (SettingConfigManager.getInstance().isEggShell()) {
             item = new Discover();
             item.setDrawable(R.drawable.eggshell_icon);
             item.setText(R.string.oper_eggshell);

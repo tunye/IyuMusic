@@ -90,18 +90,18 @@ public class WriteStateActivity extends BaseActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waitingDialog.show();
-            String uid = AccountManager.INSTANCE.getUserId();
-            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.INSTANCE.getUserName(),
+            String uid = AccountManager.getInstance().getUserId();
+            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.getInstance().getUserName(),
                     content.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     handler.sendEmptyMessage(1);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     handler.sendEmptyMessage(1);
                 }
 
@@ -112,7 +112,7 @@ public class WriteStateActivity extends BaseActivity {
                     if ("351".equals(result)) {
                         handler.sendEmptyMessage(0);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.state_modify_fail);
+                        CustomToast.getInstance().showToast(R.string.state_modify_fail);
                     }
                 }
             });
@@ -140,7 +140,7 @@ public class WriteStateActivity extends BaseActivity {
                     YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.state_modify_success);
+                            CustomToast.getInstance().showToast(R.string.state_modify_success);
                         }
 
                         @Override

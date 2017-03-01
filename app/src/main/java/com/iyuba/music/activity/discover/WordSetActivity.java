@@ -72,10 +72,10 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        currGroup.setText(getWordOrder(SettingConfigManager.instance.getWordOrder()));
-        currAutoAudio.setChecked(SettingConfigManager.instance.isWordAutoPlay());
-        currAutoAdd.setChecked(SettingConfigManager.instance.isWordAutoAdd());
-        currShowDef.setChecked(SettingConfigManager.instance.isWordDefShow());
+        currGroup.setText(getWordOrder(SettingConfigManager.getInstance().getWordOrder()));
+        currAutoAudio.setChecked(SettingConfigManager.getInstance().isWordAutoPlay());
+        currAutoAdd.setChecked(SettingConfigManager.getInstance().isWordAutoAdd());
+        currShowDef.setChecked(SettingConfigManager.getInstance().isWordDefShow());
         title.setText(R.string.setting_word_set);
     }
 
@@ -88,24 +88,24 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.word_set_show_def:
                 currShowDef.setChecked(!currShowDef.isChecked());
-                SettingConfigManager.instance.setWordDefShow(currShowDef.isChecked());
+                SettingConfigManager.getInstance().setWordDefShow(currShowDef.isChecked());
                 break;
             case R.id.word_set_auto_add:
                 currAutoAdd.setChecked(!currAutoAdd.isChecked());
-                SettingConfigManager.instance.setWordAutoAdd(currAutoAdd.isChecked());
+                SettingConfigManager.getInstance().setWordAutoAdd(currAutoAdd.isChecked());
                 break;
             case R.id.word_set_play:
                 currAutoAudio.setChecked(!currAutoAudio.isChecked());
-                SettingConfigManager.instance.setWordAutoPlay(currAutoAudio.isChecked());
+                SettingConfigManager.getInstance().setWordAutoPlay(currAutoAudio.isChecked());
                 break;
             case R.id.word_set_auto_add_current:
-                SettingConfigManager.instance.setWordAutoAdd(currAutoAdd.isChecked());
+                SettingConfigManager.getInstance().setWordAutoAdd(currAutoAdd.isChecked());
                 break;
             case R.id.word_set_play_current:
-                SettingConfigManager.instance.setWordAutoPlay(currAutoAudio.isChecked());
+                SettingConfigManager.getInstance().setWordAutoPlay(currAutoAudio.isChecked());
                 break;
             case R.id.word_set_show_def_current:
-                SettingConfigManager.instance.setWordDefShow(currShowDef.isChecked());
+                SettingConfigManager.getInstance().setWordDefShow(currShowDef.isChecked());
                 break;
         }
     }
@@ -119,7 +119,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SettingConfigManager.instance.setWordOrder(position);
+                SettingConfigManager.getInstance().setWordOrder(position);
                 currGroup.setText(getWordOrder(position));
                 groupDialog.dismiss();
             }
@@ -129,7 +129,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        adapter.setSelected(SettingConfigManager.instance.getWordOrder());
+        adapter.setSelected(SettingConfigManager.getInstance().getWordOrder());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);

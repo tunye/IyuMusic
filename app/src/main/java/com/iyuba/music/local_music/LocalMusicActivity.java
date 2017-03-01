@@ -82,7 +82,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         public void onFinish() {
             handler.removeMessages(0);
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                    StudyManager.instance.getCurArticle(), false);
+                    StudyManager.getInstance().getCurArticle(), false);
             player.start();
         }
 
@@ -134,13 +134,13 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos(LocalMusicActivity.this.getClass().getName());
-                StudyManager.instance.setSourceArticleList(musics);
-                StudyManager.instance.setCurArticle(musics.get(position));
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setListFragmentPos(LocalMusicActivity.this.getClass().getName());
+                StudyManager.getInstance().setSourceArticleList(musics);
+                StudyManager.getInstance().setCurArticle(musics.get(position));
                 adapter.setCurPos(position);
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                        StudyManager.instance.getCurArticle(), false);
+                        StudyManager.getInstance().getCurArticle(), false);
             }
 
             @Override
@@ -184,13 +184,13 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             @Override
             public void onClick(View v) {
                 if (musics.size() != 0) {
-                    if (StudyManager.instance.getApp().equals("101")) {
+                    if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
                     } else {
                         randomPlay();
                     }
                 } else {
-                    CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
+                    CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                 }
             }
         });
@@ -200,7 +200,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 handler.removeMessages(0);
                 ((MusicApplication) getApplication()).getPlayerService().next(false);
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                        StudyManager.instance.getCurArticle(), false);
+                        StudyManager.getInstance().getCurArticle(), false);
             }
         });
         before.setOnClickListener(new View.OnClickListener() {
@@ -209,16 +209,16 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 handler.removeMessages(0);
                 ((MusicApplication) getApplication()).getPlayerService().before();
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                        StudyManager.instance.getCurArticle(), false);
+                        StudyManager.getInstance().getCurArticle(), false);
             }
         });
         playMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nextMusicType = SettingConfigManager.instance.getStudyPlayMode();
+                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.instance.setStudyPlayMode(nextMusicType);
-                StudyManager.instance.generateArticleList();
+                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
             }
         });
@@ -229,14 +229,14 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.changeUIByPara();
         title.setText(R.string.oper_local_music);
         toolbarOper.setText(R.string.eggshell_music_scan);
-        pause.setForegroundColorFilter(GetAppColor.instance.getAppColor(context), PorterDuff.Mode.SRC_IN);
+        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
-        if (!TextUtils.isEmpty(ConfigManager.instance.loadString("localMusicPath"))) {
-            musics.addAll(MusicUtils.getAllSongs(context, ConfigManager.instance.loadString("localMusicPath")));
+        if (!TextUtils.isEmpty(ConfigManager.getInstance().loadString("localMusicPath"))) {
+            musics.addAll(MusicUtils.getAllSongs(context, ConfigManager.getInstance().loadString("localMusicPath")));
         }
         adapter.setDataSet(musics);
         statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
-        setPlayModeImage(SettingConfigManager.instance.getStudyPlayMode());
+        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
         refresh();
     }
 
@@ -250,12 +250,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {                               // 扫描的返回结果
             String path = data.getStringExtra("path");
-            ConfigManager.instance.putString("localMusicPath", path);
+            ConfigManager.getInstance().putString("localMusicPath", path);
             musics = MusicUtils.getAllSongs(context, path);
             statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
             adapter.setDataSet(musics);
             if (musics.size() == 0) {
-                CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
+                CustomToast.getInstance().showToast(R.string.eggshell_music_no);
             }
         }
     }
@@ -267,7 +267,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.localmusic");
         registerReceiver(broadCast, intentFilter);
         setPauseImage();
-        if (player != null && StudyManager.instance.getApp().equals("101")) {
+        if (player != null && StudyManager.getInstance().getApp().equals("101")) {
             progressBar.setMax(player.getDuration());
             handler.sendEmptyMessage(0);
         } else {
@@ -285,7 +285,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     private void setPauseImage() {
-        if (player == null || !StudyManager.instance.getApp().equals("101")) {
+        if (player == null || !StudyManager.getInstance().getApp().equals("101")) {
             pause.setState(MorphButton.MorphState.START);
         } else if (player.isPlaying()) {
             pause.setState(MorphButton.MorphState.END, true);
@@ -315,22 +315,22 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private void randomPlay() {
         if (musics.size() != 0) {
             int position = new Random().nextInt(musics.size());
-            StudyManager.instance.setSourceArticleList(musics);
-            StudyManager.instance.setListFragmentPos(LocalMusicActivity.this.getClass().getName());
-            StudyManager.instance.setCurArticle(musics.get(position));
-            StudyManager.instance.setStartPlaying(true);
+            StudyManager.getInstance().setSourceArticleList(musics);
+            StudyManager.getInstance().setListFragmentPos(LocalMusicActivity.this.getClass().getName());
+            StudyManager.getInstance().setCurArticle(musics.get(position));
+            StudyManager.getInstance().setStartPlaying(true);
             musicList.scrollToPosition(position);
             adapter.setCurPos(position);
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                    StudyManager.instance.getCurArticle(), false);
+                    StudyManager.getInstance().getCurArticle(), false);
         } else {
-            CustomToast.INSTANCE.showToast(R.string.eggshell_music_no);
+            CustomToast.getInstance().showToast(R.string.eggshell_music_no);
         }
     }
 
     private void refresh() {
-        if (LocalMusicActivity.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-            Article article = StudyManager.instance.getCurArticle();
+        if (LocalMusicActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+            Article article = StudyManager.getInstance().getCurArticle();
             if (article != null) {
                 for (int i = 0; i < musics.size(); i++) {
                     if (musics.get(i).getId() == article.getId()) {

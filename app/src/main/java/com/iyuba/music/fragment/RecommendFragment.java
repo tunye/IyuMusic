@@ -48,9 +48,9 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
         friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.instance.pushFriendId(recommendsArrayList.get(position).getUid());
+                SocialManager.getInstance().pushFriendId(recommendsArrayList.get(position).getUid());
                 if ("chat".equals(((FriendCenter) getActivity()).getIntentMessage())) {
-                    SocialManager.instance.pushFriendName(recommendsArrayList.get(position).getUsername());
+                    SocialManager.getInstance().pushFriendName(recommendsArrayList.get(position).getUsername());
                     Intent intent = new Intent(context, ChattingActivity.class);
                     intent.putExtra("needpop", true);
                     startActivity(intent);
@@ -104,38 +104,38 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
             getFriendData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+            CustomToast.getInstance().showToast(R.string.friend_load_all);
         }
     }
 
     private void getFriendData() {
-        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.instance.getFriendId(), curPage,
+        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage,
                 LocationUtil.getInstance().getLongitude(), LocationUtil.getInstance().getLatitude()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void response(Object object) {
                 BaseListEntity listEntity = (BaseListEntity) object;
-                if (listEntity.getState().equals(BaseListEntity.State.SUCCESS)) {
+                if (BaseListEntity.isSuccess(listEntity)) {
                     isLastPage = listEntity.isLastPage();
                     if (!isLastPage) {
                         recommendsArrayList.addAll((ArrayList<RecommendFriend>) listEntity.getData());
                         friendAdapter.setFriendList(recommendsArrayList);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.friend_load_all);
+                        CustomToast.getInstance().showToast(R.string.friend_load_all);
                     }
-                } else if (listEntity.getState().equals(BaseListEntity.State.NODATA)) {
-                    CustomToast.INSTANCE.showToast(R.string.friend_no_data);
+                } else if (BaseListEntity.isNodata(listEntity)) {
+                    CustomToast.getInstance().showToast(R.string.friend_no_data);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

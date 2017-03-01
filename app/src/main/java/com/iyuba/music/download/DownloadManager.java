@@ -2,11 +2,18 @@ package com.iyuba.music.download;
 
 import java.util.ArrayList;
 
-public enum DownloadManager {
-    sInstance;
+public class DownloadManager {
+    private static class SingleInstanceHelper {
+        private static DownloadManager sInstance = new DownloadManager();
+    }
+
     public ArrayList<DownloadFile> fileList;
 
-    DownloadManager() {
+    private DownloadManager() {
         fileList = new ArrayList<>();
+    }
+
+    public static DownloadManager getInstance() {
+        return SingleInstanceHelper.sInstance;
     }
 }

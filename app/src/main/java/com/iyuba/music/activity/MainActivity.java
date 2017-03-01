@@ -79,8 +79,8 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         Window window = getWindow();
         prepareForApp();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.instance.getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.instance.getAppColor(this));
+            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
+            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -117,7 +117,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void initBroadcast() {
-        if (SettingConfigManager.instance.isUpgrade()) {
+        if (SettingConfigManager.getInstance().isUpgrade()) {
             PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
             IUmengCallback umengCallback = new IUmengCallback() {
                 @Override
@@ -130,7 +130,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
                 }
             };
-            if (SettingConfigManager.instance.isPush()) {
+            if (SettingConfigManager.getInstance().isPush()) {
                 mPushAgent.enable(umengCallback);
             } else {
                 mPushAgent.disable(umengCallback);
@@ -207,8 +207,8 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void showWhatsNew() {
-        if (SettingConfigManager.instance.isUpgrade()) {
-            SettingConfigManager.instance.setUpgrade(false);
+        if (SettingConfigManager.getInstance().isUpgrade()) {
+            SettingConfigManager.getInstance().setUpgrade(false);
             StartFragment.showVersionFeature(context);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -304,9 +304,9 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             }
         } else {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
-                CustomToast.INSTANCE.showToast(R.string.alert_home, CustomToast.LENGTH_LONG);
+                CustomToast.getInstance().showToast(R.string.alert_home, CustomToast.LENGTH_LONG);
             } else {
-                CustomToast.INSTANCE.showToast(R.string.alert_exit, CustomToast.LENGTH_LONG);
+                CustomToast.getInstance().showToast(R.string.alert_exit, CustomToast.LENGTH_LONG);
             }
             doExitInOneSecond();
         }
@@ -328,7 +328,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void resetDownLoadData() {
-        File packageFile = new File(ConstantManager.instance.getMusicFolder());
+        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
         LocalInfoOp lOp = new LocalInfoOp();
         final ArticleOp articleOp = new ArticleOp();
         if (packageFile.exists() && packageFile.list() != null) {
@@ -343,21 +343,21 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                         Pattern p = Pattern.compile(regEx);
                         Matcher m = p.matcher(fileName);
                         int id = Integer.parseInt(m.replaceAll("").trim());
-                        LocalInfo temp = lOp.findDataById(ConstantManager.instance.getAppId(), id);
+                        LocalInfo temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
                         if (temp == null || temp.getId() == 0) {
                             temp = new LocalInfo();
                             temp.setId(id);
-                            temp.setApp(ConstantManager.instance.getAppId());
+                            temp.setApp(ConstantManager.getInstance().getAppId());
                             temp.setDownload(1);
                             temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                             lOp.saveData(temp);
                         } else {
-                            lOp.updateDownload(id, ConstantManager.instance.getAppId(), 1);
+                            lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
                         }
                         StringBuilder.append(id).append(',');
                     }
                 } else {
-                    new File(ConstantManager.instance.getMusicFolder() + File.separator + fileName).delete();
+                    new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
                 }
             }
             NewsesRequest.exeRequest(NewsesRequest.generateUrl(StringBuilder.toString()), new IProtocolResponse() {
@@ -376,7 +376,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     BaseListEntity listEntity = (BaseListEntity) object;
                     ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.instance.getAppId());
+                        temp.setApp(ConstantManager.getInstance().getAppId());
                     }
                     articleOp.saveData(netData);
                 }

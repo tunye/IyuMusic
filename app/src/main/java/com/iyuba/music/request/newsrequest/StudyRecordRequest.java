@@ -38,14 +38,14 @@ public class StudyRecordRequest {
                     try {
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         if (jsonObject.getInt("result") == 1) {
-                            apiEntity.setState(BaseApiEntity.State.SUCCESS);
+                            apiEntity.setState(BaseApiEntity.SUCCESS);
                             if (jsonObject.getInt("jifen") == 0) {
                                 apiEntity.setMessage("no");
                             } else {
                                 apiEntity.setMessage("add");
                             }
                         } else {
-                            apiEntity.setState(BaseApiEntity.State.FAIL);
+                            apiEntity.setState(BaseApiEntity.FAIL);
                         }
                         response.response(apiEntity);
                     } catch (JSONException e) {
@@ -69,7 +69,7 @@ public class StudyRecordRequest {
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
         HashMap<String, Object> para = new HashMap<>();
-        para.put("appId", ConstantManager.instance.getAppId());
+        para.put("appId", ConstantManager.getInstance().getAppId());
         para.put("Lesson", studyRecord.getLesson());
         para.put("LessonId", studyRecord.getId());
         para.put("BeginTime", TextAttr.encode(studyRecord.getStartTime()));
@@ -78,7 +78,7 @@ public class StudyRecordRequest {
         para.put("uid", uid);
         para.put("Device", TextAttr.encode(device));
         para.put("DeviceId", GetMAC.getMAC());
-        para.put("TestNumber", SettingConfigManager.instance.getStudyMode());
+        para.put("TestNumber", SettingConfigManager.getInstance().getStudyMode());
         para.put("platform", "android");
         para.put("sign", MD5.getMD5ofStr(uid + studyRecord.getStartTime() + DateFormat.formatYear(Calendar.getInstance().getTime())));
         return ParameterUrl.setRequestParameter(originalUrl, para);

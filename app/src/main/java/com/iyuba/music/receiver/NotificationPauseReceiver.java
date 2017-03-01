@@ -39,7 +39,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
             i.putExtra("state", "play");
         }
         i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_CHANGE_STATE);
-        BigNotificationService.INSTANCE.setNotificationCommand(i);
+        BigNotificationService.getInstance().setNotificationCommand(i);
         if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
             i = new Intent("com.iyuba.music.main");
             i.putExtra("message", "pause");

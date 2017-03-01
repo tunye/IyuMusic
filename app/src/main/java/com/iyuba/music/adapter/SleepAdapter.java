@@ -78,7 +78,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
                 if (minute != 0) {
                     itemClickListener.onItemClick(v, selected);
                     sleepTextList.set(sleepTextList.size() - 1, customText + "-" + context.getString(R.string.sleep_custom, hour, second));
-                    CustomToast.INSTANCE.showToast(context.getString(R.string.sleep_hint, minute));
+                    CustomToast.getInstance().showToast(context.getString(R.string.sleep_hint, minute));
                     notifyItemChanged(selected);
                 }
             }
@@ -130,7 +130,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
                 sleepTextList.set(sleepTextList.size() - 1, sleepTextList.get(sleepTextList.size() - 1).split("-")[0]);
             }
             if (position != 0) {
-                CustomToast.INSTANCE.showToast(context.getString(R.string.sleep_hint, minute));
+                CustomToast.getInstance().showToast(context.getString(R.string.sleep_hint, minute));
             }
             notifyItemChanged(lastPos);
             notifyItemChanged(selected);

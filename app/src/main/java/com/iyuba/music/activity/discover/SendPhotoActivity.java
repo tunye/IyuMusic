@@ -101,7 +101,7 @@ public class SendPhotoActivity extends BaseActivity {
                     ImageSelectorActivity.start(SendPhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, true, true, false);
                 } else {
                     Intent intent = new Intent(context, LocalPhotoActivity.class);
-                    intent.putExtra("url", ConstantManager.instance.getEnvir() + "/temp.jpg");
+                    intent.putExtra("url", ConstantManager.getInstance().getEnvir() + "/temp.jpg");
                     startActivityForResult(intent, 101);
                 }
             }
@@ -128,17 +128,17 @@ public class SendPhotoActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waittingDialog.show();
             if (images.size() == 0) {
-                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.INSTANCE.getUserId(), AccountManager.INSTANCE.getUserName(),
+                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserName(),
                         content.getEditableText().toString()), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                         handler.sendEmptyMessage(1);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                         handler.sendEmptyMessage(1);
                     }
 
@@ -150,7 +150,7 @@ public class SendPhotoActivity extends BaseActivity {
                             handler.sendEmptyMessage(0);
                             handler.sendEmptyMessage(1);
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.photo_fail);
+                            CustomToast.getInstance().showToast(R.string.photo_fail);
                         }
                     }
                 });
@@ -182,13 +182,13 @@ public class SendPhotoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ImageSelectorActivity.REQUEST_IMAGE) {
             images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
-            photo.setImageBitmap(saveImage(ConstantManager.instance.getEnvir() + "/temp.jpg", images.get(0)));
+            photo.setImageBitmap(saveImage(ConstantManager.getInstance().getEnvir() + "/temp.jpg", images.get(0)));
         } else if (resultCode == -2) {
-            CustomToast.INSTANCE.showToast(R.string.storage_permission_cancel);
+            CustomToast.getInstance().showToast(R.string.storage_permission_cancel);
         } else if (requestCode == 101 && resultCode == 1) {//删除
             images = new ArrayList<>();
             photo.setImageResource(R.drawable.circle_photo_add);
-            new File(ConstantManager.instance.getEnvir() + "/temp.jpg").delete();
+            new File(ConstantManager.getInstance().getEnvir() + "/temp.jpg").delete();
         }
     }
 
@@ -236,7 +236,7 @@ public class SendPhotoActivity extends BaseActivity {
                     YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.photo_success);
+                            CustomToast.getInstance().showToast(R.string.photo_success);
                         }
 
                         @Override
@@ -273,7 +273,7 @@ public class SendPhotoActivity extends BaseActivity {
         public void run() {
             super.run();
             UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar/photo?uid="
-                            + AccountManager.INSTANCE.getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
+                            + AccountManager.getInstance().getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
                     new File(images.get(0)), new IOperationResult() {
                         @Override
                         public void success(Object object) {
@@ -284,7 +284,7 @@ public class SendPhotoActivity extends BaseActivity {
                         @Override
                         public void fail(Object object) {
                             handler.sendEmptyMessage(1);
-                            CustomToast.INSTANCE.showToast(R.string.photo_fail);
+                            CustomToast.getInstance().showToast(R.string.photo_fail);
                         }
                     });
         }

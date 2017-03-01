@@ -45,13 +45,13 @@ public class ImportDatabase {
     }
 
     public void openDatabase() {
-        lastVersion = ConfigManager.instance.loadInt("database_version");
+        lastVersion = ConfigManager.getInstance().loadInt("database_version");
         File database = new File(dbPath);
         if (currentVersion > lastVersion) {
             if (database.exists()) {
                 database.delete();
             }
-            ConfigManager.instance.putInt("database_version", currentVersion);
+            ConfigManager.getInstance().putInt("database_version", currentVersion);
             new Thread(new Runnable() {
                 public void run() {
                     loadDataBase();

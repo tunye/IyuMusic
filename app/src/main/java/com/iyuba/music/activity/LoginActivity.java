@@ -195,11 +195,11 @@ public class LoginActivity extends BaseInputActivity {
             username.setText(usernameString);
             userpwd.setText(userpwdString);
             waitingDialog.show();
-            AccountManager.INSTANCE.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
+            AccountManager.getInstance().login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();
-                    SettingConfigManager.instance.setAutoLogin(autoLogin.isChecked());
+                    SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(2, intent);
                     LoginActivity.this.finish();
@@ -207,7 +207,7 @@ public class LoginActivity extends BaseInputActivity {
 
                 @Override
                 public void fail(Object object) {
-                    CustomToast.INSTANCE.showToast(object.toString());
+                    CustomToast.getInstance().showToast(object.toString());
                     waitingDialog.dismiss();
                 }
             });
@@ -217,11 +217,11 @@ public class LoginActivity extends BaseInputActivity {
     private void login() {
         if (username.isCharactersCountValid() && userpwd.isCharactersCountValid()) {
             waitingDialog.show();
-            AccountManager.INSTANCE.login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
+            AccountManager.getInstance().login(username.getText().toString(), userpwd.getText().toString(), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();
-                    SettingConfigManager.instance.setAutoLogin(autoLogin.isChecked());
+                    SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(1, intent);
                     LoginActivity.this.finish();
@@ -230,7 +230,7 @@ public class LoginActivity extends BaseInputActivity {
                 @Override
                 public void fail(Object object) {
                     waitingDialog.dismiss();
-                    CustomToast.INSTANCE.showToast(object.toString());
+                    CustomToast.getInstance().showToast(object.toString());
                 }
             });
         } else if (!username.isCharactersCountValid()) {

@@ -88,8 +88,8 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (AccountManager.INSTANCE.checkUserLogin()) {
-            UserInfo userInfo = AccountManager.INSTANCE.getUserInfo();
+        if (AccountManager.getInstance().checkUserLogin()) {
+            UserInfo userInfo = AccountManager.getInstance().getUserInfo();
             if (!TextUtils.isEmpty(userInfo.getUserEmail())) {
                 contact.setText(userInfo.getUserEmail());
             }
@@ -135,8 +135,8 @@ public class FeedbackActivity extends BaseActivity {
             }
             waitingDialog.show();
             String uid;
-            if (AccountManager.INSTANCE.checkUserLogin()) {
-                uid = AccountManager.INSTANCE.getUserId();
+            if (AccountManager.getInstance().checkUserLogin()) {
+                uid = AccountManager.getInstance().getUserId();
             } else {
                 uid = "0";
             }
@@ -154,13 +154,13 @@ public class FeedbackActivity extends BaseActivity {
                     contact.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     handler.sendEmptyMessage(1);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     handler.sendEmptyMessage(1);
                 }
 
@@ -171,7 +171,7 @@ public class FeedbackActivity extends BaseActivity {
                     if ("OK".equals(result)) {
                         handler.sendEmptyMessage(0);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.feedback_fail);
+                        CustomToast.getInstance().showToast(R.string.feedback_fail);
                     }
                 }
             });
@@ -186,7 +186,7 @@ public class FeedbackActivity extends BaseActivity {
                     YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.feedback_success);
+                            CustomToast.getInstance().showToast(R.string.feedback_success);
                         }
 
                         @Override

@@ -123,8 +123,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     protected void changeUIResumeByPara() {
-        currPush.setChecked(SettingConfigManager.instance.isPush());
-        currLanguage.setText(getLanguage(SettingConfigManager.instance.getLanguage()));
+        currPush.setChecked(SettingConfigManager.getInstance().isPush());
+        currLanguage.setText(getLanguage(SettingConfigManager.getInstance().getLanguage()));
         currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
         handler.sendEmptyMessage(1);
     }
@@ -152,9 +152,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_share:
                 String text = getResources().getString(R.string.setting_share_content,
-                        ConstantManager.instance.getAppName())
+                        ConstantManager.getInstance().getAppName())
                         + "：http://app.iyuba.com/android/androidDetail.jsp?id="
-                        + ConstantManager.instance.getAppId();
+                        + ConstantManager.getInstance().getAppId();
                 Intent shareInt = new Intent(Intent.ACTION_SEND);
                 shareInt.setType("text/*");
                 shareInt.putExtra(Intent.EXTRA_TEXT, text);
@@ -182,9 +182,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void run() {
                         FileUtil.clearAllCache(context);
-                        FileUtil.clearFileDir(new File(ConstantManager.instance.getCrashFolder()));
-                        FileUtil.clearFileDir(new File(ConstantManager.instance.getUpdateFolder()));
-                        FileUtil.clearFileDir(new File(ConstantManager.instance.getImgFile()));
+                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
+                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getUpdateFolder()));
+                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
                         handler.sendEmptyMessage(2);
                     }
                 }).start();
@@ -212,9 +212,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setPushState() {
-        SettingConfigManager.instance.setPush(!SettingConfigManager.instance.isPush());
+        SettingConfigManager.getInstance().setPush(!SettingConfigManager.getInstance().isPush());
         PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
-        if (SettingConfigManager.instance.isPush()) {
+        if (SettingConfigManager.getInstance().isPush()) {
             mPushAgent.enable(new IUmengCallback() {
                 @Override
                 public void onSuccess() {
@@ -259,7 +259,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        adapter.setSelected(SettingConfigManager.instance.getLanguage());
+        adapter.setSelected(SettingConfigManager.getInstance().getLanguage());
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
@@ -274,14 +274,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void onLanguageChanged(int language) {
-        SettingConfigManager.instance.setLanguage(language);
+        SettingConfigManager.getInstance().setLanguage(language);
         ChangePropery.updateLanguageMode(language);
         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
     }
 
     private void onNightChanged() {
-        SettingConfigManager.instance.setNight(!SettingConfigManager.instance.isNight());
-        ChangePropery.updateNightMode(SettingConfigManager.instance.isNight());
+        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
+        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
     }
 
@@ -298,13 +298,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void logout() {
         final MaterialDialog mMaterialDialog = new MaterialDialog(context);
         mMaterialDialog.setTitle(R.string.app_name);
-        if (AccountManager.INSTANCE.checkUserLogin()) {
+        if (AccountManager.getInstance().checkUserLogin()) {
             mMaterialDialog.setMessage(R.string.personal_logout_textmore)
                     .setPositiveButton(R.string.personal_logout_exit, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
-                            AccountManager.INSTANCE.loginOut();
+                            AccountManager.getInstance().loginOut();
                             finish();
                         }
                     })
@@ -335,11 +335,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     long size = 0;
                     size = size + FileUtil.getTotalCacheSize(activity);
                     size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getCrashFolder()));
+                            ConstantManager.getInstance().getCrashFolder()));
                     size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getUpdateFolder()));
+                            ConstantManager.getInstance().getUpdateFolder()));
                     size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.instance.getImgFile()));
+                            ConstantManager.getInstance().getImgFile()));
                     activity.currClear.setText(FileUtil.formetFileSize(size));
                     break;
                 case 2:

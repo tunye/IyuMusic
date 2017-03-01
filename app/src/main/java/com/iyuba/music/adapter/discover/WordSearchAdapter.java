@@ -68,7 +68,7 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.My
         }
         holder.key.setText(wordList.get(position).getWord());
         holder.def.setText(wordList.get(position).getDef());
-        if (SettingConfigManager.instance.isWordDefShow()) {
+        if (SettingConfigManager.getInstance().isWordDefShow()) {
             holder.def.setVisibility(View.VISIBLE);
         } else {
             holder.def.setVisibility(View.GONE);

@@ -90,7 +90,7 @@ public class ChangePhotoActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.changephoto_title);
-        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), photo);
+        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), photo);
     }
 
     private void initContextMunu() {
@@ -112,7 +112,7 @@ public class ChangePhotoActivity extends BaseActivity {
                     ImageSelectorActivity.start(ChangePhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, false, true, true);
                 } else if (index == 2) {
                     Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.INSTANCE.getUserId());
+                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId());
                     context.startActivity(intent);
                 }
             }
@@ -182,7 +182,7 @@ public class ChangePhotoActivity extends BaseActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == ImageSelectorActivity.REQUEST_CAMERA) {
-                CustomToast.INSTANCE.showToast(R.string.changephoto_camera_cancel);
+                CustomToast.getInstance().showToast(R.string.changephoto_camera_cancel);
             }
         }
     }
@@ -216,7 +216,7 @@ public class ChangePhotoActivity extends BaseActivity {
         public void handleMessageByRef(final ChangePhotoActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    CustomToast.INSTANCE.showToast(R.string.changephoto_success);
+                    CustomToast.getInstance().showToast(R.string.changephoto_success);
                     Message message = new Message();
                     message.what = 1;
                     message.obj = msg.obj;
@@ -235,7 +235,7 @@ public class ChangePhotoActivity extends BaseActivity {
 
             super.run();
             UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
-                    + AccountManager.INSTANCE.getUserId(), new File(imgPath), new IOperationResult() {
+                    + AccountManager.getInstance().getUserId(), new File(imgPath), new IOperationResult() {
                 @Override
                 public void success(Object object) {
                     Message message = new Message();
@@ -247,7 +247,7 @@ public class ChangePhotoActivity extends BaseActivity {
 
                 @Override
                 public void fail(Object object) {
-                    CustomToast.INSTANCE.showToast(R.string.changephoto_fail);
+                    CustomToast.getInstance().showToast(R.string.changephoto_fail);
                 }
             });
         }

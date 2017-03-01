@@ -56,7 +56,7 @@ public class RecommendSongActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
+                if (AccountManager.getInstance().checkUserLogin()) {
                     submit();
                 } else {
                     CustomDialog.showLoginDialog(context);
@@ -82,18 +82,18 @@ public class RecommendSongActivity extends BaseActivity {
             if (imm != null) {
                 imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
             }
-            CustomToast.INSTANCE.showToast(R.string.study_recommend_on_way);
-            String uid = AccountManager.INSTANCE.getUserId();
+            CustomToast.getInstance().showToast(R.string.study_recommend_on_way);
+            String uid = AccountManager.getInstance().getUserId();
             RecommendSongRequest.exeRequest(RecommendSongRequest.generateUrl(uid, recommendTitle.getEditableText().toString()
                     , recommendSinger.getEditableText().toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                 }
 
                 @Override
@@ -102,7 +102,7 @@ public class RecommendSongActivity extends BaseActivity {
                     if ("1".equals(result)) {
                         handler.sendEmptyMessage(0);
                     } else {
-                        CustomToast.INSTANCE.showToast(R.string.study_recommend_fail);
+                        CustomToast.getInstance().showToast(R.string.study_recommend_fail);
                     }
                 }
             });
@@ -117,7 +117,7 @@ public class RecommendSongActivity extends BaseActivity {
                     YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            CustomToast.INSTANCE.showToast(R.string.study_recommend_success);
+                            CustomToast.getInstance().showToast(R.string.study_recommend_success);
                         }
 
                         @Override

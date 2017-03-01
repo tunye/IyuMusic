@@ -72,12 +72,12 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onItemClick(View view, int position) {
                 MessageLetter messageLetter = messageLetters.get(position);
-                SocialManager.instance.pushFriendId(messageLetter.getFriendid());
-                SocialManager.instance.pushFriendName(messageLetter.getFriendName());
+                SocialManager.getInstance().pushFriendId(messageLetter.getFriendid());
+                SocialManager.getInstance().pushFriendName(messageLetter.getFriendName());
                 Intent intent = new Intent(context, ChattingActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
-                SetMessageReadRequest.exeRequest(SetMessageReadRequest.generateUrl(AccountManager.INSTANCE.getUserId(), messageLetter.getMessageid()));
+                SetMessageReadRequest.exeRequest(SetMessageReadRequest.generateUrl(AccountManager.getInstance().getUserId(), messageLetter.getMessageid()));
                 messageAdapter.setReaded(position);
             }
 
@@ -97,7 +97,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
+                SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, FriendCenter.class);
                 intent.putExtra("type", "0");
                 intent.putExtra("intenttype", "chat");
@@ -143,21 +143,21 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
             getMessageData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.comment_get_all);
+            CustomToast.getInstance().showToast(R.string.comment_get_all);
         }
     }
 
     private void getMessageData() {
-        MessageRequest.exeRequest(MessageRequest.generateUrl(AccountManager.INSTANCE.getUserId(), messagePage), new IProtocolResponse() {
+        MessageRequest.exeRequest(MessageRequest.generateUrl(AccountManager.getInstance().getUserId(), messagePage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -175,7 +175,7 @@ public class MessageActivity extends BaseInputActivity implements MySwipeRefresh
                         findViewById(R.id.no_message).setVisibility(View.GONE);
                     }
                 } else {
-                    CustomToast.INSTANCE.showToast(messagePage + "/" + listEntity.getTotalPage(), 800);
+                    CustomToast.getInstance().showToast(messagePage + "/" + listEntity.getTotalPage(), 800);
                 }
             }
         });

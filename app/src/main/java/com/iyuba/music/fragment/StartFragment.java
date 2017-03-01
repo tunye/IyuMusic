@@ -37,7 +37,7 @@ public class StartFragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        currentVersion = ConfigManager.instance.loadInt("updateVersion", currentVersion);
+        currentVersion = ConfigManager.getInstance().loadInt("updateVersion", currentVersion);
         UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -52,7 +52,7 @@ public class StartFragment {
             @Override
             public void response(Object object) {
                 BaseApiEntity apiEntity = (BaseApiEntity) object;
-                if (apiEntity.getState().equals(BaseApiEntity.State.FAIL)) {
+                if (BaseApiEntity.isFail(apiEntity)) {
                     result.fail(0);
                 } else {
                     result.success(apiEntity.getValue());
@@ -63,7 +63,7 @@ public class StartFragment {
 
     public static void cleanLocalData() {
         cleanStudyRecord();
-        if (AccountManager.INSTANCE.checkUserLogin()) {
+        if (AccountManager.getInstance().checkUserLogin()) {
             cleanWordDelData();
             cleanWordInsertData();
         }
@@ -74,8 +74,8 @@ public class StartFragment {
         if (studyRecordOp.hasData()) {
             ArrayList<StudyRecord> records = studyRecordOp.selectData();
             String userid = "0";
-            if (AccountManager.INSTANCE.checkUserLogin()) {
-                userid = AccountManager.INSTANCE.getUserId();
+            if (AccountManager.getInstance().checkUserLogin()) {
+                userid = AccountManager.getInstance().getUserId();
             }
             Handler handler = new Handler();
             for (StudyRecord record : records) {
@@ -93,7 +93,7 @@ public class StartFragment {
 
     private static void cleanWordDelData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
-        final String userid = AccountManager.INSTANCE.getUserId();
+        final String userid = AccountManager.getInstance().getUserId();
         ArrayList<Word> delWords = personalWordOp.findDataByDelete(userid);
         if (delWords.size() != 0) {
             StringBuilder sb = new StringBuilder();
@@ -120,7 +120,7 @@ public class StartFragment {
 
     private static void cleanWordInsertData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
-        final String userid = AccountManager.INSTANCE.getUserId();
+        final String userid = AccountManager.getInstance().getUserId();
         ArrayList<Word> insertWords = personalWordOp.findDataByInsert(userid);
         if (insertWords.size() != 0) {
             StringBuilder sb = new StringBuilder();

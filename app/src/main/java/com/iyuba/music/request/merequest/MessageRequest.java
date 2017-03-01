@@ -77,7 +77,7 @@ public class MessageRequest {
         para.put("uid", uid);
         para.put("format", "json");
         para.put("asc", 0);
-        para.put("appid", ConstantManager.instance.getAppId());
+        para.put("appid", ConstantManager.getInstance().getAppId());
         para.put("pageNumber", page);
         para.put("pageCounts", 20);
         para.put("sign", MD5.getMD5ofStr("60001" + uid + "iyubaV2"));

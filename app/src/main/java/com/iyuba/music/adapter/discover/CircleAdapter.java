@@ -109,7 +109,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
         holder.circlePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.instance.pushFriendId(circle.getUid());
+                SocialManager.getInstance().pushFriendId(circle.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);

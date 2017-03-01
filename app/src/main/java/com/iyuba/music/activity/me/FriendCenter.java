@@ -82,7 +82,7 @@ public class FriendCenter extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         if (needPop) {
-            SocialManager.instance.popFriendId();
+            SocialManager.getInstance().popFriendId();
         }
     }
 }

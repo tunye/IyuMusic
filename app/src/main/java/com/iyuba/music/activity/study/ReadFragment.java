@@ -40,7 +40,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        curArticle = StudyManager.instance.getCurArticle();
+        curArticle = StudyManager.getInstance().getCurArticle();
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_loading));
         readAdapter = new ReadAdapter(context);
         recyclerView.setAdapter(readAdapter);
@@ -89,12 +89,12 @@ public class ReadFragment extends BaseRecyclerViewFragment {
         LrcRequest.exeRequest(LrcRequest.generateUrl(id, 2), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
             }
 
             @Override

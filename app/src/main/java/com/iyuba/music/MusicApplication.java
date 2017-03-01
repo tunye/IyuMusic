@@ -49,7 +49,7 @@ public class MusicApplication extends Application {
                 baseHandler.removeCallbacks(this);
                 exit();
             } else if (sleepSecond == 1) {
-                CustomToast.INSTANCE.showToast(R.string.sleep_time_finish);
+                CustomToast.getInstance().showToast(R.string.sleep_time_finish);
                 sleepSecond--;
                 baseHandler.postDelayed(this, 1000);
             } else {
@@ -96,8 +96,8 @@ public class MusicApplication extends Application {
     private void prepareForApp() {
         RuntimeManager.initRuntimeManager(this);
         // 程序皮肤、字符集、夜间模式初始化
-        ChangePropery.updateNightMode(ConfigManager.instance.loadBoolean("night", false));
-        ChangePropery.updateLanguageMode(ConfigManager.instance.loadInt("language", 0));
+        ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
         SkinManager.getInstance().init(this, "MusicSkin");
         // 注册网络监听
         netWorkChange = new NetWorkChangeBroadcastReceiver();
@@ -131,18 +131,18 @@ public class MusicApplication extends Application {
     }
 
     private void removeNotification() {
-        if (BigNotificationService.INSTANCE.isAlive) {
+        if (BigNotificationService.getInstance().isAlive) {
             Intent i = new Intent(this, BigNotificationService.class);
             i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
             i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_REMOVE);
-            BigNotificationService.INSTANCE.setNotificationCommand(i);
+            BigNotificationService.getInstance().setNotificationCommand(i);
         }
     }
 
     private void stopPlayService() {
         if (getPlayerService().getPlayer().isPlaying()) {
             getPlayerService().getPlayer().stopPlayback();
-            StudyRecordUtil.recordStop(StudyManager.instance.getLesson(), 0);
+            StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
         }
         stopService(playServiceIntent);
     }

@@ -69,14 +69,14 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 BaseListEntity listEntity = (BaseListEntity) object;
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.instance.getAppId());
+                    temp.setApp(ConstantManager.getInstance().getAppId());
                 }
                 new ArticleOp().saveData(netData);
-                StudyManager.instance.setStartPlaying(true);
-                StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");
-                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                StudyManager.instance.setSourceArticleList(netData);
-                StudyManager.instance.setCurArticle(netData.get(0));
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setListFragmentPos("SongCategoryFragment.class");
+                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setSourceArticleList(netData);
+                StudyManager.getInstance().setCurArticle(netData.get(0));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
         });
@@ -173,7 +173,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
-            bannerView.setSelectItemColor(GetAppColor.instance.getAppColor(view.getContext()));
+            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor(view.getContext()));
         }
 
         void setBannerData(final List<BannerEntity> datas) {
@@ -192,13 +192,13 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                             if (tempArticle.getId() == 0) {
                                 getAppointArticle(view.getContext(),data.getName());
                             } else {
-                                StudyManager.instance.setStartPlaying(true);
-                                StudyManager.instance.setListFragmentPos("SongCategoryFragment.class");
-                                StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
+                                StudyManager.getInstance().setStartPlaying(true);
+                                StudyManager.getInstance().setListFragmentPos("SongCategoryFragment.class");
+                                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
                                 ArrayList<Article> articles = new ArrayList<>();
                                 articles.add(tempArticle);
-                                StudyManager.instance.setSourceArticleList(articles);
-                                StudyManager.instance.setCurArticle(tempArticle);
+                                StudyManager.getInstance().setSourceArticleList(articles);
+                                StudyManager.getInstance().setCurArticle(tempArticle);
                                 view.getContext().startActivity(new Intent(view.getContext(), StudyActivity.class));
                             }
                             break;

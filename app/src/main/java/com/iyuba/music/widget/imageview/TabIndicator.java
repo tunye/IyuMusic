@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -18,6 +19,8 @@ import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.GetAppColor;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 /**
@@ -96,7 +99,8 @@ public class TabIndicator extends LinearLayout {
     /**
      * 指示器的形状
      */
-    private Shape drawShape = Shape.TRIANGLE;
+    @Shape
+    private int drawShape = TRIANGLE;
     // 对外的ViewPager的回调接口
     private PageChangeListener onPageChangeListener;
 
@@ -114,13 +118,13 @@ public class TabIndicator extends LinearLayout {
         visibleTabCount = a.getInt(R.styleable.TabIndicator_tab_item_count, COUNT_DEFAULT_TAB);
         int style = a.getInt(R.styleable.TabIndicator_tab_shape, 0);
         if (style == 0) {
-            drawShape = Shape.TRIANGLE;
+            drawShape = TRIANGLE;
         } else {
-            drawShape = Shape.LINE;
+            drawShape = LINE;
         }
         normalColor = a.getColor(R.styleable.TabIndicator_tab_normal_color, context.getResources().getColor(R.color.text_gray_color));
-        highlightColor = a.getColor(R.styleable.TabIndicator_tab_highlight_color, GetAppColor.instance.getAppColor(context));
-        paintColor = a.getColor(R.styleable.TabIndicator_tab_indicator_color, GetAppColor.instance.getAppColor(context));
+        highlightColor = a.getColor(R.styleable.TabIndicator_tab_highlight_color, GetAppColor.getInstance().getAppColor(context));
+        paintColor = a.getColor(R.styleable.TabIndicator_tab_indicator_color, GetAppColor.getInstance().getAppColor(context));
         if (visibleTabCount < 0)
             visibleTabCount = COUNT_DEFAULT_TAB;
         a.recycle();
@@ -155,12 +159,12 @@ public class TabIndicator extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (drawShape.equals(Shape.TRIANGLE)) {
+        if (drawShape==TRIANGLE) {
             shapeWidth = (int) (w / visibleTabCount * RADIO_TRIANGEL);
             shapeWidth = Math.min(DIMENSION_TRIANGEL_WIDTH, shapeWidth);
             // 初始化三角形
             initTriangle();
-        } else if (drawShape.equals(Shape.LINE)) {
+        } else if (drawShape==LINE) {
             shapeWidth = (int) (w / visibleTabCount * RADIO_LINE);
             shapeWidth = Math.min(DIMENSION_LINE_WIDTH, shapeWidth);
             // 初始化线
@@ -170,7 +174,7 @@ public class TabIndicator extends LinearLayout {
         initTranslationX = getWidth() / visibleTabCount / 2 - shapeWidth / 2;
     }
 
-    public void setDrawShape(Shape drawShape) {
+    public void setDrawShape(@Shape int drawShape) {
         this.drawShape = drawShape;
     }
 
@@ -400,7 +404,13 @@ public class TabIndicator extends LinearLayout {
         return RuntimeManager.getWindowWidth();
     }
 
-    public enum Shape {LINE, TRIANGLE}
+    public static final int LINE = 0x01;
+    public static final int TRIANGLE = 0x02;
+
+    @IntDef({LINE, TRIANGLE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Shape {
+    }
 
     /**
      * 对外的ViewPager的回调接口

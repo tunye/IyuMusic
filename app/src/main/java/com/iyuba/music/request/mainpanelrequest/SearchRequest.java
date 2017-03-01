@@ -38,9 +38,9 @@ public class SearchRequest {
                     try {
                         baseListEntity.setTotalCount(jsonObject.getInt("total"));
                         if (baseListEntity.getTotalCount() == 0) {
-                            baseListEntity.setState(BaseListEntity.State.FAIL);
+                            baseListEntity.setState(BaseListEntity.FAIL);
                         } else {
-                            baseListEntity.setState(BaseListEntity.State.SUCCESS);
+                            baseListEntity.setState(BaseListEntity.SUCCESS);
                             if (jsonObject.has("result") && jsonObject.getInt("result") == 0) {
                                 baseListEntity.setIsLastPage(true);
                             } else {

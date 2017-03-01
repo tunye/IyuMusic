@@ -97,9 +97,9 @@ public class WordContentActivity extends BaseActivity {
         wordCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.INSTANCE.checkUserLogin()) {
+                if (AccountManager.getInstance().checkUserLogin()) {
                     if (!collected) {
-                        currentWord.setUser(AccountManager.INSTANCE.getUserId());
+                        currentWord.setUser(AccountManager.getInstance().getUserId());
                         currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                         currentWord.setViewCount("1");
                         currentWord.setIsdelete("-1");
@@ -108,7 +108,7 @@ public class WordContentActivity extends BaseActivity {
                         synchroYun("insert");
                     } else {
                         wordCollect.setBackgroundResource(R.drawable.word_uncollect);
-                        new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.INSTANCE.getUserId());
+                        new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.getInstance().getUserId());
                         synchroYun("delete");
                     }
                     collected = !collected;
@@ -127,7 +127,7 @@ public class WordContentActivity extends BaseActivity {
         currentWord = wordSetOp.findDataByKey(appointWord);
         if (currentWord != null) {
             currentWord.setSentences(new ExampleSentenceOp().findData(appointWord));
-            if (SettingConfigManager.instance.isWordAutoPlay()) {
+            if (SettingConfigManager.getInstance().isWordAutoPlay()) {
                 if (TextUtils.isEmpty(currentWord.getPronMP3())) {
                     playSound = true;
                 } else {
@@ -137,13 +137,13 @@ public class WordContentActivity extends BaseActivity {
             setContent();
             saveDB();
         } else {
-            if (SettingConfigManager.instance.isWordAutoPlay()) {
+            if (SettingConfigManager.getInstance().isWordAutoPlay()) {
                 playSound = true;
             }
             waitingDialog.show();
         }
-        if (AccountManager.INSTANCE.checkUserLogin()) {
-            if (new PersonalWordOp().findDataByName(appointWord, AccountManager.INSTANCE.getUserId()) != null) {
+        if (AccountManager.getInstance().checkUserLogin()) {
+            if (new PersonalWordOp().findDataByName(appointWord, AccountManager.getInstance().getUserId()) != null) {
                 collected = true;
                 wordCollect.setBackgroundResource(R.drawable.word_collect);
             } else {
@@ -174,14 +174,14 @@ public class WordContentActivity extends BaseActivity {
                     waitingDialog.dismiss();
                 }
                 if (currentWord == null) {
-                    CustomToast.INSTANCE.showToast(object.toString());
+                    CustomToast.getInstance().showToast(object.toString());
                 }
             }
         });
-        if (SettingConfigManager.instance.isWordAutoAdd()) {
-            if (AccountManager.INSTANCE.checkUserLogin()) {
+        if (SettingConfigManager.getInstance().isWordAutoAdd()) {
+            if (AccountManager.getInstance().checkUserLogin()) {
                 if (!collected) {
-                    currentWord.setUser(AccountManager.INSTANCE.getUserId());
+                    currentWord.setUser(AccountManager.getInstance().getUserId());
                     currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
                     currentWord.setViewCount("1");
                     currentWord.setIsdelete("-1");
@@ -235,7 +235,7 @@ public class WordContentActivity extends BaseActivity {
                 speaker.setVisibility(View.GONE);
             }
         } else {
-            CustomToast.INSTANCE.showToast(R.string.word_null);
+            CustomToast.getInstance().showToast(R.string.word_null);
         }
 
     }
@@ -272,27 +272,27 @@ public class WordContentActivity extends BaseActivity {
     }
 
     private void synchroYun(final String type) {
-        final String userid = AccountManager.INSTANCE.getUserId();
+        final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, type, currentWord.getWord()),
                 new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void response(Object object) {
                         if (type.equals("insert")) {
                             new PersonalWordOp().insertWord(currentWord.getWord(), userid);
-                            CustomToast.INSTANCE.showToast(R.string.word_add);
+                            CustomToast.getInstance().showToast(R.string.word_add);
                         } else {
                             new PersonalWordOp().deleteWord(currentWord.getWord(), userid);
-                            CustomToast.INSTANCE.showToast(R.string.word_delete);
+                            CustomToast.getInstance().showToast(R.string.word_delete);
                         }
                     }
                 });

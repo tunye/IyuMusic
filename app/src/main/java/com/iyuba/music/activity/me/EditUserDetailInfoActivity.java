@@ -110,7 +110,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
         lookingFor.setText(editUserInfo.getLookingfor());
         bio.setText(editUserInfo.getBio());
         interest.setText(editUserInfo.getInterest());
-        ImageUtil.loadAvatar(AccountManager.INSTANCE.getUserId(), userImage);
+        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), userImage);
     }
 
     @Override
@@ -191,15 +191,15 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.INSTANCE.getUserId(), key, value), new IProtocolResponse() {
+                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.getInstance().getUserId(), key, value), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        CustomToast.INSTANCE.showToast(msg);
+                        CustomToast.getInstance().showToast(msg);
                     }
 
                     @Override
@@ -207,10 +207,10 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                         String result = object.toString();
                         toolbarOper.setClickable(true);
                         if (result.equals("221")) {
-                            CustomToast.INSTANCE.showToast(R.string.person_detail_success);
+                            CustomToast.getInstance().showToast(R.string.person_detail_success);
                             EditUserDetailInfoActivity.this.finish();
                         } else {
-                            CustomToast.INSTANCE.showToast(R.string.person_detail_fail);
+                            CustomToast.getInstance().showToast(R.string.person_detail_fail);
                         }
                     }
                 });
@@ -235,13 +235,13 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
             LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     waitingDialog.dismiss();
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    CustomToast.INSTANCE.showToast(msg);
+                    CustomToast.getInstance().showToast(msg);
                     waitingDialog.dismiss();
                 }
 
@@ -255,16 +255,16 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void getDetaiInfo() {
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.INSTANCE.getUserId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 waitingDialog.dismiss();
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg);
+                CustomToast.getInstance().showToast(msg);
                 waitingDialog.dismiss();
             }
 
@@ -300,7 +300,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
 
             }
         });
-        adapter.setSelected(SettingConfigManager.instance.getLanguage());
+        adapter.setSelected(SettingConfigManager.getInstance().getLanguage());
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());

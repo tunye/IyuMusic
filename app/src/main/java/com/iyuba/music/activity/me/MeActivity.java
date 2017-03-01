@@ -62,8 +62,8 @@ public class MeActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 1:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
                             intent.putExtra("type", "0");
                             intent.putExtra("needPop", true);
@@ -73,8 +73,8 @@ public class MeActivity extends BaseActivity {
                         }
                         break;
                     case 2:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
-                            SocialManager.instance.pushFriendId(AccountManager.INSTANCE.getUserId());
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
                             intent.putExtra("type", "1");
                             intent.putExtra("needPop", true);
@@ -84,7 +84,7 @@ public class MeActivity extends BaseActivity {
                         }
                         break;
                     case 3:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, FindFriendActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
@@ -100,20 +100,20 @@ public class MeActivity extends BaseActivity {
                         startActivity(new Intent(context, ListenSongActivity.class));
                         break;
                     case 9:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CreditActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 10:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             StringBuilder url = new StringBuilder();
                             url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
-                                    .append(ConstantManager.instance.getAppId()).append("&uid=")
-                                    .append(AccountManager.INSTANCE.getUserId()).append("&sign=")
-                                    .append(MD5.getMD5ofStr(AccountManager.INSTANCE.getUserId()
-                                            + "ranking" + ConstantManager.instance.getAppId()));
+                                    .append(ConstantManager.getInstance().getAppId()).append("&uid=")
+                                    .append(AccountManager.getInstance().getUserId()).append("&sign=")
+                                    .append(MD5.getMD5ofStr(AccountManager.getInstance().getUserId()
+                                            + "ranking" + ConstantManager.getInstance().getAppId()));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);
                             intent.putExtra("url", url.toString());
@@ -124,11 +124,11 @@ public class MeActivity extends BaseActivity {
                         }
                         break;
                     case 11:
-                        if (AccountManager.INSTANCE.checkUserLogin()) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
-                            url.append("uid=").append(AccountManager.INSTANCE.getUserId()).append('&');
-                            url.append("username=").append(AccountManager.INSTANCE.getUserName()).append('&');
-                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.INSTANCE.getUserId() + "camstory"));
+                            url.append("uid=").append(AccountManager.getInstance().getUserId()).append('&');
+                            url.append("username=").append(AccountManager.getInstance().getUserName()).append('&');
+                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);
                             intent.putExtra("url", url.toString());
@@ -139,7 +139,7 @@ public class MeActivity extends BaseActivity {
                         }
                         break;
                     case 12:
-                        if (AccountManager.INSTANCE.getLoginState().equals(AccountManager.LoginState.LOGIN)) {
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CampaignActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context);

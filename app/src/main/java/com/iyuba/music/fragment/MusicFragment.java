@@ -66,11 +66,11 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setListFragmentPos(MusicFragment.this.getClass().getName());
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(musicList);
-                    StudyManager.instance.setCurArticle(musicList.get(position));
+                    StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                    StudyManager.getInstance().setCurArticle(musicList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -86,11 +86,11 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.instance.setListFragmentPos(MusicFragment.this.getClass().getName());
-                    StudyManager.instance.setStartPlaying(true);
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(musicList);
-                    StudyManager.instance.setCurArticle(musicList.get(mAdAdapter.getOriginalPosition(position)));
+                    StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                    StudyManager.getInstance().setCurArticle(musicList.get(mAdAdapter.getOriginalPosition(position)));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -132,30 +132,30 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
         MusicRequest.exeRequest(MusicRequest.generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.instance.isStartPlaying()) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(musicList);
-                    StudyManager.instance.setCurArticle(musicList.get(0));
-                    StudyManager.instance.setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(musicList);
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                    StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(musicList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.INSTANCE.showToast(msg + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.instance.isStartPlaying()) {
-                    StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                    StudyManager.instance.setSourceArticleList(musicList);
-                    StudyManager.instance.setCurArticle(musicList.get(0));
-                    StudyManager.instance.setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                    StudyManager.instance.setSourceArticleList(musicList);
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                    StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(musicList);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -167,25 +167,25 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    CustomToast.INSTANCE.showToast(R.string.article_load_all);
+                    CustomToast.getInstance().showToast(R.string.article_load_all);
                 } else {
                     musicList.addAll(netData);
                     musicAdapter.setDataSet(musicList);
                     if (curPage == 1) {
                     } else {
-                        CustomToast.INSTANCE.showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
                     }
-                    if (!StudyManager.instance.isStartPlaying()) {
-                        StudyManager.instance.setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.instance.getAppName())));
-                        StudyManager.instance.setSourceArticleList(musicList);
-                        StudyManager.instance.setCurArticle(musicList.get(0));
-                        StudyManager.instance.setApp("209");
-                    } else if (MusicFragment.this.getClass().getName().equals(StudyManager.instance.getListFragmentPos())) {
-                        StudyManager.instance.setSourceArticleList(musicList);
+                    if (!StudyManager.getInstance().isStartPlaying()) {
+                        StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                        StudyManager.getInstance().setSourceArticleList(musicList);
+                        StudyManager.getInstance().setCurArticle(musicList.get(0));
+                        StudyManager.getInstance().setApp("209");
+                    } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                        StudyManager.getInstance().setSourceArticleList(musicList);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.instance.getAppId());
+                        temp.setApp(ConstantManager.getInstance().getAppId());
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());
@@ -248,7 +248,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             getData();
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            CustomToast.INSTANCE.showToast(R.string.article_load_all);
+            CustomToast.getInstance().showToast(R.string.article_load_all);
         }
     }
 

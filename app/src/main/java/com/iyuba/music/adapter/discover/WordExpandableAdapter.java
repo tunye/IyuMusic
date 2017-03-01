@@ -110,7 +110,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
                     deleteWord(word, delete, delete.isChecked());
                 }
             });
-            if (SettingConfigManager.instance.isWordDefShow()) {
+            if (SettingConfigManager.getInstance().isWordDefShow()) {
                 def.setVisibility(View.VISIBLE);
             } else {
                 def.setVisibility(View.GONE);

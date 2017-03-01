@@ -9,9 +9,9 @@ import com.iyuba.music.manager.ConstantManager;
 public class DownloadService {
     public static boolean checkVip() {
 
-        boolean isvip = AccountManager.INSTANCE.checkUserLogin();
+        boolean isvip = AccountManager.getInstance().checkUserLogin();
         if (isvip) {
-            isvip = "1".equals(AccountManager.INSTANCE.getUserInfo().getVipStatus());
+            isvip = "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus());
         }
         return isvip;
     }

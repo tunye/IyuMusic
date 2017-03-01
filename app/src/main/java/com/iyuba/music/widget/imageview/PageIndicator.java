@@ -6,12 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Looper;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.GetAppColor;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by 10202 on 2015/11/17.
@@ -27,7 +31,8 @@ public class PageIndicator extends View {
     private int currentItem;
     private float movePercent;
     private Paint strokePaint, fillPaint;
-    private Direction direction;
+    @Direction
+    private int direction;
 
     public PageIndicator(Context context) {
         super(context);
@@ -57,15 +62,15 @@ public class PageIndicator extends View {
             circleCount = 1;
         } else {
             TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.PageIndicator);
-            strokeColor = typedArray.getColor(R.styleable.PageIndicator_pi_strokecolor, GetAppColor.instance.getAppColor(context));
-            fillColor = typedArray.getColor(R.styleable.PageIndicator_pi_fillcolor, GetAppColor.instance.getAppColorLight(context));
+            strokeColor = typedArray.getColor(R.styleable.PageIndicator_pi_strokecolor, GetAppColor.getInstance().getAppColor(context));
+            fillColor = typedArray.getColor(R.styleable.PageIndicator_pi_fillcolor, GetAppColor.getInstance().getAppColorLight(context));
             stroke = typedArray.getDimension(R.styleable.PageIndicator_pi_stroke, RuntimeManager.dip2px(1));
             radius = typedArray.getDimension(R.styleable.PageIndicator_pi_radius, RuntimeManager.dip2px(6));
             circleCount = typedArray.getInt(R.styleable.PageIndicator_pi_count, 1);
             circlePadding = typedArray.getDimension(R.styleable.PageIndicator_pi_circlepadding, RuntimeManager.dip2px(4));
             typedArray.recycle();
         }
-        direction = Direction.NONE;
+        direction = NONE;
         strokePaint = new Paint();
         strokePaint.setAntiAlias(true);
         strokePaint.setStyle(Paint.Style.STROKE);
@@ -201,9 +206,16 @@ public class PageIndicator extends View {
         invalidateView();
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(@Direction int direction) {
         this.direction = direction;
     }
 
-    public enum Direction {LEFT, RIGHT, NONE}
+    public static final int LEFT = 0x01;
+    public static final int RIGHT = 0x02;
+    public static final int NONE = 0x03;
+
+    @IntDef({LEFT, RIGHT, NONE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Direction {
+    }
 }

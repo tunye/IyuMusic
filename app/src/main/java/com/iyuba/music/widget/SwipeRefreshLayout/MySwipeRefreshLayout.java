@@ -957,7 +957,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
                     }
                     animateOffsetToStartPosition(mCurrentTargetOffsetTop, listener);
                     mProgress.showArrow(false);
-                    CustomToast.INSTANCE.showToast(R.string.swipe_hint);
+                    CustomToast.getInstance().showToast(R.string.swipe_hint);
                 }
                 mActivePointerId = INVALID_POINTER;
                 return false;
