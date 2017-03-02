@@ -1,1 +1,1 @@
-include ':app', ':smssdk', ':PushSDK', ':umengshare'
+include ':app', ':smssdk', ':umengshare'

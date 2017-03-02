@@ -1,6 +1,5 @@
 package com.iyuba.music.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
@@ -18,7 +17,6 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.util.GetAppColor;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.PushAgent;
 
 
 /**
@@ -40,7 +38,6 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
             window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
             window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
         }
-        PushAgent.getInstance(context).onAppStart();
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

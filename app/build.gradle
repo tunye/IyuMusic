@@ -21,8 +21,8 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 82
-        versionName "8.2"
+        versionCode 83
+        versionName "8.3"
         multiDexEnabled true
     }
     buildTypes {
@@ -124,6 +124,5 @@ dependencies {
     /*截图*/
     compile 'com.isseiaoki:simplecropview:1.0.13'
     compile project(':smssdk')
-    compile project(':PushSDK')
     compile project(':umengshare')
 }

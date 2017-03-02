@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -50,8 +51,7 @@ import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.IUmengCallback;
-import com.umeng.message.PushAgent;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -117,23 +117,12 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void initBroadcast() {
+        MiPushClient.resumePush(context, null);
         if (SettingConfigManager.getInstance().isUpgrade()) {
-            PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
-            IUmengCallback umengCallback = new IUmengCallback() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure(String s, String s1) {
-
-                }
-            };
             if (SettingConfigManager.getInstance().isPush()) {
-                mPushAgent.enable(umengCallback);
+                MiPushClient.enablePush(context);
             } else {
-                mPushAgent.disable(umengCallback);
+                MiPushClient.disablePush(context);
             }
         }
         changeProperty = new ChangePropertyBroadcast();
@@ -208,14 +197,14 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void showWhatsNew() {
         if (SettingConfigManager.getInstance().isUpgrade()) {
-            SettingConfigManager.getInstance().setUpgrade(false);
-            StartFragment.showVersionFeature(context);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
             } else {
                 resetDownLoadData();
             }
+            SettingConfigManager.getInstance().setUpgrade(false);
+            StartFragment.showVersionFeature(context);
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {

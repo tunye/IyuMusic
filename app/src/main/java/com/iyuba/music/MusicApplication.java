@@ -1,6 +1,7 @@
 package com.iyuba.music;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.network.NetWorkState;
@@ -23,11 +25,12 @@ import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class MusicApplication extends Application {
     private PlayerService playerService;
     private Intent playServiceIntent;
     private NetWorkChangeBroadcastReceiver netWorkChange;
+    private static final String APP_ID = "2882303761517139929";
+    private static final String APP_KEY = "5671713914929";
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
@@ -72,19 +77,40 @@ public class MusicApplication extends Application {
     }
 
     private void pushSdkInit() {
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.register(new IUmengRegisterCallback() {
+        final String TAG = "mipush";
+        if (SettingConfigManager.getInstance().isPush() && shouldInit()) {
+            MiPushClient.registerPush(this, APP_ID, APP_KEY);
+        }
+        LoggerInterface newLogger = new LoggerInterface() {
 
             @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回device token
+            public void setTag(String tag) {
             }
 
             @Override
-            public void onFailure(String s, String s1) {
+            public void log(String content, Throwable t) {
+                Log.e(TAG, content, t);
             }
-        });
-        mPushAgent.setDebugMode(false);
+
+            @Override
+            public void log(String content) {
+                Log.e(TAG, content);
+            }
+        };
+        Logger.setLogger(this, newLogger);
+    }
+
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = android.os.Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

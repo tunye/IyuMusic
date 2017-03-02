@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.buaa.ct.skin.SkinManager;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.flyco.roundview.RoundTextView;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -25,15 +24,13 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.umeng.message.IUmengCallback;
-import com.umeng.message.PushAgent;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.util.Arrays;
@@ -46,10 +43,10 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     IyubaDialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature,moreApp;
+    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature, moreApp;
     private RoundRelativeLayout language, push, clear;
     private TextView currLanguage, currClear, currSkin;
-    private CheckBox  currPush;
+    private CheckBox currPush;
     private RoundTextView logout;
 
     @Override
@@ -213,31 +210,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void setPushState() {
         SettingConfigManager.getInstance().setPush(!SettingConfigManager.getInstance().isPush());
-        PushAgent mPushAgent = PushAgent.getInstance(context);//推送配置
         if (SettingConfigManager.getInstance().isPush()) {
-            mPushAgent.enable(new IUmengCallback() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure(String s, String s1) {
-
-                }
-            });
+            MiPushClient.enablePush(context);
         } else {
-            mPushAgent.disable(new IUmengCallback() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure(String s, String s1) {
-
-                }
-            });
+            MiPushClient.disablePush(context);
         }
     }
 
