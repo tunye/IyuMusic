@@ -9,12 +9,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -137,6 +135,9 @@ public class WelcomeActivity extends AppCompatActivity {
         } else if (currentVersion > lastVersion) {
             if (lastVersion < 72 && SettingConfigManager.getInstance().getOriginalSize() == 14) {
                 SettingConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
+            }
+            if (lastVersion < 82) {                                       // 广告获取方式改变
+                SettingConfigManager.getInstance().setADUrl("");
             }
             appUpgrade(currentVersion);
         }
