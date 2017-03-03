@@ -27,6 +27,7 @@ import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
@@ -162,7 +163,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
         } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
-            super.onBackPressed();
+            if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+                super.onBackPressed();
+            } else {
+                startActivity(new Intent(context, MainActivity.class));
+                finish();
+            }
         }
     }
 

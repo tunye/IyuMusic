@@ -127,7 +127,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
                             url.append("uid=").append(AccountManager.getInstance().getUserId()).append('&');
-                            url.append("username=").append(AccountManager.getInstance().getUserName()).append('&');
+                            url.append("username=").append(AccountManager.getInstance().getUserInfo().getUsername()).append('&');
                             url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
                             Intent intent = new Intent();
                             intent.setClass(context, WebViewActivity.class);

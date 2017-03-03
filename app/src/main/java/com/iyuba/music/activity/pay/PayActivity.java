@@ -145,7 +145,7 @@ public class PayActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.pay_detail_title);
         toolbarOper.setText(R.string.pay_detail_oper);
-        username.setText(AccountManager.getInstance().getUserName());
+        username.setText(AccountManager.getInstance().getUserInfo().getUsername());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
         showBaoSelect();

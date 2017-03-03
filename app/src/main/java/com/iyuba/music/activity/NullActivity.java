@@ -2,9 +2,10 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.iyuba.music.activity.main.AnnouncerNewsList;
 import com.iyuba.music.activity.main.ClassifySongList;
@@ -13,6 +14,7 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SocialManager;
@@ -40,7 +42,7 @@ public class NullActivity {
         if (uri.getScheme().equals("iyumusic")) {
             String path = uri.getPath();
             switch (uri.getHost()) {
-                case "broadcaster":
+                case "zhubo":
                     switch (path.charAt(1)) {
                         case '1':                                         // 进入主播列表
                             intent = new Intent(context, MainActivity.class);
@@ -89,24 +91,39 @@ public class NullActivity {
                         context.startActivity(intent);
                     }
                     break;
-                case "account":                                           // 关注公众号
+                case "wx":                                                // 关注公众号
                     intent = new Intent(context, WxOfficialAccountActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     break;
-                case "downloadApk":                                       // 下载听歌
-                    try {
-                        uri = Uri.parse("market://details?id=com.iyuba.music");
-                        intent = new Intent(Intent.ACTION_VIEW, uri);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    } catch (Exception e) {
-                        intent = new Intent();
-                        intent.setClass(context, WebViewActivity.class);
-                        intent.putExtra("url", "http://www.wandoujia.com/apps/com.iyuba.music");
-                        intent.putExtra("title", "下载应用");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                case "appGround":                                         // 应用广场
+                    intent = new Intent(context, AppGroundActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    break;
+                case "apk":                                               // 下载听歌
+                    if (TextUtils.isEmpty(path) || path.length() < 2) {
+                        return;
+                    } else {
+                        String packageName = path.substring(1);
+                        if (!packageName.equals("com.iyuba.music") && checkApkExist(context, packageName)) {
+                            intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+                            context.startActivity(intent);
+                        } else {
+                            try {
+                                uri = Uri.parse("market://details?id=" + packageName);
+                                intent = new Intent(Intent.ACTION_VIEW, uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            } catch (Exception e) {
+                                intent = new Intent();
+                                intent.setClass(context, WebViewActivity.class);
+                                intent.putExtra("url", "http://www.wandoujia.com/apps/" + packageName);
+                                intent.putExtra("title", "下载应用");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+                        }
                     }
                     break;
             }
@@ -148,5 +165,17 @@ public class NullActivity {
                 context.startActivity(intent);
             }
         });
+    }
+
+    public static boolean checkApkExist(Context context, String packageName) {
+        if (TextUtils.isEmpty(packageName))
+            return false;
+        try {
+            ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName,
+                    PackageManager.GET_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

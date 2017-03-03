@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
@@ -151,8 +152,18 @@ public class WebViewActivity extends BaseActivity {
         });
         web.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                if (url.startsWith("http:") || url.startsWith("https:")) {
+                    view.loadUrl(url);
+                    return false;
+                } else {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.v("iyumusic", "no app");
+                    }
+                    return true;
+                }
             }
         });
         web.getSettings().setJavaScriptEnabled(true);

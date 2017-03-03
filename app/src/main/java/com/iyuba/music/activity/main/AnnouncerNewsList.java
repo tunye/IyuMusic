@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
@@ -270,6 +272,15 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
         super.onDestroy();
         if (mAdAdapter != null) {
             mAdAdapter.destroy();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
         }
     }
 

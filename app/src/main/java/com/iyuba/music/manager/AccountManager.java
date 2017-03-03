@@ -77,7 +77,7 @@ public class AccountManager {
         }
     }
 
-    private String[] getUserNameAndPwd() {
+    public String[] getUserNameAndPwd() {
         return new String[]{
                 ConfigManager.getInstance().loadString("userName"),
                 ConfigManager.getInstance().loadString("userPwd")};
@@ -191,14 +191,6 @@ public class AccountManager {
                 }
             }
         });
-    }
-
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public String getUserId() {

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.view.AddRippleEffect;
@@ -82,6 +83,15 @@ public class WxOfficialAccountActivity extends BaseActivity {
         AddRippleEffect.addRippleEffect(shareToCircle);
         AddRippleEffect.addRippleEffect(shareToWx);
         AddRippleEffect.addRippleEffect(shareToFriend);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
+        }
     }
 
     private void share(boolean circleShare) {

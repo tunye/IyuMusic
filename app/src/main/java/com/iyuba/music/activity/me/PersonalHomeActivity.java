@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.adapter.me.DoingAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -179,6 +180,15 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                     });
         }
         onRefresh(0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
+        }
     }
 
     /**

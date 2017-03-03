@@ -153,7 +153,7 @@ public class CampaignActivity extends BaseActivity {
     private String getExchangeUrl() {
         return "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
                 + "&appid=" + ConstantManager.getInstance().getAppId() + "&username="
-                + AccountManager.getInstance().getUserName() + "&sign=" +
+                + AccountManager.getInstance().getUserInfo().getUsername() + "&sign=" +
                 MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory");
     }
 }

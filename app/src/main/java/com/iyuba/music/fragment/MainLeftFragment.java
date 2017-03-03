@@ -209,11 +209,12 @@ public class MainLeftFragment extends BaseFragment {
     private void autoLogin() {
         if (SettingConfigManager.getInstance().isAutoLogin()) { // 自动登录
             AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
-            if (!TextUtils.isEmpty(AccountManager.getInstance().getUserName()) && !TextUtils.isEmpty(AccountManager.getInstance().getUserPwd())) {
+            String[] userNameAndPwd = AccountManager.getInstance().getUserNameAndPwd();
+            if (!TextUtils.isEmpty(userNameAndPwd[0]) && !TextUtils.isEmpty(userNameAndPwd[1])) {
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
                     userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
                     AccountManager.getInstance().setUserInfo(userInfo);
-                    AccountManager.getInstance().login(AccountManager.getInstance().getUserName(), AccountManager.getInstance().getUserPwd(),
+                    AccountManager.getInstance().login(userNameAndPwd[0], userNameAndPwd[1],
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {

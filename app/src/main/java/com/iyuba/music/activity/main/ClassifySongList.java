@@ -7,8 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.download.DownloadService;
@@ -154,6 +156,15 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
             title.setText(classifyName);
         } else {
             title.setText(classifyName.substring(0, 8) + "...");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
         }
     }
 

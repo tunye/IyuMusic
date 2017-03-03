@@ -128,7 +128,7 @@ public class SendPhotoActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waittingDialog.show();
             if (images.size() == 0) {
-                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserName(),
+                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(),
                         content.getEditableText().toString()), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

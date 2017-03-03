@@ -181,6 +181,7 @@ public class BannerView extends RelativeLayout {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 bannerImages.add(imageView);
                 bannerTitle.setText(bannerData.get(0).getDesc());
+                myAdapter.notifyDataSetChanged();
                 bannerViewPager.setCurrentItem(1);
                 if (isAutoStart) {
                     startAd();
@@ -190,8 +191,8 @@ public class BannerView extends RelativeLayout {
                 pointView.setPadding(8, 0, 8, 0);
                 pointView.setImageDrawable(createPoint(selectItemColor));
                 dotLayout.addView(pointView);
+                myAdapter.notifyDataSetChanged();
             }
-            myAdapter.notifyDataSetChanged();
         }
     }
 

@@ -145,7 +145,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                 if (AccountManager.getInstance().checkUserLogin()) {
                     CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
                             String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
-                            AccountManager.getInstance().getUserName(), s), new IProtocolResponse() {
+                            AccountManager.getInstance().getUserInfo().getUsername(), s), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.getInstance().showToast(msg);
