@@ -2,11 +2,10 @@ package com.iyuba.music.request.apprequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
@@ -27,14 +26,19 @@ import java.util.HashMap;
 public class AdPicRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            JsonObjectRequest request = new JsonObjectRequest(
-                    url, null, new Response.Listener<JSONObject>() {
+            StringRequest request = new StringRequest(StringRequest.Method.GET,
+                    url, new Response.Listener<String>() {
                 @Override
-                public void onResponse(JSONObject jsonObject) {
+                public void onResponse(String data) {
                     BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
+                        data = data.trim();
+                        String cutResult = data.trim().substring(1, data.length() - 1);
+                        JSONObject jsonObject = new JSONObject(cutResult);
                         baseApiEntity.setState(BaseApiEntity.SUCCESS);
-                        baseApiEntity.setData(new Gson().fromJson(jsonObject.getString("data"), AdEntity.class));
+                        AdEntity adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
+                        adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                        baseApiEntity.setData(adEntity);
                         response.response(baseApiEntity);
                     } catch (JSONException e) {
                         response.onServerError(RuntimeManager.getString(R.string.data_error));

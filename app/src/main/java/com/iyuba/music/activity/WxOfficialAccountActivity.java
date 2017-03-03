@@ -1,6 +1,5 @@
 package com.iyuba.music.activity;
 
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -17,6 +16,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 /**
  * Created by 10202 on 2017/2/21.
@@ -46,6 +46,15 @@ public class WxOfficialAccountActivity extends BaseActivity {
     @Override
     protected void setListener() {
         super.setListener();
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("mipush regid", MiPushClient.getRegId(context));
+                clipboard.setPrimaryClip(clip);
+                CustomToast.getInstance().showToast("regid已经复制，get新技巧");
+            }
+        });
         shareToCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

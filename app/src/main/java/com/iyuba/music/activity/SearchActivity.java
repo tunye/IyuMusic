@@ -181,15 +181,14 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-//                if (search.getText().equals(context.getString(R.string.search_do))) {
-//                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
-//                    onRefresh(0);
-//                } else {
-//                    finish();
-//                }
-                NullActivity.exePushData(context,searchContent.getEditableText().toString());
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
+                if (search.getText().equals(context.getString(R.string.search_do))) {
+                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
+                    onRefresh(0);
+                } else {
+                    finish();
+                }
             }
         });
         searchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
