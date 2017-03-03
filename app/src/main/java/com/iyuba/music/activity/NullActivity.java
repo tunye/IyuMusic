@@ -16,6 +16,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
@@ -98,6 +99,11 @@ public class NullActivity {
                     break;
                 case "appGround":                                         // 应用广场
                     intent = new Intent(context, AppGroundActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    break;
+                case "localMusic":                                        // 本地播放器
+                    intent = new Intent(context, LocalMusicActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     break;

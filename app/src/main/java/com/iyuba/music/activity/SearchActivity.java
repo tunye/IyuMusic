@@ -36,14 +36,12 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.receiver.MipushMessageReceiver;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
@@ -183,11 +181,15 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-                if (search.getText().equals(context.getString(R.string.search_do))) {
-                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
-                    onRefresh(0);
+                if (searchContent.getEditableText().toString().startsWith("iyumusic://")) {
+                    NullActivity.exePushData(context, searchContent.getEditableText().toString());
                 } else {
-                    finish();
+                    if (search.getText().equals(context.getString(R.string.search_do))) {
+                        new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
+                        onRefresh(0);
+                    } else {
+                        finish();
+                    }
                 }
             }
         });
