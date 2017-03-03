@@ -4,9 +4,9 @@
       <root url="jar://$PROJECT_DIR$/smssdk/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/smssdk/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar!/" />
-      <root url="file://$PROJECT_DIR$/smssdk/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/res" />
-      <root url="jar://$PROJECT_DIR$/smssdk/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/f4e05f2dd1902029b4d41a3b4dbead23b8baa2e3/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/f4e05f2dd1902029b4d41a3b4dbead23b8baa2e3/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/f4e05f2dd1902029b4d41a3b4dbead23b8baa2e3/output/jars/libs/internal_impl-23.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

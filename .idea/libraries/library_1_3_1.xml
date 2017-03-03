@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="library-1.3.1">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/me.drakeet.materialdialog/library/1.3.1/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/me.drakeet.materialdialog/library/1.3.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/67455a5e777ab5c25380450727362d63f2dfc1e9/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/67455a5e777ab5c25380450727362d63f2dfc1e9/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

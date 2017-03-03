@@ -231,7 +231,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         toolbarOper.setText(R.string.eggshell_music_scan);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
-        if (!TextUtils.isEmpty(ConfigManager.getInstance().loadString("localMusicPath"))) {
+        if (TextUtils.isEmpty(ConfigManager.getInstance().loadString("localMusicPath"))) {
+            ConfigManager.getInstance().putString("localMusicPath", "/");
+            musics = MusicUtils.getAllSongs(context, "/");
+            statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
+            adapter.setDataSet(musics);
+        } else {
             musics.addAll(MusicUtils.getAllSongs(context, ConfigManager.getInstance().loadString("localMusicPath")));
         }
         adapter.setDataSet(musics);

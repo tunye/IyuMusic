@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="skin-">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/skin/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/skin/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/a41a57c9394a4fd3cc19a5d142a78dd5866f12ff/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/a41a57c9394a4fd3cc19a5d142a78dd5866f12ff/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
