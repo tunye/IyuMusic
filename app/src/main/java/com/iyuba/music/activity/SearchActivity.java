@@ -36,6 +36,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.receiver.MipushMessageReceiver;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.TextAttr;
@@ -180,14 +181,15 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-                if (search.getText().equals(context.getString(R.string.search_do))) {
-                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
-                    onRefresh(0);
-                } else {
-                    finish();
-                }
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
+//                if (search.getText().equals(context.getString(R.string.search_do))) {
+//                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
+//                    onRefresh(0);
+//                } else {
+//                    finish();
+//                }
+                NullActivity.exePushData(context,searchContent.getEditableText().toString());
             }
         });
         searchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {

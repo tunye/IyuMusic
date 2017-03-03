@@ -23,6 +23,7 @@ import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.SearchFriendRequest;
 import com.iyuba.music.widget.CustomToast;
@@ -179,7 +180,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     }
 
     private void getFriendData(String s) {
-        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(SocialManager.getInstance().getFriendId(), s, curPage), new IProtocolResponse() {
+        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(AccountManager.getInstance().getUserId(), s, curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);

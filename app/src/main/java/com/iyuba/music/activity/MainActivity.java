@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -98,6 +97,14 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 checkForUpdate();
             }
         }, 8000);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("pushIntent"))) {
+            drawerLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainFragment) (getSupportFragmentManager().getFragments().get(0))).setShowItem(2);
+                }
+            }, 300);
+        }
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

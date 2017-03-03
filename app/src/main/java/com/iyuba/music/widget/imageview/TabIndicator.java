@@ -255,6 +255,13 @@ public class TabIndicator extends LinearLayout {
         highLightTextView(pos);
     }
 
+    public void setPosDirect(int pos){
+        resetTextViewColor();
+        curPos = pos;
+        highLightTextView(pos);
+        viewPager.setCurrentItem(pos);
+    }
+
     /**
      * 高亮文本
      *

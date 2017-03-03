@@ -7,10 +7,30 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.iyuba.music.activity.MainActivity;
+import com.iyuba.music.activity.NullActivity;
+import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.WelcomeActivity;
+import com.iyuba.music.activity.WxOfficialAccountActivity;
+import com.iyuba.music.activity.main.AnnouncerNewsList;
+import com.iyuba.music.activity.main.ClassifySongList;
+import com.iyuba.music.activity.me.PersonalHomeActivity;
+import com.iyuba.music.activity.study.StudyActivity;
+import com.iyuba.music.entity.BaseListEntity;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.SocialManager;
+import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.request.newsrequest.NewsesRequest;
+import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.widget.CustomToast;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
+
+import java.util.ArrayList;
 
 /**
  * 1、PushMessageReceiver 是个抽象类，该类继承了 BroadcastReceiver。<br/>
@@ -53,57 +73,13 @@ public class MipushMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         Log.e(TAG, "onNotificationMessageClicked is called. " + message.toString());
-        //exePushData(context, message);
-    }
-
-    private static void exePushData(String url) {
-        Uri uri ;
-        if (TextUtils.isEmpty(url)) {
-             uri = Uri.parse("http://www.360.com");
-        }else{
-            uri = Uri.parse(url);
-        }
-        Intent intent = new Intent();
-        if (uri.getScheme().equals("iyumusic")) {
-            String path = uri.getPath();
-            switch (uri.getHost()) {
-                case "broadcastor":
-                    switch (path) {
-                        case "1":
-                            System.out.print("主播1");
-                            break;
-                        case "2":
-                            break;
-                        case "3":
-                            System.out.print("主播3");
-                            break;
-                    }
-                    break;
-                case "dailyNew":
-                    System.out.print("每日最新");
-                    break;
-                case "song":
-                    System.out.print("跳转歌曲");
-                    break;
-                case "account":
-                    System.out.print("公众号");
-                    break;
-                case "downloadApk":
-                    System.out.print("下载");
-                    break;
-            }
-        } else {
-            System.out.print("非法");
-            //intent = new Intent(context, WelcomeActivity.class);
-        }
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(intent);
+        NullActivity.exePushData(context, message.getContent());
     }
 
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         Log.e(TAG, "onNotificationMessageArrived is called. " + message.toString());
-        Toast.makeText(context, "您有新的推送到达", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "您有新的听歌学英语推送到达", Toast.LENGTH_LONG).show();
     }
 
     @Override

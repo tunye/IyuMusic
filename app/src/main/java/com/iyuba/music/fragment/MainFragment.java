@@ -288,6 +288,10 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    public void setShowItem(int pos) {
+        viewPagerIndicator.setPosDirect(pos);
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainFragment> {
         @Override
         public void handleMessageByRef(final MainFragment fragment, Message msg) {
