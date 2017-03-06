@@ -42,7 +42,9 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.network.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
@@ -69,6 +71,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private View drawView;
     private TextView toolbarOper;
     private MaterialMenuView menu;
+    private NetWorkChangeBroadcastReceiver netWorkChange;
     private ChangePropertyBroadcast changeProperty;
     private boolean isExit = false;// 是否点过退出
 
@@ -135,6 +138,9 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter("changeProperty");
         LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
+        netWorkChange = new NetWorkChangeBroadcastReceiver();
+        intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(netWorkChange, intentFilter);
     }
 
     protected void initWidget() {
@@ -320,6 +326,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void unRegistBroadcast() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(changeProperty);
+        unregisterReceiver(netWorkChange);
         LocationUtil.getInstance().destroy();
     }
 

@@ -5,7 +5,6 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.service.BigNotificationService;
@@ -44,7 +42,6 @@ public class MusicApplication extends Application {
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
-    private NetWorkChangeBroadcastReceiver netWorkChange;
     private static final String APP_ID = "2882303761517139929";
     private static final String APP_KEY = "5671713914929";
     private Runnable baseRunnable = new Runnable() {
@@ -121,14 +118,10 @@ public class MusicApplication extends Application {
 
     private void prepareForApp() {
         RuntimeManager.initRuntimeManager(this);
-        // 程序皮肤、字符集、夜间模式初始化
+        // 程序皮肤、字符集、夜间模式、网络状态初始化
         ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
         SkinManager.getInstance().init(this, "MusicSkin");
-        // 注册网络监听
-        netWorkChange = new NetWorkChangeBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(netWorkChange, intentFilter);
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 共享平台
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
@@ -174,12 +167,12 @@ public class MusicApplication extends Application {
     }
 
     public void exit() {
-        unregisterReceiver(netWorkChange);
         removeNotification();
         stopPlayService();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        // 不强杀进程
+        // android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public int getSleepSecond() {
