@@ -106,11 +106,24 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             drawerLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ((MainFragment) (getSupportFragmentManager().getFragments().get(0))).setShowItem(2);
+                    ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
                 }
-            }, 300);
+            }, 200);
         }
         ((MusicApplication) getApplication()).pushActivity(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (!TextUtils.isEmpty(intent.getStringExtra("pushIntent"))) {
+            drawerLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
+                }
+            }, 200);
+        }
     }
 
     @Override

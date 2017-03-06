@@ -159,7 +159,7 @@ public class MusicApplication extends Application {
     }
 
     private void stopPlayService() {
-        if (getPlayerService().getPlayer().isPlaying()) {
+        if (getPlayerService().getPlayer() != null && getPlayerService().getPlayer().isPlaying()) {
             getPlayerService().getPlayer().stopPlayback();
             StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
         }
