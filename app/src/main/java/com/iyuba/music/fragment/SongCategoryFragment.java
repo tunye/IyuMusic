@@ -64,6 +64,12 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ArrayList<BannerEntity> bannerEntities = new ArrayList<>(1);
+        BannerEntity bannerEntity = new BannerEntity();
+        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+        bannerEntity.setOwnerid("2");
+        bannerEntities.add(bannerEntity);
+        newsAdapter.setAdSet(bannerEntities);
         onRefresh(0);
         swipeRefreshLayout.setRefreshing(true);
     }

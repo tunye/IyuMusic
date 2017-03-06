@@ -69,6 +69,12 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ArrayList<BannerEntity> bannerEntities = new ArrayList<>(1);
+        BannerEntity bannerEntity = new BannerEntity();
+        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+        bannerEntity.setOwnerid("2");
+        bannerEntities.add(bannerEntity);
+        newsAdapter.setAdSet(bannerEntities);
         getNewsData(0, MySwipeRefreshLayout.TOP_REFRESH);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -182,22 +188,10 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    ArrayList<BannerEntity> bannerEntities = new ArrayList<>();
-                    BannerEntity bannerEntity = new BannerEntity();
-                    bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-                    bannerEntity.setOwnerid("2");
-                    bannerEntities.add(bannerEntity);
-                    newsAdapter.setAdSet(bannerEntities);
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    ArrayList<BannerEntity> bannerEntities = new ArrayList<>();
-                    BannerEntity bannerEntity = new BannerEntity();
-                    bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-                    bannerEntity.setOwnerid("2");
-                    bannerEntities.add(bannerEntity);
-                    newsAdapter.setAdSet(bannerEntities);
                 }
 
                 @Override

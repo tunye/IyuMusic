@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -137,18 +139,14 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 startActivity(new Intent(context, RecommendSongActivity.class));
             }
         });
-        searchHistoryAdapter.setItemClickLitener(new OnRecycleViewItemClickListener() {
+        historySearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onItemClick(View view, int position) {
-                searchContent.setText(searchHistoryAdapter.getItem(position).getContent());
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                searchContent.setText(searchHistoryAdapter.getItem(i).getContent());
                 searchContent.setSelection(searchContent.getText().length());
                 new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
                 onRefresh(0);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
             }
         });
         searchContent.addTextChangedListener(new TextWatcher() {
@@ -159,10 +157,14 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (start == 0 || count != 0) {
+                Log.e("aaa", start + " " + before + " " + count);
+                if (start == 0 && count == 0) {
                     showLayout.setVisibility(View.GONE);
                     advice.setVisibility(View.GONE);
                     historySearch.setVisibility(View.VISIBLE);
+                    searchHistoryAdapter.setList("");
+                } else if (count == 1) {
+                    searchHistoryAdapter.setList(searchContent.getText().toString());
                 }
             }
 
@@ -173,7 +175,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 } else {
                     search.setText(R.string.search_do);
                 }
-                searchHistoryAdapter.setList(searchContent.getText().toString());
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -197,13 +198,14 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-                new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
-                showLayout.setVisibility(View.VISIBLE);
-                historySearch.setVisibility(View.GONE);
-                onRefresh(0);
+                if (!searchContent.getEditableText().toString().startsWith("iyumusic://")) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
+                    new SearchHistoryOp().saveData(searchContent.getEditableText().toString());
+                    showLayout.setVisibility(View.VISIBLE);
+                    historySearch.setVisibility(View.GONE);
+                    onRefresh(0);
+                }
                 return true;
             }
         });

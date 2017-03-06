@@ -2,6 +2,7 @@ package com.iyuba.music.activity.study;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class StudyInfoFragment extends BaseFragment {
         announcer = (TextView) view.findViewById(R.id.article_announcer);
         singer = (TextView) view.findViewById(R.id.article_singer);
         content = (JustifyTextView) view.findViewById(R.id.article_abstract);
+        content.setMovementMethod(ScrollingMovementMethod.getInstance());
         refresh();
         return view;
     }

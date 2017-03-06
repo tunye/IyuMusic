@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
+import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.SearchHistory;
 import com.iyuba.music.entity.article.SearchHistoryOp;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
  */
 public class SearchHistoryAdapter extends BaseAdapter {
     private ArrayList<SearchHistory> historys;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;
     private SearchHistoryOp searchHistoryOp;
 
@@ -32,13 +33,9 @@ public class SearchHistoryAdapter extends BaseAdapter {
         historys = searchHistoryOp.findDataTop();
     }
 
-    public void setItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
-    }
-
     public void setList(String s) {
         if (TextUtils.isEmpty(s)) {
-            historys = searchHistoryOp.findDataTop();
+            this.historys = searchHistoryOp.findDataTop();
         } else {
             this.historys = searchHistoryOp.findDataByLike(s);
         }
@@ -52,7 +49,11 @@ public class SearchHistoryAdapter extends BaseAdapter {
 
     @Override
     public SearchHistory getItem(int position) {
-        return historys.get(position);
+        if (position > getCount() - 1) {
+            return historys.get(getCount() - 1);
+        } else {
+            return historys.get(position);
+        }
     }
 
     @Override
@@ -68,14 +69,6 @@ public class SearchHistoryAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_search_history, parent, false);
             holder = new ViewHolder();
             holder.historyText = (TextView) convertView.findViewById(R.id.history_text);
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onRecycleViewItemClickListener != null) {
-                        onRecycleViewItemClickListener.onItemClick(v, position);
-                    }
-                }
-            });
             holder.delete = (MaterialMenuView) convertView.findViewById(R.id.clear_history);
             holder.delete.setState(MaterialMenuDrawable.IconState.X);
             convertView.setTag(holder);

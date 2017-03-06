@@ -488,7 +488,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void setPauseImage(boolean click) {
         if (click) {
-            sendBroadcast(new Intent("iyumusic.pause"));
+            if (player != null && player.isPrepared()) {
+                sendBroadcast(new Intent("iyumusic.pause"));
+            }
         } else {
             if (player == null) {
                 playSound.setState(MorphButton.MorphState.START, true);
