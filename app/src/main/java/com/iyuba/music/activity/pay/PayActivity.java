@@ -70,7 +70,7 @@ public class PayActivity extends BaseActivity {
         payDetailString = getIntent().getStringExtra(PAY_DETAIL);
         payMoneyString = getIntent().getStringExtra(PAY_MONEY);
         payGoods = getIntent().getStringExtra(PAY_GOODS);
-        waitingDialog =  WaitingDialog.create(context, context.getString(R.string.pay_detail_going));
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.pay_detail_going));
         msgApi = WXAPIFactory.createWXAPI(context, ConstantManager.WXID, false);
         initWidget();
         setListener();

@@ -76,7 +76,7 @@ public class WordContentActivity extends BaseActivity {
         speaker = (ImageView) findViewById(R.id.word_speaker);
         wordCollect = (ImageView) findViewById(R.id.word_collect);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        waitingDialog =  WaitingDialog.create(context, context.getString(R.string.word_searching));
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.word_searching));
     }
 
     @Override

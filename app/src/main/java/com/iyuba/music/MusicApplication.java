@@ -37,13 +37,13 @@ import java.util.List;
  * Created by 10202 on 2015/11/16.
  */
 public class MusicApplication extends Application {
+    private static final String APP_ID = "2882303761517139929";
+    private static final String APP_KEY = "5671713914929";
     private List<Activity> activityList;
     private int sleepSecond;
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
-    private static final String APP_ID = "2882303761517139929";
-    private static final String APP_KEY = "5671713914929";
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {

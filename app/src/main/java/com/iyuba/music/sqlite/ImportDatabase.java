@@ -27,10 +27,6 @@ public class ImportDatabase {
         dbPath = RuntimeManager.getContext().getDatabasePath(DB_NAME).getAbsolutePath();
     }
 
-    private static class InstanceHelper {
-        private static ImportDatabase instance = new ImportDatabase();
-    }
-
     public static ImportDatabase getInstance() {
         return InstanceHelper.instance;
     }
@@ -80,5 +76,9 @@ public class ImportDatabase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static class InstanceHelper {
+        private static ImportDatabase instance = new ImportDatabase();
     }
 }

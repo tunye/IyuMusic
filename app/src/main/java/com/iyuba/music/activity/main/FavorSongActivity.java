@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
@@ -38,8 +37,6 @@ import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/3/7.

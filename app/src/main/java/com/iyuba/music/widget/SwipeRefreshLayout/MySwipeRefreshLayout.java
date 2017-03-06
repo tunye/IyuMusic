@@ -57,6 +57,9 @@ import java.lang.annotation.RetentionPolicy;
 public class MySwipeRefreshLayout extends ViewGroup {
     public static final int TOP_REFRESH = 0;
     public static final int BOTTOM_REFRESH = 1;
+    public static final int TOP = 0x00;
+    public static final int BOTTOM = 0x01;
+    public static final int BOTH = 0x02;
     private static final int MAX_ALPHA = 255;
     private static final int STARTING_PROGRESS_ALPHA = (int) (.3f * MAX_ALPHA);
     private static final int CIRCLE_DIAMETER = 40;
@@ -131,6 +134,30 @@ public class MySwipeRefreshLayout extends ViewGroup {
     private float mSpinnerFinalOffset;
     private boolean mNotify;
     private int mCircleWidth;
+
+    /**
+     * The refresh indicator starting and resting position is always positioned
+     * near the top of the refreshing content. This position is a consistent
+     * location, but can be adjusted in either direction based on whether or not
+     * there is a toolbar or actionbar present.
+     *
+     * @param scale Set to true if there is no view at a higher z-order than
+     *            where the progress spinner is set to appear.
+     * @param start The offset in pixels from the top of this view at which the
+     *            progress spinner should appear.
+     * @param end The offset in pixels from the top of this view at which the
+     *            progress spinner should come to rest after a successful swipe
+     *            gesture.
+     */
+    /*
+    public void setProgressViewOffset(boolean scale, int start, int end) {
+        mScale = scale;
+        mCircleView.setVisibility(View.GONE);
+        mOriginalOffsetTop = mCurrentTargetOffsetTop = start;
+        mSpinnerFinalOffset = end;
+        mUsingCustomStart = true;
+        mCircleView.invalidate();
+    }*/
     private int mCircleHeight;
     // Whether the client has set a custom starting position;
     private boolean mUsingCustomStart;
@@ -157,31 +184,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
             setTargetOffsetTopAndBottom(offset, false /* requires update */);
         }
     };
-
-    /**
-     * The refresh indicator starting and resting position is always positioned
-     * near the top of the refreshing content. This position is a consistent
-     * location, but can be adjusted in either direction based on whether or not
-     * there is a toolbar or actionbar present.
-     *
-     * @param scale Set to true if there is no view at a higher z-order than
-     *            where the progress spinner is set to appear.
-     * @param start The offset in pixels from the top of this view at which the
-     *            progress spinner should appear.
-     * @param end The offset in pixels from the top of this view at which the
-     *            progress spinner should come to rest after a successful swipe
-     *            gesture.
-     */
-    /*
-    public void setProgressViewOffset(boolean scale, int start, int end) {
-        mScale = scale;
-        mCircleView.setVisibility(View.GONE);
-        mOriginalOffsetTop = mCurrentTargetOffsetTop = start;
-        mSpinnerFinalOffset = end;
-        mUsingCustomStart = true;
-        mCircleView.invalidate();
-    }*/
-
     /**
      * The refresh indicator resting position is always positioned near the top
      * of the refreshing content. This position is a consistent location, but
@@ -538,6 +540,25 @@ public class MySwipeRefreshLayout extends ViewGroup {
             setRefreshing(refreshing, false /* notify */);
         }
     }
+//    public boolean canChildScrollUp() {
+//        if (android.os.Build.VERSION.SDK_INT < 14) {
+//            if (mTarget instanceof AbsListView) {
+//                final AbsListView absListView = (AbsListView) mTarget;
+//                if (absListView.getLastVisiblePosition() + 1 == absListView.getCount()) {
+//                    int lastIndex = absListView.getLastVisiblePosition() - absListView.getFirstVisiblePosition();
+//
+//                    boolean res = absListView.getChildAt(lastIndex).getBottom() == absListView.getPaddingBottom();
+//
+//                    return res;
+//                }
+//                return true;
+//            } else {
+//                return mTarget.getScrollY() > 0;
+//            }
+//        } else {
+//            return ViewCompat.canScrollVertically(mTarget, 1);
+//        }
+//    }
 
     private void ensureTarget() {
         // Don't bother getting the parent height if the parent hasn't been laid
@@ -586,25 +607,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
         mCircleView.layout((width / 2 - circleWidth / 2), mCurrentTargetOffsetTop,
                 (width / 2 + circleWidth / 2), mCurrentTargetOffsetTop + circleHeight);
     }
-//    public boolean canChildScrollUp() {
-//        if (android.os.Build.VERSION.SDK_INT < 14) {
-//            if (mTarget instanceof AbsListView) {
-//                final AbsListView absListView = (AbsListView) mTarget;
-//                if (absListView.getLastVisiblePosition() + 1 == absListView.getCount()) {
-//                    int lastIndex = absListView.getLastVisiblePosition() - absListView.getFirstVisiblePosition();
-//
-//                    boolean res = absListView.getChildAt(lastIndex).getBottom() == absListView.getPaddingBottom();
-//
-//                    return res;
-//                }
-//                return true;
-//            } else {
-//                return mTarget.getScrollY() > 0;
-//            }
-//        } else {
-//            return ViewCompat.canScrollVertically(mTarget, 1);
-//        }
-//    }
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -1111,7 +1113,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
     public int getIndex() {
         return index;
     }
-
     /**
      * Classes that wish to be notified when the swipe gesture correctly
      * triggers a refresh should implement this interface.
@@ -1121,10 +1122,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
 
         void onLoad(int index);
     }
-
-    public static final int TOP = 0x00;
-    public static final int BOTTOM = 0x01;
-    public static final int BOTH = 0x02;
 
     @IntDef({TOP, BOTTOM, BOTH})
     @Retention(RetentionPolicy.SOURCE)

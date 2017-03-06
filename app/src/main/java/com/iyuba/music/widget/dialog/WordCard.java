@@ -27,7 +27,6 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.textview.JustifyTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.nineoldandroids.animation.Animator;
 import com.wang.avi.AVLoadingIndicatorView;
 

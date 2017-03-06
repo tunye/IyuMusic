@@ -1,7 +1,5 @@
 package com.iyuba.music.util;
 
-import android.util.Log;
-
 import com.iyuba.music.listener.IOperationResult;
 
 import org.json.JSONException;

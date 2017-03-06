@@ -2,9 +2,7 @@ package com.iyuba.music.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 
 import com.iyuba.music.R;

@@ -12,7 +12,6 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.mainpanel.Discover;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;

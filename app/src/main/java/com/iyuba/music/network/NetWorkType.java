@@ -19,7 +19,7 @@ public class NetWorkType {
         String strNetworkType;
         if (networkInfo != null && networkInfo.isConnected()) {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                strNetworkType = "WIFI";
+                strNetworkType = NetWorkState.WIFI;
                 PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
                     @Override
                     public void success(Object object) {
@@ -27,7 +27,7 @@ public class NetWorkType {
 
                     @Override
                     public void fail(Object object) {
-                        NetWorkState.getInstance().setNetWorkState("NO-NET");
+                        NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
                     }
                 });
                 pingIPThread.start();
@@ -41,7 +41,7 @@ public class NetWorkType {
                     case TelephonyManager.NETWORK_TYPE_CDMA:
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
                     case TelephonyManager.NETWORK_TYPE_IDEN: //api<8 : replace by 11
-                        strNetworkType = "2G";
+                        strNetworkType = NetWorkState.TWOG;
                         break;
                     case TelephonyManager.NETWORK_TYPE_UMTS:
                     case TelephonyManager.NETWORK_TYPE_EVDO_0:
@@ -56,7 +56,7 @@ public class NetWorkType {
                         break;
                     case TelephonyManager.NETWORK_TYPE_LTE:    //api<11 : replace by 13
                     case 17:
-                        strNetworkType = "4G";
+                        strNetworkType = NetWorkState.FOURG;
                         break;
                     default:
                         // http://baike.baidu.com/item/TD-SCDMA 中国移动 联通 电信 三种3G制式
@@ -68,10 +68,10 @@ public class NetWorkType {
                         break;
                 }
             } else {
-                strNetworkType = "NO-NET";
+                strNetworkType = NetWorkState.NO_NET;
             }
         } else {
-            strNetworkType = "NO-NET";
+            strNetworkType = NetWorkState.NO_NET;
         }
         return strNetworkType;
     }

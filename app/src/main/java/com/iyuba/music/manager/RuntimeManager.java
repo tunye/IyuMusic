@@ -5,14 +5,9 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 public class RuntimeManager {
-    private static class InstanceHelper {
-        private static RuntimeManager instance = new RuntimeManager();
-    }
-
     private Application application;
     private DisplayMetrics displayMetrics;
     private Context context;
-
     private RuntimeManager() {
     }
 
@@ -46,7 +41,6 @@ public class RuntimeManager {
         return getDisplayMetrics().heightPixels;
     }
 
-
     public static int dip2px(float dpValue) {
         float scale = getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5F);
@@ -65,5 +59,9 @@ public class RuntimeManager {
     public static int sp2px(float spValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
+    }
+
+    private static class InstanceHelper {
+        private static RuntimeManager instance = new RuntimeManager();
     }
 }

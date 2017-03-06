@@ -8,9 +8,6 @@ import java.io.File;
  * Created by 10202 on 2015/10/16.
  */
 public class ConstantManager {
-    private static class SingleInstanceHelper{
-        private static ConstantManager instance=new ConstantManager();
-    }
     public final static String SMSAPPID = "19f74c7fb89c";
     public final static String SMSAPPSECRET = "a4f1e7a1e13c63162cc987f9cc9785e0";
     public final static String YOUDAOSECRET = "b932187c3ec9f01c9ef45ad523510edd";
@@ -31,7 +28,6 @@ public class ConstantManager {
     private String originalFolder;
     private String recordFile;
     private String imgFile;
-
     private ConstantManager() {
         envir = Environment.getExternalStorageDirectory() + "/iyuba/music";
         appId = "209";
@@ -46,7 +42,7 @@ public class ConstantManager {
         imgFile = envir + File.separator + "image";
     }
 
-    public static ConstantManager getInstance(){
+    public static ConstantManager getInstance() {
         return SingleInstanceHelper.instance;
     }
 
@@ -108,5 +104,9 @@ public class ConstantManager {
 
     public String getImgFile() {
         return imgFile;
+    }
+
+    private static class SingleInstanceHelper {
+        private static ConstantManager instance = new ConstantManager();
     }
 }

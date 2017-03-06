@@ -8,20 +8,16 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/12/17.
  */
 public class SocialManager {
-    private static class SingleInstanceHelper{
-        private static SocialManager instance=new SocialManager();
-    }
     private ArrayList<String> friendId;
     private ArrayList<String> friendName;
     private ArrayList<Doing> doing;
-
     private SocialManager() {
         friendId = new ArrayList<>();
         friendName = new ArrayList<>();
         doing = new ArrayList<>();
     }
 
-    public static SocialManager getInstance(){
+    public static SocialManager getInstance() {
         return SingleInstanceHelper.instance;
     }
 
@@ -49,7 +45,6 @@ public class SocialManager {
         this.friendName.remove(this.friendName.size() - 1);
     }
 
-
     public Doing getDoing() {
         return doing.get(doing.size() - 1);
     }
@@ -60,5 +55,9 @@ public class SocialManager {
 
     public void popDoing() {
         this.doing.remove(this.doing.size() - 1);
+    }
+
+    private static class SingleInstanceHelper {
+        private static SocialManager instance = new SocialManager();
     }
 }

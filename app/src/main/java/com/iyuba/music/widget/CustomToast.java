@@ -9,14 +9,9 @@ import com.iyuba.music.manager.RuntimeManager;
  * 重载后toast 可同时触发
  */
 public class CustomToast {
-    private static class SingleInstanceHelper {
-        private static CustomToast instance = new CustomToast();
-    }
-
     public static final int LENGTH_SHORT = Toast.LENGTH_SHORT;
     public static final int LENGTH_LONG = Toast.LENGTH_LONG;
     private Toast mToast;
-
     private CustomToast() {
 
     }
@@ -45,5 +40,9 @@ public class CustomToast {
             mToast = Toast.makeText(RuntimeManager.getContext(), text, duration);
         }
         mToast.show();
+    }
+
+    private static class SingleInstanceHelper {
+        private static CustomToast instance = new CustomToast();
     }
 }

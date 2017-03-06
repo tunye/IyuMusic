@@ -13,10 +13,6 @@ import java.util.List;
  * Created by 10202 on 2016/7/19.
  */
 public class GetAppColor {
-    private static class SingleInstanceHelper {
-        private static GetAppColor instance = new GetAppColor();
-    }
-
     private List<String> flavorsDef;
 
     private GetAppColor() {
@@ -47,5 +43,9 @@ public class GetAppColor {
         } else {
             return context.getResources().getColor(GetAppColor.getResource(context, "skin_app_color_light_" + flavorsDef.get(skin)));
         }
+    }
+
+    private static class SingleInstanceHelper {
+        private static GetAppColor instance = new GetAppColor();
     }
 }

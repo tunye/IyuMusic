@@ -21,6 +21,9 @@ import java.lang.annotation.RetentionPolicy;
  * Created by 10202 on 2015/11/17.
  */
 public class PageIndicator extends View {
+    public static final int LEFT = 0x01;
+    public static final int RIGHT = 0x02;
+    public static final int NONE = 0x03;
     private Context context;
     private int strokeColor;
     private int fillColor;
@@ -209,10 +212,6 @@ public class PageIndicator extends View {
     public void setDirection(@Direction int direction) {
         this.direction = direction;
     }
-
-    public static final int LEFT = 0x01;
-    public static final int RIGHT = 0x02;
-    public static final int NONE = 0x03;
 
     @IntDef({LEFT, RIGHT, NONE})
     @Retention(RetentionPolicy.SOURCE)

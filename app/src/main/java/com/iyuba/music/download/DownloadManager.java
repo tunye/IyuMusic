@@ -3,10 +3,6 @@ package com.iyuba.music.download;
 import java.util.ArrayList;
 
 public class DownloadManager {
-    private static class SingleInstanceHelper {
-        private static DownloadManager sInstance = new DownloadManager();
-    }
-
     public ArrayList<DownloadFile> fileList;
 
     private DownloadManager() {
@@ -15,5 +11,9 @@ public class DownloadManager {
 
     public static DownloadManager getInstance() {
         return SingleInstanceHelper.sInstance;
+    }
+
+    private static class SingleInstanceHelper {
+        private static DownloadManager sInstance = new DownloadManager();
     }
 }

@@ -24,6 +24,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private static final int TYPE_BLANK = 0;
     private static final int TYPE_ITEM = 1;
     private static final ArrayList<Discover> discoverList;
+
     static {
         ArrayList<Integer> menuTextList = new ArrayList<>(15);
         ArrayList<Integer> menuIconList = new ArrayList<>(15);

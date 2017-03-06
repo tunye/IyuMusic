@@ -1,7 +1,6 @@
 package com.iyuba.music.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;

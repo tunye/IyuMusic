@@ -23,8 +23,6 @@ import java.util.ArrayList;
 public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder> {
     private static final ArrayList<Integer> menuTextList;
     private static final ArrayList<Integer> menuIconList;
-    private Context context;
-    private OperAdapter.OnItemClickListener mItemClickListener;
 
     static {
         menuIconList = new ArrayList<>(12);
@@ -48,6 +46,9 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList.add(R.string.oper_wx);
         menuTextList.add(R.string.oper_setting);
     }
+
+    private Context context;
+    private OperAdapter.OnItemClickListener mItemClickListener;
 
     public OperAdapter(Context context) {
         this.context = context;

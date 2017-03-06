@@ -94,7 +94,7 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
         search = findViewById(R.id.friend_search);
         searchLayout = (RoundLinearLayout) findViewById(R.id.search_layout);
         searchContent = (MaterialEditText) findViewById(R.id.search_content);
-        waittingDialog =  WaitingDialog.create(context, context.getString(R.string.friend_finding));
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.friend_finding));
     }
 
     @Override

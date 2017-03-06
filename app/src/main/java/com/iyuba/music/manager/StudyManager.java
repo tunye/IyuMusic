@@ -9,10 +9,6 @@ import java.util.Collections;
  * Created by 10202 on 2015/12/17.
  */
 public class StudyManager {
-    private static class SingleInstanceHelper {
-        private static StudyManager instance = new StudyManager();
-    }
-
     private Article curArticle;
     private ArrayList<Article> sourceArticleList;
     private ArrayList<Article> curArticleList;
@@ -21,13 +17,12 @@ public class StudyManager {
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
-
     private StudyManager() {
         app = ConstantManager.getInstance().getAppId();
         sourceArticleList = new ArrayList<>();
     }
 
-    public static StudyManager getInstance(){
+    public static StudyManager getInstance() {
         return SingleInstanceHelper.instance;
     }
 
@@ -134,5 +129,9 @@ public class StudyManager {
                 curArticleList.addAll(temp);
                 break;
         }
+    }
+
+    private static class SingleInstanceHelper {
+        private static StudyManager instance = new StudyManager();
     }
 }

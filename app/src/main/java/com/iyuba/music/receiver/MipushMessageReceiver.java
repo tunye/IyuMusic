@@ -1,36 +1,13 @@
 package com.iyuba.music.receiver;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.NullActivity;
-import com.iyuba.music.activity.WebViewActivity;
-import com.iyuba.music.activity.WelcomeActivity;
-import com.iyuba.music.activity.WxOfficialAccountActivity;
-import com.iyuba.music.activity.main.AnnouncerNewsList;
-import com.iyuba.music.activity.main.ClassifySongList;
-import com.iyuba.music.activity.me.PersonalHomeActivity;
-import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.entity.article.ArticleOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.SocialManager;
-import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.request.newsrequest.NewsesRequest;
-import com.iyuba.music.util.TextAttr;
-import com.iyuba.music.widget.CustomToast;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
-
-import java.util.ArrayList;
 
 /**
  * 1、PushMessageReceiver 是个抽象类，该类继承了 BroadcastReceiver。<br/>

@@ -61,7 +61,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_user_info);
         context = this;
-        waitingDialog =  WaitingDialog.create(context, context.getString(R.string.person_detail_loading));
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.person_detail_loading));
         initWidget();
         setListener();
         changeUIByPara();

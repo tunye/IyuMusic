@@ -27,6 +27,8 @@ import java.util.List;
  * Created by 10202 on 2015/12/16.
  */
 public class TabIndicator extends LinearLayout {
+    public static final int LINE = 0x01;
+    public static final int TRIANGLE = 0x02;
     /**
      * 三角形的宽度为单个Tab的1/5
      */
@@ -159,12 +161,12 @@ public class TabIndicator extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (drawShape==TRIANGLE) {
+        if (drawShape == TRIANGLE) {
             shapeWidth = (int) (w / visibleTabCount * RADIO_TRIANGEL);
             shapeWidth = Math.min(DIMENSION_TRIANGEL_WIDTH, shapeWidth);
             // 初始化三角形
             initTriangle();
-        } else if (drawShape==LINE) {
+        } else if (drawShape == LINE) {
             shapeWidth = (int) (w / visibleTabCount * RADIO_LINE);
             shapeWidth = Math.min(DIMENSION_LINE_WIDTH, shapeWidth);
             // 初始化线
@@ -255,7 +257,7 @@ public class TabIndicator extends LinearLayout {
         highLightTextView(pos);
     }
 
-    public void setPosDirect(int pos){
+    public void setPosDirect(int pos) {
         resetTextViewColor();
         curPos = pos;
         highLightTextView(pos);
@@ -410,9 +412,6 @@ public class TabIndicator extends LinearLayout {
     public int getScreenWidth() {
         return RuntimeManager.getWindowWidth();
     }
-
-    public static final int LINE = 0x01;
-    public static final int TRIANGLE = 0x02;
 
     @IntDef({LINE, TRIANGLE})
     @Retention(RetentionPolicy.SOURCE)

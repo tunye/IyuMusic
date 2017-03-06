@@ -65,6 +65,9 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/12/17.
  */
 public class StudyActivity extends BaseActivity implements View.OnClickListener {
+    public static final int START = 0x01;
+    public static final int END = 0x02;
+    public static final int NONE = 0x03;
     private static final int RECORD_AUDIO_TASK_CODE = 2;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private StudyMore studyMoreDialog;
@@ -81,7 +84,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @IntervalState
     private int intervalState;
     private boolean isDestroyed = false;
-    private YouDaoNative youdaoNative;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
@@ -109,6 +111,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         }
     };
+    private YouDaoNative youdaoNative;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
@@ -264,17 +267,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         final View adView = findViewById(R.id.youdao_ad);
         final ImageView photoImage = (ImageView) findViewById(R.id.photoImage);
         youdaoNative = new YouDaoNative(context, "230d59b7c0a808d01b7041c2d127da95",
-                new YouDaoNative.YouDaoNativeListener() {
-                    @Override
-                    public void onNativeImpression(View view, NativeResponse nativeResponse) {
-
-                    }
-
-                    @Override
-                    public void onNativeClick(View view, NativeResponse nativeResponse) {
-
-                    }
-
+                new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
                         List<String> imageUrls = new ArrayList<>();
@@ -599,10 +592,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
-
-    public static final int START = 0x01;
-    public static final int END = 0x02;
-    public static final int NONE = 0x03;
 
     @IntDef({START, END, NONE})
     @Retention(RetentionPolicy.SOURCE)

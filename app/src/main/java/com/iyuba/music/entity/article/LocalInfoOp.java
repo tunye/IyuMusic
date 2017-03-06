@@ -211,8 +211,8 @@ public class LocalInfoOp extends BaseEntityOp {
     public void clearSee() {
         getDatabase();
         db.execSQL("update " + TABLE_NAME + " set " + TIMES + "=0,"
-                        + SEETIME + "='" + DateFormat.formatTime(Calendar.getInstance().getTime())
-                        + "' where " + TIMES + ">0", new String[]{});
+                + SEETIME + "='" + DateFormat.formatTime(Calendar.getInstance().getTime())
+                + "' where " + TIMES + ">0", new String[]{});
         db.close();
     }
 }

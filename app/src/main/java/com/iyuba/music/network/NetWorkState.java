@@ -10,33 +10,36 @@ public class NetWorkState {
     public static final int EXCEPT_2G_3G = 1;
     public static final int EXCEPT_2G = 2;
     public static final int ALL_NET = 3;
-    private static NetWorkState instance;
+    public static final String WIFI = "WIFI";
+    public static final String WIFI_NONET = "WIFI_NONET";
+    public static final String FOURG = "4G";
+    public static final String NO_NET = "NO-NET";
+    public static final String TWOG = "2G";
+
     private String netWorkState;
 
     private NetWorkState() {
+
     }
 
     public static NetWorkState getInstance() {
-        if (instance == null) {
-            instance = new NetWorkState();
-        }
-        return instance;
+        return InstanceHelper.instance;
     }
 
     public boolean isConnectByCondition(int stateIndex) {
         boolean result = true;
         switch (stateIndex) {
             case ONLY_WIFI:
-                result = TextUtils.equals(netWorkState, "WIFI");
+                result = TextUtils.equals(netWorkState, WIFI);
                 break;
             case EXCEPT_2G_3G:
-                result = TextUtils.equals(netWorkState, "WIFI") || TextUtils.equals(netWorkState, "4G");
+                result = TextUtils.equals(netWorkState, WIFI) || TextUtils.equals(netWorkState, FOURG);
                 break;
             case EXCEPT_2G:
-                result = !(TextUtils.equals(netWorkState, "NO-NET") || TextUtils.equals(netWorkState, "2G"));
+                result = !(TextUtils.equals(netWorkState, NO_NET) || TextUtils.equals(netWorkState, TWOG));
                 break;
             case ALL_NET:
-                result = !TextUtils.equals(netWorkState, "NO-NET");
+                result = !TextUtils.equals(netWorkState, NO_NET);
                 break;
         }
         return result;
@@ -48,5 +51,9 @@ public class NetWorkState {
 
     public void setNetWorkState(String netWorkState) {
         this.netWorkState = netWorkState;
+    }
+
+    private static class InstanceHelper {
+        private static NetWorkState instance = new NetWorkState();
     }
 }

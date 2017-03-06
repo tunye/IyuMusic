@@ -28,10 +28,8 @@ import java.util.Locale;
  * Created by 10202 on 2015/11/18.
  */
 public class AccountManager {
-    private static class SingleInstanceHelper {
-        private static AccountManager instance = new AccountManager();
-    }
-
+    public static final int SIGN_OUT = 0x01;
+    public static final int SIGN_IN = 0x02;
     private UserInfo userInfo;
     @LoginState
     private int loginState;
@@ -219,12 +217,12 @@ public class AccountManager {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
-
-    public static final int SIGN_OUT = 0x01;
-    public static final int SIGN_IN = 0x02;
-
     @IntDef({SIGN_OUT, SIGN_IN})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoginState {
+    }
+
+    private static class SingleInstanceHelper {
+        private static AccountManager instance = new AccountManager();
     }
 }

@@ -25,10 +25,6 @@ import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
 public class BigNotificationService {
-    private static class SingleInstanceHelper {
-        private static BigNotificationService instance = new BigNotificationService();
-    }
-
     public static final String NOTIFICATION_SERVICE = "notification_service";
     public static final String COMMAND = "cmd";
     public static final String COMMAND_SHOW = "show";
@@ -43,7 +39,6 @@ public class BigNotificationService {
     private NotificationPauseReceiver pause;
     private Notification notification;
     private NotificationManager notificationManager;
-
     private BigNotificationService() {
         Context context = RuntimeManager.getContext();
         IntentFilter ifr = new IntentFilter("iyumusic.close");
@@ -190,5 +185,9 @@ public class BigNotificationService {
     private PendingIntent receiveCloseIntent() {
         Intent intent = new Intent("iyumusic.close");
         return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+    }
+
+    private static class SingleInstanceHelper {
+        private static BigNotificationService instance = new BigNotificationService();
     }
 }

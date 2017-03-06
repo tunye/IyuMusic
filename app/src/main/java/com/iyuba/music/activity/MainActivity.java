@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +31,6 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.main.DownloadSongActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -42,9 +45,9 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
-import com.iyuba.music.network.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
+import com.iyuba.music.network.PingIPThread;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
@@ -68,7 +71,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
     private Context context;
     private DrawerLayout drawerLayout;
-    private View drawView;
+    private View drawView, root;
     private TextView toolbarOper;
     private MaterialMenuView menu;
     private NetWorkChangeBroadcastReceiver netWorkChange;
@@ -92,14 +95,13 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         initBroadcast();
         initWidget();
         setListener();
-        changeUIByPara();
         includeFragment();
         showWhatsNew();
         drawerLayout.postDelayed(new Runnable() {
             public void run() {
                 checkForUpdate();
             }
-        }, 8000);
+        }, 10000);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("pushIntent"))) {
             drawerLayout.postDelayed(new Runnable() {
                 @Override
@@ -115,6 +117,29 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        toolbarOper.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.WIFI_NONET)) {
+                    PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
+                        @Override
+                        public void success(Object object) {
+                            NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI);
+                        }
+
+                        @Override
+                        public void fail(Object object) {
+                            checkWifiSignIn();
+                        }
+                    });
+                    pingIPThread.start();
+                } else if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.NO_NET)) {
+                    setNetwork(context);
+                } else if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.TWOG)) {
+                    setBetterNetwork(context);
+                }
+            }
+        }, 2000);
     }
 
     @Override
@@ -144,6 +169,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     protected void initWidget() {
+        root = findViewById(R.id.root);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         menu = (MaterialMenuView) findViewById(R.id.material_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,28 +199,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             }
         });
         drawerLayout.addDrawerListener(new DrawerLayoutStateListener());
-    }
-
-    protected void changeUIByPara() {
-        if (TextUtils.equals(NetWorkState.getInstance().getNetWorkState(), "NO-NET")) {
-            final MaterialDialog mMaterialDialog = new MaterialDialog(context);
-            mMaterialDialog.setTitle(R.string.app_name)
-                    .setMessage(R.string.no_net_to_local)
-                    .setPositiveButton(R.string.to_local_go, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mMaterialDialog.dismiss();
-                            context.startActivity(new Intent(context, DownloadSongActivity.class));
-                        }
-                    })
-                    .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mMaterialDialog.dismiss();
-                        }
-                    });
-            mMaterialDialog.show();
-        }
     }
 
     private void prepareForApp() {
@@ -392,6 +396,48 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     }
 
+    private void checkWifiSignIn() {
+        final Snackbar snackbar = Snackbar.make(root, RuntimeManager.getString(R.string.net_wifi_sign_in),
+                Snackbar.LENGTH_LONG).setAction(R.string.net_sign_in, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://www.baidu.com");
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.show();
+    }
+
+    private void setNetwork(Context context) {
+        Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_no_net),
+                Snackbar.LENGTH_LONG).setAction(R.string.net_set, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.show();
+    }
+
+    private void setBetterNetwork(Context context) {
+        Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_better_net),
+                Snackbar.LENGTH_LONG).setAction(R.string.net_set, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+        snackbar.show();
+    }
+
     private class DrawerLayoutStateListener extends
             DrawerLayout.SimpleDrawerListener {
         /**
@@ -422,6 +468,43 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         public void onReceive(Context context, Intent intent) {
             ((MusicApplication) getApplication()).clearActivityList();
             startActivity(new Intent(context, MainActivity.class));
+        }
+    }
+
+    class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String oldState = NetWorkState.getInstance().getNetWorkState();
+            String netWorkState = NetWorkType.getNetworkType(context);
+            NetWorkState.getInstance().setNetWorkState(netWorkState);
+            if (!netWorkState.equals(oldState)) {
+                if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
+                    setNetwork(context);
+                } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
+                    final Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_cut_wifi),
+                            Snackbar.LENGTH_LONG).setAction(R.string.app_know, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    });
+                    ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
+                    snackbar.show();
+                } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
+                    PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
+                        @Override
+                        public void success(Object object) {
+                        }
+
+                        @Override
+                        public void fail(Object object) {
+                            NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
+                            checkWifiSignIn();
+                        }
+                    });
+                    pingIPThread.start();
+                }
+            }
         }
     }
 }

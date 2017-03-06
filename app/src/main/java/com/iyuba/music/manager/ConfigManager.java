@@ -10,18 +10,14 @@ import android.support.annotation.NonNull;
  *         功能：配置文件管理
  */
 public class ConfigManager {
-    private static class SingleInstanceHelper{
-        private static ConfigManager instance=new ConfigManager();
-    }
     public static final String CONFIG_NAME = "IyuMusic";
     private SharedPreferences preferences;
-
     private ConfigManager() {
         int mode = Activity.MODE_PRIVATE;
         preferences = RuntimeManager.getContext().getSharedPreferences(CONFIG_NAME, mode);
     }
 
-    public static ConfigManager getInstance(){
+    public static ConfigManager getInstance() {
         return SingleInstanceHelper.instance;
     }
 
@@ -67,5 +63,9 @@ public class ConfigManager {
 
     public void clearKey() {
         preferences.edit().clear().apply();
+    }
+
+    private static class SingleInstanceHelper {
+        private static ConfigManager instance = new ConfigManager();
     }
 }

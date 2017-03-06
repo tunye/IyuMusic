@@ -4,9 +4,6 @@ package com.iyuba.music.manager;
  * Created by 10202 on 2015/11/18.
  */
 public class SettingConfigManager {
-    private static class SingleInstanceHelper{
-        private static SettingConfigManager instance=new SettingConfigManager();
-    }
     private final static String EGGSHELL_TAG = "eggshell";
     private final static String PUSH_TAG = "push";
     private final static String LANGUAGE_TAG = "language";
@@ -16,13 +13,11 @@ public class SettingConfigManager {
     private final static String AUTO_STOP_TAG = "autostop";
     private final static String AD_TAG = "lastADUrl";
     private final static String UPGRADE_TAG = "upgrade";
-
     private final static String SAYING_MODE_TAG = "sayingMode";
     private final static String WORD_DEF_SHOW_TAG = "wordDefShow";
     private final static String WORD_ORDER_TAG = "wordOrder";
     private final static String WORD_AUTO_PLAY_TAG = "wordAutoPlay";
     private final static String WORD_AUTO_ADD_TAG = "wordAutoAdd";
-
     private final static String STUDY_MODE = "studyMode";
     private final static String STUDY_TRANSLATE = "studyTranslate";
     private final static String STUDY_PLAY_MODE = "studyPlayMode";
@@ -30,12 +25,10 @@ public class SettingConfigManager {
     private final static String DOWNLOAD = "download";
     private final static String DOWNLOADMEANWHILE = "downloadMeanwhile";
     private final static String AUTOROUND = "autoRound";
-
     private int language, sayingMode, wordOrder, studyMode, studyPlayMode, originalSize, download, studyTranslate;
     private boolean eggshell, push, night, autoLogin, autoplay, autostop, autoRound,
             autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;
     private String lastADUrl;
-
     private SettingConfigManager() {
         push = ConfigManager.getInstance().loadBoolean(PUSH_TAG, true);
         night = ConfigManager.getInstance().loadBoolean(NIGHT_TAG);
@@ -63,7 +56,7 @@ public class SettingConfigManager {
         download = ConfigManager.getInstance().loadInt(DOWNLOAD, 0);
     }
 
-    public static SettingConfigManager getInstance(){
+    public static SettingConfigManager getInstance() {
         return SingleInstanceHelper.instance;
     }
 
@@ -71,12 +64,10 @@ public class SettingConfigManager {
         return push;
     }
 
-
     public void setPush(boolean push) {
         this.push = push;
         ConfigManager.getInstance().putBoolean(PUSH_TAG, push);
     }
-
 
     public boolean isNight() {
         return night;
@@ -91,7 +82,6 @@ public class SettingConfigManager {
         return language;
     }
 
-
     public void setLanguage(int language) {
         this.language = language;
         ConfigManager.getInstance().putInt(LANGUAGE_TAG, language);
@@ -100,7 +90,6 @@ public class SettingConfigManager {
     public boolean isAutoLogin() {
         return autoLogin;
     }
-
 
     public void setAutoLogin(boolean autoLogin) {
         this.autoLogin = autoLogin;
@@ -258,5 +247,9 @@ public class SettingConfigManager {
     public void setOriginalSize(int size) {
         this.originalSize = size;
         ConfigManager.getInstance().putInt(ORIGINAL_SIZE, size);
+    }
+
+    private static class SingleInstanceHelper {
+        private static SettingConfigManager instance = new SettingConfigManager();
     }
 }

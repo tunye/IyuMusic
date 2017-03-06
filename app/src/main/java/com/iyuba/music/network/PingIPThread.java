@@ -8,11 +8,11 @@ import java.net.URL;
 /**
  * Created by 10202 on 2015/10/13.
  */
-class PingIPThread extends Thread {
+public class PingIPThread extends Thread {
     private static final String url = "https://www.baidu.com";                          //百度
     private IOperationResult resultListner;
 
-    PingIPThread(IOperationResult resultListner) {
+    public PingIPThread(IOperationResult resultListner) {
         this.resultListner = resultListner;
     }
 
@@ -32,11 +32,11 @@ class PingIPThread extends Thread {
             if (urlConnection.getResponseCode() == 200) {
                 resultListner.success("可以连接");
             } else {
-                resultListner.success("不可以连接");
+                resultListner.fail("不可以连接");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            resultListner.success("连接异常");
+            resultListner.fail("连接异常");
         }
     }
 }

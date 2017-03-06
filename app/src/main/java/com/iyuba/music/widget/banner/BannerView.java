@@ -39,6 +39,9 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class BannerView extends RelativeLayout {
+    public static final int LEFT = 0x01;
+    public static final int CENTER = 0x02;
+    public static final int RIGHT = 0x03;
     private ViewPager bannerViewPager;
     private MyAdapter myAdapter;
     private TextView bannerTitle;
@@ -49,7 +52,6 @@ public class BannerView extends RelativeLayout {
     private int currentItem = 0;
     private boolean isLooping = false;
     private ScheduledExecutorService scheduledExecutorService;
-
     private int selectItemColor = 0xffffffff, unselectedItemColor = 0xff808080;
     private int shadowColor = 0x66000000;
     private boolean isAutoStart;
@@ -244,10 +246,6 @@ public class BannerView extends RelativeLayout {
         }
         return super.dispatchTouchEvent(ev);
     }
-
-    public static final int LEFT = 0x01;
-    public static final int CENTER = 0x02;
-    public static final int RIGHT = 0x03;
 
     @IntDef({LEFT, CENTER, RIGHT})
     @Retention(RetentionPolicy.SOURCE)

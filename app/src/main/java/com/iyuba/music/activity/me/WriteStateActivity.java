@@ -53,7 +53,7 @@ public class WriteStateActivity extends BaseActivity {
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         content = (MaterialEditText) findViewById(R.id.feedback_content);
         emojiView = (EmojiView) findViewById(R.id.emoji);
-        waitingDialog =  WaitingDialog.create(context, context.getString(R.string.state_on_way));
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.state_on_way));
     }
 
     @Override

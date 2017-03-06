@@ -23,7 +23,6 @@ import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.GetAppColor;
@@ -52,7 +51,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         adPicUrl = new ArrayList<>();
     }
 
-    private static void getAppointArticle(final Context context,String id) {
+    private static void getAppointArticle(final Context context, String id) {
         NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -190,7 +189,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                         case "1":
                             Article tempArticle = new ArticleOp().findById("209", Integer.parseInt(data.getName()));
                             if (tempArticle.getId() == 0) {
-                                getAppointArticle(view.getContext(),data.getName());
+                                getAppointArticle(view.getContext(), data.getName());
                             } else {
                                 StudyManager.getInstance().setStartPlaying(true);
                                 StudyManager.getInstance().setListFragmentPos("SongCategoryFragment.class");

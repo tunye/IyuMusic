@@ -8,13 +8,11 @@ import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
-import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;

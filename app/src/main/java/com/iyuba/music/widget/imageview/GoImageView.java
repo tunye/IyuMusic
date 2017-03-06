@@ -17,6 +17,10 @@ import java.lang.annotation.RetentionPolicy;
  * Created by 10202 on 2016/4/1.
  */
 public class GoImageView extends View {
+    public static final int TOP = 0x01;
+    public static final int LEFT = 0x02;
+    public static final int RIGHT = 0x03;
+    public static final int BOTTOM = 0x04;
     private int color;
     private float lineWidth;
     @Direction
@@ -30,7 +34,6 @@ public class GoImageView extends View {
         direction = LEFT;
         initPaint();
     }
-
     public GoImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs,
@@ -128,11 +131,6 @@ public class GoImageView extends View {
         paint.setStyle(Paint.Style.FILL);//设置填充样式   Style.FILL/Style.FILL_AND_STROKE/Style.STROKE
         paint.setStrokeWidth(lineWidth);//设置画笔宽度
     }
-
-    public static final int TOP = 0x01;
-    public static final int LEFT = 0x02;
-    public static final int RIGHT = 0x03;
-    public static final int BOTTOM = 0x04;
 
     @IntDef({TOP, LEFT, RIGHT, BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
