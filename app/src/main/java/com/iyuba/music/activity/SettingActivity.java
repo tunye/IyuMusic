@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
+import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.flyco.roundview.RoundTextView;
 import com.iyuba.music.R;
@@ -24,6 +25,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ChangePropery;
+import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -175,6 +177,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_clear:
                 waittingDialog.show();
+                ImageUtil.clearMemoryCache(this);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -182,6 +185,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getUpdateFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
+                        Glide.get(context).clearDiskCache();
                         handler.sendEmptyMessage(2);
                     }
                 }).start();
@@ -255,12 +259,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
     }
 
-    private void onNightChanged() {
-        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
-        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
-        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
-    }
-
     private String getLanguage(int language) {
         String[] languages = context.getResources().getStringArray(R.array.language);
         return languages[language];
@@ -309,13 +307,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             switch (msg.what) {
                 case 1:
                     long size = 0;
-                    size = size + FileUtil.getTotalCacheSize(activity);
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.getInstance().getCrashFolder()));
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.getInstance().getUpdateFolder()));
-                    size = size + FileUtil.getFolderSize(new File(
-                            ConstantManager.getInstance().getImgFile()));
+                    size += FileUtil.getTotalCacheSize(activity);
+                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getCrashFolder()));
+                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getUpdateFolder()));
+                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getImgFile()));
                     activity.currClear.setText(FileUtil.formetFileSize(size));
                     break;
                 case 2:
