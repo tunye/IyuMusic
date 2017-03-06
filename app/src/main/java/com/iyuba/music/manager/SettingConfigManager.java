@@ -22,13 +22,15 @@ public class SettingConfigManager {
     private final static String STUDY_TRANSLATE = "studyTranslate";
     private final static String STUDY_PLAY_MODE = "studyPlayMode";
     private final static String ORIGINAL_SIZE = "originalSize";
+    private final static String PHOTO_TIMESTAMP = "photoTimestamp";
     private final static String DOWNLOAD = "download";
     private final static String DOWNLOADMEANWHILE = "downloadMeanwhile";
     private final static String AUTOROUND = "autoRound";
     private int language, sayingMode, wordOrder, studyMode, studyPlayMode, originalSize, download, studyTranslate;
     private boolean eggshell, push, night, autoLogin, autoplay, autostop, autoRound,
             autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;
-    private String lastADUrl;
+    private String lastADUrl, photoTimestamp;
+
     private SettingConfigManager() {
         push = ConfigManager.getInstance().loadBoolean(PUSH_TAG, true);
         night = ConfigManager.getInstance().loadBoolean(NIGHT_TAG);
@@ -52,6 +54,7 @@ public class SettingConfigManager {
         eggshell = ConfigManager.getInstance().loadBoolean(EGGSHELL_TAG);
         upgrade = ConfigManager.getInstance().loadBoolean(UPGRADE_TAG);
         autoRound = ConfigManager.getInstance().loadBoolean(AUTOROUND, true);
+        photoTimestamp = ConfigManager.getInstance().loadString(PHOTO_TIMESTAMP, "");
         autoDownload = ConfigManager.getInstance().loadBoolean(DOWNLOADMEANWHILE);
         download = ConfigManager.getInstance().loadInt(DOWNLOAD, 0);
     }
@@ -247,6 +250,15 @@ public class SettingConfigManager {
     public void setOriginalSize(int size) {
         this.originalSize = size;
         ConfigManager.getInstance().putInt(ORIGINAL_SIZE, size);
+    }
+
+    public String getUserPhotoTimeStamp() {
+        return photoTimestamp;
+    }
+
+    public void setUserPhotoTimeStamp() {
+        this.photoTimestamp = "time=" + System.currentTimeMillis();
+        ConfigManager.getInstance().putString(PHOTO_TIMESTAMP, photoTimestamp);
     }
 
     private static class SingleInstanceHelper {

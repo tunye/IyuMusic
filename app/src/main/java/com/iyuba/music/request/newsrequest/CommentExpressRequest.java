@@ -57,7 +57,7 @@ public class CommentExpressRequest {
         para.put("format", "json");
         para.put("username", TextAttr.encode(TextAttr.encode(paras[2])));
         para.put("content", TextAttr.encode(TextAttr.encode(paras[3])));
-        para.put("imgsrc", TextAttr.encode("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=" + paras[1] + "&size=middle"));
+        para.put("imgsrc", TextAttr.encode("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=" + paras[1] + "&size=big"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.iyuba.music.R;
+import com.iyuba.music.manager.SettingConfigManager;
 
 /**
  * Created by 102 on 2016/10/10.
@@ -18,13 +19,23 @@ import com.iyuba.music.R;
 
 public class ImageUtil {
     public static void loadAvatar(String userid, ImageView imageView) {
-        String avatarUrl = "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + userid;
-        loadImage(avatarUrl, imageView, R.drawable.default_photo);
+        String photoStamp = SettingConfigManager.getInstance().getUserPhotoTimeStamp();
+        StringBuilder avatarUrl = new StringBuilder();
+        avatarUrl.append("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=").append(userid);
+        if (!TextUtils.isEmpty(photoStamp)) {
+            avatarUrl.append('&').append(photoStamp);
+        }
+        loadImage(avatarUrl.toString(), imageView, R.drawable.default_photo);
     }
 
     public static void loadAvatar(ImageView imageView, String userid, String size) {
-        String avatarUrl = "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=" + userid + "&size=" + size;
-        loadImage(avatarUrl, imageView, R.drawable.default_photo);
+        String photoStamp = SettingConfigManager.getInstance().getUserPhotoTimeStamp();
+        StringBuilder avatarUrl = new StringBuilder();
+        avatarUrl.append("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=").append(userid).append("&size=").append(size);
+        if (!TextUtils.isEmpty(photoStamp)) {
+            avatarUrl.append('&').append(photoStamp);
+        }
+        loadImage(avatarUrl.toString(), imageView, R.drawable.default_photo);
     }
 
     public static void loadImage(String imageUrl, ImageView imageView) {

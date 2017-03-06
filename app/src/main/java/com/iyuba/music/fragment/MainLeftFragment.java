@@ -191,6 +191,7 @@ public class MainLeftFragment extends BaseFragment {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
+            personalPhoto.init(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
             if (TextUtils.isEmpty(AccountManager.getInstance().getUserInfo().getFollower())) {
                 getPersonalInfo();
             }

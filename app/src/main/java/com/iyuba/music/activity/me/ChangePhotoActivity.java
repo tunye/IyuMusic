@@ -24,6 +24,7 @@ import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -217,6 +218,8 @@ public class ChangePhotoActivity extends BaseActivity {
             switch (msg.what) {
                 case 0:
                     CustomToast.getInstance().showToast(R.string.changephoto_success);
+                    ImageUtil.clearMemoryCache(activity);
+                    SettingConfigManager.getInstance().setUserPhotoTimeStamp();
                     Message message = new Message();
                     message.what = 1;
                     message.obj = msg.obj;
