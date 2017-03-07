@@ -129,8 +129,8 @@ public class MusicApplication extends Application {
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听
         changeProperty = new ChangePropertyBroadcast();
-        IntentFilter intentFilter = new IntentFilter("changeProperty");
-        LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
+        IntentFilter intentFilter = new IntentFilter(ChangePropertyBroadcast.FLAG);
+        registerReceiver(changeProperty, intentFilter);
         // 共享平台
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
@@ -175,7 +175,7 @@ public class MusicApplication extends Application {
     }
 
     public void exit() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(changeProperty);
+        unregisterReceiver(changeProperty);
         removeNotification();
         stopPlayService();
         ImageUtil.clearMemoryCache(this);

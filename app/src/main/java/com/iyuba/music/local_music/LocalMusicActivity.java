@@ -286,7 +286,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     public void onPause() {
         super.onPause();
         unregisterReceiver(broadCast);
-        handler.removeMessages(0);
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void setPauseImage() {

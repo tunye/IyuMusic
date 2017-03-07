@@ -102,7 +102,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 sendBroadcast(new Intent("iyumusic.pause"));
             }
             videoView.stopPlayback();
-            handler.removeMessages(0);
+            handler.removeCallbacksAndMessages(null);
             super.onBackPressed();
         }
     }

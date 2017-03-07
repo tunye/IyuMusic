@@ -101,7 +101,7 @@ public class SayingActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeMessages(1);
+        handler.removeCallbacksAndMessages(null);
     }
 
     private int getRandomId() {

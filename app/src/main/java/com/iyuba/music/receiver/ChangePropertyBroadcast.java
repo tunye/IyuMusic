@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.activity.MainActivity;
@@ -17,11 +18,14 @@ import com.iyuba.music.manager.RuntimeManager;
  */
 
 public class ChangePropertyBroadcast extends BroadcastReceiver {
+    public static final String FLAG = "changeProperty";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         ((MusicApplication) RuntimeManager.getApplication()).clearActivityList();
         Intent target;
         String source = intent.getStringExtra("source");
+        Log.e("aaa", source);
         if (TextUtils.isEmpty(source)) {
             target = new Intent(context, MainActivity.class);
             target.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

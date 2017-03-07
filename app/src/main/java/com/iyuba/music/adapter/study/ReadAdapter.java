@@ -242,9 +242,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         }
         player.stopPlayback();
         simplePlayer.stopPlayback();
-        handler.removeMessages(0);
-        handler.removeMessages(2);
-        handler.removeMessages(4);
+        handler.removeCallbacksAndMessages(null);
     }
 
     static class MyViewHolder extends RecycleViewHolder {

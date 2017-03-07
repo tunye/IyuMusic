@@ -3,7 +3,6 @@ package com.iyuba.music.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -14,6 +13,7 @@ import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -61,9 +61,9 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
             @Override
             public void onClick(View view) {
                 if (initPos != SkinManager.getInstance().getCurrSkin()) {
-                    Intent intent = new Intent("changeProperty");
+                    Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                     intent.putExtra("source", "SettingActivity.class");
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    sendBroadcast(intent);
                 } else {
                     CustomToast.getInstance().showToast(R.string.app_no_change);
                 }
@@ -110,9 +110,9 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         CustomDialog.saveChangeDialog(context, new IOperationResult() {
             @Override
             public void success(Object object) {
-                Intent intent = new Intent("changeProperty");
+                Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                 intent.putExtra("source", "SettingActivity.class");
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                sendBroadcast(intent);
             }
 
             @Override

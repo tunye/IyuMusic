@@ -155,13 +155,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onPause() {
         super.onPause();
-        handler.removeMessages(0);
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeMessages(0);
+        handler.removeCallbacksAndMessages(null);
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
         if (youdaoNative != null) {
@@ -676,6 +676,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         }
                         if (pos != 0 && activity.waittingDialog.isShowing()) {
                             activity.waittingDialog.dismiss();
+                        }
+                        if (activity.player.isPlaying() && activity.playSound.getState().equals(MorphButton.MorphState.START)) {
+                            activity.playSound.setState(MorphButton.MorphState.END, false);
+                        } else if (!activity.player.isPlaying() && activity.playSound.getState().equals(MorphButton.MorphState.END)) {
+                            activity.playSound.setState(MorphButton.MorphState.START, false);
                         }
                     }
                     break;

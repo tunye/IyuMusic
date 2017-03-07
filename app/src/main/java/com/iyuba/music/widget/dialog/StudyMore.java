@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,14 +28,13 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerRequest;
 import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.widget.CustomToast;
 
 import java.util.ArrayList;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 /**
  * Created by 10202 on 2015/10/28.
@@ -204,9 +202,9 @@ public class StudyMore {
                     case 6:
                         SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
-                        intent = new Intent("changeProperty");
+                        intent = new Intent(ChangePropertyBroadcast.FLAG);
                         intent.putExtra("source", "StudyActivity.class");
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(intent);
+                        context.sendBroadcast(intent);
                         break;
                     case 7:
                         context.startActivity(new Intent(context, StudySetActivity.class));

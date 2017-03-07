@@ -288,13 +288,13 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     @Override
     public void onPause() {
         super.onPause();
-        handler.removeMessages(0);
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        handler.removeMessages(0);
+        handler.removeCallbacksAndMessages(null);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalSynFragment> {

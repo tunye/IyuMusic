@@ -312,11 +312,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
-                handler.removeMessages(0);
-                handler.removeMessages(1);
             }
             player.stopPlayback();
         }
+        handler.removeCallbacksAndMessages(null);
     }
 
     private static class CommentViewHolder extends RecycleViewHolder {

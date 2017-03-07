@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
@@ -25,6 +24,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -268,9 +268,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void onLanguageChanged(int language) {
         SettingConfigManager.getInstance().setLanguage(language);
         ChangePropery.updateLanguageMode(language);
-        Intent intent = new Intent("changeProperty");
+        Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
         intent.putExtra("source", this.getClass().getSimpleName());
-        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     private String getLanguage(int language) {
