@@ -141,21 +141,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setListener();
         changeUIByPara();
         isDestroyed = false;
-        if (PlayerService.isOnlineArticle(StudyManager.getInstance().getCurArticle())) {
-            if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-                showNoNetDialog();
-            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
-                    }
-                });
-            } else {
-                waittingDialog.show();
-            }
-        }
+        checkNetWorkState();
     }
 
     @Override
@@ -249,6 +235,27 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     CustomToast.getInstance().showToast(R.string.no_internet);
                 }
                 break;
+        }
+    }
+
+    private boolean checkNetWorkState() {
+        if (PlayerService.isOnlineArticle(StudyManager.getInstance().getCurArticle()) && !isDestroyed) {
+            if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
+                showNoNetDialog();
+            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+                CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                waittingDialog.show();
+            }
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -465,13 +472,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void startPlay() {
-        waittingDialog.show();
-        seekBar.setSecondaryProgress(0);
-        playSound.setState(MorphButton.MorphState.START, true);
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.getInstance().getCurArticle(), false);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
-        player.start();
+        if (checkNetWorkState()) {
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(
+                    StudyManager.getInstance().getCurArticle(), false);
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+            player.start();
+        }
     }
 
     private void refresh(boolean defaultPos) {
@@ -489,6 +495,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
                 viewPager.setCurrentItem(1);
             } else {
+                if (checkNetWorkState()) {
+                    waittingDialog.show();
+                    seekBar.setSecondaryProgress(0);
+                    playSound.setState(MorphButton.MorphState.START, true);
+                    duration.setText("00:00");
+                }
                 int currPage = viewPager.getCurrentItem();
                 viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
                 viewPager.setCurrentItem(currPage);
@@ -552,13 +564,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 studyTranslate.setVisibility(View.GONE);
                 break;
         }
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                StudyManager.getInstance().getCurArticle(), true);
-        handler.sendEmptyMessage(2);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
-        int currPage = viewPager.getCurrentItem();
-        viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
-        viewPager.setCurrentItem(currPage);
+        if (checkNetWorkState()) {
+            handler.sendEmptyMessage(2);
+            waittingDialog.show();
+            seekBar.setSecondaryProgress(0);
+            playSound.setState(MorphButton.MorphState.START, true);
+            duration.setText("00:00");
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(
+                    StudyManager.getInstance().getCurArticle(), true);
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+            int currPage = viewPager.getCurrentItem();
+            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+            viewPager.setCurrentItem(currPage);
+        }
     }
 
     private void setStudyTranslateImage(int state) {
