@@ -187,12 +187,12 @@ public class PlayerService extends Service {
         StudyManager.getInstance().before();
     }
 
-    public static boolean isOnlineArticle(Article article) {
+    public boolean isOnlineArticle(Article article) {
         String playPath = getUrl(article);
         return playPath.startsWith("http");
     }
 
-    private static String getUrl(Article article) {
+    private String getUrl(Article article) {
         String url;
         StringBuilder localUrl = new StringBuilder();
         File localFile;

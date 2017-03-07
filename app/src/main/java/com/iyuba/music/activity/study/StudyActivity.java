@@ -38,7 +38,6 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
-import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
@@ -239,9 +238,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private boolean checkNetWorkState() {
-        if (PlayerService.isOnlineArticle(StudyManager.getInstance().getCurArticle()) && !isDestroyed) {
+        if (((MusicApplication) getApplication()).getPlayerService().isOnlineArticle(StudyManager.getInstance().getCurArticle()) && !isDestroyed) {
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                 showNoNetDialog();
+                return false;
             } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
                 CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
                     @Override
@@ -250,10 +250,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(intent);
                     }
                 });
+                return false;
             } else {
                 waittingDialog.show();
+                return true;
             }
-            return false;
         } else {
             return true;
         }
@@ -670,7 +671,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             activity.handler.sendEmptyMessage(1);
                         }
                     }
-                    if(activity.player.getCurrentPosition()!=0&&activity.waittingDialog.isShowing()){
+                    if (activity.player.getCurrentPosition() != 0 && activity.waittingDialog.isShowing()) {
                         activity.waittingDialog.dismiss();
                     }
                     break;

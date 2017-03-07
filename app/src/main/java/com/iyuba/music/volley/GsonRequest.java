@@ -1,5 +1,6 @@
 package com.iyuba.music.volley;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -8,8 +9,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
+import com.iyuba.music.manager.RuntimeManager;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 //面向对象
 public class GsonRequest<T> extends Request<T> {
@@ -49,4 +53,11 @@ public class GsonRequest<T> extends Request<T> {
         mListener.onResponse(response);
     }
 
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        // self-defined user agent
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("user-agent", RuntimeManager.getApplication().getPackageName());
+        return headerMap;
+    }
 }

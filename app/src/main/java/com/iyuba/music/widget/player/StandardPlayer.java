@@ -265,9 +265,7 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
 
     public void reset() {
         if (mIsPrepared) {
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.pause();
-            }
+            mMediaPlayer.stop();
             mMediaPlayer.reset();
         }
     }

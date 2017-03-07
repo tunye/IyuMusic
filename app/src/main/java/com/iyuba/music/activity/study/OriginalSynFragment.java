@@ -291,14 +291,22 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         handler.removeMessages(0);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeMessages(0);
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalSynFragment> {
         @Override
         public void handleMessageByRef(final OriginalSynFragment fragment, Message msg) {
             switch (msg.what) {
                 case 0:
-                    int current = fragment.player.getCurrentPosition();
-                    fragment.originalView.synchroParagraph(fragment.getCurrentPara(current / 1000.0));
-                    fragment.handler.sendEmptyMessageDelayed(0, 500);
+                    if (fragment.player != null) {
+                        int current = fragment.player.getCurrentPosition();
+                        fragment.originalView.synchroParagraph(fragment.getCurrentPara(current / 1000.0));
+                        fragment.handler.sendEmptyMessageDelayed(0, 500);
+                    }
                     break;
             }
         }

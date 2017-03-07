@@ -1,9 +1,13 @@
 package com.iyuba.music.volley;
 
+import android.util.Log;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.iyuba.music.manager.RuntimeManager;
 
 /**
@@ -20,8 +24,13 @@ public class MyVolley {
         return HelperInstance.sInstance;
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
+    public <T> void addToRequestQueue(Request<T> req)  {
         req.setRetryPolicy(new DefaultRetryPolicy(8000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        try {
+            Log.e("aaa", new Gson().toJson(req.getHeaders()));
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
         mRequestQueue.add(req);
     }
 
