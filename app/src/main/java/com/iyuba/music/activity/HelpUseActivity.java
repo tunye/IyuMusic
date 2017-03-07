@@ -123,7 +123,6 @@ public class HelpUseActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             pi.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            unregisterReceiver(helpFinishBroadcast);
             HelpUseActivity.this.finish();
         }
     }

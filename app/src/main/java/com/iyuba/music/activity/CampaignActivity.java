@@ -53,15 +53,6 @@ public class CampaignActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (web.canGoBack()) {
-            web.goBack(); // goBack()表示返回webView的上一页面
-        } else if (!web.canGoBack()) {
-            finish();
-        }
-    }
-
-    @Override
     protected void setListener() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override

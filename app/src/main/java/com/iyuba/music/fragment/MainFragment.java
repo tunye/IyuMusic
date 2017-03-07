@@ -100,10 +100,8 @@ public class MainFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         context.unregisterReceiver(broadCast);
-        if (player != null && player.isPlaying()) {
-            handler.removeMessages(0);
-            pauseAnimation();
-        }
+        pauseAnimation();
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void initPlayControl(View root) {
