@@ -63,6 +63,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             application.exit();
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 

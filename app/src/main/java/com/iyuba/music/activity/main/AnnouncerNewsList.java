@@ -277,7 +277,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
             super.onBackPressed();
         } else {
             startActivity(new Intent(context, MainActivity.class));

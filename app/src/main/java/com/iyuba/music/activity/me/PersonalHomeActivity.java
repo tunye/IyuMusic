@@ -184,7 +184,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
             super.onBackPressed();
         } else {
             startActivity(new Intent(context, MainActivity.class));

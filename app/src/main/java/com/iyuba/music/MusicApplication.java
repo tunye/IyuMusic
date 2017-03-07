@@ -197,6 +197,17 @@ public class MusicApplication extends Application {
         return false;
     }
 
+    public boolean isAppointExist(String appoint) {
+        if (activityList != null && activityList.size() > 0) {
+            for (Activity activity : activityList) {
+                if (activity.getLocalClassName().contains(appoint)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean onlyForeground(String appoint) {
         return activityList.size() == 1 && activityList.get(0).getLocalClassName().contains(appoint);
     }

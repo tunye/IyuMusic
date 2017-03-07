@@ -161,6 +161,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        handler.removeMessages(0);
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
         if (youdaoNative != null) {
@@ -173,7 +174,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
         } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
-            if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
                 super.onBackPressed();
             } else {
                 startActivity(new Intent(context, MainActivity.class));
@@ -663,16 +664,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         public void handleMessageByRef(final StudyActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    activity.currTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
-                    activity.seekBar.setProgress(activity.player.getCurrentPosition());
-                    activity.handler.sendEmptyMessageDelayed(0, 1000);
-                    if (activity.intervalState == END) {
-                        if (Math.abs(activity.player.getCurrentPosition() - activity.bPosition) <= 1000) {
-                            activity.handler.sendEmptyMessage(1);
+                    if (activity.player != null) {
+                        int pos = activity.player.getCurrentPosition();
+                        activity.currTime.setText(Mathematics.formatTime(pos / 1000));
+                        activity.seekBar.setProgress(pos);
+                        activity.handler.sendEmptyMessageDelayed(0, 1000);
+                        if (activity.intervalState == END) {
+                            if (Math.abs(pos - activity.bPosition) <= 1000) {
+                                activity.handler.sendEmptyMessage(1);
+                            }
                         }
-                    }
-                    if (activity.player.getCurrentPosition() != 0 && activity.waittingDialog.isShowing()) {
-                        activity.waittingDialog.dismiss();
+                        if (pos != 0 && activity.waittingDialog.isShowing()) {
+                            activity.waittingDialog.dismiss();
+                        }
                     }
                     break;
                 case 1:
