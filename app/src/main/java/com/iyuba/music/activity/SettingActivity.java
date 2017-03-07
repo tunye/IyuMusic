@@ -14,6 +14,7 @@ import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.flyco.roundview.RoundTextView;
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -131,6 +132,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
+        }
     }
 
     @Override
@@ -258,7 +268,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void onLanguageChanged(int language) {
         SettingConfigManager.getInstance().setLanguage(language);
         ChangePropery.updateLanguageMode(language);
-        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
+        Intent intent = new Intent("changeProperty");
+        intent.putExtra("source", this.getClass().getSimpleName());
+        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(intent);
     }
 
     private String getLanguage(int language) {

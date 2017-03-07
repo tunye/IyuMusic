@@ -29,13 +29,11 @@ import java.util.ArrayList;
  */
 public class BannerPicRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa", url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    Log.e("aaa", new Gson().toJson(jsonObject));
                     BaseListEntity baseListEntity = new BaseListEntity();
                     Type listType = new TypeToken<ArrayList<BannerEntity>>() {
                     }.getType();

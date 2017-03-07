@@ -62,6 +62,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
             public void onClick(View view) {
                 if (initPos != SkinManager.getInstance().getCurrSkin()) {
                     Intent intent = new Intent("changeProperty");
+                    intent.putExtra("source", "SettingActivity.class");
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 } else {
                     CustomToast.getInstance().showToast(R.string.app_no_change);
@@ -110,6 +111,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
             @Override
             public void success(Object object) {
                 Intent intent = new Intent("changeProperty");
+                intent.putExtra("source", "SettingActivity.class");
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }
 

@@ -166,7 +166,9 @@ public class MainLeftFragment extends BaseFragment {
                     case 4:
                         SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
-                        LocalBroadcastManager.getInstance(getActivity().getApplication()).sendBroadcast(new Intent("changeProperty"));
+                        Intent intent = new Intent("changeProperty");
+                        intent.putExtra("source", getActivity().getLocalClassName());
+                        LocalBroadcastManager.getInstance(getActivity().getApplication()).sendBroadcast(intent);
                         break;
                     case 5:
                         startActivity(new Intent(context, SleepActivity.class));

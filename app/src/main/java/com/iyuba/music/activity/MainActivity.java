@@ -29,6 +29,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -74,7 +75,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private TextView toolbarOper;
     private MaterialMenuView menu;
     private NetWorkChangeBroadcastReceiver netWorkChange;
-    private ChangePropertyBroadcast changeProperty;
     private boolean isExit = false;// 是否点过退出
 
     @Override
@@ -172,11 +172,8 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 MiPushClient.disablePush(context);
             }
         }
-        changeProperty = new ChangePropertyBroadcast();
-        IntentFilter intentFilter = new IntentFilter("changeProperty");
-        LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
         netWorkChange = new NetWorkChangeBroadcastReceiver();
-        intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(netWorkChange, intentFilter);
     }
 
@@ -341,7 +338,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void unRegistBroadcast() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(changeProperty);
         unregisterReceiver(netWorkChange);
         LocationUtil.getInstance().destroy();
     }
@@ -463,14 +459,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
          */
         @Override
         public void onDrawerClosed(View drawerView) {
-        }
-    }
-
-    class ChangePropertyBroadcast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ((MusicApplication) getApplication()).clearActivityList();
-            startActivity(new Intent(context, MainActivity.class));
         }
     }
 

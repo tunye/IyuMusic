@@ -1,7 +1,5 @@
 package com.iyuba.music.request.apprequest;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -28,13 +26,11 @@ import java.util.HashMap;
  */
 public class AdPicRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
-        Log.e("aaa", url);
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyStringRequest request = new MyStringRequest(StringRequest.Method.GET,
                     url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String data) {
-                    Log.e("aaa", data);
                     BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
                         data = data.trim();

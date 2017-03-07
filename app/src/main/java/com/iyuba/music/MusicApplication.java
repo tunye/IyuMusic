@@ -5,8 +5,10 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
@@ -18,6 +20,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
+import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.BigNotificationService;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
@@ -44,6 +47,7 @@ public class MusicApplication extends Application {
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private Intent playServiceIntent;
+    private ChangePropertyBroadcast changeProperty;
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
@@ -123,6 +127,10 @@ public class MusicApplication extends Application {
         ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
         SkinManager.getInstance().init(this, "MusicSkin");
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
+        // 皮肤等状态切换监听
+        changeProperty = new ChangePropertyBroadcast();
+        IntentFilter intentFilter = new IntentFilter("changeProperty");
+        LocalBroadcastManager.getInstance(this).registerReceiver(changeProperty, intentFilter);
         // 共享平台
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
@@ -167,6 +175,7 @@ public class MusicApplication extends Application {
     }
 
     public void exit() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(changeProperty);
         removeNotification();
         stopPlayService();
         ImageUtil.clearMemoryCache(this);

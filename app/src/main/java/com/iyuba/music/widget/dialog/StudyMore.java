@@ -204,7 +204,9 @@ public class StudyMore {
                     case 6:
                         SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("changeProperty"));
+                        intent = new Intent("changeProperty");
+                        intent.putExtra("source", "StudyActivity.class");
+                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(intent);
                         break;
                     case 7:
                         context.startActivity(new Intent(context, StudySetActivity.class));
