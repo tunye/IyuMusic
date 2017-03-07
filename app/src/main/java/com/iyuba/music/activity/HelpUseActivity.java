@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +29,6 @@ public class HelpUseActivity extends AppCompatActivity {
     private float lastChange = 0;
     private PageIndicator pi;
     private boolean lastFlag;
-    private LocalBroadcastManager localBroadcastManager;
     private HelpFinishBroadcast helpFinishBroadcast;
 
     /**
@@ -48,10 +46,9 @@ public class HelpUseActivity extends AppCompatActivity {
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
         helpFinishBroadcast = new HelpFinishBroadcast();
         IntentFilter intentFilter = new IntentFilter("pulldoor.finish");
-        localBroadcastManager.registerReceiver(helpFinishBroadcast, intentFilter);
+        registerReceiver(helpFinishBroadcast, intentFilter);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         pi = (PageIndicator) findViewById(R.id.pageindicator);
         pi.setFillColor(0xffededed);
@@ -118,7 +115,7 @@ public class HelpUseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        localBroadcastManager.unregisterReceiver(helpFinishBroadcast);
+        unregisterReceiver(helpFinishBroadcast);
     }
 
     class HelpFinishBroadcast extends BroadcastReceiver {
@@ -126,7 +123,7 @@ public class HelpUseActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             pi.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            localBroadcastManager.unregisterReceiver(helpFinishBroadcast);
+            unregisterReceiver(helpFinishBroadcast);
             HelpUseActivity.this.finish();
         }
     }

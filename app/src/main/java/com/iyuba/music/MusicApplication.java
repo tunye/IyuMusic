@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
@@ -201,17 +200,6 @@ public class MusicApplication extends Application {
             Activity activity = activityList.get(activityList.size() - 1);
             if (activity.getLocalClassName().contains(appoint)) {
                 return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isAppointExist(String appoint) {
-        if (activityList != null && activityList.size() > 0) {
-            for (Activity activity : activityList) {
-                if (activity.getLocalClassName().contains(appoint)) {
-                    return true;
-                }
             }
         }
         return false;

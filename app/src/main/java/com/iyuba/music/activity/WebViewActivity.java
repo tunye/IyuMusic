@@ -65,7 +65,11 @@ public class WebViewActivity extends BaseActivity {
                 }
             }, 500);
         } else if (!web.canGoBack()) {
-            finish();
+            if (!mipush) {
+                super.onBackPressed();
+            } else {
+                startActivity(new Intent(context, MainActivity.class));
+            }
         }
     }
 

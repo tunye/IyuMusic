@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundRelativeLayout;
 import com.flyco.roundview.RoundTextView;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -136,10 +136,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
-            super.onBackPressed();
-        } else {
+        if (changeProperty) {
             startActivity(new Intent(context, MainActivity.class));
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -269,7 +269,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         SettingConfigManager.getInstance().setLanguage(language);
         ChangePropery.updateLanguageMode(language);
         Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
-        intent.putExtra("source", this.getClass().getSimpleName());
+        intent.putExtra(ChangePropertyBroadcast.SOURCE, this.getClass().getSimpleName());
         sendBroadcast(intent);
     }
 

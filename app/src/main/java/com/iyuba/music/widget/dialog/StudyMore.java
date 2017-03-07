@@ -203,7 +203,7 @@ public class StudyMore {
                         SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
                         intent = new Intent(ChangePropertyBroadcast.FLAG);
-                        intent.putExtra("source", "StudyActivity.class");
+                        intent.putExtra(ChangePropertyBroadcast.SOURCE, "StudyActivity.class");
                         context.sendBroadcast(intent);
                         break;
                     case 7:

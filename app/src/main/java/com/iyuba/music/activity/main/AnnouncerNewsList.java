@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -277,7 +276,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
+        if (!mipush) {
             super.onBackPressed();
         } else {
             startActivity(new Intent(context, MainActivity.class));

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 /**
  * Created by 10202 on 2016/7/25.
@@ -123,7 +120,7 @@ public class PullDoorView extends RelativeLayout {
             postInvalidate();
         } else {
             if (mCloseFlag) {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(new Intent("pulldoor.finish"));
+                RuntimeManager.getContext().sendBroadcast(new Intent("pulldoor.finish"));
                 this.setVisibility(View.GONE);
             }
         }

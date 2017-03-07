@@ -167,7 +167,7 @@ public class MainLeftFragment extends BaseFragment {
                         SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
                         Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
-                        intent.putExtra("source", getActivity().getClass().getSimpleName());
+                        intent.putExtra(ChangePropertyBroadcast.SOURCE, getActivity().getClass().getSimpleName());
                         context.sendBroadcast(intent);
                         break;
                     case 5:

@@ -1,6 +1,7 @@
 package com.iyuba.music.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.GetAppColor;
 import com.umeng.analytics.MobclickAgent;
 
@@ -30,6 +32,9 @@ public abstract class BaseActivity extends BaseSkinActivity {
     protected RelativeLayout toolBarLayout;
     protected TextView title, toolbarOper;
 
+    protected boolean changeProperty;
+    protected boolean mipush;
+
     //@TargetApi(19)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,16 @@ public abstract class BaseActivity extends BaseSkinActivity {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        changeProperty = getIntent().getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
+        mipush = getIntent().getBooleanExtra("pushIntent", false);
         ((MusicApplication) getApplication()).pushActivity(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        changeProperty = intent.getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
+        mipush = intent.getBooleanExtra("pushIntent", false);
     }
 
     protected void initWidget() {

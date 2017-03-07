@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,15 @@ public class AppGroundActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.oper_ground);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mipush) {
+            super.onBackPressed();
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
+        }
     }
 
     /**

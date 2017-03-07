@@ -161,7 +161,7 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).isAppointExist("MainActivity")) {
+        if (!mipush) {
             super.onBackPressed();
         } else {
             startActivity(new Intent(context, MainActivity.class));
