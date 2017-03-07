@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,10 +38,12 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
+import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.StudyMore;
@@ -133,11 +136,26 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     RECORD_AUDIO_TASK_CODE);
         }
+        initBroadCast();
         initWidget();
         setListener();
         changeUIByPara();
         isDestroyed = false;
-        initBroadCast();
+        if (PlayerService.isOnlineArticle(StudyManager.getInstance().getCurArticle())) {
+            if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
+                showNoNetDialog();
+            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+                CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                waittingDialog.show();
+            }
+        }
     }
 
     @Override
@@ -232,6 +250,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
         }
+    }
+
+    private void showNoNetDialog() {
+        final MaterialDialog materialDialog = new MaterialDialog(context);
+        materialDialog.setTitle(R.string.net_study_no_net);
+        materialDialog.setMessage(R.string.net_study_no_net_message);
+        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        materialDialog.show();
     }
 
     private void initBroadCast() {

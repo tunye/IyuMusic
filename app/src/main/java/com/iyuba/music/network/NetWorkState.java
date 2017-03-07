@@ -36,10 +36,10 @@ public class NetWorkState {
                 result = TextUtils.equals(netWorkState, WIFI) || TextUtils.equals(netWorkState, FOURG);
                 break;
             case EXCEPT_2G:
-                result = !(TextUtils.equals(netWorkState, NO_NET) || TextUtils.equals(netWorkState, TWOG));
+                result = !(TextUtils.equals(netWorkState, NO_NET) || TextUtils.equals(netWorkState, TWOG) || TextUtils.equals(netWorkState, WIFI_NONET));
                 break;
             case ALL_NET:
-                result = !TextUtils.equals(netWorkState, NO_NET);
+                result = !TextUtils.equals(netWorkState, NO_NET) && !TextUtils.equals(netWorkState, WIFI_NONET);
                 break;
         }
         return result;

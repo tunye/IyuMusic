@@ -161,17 +161,10 @@ public class PlayerService extends Service {
                 ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
             }
             String playPath = getUrl(article);
-            if (playPath.contains("http")) {
-                if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-                    player.reset();
-                    player.setVideoPath(playPath);
-                    setNotification();
-                    if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                        CustomToast.getInstance().showToast(R.string.net_speed_slow);
-                    }
-                } else {
-                    CustomToast.getInstance().showToast(R.string.no_internet);
-                }
+            if (playPath.startsWith("http")) {
+                player.reset();
+                player.setVideoPath(playPath);
+                setNotification();
             } else {
                 player.reset();
                 player.setVideoPath(playPath);
@@ -194,7 +187,12 @@ public class PlayerService extends Service {
         StudyManager.getInstance().before();
     }
 
-    public String getUrl(Article article) {
+    public static boolean isOnlineArticle(Article article) {
+        String playPath = getUrl(article);
+        return playPath.startsWith("http");
+    }
+
+    private static String getUrl(Article article) {
         String url;
         StringBuilder localUrl = new StringBuilder();
         File localFile;

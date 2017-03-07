@@ -75,6 +75,7 @@ public class CustomSnackBar {
     }
 
     public void danger(String actionText, View.OnClickListener listener) {
+        mSnackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
         setSnackBarBackColor(color_danger);
         show(actionText, listener);
     }

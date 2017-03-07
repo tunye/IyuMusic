@@ -409,7 +409,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void checkWifiSignIn() {
-        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).warning(context.getString(R.string.net_sign_in), new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).danger(context.getString(R.string.net_sign_in), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
