@@ -2,11 +2,9 @@ package com.iyuba.music.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +43,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -55,7 +54,6 @@ import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 public class MainLeftFragment extends BaseFragment {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
-    private Snackbar snackbar;
     private View root;
     //侧边栏
     private UserInfo userInfo;
@@ -220,15 +218,12 @@ public class MainLeftFragment extends BaseFragment {
                                 @Override
                                 public void success(Object message) {
                                     if ("add".equals(message.toString())) {
-                                        snackbar = Snackbar.make(root, R.string.personal_daily_login, Snackbar.LENGTH_LONG).setAction(R.string.credit_check, new View.OnClickListener() {
+                                        CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                Intent intent = new Intent(context, CreditActivity.class);
-                                                startActivity(intent);
+                                                startActivity(new Intent(context, CreditActivity.class));
                                             }
                                         });
-                                        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-                                        snackbar.show();
                                     }
                                     getPersonalInfo();
                                 }
@@ -307,26 +302,20 @@ public class MainLeftFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {// 登录的返回结果
             getPersonalInfo();
-            snackbar = Snackbar.make(root, R.string.personal_daily_login, Snackbar.LENGTH_LONG).setAction(R.string.credit_check, new View.OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CreditActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(context, CreditActivity.class));
                 }
             });
-            ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-            snackbar.show();
         } else if (requestCode == 101 && resultCode == 2) {// 登录+注册的返回结果
             getPersonalInfo();
-            snackbar = Snackbar.make(root, R.string.personal_change_photo, Snackbar.LENGTH_LONG).setAction(R.string.app_accept, new View.OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.personal_change_photo)).info(context.getString(R.string.app_accept), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, AboutActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(context, ChangePhotoActivity.class));
                 }
             });
-            ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-            snackbar.show();
         }
     }
 

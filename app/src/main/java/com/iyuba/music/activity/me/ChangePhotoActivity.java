@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.TextView;
 
 import com.buaa.ct.imageselector.view.ImageCropActivity;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
@@ -28,6 +25,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.view.AddRippleEffect;
@@ -201,15 +199,12 @@ public class ChangePhotoActivity extends BaseActivity {
     }
 
     private void showSnackBar() {
-        Snackbar snackbar = Snackbar.make(root, R.string.changephoto_intro, Snackbar.LENGTH_LONG).setAction(R.string.credit_check, new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.changephoto_intro)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CreditActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(context, CreditActivity.class));
             }
         });
-        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-        snackbar.show();
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ChangePhotoActivity> {

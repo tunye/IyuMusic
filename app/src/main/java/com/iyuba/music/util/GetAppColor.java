@@ -45,6 +45,15 @@ public class GetAppColor {
         }
     }
 
+    public int getAppColorAccent(Context context) {
+        int skin = SkinManager.getInstance().getCurrSkin();
+        if (skin == 0) {
+            return context.getResources().getColor(R.color.skin_color_accent);
+        } else {
+            return context.getResources().getColor(GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin)));
+        }
+    }
+
     private static class SingleInstanceHelper {
         private static GetAppColor instance = new GetAppColor();
     }

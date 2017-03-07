@@ -42,7 +42,9 @@ import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.StudyMore;
+import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.umeng.socialize.UMShareAPI;
@@ -84,9 +86,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @IntervalState
     private int intervalState;
     private boolean isDestroyed = false;
+    private IyubaDialog waittingDialog;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
+            waittingDialog.dismiss();
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
@@ -256,6 +260,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         studyMoreDialog = new StudyMore(this);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadService.checkVip()) {
             initAd();
         } else {
@@ -429,6 +434,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void startPlay() {
+        waittingDialog.show();
+        seekBar.setSecondaryProgress(0);
+        playSound.setState(MorphButton.MorphState.START, true);
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.getInstance().getCurArticle(), false);
         ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());

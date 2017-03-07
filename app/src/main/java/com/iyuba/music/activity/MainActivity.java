@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,6 +50,7 @@ import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
+import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -410,8 +409,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void checkWifiSignIn() {
-        final Snackbar snackbar = Snackbar.make(root, RuntimeManager.getString(R.string.net_wifi_sign_in),
-                Snackbar.LENGTH_LONG).setAction(R.string.net_sign_in, new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).warning(context.getString(R.string.net_sign_in), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -421,34 +419,26 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 startActivity(intent);
             }
         });
-        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-        snackbar.show();
     }
 
     private void setNetwork(Context context) {
-        Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_no_net),
-                Snackbar.LENGTH_LONG).setAction(R.string.net_set, new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_no_net)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }
         });
-        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-        snackbar.show();
     }
 
     private void setBetterNetwork(Context context) {
-        Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_better_net),
-                Snackbar.LENGTH_LONG).setAction(R.string.net_set, new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_better_net)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }
         });
-        ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-        snackbar.show();
     }
 
     private class DrawerLayoutStateListener extends
@@ -495,14 +485,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
                     setNetwork(context);
                 } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
-                    final Snackbar snackbar = Snackbar.make(root, context.getString(R.string.net_cut_wifi),
-                            Snackbar.LENGTH_LONG).setAction(R.string.app_know, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        }
-                    });
-                    ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-                    snackbar.show();
+                    CustomSnackBar.make(root, context.getString(R.string.net_cut_wifi)).warning();
                 } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
                     PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
                         @Override

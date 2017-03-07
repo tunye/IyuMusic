@@ -15,6 +15,8 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.entity.original.OriginalParser;
 import com.iyuba.music.fragment.BaseFragment;
+import com.iyuba.music.listener.IOnClickListener;
+import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class OriginalFragment extends BaseFragment {
+public class OriginalFragment extends BaseFragment implements IOnClickListener {
     private OriginalView originalView;
     private ArrayList<Original> originalList;
     private WordCard wordCard;
@@ -225,5 +227,18 @@ public class OriginalFragment extends BaseFragment {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity() != null) {
+            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, getActivity().getString(R.string.list_double)));
+        }
+    }
+
+    @Override
+    public void onClick(View view, Object message) {
+        originalView.setScrollY(0);
     }
 }

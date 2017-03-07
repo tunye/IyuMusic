@@ -570,10 +570,10 @@
     <string name="pay_detail_fail">支付失败</string>
     <string name="pay_detail_cancel">您已取消支付</string>
     <!--网络状态-->
-    <string name="net_no_net">网络不可用，如果继续，请先设置网络！</string>
+    <string name="net_no_net">网络不可用，请设置网络连接！</string>
     <string name="net_set">设置</string>
     <string name="net_cut_wifi">网络仍然连接中，但WIFI已断开！</string>
     <string name="net_wifi_sign_in">当前wifi无网络，可能需要账户登录！</string>
     <string name="net_sign_in">登录</string>
-    <string name="net_better_net">当前网络状态为2G，建议切换为更优质的网络状态！</string>
+    <string name="net_better_net">当前网络状态不佳，建议切换更优质网络！</string>
 </resources>

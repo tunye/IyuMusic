@@ -19,6 +19,8 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.entity.original.OriginalParser;
 import com.iyuba.music.fragment.BaseFragment;
+import com.iyuba.music.listener.IOnClickListener;
+import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -41,7 +43,7 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class OriginalSynFragment extends BaseFragment {
+public class OriginalSynFragment extends BaseFragment implements IOnClickListener {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private OriginalSynView originalView;
     private ArrayList<Original> originalList;
@@ -300,5 +302,18 @@ public class OriginalSynFragment extends BaseFragment {
                     break;
             }
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity() != null) {
+            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, getActivity().getString(R.string.list_double)));
+        }
+    }
+
+    @Override
+    public void onClick(View view, Object message) {
+        player.seekTo(0);
     }
 }

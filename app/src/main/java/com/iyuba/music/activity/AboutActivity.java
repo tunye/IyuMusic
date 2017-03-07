@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -27,6 +26,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.view.AddRippleEffect;
@@ -290,15 +290,12 @@ public class AboutActivity extends BaseActivity {
             startActivity(new Intent(context, EggShellActivity.class));
         } else if (cookie == 0) {
             SettingConfigManager.getInstance().setEggShell(true);
-            Snackbar snackbar = Snackbar.make(root, context.getString(R.string.about_eggshell_open),
-                    Snackbar.LENGTH_LONG).setAction(R.string.about_go_eggshell, new OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(context, EggShellActivity.class));
                 }
             });
-            ((TextView) snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(Color.WHITE);
-            snackbar.show();
         } else {
             CustomToast.getInstance().showToast(context.getString(R.string.about_eggshell_opening, String.valueOf(cookie)));
             cookie--;
