@@ -214,7 +214,7 @@ public class BuyVipActivity extends BaseActivity {
 
             }
         });
-        adapter.setSelected(0);
+        adapter.setSelected(payType);
         payWayList.setAdapter(adapter);
         payWayList.setLayoutManager(new MyLinearLayoutManager(context));
         payWayList.addItemDecoration(new DividerItemDecoration());

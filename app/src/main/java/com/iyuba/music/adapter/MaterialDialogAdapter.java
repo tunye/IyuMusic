@@ -47,17 +47,13 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
             holder.rippleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holder.getLayoutPosition() != selected) {
-                        onItemClick(holder.rippleView, holder.getLayoutPosition());
-                    }
+                    onItemClick(holder.rippleView, holder.getLayoutPosition());
                 }
             });
             holder.sleepSelector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holder.getLayoutPosition() != selected) {
-                        onItemClick(holder.rippleView, holder.getLayoutPosition());
-                    }
+                    onItemClick(holder.rippleView, holder.getLayoutPosition());
                 }
             });
         }

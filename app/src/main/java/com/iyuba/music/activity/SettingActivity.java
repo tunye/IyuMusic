@@ -230,7 +230,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                onLanguageChanged(position);
+                if (SettingConfigManager.getInstance().getLanguage() != position) {
+                    onLanguageChanged(position);
+                }
                 languageDialog.dismiss();
             }
 

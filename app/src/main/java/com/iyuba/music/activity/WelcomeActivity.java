@@ -128,6 +128,8 @@ public class WelcomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (lastVersion == 0) {
+            escapeAd.setVisibility(View.GONE);
+            welcomeAdProgressbar.setVisibility(View.GONE);
             ImportDatabase db = ImportDatabase.getInstance();
             db.setVersion(0, 1);                                // 有需要数据库更改使用
             db.openDatabase();

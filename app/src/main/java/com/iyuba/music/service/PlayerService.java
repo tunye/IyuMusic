@@ -76,10 +76,10 @@ public class PlayerService extends Service {
         super.onDestroy();
         audioManager.abandonAudioFocus(mListener);
         player.stopPlayback();
-        player = null;
         unRegisterBroadcastReceiver();
         stopForeground(true);
         stopSelf();
+        player = null;
     }
 
     public void init() {

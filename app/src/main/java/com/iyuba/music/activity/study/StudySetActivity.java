@@ -151,8 +151,10 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SettingConfigManager.getInstance().setStudyMode(position);
-                currPlayMode.setText(getPlayMode(position));
+                if (position != SettingConfigManager.getInstance().getStudyMode()) {
+                    SettingConfigManager.getInstance().setStudyMode(position);
+                    currPlayMode.setText(getPlayMode(position));
+                }
                 groupDialog.dismiss();
             }
 
@@ -184,8 +186,10 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SettingConfigManager.getInstance().setStudyPlayMode(position);
-                currNextMode.setText(getNextMode(position));
+                if (SettingConfigManager.getInstance().getStudyPlayMode() != position) {
+                    SettingConfigManager.getInstance().setStudyPlayMode(position);
+                    currNextMode.setText(getNextMode(position));
+                }
                 groupDialog.dismiss();
             }
 
@@ -218,8 +222,10 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SettingConfigManager.getInstance().setDownloadMode(position);
-                currDownLoad.setText(getDownload(position));
+                if (position != SettingConfigManager.getInstance().getDownloadMode()) {
+                    SettingConfigManager.getInstance().setDownloadMode(position);
+                    currDownLoad.setText(getDownload(position));
+                }
                 groupDialog.dismiss();
             }
 

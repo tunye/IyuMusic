@@ -670,6 +670,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             activity.handler.sendEmptyMessage(1);
                         }
                     }
+                    if(activity.player.getCurrentPosition()!=0&&activity.waittingDialog.isShowing()){
+                        activity.waittingDialog.dismiss();
+                    }
                     break;
                 case 1:
                     activity.player.seekTo(activity.aPosition);// A-B播放

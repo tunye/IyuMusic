@@ -300,7 +300,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getLanguage());
+        adapter.setSelected(0);
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());

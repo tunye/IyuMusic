@@ -119,8 +119,10 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SettingConfigManager.getInstance().setWordOrder(position);
-                currGroup.setText(getWordOrder(position));
+                if (SettingConfigManager.getInstance().getWordOrder() != position) {
+                    SettingConfigManager.getInstance().setWordOrder(position);
+                    currGroup.setText(getWordOrder(position));
+                }
                 groupDialog.dismiss();
             }
 
