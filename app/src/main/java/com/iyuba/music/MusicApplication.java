@@ -11,6 +11,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
+import com.bumptech.glide.Glide;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -119,6 +120,12 @@ public class MusicApplication extends Application {
         MultiDex.install(this); // 开启Multiple-Dex
     }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Glide.get(this).trimMemory(level);
+    }
+
     private void prepareForApp() {
         RuntimeManager.initRuntimeManager(this);
         // 程序皮肤、字符集、夜间模式、网络状态初始化
@@ -176,8 +183,8 @@ public class MusicApplication extends Application {
     public void exit() {
         unregisterReceiver(changeProperty);
         removeNotification();
-        stopPlayService();
         ImageUtil.clearMemoryCache(this);
+        stopPlayService();
         clearActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
     }

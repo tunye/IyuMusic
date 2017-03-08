@@ -176,8 +176,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
         } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
-            if (!mipush) {
-                super.onBackPressed();
+            if (!mipush && !changeProperty) {
+                if (((MusicApplication) getApplication()).onlyForeground("StudyActivity")) {
+                    startActivity(new Intent(this, MainActivity.class));
+                } else {
+                    super.onBackPressed();
+                }
             } else {
                 startActivity(new Intent(context, MainActivity.class));
                 finish();

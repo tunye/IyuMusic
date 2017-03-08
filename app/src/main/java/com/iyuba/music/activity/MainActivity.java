@@ -39,7 +39,6 @@ import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
@@ -103,7 +102,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
             }
-            if (!TextUtils.isEmpty(getIntent().getStringExtra("pushIntent"))) {
+            if (getIntent().getBooleanExtra("pushIntent", false)) {
                 drawerLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -123,7 +122,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (!TextUtils.isEmpty(intent.getStringExtra("pushIntent"))) {
+        if (intent.getBooleanExtra("pushIntent", false)) {
             drawerLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -306,14 +305,15 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void pressAgainExit() {
         if (isExit) {
-            if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
+            if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {   // 后台播放
+//                直接返回桌面
 //                Intent i = new Intent(Intent.ACTION_MAIN);
 //                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                i.addCategory(Intent.CATEGORY_HOME);
 //                startActivity(i);
-                finish();
+                ((MusicApplication) getApplication()).clearActivityList();
             } else {
-                ((MusicApplication) RuntimeManager.getApplication()).exit();
+                ((MusicApplication) getApplication()).exit();
             }
         } else {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
@@ -406,7 +406,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("https://www.baidu.com");
+                Uri content_url = Uri.parse("http://m.baidu.com");
                 intent.setData(content_url);
                 startActivity(intent);
             }
