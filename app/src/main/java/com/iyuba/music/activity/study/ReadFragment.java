@@ -2,6 +2,7 @@ package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_loading));
         readAdapter = new ReadAdapter(context);
         recyclerView.setAdapter(readAdapter);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         setUserVisibleHint(true);
         return view;
     }

@@ -110,5 +110,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:showMore="false"
-        app:showVoice="true" />
+        app:showVoice="false" />
 </RelativeLayout>

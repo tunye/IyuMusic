@@ -36,22 +36,18 @@ public class RecommendRequest {
                     try {
                         String resultCode = jsonObject.getString("result");
                         BaseListEntity baseListEntity = new BaseListEntity();
-                        if ("711".equals(resultCode)) {
+                        if ("591".equals(resultCode)) {
                             Type listType = new TypeToken<ArrayList<RecommendFriend>>() {
                             }.getType();
                             ArrayList<RecommendFriend> list = new Gson().fromJson(jsonObject.getString("data"), listType);
-                            if (list.size() == 0) {
-                                baseListEntity.setIsLastPage(true);
-                            } else {
-                                baseListEntity.setIsLastPage(false);
-                                baseListEntity.setData(list);
-                            }
+                            baseListEntity.setIsLastPage(false);
+                            baseListEntity.setData(list);
                             baseListEntity.setState(BaseListEntity.SUCCESS);
                             response.response(baseListEntity);
-                        } else if ("710".equals(resultCode)) {
-                            baseListEntity.setState(BaseListEntity.NODATA);
-                        } else if ("000".equals(resultCode)) {
-                            response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        } else if ("592".equals(resultCode)) {
+                            baseListEntity.setIsLastPage(true);
+                            baseListEntity.setState(BaseListEntity.SUCCESS);
+                            response.response(baseListEntity);
                         }
                     } catch (JSONException e) {
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
@@ -72,14 +68,12 @@ public class RecommendRequest {
     public static String generateUrl(String uid, int page, double x, double y) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         HashMap<String, Object> para = new HashMap<>();
-        para.put("protocol", 70002);
+        para.put("protocol", 52003);
         para.put("uid", uid);
         para.put("format", "json");
         para.put("pageNumber", page);
         para.put("pageCounts", 20);
-        para.put("x", x);
-        para.put("y", y);
-        para.put("sign", MD5.getMD5ofStr(70002 + uid + "iyubaV2"));
+        para.put("sign", MD5.getMD5ofStr(52003 + uid + "iyubaV2"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

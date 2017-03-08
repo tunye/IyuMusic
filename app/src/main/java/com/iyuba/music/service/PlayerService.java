@@ -12,7 +12,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.iyuba.music.MusicApplication;
-import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
@@ -21,11 +20,9 @@ import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import java.io.File;
@@ -162,11 +159,19 @@ public class PlayerService extends Service {
             }
             String playPath = getUrl(article);
             if (playPath.startsWith("http")) {
-                player.reset();
+                try {
+                    player.reset();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 player.setVideoPath(playPath);
                 setNotification();
             } else {
-                player.reset();
+                try {
+                    player.reset();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 player.setVideoPath(playPath);
                 setNotification();
             }

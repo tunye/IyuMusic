@@ -498,7 +498,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 viewPager.setCurrentItem(1);
             } else {
                 if (checkNetWorkState()) {
-                    waittingDialog.show();
                     seekBar.setSecondaryProgress(0);
                     playSound.setState(MorphButton.MorphState.START, true);
                     duration.setText("00:00");
@@ -568,7 +567,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         }
         if (checkNetWorkState()) {
             handler.sendEmptyMessage(2);
-            waittingDialog.show();
             seekBar.setSecondaryProgress(0);
             playSound.setState(MorphButton.MorphState.START, true);
             duration.setText("00:00");

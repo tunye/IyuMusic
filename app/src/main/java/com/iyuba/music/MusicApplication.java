@@ -179,8 +179,7 @@ public class MusicApplication extends Application {
         stopPlayService();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
-        // 不强杀进程
-        // android.os.Process.killProcess(android.os.Process.myPid());
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public int getSleepSecond() {

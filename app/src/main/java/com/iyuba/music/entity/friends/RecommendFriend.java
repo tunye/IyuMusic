@@ -10,12 +10,10 @@ public class RecommendFriend {
     private String uid;// 我关注的uid
     @SerializedName("username")
     private String username;// 我关注的用户名
-    @SerializedName("distance")
+    @SerializedName("doing")
     private String doing;
     @SerializedName("gender")
     private String gender;
-    @SerializedName("signTime")
-    private String lastLogin;
     @SerializedName("vip")
     private int vip;
 
@@ -49,14 +47,6 @@ public class RecommendFriend {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
     }
 
     public int getVip() {

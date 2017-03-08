@@ -14,14 +14,12 @@ import com.iyuba.music.entity.friends.Follows;
 import com.iyuba.music.entity.friends.RecommendFriend;
 import com.iyuba.music.entity.friends.SearchFriend;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -73,8 +71,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         } else if (item instanceof RecommendFriend) {
             RecommendFriend recommendFriend = (RecommendFriend) item;
             holder.userName.setText(recommendFriend.getUsername());
-            holder.userState.setText(context.getString(R.string.friend_distance, formatDistance(recommendFriend.getDoing()))
-                    + "\n" + context.getString(R.string.friend_lastlogin, DateFormat.showTime(context, new Date(Long.parseLong(recommendFriend.getLastLogin()) * 1000))));
+            holder.userState.setText(TextUtils.isEmpty(recommendFriend.getDoing()) ? context.getString(R.string.personal_nosign) : recommendFriend.getDoing());
             holder.userPhoto.init(recommendFriend.getUid(), recommendFriend.getVip() == 1);
         } else if (item instanceof SearchFriend) {
             SearchFriend searchFriend = (SearchFriend) item;

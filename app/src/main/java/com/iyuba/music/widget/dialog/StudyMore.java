@@ -100,14 +100,15 @@ public class StudyMore {
         moreGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dismiss();
                 Intent intent;
                 switch (position) {
                     case 0:
+                        dismiss();
                         ShareDialog shareDialog = new ShareDialog(activity, StudyManager.getInstance().getCurArticle());
                         shareDialog.show();
                         break;
                     case 1:
+                        dismiss();
                         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
                             FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
                                 @Override
@@ -155,6 +156,7 @@ public class StudyMore {
                         }
                         break;
                     case 2:
+                        dismiss();
                         int downloadState = localInfoOp.findDataById(app, curArticle.getId()).getDownload();
                         if (downloadState == 1) {
                             CustomToast.getInstance().showToast(R.string.article_download_over);
@@ -172,6 +174,7 @@ public class StudyMore {
                         }
                         break;
                     case 3:
+                        dismiss();
                         if (app.equals("209")) {
                             context.startActivity(new Intent(context, ReadActivity.class));
                         } else {
@@ -179,9 +182,11 @@ public class StudyMore {
                         }
                         break;
                     case 4:
+                        dismiss();
                         context.startActivity(new Intent(context, RecommendSongActivity.class));
                         break;
                     case 5:
+                        dismiss();
                         if (curArticle.getSimple() == 0) {
                             Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
                             if (announcer == null || announcer.getId() == 0) {
@@ -207,6 +212,7 @@ public class StudyMore {
                         context.sendBroadcast(intent);
                         break;
                     case 7:
+                        dismiss();
                         context.startActivity(new Intent(context, StudySetActivity.class));
                         break;
                     default:
