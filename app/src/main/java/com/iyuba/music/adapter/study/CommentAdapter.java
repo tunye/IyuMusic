@@ -41,6 +41,7 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  */
 public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private boolean shouldAutoPlayMainPlayer;
     private ArrayList<Comment> comments;
     private Context context;
     private SimplePlayer player;
@@ -53,7 +54,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private String uid;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
 
-    public CommentAdapter(Context context) {
+    public CommentAdapter(Context context, boolean autoPlay) {
+        this.shouldAutoPlayMainPlayer = autoPlay;
         this.context = context;
         commentAgreeOp = new CommentAgreeOp();
         if (AccountManager.getInstance().checkUserLogin()) {
@@ -144,7 +146,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), commentViewHolder.getLayoutPosition());// 播放
                         }
                     } else {
-                        if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
+                        if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                             context.sendBroadcast(new Intent("iyumusic.pause"));
                         }
                         playingComment = comment.getId();
@@ -277,7 +279,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
+                if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 player.reset();
@@ -291,7 +293,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 player.reset();
-                if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
+                if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 playingComment = -1;
@@ -309,7 +311,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         if (player != null) {
             if (player.isPlaying()) {
                 player.pause();
-                if (!((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
+                if (!(((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer)) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
             }

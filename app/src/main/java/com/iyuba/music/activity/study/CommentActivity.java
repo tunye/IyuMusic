@@ -107,7 +107,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this);
         commentRecycleView.setLayoutManager(new LinearLayoutManager(context));
         ((SimpleItemAnimator) commentRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
-        commentAdapter = new CommentAdapter(context);
+        commentAdapter = new CommentAdapter(context,true);
         commentAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

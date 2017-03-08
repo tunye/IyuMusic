@@ -76,8 +76,11 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if (curItem != holder.getLayoutPosition()) {
+                    curRecord = false;
                     int oldPos = curItem;
                     curItem = holder.getLayoutPosition();
+                    notifyItemChanged(oldPos);
+                    resetFunction();
                     player.seekTo((int) original.getStartTime() * 1000);
                     player.start();
                     Message message = new Message();
@@ -90,8 +93,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                             message.arg1 = (int) originals.get(position + 1).getStartTime() * 1000;
                         }
                     }
-                    notifyItemChanged(oldPos);
-                    notifyItemChanged(curItem);
                     handler.sendMessage(message);
                 }
             }
@@ -120,44 +121,46 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         } else {
             holder.play.setImageResource(R.drawable.read_pause);
         }
+        if (isRecord) {
+            holder.record.setImageResource(R.drawable.recording);
+        } else {
+            holder.record.setImageResource(R.drawable.record);
+        }
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                player.seekTo((int) original.getStartTime() * 1000);
-                player.start();
-                Message message = new Message();
-                message.what = 0;
-                message.arg1 = (int) original.getEndTime() * 1000;
-                if (position + 1 == originals.size()) {
-                    message.arg1 = player.getDuration() - 500;
+                if (!player.isPlaying()) {
+                    resetFunction();
+                    player.seekTo((int) original.getStartTime() * 1000);
+                    player.start();
+                    Message message = new Message();
+                    message.what = 0;
+                    message.arg1 = (int) original.getEndTime() * 1000;
+                    if (position + 1 == originals.size()) {
+                        message.arg1 = player.getDuration() - 500;
+                    } else {
+                        message.arg1 = (int) originals.get(position + 1).getStartTime() * 1000;
+                    }
+                    handler.sendMessage(message);
                 } else {
-                    message.arg1 = (int) originals.get(position + 1).getStartTime() * 1000;
+                    resetFunction();
                 }
-                notifyItemChanged(curItem);
-                handler.sendMessage(message);
             }
         });
         holder.record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                curRecord = true;
                 if (isRecord) {
+                    curRecord = true;
                     isRecord = false;
                     holder.record.setImageResource(R.drawable.record);
                     mediaRecorder.stop();
-                    mediaRecorder.reset();
                     handler.sendEmptyMessage(3);
                     holder.recordPlay.setVisibility(View.VISIBLE);
                     holder.recordSend.setVisibility(View.VISIBLE);
                 } else {
-                    if (player.isPlaying()) {
-                        player.pause();
-                        holder.play.setImageResource(R.drawable.read_pause);
-                        handler.removeMessages(0);
-                    }
-                    holder.record.setImageResource(R.drawable.recording);
+                    resetFunction();
                     isRecord = true;
-                    mediaRecorder.reset();
                     initRecorder();
                 }
             }
@@ -233,15 +236,30 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         }
     }
 
-    public void onDestroy() {
-        if (player.isPlaying()) {
+    private void resetFunction() {
+        if (player.isPrepared() && player.isPlaying()) {
             player.pause();
         }
-        if (simplePlayer.isPlaying()) {
-            simplePlayer.pause();
+        if (isRecord) {
+            isRecord = false;
+            mediaRecorder.stop();
+            mediaRecorder.reset();
         }
+        if (simplePlayer.isPrepared() && simplePlayer.isPlaying()) {
+            simplePlayer.pause();
+            simplePlayer.reset();
+        }
+        handler.removeCallbacksAndMessages(null);
+        notifyItemChanged(curItem);
+    }
+
+    public void onDestroy() {
         player.stopPlayback();
         simplePlayer.stopPlayback();
+        if (isRecord) {
+            mediaRecorder.stop();
+        }
+        mediaRecorder.release();
         handler.removeCallbacksAndMessages(null);
     }
 

@@ -34,6 +34,7 @@ import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
@@ -57,6 +58,7 @@ import com.youdao.sdk.nativeads.NativeResponse;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.YouDaoNative;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -243,7 +245,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                 showNoNetDialog();
                 return false;
-            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
                 CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -265,12 +267,63 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         final MaterialDialog materialDialog = new MaterialDialog(context);
         materialDialog.setTitle(R.string.net_study_no_net);
         materialDialog.setMessage(R.string.net_study_no_net_message);
-        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
+        if (SettingConfigManager.getInstance().getStudyMode() == 1) {
+            File packageFile = new File(ConstantManager.getInstance().getOriginalFolder());
+            if (packageFile.exists() && packageFile.list() != null) {
+                for (String fileName : packageFile.list()) {
+                    if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
+                        materialDialog.setPositiveButton("学习歌词", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                viewPager.setCurrentItem(2);
+                                materialDialog.dismiss();
+                            }
+                        });
+                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+                    } else {
+                        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+                    }
+                }
             }
-        });
+        } else {
+            File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+            if (packageFile.exists() && packageFile.list() != null) {
+                for (String fileName : packageFile.list()) {
+                    if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
+                        materialDialog.setPositiveButton("学习歌词", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                viewPager.setCurrentItem(2);
+                                materialDialog.dismiss();
+                            }
+                        });
+                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+                    } else {
+                        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+                    }
+                }
+            }
+        }
         materialDialog.show();
     }
 

@@ -138,7 +138,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         }
         final Article article = newsList.get(position);
         holder.title.setText(article.getTitle());
-        if (article.getApp().equals("209")) {
+        if ("209".equals(article.getApp())) {
             holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
             holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         } else {

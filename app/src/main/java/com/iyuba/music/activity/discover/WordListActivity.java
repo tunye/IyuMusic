@@ -93,8 +93,10 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     deleteToNormal();
                     getDataList();
                     buildAdapter();
-                    if (deleteList.size() != 0)
+                    if (deleteList.size() != 0) {
                         CustomToast.getInstance().showToast(R.string.wordlist_delete);
+                        wordStatistic.setText(context.getString(R.string.word_statistic, wordArrayList.size()));
+                    }
                 } else {
                     if (AccountManager.getInstance().checkUserLogin()) {
                         synchroFromNet(1);

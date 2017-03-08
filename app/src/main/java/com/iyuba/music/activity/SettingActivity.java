@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -175,7 +174,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(context, FeedbackActivity.class));
                 break;
             case R.id.setting_help_use:
-                startActivity(new Intent(context, HelpUseActivity.class));
+                Intent intent = new Intent(context, HelpUseActivity.class);
+                intent.putExtra("UsePullDown", true);
+                startActivity(intent);
                 break;
             case R.id.setting_language:
             case R.id.setting_curr_language:
@@ -210,8 +211,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(context, StudySetActivity.class));
                 break;
             case R.id.setting_more_app:
-                Intent intent = new Intent();
-                intent.setClass(context, WebViewActivity.class);
+                intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://app.iyuba.com/android");
                 intent.putExtra("title", context.getString(R.string.setting_moreapp));
                 startActivity(intent);

@@ -2,7 +2,6 @@ package com.iyuba.music.widget.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -14,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import com.iyuba.music.R;
-import com.iyuba.music.listener.IOperationFinish;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
@@ -26,8 +25,9 @@ public class PullDoorView extends RelativeLayout {
     private Scroller mScroller;
     private int mLastDownY = 0;
     private boolean mCloseFlag = false;
-    private IOperationFinish iOperationFinish;
+    private IOperationResultInt iOperationResultInt;
     private ImageView mImgView;
+    private boolean enable;
 
     public PullDoorView(Context context) {
         super(context);
@@ -41,8 +41,12 @@ public class PullDoorView extends RelativeLayout {
         setupView();
     }
 
-    public void setIOperationFinish(IOperationFinish iOperationFinish) {
-        this.iOperationFinish = iOperationFinish;
+    public void setIOperationFinish(IOperationResultInt iOperationResultInt) {
+        this.iOperationResultInt = iOperationResultInt;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     @SuppressLint("NewApi")
@@ -87,22 +91,31 @@ public class PullDoorView extends RelativeLayout {
                 return true;
             case MotionEvent.ACTION_MOVE:
                 int mDelY = (int) event.getY() - mLastDownY;
-                if (mDelY < 0) {
+                if (mDelY < 0 && enable) {
                     scrollTo(0, -mDelY);
+                }
+                if (Math.abs(mDelY) > RuntimeManager.getWindowHeight() / 8) {        // 到达一定高度
+                    if (iOperationResultInt != null) {
+                        iOperationResultInt.performance(0);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 mDelY = (int) event.getY() - mLastDownY;
-                if (mDelY < 0) {
+                if (mDelY < 0 && enable) {
                     if (Math.abs(mDelY) > RuntimeManager.getWindowHeight() / 2) {
                         // 向上滑动超过半个屏幕高的时候 开启向上消失动画
                         startBounceAnim(this.getScrollY(), RuntimeManager.getWindowHeight(), 450);
-                        if (iOperationFinish != null)
-                            iOperationFinish.finish();
+                        if (iOperationResultInt != null) {
+                            iOperationResultInt.performance(1);
+                        }
                         mCloseFlag = true;
                     } else {
                         // 向上滑动未超过半个屏幕高的时候 开启向下弹动动画
                         startBounceAnim(this.getScrollY(), -this.getScrollY(), 1000);
+                        if (iOperationResultInt != null) {
+                            iOperationResultInt.performance(-1);
+                        }
                     }
                 }
 
@@ -114,13 +127,12 @@ public class PullDoorView extends RelativeLayout {
     @Override
     public void computeScroll() {
 
-        if (mScroller.computeScrollOffset()) {
+        if (mScroller.computeScrollOffset() && enable) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             // 不要忘记更新界面
             postInvalidate();
         } else {
-            if (mCloseFlag) {
-                RuntimeManager.getContext().sendBroadcast(new Intent("pulldoor.finish"));
+            if (mCloseFlag && enable) {
                 this.setVisibility(View.GONE);
             }
         }

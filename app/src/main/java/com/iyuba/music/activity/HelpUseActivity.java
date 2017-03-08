@@ -1,15 +1,11 @@
 package com.iyuba.music.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -27,9 +23,9 @@ import com.umeng.analytics.MobclickAgent;
 public class HelpUseActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private float lastChange = 0;
-    private PageIndicator pi;
+    public PageIndicator pi;
     private boolean lastFlag;
-    private HelpFinishBroadcast helpFinishBroadcast;
+    private boolean usePullDown;
 
     /**
      * Called when the activity is first created.
@@ -46,9 +42,7 @@ public class HelpUseActivity extends AppCompatActivity {
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
-        helpFinishBroadcast = new HelpFinishBroadcast();
-        IntentFilter intentFilter = new IntentFilter("pulldoor.finish");
-        registerReceiver(helpFinishBroadcast, intentFilter);
+        usePullDown = getIntent().getBooleanExtra("UsePullDown", false);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         pi = (PageIndicator) findViewById(R.id.pageindicator);
         pi.setFillColor(0xffededed);
@@ -77,11 +71,13 @@ public class HelpUseActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
-
                 switch (arg0) {
                     case 0:// 停止变更
-                        if (viewPager.getCurrentItem() == viewPager.getAdapter()
-                                .getCount() - 1 && !lastFlag) {
+                        if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1 && !lastFlag) {
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                            if (!usePullDown) {
+                                startActivity(new Intent(HelpUseActivity.this, MainActivity.class));
+                            }
                             finish();
                         }
                         lastFlag = true;
@@ -95,7 +91,7 @@ public class HelpUseActivity extends AppCompatActivity {
                 }
             }
         });
-        viewPager.setAdapter(new HelpFragmentAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new HelpFragmentAdapter(getSupportFragmentManager(), usePullDown));
         pi.setCircleCount(viewPager.getAdapter().getCount());
     }
 
@@ -112,18 +108,9 @@ public class HelpUseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        unregisterReceiver(helpFinishBroadcast);
-    }
-
-    class HelpFinishBroadcast extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            pi.setVisibility(View.GONE);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            HelpUseActivity.this.finish();
+    public void onBackPressed() {
+        if (usePullDown) {
+            super.onBackPressed();
         }
     }
 }

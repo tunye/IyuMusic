@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -79,7 +78,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        prepareForApp();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
             window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
@@ -89,23 +87,35 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         setContentView(R.layout.main);
         context = this;
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        requestLocation();
         initBroadcast();
         initWidget();
         setListener();
-        includeFragment();
-        showWhatsNew();
-        drawerLayout.postDelayed(new Runnable() {
-            public void run() {
-                checkForUpdate();
-            }
-        }, 10000);
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("pushIntent"))) {
+        if (SettingConfigManager.getInstance().isUpgrade()) {
             drawerLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
+                    showWhatsNew();
                 }
-            }, 200);
+            }, 2000);
+        } else {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
+            }
+            if (!TextUtils.isEmpty(getIntent().getStringExtra("pushIntent"))) {
+                drawerLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
+                    }
+                }, 200);
+            }
+            drawerLayout.postDelayed(new Runnable() {
+                public void run() {
+                    checkForUpdate();
+                }
+            }, 8000);
         }
         ((MusicApplication) getApplication()).pushActivity(this);
     }
@@ -130,23 +140,27 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         toolbarOper.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.WIFI_NONET)) {
-                    PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
-                        @Override
-                        public void success(Object object) {
-                            NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI);
-                        }
+                switch (NetWorkState.getInstance().getNetWorkState()) {
+                    case NetWorkState.WIFI_NONET:
+                        PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
+                            @Override
+                            public void success(Object object) {
+                                NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI);
+                            }
 
-                        @Override
-                        public void fail(Object object) {
-                            checkWifiSignIn();
-                        }
-                    });
-                    pingIPThread.start();
-                } else if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.NO_NET)) {
-                    setNetwork(context);
-                } else if (NetWorkState.getInstance().getNetWorkState().equals(NetWorkState.TWOG)) {
-                    setBetterNetwork(context);
+                            @Override
+                            public void fail(Object object) {
+                                checkWifiSignIn();
+                            }
+                        });
+                        pingIPThread.start();
+                        break;
+                    case NetWorkState.NO_NET:
+                        setNetwork(context);
+                        break;
+                    case NetWorkState.TWOG:
+                        setBetterNetwork(context);
+                        break;
                 }
             }
         }, 2000);
@@ -162,7 +176,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void initBroadcast() {
-        MiPushClient.resumePush(context, null);
         if (SettingConfigManager.getInstance().isUpgrade()) {
             if (SettingConfigManager.getInstance().isPush()) {
                 MiPushClient.enablePush(context);
@@ -181,8 +194,9 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         menu = (MaterialMenuView) findViewById(R.id.material_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Fragment fragment = new MainLeftFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.left_drawer, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, fragment).commit();
+        fragment = new MainFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
         drawView = findViewById(R.id.left_drawer);
     }
 
@@ -208,7 +222,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         drawerLayout.addDrawerListener(new DrawerLayoutStateListener());
     }
 
-    private void prepareForApp() {
+    private void requestLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -220,21 +234,14 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     private void showWhatsNew() {
-        if (SettingConfigManager.getInstance().isUpgrade()) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
-            } else {
-                resetDownLoadData();
-            }
-            SettingConfigManager.getInstance().setUpgrade(false);
-            StartFragment.showVersionFeature(context);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
-            }
+            resetDownLoadData();
         }
+        SettingConfigManager.getInstance().setUpgrade(false);
+        StartFragment.showVersionFeature(context);
     }
 
     private void checkForUpdate() {
@@ -249,14 +256,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             }
         });
         StartFragment.cleanLocalData();
-    }
-
-    private void includeFragment() {
-        Fragment fragment = new MainFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment).commit();
-        drawerLayout.closeDrawer(drawView);
     }
 
     @Override
@@ -308,10 +307,11 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private void pressAgainExit() {
         if (isExit) {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
+//                Intent i = new Intent(Intent.ACTION_MAIN);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(i);
+                finish();
             } else {
                 ((MusicApplication) RuntimeManager.getApplication()).exit();
             }
@@ -349,9 +349,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
             for (String fileName : packageFile.list()) {
                 if (fileName.endsWith(".mp3")) {
                     fileName = fileName.split("\\.")[0];
-                    if (fileName.contains("-")) {
-
-                    } else {
+                    if (!fileName.contains("-")) {
                         String regEx = "[^0-9]";
                         Pattern p = Pattern.compile(regEx);
                         Matcher m = p.matcher(fileName);

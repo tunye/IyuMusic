@@ -131,15 +131,16 @@ public class WelcomeActivity extends AppCompatActivity {
             escapeAd.setVisibility(View.GONE);
             welcomeAdProgressbar.setVisibility(View.GONE);
             ImportDatabase db = ImportDatabase.getInstance();
-            db.setVersion(0, 1);                                // 有需要数据库更改使用
+            db.setVersion(0, 1);                                          // 有需要数据库更改使用
             db.openDatabase();
             appUpgrade(currentVersion);
         } else if (currentVersion > lastVersion) {
             if (lastVersion < 72 && SettingConfigManager.getInstance().getOriginalSize() == 14) {
                 SettingConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
             }
-            if (lastVersion < 82) {                                       // 广告获取方式改变
+            if (lastVersion < 83) {                                       // 广告获取方式改变
                 SettingConfigManager.getInstance().setADUrl("");
+                SettingConfigManager.getInstance().setDownloadMode(1);
             }
             appUpgrade(currentVersion);
         }
@@ -166,9 +167,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 case 1:
                     if (!activity.showAd) {
                         if (activity.normalStart) {
-                            activity.startActivity(new Intent(activity, MainActivity.class));
                             if (activity.showGuide) {
                                 activity.startActivity(new Intent(activity, HelpUseActivity.class));
+                            } else {
+                                activity.startActivity(new Intent(activity, MainActivity.class));
                             }
                         } else {
                             activity.startActivity(new Intent(activity, LocalMusicActivity.class));
