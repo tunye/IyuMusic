@@ -278,6 +278,11 @@
     <string name="article_download_fail">下载失败</string>
     <string name="article_download_success">下载完成</string>
     <string name="article_download_start">开始下载, get到新技巧~</string>
+    <string name="article_download_only_sound">该文章下载文件属于解说模式，建议在播放设置改变为解说模式后播放</string>
+    <string name="article_download_only_song">该文章下载文件属于原唱模式，建议在播放设置改变为原唱模式后播放</string>
+    <string name="article_download_file_dismiss">该文章下载文件似乎已经丢失，建议删除下载记录后重新下载</string>
+    <string name="article_download_set">去设置</string>
+    <string name="article_download_open_still">仍然打开</string>
     <string name="article_synchro">同步</string>
     <string name="article_edit">编辑</string>
     <string name="article_clear">清空</string>

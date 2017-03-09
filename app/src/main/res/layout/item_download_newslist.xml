@@ -73,12 +73,11 @@
                     android:id="@+id/article_singer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_default"
                     android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text" />
-
 
                 <TextView
                     android:id="@+id/article_announcer"
@@ -88,8 +87,16 @@
                     android:layout_marginTop="@dimen/row_space_default"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text" />
-
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/file_notexist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/corner_radius_big"
+            android:src="@drawable/downloadfile_notexist" />
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

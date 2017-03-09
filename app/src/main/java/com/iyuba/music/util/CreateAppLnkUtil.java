@@ -24,8 +24,7 @@ public class CreateAppLnkUtil {
         Intent intent = new Intent();
         intent.setClass(context, cls);
         intent.putExtra(WelcomeActivity.NORMAL_START, false);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);

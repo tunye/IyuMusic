@@ -25,7 +25,7 @@ public class ChangePropertyBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ((MusicApplication) RuntimeManager.getApplication()).clearActivityList();
         Intent target = new Intent();
-        target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         target.putExtra(RESULT_FLAG, true);
         String source = intent.getStringExtra(SOURCE);
         if (TextUtils.isEmpty(source)) {

@@ -1,10 +1,10 @@
 package com.iyuba.music.adapter.study;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
+import com.iyuba.music.activity.study.StudySetActivity;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.article.Article;
@@ -30,6 +31,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -134,14 +137,47 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Article article = newsList.get(position);
+        final Article article = newsList.get(position);
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (delete) {
                         holder.delete.setChecked(!holder.delete.isChecked());
-                        newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
+                        article.setDelete(holder.delete.isChecked());
+                    } else if (holder.noExist.getVisibility() == View.VISIBLE) {
+                        final MaterialDialog materialDialog = new MaterialDialog(context);
+                        materialDialog.setTitle(R.string.app_name);
+                        int messageStringId = Integer.parseInt(article.getTextFind());
+                        materialDialog.setMessage(context.getString(messageStringId));
+                        if (messageStringId == R.string.article_download_file_dismiss) {
+                            materialDialog.setPositiveButton(context.getString(R.string.app_del), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    localInfoOp.updateDownload(article.getId(), article.getApp(), 0);
+                                    notifyDataSetChanged();
+                                    materialDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            materialDialog.setPositiveButton(context.getString(R.string.article_download_set), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    context.startActivity(new Intent(context, StudySetActivity.class));
+                                    materialDialog.dismiss();
+                                }
+                            });
+                        }
+
+                        materialDialog.setNegativeButton(context.getString(R.string.article_download_open_still), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                materialDialog.dismiss();
+                                int pos = holder.getLayoutPosition();
+                                onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                            }
+                        });
+                        materialDialog.show();
                     } else {
                         int pos = holder.getLayoutPosition();
                         onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
@@ -163,36 +199,40 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         if (fileMap.containsKey(String.valueOf(article.getId()))) {
             if ("209".equals(article.getApp())) {
                 holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+                holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
                 switch (fileMap.get(String.valueOf(article.getId()))) {
                     case 2:                                               // 文件整齐
-                        holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
-                        holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        holder.noExist.setVisibility(View.GONE);
                         break;
                     case 1:                                               // 存在解说文件
-                        if (SettingConfigManager.getInstance().getStudyMode() == 0) {
-                            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
-                            holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        if (SettingConfigManager.getInstance().getStudyMode() != 0) {
+                            article.setTextFind(String.valueOf(R.string.article_download_only_sound));
+                            holder.noExist.setVisibility(View.VISIBLE);
                         } else {
-                            holder.broadcaster.setText("当前文章下载文件属于解说模式，请在播放设置改变为解说模式后播放");
-                            holder.broadcaster.setTextColor(0xffdb4e46);
+                            holder.noExist.setVisibility(View.GONE);
                         }
                         break;
                     case -1:                                              // 存在原唱文件
-                        if (SettingConfigManager.getInstance().getStudyMode() == 1) {
-                            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
-                            holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        if (SettingConfigManager.getInstance().getStudyMode() != 1) {
+                            article.setTextFind(String.valueOf(R.string.article_download_only_song));
+                            holder.noExist.setVisibility(View.VISIBLE);
                         } else {
-                            holder.broadcaster.setText("当前文章下载文件属于原唱模式，请在播放设置改变为原唱模式后播放");
-                            holder.broadcaster.setTextColor(0xffdb4e46);
+                            holder.noExist.setVisibility(View.GONE);
                         }
                         break;
                 }
             } else {
                 holder.singer.setText(article.getContent());
+                holder.broadcaster.setVisibility(View.GONE);
+                holder.noExist.setVisibility(View.GONE);
             }
         } else {
-            holder.broadcaster.setText("当前文章下载文件可能已丢失，请删除后重新下载");
-            holder.broadcaster.setTextColor(0xffdb4e46);
+            if (localInfoOp.findDataById(article.getApp(), article.getId()).getDownload() == 2) {
+                holder.noExist.setVisibility(View.GONE);
+            } else {
+                article.setTextFind(String.valueOf(R.string.article_download_file_dismiss));
+                holder.noExist.setVisibility(View.VISIBLE);
+            }
         }
         if (localInfoOp.findDataById(article.getApp(), article.getId()).getDownload() == 2) {
             final int id = article.getId();
@@ -243,7 +283,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
     static class MyViewHolder extends RecycleViewHolder {
 
         TextView title, singer, broadcaster;
-        ImageView pic;
+        ImageView pic, noExist;
         RoundProgressBar download;
         CheckBox delete;
 
@@ -256,6 +296,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
             pic = (ImageView) view.findViewById(R.id.article_image);
             delete = (CheckBox) view.findViewById(R.id.item_delete);
+            noExist = (ImageView) view.findViewById(R.id.file_notexist);
         }
     }
 
