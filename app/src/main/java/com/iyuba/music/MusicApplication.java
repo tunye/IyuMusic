@@ -48,6 +48,7 @@ public class MusicApplication extends Application {
     private PlayerService playerService;
     private Intent playServiceIntent;
     private ChangePropertyBroadcast changeProperty;
+    private boolean needReloadUserData;
     private Runnable baseRunnable = new Runnable() {
         @Override
         public void run() {
@@ -199,6 +200,14 @@ public class MusicApplication extends Application {
         if (sleepSecond != 0) {
             baseHandler.postDelayed(baseRunnable, 1000);
         }
+    }
+
+    public boolean isNeedReloadUserData() {
+        return needReloadUserData;
+    }
+
+    public void setNeedReloadUserData(boolean needReloadUserData) {
+        this.needReloadUserData = needReloadUserData;
     }
 
     public boolean isAppointForeground(String appoint) {

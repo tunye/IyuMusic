@@ -54,6 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setListener();
         getBannerPic();
         initialDatabase();
+        ((MusicApplication) getApplication()).setNeedReloadUserData(true);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

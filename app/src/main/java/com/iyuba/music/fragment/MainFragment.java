@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -78,20 +79,22 @@ public class MainFragment extends BaseFragment {
         viewPager.setAdapter(new MainFragmentAdapter(getActivity().getSupportFragmentManager()));
         viewPagerIndicator.setTabItemTitles(title);
         viewPagerIndicator.setViewPager(viewPager, 0);
+        viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor(context));
         initPlayControl(view);
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         broadCast = new MainChangeUIBroadCast();
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.main");
         context.registerReceiver(broadCast, intentFilter);
-        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
-        progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
-        progressBar.setMax(100);
-        viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor(context));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setContent();
         setImageState(false);
     }
@@ -99,19 +102,27 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        context.unregisterReceiver(broadCast);
         pauseAnimation();
         handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        context.unregisterReceiver(broadCast);
     }
 
     private void initPlayControl(View root) {
         pic = (CircleImageView) root.findViewById(R.id.song_image);
         progressBar = (RoundProgressBar) root.findViewById(R.id.progressbar);
+        progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
+        progressBar.setMax(100);
         curArticleTitle = (TextView) root.findViewById(R.id.curarticle_title);
         curArticleInfo = (TextView) root.findViewById(R.id.curarticle_info);
         ImageView former = (ImageView) root.findViewById(R.id.main_former);
         ImageView latter = (ImageView) root.findViewById(R.id.main_latter);
         pause = (MorphButton) root.findViewById(R.id.main_play);
+        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

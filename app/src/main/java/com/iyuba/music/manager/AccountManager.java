@@ -3,6 +3,7 @@ package com.iyuba.music.manager;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.HistoryLogin;
@@ -107,8 +108,11 @@ public class AccountManager {
                         new UserInfoOp().saveData(userInfo);
                         loginState = SIGN_IN;
                         userId = userInfo.getUid();
-                        CustomToast.getInstance().showToast(RuntimeManager.getContext().getString(
-                                R.string.login_success, userInfo.getUsername()));
+                        if (((MusicApplication) RuntimeManager.getApplication()).isNeedReloadUserData()) {
+                            ((MusicApplication) RuntimeManager.getApplication()).setNeedReloadUserData(false);
+                            CustomToast.getInstance().showToast(RuntimeManager.getContext().getString(
+                                    R.string.login_success, userInfo.getUsername()));
+                        }
                         saveUserNameAndPwd();
                         rc.success(apiEntity.getMessage());
                     } else if (BaseApiEntity.isFail(apiEntity)) {
@@ -217,6 +221,7 @@ public class AccountManager {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
+
     @IntDef({SIGN_OUT, SIGN_IN})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoginState {

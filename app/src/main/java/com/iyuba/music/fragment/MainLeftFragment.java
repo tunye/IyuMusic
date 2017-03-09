@@ -187,6 +187,7 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void changeUIResumeByPara() {
+        handler.removeCallbacksAndMessages(null);
         if (AccountManager.getInstance().checkUserLogin()) {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
@@ -201,7 +202,6 @@ public class MainLeftFragment extends BaseFragment {
             sign.setVisibility(View.GONE);
         }
         int sleepSecond = ((MusicApplication) getActivity().getApplication()).getSleepSecond();
-        handler.removeMessages(1);
         if (sleepSecond != 0) {
             handler.sendEmptyMessage(1);
         }
