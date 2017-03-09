@@ -1,117 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/activity_horizontal_margin"
     android:background="@color/background_light"
-    app:cardBackgroundColor="@color/background_light"
-    app:cardCornerRadius="@dimen/corner_radius_medium">
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/word_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/word_content"
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/word_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/word_pron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@+id/word_key"
+                android:textColor="#4169e1"
+                android:textSize="@dimen/big_text" />
+
+            <ImageView
+                android:id="@+id/word_speaker"
+                android:layout_width="33dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/speaker" />
+        </RelativeLayout>
+
+        <com.iyuba.music.widget.textview.JustifyTextView
+            android:id="@+id/word_def"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/row_space_big"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textColor="@color/text_complementary"
+            android:textSize="@dimen/medium_text" />
+    </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/word_operation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/word_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/word_pron"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_toRightOf="@+id/word_key"
-                    android:textColor="#4169e1"
-                    android:textSize="@dimen/big_text" />
-
-                <ImageView
-                    android:id="@+id/word_speaker"
-                    android:layout_width="33dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/speaker" />
-            </RelativeLayout>
-
-            <com.iyuba.music.widget.textview.JustifyTextView
-                android:id="@+id/word_def"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_big"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/word_operation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.flyco.roundview.RoundTextView
-                android:id="@+id/word_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="5dp"
-                android:text="@string/word_card_add"
-                android:textColor="@color/text_color"
-                android:textSize="16sp"
-                app:rv_backgroundColor="@color/background"
-                app:rv_cornerRadius="10dp"
-                app:rv_strokeColor="@color/skin_app_color"
-                app:rv_strokeWidth="1dp"/>
-
-            <com.flyco.roundview.RoundTextView
-                android:id="@+id/word_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="5dp"
-                android:text="@string/word_card_close"
-                android:textColor="@color/text_color"
-                android:textSize="16sp"
-                app:rv_backgroundColor="@color/background"
-                app:rv_cornerRadius="10dp"
-                app:rv_strokeColor="@color/skin_app_color"
-                app:rv_strokeWidth="1dp"
-                app:rv_textPressColor="@color/text_complementary" />
-        </LinearLayout>
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/word_loading"
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/word_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:indicatorColor="@color/skin_app_color"
-            app:indicatorName="LineScalePartyIndicator" />
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/word_card_add"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            app:rv_backgroundColor="@color/background"
+            app:rv_cornerRadius="10dp"
+            app:rv_strokeColor="@color/skin_app_color"
+            app:rv_strokeWidth="1dp" />
 
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/word_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/word_card_close"
+            android:textColor="@color/text_color"
+            android:textSize="16sp"
+            app:rv_backgroundColor="@color/background"
+            app:rv_cornerRadius="10dp"
+            app:rv_strokeColor="@color/skin_app_color"
+            app:rv_strokeWidth="1dp"
+            app:rv_textPressColor="@color/text_complementary" />
     </LinearLayout>
-</android.support.v7.widget.CardView>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/word_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:indicatorColor="@color/skin_app_color"
+        app:indicatorName="LineScalePartyIndicator" />
+
+</LinearLayout>

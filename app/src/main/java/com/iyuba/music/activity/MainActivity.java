@@ -268,12 +268,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ((MusicApplication) getApplication()).popActivity(this);
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE) {

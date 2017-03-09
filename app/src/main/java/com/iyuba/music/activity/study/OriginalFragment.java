@@ -70,6 +70,12 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        wordCard.destory();
+    }
+
     public void refresh() {
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();

@@ -220,10 +220,6 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     public void dismiss() {
-        if (player.isPlaying()) {
-            player.pause();
-        }
-        player.stopPlayback();
         YoYo.with(Techniques.FlipOutX).duration(500).withListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -267,6 +263,12 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                         CustomToast.getInstance().showToast(R.string.word_add);
                     }
                 });
+    }
+
+    public void destory(){
+        if (player != null) {
+            player.stopPlayback();
+        }
     }
 
     public boolean isShowing() {

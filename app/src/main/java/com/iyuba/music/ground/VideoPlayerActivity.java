@@ -107,6 +107,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wordCard.destory();
+    }
+
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);

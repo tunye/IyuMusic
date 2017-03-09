@@ -75,8 +75,8 @@ public class MainFragment extends BaseFragment {
         ArrayList<String> title = new ArrayList<>();
         title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new MainFragmentAdapter(getActivity().getSupportFragmentManager()));
+        viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
         viewPagerIndicator.setViewPager(viewPager, 0);
         viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor(context));
@@ -184,7 +184,7 @@ public class MainFragment extends BaseFragment {
                 default:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getTitle_cn());
-                    ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    ImageUtil.loadImage(curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
             }
         }

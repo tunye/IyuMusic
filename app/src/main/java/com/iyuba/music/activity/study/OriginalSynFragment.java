@@ -95,6 +95,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         return view;
     }
 
+
     public void refresh() {
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
@@ -294,6 +295,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        wordCard.destory();
         handler.removeCallbacksAndMessages(null);
     }
 
