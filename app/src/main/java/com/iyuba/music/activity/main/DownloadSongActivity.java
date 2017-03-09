@@ -177,6 +177,12 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         newsRecycleView.scrollToPosition(0);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        newsAdapter.notifyDataSetChanged();
+    }
+
     private void getData() {
         newsList = new ArrayList<>();
         ArrayList<LocalInfo> temp = localInfoOp.findDataByDownload();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,18 @@ import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -39,11 +44,45 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
     private boolean delete;
     private boolean deleteAll;
 
+    private Map<String, Integer> fileMap;
+
     public DownloadNewsAdapter(Context context) {
         this.context = context;
         this.delete = false;
         newsList = new ArrayList<>();
         localInfoOp = new LocalInfoOp();
+        fileMap = new HashMap<>();
+        setFileMap();
+    }
+
+    private void setFileMap() {
+        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+        if (packageFile.exists() && packageFile.list() != null) {
+            String id;
+            for (String fileName : packageFile.list()) {
+                fileName = fileName.split("\\.")[0];
+                if (!fileName.contains("-")) {
+                    if (fileName.endsWith("s")) {
+                        id = fileName.substring(0, fileName.length() - 1);
+                        if (fileMap.containsKey(id)) {
+                            fileMap.put(id, 2);
+                        } else {
+                            fileMap.put(id, -1);
+                        }
+                    } else {
+                        id = fileName;
+                        if (fileMap.containsKey(id)) {
+                            fileMap.put(id, 2);
+                        } else {
+                            fileMap.put(id, 1);
+                        }
+                    }
+                } else {
+                    String[] temp = fileName.split("-");
+                    fileMap.put(temp[1], Integer.parseInt(temp[0]));
+                }
+            }
+        }
     }
 
     public boolean isDelete() {
@@ -121,13 +160,40 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         }
 
         holder.title.setText(article.getTitle());
-        if ("209".equals(article.getApp())) {
-            holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
-            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+        if (fileMap.containsKey(String.valueOf(article.getId()))) {
+            if ("209".equals(article.getApp())) {
+                holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+                switch (fileMap.get(String.valueOf(article.getId()))) {
+                    case 2:                                               // 文件整齐
+                        holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+                        holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        break;
+                    case 1:                                               // 存在解说文件
+                        if (SettingConfigManager.getInstance().getStudyMode() == 0) {
+                            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+                            holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        } else {
+                            holder.broadcaster.setText("当前文章下载文件属于解说模式，请在播放设置改变为解说模式后播放");
+                            holder.broadcaster.setTextColor(0xffdb4e46);
+                        }
+                        break;
+                    case -1:                                              // 存在原唱文件
+                        if (SettingConfigManager.getInstance().getStudyMode() == 1) {
+                            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+                            holder.broadcaster.setTextColor(context.getResources().getColor(R.color.text_gray_color));
+                        } else {
+                            holder.broadcaster.setText("当前文章下载文件属于原唱模式，请在播放设置改变为原唱模式后播放");
+                            holder.broadcaster.setTextColor(0xffdb4e46);
+                        }
+                        break;
+                }
+            } else {
+                holder.singer.setText(article.getContent());
+            }
         } else {
-            holder.singer.setText(article.getContent());
+            holder.broadcaster.setText("当前文章下载文件可能已丢失，请删除后重新下载");
+            holder.broadcaster.setTextColor(0xffdb4e46);
         }
-        holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
         if (localInfoOp.findDataById(article.getApp(), article.getId()).getDownload() == 2) {
             final int id = article.getId();
             holder.download.setVisibility(View.VISIBLE);
@@ -176,7 +242,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     static class MyViewHolder extends RecycleViewHolder {
 
-        TextView title, singer, broadcaster, readCount;
+        TextView title, singer, broadcaster;
         ImageView pic;
         RoundProgressBar download;
         CheckBox delete;
@@ -189,7 +255,6 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             broadcaster = (TextView) view.findViewById(R.id.article_announcer);
             download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
             pic = (ImageView) view.findViewById(R.id.article_image);
-            readCount = (TextView) view.findViewById(R.id.article_readcount);
             delete = (CheckBox) view.findViewById(R.id.item_delete);
         }
     }
