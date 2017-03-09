@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -157,7 +156,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e("aaa", start + " " + before + " " + count);
                 if (start == 0 && count == 0) {
                     showLayout.setVisibility(View.GONE);
                     advice.setVisibility(View.GONE);

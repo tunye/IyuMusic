@@ -27,24 +27,15 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.entity.article.ArticleOp;
-import com.iyuba.music.entity.article.LocalInfo;
-import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.fragment.MainFragment;
 import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
-import com.iyuba.music.request.newsrequest.NewsesRequest;
-import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -53,13 +44,9 @@ import com.iyuba.music.widget.dialog.CustomDialog;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class MainActivity extends BaseSkinActivity implements ILocationListener {
+public class MainActivity extends BaseSkinActivity {
     private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     private static final int WRITE_EXTERNAL_TASK_NO_EXE_CODE = 2;
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
@@ -226,7 +213,12 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                     ACCESS_COARSE_LOCATION_TASK_CODE);
         } else {
             LocationUtil.getInstance().initLocationUtil();
-            LocationUtil.getInstance().refreshGPS(this);
+            LocationUtil.getInstance().refreshGPS(new ILocationListener() {
+                @Override
+                public void notifyChange(int arg, String des) {
+
+                }
+            });
         }
     }
 
@@ -235,7 +227,7 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
         } else {
-            resetDownLoadData();
+            StartFragment.resetDownLoadData();
         }
         SettingConfigManager.getInstance().setUpgrade(false);
         StartFragment.showVersionFeature(context);
@@ -273,11 +265,16 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 LocationUtil.getInstance().initLocationUtil();
-                LocationUtil.getInstance().refreshGPS(this);
+                LocationUtil.getInstance().refreshGPS(new ILocationListener() {
+                    @Override
+                    public void notifyChange(int arg, String des) {
+
+                    }
+                });
             }
         } else if (requestCode == WRITE_EXTERNAL_TASK_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                resetDownLoadData();
+                StartFragment.resetDownLoadData();
             } else {
                 final MaterialDialog materialDialog = new MaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
@@ -299,11 +296,11 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
         if (isExit) {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {   // 后台播放
 //                直接返回桌面
-//                Intent i = new Intent(Intent.ACTION_MAIN);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                i.addCategory(Intent.CATEGORY_HOME);
-//                startActivity(i);
-                ((MusicApplication) getApplication()).clearActivityList();
+                Intent i = new Intent(Intent.ACTION_MAIN);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.addCategory(Intent.CATEGORY_HOME);
+                startActivity(i);
+//                ((MusicApplication) getApplication()).clearActivityList();
             } else {
                 ((MusicApplication) getApplication()).exit();
             }
@@ -330,69 +327,6 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
     private void unRegistBroadcast() {
         unregisterReceiver(netWorkChange);
         LocationUtil.getInstance().destroy();
-    }
-
-    private void resetDownLoadData() {
-        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
-        if (packageFile.exists() && packageFile.list() != null) {
-            LocalInfoOp lOp = new LocalInfoOp();
-            final ArticleOp articleOp = new ArticleOp();
-            int id;
-            LocalInfo temp;
-            StringBuilder stringBuilder = new StringBuilder();
-            for (String fileName : packageFile.list()) {
-                if (fileName.endsWith(".mp3")) {
-                    fileName = fileName.split("\\.")[0];
-                    if (!fileName.contains("-")) {
-                        if (fileName.endsWith("s")) {
-                            id = Integer.parseInt(fileName.substring(0, fileName.length() - 1));
-                        } else {
-                            id = Integer.parseInt(fileName);
-                        }
-                        temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
-                        if (temp == null || temp.getId() == 0) {
-                            temp = new LocalInfo();
-                            temp.setId(id);
-                            temp.setApp(ConstantManager.getInstance().getAppId());
-                            temp.setDownload(1);
-                            temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
-                            lOp.saveData(temp);
-                        } else {
-                            lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
-                        }
-                        stringBuilder.append(id).append(',');
-                    }
-                } else {
-                    new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
-                }
-            }
-            NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
-                @Override
-                public void onNetError(String msg) {
-
-                }
-
-                @Override
-                public void onServerError(String msg) {
-
-                }
-
-                @Override
-                public void response(Object object) {
-                    BaseListEntity listEntity = (BaseListEntity) object;
-                    ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
-                    for (Article temp : netData) {
-                        temp.setApp(ConstantManager.getInstance().getAppId());
-                    }
-                    articleOp.saveData(netData);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void notifyChange(int arg, String des) {
-
     }
 
     private void checkWifiSignIn() {

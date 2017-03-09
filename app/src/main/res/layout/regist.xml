@@ -126,8 +126,8 @@
                     android:text="@string/regist_get_code"
                     android:textColor="#ededed"
                     android:textSize="@dimen/medium_text"
-                    app:rv_backgroundPressColor="@color/skin_app_color"
                     app:rv_backgroundColor="@color/skin_app_color"
+                    app:rv_backgroundPressColor="@color/skin_app_color"
                     app:rv_cornerRadius="@dimen/corner_radius_default" />
             </LinearLayout>
         </LinearLayout>
@@ -226,8 +226,8 @@
             android:text="@string/regist_title"
             android:textColor="#ededed"
             android:textSize="@dimen/large_text"
-            app:rv_backgroundPressColor="@color/skin_app_color"
             app:rv_backgroundColor="@color/skin_app_color"
+            app:rv_backgroundPressColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_big" />
     </LinearLayout>
 </LinearLayout>

@@ -44,28 +44,28 @@ public class MipushMessageReceiver extends PushMessageReceiver {
 
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage message) {
-        Log.e(TAG, "onReceivePassThroughMessage is called. " + message.toString());
+        Log.d(TAG, "onReceivePassThroughMessage is called. " + message.toString());
     }
 
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
-        Log.e(TAG, "onNotificationMessageClicked is called. " + message.toString());
+        Log.d(TAG, "onNotificationMessageClicked is called. " + message.toString());
         NullActivity.exePushData(context, message.getContent());
     }
 
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
-        Log.e(TAG, "onNotificationMessageArrived is called. " + message.toString());
+        Log.d(TAG, "onNotificationMessageArrived is called. " + message.toString());
         Toast.makeText(context, "您有新的听歌学英语推送到达", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage message) {
-        Log.e(TAG, "onCommandResult is called. " + message.toString());
+        Log.d(TAG, "onCommandResult is called. " + message.toString());
     }
 
     @Override
     public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
-        Log.e(TAG, "onReceiveRegisterResult is called. " + message.toString());
+        Log.d(TAG, "onReceiveRegisterResult is called. " + message.toString());
     }
 }
