@@ -576,4 +576,7 @@
     <string name="net_wifi_sign_in">Maybe you need sign in to use this WIFI!</string>
     <string name="net_sign_in">Sign in</string>
     <string name="net_better_net">Please select a better net!</string>
+    <string name="net_study_no_net">No net</string>
+    <string name="net_study_no_net_message">No network, please check it! Or you can not listen the online music.</string>
+    <string name="net_study_lrc">See Lrc</string>
 </resources>

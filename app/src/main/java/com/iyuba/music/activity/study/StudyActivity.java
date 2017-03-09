@@ -276,7 +276,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton("学习歌词", new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 viewPager.setCurrentItem(2);

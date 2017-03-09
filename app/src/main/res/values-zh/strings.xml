@@ -576,4 +576,7 @@
     <string name="net_wifi_sign_in">当前wifi无网络，可能需要账户登录！</string>
     <string name="net_sign_in">登录</string>
     <string name="net_better_net">当前网络状态不佳，建议切换更优质网络！</string>
+    <string name="net_study_no_net">网络不可用</string>
+    <string name="net_study_no_net_message">网络不可用，请设置网络连接！没有网络无法听在线音乐</string>
+    <string name="net_study_lrc">学习歌词</string>
 </resources>

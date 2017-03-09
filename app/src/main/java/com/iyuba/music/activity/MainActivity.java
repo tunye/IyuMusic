@@ -56,8 +56,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -342,19 +340,22 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
 
     private void resetDownLoadData() {
         File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
-        LocalInfoOp lOp = new LocalInfoOp();
-        final ArticleOp articleOp = new ArticleOp();
         if (packageFile.exists() && packageFile.list() != null) {
-            StringBuilder StringBuilder = new StringBuilder();
+            LocalInfoOp lOp = new LocalInfoOp();
+            final ArticleOp articleOp = new ArticleOp();
+            int id;
+            LocalInfo temp;
+            StringBuilder stringBuilder = new StringBuilder();
             for (String fileName : packageFile.list()) {
                 if (fileName.endsWith(".mp3")) {
                     fileName = fileName.split("\\.")[0];
                     if (!fileName.contains("-")) {
-                        String regEx = "[^0-9]";
-                        Pattern p = Pattern.compile(regEx);
-                        Matcher m = p.matcher(fileName);
-                        int id = Integer.parseInt(m.replaceAll("").trim());
-                        LocalInfo temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
+                        if (fileName.endsWith("s")) {
+                            id = Integer.parseInt(fileName.substring(0, fileName.length() - 1));
+                        } else {
+                            id = Integer.parseInt(fileName);
+                        }
+                        temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
                         if (temp == null || temp.getId() == 0) {
                             temp = new LocalInfo();
                             temp.setId(id);
@@ -365,13 +366,13 @@ public class MainActivity extends BaseSkinActivity implements ILocationListener 
                         } else {
                             lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
                         }
-                        StringBuilder.append(id).append(',');
+                        stringBuilder.append(id).append(',');
                     }
                 } else {
                     new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
                 }
             }
-            NewsesRequest.exeRequest(NewsesRequest.generateUrl(StringBuilder.toString()), new IProtocolResponse() {
+            NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
 
