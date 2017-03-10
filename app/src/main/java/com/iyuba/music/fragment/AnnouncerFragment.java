@@ -14,6 +14,7 @@ import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerRequest;
 
@@ -59,11 +60,17 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         disableSwipeLayout();
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-            getData();
-        } else {
+        if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
             announcerList = announcerOp.findAll();
             anouncerAdapter.setAnnouncerList(announcerList);
+        } else {
+            if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
+                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                getData();
+            } else {
+                announcerList = announcerOp.findAll();
+                anouncerAdapter.setAnnouncerList(announcerList);
+            }
         }
     }
 

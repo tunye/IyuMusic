@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.main.ClassifySongList;
 import com.iyuba.music.adapter.study.SongCategoryAdapter;
@@ -15,11 +17,14 @@ import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.mainpanel.SongCategory;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -64,12 +69,6 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<BannerEntity> bannerEntities = new ArrayList<>(1);
-        BannerEntity bannerEntity = new BannerEntity();
-        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-        bannerEntity.setOwnerid("2");
-        bannerEntities.add(bannerEntity);
-        newsAdapter.setAdSet(bannerEntities);
         onRefresh(0);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -105,60 +104,78 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
+            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+                swipeRefreshLayout.setRefreshing(false);
+                loadLocalBannerData();
+            } else {
+                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
+                    @Override
+                    public void onNetError(String msg) {
+                        loadLocalBannerData();
+                    }
+
+                    @Override
+                    public void onServerError(String msg) {
+                        loadLocalBannerData();
+                    }
+
+                    @Override
+                    public void response(Object object) {
+                        ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
+                        BannerEntity bannerEntity = new BannerEntity();
+                        bannerEntity.setOwnerid("2");
+                        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+                        bannerEntity.setDesc("全部原声歌曲列表");
+                        bannerEntities.add(bannerEntity);
+                        ConfigManager.getInstance().putString("songbanner", new Gson().toJson(bannerEntities));
+                        newsAdapter.setAdSet(bannerEntities);
+                    }
+                });
+            }
+
+
+            SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
+                    CustomToast.getInstance().showToast(msg);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
                 @Override
                 public void onServerError(String msg) {
+                    CustomToast.getInstance().showToast(msg);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
                 @Override
                 public void response(Object object) {
-                    ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
-                    BannerEntity bannerEntity = new BannerEntity();
-                    bannerEntity.setOwnerid("2");
-                    bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-                    bannerEntity.setDesc("全部原声歌曲列表");
-                    bannerEntities.add(bannerEntity);
-                    newsAdapter.setAdSet(bannerEntities);
+                    BaseListEntity listEntity = (BaseListEntity) object;
+                    ArrayList<SongCategory> netData = (ArrayList<SongCategory>) listEntity.getData();
+                    isLastPage = listEntity.isLastPage();
+                    switch (refreshType) {
+                        case MySwipeRefreshLayout.TOP_REFRESH:
+                            newsList = netData;
+                            break;
+                        case MySwipeRefreshLayout.BOTTOM_REFRESH:
+                            if (!isLastPage) {
+                                newsList.addAll(netData);
+                            } else {
+                                CustomToast.getInstance().showToast(R.string.article_load_all);
+                            }
+                            break;
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                    newsAdapter.setDataSet(newsList);
                 }
             });
         }
-        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
-            @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+    }
 
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<SongCategory> netData = (ArrayList<SongCategory>) listEntity.getData();
-                isLastPage = listEntity.isLastPage();
-                switch (refreshType) {
-                    case MySwipeRefreshLayout.TOP_REFRESH:
-                        newsList = netData;
-                        break;
-                    case MySwipeRefreshLayout.BOTTOM_REFRESH:
-                        if (!isLastPage) {
-                            newsList.addAll(netData);
-                        } else {
-                            CustomToast.getInstance().showToast(R.string.article_load_all);
-                        }
-                        break;
-                }
-                swipeRefreshLayout.setRefreshing(false);
-                newsAdapter.setDataSet(newsList);
-            }
-        });
+    private void loadLocalBannerData() {
+        Type listType = new TypeToken<ArrayList<BannerEntity>>() {
+        }.getType();
+        ArrayList<BannerEntity> bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("songbanner"), listType);
+        newsAdapter.setAdSet(bannerEntities);
     }
 }

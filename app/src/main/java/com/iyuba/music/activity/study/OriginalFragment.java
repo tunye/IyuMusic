@@ -7,23 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iyuba.music.R;
-import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.entity.original.LrcMaker;
 import com.iyuba.music.entity.original.LrcParser;
 import com.iyuba.music.entity.original.Original;
-import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.entity.original.OriginalParser;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
-import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.request.newsrequest.LrcRequest;
-import com.iyuba.music.request.newsrequest.OriginalRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.original.OriginalView;
@@ -39,6 +32,13 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     private ArrayList<Original> originalList;
     private WordCard wordCard;
     private Article article;
+
+    private Runnable loadLocalLrcFile = new Runnable() {
+        @Override
+        public void run() {
+            getOriginal();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,31 +98,11 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
 
                     @Override
                     public void fail(Object object) {
-                        getWebLrc(article.getId(), new IOperationFinish() {
-                            @Override
-                            public void finish() {
-                                if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
-                                    originalView.setShowChinese(true);
-                                } else {
-                                    originalView.setShowChinese(false);
-                                }
-                                originalView.setOriginalList(originalList);
-                            }
-                        });
+                        reloadLocalData();
                     }
                 });
             } else {
-                getWebLrc(article.getId(), new IOperationFinish() {
-                    @Override
-                    public void finish() {
-                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
-                            originalView.setShowChinese(true);
-                        } else {
-                            originalView.setShowChinese(false);
-                        }
-                        originalView.setOriginalList(originalList);
-                    }
-                });
+                reloadLocalData();
             }
         } else {
             if (OriginalParser.getInstance().fileExist(article.getId())) {
@@ -136,93 +116,17 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
 
                     @Override
                     public void fail(Object object) {
-                        getWebOriginal(article.getId(), new IOperationFinish() {
-                            @Override
-                            public void finish() {
-                                originalView.setShowChinese(false);
-                                originalView.setOriginalList(originalList);
-                            }
-                        });
+                        reloadLocalData();
                     }
                 });
             } else {
-                getWebOriginal(article.getId(), new IOperationFinish() {
-                    @Override
-                    public void finish() {
-                        originalView.setShowChinese(false);
-                        originalView.setOriginalList(originalList);
-                    }
-                });
+                reloadLocalData();
             }
         }
-
     }
 
-    private void getWebLrc(final int id, final IOperationFinish finish) {
-        int type;
-        switch (StudyManager.getInstance().getApp()) {
-            case "215":
-            case "221":
-            case "231":
-                type = 1;
-                break;
-            case "209":
-                type = 2;
-                break;
-            default:
-                type = 0;
-                break;
-        }
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
-            @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                originalList = (ArrayList<Original>) listEntity.getData();
-                for (Original original : originalList) {
-                    original.setArticleID(id);
-                    if (TextUtils.isEmpty(original.getSentence_cn())) {
-                        original.setSentence_cn(original.getSentence_cn_backup());
-                    }
-                }
-                finish.finish();
-                LrcMaker.getInstance().makeOriginal(id, originalList);
-            }
-        });
-    }
-
-    private void getWebOriginal(final int id, final IOperationFinish finish) {
-        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
-            @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                originalList = (ArrayList<Original>) listEntity.getData();
-                for (Original original : originalList) {
-                    original.setArticleID(id);
-                }
-                finish.finish();
-                OriginalMaker.getInstance().makeOriginal(id, originalList);
-            }
-        });
+    private void reloadLocalData() {
+        originalView.postDelayed(loadLocalLrcFile, 1000);
     }
 
     @Override
@@ -231,6 +135,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
             wordCard.dismiss();
             return true;
         } else {
+            originalView.removeCallbacks(loadLocalLrcFile);
             return false;
         }
     }

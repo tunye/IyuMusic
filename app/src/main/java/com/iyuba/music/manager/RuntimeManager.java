@@ -4,11 +4,22 @@ import android.app.Application;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RuntimeManager {
     private Application application;
     private DisplayMetrics displayMetrics;
     private Context context;
+    private Map<String, String> singleInstanceRequest;
+    private boolean showSignInToast;
+
     private RuntimeManager() {
+        singleInstanceRequest = new HashMap<>();
+    }
+
+    public static RuntimeManager getInstance() {
+        return InstanceHelper.instance;
     }
 
     public static void initRuntimeManager(Application application) {
@@ -59,6 +70,18 @@ public class RuntimeManager {
     public static int sp2px(float spValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
+    }
+
+    public Map<String, String> getSingleInstanceRequest() {
+        return singleInstanceRequest;
+    }
+
+    public boolean isShowSignInToast() {
+        return showSignInToast;
+    }
+
+    public void setShowSignInToast(boolean showSignInToast) {
+        this.showSignInToast = showSignInToast;
     }
 
     private static class InstanceHelper {

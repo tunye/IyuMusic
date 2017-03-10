@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.NewsAdapter;
@@ -20,7 +22,9 @@ import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.newsrequest.NewsListRequest;
@@ -34,6 +38,7 @@ import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
 import com.youdao.sdk.nativeads.YouDaoNativeAdRenderer;
 import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
@@ -69,12 +74,6 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<BannerEntity> bannerEntities = new ArrayList<>(1);
-        BannerEntity bannerEntity = new BannerEntity();
-        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-        bannerEntity.setOwnerid("2");
-        bannerEntities.add(bannerEntity);
-        newsAdapter.setAdSet(bannerEntities);
         getNewsData(0, MySwipeRefreshLayout.TOP_REFRESH);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -185,22 +184,62 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
-                @Override
-                public void onNetError(String msg) {
-                }
+            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
+                loadLocalBannerData();
+            } else {
+                RuntimeManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
+                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
+                    @Override
+                    public void onNetError(String msg) {
+                        loadLocalBannerData();
+                    }
 
-                @Override
-                public void onServerError(String msg) {
-                }
+                    @Override
+                    public void onServerError(String msg) {
+                        loadLocalBannerData();
+                    }
 
-                @Override
-                public void response(Object object) {
-                    ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
-                    newsAdapter.setAdSet(bannerEntities);
-                }
-            });
+                    @Override
+                    public void response(Object object) {
+                        ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
+                        ConfigManager.getInstance().putString("newsbanner", new Gson().toJson(bannerEntities));
+                        newsAdapter.setAdSet(bannerEntities);
+                    }
+                });
+            }
         }
+        if (maxid == 0) {
+            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+                getDbData(maxid);
+                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                loadNetData(maxid, refreshType);
+            }
+        } else {
+            loadNetData(maxid, refreshType);
+        }
+
+    }
+
+    private void getDbData(int maxId) {
+        if (maxId == 0) {
+            newsList = articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), 0, 20);
+        } else {
+            newsList.addAll(articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), newsList.size(), 20));
+        }
+        newsAdapter.setDataSet(newsList);
+    }
+
+    private void loadNetData(final int maxid, final int refreshType) {
         NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -273,13 +312,11 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         });
     }
 
-    private void getDbData(int maxId) {
-        if (maxId == 0) {
-            newsList = articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), 0, 20);
-        } else {
-            newsList.addAll(articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), newsList.size(), 20));
-        }
-        newsAdapter.setDataSet(newsList);
+    private void loadLocalBannerData() {
+        Type listType = new TypeToken<ArrayList<BannerEntity>>() {
+        }.getType();
+        ArrayList<BannerEntity> bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("newsbanner"), listType);
+        newsAdapter.setAdSet(bannerEntities);
     }
 
     @Override

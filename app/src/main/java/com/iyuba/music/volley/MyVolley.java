@@ -1,5 +1,7 @@
 package com.iyuba.music.volley;
 
+import android.util.Log;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +23,7 @@ public class MyVolley {
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
+//        Log.e("aaa", Thread.currentThread().getStackTrace()[3].getClassName());
         req.setRetryPolicy(new DefaultRetryPolicy(8000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(req);
     }

@@ -20,6 +20,7 @@ import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
@@ -54,7 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setListener();
         getBannerPic();
         initialDatabase();
-        ((MusicApplication) getApplication()).setNeedReloadUserData(true);
+        RuntimeManager.getInstance().setShowSignInToast(true);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
