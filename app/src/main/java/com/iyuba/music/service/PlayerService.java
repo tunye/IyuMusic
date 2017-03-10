@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -34,16 +33,14 @@ import java.util.Calendar;
 public class PlayerService extends Service {
     private AudioManager audioManager;
     private StandardPlayer player;
-    private Article curArticle;
-    private MyBinder myBinder = new MyBinder();
+    private int curArticle;
     private MyOnAudioFocusChangeListener mListener;
     private PhoneStateListener phoneStateListener;
-    private boolean mPausedByTransientLossOfFocus;
     private HeadsetPlugReceiver headsetPlugReceiver;
 
     @Override
     public IBinder onBind(Intent intent) {
-        return myBinder;
+        return null;
     }
 
     @Override
@@ -55,16 +52,15 @@ public class PlayerService extends Service {
     public void onCreate() {
         super.onCreate();
         registerBroadcastReceiver();
+        mListener = new MyOnAudioFocusChangeListener();
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(mListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        mListener = new MyOnAudioFocusChangeListener();
         init();
         ((MusicApplication) getApplication()).setPlayerService(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        flags = Service.START_FLAG_REDELIVERY;
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -81,8 +77,7 @@ public class PlayerService extends Service {
 
     public void init() {
         player = new StandardPlayer(RuntimeManager.getContext());
-        curArticle = new Article();
-        curArticle.setId(0);
+        curArticle = 0;
     }
 
     public void setListener(final IPlayerListener playerListener) {
@@ -136,11 +131,11 @@ public class PlayerService extends Service {
         return player;
     }
 
-    public Article getCurArticle() {
+    public int getCurArticle() {
         return curArticle;
     }
 
-    public void setCurArticle(Article curArticle) {
+    public void setCurArticle(int curArticle) {
         this.curArticle = curArticle;
     }
 
@@ -149,7 +144,7 @@ public class PlayerService extends Service {
     }
 
     public void startPlay(Article article, boolean modeChange) {
-        if (article.getId() == curArticle.getId() && !modeChange) {
+        if (article.getId() == curArticle && !modeChange) {
         } else {
             if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
@@ -277,12 +272,6 @@ public class PlayerService extends Service {
         }
     }
 
-    public class MyBinder extends Binder {
-        public PlayerService getService() {
-            return PlayerService.this;
-        }
-    }
-
     private class MyOnAudioFocusChangeListener implements
             AudioManager.OnAudioFocusChangeListener {
         @Override
@@ -293,20 +282,20 @@ public class PlayerService extends Service {
                         //player.pause();// 因为会长时间失去，所以直接暂停
                         sendBroadcast(new Intent("iyumusic.pause"));
                     }
-                    mPausedByTransientLossOfFocus = false;
+//                    mPausedByTransientLossOfFocus = false;
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     if (player.isPlaying()) {
                         // 短暂失去焦点，先暂停。同时将标志位置成重新获得焦点后就开始播放
                         sendBroadcast(new Intent("iyumusic.pause"));
-                        mPausedByTransientLossOfFocus = true;
+//                        mPausedByTransientLossOfFocus = true;
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     // 重新获得焦点，且符合播放条件，开始播放
                     if (!player.isPlaying()) {
-                        mPausedByTransientLossOfFocus = false;
+//                        mPausedByTransientLossOfFocus = false;
                         sendBroadcast(new Intent("iyumusic.pause"));
                     }
                     break;

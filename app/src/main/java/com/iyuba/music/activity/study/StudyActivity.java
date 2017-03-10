@@ -484,13 +484,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle().getId() == StudyManager.getInstance().getCurArticle().getId()) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == StudyManager.getInstance().getCurArticle().getId()) {
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
         } else {
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
         }
         setIntervalImage(0);
     }
@@ -534,7 +534,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (checkNetWorkState()) {
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
             player.start();
         }
     }
@@ -629,7 +629,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             duration.setText("00:00");
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), true);
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
             int currPage = viewPager.getCurrentItem();
             viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
             viewPager.setCurrentItem(currPage);

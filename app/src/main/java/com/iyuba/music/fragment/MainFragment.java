@@ -215,7 +215,7 @@ public class MainFragment extends BaseFragment {
         curArticle = StudyManager.getInstance().getCurArticle();
         final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
         playerService.startPlay(curArticle, false);
-        playerService.setCurArticle(StudyManager.getInstance().getCurArticle());
+        playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
         player = playerService.getPlayer();
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override

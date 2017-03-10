@@ -29,7 +29,7 @@ public class NotificationNextReceiver extends BroadcastReceiver {
         ((MusicApplication) getApplication()).getPlayerService().next(false);
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.getInstance().getCurArticle(), false);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle());
+        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
         ((MusicApplication) getApplication()).getPlayerService().getPlayer().start();
         if (((MusicApplication) getApplication()).isAppointForeground("StudyActivity")) {
             Intent i = new Intent("com.iyuba.music.study");
