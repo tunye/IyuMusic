@@ -39,6 +39,7 @@ public class BigNotificationService {
     private NotificationPauseReceiver pause;
     private Notification notification;
     private NotificationManager notificationManager;
+
     private BigNotificationService() {
         Context context = RuntimeManager.getContext();
         IntentFilter ifr = new IntentFilter("iyumusic.close");
@@ -146,23 +147,15 @@ public class BigNotificationService {
         if (!StudyManager.getInstance().getApp().equals("101")) {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
                     R.id.notify_img, notification, NOTIFICATION_ID);
-            Glide.with(context).load(imgUrl).asBitmap().animate(R.anim.fade_in).into(notificationTarget);
+            Glide.with(context).load(imgUrl).asBitmap().into(notificationTarget);
         }
     }
 
     private void updatePlayStateNotification(String cmd) {
         if (cmd.equals("pause")) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.play);
-            } else {
-                notification.contentView.setImageViewResource(R.id.notify_play, R.drawable.play);
-            }
+            notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.play);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
-            } else {
-                notification.contentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
-            }
+            notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         }
         notificationManager.notify(NOTIFICATION_ID, notification);
     }

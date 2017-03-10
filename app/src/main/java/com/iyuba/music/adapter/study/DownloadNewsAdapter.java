@@ -196,10 +196,15 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         }
 
         holder.title.setText(article.getTitle());
+        if ("209".equals(article.getApp())) {
+            holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+            holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+        } else {
+            holder.singer.setText(article.getContent());
+            holder.broadcaster.setVisibility(View.GONE);
+        }
         if (fileMap.containsKey(String.valueOf(article.getId()))) {
-            if ("209".equals(article.getApp())) {
-                holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
-                holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
+            if ("209".equals(article.getApp()) && article.getSimple() == 0) {
                 switch (fileMap.get(String.valueOf(article.getId()))) {
                     case 2:                                               // 文件整齐
                         holder.noExist.setVisibility(View.GONE);
@@ -222,8 +227,6 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                         break;
                 }
             } else {
-                holder.singer.setText(article.getContent());
-                holder.broadcaster.setVisibility(View.GONE);
                 holder.noExist.setVisibility(View.GONE);
             }
         } else {

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -60,6 +61,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         if (!handleException(ex) && mDefaultHandler != null) {
+            Log.e("aaa","1");
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             application.exit();
