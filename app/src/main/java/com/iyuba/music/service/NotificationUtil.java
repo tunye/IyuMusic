@@ -136,7 +136,7 @@ public class NotificationUtil {
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
         notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
-        notificationBuilder.setOngoing(true);   //Create OnGoing Status Bar
+        notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
         notification = notificationBuilder.build();
