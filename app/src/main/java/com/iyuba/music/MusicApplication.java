@@ -46,7 +46,6 @@ public class MusicApplication extends Application {
     private int sleepSecond;
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
-    private Intent playServiceIntent;
     private ChangePropertyBroadcast changeProperty;
 
     private Runnable baseRunnable = new Runnable() {
@@ -72,8 +71,7 @@ public class MusicApplication extends Application {
         prepareForApp();
         pushSdkInit();
         activityList = new ArrayList<>();
-        playServiceIntent = new Intent(this, PlayerService.class);
-        startService(playServiceIntent);
+        startService(new Intent(this, PlayerService.class));
         CrashHandler crashHandler = new CrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
@@ -168,10 +166,9 @@ public class MusicApplication extends Application {
         if (getPlayerService().getPlayer() != null && getPlayerService().getPlayer().isPlaying()) {
             getPlayerService().getPlayer().stopPlayback();
             StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
-        } else {
-            NotificationUtil.getInstance().removeNotification();
         }
-        stopService(playServiceIntent);
+        NotificationUtil.getInstance().removeNotification();
+        playerService.stopSelf();
     }
 
     public void exit() {

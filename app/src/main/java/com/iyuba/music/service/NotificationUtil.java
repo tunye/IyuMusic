@@ -59,24 +59,12 @@ public class NotificationUtil {
         return SingleInstanceHelper.instance;
     }
 
-    public void removeNotification() {
-        Context context = RuntimeManager.getContext();
-        context.unregisterReceiver(pause);
-        context.unregisterReceiver(before);
-        context.unregisterReceiver(next);
-        context.unregisterReceiver(close);
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
-    }
-
     public Notification initNotification() {
         notification = new Notification();
         Context context = RuntimeManager.getContext();
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
         contentView.setViewVisibility(R.id.notify_latter, View.INVISIBLE);
         contentView.setViewVisibility(R.id.notify_formmer, View.INVISIBLE);
         contentView.setViewVisibility(R.id.notify_play, View.INVISIBLE);
@@ -90,7 +78,7 @@ public class NotificationUtil {
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
         notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
-        notificationBuilder.setOngoing(true);   //Create OnGoing Status Bar
+        notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -116,7 +104,11 @@ public class NotificationUtil {
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setViewVisibility(R.id.notify_latter, View.VISIBLE);
         contentView.setViewVisibility(R.id.notify_formmer, View.VISIBLE);
-        contentView.setViewVisibility(R.id.notify_formmer, View.VISIBLE);
+        contentView.setViewVisibility(R.id.notify_play, View.VISIBLE);
+        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
 
         switch (StudyManager.getInstance().getApp()) {
             case "209":
@@ -164,6 +156,15 @@ public class NotificationUtil {
             notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         }
         ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notification);
+    }
+
+    public void removeNotification() {
+        Context context = RuntimeManager.getContext();
+        context.unregisterReceiver(pause);
+        context.unregisterReceiver(before);
+        context.unregisterReceiver(next);
+        context.unregisterReceiver(close);
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
     }
 
     private PendingIntent receivePauseIntent() {

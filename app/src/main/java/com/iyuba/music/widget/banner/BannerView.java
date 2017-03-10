@@ -156,7 +156,7 @@ public class BannerView extends RelativeLayout {
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
         dotLayout.removeAllViews();
-        if (mDatas.size() != 0) {
+        if (mDatas != null && mDatas.size() != 0) {
             ImageView imageView = new ImageView(getContext());
             loadData(bannerData.get(mDatas.size() - 1), imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

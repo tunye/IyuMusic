@@ -64,9 +64,8 @@ public class PlayerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unRegisterBroadcastReceiver();
+//        stopForeground(true);
         player.stopPlayback();
-        stopForeground(true);
-        stopSelf();
         player = null;
     }
 

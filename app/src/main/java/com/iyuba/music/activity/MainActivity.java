@@ -254,8 +254,8 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    protected void onDestroy() {
+        super.onDestroy();
         unRegistBroadcast();
     }
 
@@ -296,11 +296,11 @@ public class MainActivity extends BaseSkinActivity {
         if (isExit) {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {   // 后台播放
 //                直接返回桌面
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
-//                ((MusicApplication) getApplication()).clearActivityList();
+//                Intent i = new Intent(Intent.ACTION_MAIN);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(i);
+                ((MusicApplication) getApplication()).clearActivityList();
             } else {
                 ((MusicApplication) getApplication()).exit();
             }
