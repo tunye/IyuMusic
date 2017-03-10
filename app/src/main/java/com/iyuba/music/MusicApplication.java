@@ -21,7 +21,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
-import com.iyuba.music.service.BigNotificationService;
+import com.iyuba.music.service.NotificationUtil;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
@@ -164,26 +164,18 @@ public class MusicApplication extends Application {
         activityList.clear();
     }
 
-    private void removeNotification() {
-        if (BigNotificationService.getInstance().isAlive) {
-            Intent i = new Intent(this, BigNotificationService.class);
-            i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
-            i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_REMOVE);
-            BigNotificationService.getInstance().setNotificationCommand(i);
-        }
-    }
-
     private void stopPlayService() {
         if (getPlayerService().getPlayer() != null && getPlayerService().getPlayer().isPlaying()) {
             getPlayerService().getPlayer().stopPlayback();
             StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
+        } else {
+            NotificationUtil.getInstance().removeNotification();
         }
         stopService(playServiceIntent);
     }
 
     public void exit() {
         unregisterReceiver(changeProperty);
-        removeNotification();
         ImageUtil.clearMemoryCache(this);
         stopPlayService();
         clearActivityList();

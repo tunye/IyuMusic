@@ -34,7 +34,7 @@ public class PlayerService extends Service {
     private AudioManager audioManager;
     private StandardPlayer player;
     private int curArticle;
-    private MyOnAudioFocusChangeListener mListener;
+    private MyOnAudioFocusChangeListener onAudioFocusChangeListener;
     private PhoneStateListener phoneStateListener;
     private HeadsetPlugReceiver headsetPlugReceiver;
 
@@ -44,32 +44,27 @@ public class PlayerService extends Service {
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
-        return true;
-    }
-
-    @Override
     public void onCreate() {
         super.onCreate();
         registerBroadcastReceiver();
-        mListener = new MyOnAudioFocusChangeListener();
+        onAudioFocusChangeListener = new MyOnAudioFocusChangeListener();
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(mListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         init();
         ((MusicApplication) getApplication()).setPlayerService(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(NotificationUtil.NOTIFICATION_ID, NotificationUtil.getInstance().initNotification());
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        audioManager.abandonAudioFocus(mListener);
-        player.stopPlayback();
         unRegisterBroadcastReceiver();
+        player.stopPlayback();
         stopForeground(true);
         stopSelf();
         player = null;
@@ -233,11 +228,7 @@ public class PlayerService extends Service {
         } else {
             url = StudyManager.getInstance().getCurArticle().getPicUrl();
         }
-        Intent intent = new Intent(RuntimeManager.getContext(), BigNotificationService.class);
-        intent.setAction(BigNotificationService.NOTIFICATION_SERVICE);
-        intent.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_SHOW);
-        intent.putExtra(BigNotificationService.NOTIFICATION_PIC, url);
-        BigNotificationService.getInstance().setNotificationCommand(intent);
+        NotificationUtil.getInstance().updateNotification(url);
     }
 
     public void registerBroadcastReceiver() {
@@ -264,6 +255,7 @@ public class PlayerService extends Service {
     }
 
     private void unRegisterBroadcastReceiver() {
+        audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         unregisterReceiver(headsetPlugReceiver);
         if (phoneStateListener != null) {
             TelephonyManager tm = (TelephonyManager) this

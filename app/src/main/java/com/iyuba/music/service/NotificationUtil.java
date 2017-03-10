@@ -6,13 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
@@ -24,23 +25,17 @@ import com.iyuba.music.receiver.NotificationNextReceiver;
 import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
-public class BigNotificationService {
-    public static final String NOTIFICATION_SERVICE = "notification_service";
-    public static final String COMMAND = "cmd";
-    public static final String COMMAND_SHOW = "show";
-    public static final String COMMAND_REMOVE = "remove";
-    public static final String COMMAND_CHANGE_STATE = "command_change_state";
-    public static final String NOTIFICATION_PIC = "notification_pic";
+public class NotificationUtil {
     public static final int NOTIFICATION_ID = 209;
-    public boolean isAlive;
+    public static final String PAUSE_FLAG = "pause_flag";
+    public static final String PLAY_FLAG = "play_flag";
+    private Notification notification;
     private NotificationCloseReceiver close;
     private NotificationBeforeReceiver before;
     private NotificationNextReceiver next;
     private NotificationPauseReceiver pause;
-    private Notification notification;
-    private NotificationManager notificationManager;
 
-    private BigNotificationService() {
+    private NotificationUtil() {
         Context context = RuntimeManager.getContext();
         IntentFilter ifr = new IntentFilter("iyumusic.close");
         close = new NotificationCloseReceiver();
@@ -56,25 +51,12 @@ public class BigNotificationService {
         context.registerReceiver(before, ifr);
     }
 
-    public static BigNotificationService getInstance() {
-        return SingleInstanceHelper.instance;
+    private static class SingleInstanceHelper {
+        private static NotificationUtil instance = new NotificationUtil();
     }
 
-    public void setNotificationCommand(Intent intent) {
-        String action = intent.getAction();
-        if (NOTIFICATION_SERVICE.equals(action)) {
-            String cmd = intent.getStringExtra(COMMAND);
-            if (COMMAND_SHOW.equals(cmd)) {
-                createNotification(intent.getStringExtra(NOTIFICATION_PIC));
-                isAlive = true;
-            } else if (COMMAND_REMOVE.equals(cmd)) {
-                removeNotification();
-                isAlive = false;
-            } else if (COMMAND_CHANGE_STATE.equals(cmd)) {
-                updatePlayStateNotification(intent.getStringExtra("state"));
-                isAlive = true;
-            }
-        }
+    public static NotificationUtil getInstance() {
+        return SingleInstanceHelper.instance;
     }
 
     public void removeNotification() {
@@ -83,16 +65,43 @@ public class BigNotificationService {
         context.unregisterReceiver(before);
         context.unregisterReceiver(next);
         context.unregisterReceiver(close);
-        if (notificationManager == null) {
-            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        notificationManager.cancel(NOTIFICATION_ID);
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
     }
 
-    public void createNotification(String imgUrl) {
-        if (notification == null) {
-            notification = new Notification();
-        }
+    public Notification initNotification() {
+        notification = new Notification();
+        Context context = RuntimeManager.getContext();
+
+        RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
+        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
+        contentView.setViewVisibility(R.id.notify_latter, View.INVISIBLE);
+        contentView.setViewVisibility(R.id.notify_formmer, View.INVISIBLE);
+        contentView.setViewVisibility(R.id.notify_play, View.INVISIBLE);
+
+        contentView.setTextViewText(R.id.notify_title, context.getString(R.string.app_name));
+        contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.app_corp));
+        contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+        notificationBuilder.setPriority(Notification.PRIORITY_MAX);
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
+        notificationBuilder.setContent(contentView);
+        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
+        notificationBuilder.setOngoing(true);   //Create OnGoing Status Bar
+        notificationBuilder.setAutoCancel(false);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        notificationBuilder.setContentIntent(pendingIntent);
+        notification = notificationBuilder.build();
+        notification.bigContentView = contentView;
+        return notification;
+    }
+
+    public void updateNotification(String imgUrl) {
         Context context = RuntimeManager.getContext();
         Article curArticle = StudyManager.getInstance().getCurArticle();
         Intent intent;
@@ -103,11 +112,12 @@ public class BigNotificationService {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
-        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
+        contentView.setViewVisibility(R.id.notify_latter, View.VISIBLE);
+        contentView.setViewVisibility(R.id.notify_formmer, View.VISIBLE);
+        contentView.setViewVisibility(R.id.notify_formmer, View.VISIBLE);
+
         switch (StudyManager.getInstance().getApp()) {
             case "209":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());
@@ -126,6 +136,7 @@ public class BigNotificationService {
                 break;
         }
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setContentTitle(context.getString(R.string.app_name));
         notificationBuilder.setContentText(curArticle.getTitle());
@@ -137,27 +148,22 @@ public class BigNotificationService {
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
         notification = notificationBuilder.build();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            notification.bigContentView = contentView;
-        } else {
-            notification.contentView = contentView;
-        }
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        notification.bigContentView = contentView;
         if (!StudyManager.getInstance().getApp().equals("101")) {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
                     R.id.notify_img, notification, NOTIFICATION_ID);
             Glide.with(context).load(imgUrl).asBitmap().into(notificationTarget);
         }
+        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notification);
     }
 
-    private void updatePlayStateNotification(String cmd) {
-        if (cmd.equals("pause")) {
+    public void updatePlayStateNotification(String cmd) {
+        if (cmd.equals(PAUSE_FLAG)) {
             notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.play);
-        } else {
+        } else if (cmd.equals(PLAY_FLAG)) {
             notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         }
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notification);
     }
 
     private PendingIntent receivePauseIntent() {
@@ -178,9 +184,5 @@ public class BigNotificationService {
     private PendingIntent receiveCloseIntent() {
         Intent intent = new Intent("iyumusic.close");
         return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
-    }
-
-    private static class SingleInstanceHelper {
-        private static BigNotificationService instance = new BigNotificationService();
     }
 }

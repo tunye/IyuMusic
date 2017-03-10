@@ -1,5 +1,6 @@
 ﻿<resources>
     <string name="app_name">IyuMusic</string>
+    <string name="app_corp">Iyuba</string>
     <string name="app_intro">The most popular APP of English learning</string>
     <string name="hello_world">IyuMusic</string>
     <string name="app_know">Known</string>
@@ -278,6 +279,11 @@
     <string name="article_download_fail">Download failed</string>
     <string name="article_download_success">Download success</string>
     <string name="article_download_start">Download start, you got it!</string>
+    <string name="article_download_only_sound">The downloaded music file is belong to Broadcast mode, so you may change the play mode to listen it better.</string>
+    <string name="article_download_only_song">The downloaded music file is belong to Music mode, so you may change the play mode to listen it better.</string>
+    <string name="article_download_file_dismiss">The file seems be dismissed, so you may delete the record to download it again better.</string>
+    <string name="article_download_set">Set</string>
+    <string name="article_download_open_still">Open it</string>
     <string name="article_synchro">Synchro</string>
     <string name="article_clear">Clear</string>
     <string name="article_select_all">All</string>

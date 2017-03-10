@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">听歌学英语</string>
+    <string name="app_corp">爱语吧</string>
     <string name="hello_world">听歌学英语</string>
     <string name="app_intro">最受欢迎的英语应用</string>
     <string name="app_know">朕已阅</string>

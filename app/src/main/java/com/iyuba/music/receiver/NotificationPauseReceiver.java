@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.iyuba.music.MusicApplication;
-import com.iyuba.music.service.BigNotificationService;
+import com.iyuba.music.service.NotificationUtil;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import static com.iyuba.music.manager.RuntimeManager.getApplication;
@@ -29,17 +29,14 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-        Intent i = new Intent(context, BigNotificationService.class);
-        i.setAction(BigNotificationService.NOTIFICATION_SERVICE);
         if (player.isPlaying()) {
             player.pause();
-            i.putExtra("state", "pause");
+            NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PAUSE_FLAG);
         } else {
             player.start();
-            i.putExtra("state", "play");
+            NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
         }
-        i.putExtra(BigNotificationService.COMMAND, BigNotificationService.COMMAND_CHANGE_STATE);
-        BigNotificationService.getInstance().setNotificationCommand(i);
+        Intent i;
         if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
             i = new Intent("com.iyuba.music.main");
             i.putExtra("message", "pause");
