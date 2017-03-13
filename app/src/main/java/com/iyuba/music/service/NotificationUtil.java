@@ -36,19 +36,6 @@ public class NotificationUtil {
     private NotificationPauseReceiver pause;
 
     private NotificationUtil() {
-        Context context = RuntimeManager.getContext();
-        IntentFilter ifr = new IntentFilter("iyumusic.close");
-        close = new NotificationCloseReceiver();
-        context.registerReceiver(close, ifr);
-        ifr = new IntentFilter("iyumusic.pause");
-        pause = new NotificationPauseReceiver();
-        context.registerReceiver(pause, ifr);
-        ifr = new IntentFilter("iyumusic.next");
-        next = new NotificationNextReceiver();
-        context.registerReceiver(next, ifr);
-        ifr = new IntentFilter("iyumusic.before");
-        before = new NotificationBeforeReceiver();
-        context.registerReceiver(before, ifr);
     }
 
     private static class SingleInstanceHelper {
@@ -62,6 +49,19 @@ public class NotificationUtil {
     public Notification initNotification() {
         notification = new Notification();
         Context context = RuntimeManager.getContext();
+
+        IntentFilter ifr = new IntentFilter("iyumusic.close");
+        close = new NotificationCloseReceiver();
+        context.registerReceiver(close, ifr);
+        ifr = new IntentFilter("iyumusic.pause");
+        pause = new NotificationPauseReceiver();
+        context.registerReceiver(pause, ifr);
+        ifr = new IntentFilter("iyumusic.next");
+        next = new NotificationNextReceiver();
+        context.registerReceiver(next, ifr);
+        ifr = new IntentFilter("iyumusic.before");
+        before = new NotificationBeforeReceiver();
+        context.registerReceiver(before, ifr);
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
