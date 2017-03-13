@@ -271,6 +271,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         final MaterialDialog materialDialog = new MaterialDialog(context);
         materialDialog.setTitle(R.string.net_study_no_net);
         materialDialog.setMessage(R.string.net_study_no_net_message);
+        boolean findFileFlg = false;
         if (SettingConfigManager.getInstance().getStudyMode() == 1) {
             File packageFile = new File(ConstantManager.getInstance().getOriginalFolder());
             if (packageFile.exists() && packageFile.list() != null) {
@@ -289,22 +290,25 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                                 finish();
                             }
                         });
-                    } else {
-                        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                finish();
-                            }
-                        });
+                        findFileFlg = true;
+                        break;
                     }
                 }
+            }
+            if (!findFileFlg) {
+                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
             }
         } else {
             File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton("学习歌词", new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 viewPager.setCurrentItem(2);
@@ -317,15 +321,18 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                                 finish();
                             }
                         });
-                    } else {
-                        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                finish();
-                            }
-                        });
+                        findFileFlg = true;
+                        break;
                     }
                 }
+            }
+            if (!findFileFlg) {
+                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
             }
         }
         materialDialog.show();
