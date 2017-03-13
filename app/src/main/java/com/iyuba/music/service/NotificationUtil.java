@@ -49,6 +49,7 @@ public class NotificationUtil {
         contentView.setTextViewText(R.id.notify_title, context.getString(R.string.app_name));
         contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.app_corp));
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
+        contentView.setImageViewResource(R.id.notify_play, R.drawable.play);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);

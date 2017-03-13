@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -230,7 +232,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void pauseClick() {
-        if (player == null) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
             playNewSong();
         } else {
             context.sendBroadcast(new Intent("iyumusic.pause"));
@@ -238,7 +240,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void formerClick() {
-        if (player == null) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
             playNewSong();
         } else {
             context.sendBroadcast(new Intent("iyumusic.before"));
@@ -258,7 +260,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void latterClick() {
-        if (player == null) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
             StudyManager.getInstance().next();
             playNewSong();
         } else {

@@ -13,6 +13,7 @@ import android.content.Intent;
 
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.service.NotificationUtil;
 
 import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
@@ -26,22 +27,32 @@ public class NotificationBeforeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ((MusicApplication) getApplication()).getPlayerService().before();
-        ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
-        ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
-        ((MusicApplication) getApplication()).getPlayerService().getPlayer().start();
-        if (((MusicApplication) getApplication()).isAppointForeground("StudyActivity")) {
-            Intent i = new Intent("com.iyuba.music.study");
-            i.putExtra("message", "change");
-            context.sendBroadcast(i);
-        } else if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
-            Intent i = new Intent("com.iyuba.music.main");
-            i.putExtra("message", "change");
-            context.sendBroadcast(i);
-        } else if (((MusicApplication) getApplication()).isAppointForeground("LocalMusicActivity")) {
-            Intent i = new Intent("com.iyuba.music.localmusic");
-            i.putExtra("message", "change");
-            context.sendBroadcast(i);
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
+            NotificationPauseReceiver.playNewSong();
+            if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+                Intent i = new Intent("com.iyuba.music.main");
+                i.putExtra("message", "change");
+                context.sendBroadcast(i);
+            }
+            NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
+        } else {
+            ((MusicApplication) getApplication()).getPlayerService().before();
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+            ((MusicApplication) getApplication()).getPlayerService().getPlayer().start();
+            if (((MusicApplication) getApplication()).isAppointForeground("StudyActivity")) {
+                Intent i = new Intent("com.iyuba.music.study");
+                i.putExtra("message", "change");
+                context.sendBroadcast(i);
+            } else if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+                Intent i = new Intent("com.iyuba.music.main");
+                i.putExtra("message", "change");
+                context.sendBroadcast(i);
+            } else if (((MusicApplication) getApplication()).isAppointForeground("LocalMusicActivity")) {
+                Intent i = new Intent("com.iyuba.music.localmusic");
+                i.putExtra("message", "change");
+                context.sendBroadcast(i);
+            }
         }
     }
 }
