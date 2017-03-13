@@ -290,9 +290,9 @@ public class MainFragment extends BaseFragment {
                 pause.setState(MorphButton.MorphState.END, animation);
                 handler.sendEmptyMessage(0);
             } else {
-                handler.removeMessages(0);
                 pauseAnimation();
                 pause.setState(MorphButton.MorphState.START, animation);
+                handler.removeMessages(0);
             }
         }
     }

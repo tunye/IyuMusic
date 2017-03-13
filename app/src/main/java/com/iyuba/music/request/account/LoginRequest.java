@@ -99,7 +99,7 @@ public class LoginRequest {
                                     if ("response".equals(nodeName)) {
                                         if (!TextUtils.isEmpty(userInfo.getUid())) {
                                             apiEntity.setData(userInfo);
-                                        } else {
+                                        } else if (apiEntity.getState() == BaseApiEntity.SUCCESS) {
                                             apiEntity.setState(BaseApiEntity.ERROR);
                                         }
                                         response.response(apiEntity);

@@ -1,6 +1,7 @@
 package com.iyuba.music.widget.original;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -8,9 +9,8 @@ import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.widget.EditText;
 
-public class TextPage extends EditText {
+public class TextPage extends AppCompatEditText {
     private TextSelectCallBack textSelectCallBack;
     private boolean isCanSelect = false;
     private float[] oldXY;
@@ -65,10 +65,8 @@ public class TextPage extends EditText {
                 break;
             case MotionEvent.ACTION_UP:
                 if (isCanSelect) {
-                    line = layout.getLineForVertical(getScrollY()
-                            + (int) event.getY());
-                    off = layout.getOffsetForHorizontal(line,
-                            (int) event.getX());
+                    line = layout.getLineForVertical(getScrollY() + (int) event.getY());
+                    off = layout.getOffsetForHorizontal(line, (int) event.getX());
                     String selectText = getSelectText(off);
                     if (!TextUtils.isEmpty(selectText)) {
                         this.setCursorVisible(true);
@@ -96,29 +94,29 @@ public class TextPage extends EditText {
         }
         int leftOff = currOff, rightOff = currOff;
         letter = String.valueOf(original.charAt(leftOff));
-        if (!letter.matches("^[a-zA-Z'-]*")) {
+        if (!letter.matches("[a-zA-Z'-]")) {
             return null;
         }
         while (true) {
             leftOff--;
-            if (leftOff <= 0) {
+            if (leftOff < 0) {
                 leftOff = 0;
                 break;
             }
             letter = String.valueOf(original.charAt(leftOff));
-            if (!letter.matches("^[a-zA-Z'-]*")) {
+            if (!letter.matches("[a-zA-Z'-]")) {
                 leftOff++;
                 break;
             }
         }
         while (true) {
             rightOff++;
-            if (rightOff >= original.length() - 1) {
+            if (rightOff >= original.length()) {
                 rightOff = original.length();
                 break;
             }
             letter = String.valueOf(original.charAt(rightOff));
-            if (!letter.matches("^[a-zA-Z'-]*")) {
+            if (!letter.matches("[a-zA-Z'-]")) {
                 break;
             }
         }

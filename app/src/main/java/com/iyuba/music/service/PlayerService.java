@@ -20,6 +20,10 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
+import com.iyuba.music.receiver.NotificationBeforeReceiver;
+import com.iyuba.music.receiver.NotificationCloseReceiver;
+import com.iyuba.music.receiver.NotificationNextReceiver;
+import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.widget.player.StandardPlayer;
@@ -38,6 +42,11 @@ public class PlayerService extends Service {
     private PhoneStateListener phoneStateListener;
     private HeadsetPlugReceiver headsetPlugReceiver;
 
+    private NotificationCloseReceiver close;
+    private NotificationBeforeReceiver before;
+    private NotificationNextReceiver next;
+    private NotificationPauseReceiver pause;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -47,11 +56,36 @@ public class PlayerService extends Service {
     public void onCreate() {
         super.onCreate();
         registerBroadcastReceiver();
+        registerNotificationBroadcastReceiver();
         onAudioFocusChangeListener = new MyOnAudioFocusChangeListener();
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         init();
         ((MusicApplication) getApplication()).setPlayerService(this);
+    }
+
+    private void registerNotificationBroadcastReceiver() {
+        Context context = RuntimeManager.getContext();
+        IntentFilter ifr = new IntentFilter("iyumusic.close");
+        close = new NotificationCloseReceiver();
+        context.registerReceiver(close, ifr);
+        ifr = new IntentFilter("iyumusic.pause");
+        pause = new NotificationPauseReceiver();
+        context.registerReceiver(pause, ifr);
+        ifr = new IntentFilter("iyumusic.next");
+        next = new NotificationNextReceiver();
+        context.registerReceiver(next, ifr);
+        ifr = new IntentFilter("iyumusic.before");
+        before = new NotificationBeforeReceiver();
+        context.registerReceiver(before, ifr);
+    }
+
+    private void unRegisterNotificationBroadcaster() {
+        Context context = RuntimeManager.getContext();
+        context.unregisterReceiver(pause);
+        context.unregisterReceiver(before);
+        context.unregisterReceiver(next);
+        context.unregisterReceiver(close);
     }
 
     @Override
@@ -63,6 +97,7 @@ public class PlayerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unRegisterNotificationBroadcaster();
         unRegisterBroadcastReceiver();
         NotificationUtil.getInstance().removeNotification();
         stopForeground(true);

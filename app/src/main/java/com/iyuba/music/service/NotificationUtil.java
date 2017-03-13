@@ -5,9 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
@@ -19,10 +17,6 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.receiver.NotificationBeforeReceiver;
-import com.iyuba.music.receiver.NotificationCloseReceiver;
-import com.iyuba.music.receiver.NotificationNextReceiver;
-import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
 public class NotificationUtil {
@@ -30,10 +24,6 @@ public class NotificationUtil {
     public static final String PAUSE_FLAG = "pause_flag";
     public static final String PLAY_FLAG = "play_flag";
     private Notification notification;
-    private NotificationCloseReceiver close;
-    private NotificationBeforeReceiver before;
-    private NotificationNextReceiver next;
-    private NotificationPauseReceiver pause;
 
     private NotificationUtil() {
     }
@@ -49,19 +39,6 @@ public class NotificationUtil {
     Notification initNotification() {
         notification = new Notification();
         Context context = RuntimeManager.getContext();
-
-        IntentFilter ifr = new IntentFilter("iyumusic.close");
-        close = new NotificationCloseReceiver();
-        context.registerReceiver(close, ifr);
-        ifr = new IntentFilter("iyumusic.pause");
-        pause = new NotificationPauseReceiver();
-        context.registerReceiver(pause, ifr);
-        ifr = new IntentFilter("iyumusic.next");
-        next = new NotificationNextReceiver();
-        context.registerReceiver(next, ifr);
-        ifr = new IntentFilter("iyumusic.before");
-        before = new NotificationBeforeReceiver();
-        context.registerReceiver(before, ifr);
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
@@ -149,12 +126,7 @@ public class NotificationUtil {
     }
 
     public void removeNotification() {
-        Context context = RuntimeManager.getContext();
-        context.unregisterReceiver(pause);
-        context.unregisterReceiver(before);
-        context.unregisterReceiver(next);
-        context.unregisterReceiver(close);
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
+        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
     }
 
     private PendingIntent receivePauseIntent() {
