@@ -21,7 +21,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
-import com.iyuba.music.service.NotificationUtil;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
@@ -68,10 +67,11 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
-        prepareForApp();
+        RuntimeManager.initRuntimeManager(this);
         pushSdkInit();
+        prepareForApp();
         activityList = new ArrayList<>();
-        startService(new Intent(this, PlayerService.class));
+        startService(new Intent(getApplicationContext(), PlayerService.class));
         CrashHandler crashHandler = new CrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
@@ -126,7 +126,6 @@ public class MusicApplication extends Application {
     }
 
     private void prepareForApp() {
-        RuntimeManager.initRuntimeManager(this);
         // 程序皮肤、字符集、夜间模式、网络状态初始化
         ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
@@ -162,19 +161,16 @@ public class MusicApplication extends Application {
         activityList.clear();
     }
 
-    private void stopPlayService() {
-        if (getPlayerService().getPlayer() != null && getPlayerService().getPlayer().isPlaying()) {
-            getPlayerService().getPlayer().stopPlayback();
+    private void stopLessonRecord() {
+        if (playerService.getCurArticle() != 0) {
             StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
         }
-        NotificationUtil.getInstance().removeNotification();
-        playerService.stopSelf();
     }
 
     public void exit() {
-        unregisterReceiver(changeProperty);
+        stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
-        stopPlayService();
+        stopService(new Intent(getApplicationContext(), PlayerService.class));
         clearActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
     }

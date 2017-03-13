@@ -64,8 +64,9 @@ public class PlayerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unRegisterBroadcastReceiver();
-//        seems shoule do this code.
-//        stopForeground(true);
+        NotificationUtil.getInstance().removeNotification();
+        stopForeground(true);
+        stopSelf();
         player.stopPlayback();
         player = null;
     }

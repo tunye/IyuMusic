@@ -61,7 +61,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         if (!handleException(ex) && mDefaultHandler != null) {
-            Log.e("aaa","1");
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             application.exit();

@@ -48,14 +48,12 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     private OriginalSynView originalView;
     private ArrayList<Original> originalList;
     private WordCard wordCard;
-    private Context context;
     private Article article;
     private StandardPlayer player;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
     }
 
     @Override
@@ -271,7 +269,6 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
             wordCard.dismiss();
             return true;
         } else {
-            handler.removeMessages(0);
             return false;
         }
     }

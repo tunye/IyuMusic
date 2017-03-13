@@ -242,7 +242,7 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     }
 
     public void pause() {
-        if (mIsPrepared) {
+        if (mIsPrepared && mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();
             }
@@ -264,14 +264,14 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     }
 
     public void reset() {
-        if (mIsPrepared) {
+        if (mIsPrepared && mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.reset();
         }
     }
 
     public int getDuration() {
-        if (mIsPrepared) {
+        if (mIsPrepared && mMediaPlayer != null) {
             mDuration = mMediaPlayer.getDuration();
             return mDuration;
         }
@@ -280,20 +280,20 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     }
 
     public int getCurrentPosition() {
-        if (mIsPrepared) {
+        if (mIsPrepared && mMediaPlayer != null) {
             return mMediaPlayer.getCurrentPosition();
         }
         return 0;
     }
 
     public void seekTo(int msec) {
-        if (mIsPrepared) {
+        if (mIsPrepared && mMediaPlayer != null) {
             mMediaPlayer.seekTo(msec);
         }
     }
 
     public boolean isPlaying() {
-        return mIsPrepared && mMediaPlayer.isPlaying();
+        return mIsPrepared && mMediaPlayer != null && mMediaPlayer.isPlaying();
     }
 
     public boolean isPrepared() {

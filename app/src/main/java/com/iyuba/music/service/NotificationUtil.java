@@ -26,7 +26,7 @@ import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
 public class NotificationUtil {
-    public static final int NOTIFICATION_ID = 209;
+    static final int NOTIFICATION_ID = 209;
     public static final String PAUSE_FLAG = "pause_flag";
     public static final String PLAY_FLAG = "play_flag";
     private Notification notification;
@@ -46,7 +46,7 @@ public class NotificationUtil {
         return SingleInstanceHelper.instance;
     }
 
-    public Notification initNotification() {
+    Notification initNotification() {
         notification = new Notification();
         Context context = RuntimeManager.getContext();
 
@@ -65,20 +65,18 @@ public class NotificationUtil {
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
-        contentView.setViewVisibility(R.id.notify_latter, View.INVISIBLE);
-        contentView.setViewVisibility(R.id.notify_formmer, View.INVISIBLE);
-        contentView.setViewVisibility(R.id.notify_play, View.INVISIBLE);
+        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
 
         contentView.setTextViewText(R.id.notify_title, context.getString(R.string.app_name));
         contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.app_corp));
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-        notificationBuilder.setPriority(Notification.PRIORITY_MAX);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
         notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
-        notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -89,7 +87,7 @@ public class NotificationUtil {
         return notification;
     }
 
-    public void updateNotification(String imgUrl) {
+    void updateNotification(String imgUrl) {
         Context context = RuntimeManager.getContext();
         Article curArticle = StudyManager.getInstance().getCurArticle();
         Intent intent;
@@ -102,14 +100,6 @@ public class NotificationUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
-        contentView.setViewVisibility(R.id.notify_latter, View.VISIBLE);
-        contentView.setViewVisibility(R.id.notify_formmer, View.VISIBLE);
-        contentView.setViewVisibility(R.id.notify_play, View.VISIBLE);
-        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
-
         switch (StudyManager.getInstance().getApp()) {
             case "209":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());

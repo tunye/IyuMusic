@@ -254,8 +254,8 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void finish() {
+        super.finish();
         unRegistBroadcast();
     }
 

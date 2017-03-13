@@ -504,6 +504,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     protected void changeUIResumeByPara() {
         setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
+        setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate());
         switch (StudyManager.getInstance().getMusicType()) {
             case 0:
                 studyMode.setImageResource(R.drawable.study_annoucer_mode);

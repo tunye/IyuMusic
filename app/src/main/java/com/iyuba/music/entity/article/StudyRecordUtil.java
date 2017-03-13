@@ -1,11 +1,6 @@
-/*
- * 文件名 
- * 包含类名列表
- * 版本信息，版本号
- * 创建日期
- * 版权声明
- */
 package com.iyuba.music.entity.article;
+
+import android.text.TextUtils;
 
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -24,9 +19,7 @@ public class StudyRecordUtil {
     private static StudyRecordOp studyRecordOp = new StudyRecordOp();
 
     public static void recordStop(String lesson, int flag) {
-        if (StudyManager.getInstance().getApp().equals("101")) {
-
-        } else {
+        if (!StudyManager.getInstance().getApp().equals("101") && !TextUtils.isEmpty(StudyManager.getInstance().getStartTime())) {
             StudyRecord studyRecord = new StudyRecord();
             studyRecord.setEndTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
             studyRecord.setFlag(flag);
@@ -46,8 +39,7 @@ public class StudyRecordUtil {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (addTime < 600) {
-            } else {
+            if (addTime >= 600) {
                 addTime = 600;
                 studyRecord.setEndTime(studyRecord.getStartTime() + 600000);
             }
