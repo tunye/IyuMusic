@@ -38,7 +38,7 @@ public class ConstantManager {
         lrcFolder = envir + File.separator + "audioLrc";
         originalFolder = envir + File.separator + "audioOriginal";
         crashFolder = envir + File.separator + "crash";
-        recordFile = envir + File.separator + "sound.amr";
+        recordFile = envir + File.separator + "sound";
         imgFile = envir + File.separator + "image";
     }
 

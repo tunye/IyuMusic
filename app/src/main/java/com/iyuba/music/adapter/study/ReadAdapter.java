@@ -2,16 +2,23 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iflytek.cloud.EvaluatorListener;
+import com.iflytek.cloud.EvaluatorResult;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.ise.result.Result;
+import com.iflytek.ise.result.xml.XmlResultParser;
+import com.iyuba.assessment.IseManager;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
@@ -29,7 +36,6 @@ import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -45,7 +51,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private boolean curRecord;
     private boolean isRecord;
     private Article curArticle;
-    private MediaRecorder mediaRecorder;
 
     public ReadAdapter(Context context) {
         this.context = context;
@@ -56,7 +61,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         player = new SimplePlayer(context);
         curArticle = StudyManager.getInstance().getCurArticle();
         player.setVideoPath(getPath());
-        mediaRecorder = new MediaRecorder();
     }
 
     public void setDataSet(ArrayList<Original> originals) {
@@ -154,14 +158,14 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     curRecord = true;
                     isRecord = false;
                     holder.record.setImageResource(R.drawable.record);
-                    mediaRecorder.stop();
+                    IseManager.getInstance(context).stopEvaluate();
                     handler.sendEmptyMessage(3);
                     holder.recordPlay.setVisibility(View.VISIBLE);
                     holder.recordSend.setVisibility(View.VISIBLE);
                 } else {
                     resetFunction();
                     isRecord = true;
-                    initRecorder();
+                    initRecorder(original.getSentence());
                 }
             }
         });
@@ -217,23 +221,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         }
     }
 
-    private void initRecorder() {
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder
-                .setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        mediaRecorder
-                .setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setOutputFile(ConstantManager.getInstance().getRecordFile());
-        try {
-            mediaRecorder.prepare();
-            mediaRecorder.start();
-            Message message = new Message();
-            message.arg1 = 0;
-            message.what = 2;
-            handler.sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void initRecorder(String sentence) {
+        IseManager.getInstance(context).startEvaluate(sentence, ConstantManager.getInstance().getRecordFile(), evaluatorListener);
+        Message message = new Message();
+        message.arg1 = 0;
+        message.what = 2;
+        handler.sendMessage(message);
     }
 
     private void resetFunction() {
@@ -242,8 +235,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         }
         if (isRecord) {
             isRecord = false;
-            mediaRecorder.stop();
-            mediaRecorder.reset();
+            IseManager.getInstance(context).cancelEvaluate();
         }
         if (simplePlayer.isPrepared() && simplePlayer.isPlaying()) {
             simplePlayer.pause();
@@ -257,9 +249,9 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         player.stopPlayback();
         simplePlayer.stopPlayback();
         if (isRecord) {
-            mediaRecorder.stop();
+            IseManager.getInstance(context).cancelEvaluate();
         }
-        mediaRecorder.release();
+        IseManager.getInstance(context).releaseResource();
         handler.removeCallbacksAndMessages(null);
     }
 
@@ -345,7 +337,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     AccountManager.getInstance().getUserId());
             sb.append("&shuoshuotype=").append(2);
             sb.append("&voaid=").append(curArticle.getId());
-            final File file = new File(ConstantManager.getInstance().getRecordFile());
+            final File file = new File(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
             UploadFile.postSound(sb.toString(), file, new IOperationResult() {
                 @Override
                 public void success(Object object) {
@@ -360,4 +352,45 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             });
         }
     }
+
+    private EvaluatorListener evaluatorListener = new EvaluatorListener() {
+        final String TAG = "assessment";
+
+        @Override
+        public void onResult(EvaluatorResult result, boolean isLast) {
+            if (isLast) {
+                XmlResultParser resultParser = new XmlResultParser();
+                Result resultEva = resultParser.parse(result.getResultString());
+                CustomToast.getInstance().showToast(resultEva.total_score * 20 + " " + resultEva.is_rejected);
+                IseManager.getInstance(context).transformPcmToAmr();
+            }
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            if (error != null) {
+                CustomToast.getInstance().showToast("error:" + error.getErrorCode() + "," + error.getErrorDescription());
+            } else {
+                Log.e(TAG, "evaluator over");
+            }
+        }
+
+        @Override
+        public void onBeginOfSpeech() {
+            Log.e(TAG, "开始评测");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            Log.e(TAG, "evaluator stoped");
+        }
+
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+        }
+
+        @Override
+        public void onVolumeChanged(int volume, byte[] arg1) {
+            Log.e(TAG, "" + volume);
+        }
+    };
 }

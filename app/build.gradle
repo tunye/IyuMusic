@@ -125,4 +125,5 @@ dependencies {
     compile 'com.isseiaoki:simplecropview:1.0.13'
     compile project(':smssdk')
     compile project(':umengshare')
+    compile project(':assessment')
 }

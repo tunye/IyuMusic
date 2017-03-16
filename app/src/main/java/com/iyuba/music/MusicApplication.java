@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -139,6 +141,8 @@ public class MusicApplication extends Application {
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
+        // 讯飞初始化
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=5752942e");
         UMShareConfig config = new UMShareConfig();
         config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
         UMShareAPI.get(this).setShareConfig(config);

@@ -175,7 +175,7 @@ public class PlayerService extends Service {
     }
 
     public void startPlay(Article article, boolean modeChange) {
-        if (article.getId() == curArticle && !modeChange) {
+        if (article != null && article.getId() == curArticle && !modeChange) {
         } else {
             if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
