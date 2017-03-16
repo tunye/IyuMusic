@@ -78,6 +78,7 @@ public class NotificationUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
+        contentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         switch (StudyManager.getInstance().getApp()) {
             case "209":
                 contentView.setTextViewText(R.id.notify_title, curArticle.getTitle());

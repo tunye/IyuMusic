@@ -358,6 +358,12 @@
     <string name="read_send_success">跟唱发送成功</string>
     <string name="read_send_fail">跟唱发送失败</string>
     <string name="read_del_fail">跟唱删除失败</string>
+    <string name="read_assessment">测评中，请稍候。</string>
+    <string name="read_refused">您的朗读似乎有些问题，建议重新录制一次。</string>
+    <string name="read_grade_a">跟唱非常出色，点击发送与听友分享吧</string>
+    <string name="read_grade_b">跟唱很好，再接再厉</string>
+    <string name="read_grade_c">感谢您的跟唱，继续加油</string>
+    <string name="read_grade_d">似乎有些差强人意，要不重新录制一次</string>
     <!--会员界面-->
     <string name="vip_recharge">充语币</string>
     <string name="vip_iyubi_title">爱语币充值</string>

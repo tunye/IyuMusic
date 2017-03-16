@@ -19,6 +19,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.ise.result.Result;
 import com.iflytek.ise.result.xml.XmlResultParser;
 import com.iyuba.assessment.IseManager;
+import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
@@ -26,12 +27,15 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
@@ -51,12 +55,14 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private boolean curRecord;
     private boolean isRecord;
     private Article curArticle;
+    private IyubaDialog waittingDialog;
 
     public ReadAdapter(Context context) {
         this.context = context;
         simplePlayer = new SimplePlayer(context);
         curItem = 0;
         isRecord = false;
+        waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_assessment));
         originals = new ArrayList<>();
         player = new SimplePlayer(context);
         curArticle = StudyManager.getInstance().getCurArticle();
@@ -156,10 +162,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             public void onClick(View v) {
                 if (isRecord) {
                     curRecord = true;
-                    isRecord = false;
-                    holder.record.setImageResource(R.drawable.record);
                     IseManager.getInstance(context).stopEvaluate();
-                    handler.sendEmptyMessage(3);
                     holder.recordPlay.setVisibility(View.VISIBLE);
                     holder.recordSend.setVisibility(View.VISIBLE);
                 } else {
@@ -307,8 +310,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     adapter.handler.sendMessageDelayed(message, 1000);
                     break;
                 case 3:
+                    adapter.isRecord = false;
                     adapter.handler.removeMessages(2);
                     adapter.curText.setText("");
+                    adapter.notifyItemChanged(adapter.curItem);
                     break;
                 case 4:
                     adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
@@ -359,15 +364,22 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         @Override
         public void onResult(EvaluatorResult result, boolean isLast) {
             if (isLast) {
+                waittingDialog.dismiss();
+                ((MusicApplication) RuntimeManager.getApplication()).getPlayerService().getPlayer().pause();
                 XmlResultParser resultParser = new XmlResultParser();
                 Result resultEva = resultParser.parse(result.getResultString());
-                CustomToast.getInstance().showToast(resultEva.total_score * 20 + " " + resultEva.is_rejected);
+                if (resultEva.is_rejected) {
+                    CustomToast.getInstance().showToast(R.string.read_refused);
+                } else {
+                    CustomToast.getInstance().showToast(resultEva.total_score * 20 + " ");
+                }
                 IseManager.getInstance(context).transformPcmToAmr();
             }
         }
 
         @Override
         public void onError(SpeechError error) {
+            waittingDialog.dismiss();
             if (error != null) {
                 CustomToast.getInstance().showToast("error:" + error.getErrorCode() + "," + error.getErrorDescription());
             } else {
@@ -377,12 +389,13 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
         @Override
         public void onBeginOfSpeech() {
-            Log.e(TAG, "开始评测");
+
         }
 
         @Override
         public void onEndOfSpeech() {
-            Log.e(TAG, "evaluator stoped");
+            handler.sendEmptyMessage(3);
+            waittingDialog.show();
         }
 
         public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
@@ -390,7 +403,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
         @Override
         public void onVolumeChanged(int volume, byte[] arg1) {
-            Log.e(TAG, "" + volume);
+
         }
     };
 }
