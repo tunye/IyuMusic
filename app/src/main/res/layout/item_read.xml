@@ -56,6 +56,7 @@
             android:id="@+id/read_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/row_space_default"
             android:orientation="horizontal">
 
             <TextView
@@ -70,22 +71,22 @@
             <ImageView
                 android:id="@+id/read_play"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:padding="@dimen/row_space_default"
+                android:layout_height="36dp"
                 android:layout_weight="1"
+                android:padding="@dimen/row_space_default"
                 android:src="@drawable/read_play" />
 
             <ImageView
                 android:id="@+id/read_record"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:padding="@dimen/row_space_default"
+                android:layout_height="36dp"
                 android:layout_weight="1"
+                android:padding="@dimen/row_space_default"
                 android:src="@drawable/record" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/row_space_default"
                 android:src="@drawable/record_play"
@@ -93,7 +94,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
                 android:padding="@dimen/row_space_default"
                 android:src="@drawable/record_share"

@@ -37,6 +37,7 @@ import java.util.Calendar;
 public class PlayerService extends Service {
     private AudioManager audioManager;
     private StandardPlayer player;
+    private boolean changeByAudioListener;
     private int curArticle;
     private MyOnAudioFocusChangeListener onAudioFocusChangeListener;
     private PhoneStateListener phoneStateListener;
@@ -306,14 +307,16 @@ public class PlayerService extends Service {
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     if (player.isPlaying()) {
                         // 短暂失去焦点，先暂停。同时将标志位置成重新获得焦点后就开始播放
+                        changeByAudioListener = true;
                         sendBroadcast(new Intent("iyumusic.pause"));
 //                        mPausedByTransientLossOfFocus = true;
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     // 重新获得焦点，且符合播放条件，开始播放
-                    if (!player.isPlaying()) {
+                    if (!player.isPlaying() && changeByAudioListener) {
 //                        mPausedByTransientLossOfFocus = false;
+                        changeByAudioListener = false;
                         sendBroadcast(new Intent("iyumusic.pause"));
                     }
                     break;

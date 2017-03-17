@@ -71,11 +71,12 @@ public class MusicApplication extends Application {
         super.onCreate();//必须调用父类方法
         if (shouldInit()) {
             RuntimeManager.initRuntimeManager(this);
+//            com.iyuba.headlinelibrary.manager.RuntimeManager.setApplicationContext(this);
             pushSdkInit();
             prepareForApp();
             activityList = new ArrayList<>();
-            CrashHandler crashHandler = new CrashHandler(this);
-            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+//            CrashHandler crashHandler = new CrashHandler(this);
+//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 

@@ -121,8 +121,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     /*截图*/
     compile 'com.isseiaoki:simplecropview:1.0.13'
-    /*爆炸效果*/
-    compile 'tyrantgit:explosionfield:1.0.1'
     compile project(':smssdk')
     compile project(':umengshare')
     compile project(':assessment')

@@ -89,7 +89,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 }
                 break;
             case 1:
-                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile());
+                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
                 simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -360,15 +360,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         public void onResult(EvaluatorResult result, boolean isLast) {
             if (isLast) {
                 waittingDialog.dismiss();
-                ((MusicApplication) RuntimeManager.getApplication()).getPlayerService().getPlayer().pause();
                 XmlResultParser resultParser = new XmlResultParser();
                 Result resultEva = resultParser.parse(result.getResultString());
                 if (resultEva.is_rejected) {
                     CustomToast.getInstance().showToast(R.string.read_refused);
                 } else {
-
-                    assessmentDialog.show(67.54f);
-                    CustomToast.getInstance().showToast(resultEva.total_score * 20 + " ");
+                    assessmentDialog.show(resultEva.total_score * 20);
                 }
                 IseManager.getInstance(context).transformPcmToAmr();
             }
