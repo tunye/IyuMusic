@@ -69,9 +69,9 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
+        RuntimeManager.initRuntimeManager(this);
         int i = shouldInit();
         if (i >= 0) {
-            RuntimeManager.initRuntimeManager(this);
             pushSdkInit();
         }
         if (i == 0) {

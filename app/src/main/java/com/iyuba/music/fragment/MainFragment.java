@@ -233,47 +233,32 @@ public class MainFragment extends BaseFragment {
     }
 
     private void pauseClick() {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
-            playNewSong();
-        } else {
-            if (player != null && player.isPrepared()) {
-                context.sendBroadcast(new Intent("iyumusic.pause"));
-            }
-        }
+        context.sendBroadcast(new Intent("iyumusic.pause"));
     }
 
     private void formerClick() {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
-            playNewSong();
-        } else {
-            context.sendBroadcast(new Intent("iyumusic.before"));
-            pause.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setContent();
-                }
-            }, 500);
-            if (!player.isPlaying()) {
-                context.sendBroadcast(new Intent("iyumusic.pause"));
+        context.sendBroadcast(new Intent("iyumusic.before"));
+        pause.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContent();
             }
+        }, 500);
+        if (!player.isPlaying()) {
+            context.sendBroadcast(new Intent("iyumusic.pause"));
         }
     }
 
     private void latterClick() {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
-            StudyManager.getInstance().next();
-            playNewSong();
-        } else {
-            context.sendBroadcast(new Intent("iyumusic.next"));
-            pause.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setContent();
-                }
-            }, 500);
-            if (!player.isPlaying()) {
-                context.sendBroadcast(new Intent("iyumusic.pause"));
+        context.sendBroadcast(new Intent("iyumusic.next"));
+        pause.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setContent();
             }
+        }, 500);
+        if (!player.isPlaying()) {
+            context.sendBroadcast(new Intent("iyumusic.pause"));
         }
     }
 

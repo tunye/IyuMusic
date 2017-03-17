@@ -27,7 +27,7 @@ public class NotificationNextReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
                 Intent i = new Intent("com.iyuba.music.main");
