@@ -54,7 +54,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private int curItem = -1;
     private SimplePlayer player, simplePlayer;
     private TextView curText;
-    private boolean curRecord;
     private boolean isRecord;
     private Article curArticle;
     private IyubaDialog waittingDialog;
@@ -129,7 +128,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if (curItem != holder.getLayoutPosition()) {
-                    curRecord = false;
                     int oldPos = curItem;
                     curItem = holder.getLayoutPosition();
                     notifyItemChanged(oldPos);
@@ -158,7 +156,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             holder.readControl.setVisibility(View.VISIBLE);
         } else {
             holder.readControl.setVisibility(View.GONE);
-            curRecord = false;
         }
         if (player.isPlaying()) {
             holder.play.setImageResource(R.drawable.read_play);
@@ -195,7 +192,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if (isRecord) {
-                    curRecord = true;
                     IseManager.getInstance(context).stopEvaluate();
                     handler.sendEmptyMessage(3);
                     waittingDialog.show();

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.flyco.roundview.RoundRelativeLayout;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;

@@ -17,7 +17,7 @@
         android:background="#8e8e8e"
         android:padding="@dimen/row_space_medium">
 
-        <com.flyco.roundview.RoundLinearLayout
+        <com.iyuba.music.widget.roundview.RoundLinearLayout
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -35,7 +35,7 @@
                 app:met_floatingLabel="none"
                 app:met_hideUnderline="true"
                 app:met_primaryColor="@color/skin_app_color" />
-        </com.flyco.roundview.RoundLinearLayout>
+        </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/friend_search"

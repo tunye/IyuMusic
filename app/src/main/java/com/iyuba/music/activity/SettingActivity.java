@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
-import com.flyco.roundview.RoundRelativeLayout;
-import com.flyco.roundview.RoundTextView;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;

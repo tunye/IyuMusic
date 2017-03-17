@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.flyco.roundview.RoundRelativeLayout;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.download.AppUpdateThread;

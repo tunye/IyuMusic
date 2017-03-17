@@ -43,7 +43,7 @@
                 android:textColor="#ededed"
                 android:textSize="@dimen/title_text" />
 
-            <com.flyco.roundview.RoundTextView
+            <com.iyuba.music.widget.roundview.RoundTextView
                 android:id="@+id/study_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,8 @@
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/big_text"
                 app:rv_backgroundColor="#ededed"
-                app:rv_isRadiusHalfHeight="true" />
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_isRippleEnable="false" />
 
             <ImageView
                 android:id="@+id/study_translate"

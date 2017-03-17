@@ -20,11 +20,10 @@
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin">
 
-            <com.flyco.roundview.RoundRelativeLayout
+            <com.iyuba.music.widget.roundview.RoundRelativeLayout
                 android:id="@+id/editPortrait"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                app:rv_backgroundPressColor="@color/background_light"
                 app:rv_cornerRadius="@dimen/corner_radius_big"
                 app:rv_strokeColor="@color/background_light"
                 app:rv_strokeWidth="@dimen/line_thin">
@@ -47,7 +46,7 @@
                     android:layout_marginRight="@dimen/row_space_large" />
 
 
-            </com.flyco.roundview.RoundRelativeLayout>
+            </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -55,10 +54,9 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
-                    app:rv_backgroundPressColor="@color/background_light"
                     app:rv_cornerRadius_TL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_TR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -82,13 +80,13 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+
                     app:rv_strokeColor="@color/background_light"
                     app:rv_strokeWidth="@dimen/line_thin">
 
@@ -110,14 +108,13 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
                     app:rv_strokeColor="@color/background_light"
                     app:rv_strokeWidth="@dimen/line_thin">
 
@@ -143,13 +140,13 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_strokeColor="@color/background_light"
                     app:rv_strokeWidth="@dimen/line_thin">
 
@@ -171,13 +168,13 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_cornerRadius_BL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_BR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -201,7 +198,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
             <TextView
@@ -218,10 +215,10 @@
                 android:layout_marginTop="@dimen/row_space_large"
                 android:orientation="vertical">
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_cornerRadius_TL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_TR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -250,13 +247,13 @@
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
 
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_cornerRadius_BL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_BR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -284,7 +281,7 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
             <TextView
@@ -301,10 +298,10 @@
                 android:layout_marginTop="@dimen/row_space_large"
                 android:orientation="vertical">
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_cornerRadius_TL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_TR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -332,13 +329,13 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_strokeColor="@color/background_light"
                     app:rv_strokeWidth="@dimen/line_thin">
 
@@ -364,13 +361,13 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_strokeColor="@color/background_light"
                     app:rv_strokeWidth="@dimen/line_thin">
 
@@ -396,13 +393,13 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_backgroundPressColor="@color/background_light"
+                    
                     app:rv_cornerRadius_BL="@dimen/corner_radius_big"
                     app:rv_cornerRadius_BR="@dimen/corner_radius_big"
                     app:rv_strokeColor="@color/background_light"
@@ -430,7 +427,7 @@
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
                         app:met_textColor="@color/text_complementary" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

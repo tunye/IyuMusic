@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/row_space_big">
 
-            <com.flyco.roundview.RoundLinearLayout
+            <com.iyuba.music.widget.roundview.RoundLinearLayout
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -36,7 +36,7 @@
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
                     app:met_primaryColor="@color/skin_app_color" />
-            </com.flyco.roundview.RoundLinearLayout>
+            </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/search_news_ripple"
@@ -105,7 +105,7 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/medium_text" />
 
-            <com.flyco.roundview.RoundTextView
+            <com.iyuba.music.widget.roundview.RoundTextView
                 android:id="@+id/search_advice_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,8 +119,8 @@
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/medium_text"
                 app:rv_cornerRadius="@dimen/corner_radius_medium"
+                app:rv_isRippleEnable="false"
                 app:rv_strokeColor="@color/skin_app_color"
-                app:rv_strokePressColor="@color/text_gray_color"
                 app:rv_strokeWidth="@dimen/line_thin" />
         </RelativeLayout>
 

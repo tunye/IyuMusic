@@ -16,7 +16,7 @@
         android:layout_margin="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
-        <com.flyco.roundview.RoundRelativeLayout
+        <com.iyuba.music.widget.roundview.RoundRelativeLayout
             android:id="@+id/study_set_playmode"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
@@ -43,9 +43,9 @@
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text" />
-        </com.flyco.roundview.RoundRelativeLayout>
+        </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-        <com.flyco.roundview.RoundRelativeLayout
+        <com.iyuba.music.widget.roundview.RoundRelativeLayout
             android:id="@+id/study_set_nextmode"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
@@ -71,9 +71,9 @@
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text" />
-        </com.flyco.roundview.RoundRelativeLayout>
+        </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-        <com.flyco.roundview.RoundRelativeLayout
+        <com.iyuba.music.widget.roundview.RoundRelativeLayout
             android:id="@+id/study_set_original_size"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
@@ -99,9 +99,9 @@
                 app:go_color="@color/background_complementary"
                 app:go_direction="LEFT"
                 app:go_stroke="@dimen/line_default" />
-        </com.flyco.roundview.RoundRelativeLayout>
+        </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-        <com.flyco.roundview.RoundRelativeLayout
+        <com.iyuba.music.widget.roundview.RoundRelativeLayout
             android:id="@+id/study_set_auto_round"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
@@ -126,9 +126,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
                 android:checked="true" />
-        </com.flyco.roundview.RoundRelativeLayout>
+        </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-        <com.flyco.roundview.RoundRelativeLayout
+        <com.iyuba.music.widget.roundview.RoundRelativeLayout
             android:id="@+id/study_set_download"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
@@ -156,7 +156,7 @@
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text" />
-        </com.flyco.roundview.RoundRelativeLayout>
+        </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,7 +165,7 @@
             android:orientation="vertical">
 
 
-            <com.flyco.roundview.RoundRelativeLayout
+            <com.iyuba.music.widget.roundview.RoundRelativeLayout
                 android:id="@+id/study_set_headplug_play"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/list_height"
@@ -191,9 +191,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/row_space_large"
                     android:checked="true" />
-            </com.flyco.roundview.RoundRelativeLayout>
+            </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-            <com.flyco.roundview.RoundRelativeLayout
+            <com.iyuba.music.widget.roundview.RoundRelativeLayout
                 android:id="@+id/study_set_headplug_pause"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/list_height"
@@ -220,7 +220,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/row_space_large"
                     android:checked="true" />
-            </com.flyco.roundview.RoundRelativeLayout>
+            </com.iyuba.music.widget.roundview.RoundRelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

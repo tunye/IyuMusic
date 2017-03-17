@@ -66,7 +66,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/word_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,10 +79,11 @@
             android:textSize="16sp"
             app:rv_backgroundColor="@color/background"
             app:rv_cornerRadius="10dp"
+            app:rv_isRippleEnable="false"
             app:rv_strokeColor="@color/skin_app_color"
             app:rv_strokeWidth="1dp" />
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/word_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,9 +97,9 @@
             android:textSize="16sp"
             app:rv_backgroundColor="@color/background"
             app:rv_cornerRadius="10dp"
+            app:rv_isRippleEnable="false"
             app:rv_strokeColor="@color/skin_app_color"
-            app:rv_strokeWidth="1dp"
-            app:rv_textPressColor="@color/text_complementary" />
+            app:rv_strokeWidth="1dp" />
     </LinearLayout>
 
     <com.wang.avi.AVLoadingIndicatorView

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.flyco.roundview.RoundLinearLayout;
+import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;

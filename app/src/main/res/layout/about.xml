@@ -62,7 +62,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:id="@+id/praise"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/list_height"
@@ -89,10 +89,10 @@
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:id="@+id/developer"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/list_height"
@@ -118,10 +118,10 @@
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:id="@+id/website"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/list_height"
@@ -147,9 +147,9 @@
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                <com.flyco.roundview.RoundRelativeLayout
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
                     android:id="@+id/update"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/list_height"
@@ -202,7 +202,7 @@
                         app:cp_circleWidth="@dimen/line_default"
                         app:cp_textColor="@color/skin_app_color"
                         app:cp_textSize="@dimen/default_text" />
-                </com.flyco.roundview.RoundRelativeLayout>
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
             <com.iyuba.music.widget.textview.JustifyTextView

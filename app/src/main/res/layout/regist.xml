@@ -115,7 +115,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="@color/skin_app_color" />
 
-                <com.flyco.roundview.RoundTextView
+                <com.iyuba.music.widget.roundview.RoundTextView
                     android:id="@+id/get_msg_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -127,7 +127,6 @@
                     android:textColor="#ededed"
                     android:textSize="@dimen/medium_text"
                     app:rv_backgroundColor="@color/skin_app_color"
-                    app:rv_backgroundPressColor="@color/skin_app_color"
                     app:rv_cornerRadius="@dimen/corner_radius_default" />
             </LinearLayout>
         </LinearLayout>
@@ -215,7 +214,7 @@
                 android:textColor="#009FE8" />
         </LinearLayout>
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/regist"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -227,7 +226,6 @@
             android:textColor="#ededed"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_backgroundPressColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_big" />
     </LinearLayout>
 </LinearLayout>

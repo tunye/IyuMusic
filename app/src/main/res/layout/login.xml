@@ -140,7 +140,7 @@
             android:textSize="@dimen/medium_text" />
     </RelativeLayout>
 
-    <com.flyco.roundview.RoundTextView
+    <com.iyuba.music.widget.roundview.RoundTextView
         android:id="@+id/login"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -153,6 +153,5 @@
         android:textColor="#ededed"
         android:textSize="@dimen/large_text"
         app:rv_backgroundColor="@color/skin_app_color"
-        app:rv_backgroundPressColor="@color/skin_app_color"
         app:rv_cornerRadius="@dimen/corner_radius_big" />
 </RelativeLayout>

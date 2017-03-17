@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.BaseSkinActivity;
-import com.flyco.roundview.RoundTextView;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.RecommendSongActivity;

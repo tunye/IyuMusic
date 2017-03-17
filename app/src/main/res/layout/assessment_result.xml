@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.iyuba.music.widget.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:rv_backgroundColor="@color/background_dark"
-    app:rv_backgroundPressColor="@color/background_dark"
     app:rv_cornerRadius="@dimen/corner_radius_big">
 
-    <com.flyco.roundview.RoundRelativeLayout
+    <com.iyuba.music.widget.roundview.RoundRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rv_backgroundColor="@color/skin_app_color"
-        app:rv_backgroundPressColor="@color/skin_app_color"
         app:rv_cornerRadius_TL="@dimen/corner_radius_big"
         app:rv_cornerRadius_TR="@dimen/corner_radius_big">
 
@@ -31,7 +29,7 @@
             android:layout_alignParentRight="true"
             android:padding="@dimen/row_space_big"
             android:src="@drawable/ic_action_close_common" />
-    </com.flyco.roundview.RoundRelativeLayout>
+    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
     <com.iyuba.music.widget.boundnumber.RiseNumberTextView
         android:id="@+id/assessment_score"
@@ -58,7 +56,7 @@
         android:layout_margin="@dimen/activity_horizontal_margin_big"
         android:orientation="horizontal">
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/assessment_retry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,7 +69,7 @@
             app:rv_backgroundColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_default" />
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/assessment_send"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -85,7 +83,7 @@
             app:rv_backgroundColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_default" />
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/assessment_listen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -99,4 +97,4 @@
             app:rv_backgroundColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_default" />
     </LinearLayout>
-</com.flyco.roundview.RoundLinearLayout>
+</com.iyuba.music.widget.roundview.RoundLinearLayout>

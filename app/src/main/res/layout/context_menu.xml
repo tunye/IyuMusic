@@ -9,7 +9,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <com.flyco.roundview.RoundLinearLayout
+        <com.iyuba.music.widget.roundview.RoundLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="100"
@@ -23,10 +23,10 @@
                 android:divider="#dcdcdc"
                 android:dividerHeight="@dimen/line_thin" />
 
-        </com.flyco.roundview.RoundLinearLayout>
+        </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
 
-        <com.flyco.roundview.RoundTextView
+        <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/cancle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,6 @@
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="#baffffff"
-            app:rv_backgroundPressColor="#baffffff"
             app:rv_cornerRadius="@dimen/corner_radius_default" />
     </LinearLayout>
 </RelativeLayout>
