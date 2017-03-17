@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -55,7 +56,7 @@ public class ReadCountAddRequest {
         String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 70001);
-        para.put("counts", 1);
+        para.put("counts", new Random().nextInt(3) + 1);
         para.put("format", "json");
         para.put("appName", app);
         para.put("voaids", voaid);

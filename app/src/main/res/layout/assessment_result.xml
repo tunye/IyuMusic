@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:rv_backgroundColor="@color/background_dark"
+    app:rv_backgroundPressColor="@color/background_dark"
+    app:rv_cornerRadius="@dimen/corner_radius_big">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/skin_app_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="跟唱评测"
+            android:textColor="@color/background"
+            android:textSize="@dimen/title_text" />
+
+        <ImageView
+            android:id="@+id/assessment_close"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/row_space_big"
+            android:src="@drawable/ic_action_close_common" />
+    </RelativeLayout>
+
+    <com.iyuba.music.widget.boundnumber.RiseNumberTextView
+        android:id="@+id/credit_counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/row_space_large"
+        android:text="90.33"
+        android:textColor="@color/skin_app_color"
+        android:textSize="@dimen/extreme_large_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/assessment_explored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/assessment_flower" />
+
+        <TextView
+            android:id="@+id/assessment_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/read_grade_a"
+            android:textColor="@color/skin_app_color"
+            android:textSize="@dimen/large_text" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/assessment_retry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="重录"
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/assessment_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="发送"
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/assessment_listen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="试听"
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
+
+    </LinearLayout>
+</com.flyco.roundview.RoundLinearLayout>

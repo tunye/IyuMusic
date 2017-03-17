@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="explosionfield-1.0.1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/71388528153e276d40fcb944b9afd6464fff67c2/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/71388528153e276d40fcb944b9afd6464fff67c2/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tyrantgit/explosionfield/1.0.1/5e0de9c74e2855b253ee49e30d0a540ebac78dc5/explosionfield-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

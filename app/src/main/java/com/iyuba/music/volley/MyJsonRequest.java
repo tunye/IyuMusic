@@ -15,22 +15,6 @@ import java.util.Map;
  */
 
 public class MyJsonRequest extends JsonObjectRequest {
-    public MyJsonRequest(int method, String url, String requestBody, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, requestBody, listener, errorListener);
-    }
-
-    public MyJsonRequest(String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(url, listener, errorListener);
-    }
-
-    public MyJsonRequest(int method, String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
-    }
-
-    public MyJsonRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, jsonRequest, listener, errorListener);
-    }
-
     public MyJsonRequest(String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(url, jsonRequest, listener, errorListener);
     }

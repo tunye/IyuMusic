@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.iyuba.music.entity.article.StudyRecordUtil;
@@ -70,16 +69,11 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
-        RuntimeManager.initRuntimeManager(this);
-        int i = shouldInit();
-        Log.e("aaa", "" + i);
-        if (i >= 0) {
+        if (shouldInit()) {
+            RuntimeManager.initRuntimeManager(this);
             pushSdkInit();
-        }
-        if (i == 0) {
             prepareForApp();
             activityList = new ArrayList<>();
-            startService(new Intent(getApplicationContext(), PlayerService.class));
             CrashHandler crashHandler = new CrashHandler(this);
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
@@ -109,7 +103,7 @@ public class MusicApplication extends Application {
         Logger.setLogger(this, newLogger);
     }
 
-    private int shouldInit() {
+    private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
         List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
         String mainProcessName = getPackageName();
@@ -118,7 +112,6 @@ public class MusicApplication extends Application {
         boolean hasAppProcess = false;
         for (ActivityManager.RunningAppProcessInfo info : processInfos) {
             if (info.pid == myPid && mainProcessName.equals(info.processName)) {
-                Log.e("aaa", new Gson().toJson(info));
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                     isForeground = true;
                 } else if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE) {
@@ -129,12 +122,12 @@ public class MusicApplication extends Application {
             }
         }
         if (isForeground) {
-            return 0;
+            return true;
         }
         if (hasAppProcess) {
-            return 1;
+            return true;
         }
-        return -1;
+        return false;
     }
 
     @Override
@@ -172,6 +165,9 @@ public class MusicApplication extends Application {
 
     public void pushActivity(Activity activity) {
         activityList.add(activity);
+        if (playerService == null) {
+            startService(new Intent(getApplicationContext(), PlayerService.class));
+        }
     }
 
     public void popActivity(Activity activity) {
