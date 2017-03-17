@@ -1,5 +1,6 @@
 package com.iyuba.music.request.apprequest;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -51,6 +52,7 @@ public class AdPicRequest {
                     response.onServerError(VolleyErrorHelper.getMessage(error));
                 }
             });
+            request.setRetryPolicy(new DefaultRetryPolicy(1000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
             response.onNetError(RuntimeManager.getString(R.string.no_internet));

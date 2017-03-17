@@ -104,24 +104,20 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
-                swipeRefreshLayout.setRefreshing(false);
-                loadLocalBannerData();
-            } else {
-                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+            loadLocalBannerData();
+            if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        loadLocalBannerData();
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        loadLocalBannerData();
                     }
 
                     @Override
                     public void response(Object object) {
+                        RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                         ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
                         BannerEntity bannerEntity = new BannerEntity();
                         bannerEntity.setOwnerid("2");
@@ -133,43 +129,41 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                     }
                 });
             }
-
-
-            SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
-                @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-
-                @Override
-                public void response(Object object) {
-                    BaseListEntity listEntity = (BaseListEntity) object;
-                    ArrayList<SongCategory> netData = (ArrayList<SongCategory>) listEntity.getData();
-                    isLastPage = listEntity.isLastPage();
-                    switch (refreshType) {
-                        case MySwipeRefreshLayout.TOP_REFRESH:
-                            newsList = netData;
-                            break;
-                        case MySwipeRefreshLayout.BOTTOM_REFRESH:
-                            if (!isLastPage) {
-                                newsList.addAll(netData);
-                            } else {
-                                CustomToast.getInstance().showToast(R.string.article_load_all);
-                            }
-                            break;
-                    }
-                    swipeRefreshLayout.setRefreshing(false);
-                    newsAdapter.setDataSet(newsList);
-                }
-            });
         }
+        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+                CustomToast.getInstance().showToast(msg);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onServerError(String msg) {
+                CustomToast.getInstance().showToast(msg);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void response(Object object) {
+                BaseListEntity listEntity = (BaseListEntity) object;
+                ArrayList<SongCategory> netData = (ArrayList<SongCategory>) listEntity.getData();
+                isLastPage = listEntity.isLastPage();
+                switch (refreshType) {
+                    case MySwipeRefreshLayout.TOP_REFRESH:
+                        newsList = netData;
+                        break;
+                    case MySwipeRefreshLayout.BOTTOM_REFRESH:
+                        if (!isLastPage) {
+                            newsList.addAll(netData);
+                        } else {
+                            CustomToast.getInstance().showToast(R.string.article_load_all);
+                        }
+                        break;
+                }
+                swipeRefreshLayout.setRefreshing(false);
+                newsAdapter.setDataSet(newsList);
+            }
+        });
     }
 
     private void loadLocalBannerData() {

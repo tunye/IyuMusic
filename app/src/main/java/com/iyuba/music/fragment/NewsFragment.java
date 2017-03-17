@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,23 +185,21 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
-                loadLocalBannerData();
-            } else {
-                RuntimeManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
+            loadLocalBannerData();
+            if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
-                        loadLocalBannerData();
                     }
 
                     @Override
                     public void onServerError(String msg) {
-                        loadLocalBannerData();
+
                     }
 
                     @Override
                     public void response(Object object) {
+                        RuntimeManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
                         ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
                         ConfigManager.getInstance().putString("newsbanner", new Gson().toJson(bannerEntities));
                         newsAdapter.setAdSet(bannerEntities);
@@ -315,7 +314,18 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     private void loadLocalBannerData() {
         Type listType = new TypeToken<ArrayList<BannerEntity>>() {
         }.getType();
-        ArrayList<BannerEntity> bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("newsbanner"), listType);
+        String preferenceData = ConfigManager.getInstance().loadString("newsbanner");
+        ArrayList<BannerEntity> bannerEntities;
+        if (TextUtils.isEmpty(preferenceData)) {
+            bannerEntities = new ArrayList<>();
+            BannerEntity bannerEntity = new BannerEntity();
+            bannerEntity.setOwnerid("2");
+            bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+            bannerEntity.setDesc(context.getString(R.string.app_name));
+            bannerEntities.add(bannerEntity);
+        } else {
+            bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("newsbanner"), listType);
+        }
         newsAdapter.setAdSet(bannerEntities);
     }
 

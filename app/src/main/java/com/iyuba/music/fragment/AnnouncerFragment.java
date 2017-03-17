@@ -60,16 +60,11 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         disableSwipeLayout();
-        if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
-            announcerList = announcerOp.findAll();
-            anouncerAdapter.setAnnouncerList(announcerList);
-        } else {
+        announcerList = announcerOp.findAll();
+        anouncerAdapter.setAnnouncerList(announcerList);
+        if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
             if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                 getData();
-            } else {
-                announcerList = announcerOp.findAll();
-                anouncerAdapter.setAnnouncerList(announcerList);
             }
         }
     }
@@ -88,6 +83,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
 
             @Override
             public void response(Object object) {
+                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                 announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
                 announcerOp.saveData(announcerList);
                 anouncerAdapter.setAnnouncerList(announcerList);
