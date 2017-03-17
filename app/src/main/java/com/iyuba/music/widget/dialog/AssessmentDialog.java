@@ -2,17 +2,13 @@ package com.iyuba.music.widget.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.widget.bitmap.ReadBitmap;
 import com.iyuba.music.widget.boundnumber.RiseNumberTextView;
-
-import tyrantgit.explosionfield.ExplosionField;
 
 /**
  * Created by 10202 on 2017-03-17.
@@ -65,11 +61,8 @@ public class AssessmentDialog implements View.OnClickListener {
             @Override
             public void run() {
                 scoreView.withNumber(score).start();
-
             }
-        }, 1000);
-        ExplosionField explosionView = new ExplosionField(context);
-        explosionView.explode(ReadBitmap.readBitmap(context, R.drawable.assessment_flower), new Rect(0, 0, 200, 200), 500, 500);
+        }, 600);
         int level = (int) score / 20;
         String comment;
         switch (level) {
@@ -107,12 +100,14 @@ public class AssessmentDialog implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.assessment_send:
                 operationResultInt.performance(0);
+                dismiss();
                 break;
             case R.id.assessment_listen:
                 operationResultInt.performance(1);
                 break;
             case R.id.assessment_retry:
                 operationResultInt.performance(2);
+                dismiss();
                 break;
             case R.id.assessment_close:
                 dismiss();

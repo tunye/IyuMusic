@@ -25,6 +25,7 @@ import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
@@ -33,6 +34,7 @@ import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.AssessmentDialog;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -45,7 +47,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> {
+public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> implements IOperationResultInt {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ArrayList<Original> originals;
     private Context context;
@@ -56,6 +58,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private boolean isRecord;
     private Article curArticle;
     private IyubaDialog waittingDialog;
+    private AssessmentDialog assessmentDialog;
 
     public ReadAdapter(Context context) {
         this.context = context;
@@ -63,15 +66,55 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         curItem = 0;
         isRecord = false;
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_assessment));
+        assessmentDialog = new AssessmentDialog(context);
         originals = new ArrayList<>();
         player = new SimplePlayer(context);
         curArticle = StudyManager.getInstance().getCurArticle();
         player.setVideoPath(getPath());
+        assessmentDialog.setListener(this);
     }
 
     public void setDataSet(ArrayList<Original> originals) {
         this.originals = originals;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void performance(int index) {
+        switch (index) {
+            case 0:
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    new UploadVoice().start();
+                } else {
+                    CustomDialog.showLoginDialog(context);
+                }
+                break;
+            case 1:
+                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile());
+                simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        simplePlayer.start();
+                        Message message = new Message();
+                        message.what = 4;
+                        message.arg1 = simplePlayer.getDuration();
+                        handler.sendMessage(message);
+                    }
+                });
+                simplePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        simplePlayer.reset();
+                        handler.sendEmptyMessage(5);
+                    }
+                });
+                break;
+            case 2:
+                resetFunction();
+                isRecord = true;
+                initRecorder(originals.get(curItem).getSentence());
+                break;
+        }
     }
 
     @Override
@@ -113,17 +156,8 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         if (position == curItem) {
             curText = holder.recordTime;
             holder.readControl.setVisibility(View.VISIBLE);
-            if (curRecord) {
-                holder.recordPlay.setVisibility(View.VISIBLE);
-                holder.recordSend.setVisibility(View.VISIBLE);
-            } else {
-                holder.recordPlay.setVisibility(View.INVISIBLE);
-                holder.recordSend.setVisibility(View.INVISIBLE);
-            }
         } else {
             holder.readControl.setVisibility(View.GONE);
-            holder.recordPlay.setVisibility(View.INVISIBLE);
-            holder.recordSend.setVisibility(View.INVISIBLE);
             curRecord = false;
         }
         if (player.isPlaying()) {
@@ -163,45 +197,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 if (isRecord) {
                     curRecord = true;
                     IseManager.getInstance(context).stopEvaluate();
-                    holder.recordPlay.setVisibility(View.VISIBLE);
-                    holder.recordSend.setVisibility(View.VISIBLE);
+                    handler.sendEmptyMessage(3);
+                    waittingDialog.show();
                 } else {
                     resetFunction();
                     isRecord = true;
                     initRecorder(original.getSentence());
-                }
-            }
-        });
-        holder.recordPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile());
-                simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        simplePlayer.start();
-                        Message message = new Message();
-                        message.what = 4;
-                        message.arg1 = simplePlayer.getDuration();
-                        handler.sendMessage(message);
-                    }
-                });
-                simplePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        simplePlayer.reset();
-                        handler.sendEmptyMessage(5);
-                    }
-                });
-            }
-        });
-        holder.recordSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AccountManager.getInstance().checkUserLogin()) {
-                    new UploadVoice().start();
-                } else {
-                    CustomDialog.showLoginDialog(context);
                 }
             }
         });
@@ -262,7 +263,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
         TextView num, english, chinese, recordTime;
         View readControl;
-        ImageView play, record, recordPlay, recordSend;
+        ImageView play, record;
 
         public MyViewHolder(View view) {
             super(view);
@@ -272,8 +273,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             readControl = view.findViewById(R.id.read_control);
             play = (ImageView) view.findViewById(R.id.read_play);
             record = (ImageView) view.findViewById(R.id.read_record);
-            recordPlay = (ImageView) view.findViewById(R.id.read_record_play);
-            recordSend = (ImageView) view.findViewById(R.id.read_record_send);
             recordTime = (TextView) view.findViewById(R.id.record_time);
         }
     }
@@ -371,6 +370,8 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 if (resultEva.is_rejected) {
                     CustomToast.getInstance().showToast(R.string.read_refused);
                 } else {
+
+                    assessmentDialog.show(67.54f);
                     CustomToast.getInstance().showToast(resultEva.total_score * 20 + " ");
                 }
                 IseManager.getInstance(context).transformPcmToAmr();

@@ -56,7 +56,6 @@
             android:id="@+id/read_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_space_medium"
             android:orientation="horizontal">
 
             <TextView
@@ -72,6 +71,7 @@
                 android:id="@+id/read_play"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
+                android:padding="@dimen/row_space_default"
                 android:layout_weight="1"
                 android:src="@drawable/read_play" />
 
@@ -79,22 +79,23 @@
                 android:id="@+id/read_record"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
+                android:padding="@dimen/row_space_default"
                 android:layout_weight="1"
                 android:src="@drawable/record" />
 
             <ImageView
-                android:id="@+id/read_record_play"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:padding="@dimen/row_space_default"
                 android:src="@drawable/record_play"
                 android:visibility="invisible" />
 
             <ImageView
-                android:id="@+id/read_record_send"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:padding="@dimen/row_space_default"
                 android:src="@drawable/record_share"
                 android:visibility="invisible" />
         </LinearLayout>
