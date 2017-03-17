@@ -34,6 +34,7 @@ import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
@@ -44,6 +45,8 @@ import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
+import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.AssessmentDialog;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -123,7 +126,15 @@ public class MainLeftFragment extends BaseFragment {
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context, WriteStateActivity.class));
+                //startActivity(new Intent(context, WriteStateActivity.class));
+                AssessmentDialog assessmentDialog=new AssessmentDialog(context);
+                assessmentDialog.setListener(new IOperationResultInt() {
+                    @Override
+                    public void performance(int index) {
+                        CustomToast.getInstance().showToast(index+"");
+                    }
+                });
+                assessmentDialog.show(67.54f);
             }
         });
         about.setOnClickListener(new View.OnClickListener() {
