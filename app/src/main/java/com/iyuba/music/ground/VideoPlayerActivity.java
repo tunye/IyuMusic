@@ -91,7 +91,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         refresh();
     }
 
-
     @Override
     public void onBackPressed() {
         if (wordCard.isShown()) {
@@ -101,8 +100,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             if (player != null && isSystemPlaying) {
                 sendBroadcast(new Intent("iyumusic.pause"));
             }
-            videoView.stopPlayback();
-            handler.removeCallbacksAndMessages(null);
             super.onBackPressed();
         }
     }
@@ -110,6 +107,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onDestroy() {
         super.onDestroy();
+        videoView.stopPlayback();
+        handler.removeCallbacksAndMessages(null);
         wordCard.destory();
     }
 

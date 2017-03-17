@@ -74,6 +74,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
         wordCard.destory();
+        originalView.removeCallbacks(loadLocalLrcFile);
     }
 
     public void refresh() {
@@ -135,7 +136,6 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
             wordCard.dismiss();
             return true;
         } else {
-            originalView.removeCallbacks(loadLocalLrcFile);
             return false;
         }
     }

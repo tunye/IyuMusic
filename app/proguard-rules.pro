@@ -119,6 +119,8 @@
 -keep class com.youdao.sdk.** { *;}
 #播放状态指示器
 -keep class com.wnafee.vector.**{*;}
+#科大讯飞评分
+-keep class com.iflytek.**{*;}
 #mipush
 -keep class com.iyuba.music.receiver.MipushMessageReceiver {*;}
 -dontwarn com.xiaomi.push.**

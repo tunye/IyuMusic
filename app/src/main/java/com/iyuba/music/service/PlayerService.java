@@ -176,7 +176,7 @@ public class PlayerService extends Service {
 
     public void startPlay(Article article, boolean modeChange) {
         if (article != null && article.getId() == curArticle && !modeChange) {
-        } else {
+        } else if (article != null) {
             if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
                 StudyManager.getInstance().setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
@@ -184,23 +184,13 @@ public class PlayerService extends Service {
                 ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
             }
             String playPath = getUrl(article);
-            if (playPath.startsWith("http")) {
-                try {
-                    player.reset();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                player.setVideoPath(playPath);
-                setNotification();
-            } else {
-                try {
-                    player.reset();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                player.setVideoPath(playPath);
-                setNotification();
+            setNotification();
+            try {
+                player.reset();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            player.setVideoPath(playPath);
         }
     }
 

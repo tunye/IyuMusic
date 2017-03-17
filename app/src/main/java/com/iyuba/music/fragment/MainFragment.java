@@ -11,7 +11,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -163,6 +161,9 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
+        if (SettingConfigManager.getInstance().isAutoRound()) {
+            initAnimation();
+        }
     }
 
     private void setContent() {
@@ -190,9 +191,6 @@ public class MainFragment extends BaseFragment {
                     break;
             }
         }
-        if (SettingConfigManager.getInstance().isAutoRound()) {
-            initAnimation();
-        }
     }
 
     private void initAnimation() {
@@ -203,6 +201,9 @@ public class MainFragment extends BaseFragment {
 
     private void startAnimation() {
         if (SettingConfigManager.getInstance().isAutoRound()) {
+            if (operatingAnim == null) {
+                initAnimation();
+            }
             pic.startAnimation(operatingAnim);
         }
     }
@@ -235,7 +236,9 @@ public class MainFragment extends BaseFragment {
         if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
             playNewSong();
         } else {
-            context.sendBroadcast(new Intent("iyumusic.pause"));
+            if (player != null && player.isPrepared()) {
+                context.sendBroadcast(new Intent("iyumusic.pause"));
+            }
         }
     }
 
@@ -251,9 +254,6 @@ public class MainFragment extends BaseFragment {
                 }
             }, 500);
             if (!player.isPlaying()) {
-                startAnimation();
-                pause.setState(MorphButton.MorphState.END, true);
-                handler.sendEmptyMessage(0);
                 context.sendBroadcast(new Intent("iyumusic.pause"));
             }
         }
@@ -272,9 +272,6 @@ public class MainFragment extends BaseFragment {
                 }
             }, 500);
             if (!player.isPlaying()) {
-                startAnimation();
-                pause.setState(MorphButton.MorphState.START, true);
-                handler.sendEmptyMessage(0);
                 context.sendBroadcast(new Intent("iyumusic.pause"));
             }
         }
@@ -288,13 +285,15 @@ public class MainFragment extends BaseFragment {
             if (player == null) {
                 pause.setState(MorphButton.MorphState.START);
             } else if (player.isPlaying()) {
+                handler.removeMessages(0);
                 startAnimation();
                 pause.setState(MorphButton.MorphState.END, animation);
                 handler.sendEmptyMessage(0);
             } else {
+                handler.removeMessages(0);
                 pauseAnimation();
                 pause.setState(MorphButton.MorphState.START, animation);
-                handler.removeMessages(0);
+                handler.sendEmptyMessage(0);
             }
         }
     }
@@ -326,7 +325,7 @@ public class MainFragment extends BaseFragment {
             switch (message) {
                 case "change":
                     setContent();
-                    break;
+                    // 故意如此，刷新界面必须刷新UI
                 case "pause":
                     setImageState(true);
                     break;

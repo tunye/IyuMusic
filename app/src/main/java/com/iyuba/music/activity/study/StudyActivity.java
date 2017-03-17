@@ -163,7 +163,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
         unregisterReceiver(studyChangeUIBroadCast);
         isDestroyed = true;
         if (youdaoNative != null) {
@@ -460,6 +459,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     player.seekTo(progress);
+                    seekBar.setSecondaryProgress(0);
                 } else {
                     currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
                     duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
@@ -543,7 +543,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
             ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
-            player.start();
+            sendBroadcast(new Intent("iyumusic.pause"));
         }
     }
 
@@ -763,7 +763,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             switch (message) {
                 case "change":
                     refresh(false);
-                    break;
                 case "pause":
                     setPauseImage(false);
                     break;

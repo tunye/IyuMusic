@@ -293,7 +293,6 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     public void onDestroyView() {
         super.onDestroyView();
         wordCard.destory();
-        handler.removeCallbacksAndMessages(null);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalSynFragment> {

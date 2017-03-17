@@ -66,9 +66,4 @@ public class HelpFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CONTENT, mContent);
     }
-
-    @Override
-    public boolean onBackPressed() {
-        return false;
-    }
 }

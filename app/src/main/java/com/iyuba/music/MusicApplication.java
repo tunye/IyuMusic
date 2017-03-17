@@ -69,18 +69,23 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
-        RuntimeManager.initRuntimeManager(this);
-        pushSdkInit();
-        prepareForApp();
-        activityList = new ArrayList<>();
-        startService(new Intent(getApplicationContext(), PlayerService.class));
-        CrashHandler crashHandler = new CrashHandler(this);
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        int i = shouldInit();
+        if (i >= 0) {
+            RuntimeManager.initRuntimeManager(this);
+            pushSdkInit();
+        }
+        if (i == 0) {
+            prepareForApp();
+            activityList = new ArrayList<>();
+            startService(new Intent(getApplicationContext(), PlayerService.class));
+            CrashHandler crashHandler = new CrashHandler(this);
+            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        }
     }
 
     private void pushSdkInit() {
         final String TAG = "mipush";
-        if (SettingConfigManager.getInstance().isPush() && shouldInit()) {
+        if (SettingConfigManager.getInstance().isPush()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
         LoggerInterface newLogger = new LoggerInterface() {
@@ -102,17 +107,23 @@ public class MusicApplication extends Application {
         Logger.setLogger(this, newLogger);
     }
 
-    private boolean shouldInit() {
+    private int shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
         List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
         String mainProcessName = getPackageName();
         int myPid = android.os.Process.myPid();
         for (ActivityManager.RunningAppProcessInfo info : processInfos) {
             if (info.pid == myPid && mainProcessName.equals(info.processName)) {
-                return true;
+                if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    return 0;
+                } else if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -172,11 +183,12 @@ public class MusicApplication extends Application {
     }
 
     public void exit() {
+        stopService(new Intent(getApplicationContext(), PlayerService.class));
         stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
-        stopService(new Intent(getApplicationContext(), PlayerService.class));
         clearActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
     }
 
     public int getSleepSecond() {

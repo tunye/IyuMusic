@@ -67,9 +67,4 @@ public class ClassifyFragment extends BaseFragment {
         });
         return view;
     }
-
-    @Override
-    public boolean onBackPressed() {
-        return false;
-    }
 }

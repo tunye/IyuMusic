@@ -31,7 +31,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             Intent i;
             if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {

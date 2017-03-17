@@ -297,12 +297,14 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         if (player == null || !StudyManager.getInstance().getApp().equals("101")) {
             pause.setState(MorphButton.MorphState.START);
         } else if (player.isPlaying()) {
+            handler.removeMessages(0);
             pause.setState(MorphButton.MorphState.END, true);
             handler.sendEmptyMessage(0);
             refresh();
         } else {
-            pause.setState(MorphButton.MorphState.START, true);
             handler.removeMessages(0);
+            pause.setState(MorphButton.MorphState.START, true);
+            handler.sendEmptyMessage(0);
             adapter.setCurPos(-1);
         }
     }
@@ -330,8 +332,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             StudyManager.getInstance().setStartPlaying(true);
             musicList.scrollToPosition(position);
             adapter.setCurPos(position);
-            ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                    StudyManager.getInstance().getCurArticle(), false);
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
         } else {
             CustomToast.getInstance().showToast(R.string.eggshell_music_no);
         }
@@ -384,6 +385,11 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 case 0:
                     activity.progressBar.setProgress(activity.player.getCurrentPosition());
                     activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
+                    if (activity.player.isPlaying() && activity.pause.getState().equals(MorphButton.MorphState.START)) {
+                        activity.pause.setState(MorphButton.MorphState.END, false);
+                    } else if (!activity.player.isPlaying() && activity.pause.getState().equals(MorphButton.MorphState.END)) {
+                        activity.pause.setState(MorphButton.MorphState.START, false);
+                    }
                     activity.handler.sendEmptyMessageDelayed(0, 1000);
                     break;
             }
@@ -396,7 +402,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             switch (message) {
                 case "change":
                     refresh();
-                    break;
                 case "pause":
                     setPauseImage();
                     break;
