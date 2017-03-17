@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 
 import com.iflytek.ise.result.Result;
 import com.iflytek.ise.result.entity.Sentence;
@@ -21,18 +20,13 @@ public class ResultParse {
     private static String sen;
 
     public static SpannableStringBuilder getSenResult(Result result, String s) {
-        Log.e(TAG, "The total score of the result is " + result.total_score);
         sen = s;
-        Log.e(TAG, sen);
         spannable = new SpannableStringBuilder(sen);
         parseIndex = 0;
 
         for (Sentence sentence : result.sentences) {
-            Log.e(TAG, "sentence content is " + sentence.content);
-            Log.e(TAG, "sentence total_score is " + sentence.total_score);
             if (!sentence.content.equals("sil")) {
                 for (Word word : sentence.words) {
-                    Log.e(TAG, "Word: " + word.content + " Score: " + word.total_score);
                     if (word.total_score != 0) {
                         setWord(word);
                     }
@@ -45,14 +39,11 @@ public class ResultParse {
 
     public static void setWord(Word word) {
         String wordStr = word.content;
-        Log.e(TAG, "Setting Word : " + wordStr);
         if (word.total_score < 3 || word.total_score > 4) {
             int start = -1;
             int end = -1;
             int i = parseIndex;
-            Log.e(TAG, "pareseIndex is : " + parseIndex);
             for (int j = 0; i < sen.length() && j < wordStr.length(); i++) {
-                Log.e(TAG, sen.charAt(i) + "___" + wordStr.charAt(j));
                 if (start == -1) {
                     if (sen.charAt(i) == wordStr.charAt(j)
                             || sen.charAt(i) + 32 == wordStr.charAt(j)) {
@@ -71,8 +62,6 @@ public class ResultParse {
             if (start != -1) {
                 end = i;
                 parseIndex = i;
-
-                Log.e(TAG, "start : " + start + " end : " + end);
                 if (word.total_score < 3) {
                     setRed(start, end);
                 } else if (word.total_score > 4) {

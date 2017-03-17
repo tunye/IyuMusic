@@ -14,6 +14,7 @@ import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.iyuba.headlinelibrary.manager.HeadlinesRuntimeManager;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -71,7 +72,7 @@ public class MusicApplication extends Application {
         super.onCreate();//必须调用父类方法
         if (shouldInit()) {
             RuntimeManager.initRuntimeManager(this);
-//            com.iyuba.headlinelibrary.manager.RuntimeManager.setApplicationContext(this);
+            HeadlinesRuntimeManager.setApplicationContext(this);
             pushSdkInit();
             prepareForApp();
             activityList = new ArrayList<>();

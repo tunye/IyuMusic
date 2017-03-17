@@ -57,17 +57,14 @@ public class IseManager {
     public void startEvaluate(String sen, String filePath, EvaluatorListener mEvaluatorListener) {
         if (mSpeechEvaluator != null) {
             fileName = filePath;
-            Log.e("aaa", filePath);
             setParams();
-            Log.e("aaa", "lail" + mSpeechEvaluator.startEvaluating(sen, null, mEvaluatorListener));
+            mSpeechEvaluator.startEvaluating(sen, null, mEvaluatorListener);
             this.sentence = sen;
         }
     }
 
     public void stopEvaluate() {
-        Log.e("aaa", "stop");
         if (mSpeechEvaluator.isEvaluating()) {
-            Log.e("aaa", "stoptrue");
             mSpeechEvaluator.stopEvaluating();
         }
     }
