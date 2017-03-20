@@ -167,14 +167,15 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         final Original original = originals.get(position);
+        final int pos = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (curItem != holder.getLayoutPosition()) {
+                if (curItem != pos) {
                     int oldPos = curItem;
-                    curItem = holder.getLayoutPosition();
+                    curItem = pos;
                     notifyItemChanged(oldPos);
                     resetFunction();
                     player.seekTo((int) original.getStartTime() * 1000);
@@ -183,10 +184,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     message.what = 0;
                     message.arg1 = (int) original.getEndTime() * 1000;
                     if (message.arg1 == 0) {
-                        if (position + 1 == originals.size()) {
+                        if (pos + 1 == originals.size()) {
                             message.arg1 = player.getDuration() - 500;
                         } else {
-                            message.arg1 = (int) originals.get(position + 1).getStartTime() * 1000;
+                            message.arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
                         }
                     }
                     handler.sendMessage(message);
@@ -222,10 +223,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     Message message = new Message();
                     message.what = 0;
                     message.arg1 = (int) original.getEndTime() * 1000;
-                    if (position + 1 == originals.size()) {
+                    if (pos + 1 == originals.size()) {
                         message.arg1 = player.getDuration() - 500;
                     } else {
-                        message.arg1 = (int) originals.get(position + 1).getStartTime() * 1000;
+                        message.arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
                     }
                     handler.sendMessage(message);
                 } else {

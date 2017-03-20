@@ -56,10 +56,10 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final int pos = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getLayoutPosition();
                 itemClickListener.onItemClick(holder.itemView, pos);
             }
         });

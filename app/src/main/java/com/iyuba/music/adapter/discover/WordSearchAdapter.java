@@ -57,11 +57,11 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.rippleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
                     onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
                 }
             });

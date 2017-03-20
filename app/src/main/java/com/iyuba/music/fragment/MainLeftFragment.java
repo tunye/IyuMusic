@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.headlinelibrary.ui.activity.MainHeadlinesActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
@@ -35,6 +36,7 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
@@ -42,6 +44,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.dialog.CustomDialog;
@@ -155,12 +158,12 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 1:
-                        startActivity(new Intent(context, AppGroundActivity.class));
-//                        String userid = "0";
-//                        if (AccountManager.getInstance().checkUserLogin()) {
-//                            userid = AccountManager.getInstance().getUserId();
-//                        }
-//                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName()))));
+//                        startActivity(new Intent(context, AppGroundActivity.class));
+                        String userid = "0";
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            userid = AccountManager.getInstance().getUserId();
+                        }
+                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName()))));
                         break;
                     case 2:
                         startActivity(new Intent(context, DiscoverActivity.class));

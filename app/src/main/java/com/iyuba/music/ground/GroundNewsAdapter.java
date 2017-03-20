@@ -56,12 +56,12 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
                     onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
                 }
             });
@@ -85,7 +85,7 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
             @Override
             public void onClick(View v) {
                 if (DownloadTask.checkFileExists(article)) {
-                    onRecycleViewItemClickListener.onItemClick(holder.itemView, position);
+                    onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
                 } else {
                     new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
                     DownloadFile downloadFile = new DownloadFile();

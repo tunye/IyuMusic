@@ -138,6 +138,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Article article = newsList.get(position);
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,13 +174,11 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             @Override
                             public void onClick(View view) {
                                 materialDialog.dismiss();
-                                int pos = holder.getLayoutPosition();
                                 onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
                             }
                         });
                         materialDialog.show();
                     } else {
-                        int pos = holder.getLayoutPosition();
                         onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
                     }
                 }
@@ -188,7 +187,6 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int pos = holder.getLayoutPosition();
                     onRecycleViewItemClickListener.onItemLongClick(holder.itemView, pos);
                     return true;
                 }

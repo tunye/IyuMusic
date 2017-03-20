@@ -181,7 +181,11 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         randomPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                randomPlay();
+                if (musics.size() != 0) {
+                    randomPlay();
+                } else {
+                    CustomToast.getInstance().showToast(R.string.eggshell_music_no);
+                }
             }
         });
         pause.setOnClickListener(new View.OnClickListener() {

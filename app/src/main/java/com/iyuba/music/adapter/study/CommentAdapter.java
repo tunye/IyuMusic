@@ -107,11 +107,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     public void onBindViewHolder(RecycleViewHolder holder, int position) {
         final CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
         final Comment comment = getItem(position);
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             commentViewHolder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onRecycleViewItemClickListener.onItemClick(commentViewHolder.root, commentViewHolder.getLayoutPosition());
+                    onRecycleViewItemClickListener.onItemClick(commentViewHolder.root, pos);
                 }
             });
         }
@@ -135,7 +136,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         handler.removeMessages(0);
                         if (comment.getId() == playingComment) {
                             handler.removeMessages(1);
-                            notifyItemChanged(commentViewHolder.getLayoutPosition());
+                            notifyItemChanged(pos);
                         } else {
                             playingComment = -1;
                             notifyDataSetChanged();
@@ -143,7 +144,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             playingVoiceLoading = commentViewHolder.loading;
                             playingVoiceImg = commentViewHolder.voiceImg;
                             playingVoiceText = commentViewHolder.voiceTime;
-                            playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), commentViewHolder.getLayoutPosition());// 播放
+                            playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), pos);// 播放
                         }
                     } else {
                         if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
@@ -153,7 +154,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         playingVoiceLoading = commentViewHolder.loading;
                         playingVoiceImg = commentViewHolder.voiceImg;
                         playingVoiceText = commentViewHolder.voiceTime;
-                        playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), commentViewHolder.getLayoutPosition());// 播放
+                        playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), pos);// 播放
                     }
                 }
             });
@@ -199,7 +200,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "agree");
                                 comment.setAgreeCount(comment.getAgreeCount() + 1);
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.agreeCount);
-                                notifyItemChanged(commentViewHolder.getLayoutPosition());
+                                notifyItemChanged(pos);
                             } else if (object.toString().equals("000")) {
                                 CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
@@ -231,7 +232,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "against");
                                 comment.setAgainstCount(comment.getAgainstCount() + 1);
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.againstCount);
-                                notifyItemChanged(commentViewHolder.getLayoutPosition());
+                                notifyItemChanged(pos);
                             } else if (object.toString().equals("000")) {
                                 CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
@@ -245,7 +246,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         commentViewHolder.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.getInstance().pushFriendId(comments.get(commentViewHolder.getLayoutPosition()).getUserid());
+                SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 context.startActivity(intent);

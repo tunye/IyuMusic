@@ -64,18 +64,19 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     public void onBindViewHolder(RecycleViewHolder holder, int position) {
         final FileViewHolder fileViewHolder = (FileViewHolder) holder;
         final FileInfo fileInfo = getItem(position);
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             final MaterialRippleLayout rippleView = (MaterialRippleLayout) fileViewHolder.itemView;
             rippleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onRecycleViewItemClickListener.onItemClick(fileViewHolder.itemView, fileViewHolder.getLayoutPosition());
+                    onRecycleViewItemClickListener.onItemClick(fileViewHolder.itemView, pos);
                 }
             });
             rippleView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    onRecycleViewItemClickListener.onItemLongClick(fileViewHolder.itemView, fileViewHolder.getLayoutPosition());
+                    onRecycleViewItemClickListener.onItemLongClick(fileViewHolder.itemView, pos);
                     return true;
                 }
             });

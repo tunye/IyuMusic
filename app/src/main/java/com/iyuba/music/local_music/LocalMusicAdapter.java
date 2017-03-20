@@ -57,13 +57,12 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
-                    onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                    onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                 }
             });
         }

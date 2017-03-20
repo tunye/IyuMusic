@@ -128,7 +128,8 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, final int position) {
+    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+        final int pos = position;
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             final SongCategory songCategory = getItem(position);
@@ -137,7 +138,6 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 rippleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos = newsViewHolder.getLayoutPosition();
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     }
                 });

@@ -155,6 +155,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
     @Override
     public void onBindViewHolder(RecycleViewHolder holder, int position) {
+        final int pos = position;
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             final Article article = getItem(position);
@@ -162,7 +163,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 newsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, newsViewHolder.getLayoutPosition());
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     }
                 });
             }
@@ -177,7 +178,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (DownloadTask.checkFileExists(article)) {
-                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, newsViewHolder.getLayoutPosition());
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
                         new LocalInfoOp().updateDownload(article.getId(), "209", 2);
@@ -186,7 +187,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         downloadFile.downloadState = "start";
                         DownloadManager.getInstance().fileList.add(downloadFile);
                         new DownloadTask(article).start();
-                        notifyItemChanged(newsViewHolder.getLayoutPosition());
+                        notifyItemChanged(pos);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
@@ -318,7 +319,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             break;
                         case "half_finish":
                             tempBar = adapter.progresses.get(String.valueOf(file.id));
-                            tempBar.setCricleProgressColor(adapter.context.getResources().getColor(R.color.skin_color_accent));
+                            tempBar.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(adapter.context));
                             if (file.fileSize != 0 && file.downloadSize != 0) {
                                 tempBar.setMax(file.fileSize);
                                 tempBar.setProgress(file.downloadSize);

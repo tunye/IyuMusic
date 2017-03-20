@@ -168,4 +168,7 @@
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
 
+-keep class com.squareup.** {*;}
+-keep class io.reactivex.** {*;}
+
 

@@ -53,17 +53,16 @@ public class MeizhiAdapter extends RecyclerView.Adapter<MeizhiAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final int pos = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getLayoutPosition();
                 itemClickListener.onItemClick(holder.itemView, pos);
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                int pos = holder.getLayoutPosition();
                 itemClickListener.onItemLongClick(holder.itemView, pos);
                 return true;
             }

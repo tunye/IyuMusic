@@ -112,8 +112,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onItemClick(View view, int position) {
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    if (AccountManager.getInstance().getUserId()
-                            .equals(comments.get(position).getUserid())) {//是自己，删除
+                    if (AccountManager.getInstance().getUserId().equals(comments.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     } else {//不是自己  回复
                         commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,

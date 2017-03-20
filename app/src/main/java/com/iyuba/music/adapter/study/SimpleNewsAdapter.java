@@ -114,6 +114,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,7 +131,6 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int pos = holder.getLayoutPosition();
                     onRecycleViewItemClickListener.onItemLongClick(holder.itemView, pos);
                     return false;
                 }

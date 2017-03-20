@@ -94,7 +94,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
-            waittingDialog.dismiss();
+            if (waittingDialog.isShowing()) {
+                waittingDialog.dismiss();
+            }
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
@@ -543,7 +545,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
             ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
-            sendBroadcast(new Intent("iyumusic.pause"));
         }
     }
 

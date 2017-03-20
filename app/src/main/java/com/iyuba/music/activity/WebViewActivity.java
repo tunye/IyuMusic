@@ -156,18 +156,18 @@ public class WebViewActivity extends BaseActivity {
         });
         web.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("http:") || url.startsWith("https:")) {
+//                if (url.startsWith("http:") || url.startsWith("https:")) {
                     view.loadUrl(url);
                     return false;
-                } else {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Log.v("iyumusic", "no app");
-                    }
-                    return true;
-                }
+//                } else {
+//                    try {
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        startActivity(intent);
+//                    } catch (Exception e) {
+//                        Log.v("iyumusic", "no app");
+//                    }
+//                    return false;
+//                }
             }
         });
         web.getSettings().setJavaScriptEnabled(true);
