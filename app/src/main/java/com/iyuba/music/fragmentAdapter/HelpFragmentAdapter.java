@@ -10,14 +10,14 @@ public class HelpFragmentAdapter extends FragmentPagerAdapter {
     private static final int[] CONTENT = new int[]{1, 2, 3, 4, 5};
     private boolean usePullDown;
 
-    public HelpFragmentAdapter(FragmentManager fm,boolean usePullDown) {
+    public HelpFragmentAdapter(FragmentManager fm, boolean usePullDown) {
         super(fm);
-        this.usePullDown=usePullDown;
+        this.usePullDown = usePullDown;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return HelpFragment.newInstance(CONTENT[position],usePullDown);
+        return HelpFragment.newInstance(CONTENT[position], usePullDown);
     }
 
     @Override

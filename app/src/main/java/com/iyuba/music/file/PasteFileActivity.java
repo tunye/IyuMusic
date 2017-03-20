@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
@@ -22,6 +21,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;

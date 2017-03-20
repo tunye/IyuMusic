@@ -34,6 +34,7 @@ public class GoImageView extends View {
         direction = LEFT;
         initPaint();
     }
+
     public GoImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs,

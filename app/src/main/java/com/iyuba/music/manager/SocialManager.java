@@ -11,6 +11,7 @@ public class SocialManager {
     private ArrayList<String> friendId;
     private ArrayList<String> friendName;
     private ArrayList<Doing> doing;
+
     private SocialManager() {
         friendId = new ArrayList<>();
         friendName = new ArrayList<>();

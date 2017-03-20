@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
@@ -26,6 +25,7 @@ import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.nineoldandroids.animation.Animator;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -265,7 +265,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                 });
     }
 
-    public void destory(){
+    public void destory() {
         if (player != null) {
             player.stopPlayback();
         }

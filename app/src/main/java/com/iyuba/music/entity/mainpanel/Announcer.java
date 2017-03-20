@@ -9,6 +9,17 @@ import com.google.gson.annotations.SerializedName;
  * Created by 10202 on 2015/10/10.
  */
 public class Announcer implements Parcelable {
+    public static final Parcelable.Creator<Announcer> CREATOR = new Parcelable.Creator<Announcer>() {
+        @Override
+        public Announcer createFromParcel(Parcel source) {
+            return new Announcer(source);
+        }
+
+        @Override
+        public Announcer[] newArray(int size) {
+            return new Announcer[size];
+        }
+    };
     @SerializedName("Name")
     public String name;
     @SerializedName("Img")
@@ -17,6 +28,16 @@ public class Announcer implements Parcelable {
     public String uid;
     @SerializedName("StarId")
     private int id;
+
+    public Announcer() {
+    }
+
+    protected Announcer(Parcel in) {
+        this.name = in.readString();
+        this.imgUrl = in.readString();
+        this.uid = in.readString();
+        this.id = in.readInt();
+    }
 
     public String getName() {
         return name;
@@ -62,26 +83,4 @@ public class Announcer implements Parcelable {
         dest.writeString(this.uid);
         dest.writeInt(this.id);
     }
-
-    public Announcer() {
-    }
-
-    protected Announcer(Parcel in) {
-        this.name = in.readString();
-        this.imgUrl = in.readString();
-        this.uid = in.readString();
-        this.id = in.readInt();
-    }
-
-    public static final Parcelable.Creator<Announcer> CREATOR = new Parcelable.Creator<Announcer>() {
-        @Override
-        public Announcer createFromParcel(Parcel source) {
-            return new Announcer(source);
-        }
-
-        @Override
-        public Announcer[] newArray(int size) {
-            return new Announcer[size];
-        }
-    };
 }

@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -50,6 +49,7 @@ import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.umeng.socialize.UMShareAPI;
 import com.wnafee.vector.MorphButton;
 import com.youdao.sdk.nativeads.ImageService;

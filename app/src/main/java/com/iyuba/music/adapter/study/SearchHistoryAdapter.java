@@ -2,7 +2,6 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,9 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
-import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.SearchHistory;
 import com.iyuba.music.entity.article.SearchHistoryOp;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 
 import java.util.ArrayList;
 

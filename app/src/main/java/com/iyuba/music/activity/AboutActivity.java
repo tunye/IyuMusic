@@ -3,7 +3,6 @@ package com.iyuba.music.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.download.AppUpdateThread;
@@ -29,6 +27,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;

@@ -12,6 +12,7 @@ public class CustomToast {
     public static final int LENGTH_SHORT = Toast.LENGTH_SHORT;
     public static final int LENGTH_LONG = Toast.LENGTH_LONG;
     private Toast mToast;
+
     private CustomToast() {
 
     }

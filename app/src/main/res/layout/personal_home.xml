@@ -55,8 +55,8 @@
                 android:id="@+id/fans_attention"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#cdcdcd"
                 android:layout_marginRight="@dimen/row_space_large"
+                android:textColor="#cdcdcd"
                 android:textSize="@dimen/big_text" />
 
             <ImageView

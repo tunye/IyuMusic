@@ -20,16 +20,12 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
 
 public class NotificationUtil {
-    static final int NOTIFICATION_ID = 209;
     public static final String PAUSE_FLAG = "pause_flag";
     public static final String PLAY_FLAG = "play_flag";
+    static final int NOTIFICATION_ID = 209;
     private Notification notification;
 
     private NotificationUtil() {
-    }
-
-    private static class SingleInstanceHelper {
-        private static NotificationUtil instance = new NotificationUtil();
     }
 
     public static NotificationUtil getInstance() {
@@ -151,5 +147,9 @@ public class NotificationUtil {
     private PendingIntent receiveCloseIntent() {
         Intent intent = new Intent("iyumusic.close");
         return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+    }
+
+    private static class SingleInstanceHelper {
+        private static NotificationUtil instance = new NotificationUtil();
     }
 }

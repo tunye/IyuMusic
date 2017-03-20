@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -33,6 +32,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialEditText;
 

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
@@ -14,6 +13,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.util.Arrays;

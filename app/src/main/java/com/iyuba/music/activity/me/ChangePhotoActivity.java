@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.buaa.ct.imageselector.view.ImageCropActivity;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
@@ -28,6 +27,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;

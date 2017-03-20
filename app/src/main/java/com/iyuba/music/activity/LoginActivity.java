@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.me.AutoCompleteAdapter;
 import com.iyuba.music.entity.user.HistoryLogin;
@@ -26,6 +25,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 

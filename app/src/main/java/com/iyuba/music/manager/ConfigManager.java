@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 public class ConfigManager {
     public static final String CONFIG_NAME = "IyuMusic";
     private SharedPreferences preferences;
+
     private ConfigManager() {
         int mode = Activity.MODE_PRIVATE;
         preferences = RuntimeManager.getContext().getSharedPreferences(CONFIG_NAME, mode);

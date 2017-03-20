@@ -1,6 +1,5 @@
 package com.iyuba.music.activity.study;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -295,6 +294,19 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         wordCard.destory();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity() != null) {
+            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, getActivity().getString(R.string.list_double)));
+        }
+    }
+
+    @Override
+    public void onClick(View view, Object message) {
+        player.seekTo(0);
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalSynFragment> {
         @Override
         public void handleMessageByRef(final OriginalSynFragment fragment, Message msg) {
@@ -308,18 +320,5 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     break;
             }
         }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && getActivity() != null) {
-            getActivity().findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, getActivity().getString(R.string.list_double)));
-        }
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        player.seekTo(0);
     }
 }

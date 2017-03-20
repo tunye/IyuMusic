@@ -28,6 +28,7 @@ public class ConstantManager {
     private String originalFolder;
     private String recordFile;
     private String imgFile;
+
     private ConstantManager() {
         envir = Environment.getExternalStorageDirectory() + "/iyuba/music";
         appId = "209";

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;
@@ -31,6 +30,7 @@ import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;

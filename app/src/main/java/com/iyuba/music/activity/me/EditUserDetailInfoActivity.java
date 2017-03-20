@@ -25,7 +25,6 @@ import com.iyuba.music.entity.user.MostDetailInfo;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.apprequest.LocateRequest;
 import com.iyuba.music.request.merequest.EditUserInfoRequest;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;

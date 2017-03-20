@@ -21,9 +21,9 @@ import com.umeng.analytics.MobclickAgent;
  * @author chentong
  */
 public class HelpUseActivity extends AppCompatActivity {
+    public PageIndicator pi;
     private ViewPager viewPager;
     private float lastChange = 0;
-    public PageIndicator pi;
     private boolean lastFlag;
     private boolean usePullDown;
 

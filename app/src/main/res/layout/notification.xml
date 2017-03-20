@@ -95,8 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/row_space_big"
                 android:paddingBottom="@dimen/row_space_big"
+                android:paddingTop="@dimen/row_space_big"
                 android:src="@drawable/ic_action_close_common" />
         </LinearLayout>
     </RelativeLayout>

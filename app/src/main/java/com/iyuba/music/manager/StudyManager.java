@@ -17,6 +17,7 @@ public class StudyManager {
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
+
     private StudyManager() {
         app = ConstantManager.getInstance().getAppId();
         sourceArticleList = new ArrayList<>();

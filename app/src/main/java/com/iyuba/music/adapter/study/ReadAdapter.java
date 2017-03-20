@@ -19,7 +19,6 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.ise.result.Result;
 import com.iflytek.ise.result.xml.XmlResultParser;
 import com.iyuba.assessment.IseManager;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
@@ -28,7 +27,6 @@ import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.UploadFile;
@@ -58,6 +56,53 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private Article curArticle;
     private IyubaDialog waittingDialog;
     private AssessmentDialog assessmentDialog;
+    private EvaluatorListener evaluatorListener = new EvaluatorListener() {
+        final String TAG = "assessment";
+
+        @Override
+        public void onResult(EvaluatorResult result, boolean isLast) {
+            if (isLast) {
+                waittingDialog.dismiss();
+                XmlResultParser resultParser = new XmlResultParser();
+                Result resultEva = resultParser.parse(result.getResultString());
+                if (resultEva.is_rejected) {
+                    CustomToast.getInstance().showToast(R.string.read_refused);
+                } else {
+                    assessmentDialog.show(resultEva.total_score * 20);
+                }
+                IseManager.getInstance(context).transformPcmToAmr();
+            }
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            waittingDialog.dismiss();
+            if (error != null) {
+                CustomToast.getInstance().showToast("error:" + error.getErrorCode() + "," + error.getErrorDescription());
+            } else {
+                Log.e(TAG, "evaluator over");
+            }
+        }
+
+        @Override
+        public void onBeginOfSpeech() {
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            handler.sendEmptyMessage(3);
+            waittingDialog.show();
+        }
+
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+        }
+
+        @Override
+        public void onVolumeChanged(int volume, byte[] arg1) {
+
+        }
+    };
 
     public ReadAdapter(Context context) {
         this.context = context;
@@ -352,52 +397,4 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             });
         }
     }
-
-    private EvaluatorListener evaluatorListener = new EvaluatorListener() {
-        final String TAG = "assessment";
-
-        @Override
-        public void onResult(EvaluatorResult result, boolean isLast) {
-            if (isLast) {
-                waittingDialog.dismiss();
-                XmlResultParser resultParser = new XmlResultParser();
-                Result resultEva = resultParser.parse(result.getResultString());
-                if (resultEva.is_rejected) {
-                    CustomToast.getInstance().showToast(R.string.read_refused);
-                } else {
-                    assessmentDialog.show(resultEva.total_score * 20);
-                }
-                IseManager.getInstance(context).transformPcmToAmr();
-            }
-        }
-
-        @Override
-        public void onError(SpeechError error) {
-            waittingDialog.dismiss();
-            if (error != null) {
-                CustomToast.getInstance().showToast("error:" + error.getErrorCode() + "," + error.getErrorDescription());
-            } else {
-                Log.e(TAG, "evaluator over");
-            }
-        }
-
-        @Override
-        public void onBeginOfSpeech() {
-
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-            handler.sendEmptyMessage(3);
-            waittingDialog.show();
-        }
-
-        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
-        }
-
-        @Override
-        public void onVolumeChanged(int volume, byte[] arg1) {
-
-        }
-    };
 }

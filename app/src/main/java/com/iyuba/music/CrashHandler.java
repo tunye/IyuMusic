@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;

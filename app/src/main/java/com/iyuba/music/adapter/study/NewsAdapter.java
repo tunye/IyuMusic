@@ -67,7 +67,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         localInfoOp = new LocalInfoOp();
     }
 
-    static void getAppointArticle(final Context context, String id) {
+    private static void getAppointArticle(final Context context, String id) {
         NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {

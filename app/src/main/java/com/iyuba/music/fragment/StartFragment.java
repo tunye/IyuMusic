@@ -159,7 +159,7 @@ public class StartFragment {
         StringBuilder sb = new StringBuilder();
         sb.append("1.[性能优化] 提高听歌后台播放的稳定性").append("\n");
         sb.append("2.[优化通知栏] 通知栏操作更便捷").append("\n");
-        sb.append("3.[跟唱调整] 调整了跟唱功能，新功能即将上线，敬请期待").append("\n");
+        sb.append("3.[跟唱调整] 跟唱增加测评打分，来与小伙伴们一较高下").append("\n");
         sb.append("4.[在线支付] 会员购买可以使用在线支付方式了！");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {

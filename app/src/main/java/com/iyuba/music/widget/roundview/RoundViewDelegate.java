@@ -72,41 +72,6 @@ public class RoundViewDelegate {
         }
     }
 
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
-        setBgSelector();
-    }
-
-    public void setBackgroundPressColor(int backgroundPressColor) {
-        this.backgroundPressColor = backgroundPressColor;
-        setBgSelector();
-    }
-
-    public void setCornerRadius(int cornerRadius) {
-        this.cornerRadius = dp2px(cornerRadius);
-        setBgSelector();
-    }
-
-    public void setStrokeWidth(int strokeWidth) {
-        this.strokeWidth = dp2px(strokeWidth);
-        setBgSelector();
-    }
-
-    public void setStrokeColor(int strokeColor) {
-        this.strokeColor = strokeColor;
-        setBgSelector();
-    }
-
-    public void setStrokePressColor(int strokePressColor) {
-        this.strokePressColor = strokePressColor;
-        setBgSelector();
-    }
-
-    public void setTextPressColor(int textPressColor) {
-        this.textPressColor = textPressColor;
-        setBgSelector();
-    }
-
     public void setIsRadiusHalfHeight(boolean isRadiusHalfHeight) {
         this.isRadiusHalfHeight = isRadiusHalfHeight;
         setBgSelector();
@@ -117,52 +82,67 @@ public class RoundViewDelegate {
         setBgSelector();
     }
 
-    public void setCornerRadius_TL(int cornerRadius_TL) {
-        this.cornerRadius_TL = cornerRadius_TL;
-        setBgSelector();
-    }
-
-    public void setCornerRadius_TR(int cornerRadius_TR) {
-        this.cornerRadius_TR = cornerRadius_TR;
-        setBgSelector();
-    }
-
-    public void setCornerRadius_BL(int cornerRadius_BL) {
-        this.cornerRadius_BL = cornerRadius_BL;
-        setBgSelector();
-    }
-
-    public void setCornerRadius_BR(int cornerRadius_BR) {
-        this.cornerRadius_BR = cornerRadius_BR;
-        setBgSelector();
-    }
-
     public int getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        setBgSelector();
     }
 
     public int getBackgroundPressColor() {
         return backgroundPressColor;
     }
 
+    public void setBackgroundPressColor(int backgroundPressColor) {
+        this.backgroundPressColor = backgroundPressColor;
+        setBgSelector();
+    }
+
     public int getCornerRadius() {
         return cornerRadius;
+    }
+
+    public void setCornerRadius(int cornerRadius) {
+        this.cornerRadius = dp2px(cornerRadius);
+        setBgSelector();
     }
 
     public int getStrokeWidth() {
         return strokeWidth;
     }
 
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = dp2px(strokeWidth);
+        setBgSelector();
+    }
+
     public int getStrokeColor() {
         return strokeColor;
+    }
+
+    public void setStrokeColor(int strokeColor) {
+        this.strokeColor = strokeColor;
+        setBgSelector();
     }
 
     public int getStrokePressColor() {
         return strokePressColor;
     }
 
+    public void setStrokePressColor(int strokePressColor) {
+        this.strokePressColor = strokePressColor;
+        setBgSelector();
+    }
+
     public int getTextPressColor() {
         return textPressColor;
+    }
+
+    public void setTextPressColor(int textPressColor) {
+        this.textPressColor = textPressColor;
+        setBgSelector();
     }
 
     public boolean isRadiusHalfHeight() {
@@ -177,16 +157,36 @@ public class RoundViewDelegate {
         return cornerRadius_TL;
     }
 
+    public void setCornerRadius_TL(int cornerRadius_TL) {
+        this.cornerRadius_TL = cornerRadius_TL;
+        setBgSelector();
+    }
+
     public int getCornerRadius_TR() {
         return cornerRadius_TR;
+    }
+
+    public void setCornerRadius_TR(int cornerRadius_TR) {
+        this.cornerRadius_TR = cornerRadius_TR;
+        setBgSelector();
     }
 
     public int getCornerRadius_BL() {
         return cornerRadius_BL;
     }
 
+    public void setCornerRadius_BL(int cornerRadius_BL) {
+        this.cornerRadius_BL = cornerRadius_BL;
+        setBgSelector();
+    }
+
     public int getCornerRadius_BR() {
         return cornerRadius_BR;
+    }
+
+    public void setCornerRadius_BR(int cornerRadius_BR) {
+        this.cornerRadius_BR = cornerRadius_BR;
+        setBgSelector();
     }
 
     public boolean isRippleEnable() {

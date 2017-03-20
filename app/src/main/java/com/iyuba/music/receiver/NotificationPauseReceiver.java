@@ -29,6 +29,20 @@ import static com.iyuba.music.manager.RuntimeManager.getApplication;
  */
 public class NotificationPauseReceiver extends BroadcastReceiver {
 
+    public static void playNewSong() {
+        Article curArticle = StudyManager.getInstance().getCurArticle();
+        final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
+        playerService.startPlay(curArticle, false);
+        playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+        StandardPlayer player = playerService.getPlayer();
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                playerService.getPlayer().start();
+            }
+        });
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
@@ -65,19 +79,5 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
             }
         }
 
-    }
-
-    public static void playNewSong() {
-        Article curArticle = StudyManager.getInstance().getCurArticle();
-        final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
-        playerService.startPlay(curArticle, false);
-        playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
-        StandardPlayer player = playerService.getPlayer();
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                playerService.getPlayer().start();
-            }
-        });
     }
 }

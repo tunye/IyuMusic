@@ -26,7 +26,6 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.MediaController;
 
 import java.io.IOException;

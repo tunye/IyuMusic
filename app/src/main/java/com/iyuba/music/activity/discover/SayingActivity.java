@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.word.Saying;
 import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.nineoldandroids.animation.Animator;

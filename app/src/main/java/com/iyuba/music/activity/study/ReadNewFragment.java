@@ -44,7 +44,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        readAdapter = new CommentAdapter(context,false);
+        readAdapter = new CommentAdapter(context, false);
         readAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

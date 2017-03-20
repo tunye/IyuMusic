@@ -12,11 +12,9 @@ import com.iyuba.music.util.GetAppColor;
 
 public class CustomSnackBar {
     private static final int color_danger = 0xFFDB4E46;
+    private static final int action_color = 0xFFFFFFFF;
     private static int color_info = 0xFF009FE8;
     private static int color_warning = 0xFFFAAA3C;
-
-    private static final int action_color = 0xFFFFFFFF;
-
     private Snackbar mSnackbar;
 
     private CustomSnackBar(Snackbar snackbar) {

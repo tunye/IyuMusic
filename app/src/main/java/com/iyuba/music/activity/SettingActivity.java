@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
 import com.bumptech.glide.Glide;
-import com.iyuba.music.widget.roundview.RoundRelativeLayout;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -31,6 +29,8 @@ import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.roundview.RoundRelativeLayout;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.xiaomi.mipush.sdk.MiPushClient;
 

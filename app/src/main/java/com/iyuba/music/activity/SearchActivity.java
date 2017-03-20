@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.BaseSkinActivity;
-import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.RecommendSongActivity;
@@ -43,6 +42,7 @@ import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.roundview.RoundTextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
