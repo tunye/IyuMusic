@@ -32,6 +32,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         Discover blank = new Discover();
         blank.setType(TYPE_BLANK);
 
+        menuIconList.add(R.drawable.ground_icon);
         menuIconList.add(R.drawable.circle_icon);
         menuIconList.add(R.drawable.message_icon);
         menuIconList.add(R.drawable.friend_icon);
@@ -41,6 +42,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         menuIconList.add(R.drawable.file_oper_icon);
         menuIconList.add(R.drawable.local_music_icon);
 
+        menuTextList.add(R.string.oper_ground);
         menuTextList.add(R.string.oper_circle);
         menuTextList.add(R.string.oper_message);
         menuTextList.add(R.string.oper_recommend);
@@ -59,7 +61,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             item.setDrawable(menuIconList.get(i));
             item.setType(TYPE_ITEM);
             discoverList.add(item);
-            if (i == 2 || i == 5) {
+            if (i == 3 || i == 6) {
                 discoverList.add(blank);
             }
         }

@@ -62,22 +62,22 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             Fans fan = (Fans) item;
             holder.userName.setText(fan.getUsername());
             holder.userState.setText(TextUtils.isEmpty(fan.getDoing()) ? context.getString(R.string.personal_nosign) : fan.getDoing());
-            holder.userPhoto.init(fan.getUid(), fan.getVip() == 1);
+            holder.userPhoto.setVipStateVisible(fan.getUid(), fan.getVip() == 1);
         } else if (item instanceof Follows) {
             Follows follow = (Follows) item;
             holder.userName.setText(follow.getUsername());
             holder.userState.setText(TextUtils.isEmpty(follow.getDoing()) ? context.getString(R.string.personal_nosign) : follow.getDoing());
-            holder.userPhoto.init(follow.getUid(), follow.getVip() == 1);
+            holder.userPhoto.setVipStateVisible(follow.getUid(), follow.getVip() == 1);
         } else if (item instanceof RecommendFriend) {
             RecommendFriend recommendFriend = (RecommendFriend) item;
             holder.userName.setText(recommendFriend.getUsername());
             holder.userState.setText(TextUtils.isEmpty(recommendFriend.getDoing()) ? context.getString(R.string.personal_nosign) : recommendFriend.getDoing());
-            holder.userPhoto.init(recommendFriend.getUid(), recommendFriend.getVip() == 1);
+            holder.userPhoto.setVipStateVisible(recommendFriend.getUid(), recommendFriend.getVip() == 1);
         } else if (item instanceof SearchFriend) {
             SearchFriend searchFriend = (SearchFriend) item;
             holder.userName.setText(searchFriend.getUsername());
             holder.userState.setText(searchFriend.getDoing());
-            holder.userPhoto.init(searchFriend.getUid(), searchFriend.getVip() == 1);
+            holder.userPhoto.setVipStateVisible(searchFriend.getUid(), searchFriend.getVip() == 1);
         }
     }
 

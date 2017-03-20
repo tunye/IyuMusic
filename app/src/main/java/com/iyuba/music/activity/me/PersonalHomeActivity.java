@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -369,7 +368,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         } else {
             personSex.setBackgroundResource(R.drawable.user_info_male);
         }
-        personPhoto.init(userinfo.getUid(), "1".equals(userinfo.getVipStatus()));
+        personPhoto.setVipStateVisible(userinfo.getUid(), "1".equals(userinfo.getVipStatus()));
     }
 
     private void setRelationShip() {

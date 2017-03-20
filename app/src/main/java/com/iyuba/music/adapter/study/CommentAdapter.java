@@ -158,7 +158,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 }
             });
         }
-        commentViewHolder.pic.init(comment.getUserid(), comment.getVip() == 1);
+        commentViewHolder.pic.setVipStateVisible(comment.getUserid(), comment.getVip() == 1);
         int repeat = commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid);
         if (repeat == 0) {
             commentViewHolder.agreeView.setBackgroundResource(R.drawable.agree);

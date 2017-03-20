@@ -66,7 +66,7 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         holder.doingUserName.setText(doing.getUsername());
         holder.doingContent.setText(doing.getMessage());
         holder.doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
-        holder.doingPhoto.init(doing.getUid(), doing.getVip() == 1);
+        holder.doingPhoto.setVipStateVisible(doing.getUid(), doing.getVip() == 1);
         holder.doingPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -76,8 +76,8 @@ public class MusicApplication extends Application {
             pushSdkInit();
             prepareForApp();
             activityList = new ArrayList<>();
-//            CrashHandler crashHandler = new CrashHandler(this);
-//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+            CrashHandler crashHandler = new CrashHandler(this);
+            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 

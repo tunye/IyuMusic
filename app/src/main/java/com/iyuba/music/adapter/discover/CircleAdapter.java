@@ -105,7 +105,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
                 break;
         }
         holder.circleTime.setText(DateFormat.showTime(context, new Date(circle.getDateline() * 1000)));
-        holder.circlePhoto.init(circle.getUid(), circle.getVip() == 1);
+        holder.circlePhoto.setVipStateVisible(circle.getUid(), circle.getVip() == 1);
         holder.circlePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

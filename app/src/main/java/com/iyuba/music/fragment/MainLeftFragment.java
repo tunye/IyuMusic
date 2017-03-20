@@ -33,7 +33,6 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -159,7 +158,11 @@ public class MainLeftFragment extends BaseFragment {
                         break;
                     case 1:
 //                        startActivity(new Intent(context, AppGroundActivity.class));
-                        startActivity(MainHeadlinesActivity.getIntent2Me(context, "46738", "209", TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName()))));
+                        String userid = "0";
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            userid = AccountManager.getInstance().getUserId();
+                        }
+                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName()))));
                         break;
                     case 2:
                         startActivity(new Intent(context, DiscoverActivity.class));
@@ -196,7 +199,7 @@ public class MainLeftFragment extends BaseFragment {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
-            personalPhoto.init(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
+            personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
             if (TextUtils.isEmpty(AccountManager.getInstance().getUserInfo().getFollower())) {
                 getPersonalInfo();
             }
@@ -343,7 +346,7 @@ public class MainLeftFragment extends BaseFragment {
             switch (msg.what) {
                 case 0:
                     if (!TextUtils.isEmpty(fragment.userInfo.getUid())) {
-                        fragment.personalPhoto.init(fragment.userInfo.getUid(), "1".equals(fragment.userInfo.getVipStatus()));
+                        fragment.personalPhoto.setVipStateVisible(fragment.userInfo.getUid(), "1".equals(fragment.userInfo.getVipStatus()));
                         fragment.setPersonalInfoContent();
                         fragment.login.setVisibility(View.VISIBLE);
                         fragment.noLogin.setVisibility(View.GONE);

@@ -145,7 +145,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         super.changeUIByPara();
         title.setText(R.string.doing_title);
         doing = SocialManager.getInstance().getDoing();
-        doingPhoto.init(doing.getUid(), isVip);
+        doingPhoto.setVipStateVisible(doing.getUid(), isVip);
         doingUserName.setText(doing.getUsername());
         doingMessage.setText(doing.getMessage());
         doingReplyCounts.setText(context.getString(R.string.article_commentcount, doing.getReplynum()));

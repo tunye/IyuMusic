@@ -64,7 +64,7 @@ public class DoingAdapter extends RecyclerView.Adapter<DoingAdapter.MyViewHolder
         holder.doingCounts.setText(context.getString(R.string.person_reply_num, doing.getReplynum()));
         holder.doingContent.setText(doing.getMessage());
         holder.doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
-        holder.doingPhoto.init(doing.getUid(), isVip);
+        holder.doingPhoto.setVipStateVisible(doing.getUid(), isVip);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
+import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
@@ -51,7 +52,10 @@ public class DiscoverActivity extends BaseActivity {
         discoverAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                switch (position) {
+                switch (position - 1) {
+                    case 0:
+                        startActivity(new Intent(context, AppGroundActivity.class));
+                        break;
                     case 1:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
