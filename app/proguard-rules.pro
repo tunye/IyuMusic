@@ -20,6 +20,7 @@
 -dontskipnonpubliclibraryclasses
 -dontpreverify
 -ignorewarning
+-keepattributes Exceptions
 -keepattributes Signature
 -keepattributes EnclosingMethod
 -assumenosideeffects class android.util.Log {
@@ -130,7 +131,7 @@
 -keep public class javax.**
 -keep public class android.webkit.**
 -dontwarn android.support.v4.**
--keepattributes Exceptions,InnerClasses,Signature
+-keepattributes InnerClasses
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public interface com.tencent.**
@@ -167,5 +168,17 @@
 -keep class com.tencent.open.PKDialog$* {*;}
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
 
 
