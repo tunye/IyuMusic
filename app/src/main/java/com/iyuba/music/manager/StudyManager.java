@@ -46,6 +46,10 @@ public class StudyManager {
         generateArticleList();
     }
 
+    public ArrayList<Article> getCurArticleList() {
+        return curArticleList;
+    }
+
     public Article getCurArticle() {
         return curArticle;
     }

@@ -56,7 +56,6 @@ public class MipushMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         Log.d(TAG, "onNotificationMessageArrived is called. " + message.toString());
-        Toast.makeText(context, "您有新的听歌学英语推送到达", Toast.LENGTH_LONG).show();
     }
 
     @Override

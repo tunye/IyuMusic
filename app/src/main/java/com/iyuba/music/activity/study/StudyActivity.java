@@ -550,7 +550,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void refresh(boolean defaultPos) {
         handler.sendEmptyMessage(2);
-        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0) {
+        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0 || StudyManager.getInstance().getCurArticleList().size() == 1) {
             if (defaultPos) {
                 viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
                 viewPager.setCurrentItem(1);

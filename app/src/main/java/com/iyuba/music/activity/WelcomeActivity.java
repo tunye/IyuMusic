@@ -99,15 +99,16 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void getBannerPic() {
+        handler.sendEmptyMessage(2);
         AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                handler.sendEmptyMessage(2);
+
             }
 
             @Override
             public void onServerError(String msg) {
-                handler.sendEmptyMessage(2);
+
             }
 
             @Override
@@ -160,11 +161,8 @@ public class WelcomeActivity extends AppCompatActivity {
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (!activity.isDestroyed()) {
-                        ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
-                        SettingConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
-                                + "@@@" + activity.adEntity.getLoadUrl());
-                    }
+                    SettingConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
+                            + "@@@" + activity.adEntity.getLoadUrl());
                     break;
                 case 1:
                     if (!activity.showAd) {
@@ -183,11 +181,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case 2:
                     String adUrl = SettingConfigManager.getInstance().getADUrl();
+                    activity.adEntity = new AdEntity();
                     if (TextUtils.isEmpty(adUrl)) {
-                        activity.footer.setImageResource(R.drawable.default_footer);
+                        activity.adEntity.setPicUrl("http://app.iyuba.com/dev/upload/1478933401279.png");
+                        activity.adEntity.setLoadUrl("");
+                        ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
                     } else if (!activity.isDestroyed()) {
                         String[] adUrls = adUrl.split("@@@");
-                        activity.adEntity = new AdEntity();
                         activity.adEntity.setPicUrl(adUrls[0]);
                         activity.adEntity.setLoadUrl(adUrls[1]);
                         ImageUtil.loadImage(adUrls[0], activity.header);
