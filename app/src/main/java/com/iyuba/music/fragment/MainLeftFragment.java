@@ -33,7 +33,6 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -138,7 +137,7 @@ public class MainLeftFragment extends BaseFragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MusicApplication) RuntimeManager.getApplication()).exit();
+                RuntimeManager.getApplication().exit();
             }
         });
         menuList.setAdapter(operAdapter);

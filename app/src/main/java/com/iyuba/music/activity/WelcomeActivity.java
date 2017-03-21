@@ -35,7 +35,7 @@ import com.iyuba.music.widget.RoundProgressBar;
 public class WelcomeActivity extends AppCompatActivity {
     public static final String NORMAL_START = "normalStart";
     private View escapeAd;
-    private ImageView footer, header;
+    private ImageView header;
     private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
     private AdEntity adEntity;                                  // 开屏广告对象
     private boolean normalStart = true;                         // 是否正常进入程序
@@ -61,7 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initWidget() {
         escapeAd = findViewById(R.id.welcome_escape_ad);
-        footer = (ImageView) findViewById(R.id.welcome_footer);
         header = (ImageView) findViewById(R.id.welcome_header);
         welcomeAdProgressbar = (RoundProgressBar) findViewById(R.id.welcome_ad_progressbar);
         initWelcomeAdProgress();

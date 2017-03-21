@@ -12,14 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.service.NotificationUtil;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.widget.player.StandardPlayer;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 /**
  * 类名
@@ -31,7 +29,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     public static void playNewSong() {
         Article curArticle = StudyManager.getInstance().getCurArticle();
-        final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
+        final PlayerService playerService = RuntimeManager.getApplication().getPlayerService();
         playerService.startPlay(curArticle, false);
         playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
         StandardPlayer player = playerService.getPlayer();
@@ -45,17 +43,17 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
+        if (RuntimeManager.getApplication().getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             Intent i;
-            if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                 i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);
             }
             NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
         } else {
-            StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+            StandardPlayer player = RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player.isPlaying()) {
                 player.pause();
                 NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PAUSE_FLAG);
@@ -64,15 +62,15 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
                 NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
             }
             Intent i;
-            if (((MusicApplication) getApplication()).isAppointForeground("MainActivity")) {
+            if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                 i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);
-            } else if (((MusicApplication) getApplication()).isAppointForeground("LocalMusicActivity")) {
+            } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
                 i = new Intent("com.iyuba.music.localmusic");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);
-            } else if (((MusicApplication) getApplication()).isAppointForeground("StudyActivity")) {
+            } else if (RuntimeManager.getApplication().isAppointForeground("StudyActivity")) {
                 i = new Intent("com.iyuba.music.study");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);

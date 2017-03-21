@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -23,6 +22,7 @@ import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
@@ -36,8 +36,6 @@ import com.iyuba.music.widget.original.TextSelectCallBack;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import java.util.ArrayList;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -59,7 +57,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.original_syn, null);
-        player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+        player = RuntimeManager.getApplication().getPlayerService().getPlayer();
         originalView = (OriginalSynView) view.findViewById(R.id.original);
         originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {

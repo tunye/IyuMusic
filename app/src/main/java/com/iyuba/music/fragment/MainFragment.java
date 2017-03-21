@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PorterDuff;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,9 +26,9 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.local_music.LocalMusicActivity;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -214,24 +213,6 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private void playNewSong() {
-        curArticle = StudyManager.getInstance().getCurArticle();
-        final PlayerService playerService = ((MusicApplication) getApplication()).getPlayerService();
-        playerService.startPlay(curArticle, false);
-        playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
-        player = playerService.getPlayer();
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                setContent();
-                playerService.getPlayer().start();
-                startAnimation();
-                pause.setState(MorphButton.MorphState.END);
-                handler.sendEmptyMessage(0);
-            }
-        });
-    }
-
     private void pauseClick() {
         context.sendBroadcast(new Intent("iyumusic.pause"));
     }
@@ -263,10 +244,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setImageState(boolean animation) {
-        if (((MusicApplication) getApplication()).getPlayerService() == null) {
+        if ( RuntimeManager.getApplication().getPlayerService() == null) {
             pause.setState(MorphButton.MorphState.START);
         } else {
-            player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+            player =  RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player == null) {
                 pause.setState(MorphButton.MorphState.START);
             } else if (player.isPlaying()) {

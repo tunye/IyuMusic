@@ -139,6 +139,7 @@ dependencies {
             }
     compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
     compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
+    compile 'com.artemzin.rxjava:proguard-rules:1.2.7.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'

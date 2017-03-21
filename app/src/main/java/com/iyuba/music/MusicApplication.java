@@ -11,6 +11,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.buaa.ct.skin.SkinManager;
+import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
@@ -48,6 +49,7 @@ public class MusicApplication extends Application {
     private int sleepSecond;
     private Handler baseHandler = new Handler();
     private PlayerService playerService;
+    private HttpProxyCacheServer proxy;
     private ChangePropertyBroadcast changeProperty;
 
     private Runnable baseRunnable = new Runnable() {
@@ -193,6 +195,9 @@ public class MusicApplication extends Application {
 
     public void exit() {
         stopService(new Intent(getApplicationContext(), PlayerService.class));
+        if (proxy != null) {
+            proxy.shutdown();
+        }
         stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
@@ -232,5 +237,9 @@ public class MusicApplication extends Application {
 
     public void setPlayerService(PlayerService playerService) {
         this.playerService = playerService;
+    }
+
+    public HttpProxyCacheServer getProxy(Context context) {
+        return proxy == null ? (proxy = new HttpProxyCacheServer(this)) : proxy;
     }
 }

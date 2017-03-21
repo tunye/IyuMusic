@@ -11,7 +11,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.manager.RuntimeManager;
 
 /**
@@ -22,6 +21,6 @@ public class NotificationCloseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ((MusicApplication) RuntimeManager.getApplication()).exit();
+        RuntimeManager.getApplication().exit();
     }
 }

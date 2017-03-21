@@ -246,7 +246,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private boolean checkNetWorkState() {
-        if (((MusicApplication) getApplication()).getPlayerService().isOnlineArticle(StudyManager.getInstance().getCurArticle()) && !isDestroyed) {
+        String url = ((MusicApplication) getApplication()).getPlayerService().getUrl(StudyManager.getInstance().getCurArticle());
+        if (((MusicApplication) getApplication()).getProxy(this).isCached(url)) {
+            return true;
+        } else if (url.startsWith("http") && !isDestroyed) {
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                 showNoNetDialog();
                 return false;
@@ -461,7 +464,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
                     player.seekTo(progress);
-                    seekBar.setSecondaryProgress(0);
                 } else {
                     currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
                     duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));

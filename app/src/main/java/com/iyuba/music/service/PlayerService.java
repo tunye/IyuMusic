@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
@@ -36,6 +37,7 @@ import java.util.Calendar;
  */
 public class PlayerService extends Service {
     private AudioManager audioManager;
+    private HttpProxyCacheServer proxy;
     private StandardPlayer player;
     private boolean changeByAudioListener;
     private int curArticle;
@@ -109,6 +111,7 @@ public class PlayerService extends Service {
 
     public void init() {
         player = new StandardPlayer(RuntimeManager.getContext());
+        proxy = RuntimeManager.getProxy();
         curArticle = 0;
     }
 
@@ -125,11 +128,11 @@ public class PlayerService extends Service {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 next(true);
-                if (((MusicApplication) RuntimeManager.getApplication()).isAppointForeground("MainActivity")) {
+                if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                     Intent i = new Intent("com.iyuba.music.main");
                     i.putExtra("message", "change");
                     sendBroadcast(i);
-                } else if (((MusicApplication) RuntimeManager.getApplication()).isAppointForeground("LocalMusicActivity")) {
+                } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
                     Intent i = new Intent("com.iyuba.music.localmusic");
                     i.putExtra("message", "change");
                     sendBroadcast(i);
@@ -184,7 +187,13 @@ public class PlayerService extends Service {
                 localInfoOp.updateSee(article.getId(), article.getApp());
                 ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
             }
-            String playPath = getUrl(article);
+            String netUrl = getUrl(article);
+            String playPath;
+            if (netUrl.startsWith("http")) {
+                playPath = proxy.getProxyUrl(netUrl);
+            } else {
+                playPath = netUrl;
+            }
             setNotification();
             try {
                 player.reset();
@@ -209,12 +218,7 @@ public class PlayerService extends Service {
         StudyManager.getInstance().before();
     }
 
-    public boolean isOnlineArticle(Article article) {
-        String playPath = getUrl(article);
-        return playPath.startsWith("http");
-    }
-
-    private String getUrl(Article article) {
+    public String getUrl(Article article) {
         String url;
         StringBuilder localUrl = new StringBuilder();
         File localFile;

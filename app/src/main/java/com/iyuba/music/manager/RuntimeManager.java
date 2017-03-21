@@ -4,11 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
+import com.iyuba.music.MusicApplication;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class RuntimeManager {
-    private Application application;
+    private MusicApplication application;
     private DisplayMetrics displayMetrics;
     private Context context;
     private Map<String, String> singleInstanceRequest;
@@ -22,13 +25,13 @@ public class RuntimeManager {
         return InstanceHelper.instance;
     }
 
-    public static void initRuntimeManager(Application application) {
+    public static void initRuntimeManager(MusicApplication application) {
         InstanceHelper.instance.application = application;
         InstanceHelper.instance.context = application.getApplicationContext();
         InstanceHelper.instance.displayMetrics = application.getResources().getDisplayMetrics();
     }
 
-    public static Application getApplication() {
+    public static MusicApplication getApplication() {
         return InstanceHelper.instance.application;
     }
 
@@ -38,6 +41,10 @@ public class RuntimeManager {
 
     public static String getString(int resourcesID) {
         return getContext().getString(resourcesID);
+    }
+
+    public static HttpProxyCacheServer getProxy() {
+        return InstanceHelper.instance.application.getProxy(InstanceHelper.instance.context);
     }
 
     public static DisplayMetrics getDisplayMetrics() {
