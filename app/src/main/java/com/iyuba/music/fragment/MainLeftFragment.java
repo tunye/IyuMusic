@@ -35,7 +35,6 @@ import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.SocialManager;
@@ -43,7 +42,6 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.dialog.CustomDialog;
@@ -162,7 +160,7 @@ public class MainLeftFragment extends BaseFragment {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             userid = AccountManager.getInstance().getUserId();
                         }
-                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName()))));
+                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music"));
                         break;
                     case 2:
                         startActivity(new Intent(context, DiscoverActivity.class));

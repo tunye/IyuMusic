@@ -94,7 +94,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
                     StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
@@ -114,7 +114,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
                     StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }

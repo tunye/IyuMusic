@@ -89,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);
                 StudyManager.getInstance().setListFragmentPos("SongCategoryFragment.class");
-                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setSourceArticleList(netData);
                 StudyManager.getInstance().setCurArticle(netData.get(0));
                 context.startActivity(new Intent(context, StudyActivity.class));
@@ -276,7 +276,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             } else {
                                 StudyManager.getInstance().setStartPlaying(true);
                                 StudyManager.getInstance().setListFragmentPos("NewsFragment.class");
-                                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                                StudyManager.getInstance().setLesson("music");
                                 ArrayList<Article> articles = new ArrayList<>();
                                 articles.add(tempArticle);
                                 StudyManager.getInstance().setSourceArticleList(articles);

@@ -243,7 +243,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
                     StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
                     StudyManager.getInstance().setApp(app);
@@ -258,7 +258,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
                     StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
                     StudyManager.getInstance().setApp(app);
@@ -276,7 +276,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     ArrayList<Article> netData = (ArrayList<Article>) baseListEntity.getData();
                     newsArrayList.addAll(netData);
                     if (!StudyManager.getInstance().isStartPlaying()) {
-                        StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                        StudyManager.getInstance().setLesson("music");
                         StudyManager.getInstance().setSourceArticleList(newsArrayList);
                         StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
                         StudyManager.getInstance().setApp(app);

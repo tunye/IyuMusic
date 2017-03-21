@@ -115,7 +115,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 StudyManager.getInstance().setStartPlaying(true);
                 StudyManager.getInstance().setListFragmentPos(SearchActivity.this.getClass().getName());
                 StudyManager.getInstance().setSourceArticleList(searchArrayList);
-                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setCurArticle(searchArrayList.get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }

@@ -78,7 +78,7 @@ public class NullActivity {
                     } else {
                         StudyManager.getInstance().setStartPlaying(true);
                         StudyManager.getInstance().setListFragmentPos("NullActivity.class");
-                        StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                        StudyManager.getInstance().setLesson("music");
                         ArrayList<Article> articles = new ArrayList<>();
                         articles.add(tempArticle);
                         StudyManager.getInstance().setSourceArticleList(articles);
@@ -152,7 +152,7 @@ public class NullActivity {
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);
                 StudyManager.getInstance().setListFragmentPos("NullActivity.class");
-                StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setSourceArticleList(netData);
                 StudyManager.getInstance().setCurArticle(netData.get(0));
                 Intent intent = new Intent(context, StudyActivity.class);

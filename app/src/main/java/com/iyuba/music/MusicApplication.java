@@ -36,6 +36,8 @@ import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +149,19 @@ public class MusicApplication extends Application {
     }
 
     private void prepareForApp() {
+        // 文件目录的初始化
+        File file = new File(ConstantManager.getInstance().getEnvir());
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        file = new File(ConstantManager.getInstance().getEnvir() + "/.nomedia");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         // 程序皮肤、字符集、夜间模式、网络状态初始化
         ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));

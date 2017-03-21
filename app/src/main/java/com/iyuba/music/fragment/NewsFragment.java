@@ -89,7 +89,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                     StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setCurArticle(newsList.get(position - 1));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
@@ -108,7 +108,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
                     StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsList);
                     StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position) - 1));
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -211,7 +211,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
                 getDbData(maxid);
                 if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsList);
                     StudyManager.getInstance().setCurArticle(newsList.get(0));
                     StudyManager.getInstance().setApp("209");
@@ -245,7 +245,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
                 if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsList);
                     StudyManager.getInstance().setCurArticle(newsList.get(0));
                     StudyManager.getInstance().setApp("209");
@@ -260,7 +260,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData(maxid);
                 if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsList);
                     StudyManager.getInstance().setCurArticle(newsList.get(0));
                     StudyManager.getInstance().setApp("209");
@@ -287,7 +287,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                         break;
                 }
                 if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsList);
                     StudyManager.getInstance().setCurArticle(newsList.get(0));
                     StudyManager.getInstance().setApp("209");

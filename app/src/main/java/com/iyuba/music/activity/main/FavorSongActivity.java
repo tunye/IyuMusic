@@ -95,7 +95,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(FavorSongActivity.this.getClass().getName());
                     StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(ConstantManager.getInstance().getAppName())));
+                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setCurArticle(newsList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
