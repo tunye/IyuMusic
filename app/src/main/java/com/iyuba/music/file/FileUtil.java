@@ -3,6 +3,8 @@ package com.iyuba.music.file;
 import android.content.Context;
 import android.os.Environment;
 
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -261,19 +263,8 @@ public class FileUtil {
         return type;
     }
 
-    public static long getTotalCacheSize(Context context) {
-        long cacheSize = getFolderSize(context.getCacheDir());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            cacheSize += getFolderSize(context.getExternalCacheDir());
-        }
-        return cacheSize;
-    }
-
-    public static void clearAllCache(Context context) {
-        deleteDir(context.getCacheDir());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            deleteDir(context.getExternalCacheDir());
-        }
+    public static long getGlideCacheSize(Context context) {
+        return getFolderSize(new File(context.getCacheDir() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR));
     }
 
     private static boolean deleteDir(File dir) {

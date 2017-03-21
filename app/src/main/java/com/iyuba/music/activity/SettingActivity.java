@@ -20,13 +20,12 @@ import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.dialog.IyubaDialog;
-import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
@@ -43,11 +42,10 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/11/26.
  */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
-    IyubaDialog waittingDialog;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature, moreApp;
-    private RoundRelativeLayout language, push, clear;
-    private TextView currLanguage, currClear, currSkin;
+    private RoundRelativeLayout language, push, clearPic, clearAudio;
+    private TextView currLanguage, picCache, audioCache, currSkin;
     private CheckBox currPush;
     private RoundTextView logout;
 
@@ -56,7 +54,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         context = this;
-        waittingDialog = WaitingDialog.create(context, context.getString(R.string.setting_clearing));
         initWidget();
         setListener();
         changeUIByPara();
@@ -85,9 +82,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         AddRippleEffect.addRippleEffect(language);
         push = (RoundRelativeLayout) findViewById(R.id.setting_push);
         AddRippleEffect.addRippleEffect(push);
-        clear = (RoundRelativeLayout) findViewById(R.id.setting_clear);
-        AddRippleEffect.addRippleEffect(clear);
-        currClear = (TextView) findViewById(R.id.setting_curr_clear);
+        clearPic = (RoundRelativeLayout) findViewById(R.id.setting_pic_clear);
+        AddRippleEffect.addRippleEffect(clearPic);
+        clearAudio = (RoundRelativeLayout) findViewById(R.id.setting_audio_clear);
+        AddRippleEffect.addRippleEffect(clearAudio);
+        picCache = (TextView) findViewById(R.id.setting_pic_cache);
+        audioCache = (TextView) findViewById(R.id.setting_audio_cache);
         currLanguage = (TextView) findViewById(R.id.setting_curr_language);
         currSkin = (TextView) findViewById(R.id.setting_curr_skin);
         currPush = (CheckBox) findViewById(R.id.setting_curr_push);
@@ -107,7 +107,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         language.setOnClickListener(this);
         currLanguage.setOnClickListener(this);
         push.setOnClickListener(this);
-        clear.setOnClickListener(this);
+        clearPic.setOnClickListener(this);
+        clearAudio.setOnClickListener(this);
         currPush.setOnClickListener(this);
         currSkin.setOnClickListener(this);
         logout.setOnClickListener(this);
@@ -186,20 +187,27 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 currPush.setChecked(!currPush.isChecked());
                 setPushState();
                 break;
-            case R.id.setting_clear:
-                waittingDialog.show();
+            case R.id.setting_audio_clear:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FileUtil.clearFileDir(RuntimeManager.getApplication().getProxy(context).getCacheFolder());
+                    }
+                }).start();
+                handler.sendEmptyMessage(3);
+                break;
+            case R.id.setting_pic_clear:
                 ImageUtil.clearMemoryCache(this);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        FileUtil.clearAllCache(context);
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getUpdateFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
                         Glide.get(context).clearDiskCache();
-                        handler.sendEmptyMessage(2);
                     }
                 }).start();
+                handler.sendEmptyMessage(2);
                 break;
             case R.id.setting_curr_push:
                 setPushState();
@@ -320,16 +328,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         public void handleMessageByRef(final SettingActivity activity, Message msg) {
             switch (msg.what) {
                 case 1:
+                    activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(RuntimeManager.getApplication().getProxy(activity).getCacheFolder())));
                     long size = 0;
-                    size += FileUtil.getTotalCacheSize(activity);
+                    size += FileUtil.getGlideCacheSize(activity);
                     size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getCrashFolder()));
                     size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getUpdateFolder()));
                     size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getImgFile()));
-                    activity.currClear.setText(FileUtil.formetFileSize(size));
+                    activity.picCache.setText(FileUtil.formetFileSize(size));
                     break;
                 case 2:
-                    activity.waittingDialog.dismiss();
-                    activity.handler.sendEmptyMessage(1);
+                    activity.picCache.setText("0B");
+                    break;
+                case 3:
+                    activity.audioCache.setText("0B");
                     break;
             }
         }

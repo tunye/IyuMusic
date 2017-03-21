@@ -180,7 +180,7 @@
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:id="@+id/setting_clear"
+                    android:id="@+id/setting_audio_clear"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_height"
                     android:layout_marginTop="@dimen/list_divider_margin"
@@ -194,12 +194,42 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/setting_clean_hint"
+                        android:text="@string/setting_clean_audio"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/big_text" />
 
                     <TextView
-                        android:id="@+id/setting_curr_clear"
+                        android:id="@+id/setting_audio_cache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:textColor="@color/text_complementary"
+                        android:textSize="@dimen/big_text" />
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                    android:id="@+id/setting_pic_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_height"
+                    android:layout_marginTop="@dimen/list_divider_margin"
+                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/setting_clean_pic"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text" />
+
+                    <TextView
+                        android:id="@+id/setting_pic_cache"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

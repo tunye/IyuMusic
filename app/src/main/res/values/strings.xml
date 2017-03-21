@@ -184,7 +184,8 @@
     <string name="setting_language_hint">界面语言</string>
     <string name="setting_push_hint">推送消息</string>
     <string name="setting_moreapp">更多应用</string>
-    <string name="setting_clean_hint">清除缓存</string>
+    <string name="setting_clean_audio">清除歌曲缓存</string>
+    <string name="setting_clean_pic">清除其他缓存</string>
     <string name="setting_word_set">单词设置</string>
     <string name="setting_study_set">播放设置</string>
     <string name="setting_skin">皮肤设置</string>
