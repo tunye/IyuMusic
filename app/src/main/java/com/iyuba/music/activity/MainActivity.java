@@ -87,6 +87,7 @@ public class MainActivity extends BaseSkinActivity {
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
             }
+            StartFragment.checkTmpFile();
             if (getIntent().getBooleanExtra("pushIntent", false)) {
                 drawerLayout.postDelayed(new Runnable() {
                     @Override

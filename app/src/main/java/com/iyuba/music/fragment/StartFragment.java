@@ -229,4 +229,15 @@ public class StartFragment {
             });
         }
     }
+
+    public static void checkTmpFile() {
+        File file = new File(ConstantManager.getInstance().getMusicFolder());
+        if (file.exists()) {
+            for (File fileChild : file.listFiles()) {
+                if (fileChild.getName().contains(".tmp")) {
+                    fileChild.delete();
+                }
+            }
+        }
+    }
 }

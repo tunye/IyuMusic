@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -23,7 +24,7 @@ import com.iyuba.music.R;
  *
  * @author Alan
  */
-public class RoundImageView extends ImageView {
+public class RoundImageView extends AppCompatImageView {
     private int mBorderThickness = 0;
     private int defaultColor = 0xFFFFFFFF;
     // 如果只有其中一个有值，则只画一个圆形边框

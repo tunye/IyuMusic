@@ -1,13 +1,14 @@
 package com.iyuba.music.widget.imageview;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
  * Created by Administrator on 2016/3/25.
  */
-public class RatioImageView extends ImageView {
+public class RatioImageView extends AppCompatImageView {
     private int originalWidth;
     private int originalHeight;
 

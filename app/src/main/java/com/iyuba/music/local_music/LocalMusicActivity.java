@@ -301,14 +301,10 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         if (player == null || !StudyManager.getInstance().getApp().equals("101")) {
             pause.setState(MorphButton.MorphState.START);
         } else if (player.isPlaying()) {
-            handler.removeMessages(0);
             pause.setState(MorphButton.MorphState.END, true);
-            handler.sendEmptyMessage(0);
             refresh();
         } else {
-            handler.removeMessages(0);
             pause.setState(MorphButton.MorphState.START, true);
-            handler.sendEmptyMessage(0);
             adapter.setCurPos(-1);
         }
     }

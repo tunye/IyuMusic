@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -35,15 +33,12 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.TextAttr;
-import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.banner.BannerView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,8 +47,6 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private HashMap<String, RoundProgressBar> progresses = new HashMap<>();
     private ArrayList<Article> newsList;
     private ArrayList<BannerEntity> adPicUrl;
     private Context context;
@@ -203,12 +196,39 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
                     file = DownloadManager.getInstance().fileList.get(i);
                     if (file.id == id) {
-                        progresses.put(String.valueOf(file.id),
-                                newsViewHolder.download);
-                        Message message = new Message();
-                        message.what = 1;
-                        message.obj = file;
-                        handler.sendMessage(message);
+                        switch (file.downloadState) {
+                            case "start":
+                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
+                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                                if (file.fileSize != 0 && file.downloadSize != 0) {
+                                    newsViewHolder.download.setMax(file.fileSize);
+                                    newsViewHolder.download.setProgress(file.downloadSize);
+                                } else {
+                                    newsViewHolder.download.setMax(1);
+                                    newsViewHolder.download.setProgress(0);
+                                }
+                                break;
+                            case "half_finish":
+                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(context));
+                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                                if (file.fileSize != 0 && file.downloadSize != 0) {
+                                    newsViewHolder.download.setMax(file.fileSize);
+                                    newsViewHolder.download.setProgress(file.downloadSize);
+                                } else {
+                                    newsViewHolder.download.setMax(1);
+                                    newsViewHolder.download.setProgress(0);
+                                }
+                                break;
+                            case "finish":
+                                DownloadManager.getInstance().fileList.remove(file);
+                                break;
+                        }
+                        newsViewHolder.itemView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                notifyItemChanged(pos);
+                            }
+                        }, 500);
                         break;
                     }
                 }
@@ -290,63 +310,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     }
                 }
             });
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<NewsAdapter> {
-        @Override
-        public void handleMessageByRef(final NewsAdapter adapter, Message msg) {
-            DownloadFile file;
-            RoundProgressBar tempBar;
-            switch (msg.what) {
-                case 1:
-                    file = (DownloadFile) msg.obj;
-                    Message message = new Message();
-                    switch (file.downloadState) {
-                        case "start":
-                            tempBar = adapter.progresses.get(String.valueOf(file.id));
-                            tempBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(adapter.context));
-                            if (file.fileSize != 0 && file.downloadSize != 0) {
-                                tempBar.setMax(file.fileSize);
-                                tempBar.setProgress(file.downloadSize);
-                            } else {
-                                tempBar.setMax(1);
-                                tempBar.setProgress(0);
-                            }
-                            message.what = 1;
-                            message.obj = file;
-                            adapter.handler.sendMessageDelayed(message, 300);
-                            break;
-                        case "half_finish":
-                            tempBar = adapter.progresses.get(String.valueOf(file.id));
-                            tempBar.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(adapter.context));
-                            if (file.fileSize != 0 && file.downloadSize != 0) {
-                                tempBar.setMax(file.fileSize);
-                                tempBar.setProgress(file.downloadSize);
-                            } else {
-                                tempBar.setMax(1);
-                                tempBar.setProgress(0);
-                            }
-                            message.what = 1;
-                            message.obj = file;
-                            adapter.handler.sendMessageDelayed(message, 300);
-                            break;
-                        case "finish":
-                            message.what = 2;
-                            message.obj = file;
-                            adapter.handler.removeMessages(msg.what);
-                            adapter.handler.sendMessage(message);
-                            break;
-                    }
-                    break;
-                case 2:
-                    file = (DownloadFile) msg.obj;
-                    tempBar = adapter.progresses.get(String.valueOf(file.id));
-                    tempBar.setVisibility(View.GONE);
-                    DownloadManager.getInstance().fileList.remove(file);
-                    adapter.notifyDataSetChanged();
-                    break;
-            }
         }
     }
 }

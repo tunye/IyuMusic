@@ -180,5 +180,7 @@
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 
+-keep class javax.xml.stream.** { *; }
+
 
 
