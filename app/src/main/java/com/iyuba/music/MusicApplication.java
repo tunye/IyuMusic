@@ -176,7 +176,7 @@ public class MusicApplication extends Application {
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
         // 讯飞初始化
-        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=5752942e");
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
         UMShareConfig config = new UMShareConfig();
         config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
         UMShareAPI.get(this).setShareConfig(config);

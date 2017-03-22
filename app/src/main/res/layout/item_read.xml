@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/row_space_medium"
+    android:padding="@dimen/row_space_large"
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="600">
 
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_very_large"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView

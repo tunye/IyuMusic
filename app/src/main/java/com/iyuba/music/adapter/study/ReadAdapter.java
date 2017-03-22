@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,7 +197,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         });
         holder.num.setText(String.valueOf(position + 1));
         holder.english.setText(original.getSentence());
-        holder.chinese.setText(original.getSentence_cn());
+        if (TextUtils.isEmpty(original.getSentence_cn())) {
+            holder.chinese.setVisibility(View.GONE);
+        } else {
+            holder.chinese.setText(original.getSentence_cn());
+            holder.chinese.setVisibility(View.VISIBLE);
+        }
         if (position == curItem) {
             curText = holder.recordTime;
             holder.readControl.setVisibility(View.VISIBLE);
