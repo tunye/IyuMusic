@@ -6,29 +6,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.DownloadNewsAdapter;
+import com.iyuba.music.download.DownloadFile;
+import com.iyuba.music.download.DownloadManager;
+import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
+import com.iyuba.music.file.FileUtil;
+import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.TextAttr;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -36,19 +39,20 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2016/3/7.
  */
 public class DownloadSongActivity extends BaseActivity implements IOnClickListener {
-    private RecyclerView newsRecycleView;
-    private ArrayList<Article> newsList;
-    private DownloadNewsAdapter newsAdapter;
+    private ArrayList<Article> downloaded, downloading;
+    private DownloadNewsAdapter downloadedAdapter, downloadingAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
-    private MySwipeRefreshLayout swipeRefreshLayout;
-    private TextView toolBarOperSub;
+    private View downloadingBar;
+    private ScrollView downloadScroll;
+    private TextView toolBarOperSub, downloadingDel, downloadingContinue, downloadedDel,
+            downloadedStatic, downloadingStatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.classify_with_opersub);
+        setContentView(R.layout.download_song);
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
@@ -60,30 +64,39 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
+        downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setEnabled(false);
-        newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
-        newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        ((SimpleItemAnimator) newsRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
-        newsAdapter = new DownloadNewsAdapter(context);
-        newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        RecyclerView downloadedRecycleView = (RecyclerView) findViewById(R.id.downloaded_recyclerview);
+        downloadedRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        downloadedRecycleView.addItemDecoration(new DividerItemDecoration());
+        downloadedDel = (TextView) findViewById(R.id.downloaded_delete);
+        downloadedStatic = (TextView) findViewById(R.id.downloaded_statistic);
+        RecyclerView downloadingRecycleView = (RecyclerView) findViewById(R.id.downloading_recyclerview);
+        downloadingRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        downloadingRecycleView.addItemDecoration(new DividerItemDecoration());
+        downloadingStatic = (TextView) findViewById(R.id.downloading_statistic);
+        downloadingDel = (TextView) findViewById(R.id.downloading_delete);
+        downloadingContinue = (TextView) findViewById(R.id.downloading_start);
+        ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
+        downloadingBar = findViewById(R.id.downloading_bar);
+        downloadedAdapter = new DownloadNewsAdapter(context);
+        downloadedAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String app = newsList.get(position).getApp();
+                String app = downloaded.get(position).getApp();
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
                     ArrayList<Article> temp = new ArrayList<>();
-                    temp.add(newsList.get(position));
+                    temp.add(downloaded.get(position));
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(DownloadSongActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(downloaded);
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setCurArticle(downloaded.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -92,8 +105,20 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             public void onItemLongClick(View view, int position) {
             }
         });
-        newsRecycleView.setAdapter(newsAdapter);
-        newsRecycleView.addItemDecoration(new DividerItemDecoration());
+        downloadedRecycleView.setAdapter(downloadedAdapter);
+
+        downloadingAdapter = new DownloadNewsAdapter(context);
+        downloadingAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        downloadingRecycleView.setAdapter(downloadingAdapter);
     }
 
     @Override
@@ -104,7 +129,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             @Override
             public void onClick(View view) {
                 if (toolBarOperSub.getText().equals(getString(R.string.select_all))) {
-                    newsAdapter.setDeleteAll();
+                    downloadingAdapter.setDeleteAll();
+                    downloadedAdapter.setDeleteAll();
                 } else {
                     final MaterialDialog dialog = new MaterialDialog(context);
                     dialog.setTitle(R.string.article_clear_all);
@@ -112,14 +138,14 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            newsAdapter.setDataSet(new ArrayList<Article>());
-                            Article temp;
-                            for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
-                                temp = it.next();
-                                it.remove();
-                                deleteFile(temp.getId(), temp.getApp());
-                                localInfoOp.updateDownload(temp.getId(), temp.getApp(), 0);
+                            File file = new File(ConstantManager.getInstance().getMusicFolder());
+                            if (file.exists()) {
+                                downloadedAdapter.setDataSet(new ArrayList<Article>());
+                                downloadingAdapter.setDataSet(new ArrayList<Article>());
+                                localInfoOp.clearAllDownload();
+                                FileUtil.deleteFile(file);
                             }
+                            getData();
                             dialog.dismiss();
                         }
                     });
@@ -137,28 +163,79 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             @Override
             public void onClick(View v) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
-                    newsAdapter.setDelete(true);
+                    downloadedAdapter.setDelete(true);
+                    downloadingAdapter.setDelete(true);
                     toolBarOperSub.setText(R.string.article_select_all);
                     toolbarOper.setText(R.string.app_del);
                 } else {
-                    newsAdapter.setDelete(false);
+                    downloadingAdapter.setDelete(true);
+                    downloadingAdapter.setDelete(true);
                     toolbarOper.setText(R.string.article_edit);
                     toolBarOperSub.setText(R.string.article_clear);
-                    newsList = newsAdapter.getDataSet();
-                    Article temp;
-                    for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
-                        temp = it.next();
+                    downloading = downloadingAdapter.getDataSet();
+                    for (Article temp : downloading) {
                         if (temp.isDelete()) {
-                            it.remove();
-                            deleteFile(temp.getId(), temp.getApp());
+                            deleteFile(temp.getId(), temp.getApp(), "2");
+                            localInfoOp.updateDownload(temp.getId(), temp.getApp(), 0);
+                        }
+                    }
+
+                    downloaded = downloadedAdapter.getDataSet();
+                    for (Article temp : downloaded) {
+                        if (temp.isDelete()) {
+                            deleteFile(temp.getId(), temp.getApp(), "1");
                             localInfoOp.updateDownload(temp.getId(), temp.getApp(), 0);
                         }
                     }
                     if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(newsList);
+                        StudyManager.getInstance().setSourceArticleList(downloaded);
                     }
-                    newsAdapter.setDataSet(newsList);
+                    getData();
                 }
+            }
+        });
+        downloadedDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (Article temp : downloaded) {
+                    deleteFile(temp.getId(), temp.getApp(), "1");
+                }
+                downloadedAdapter.setDataSet(new ArrayList<Article>());
+                localInfoOp.clearDownloaded();
+                downloadedStatic.setText(context.getString(R.string.article_downloaded_static, 0));
+            }
+        });
+        downloadingDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DownloadManager.getInstance().fileList.clear();
+                StartFragment.checkTmpFile();
+                localInfoOp.clearDownloading();
+                downloadingBar.setVisibility(View.GONE);
+                downloadingAdapter.setDataSet(new ArrayList<Article>());
+            }
+        });
+        downloadingContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<LocalInfo> downloadingContinue = localInfoOp.findDataByShouldContinue();
+                DownloadFile downloadFile;
+                for (LocalInfo localInfo : downloadingContinue) {
+                    if (localInfo.getDownload() == 3) {
+                        localInfoOp.updateDownload(localInfo.getId(), localInfo.getApp(), 2);
+                        downloadFile = new DownloadFile();
+                        downloadFile.id = localInfo.getId();
+                        downloadFile.downloadState = "start";
+                        DownloadManager.getInstance().fileList.add(downloadFile);
+                        for (Article article : downloading) {
+                            if (article.getId() == localInfo.getId()) {
+                                new DownloadTask(article).start();
+                                break;
+                            }
+                        }
+                    }
+                }
+                downloadingAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -169,65 +246,94 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         title.setText(R.string.classify_local);
         toolbarOper.setText(R.string.article_edit);
         toolBarOperSub.setText(R.string.article_clear);
-        getData();
     }
 
     @Override
     public void onClick(View view, Object message) {
-        newsRecycleView.scrollToPosition(0);
+        downloadScroll.scrollTo(0, 0);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        newsAdapter.notifyDataSetChanged();
+        getData();
     }
 
     private void getData() {
-        newsList = new ArrayList<>();
-        ArrayList<LocalInfo> temp = localInfoOp.findDataByDownload();
+        downloaded = new ArrayList<>();
+        ArrayList<LocalInfo> temp = localInfoOp.findDataByDownloaded();
         Article article;
         for (LocalInfo local : temp) {
             article = articleOp.findById(local.getApp(), local.getId());
             article.setExpireContent(local.getSeeTime());
             article.setId(local.getId());
             article.setApp(local.getApp());
-            newsList.add(article);
+            downloaded.add(article);
         }
-        newsAdapter.setDataSet(newsList);
+        downloadedAdapter.setDataSet(downloaded);
+        downloadedStatic.setText(context.getString(R.string.article_downloaded_static, downloaded.size()));
+
+        downloading = new ArrayList<>();
+        temp = localInfoOp.findDataByDownloading();
+        if (temp.size() == 0) {
+            downloadingBar.setVisibility(View.GONE);
+        } else {
+            downloadingBar.setVisibility(View.VISIBLE);
+            for (LocalInfo local : temp) {
+                article = articleOp.findById(local.getApp(), local.getId());
+                article.setExpireContent(local.getSeeTime());
+                article.setId(local.getId());
+                article.setApp(local.getApp());
+                downloading.add(article);
+            }
+            downloadingAdapter.setDataSet(downloading);
+            downloadingStatic.setText(context.getString(R.string.article_downloading_static, downloading.size()));
+        }
         if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-            StudyManager.getInstance().setSourceArticleList(newsList);
+            StudyManager.getInstance().setSourceArticleList(downloaded);
         }
+        downloadScroll.scrollTo(0, 0);
     }
 
-    private void deleteFile(int id, String app) {
+    private void deleteFile(int id, String app, String state) {
         String baseUrl = ConstantManager.getInstance().getMusicFolder() + File.separator;
-        if (app.equals("209")) {
-            File deleteFile = new File(baseUrl + id + ".mp3");
-            if (deleteFile.exists()) {
-                deleteFile.delete();
+        File deleteFile;
+        switch (app) {
+            case "209": {
+                deleteFile = new File(baseUrl + id + (state.equals("1") ? ".mp3" : ".tmp"));
+                if (deleteFile.exists()) {
+                    deleteFile.delete();
+                }
+                deleteFile = new File(baseUrl + id + (state.equals("1") ? "s.mp3" : "s.tmp"));
+                if (deleteFile.exists()) {
+                    deleteFile.delete();
+                }
+                break;
             }
-            deleteFile = new File(baseUrl + id + "s.mp3");
-            if (deleteFile.exists()) {
-                deleteFile.delete();
+            case "229":
+            case "217":
+            case "213": {
+                deleteFile = new File(baseUrl + app + "-" + id + (state.equals("1") ? ".mp4" : ".tmp"));
+                if (deleteFile.exists()) {
+                    deleteFile.delete();
+                }
+                break;
             }
-        } else if (app.equals("229") || app.equals("217") || app.equals("213")) {
-            File deleteFile = new File(baseUrl + app + "-" + id + ".mp4");
-            if (deleteFile.exists()) {
-                deleteFile.delete();
-            }
-        } else {
-            File deleteFile = new File(baseUrl + app + "-" + id + ".mp3");
-            if (deleteFile.exists()) {
-                deleteFile.delete();
+            default: {
+                deleteFile = new File(baseUrl + app + "-" + id + (state.equals("1") ? ".mp3" : ".tmp"));
+                if (deleteFile.exists()) {
+                    deleteFile.delete();
+                }
+                break;
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (newsAdapter.isDelete()) {
-            newsAdapter.setDelete(false);
+        if (downloadedAdapter.isDelete() || downloadingAdapter.isDelete()) {
+            downloadedAdapter.setDelete(false);
+            downloadingAdapter.setDelete(false);
             toolbarOper.setText(R.string.article_edit);
             toolBarOperSub.setText(R.string.article_clear);
         } else {

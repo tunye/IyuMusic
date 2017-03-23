@@ -285,6 +285,9 @@
     <string name="article_download_file_dismiss">该文章下载文件似乎已经丢失，建议删除下载记录后重新下载</string>
     <string name="article_download_set">去设置</string>
     <string name="article_download_open_still">仍然打开</string>
+    <string name="article_download_continue">全部开始</string>
+    <string name="article_downloaded_static">下载完成 %1$d首</string>
+    <string name="article_downloading_static">下载中 %1$d首</string>
     <string name="article_synchro">同步</string>
     <string name="article_edit">编辑</string>
     <string name="article_clear">清空</string>

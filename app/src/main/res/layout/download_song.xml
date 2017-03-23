@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_with_opersub" />
+
+    <ScrollView
+        android:id="@+id/download_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/downloading_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_complementary"
+                android:gravity="center"
+                android:padding="@dimen/row_space_medium">
+
+                <TextView
+                    android:id="@+id/downloading_statistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/row_space_default"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/large_text" />
+
+                <TextView
+                    android:id="@+id/downloading_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_toLeftOf="@+id/downloading_start"
+                    android:text="@string/file_delete"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/large_text" />
+
+                <TextView
+                    android:id="@+id/downloading_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/row_space_medium"
+                    android:text="@string/article_download_continue"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/large_text" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/downloading_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:id="@+id/downloaded_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_complementary"
+                android:gravity="center"
+                android:padding="@dimen/row_space_medium">
+
+                <TextView
+                    android:id="@+id/downloaded_statistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/row_space_default"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/large_text" />
+
+                <TextView
+                    android:id="@+id/downloaded_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/row_space_medium"
+                    android:text="@string/file_delete"
+                    android:textColor="@color/text_complementary"
+                    android:textSize="@dimen/large_text" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/downloaded_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

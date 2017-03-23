@@ -27,6 +27,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.fragment.MainFragment;
 import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
@@ -303,6 +304,7 @@ public class MainActivity extends BaseSkinActivity {
 //                startActivity(i);
                 ((MusicApplication) getApplication()).clearActivityList();
             } else {
+                new LocalInfoOp().changeDownloadToStop();
                 ((MusicApplication) getApplication()).exit();
             }
         } else {

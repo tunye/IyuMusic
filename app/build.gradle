@@ -21,13 +21,13 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 86
-        versionName "8.6"
+        versionCode 87
+        versionName "8.7"
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.releaseConfig
             shrinkResources true
             zipAlignEnabled true

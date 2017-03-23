@@ -2,8 +2,6 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
