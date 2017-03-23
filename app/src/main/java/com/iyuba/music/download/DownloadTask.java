@@ -47,7 +47,6 @@ public class DownloadTask {
     private int id;
     private String app;
     private DownloadFile downloadFile;
-    private IOperationFinish finish;
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -60,26 +59,13 @@ public class DownloadTask {
                     break;
                 case 2:
                     downloadFile.downloadState = "finish";
-                    CustomToast.getInstance().showToast(R.string.article_download_success);
-                    new LocalInfoOp().updateDownload(downloadFile.id, app, 1);
-                    if (finish != null) {
-                        finish.finish();
-                    }
                     break;
                 case 3:
                     downloadFile.downloadState = "half_finish";
                     downloadFile.downloadSize = 0;
                     break;
                 case 4:
-                    new LocalInfoOp().updateDownload(id, app, 0);
-                    CustomToast.getInstance().showToast(R.string.article_download_fail);
-                    ArrayList<DownloadFile> files = DownloadManager.getInstance().fileList;
-                    for (DownloadFile file : files) {
-                        if (file.id == id) {
-                            files.remove(file);
-                            break;
-                        }
-                    }
+                    downloadFile.downloadState = "fail";
                     break;
             }
             return false;
@@ -147,10 +133,6 @@ public class DownloadTask {
             File file = new File(path);
             return file.exists();
         }
-    }
-
-    public void setListener(IOperationFinish finish) {
-        this.finish = finish;
     }
 
     public void start() {

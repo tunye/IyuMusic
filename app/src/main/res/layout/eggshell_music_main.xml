@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:background="@color/background_complementary"
+        android:background="@color/background_light"
         android:gravity="center"
         android:padding="@dimen/row_space_medium">
 

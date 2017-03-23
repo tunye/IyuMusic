@@ -24,7 +24,7 @@
                 android:id="@+id/downloading_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_complementary"
+                android:background="@color/background_light"
                 android:gravity="center"
                 android:padding="@dimen/row_space_medium">
 
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/row_space_large"
                     android:layout_toLeftOf="@+id/downloading_start"
-                    android:text="@string/file_delete"
+                    android:text="@string/article_clear"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/large_text" />
 
@@ -66,7 +66,7 @@
                 android:id="@+id/downloaded_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_complementary"
+                android:background="@color/background_light"
                 android:gravity="center"
                 android:padding="@dimen/row_space_medium">
 
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/row_space_medium"
-                    android:text="@string/file_delete"
+                    android:text="@string/article_clear"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/large_text" />
             </RelativeLayout>

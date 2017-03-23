@@ -16,17 +16,16 @@ import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -37,6 +36,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapter.MyViewHolder> {
     private ArrayList<Article> newsList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+    private IOperationFinish finish;
     private Context context;
     private LocalInfoOp localInfoOp;
     private boolean delete;
@@ -44,43 +44,16 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     private Map<String, Integer> fileMap;
 
-    public DownloadNewsAdapter(Context context) {
+    public DownloadNewsAdapter(Context context, Map<String, Integer> fileMap) {
         this.context = context;
         this.delete = false;
         newsList = new ArrayList<>();
         localInfoOp = new LocalInfoOp();
-        fileMap = new HashMap<>();
-        setFileMap();
+        this.fileMap = fileMap;
     }
 
-    private void setFileMap() {
-        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
-        if (packageFile.exists() && packageFile.list() != null) {
-            String id;
-            for (String fileName : packageFile.list()) {
-                fileName = fileName.split("\\.")[0];
-                if (!fileName.contains("-")) {
-                    if (fileName.endsWith("s")) {
-                        id = fileName.substring(0, fileName.length() - 1);
-                        if (fileMap.containsKey(id)) {
-                            fileMap.put(id, 2);
-                        } else {
-                            fileMap.put(id, -1);
-                        }
-                    } else {
-                        id = fileName;
-                        if (fileMap.containsKey(id)) {
-                            fileMap.put(id, 2);
-                        } else {
-                            fileMap.put(id, 1);
-                        }
-                    }
-                } else {
-                    String[] temp = fileName.split("-");
-                    fileMap.put(temp[1], Integer.parseInt(temp[0]));
-                }
-            }
-        }
+    public void setFileMap(Map<String, Integer> map) {
+        fileMap = map;
     }
 
     public boolean isDelete() {
@@ -114,6 +87,10 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
         onRecycleViewItemClickListener = onItemClickLitener;
+    }
+
+    public void setDownloadCompleteClickLitener(IOperationFinish iOperationFinish) {
+        finish = iOperationFinish;
     }
 
     public ArrayList<Article> getDataSet() {
@@ -262,7 +239,16 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             }
                             break;
                         case "finish":
+                            localInfoOp.updateDownload(file.id, article.getApp(), 1);
+                            CustomToast.getInstance().showToast(R.string.article_download_success);
                             DownloadManager.getInstance().fileList.remove(file);
+                            finish.finish();
+                            break;
+                        case "fail":
+                            localInfoOp.updateDownload(file.id, article.getApp(), 0);
+                            CustomToast.getInstance().showToast(R.string.article_download_fail);
+                            DownloadManager.getInstance().fileList.remove(file);
+                            finish.finish();
                             break;
                     }
                     holder.itemView.postDelayed(new Runnable() {

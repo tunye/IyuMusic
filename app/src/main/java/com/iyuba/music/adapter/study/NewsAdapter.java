@@ -220,6 +220,13 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 }
                                 break;
                             case "finish":
+                                localInfoOp.updateDownload(file.id, article.getApp(), 1);
+                                CustomToast.getInstance().showToast(R.string.article_download_success);
+                                DownloadManager.getInstance().fileList.remove(file);
+                                break;
+                            case "fail":
+                                localInfoOp.updateDownload(file.id, article.getApp(), 0);
+                                CustomToast.getInstance().showToast(R.string.article_download_fail);
                                 DownloadManager.getInstance().fileList.remove(file);
                                 break;
                         }

@@ -24,6 +24,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
@@ -189,6 +190,13 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                             }
                             break;
                         case "finish":
+                            localInfoOp.updateDownload(file.id, article.getApp(), 1);
+                            CustomToast.getInstance().showToast(R.string.article_download_success);
+                            DownloadManager.getInstance().fileList.remove(file);
+                            break;
+                        case "fail":
+                            localInfoOp.updateDownload(file.id, article.getApp(), 0);
+                            CustomToast.getInstance().showToast(R.string.article_download_fail);
                             DownloadManager.getInstance().fileList.remove(file);
                             break;
                     }

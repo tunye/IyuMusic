@@ -25,13 +25,17 @@ import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -64,6 +68,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
+        Map<String, Integer> fileMap = getFileMap();
         downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
@@ -80,7 +85,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadingContinue = (TextView) findViewById(R.id.downloading_start);
         ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingBar = findViewById(R.id.downloading_bar);
-        downloadedAdapter = new DownloadNewsAdapter(context);
+        downloadedAdapter = new DownloadNewsAdapter(context, fileMap);
         downloadedAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -107,11 +112,18 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         });
         downloadedRecycleView.setAdapter(downloadedAdapter);
 
-        downloadingAdapter = new DownloadNewsAdapter(context);
+        downloadingAdapter = new DownloadNewsAdapter(context, fileMap);
+        downloadingAdapter.setDownloadCompleteClickLitener(new IOperationFinish() {
+            @Override
+            public void finish() {
+                downloadedAdapter.setFileMap(getFileMap());
+                getData();
+            }
+        });
         downloadingAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                CustomToast.getInstance().showToast(R.string.article_downloading);
             }
 
             @Override
@@ -277,6 +289,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         temp = localInfoOp.findDataByDownloading();
         if (temp.size() == 0) {
             downloadingBar.setVisibility(View.GONE);
+            downloadingAdapter.setDataSet(downloading);
         } else {
             downloadingBar.setVisibility(View.VISIBLE);
             for (LocalInfo local : temp) {
@@ -339,5 +352,40 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         } else {
             super.onBackPressed();
         }
+    }
+
+    public Map<String, Integer> getFileMap() {
+        Map<String, Integer> fileMap = new HashMap<>();
+        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+        if (packageFile.exists() && packageFile.list() != null) {
+            String id;
+            for (String fileName : packageFile.list()) {
+                if (fileName.endsWith(".tmp")) {
+                    continue;
+                }
+                fileName = fileName.split("\\.")[0];
+                if (!fileName.contains("-")) {
+                    if (fileName.endsWith("s")) {
+                        id = fileName.substring(0, fileName.length() - 1);
+                        if (fileMap.containsKey(id)) {
+                            fileMap.put(id, 2);
+                        } else {
+                            fileMap.put(id, -1);
+                        }
+                    } else {
+                        id = fileName;
+                        if (fileMap.containsKey(id)) {
+                            fileMap.put(id, 2);
+                        } else {
+                            fileMap.put(id, 1);
+                        }
+                    }
+                } else {
+                    String[] temp = fileName.split("-");
+                    fileMap.put(temp[1], Integer.parseInt(temp[0]));
+                }
+            }
+        }
+        return fileMap;
     }
 }
