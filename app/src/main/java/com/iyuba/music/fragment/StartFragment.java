@@ -158,9 +158,10 @@ public class StartFragment {
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
         sb.append("1.[性能优化] 提高听歌后台播放的稳定性").append("\n");
-        sb.append("2.[优化通知栏] 通知栏操作更便捷").append("\n");
+        sb.append("2.[界面UI] 调整了主题配色，夜间模式更加柔和").append("\n");
         sb.append("3.[跟唱调整] 跟唱增加测评打分，来与小伙伴们一较高下").append("\n");
-        sb.append("4.[在线支付] 会员购买可以使用在线支付方式了！");
+        sb.append("4.[下载调整] 下载分栏展示，用户体验更佳").append("\n");
+        sb.append("5.[在线支付] 会员购买可以使用在线支付方式了！");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
             @Override

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.SettingActivity;
 import com.iyuba.music.activity.study.StudyActivity;

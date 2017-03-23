@@ -23,7 +23,6 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.service.PlayerService;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 
 import java.util.ArrayList;

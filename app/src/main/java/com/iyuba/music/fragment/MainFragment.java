@@ -19,7 +19,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
@@ -41,8 +40,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.iyuba.music.manager.RuntimeManager.getApplication;
 
 
 /**
@@ -244,10 +241,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setImageState(boolean animation) {
-        if ( RuntimeManager.getApplication().getPlayerService() == null) {
+        if (RuntimeManager.getApplication().getPlayerService() == null) {
             pause.setState(MorphButton.MorphState.START);
         } else {
-            player =  RuntimeManager.getApplication().getPlayerService().getPlayer();
+            player = RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player == null) {
                 pause.setState(MorphButton.MorphState.START);
             } else if (player.isPlaying()) {

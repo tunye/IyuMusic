@@ -12,10 +12,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.original.LrcMaker;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
@@ -25,7 +23,6 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
-import com.iyuba.music.widget.CustomToast;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -27,7 +27,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.FavorSynRequest;
 import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;

@@ -2,7 +2,6 @@ package com.iyuba.music.receiver;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.iyuba.music.activity.NullActivity;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;

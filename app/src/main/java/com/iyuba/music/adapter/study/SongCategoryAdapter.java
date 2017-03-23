@@ -27,7 +27,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.banner.BannerView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 

@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -123,7 +122,6 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("aaa", MiPushClient.getRegId(context));
         MobclickAgent.onResume(this);
         toolbarOper.postDelayed(new Runnable() {
             @Override
