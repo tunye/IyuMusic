@@ -18,6 +18,10 @@
     <color name="skin_app_color_red">#dd191d</color>
     <color name="skin_app_color_light_red">#e51c23</color>
     <color name="skin_color_accent_red">#41bff9</color>
+    <!--ROSE-->
+    <color name="skin_app_color_rose">#e91e63</color>
+    <color name="skin_app_color_light_rose">#ec407a</color>
+    <color name="skin_color_accent_rose">#5677fc</color>
     <!-- PINK-->
     <color name="skin_app_color_pink">#fd8c88</color>
     <color name="skin_app_color_light_pink">#fe9a96</color>
@@ -43,15 +47,15 @@
     <color name="skin_app_color_light_lgreen">#adf183</color>
     <color name="skin_color_accent_lgreen">#818478</color>
     <!-- LIME-->
-    <color name="skin_app_color_lime">#f7de32</color>
-    <color name="skin_app_color_light_lime">#ffc107</color>
-    <color name="skin_color_accent_lime">#e51c23</color>
+    <color name="skin_app_color_lime">#f8c715</color>
+    <color name="skin_app_color_light_lime">#fad653</color>
+    <color name="skin_color_accent_lime">#36c0ff</color>
     <!-- ORANGE-->
     <color name="skin_app_color_orange">#fd6226</color>
     <color name="skin_app_color_light_orange">#ff7043</color>
     <color name="skin_color_accent_orange">#29b6f6</color>
     <!-- GRAY-->
-    <color name="skin_app_color_gray">#444446</color>
-    <color name="skin_app_color_light_gray">#606060</color>
-    <color name="skin_color_accent_gray">#66666f</color>
+    <color name="skin_app_color_gray">#546e7a</color>
+    <color name="skin_app_color_light_gray">#607d8b</color>
+    <color name="skin_color_accent_gray">#cddc39</color>
 </resources>

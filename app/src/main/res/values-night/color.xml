@@ -17,6 +17,10 @@
     <color name="skin_app_color_red">#dd191d</color>
     <color name="skin_app_color_light_red">#e51c23</color>
     <color name="skin_color_accent_red">#41bff9</color>
+    <!--ROSE-->
+    <color name="skin_app_color_rose">#e91e63</color>
+    <color name="skin_app_color_light_rose">#ec407a</color>
+    <color name="skin_color_accent_rose">#5677fc</color>
     <!-- PINK-->
     <color name="skin_app_color_pink">#fd8c88</color>
     <color name="skin_app_color_light_pink">#fe9a96</color>
@@ -50,7 +54,7 @@
     <color name="skin_app_color_light_orange">#ff7043</color>
     <color name="skin_color_accent_orange">#319bcb</color>
     <!-- GRAY-->
-    <color name="skin_app_color_gray">#444446</color>
-    <color name="skin_app_color_light_gray">#606060</color>
-    <color name="skin_color_accent_gray">#eff0dc</color>
+    <color name="skin_app_color_gray">#546e7a</color>
+    <color name="skin_app_color_light_gray">#607d8b</color>
+    <color name="skin_color_accent_gray">#cddc39</color>
 </resources>

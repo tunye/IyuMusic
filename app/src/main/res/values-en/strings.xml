@@ -183,7 +183,8 @@
     <string name="setting_title">Setting</string>
     <string name="setting_language_hint">Language setting</string>
     <string name="setting_push_hint">Push message</string>
-    <string name="setting_clean_hint">Clean cache</string>
+    <string name="setting_clean_audio">Clean music cache</string>
+    <string name="setting_clean_pic">Clean other cache</string>
     <string name="setting_word_set">Word setting</string>
     <string name="setting_study_set">Player setting</string>
     <string name="setting_skin">Skin setting</string>
@@ -284,6 +285,9 @@
     <string name="article_download_file_dismiss">The file seems be dismissed, so you may delete the record to download it again better.</string>
     <string name="article_download_set">Set</string>
     <string name="article_download_open_still">Open it</string>
+    <string name="article_download_continue">Continue</string>
+    <string name="article_downloaded_static">Complete %1$d songs</string>
+    <string name="article_downloading_static">Download %1$d songs</string>
     <string name="article_synchro">Synchro</string>
     <string name="article_clear">Clear</string>
     <string name="article_select_all">All</string>

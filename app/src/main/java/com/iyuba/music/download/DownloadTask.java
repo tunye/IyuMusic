@@ -289,12 +289,12 @@ public class DownloadTask {
         LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+
             }
 
             @Override
@@ -309,12 +309,11 @@ public class DownloadTask {
         OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
             }
 
             @Override
             public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+
             }
 
             @Override

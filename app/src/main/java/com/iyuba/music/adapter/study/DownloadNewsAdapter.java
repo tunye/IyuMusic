@@ -80,11 +80,6 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         notifyDataSetChanged();
     }
 
-    public void removeData(int pos) {
-        newsList.remove(pos);
-        notifyItemChanged(pos);
-    }
-
     public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
         onRecycleViewItemClickListener = onItemClickLitener;
     }
@@ -128,7 +123,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                                 @Override
                                 public void onClick(View view) {
                                     localInfoOp.updateDownload(article.getId(), article.getApp(), 0);
-                                    notifyDataSetChanged();
+                                    notifyItemChanged(pos);
                                     materialDialog.dismiss();
                                 }
                             });
@@ -212,6 +207,12 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             holder.download.setVisibility(View.VISIBLE);
             holder.pic.setVisibility(View.GONE);
             DownloadFile file;
+            Runnable refreshItem = new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(pos);
+                }
+            };
             for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
                 file = DownloadManager.getInstance().fileList.get(i);
                 if (file.id == id) {
@@ -226,6 +227,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                                 holder.download.setMax(1);
                                 holder.download.setProgress(0);
                             }
+                            holder.itemView.postDelayed(refreshItem, 500);
                             break;
                         case "half_finish":
                             holder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(context));
@@ -237,26 +239,24 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                                 holder.download.setMax(1);
                                 holder.download.setProgress(0);
                             }
+                            holder.itemView.postDelayed(refreshItem, 500);
                             break;
                         case "finish":
                             localInfoOp.updateDownload(file.id, article.getApp(), 1);
                             CustomToast.getInstance().showToast(R.string.article_download_success);
                             DownloadManager.getInstance().fileList.remove(file);
+                            holder.itemView.removeCallbacks(refreshItem);
                             finish.finish();
                             break;
                         case "fail":
                             localInfoOp.updateDownload(file.id, article.getApp(), 0);
                             CustomToast.getInstance().showToast(R.string.article_download_fail);
                             DownloadManager.getInstance().fileList.remove(file);
+                            holder.itemView.removeCallbacks(refreshItem);
                             finish.finish();
                             break;
                     }
-                    holder.itemView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyItemChanged(pos);
-                        }
-                    }, 500);
+
                     break;
                 }
             }

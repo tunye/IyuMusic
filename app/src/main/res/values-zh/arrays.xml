@@ -99,7 +99,8 @@
     <string-array name="flavors">
         <item>系统默认</item>
         <item>火热红</item>
-        <item>浪漫粉</item>
+        <item>玫瑰红</item>
+        <item>樱花粉</item>
         <item>诱惑紫</item>
         <item>皇家蓝</item>
         <item>四季青</item>
@@ -112,6 +113,7 @@
     <string-array name="flavors_def">
         <item></item>
         <item>red</item>
+        <item>rose</item>
         <item>pink</item>
         <item>purple</item>
         <item>indigo</item>

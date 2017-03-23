@@ -68,7 +68,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        Map<String, Integer> fileMap = getFileMap();
+        final Map<String, Integer> fileMap = getFileMap();
         downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
@@ -77,7 +77,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadedRecycleView.addItemDecoration(new DividerItemDecoration());
         downloadedDel = (TextView) findViewById(R.id.downloaded_delete);
         downloadedStatic = (TextView) findViewById(R.id.downloaded_statistic);
-        RecyclerView downloadingRecycleView = (RecyclerView) findViewById(R.id.downloading_recyclerview);
+        final RecyclerView downloadingRecycleView = (RecyclerView) findViewById(R.id.downloading_recyclerview);
         downloadingRecycleView.setLayoutManager(new LinearLayoutManager(context));
         downloadingRecycleView.addItemDecoration(new DividerItemDecoration());
         downloadingStatic = (TextView) findViewById(R.id.downloading_statistic);
@@ -117,7 +117,12 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             @Override
             public void finish() {
                 downloadedAdapter.setFileMap(getFileMap());
-                getData();
+                title.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getData();
+                    }
+                }, 500);
             }
         });
         downloadingAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
@@ -180,8 +185,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     toolBarOperSub.setText(R.string.article_select_all);
                     toolbarOper.setText(R.string.app_del);
                 } else {
-                    downloadingAdapter.setDelete(true);
-                    downloadingAdapter.setDelete(true);
+                    downloadingAdapter.setDelete(false);
+                    downloadedAdapter.setDelete(false);
                     toolbarOper.setText(R.string.article_edit);
                     toolBarOperSub.setText(R.string.article_clear);
                     downloading = downloadingAdapter.getDataSet();
@@ -272,6 +277,30 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     }
 
     private void getData() {
+        getDownloadedData();
+        downloading = new ArrayList<>();
+        ArrayList<LocalInfo> temp = localInfoOp.findDataByDownloading();
+        if (temp.size() == 0) {
+            downloadingBar.setVisibility(View.GONE);
+            downloadingAdapter.setDataSet(new ArrayList<Article>());
+        } else {
+            downloadingBar.setVisibility(View.VISIBLE);
+            Article article;
+            for (LocalInfo local : temp) {
+                article = articleOp.findById(local.getApp(), local.getId());
+                article.setExpireContent(local.getSeeTime());
+                article.setId(local.getId());
+                article.setApp(local.getApp());
+                downloading.add(article);
+            }
+            downloadingAdapter.setDataSet(downloading);
+            downloadingStatic.setText(context.getString(R.string.article_downloading_static, downloading.size()));
+        }
+
+        downloadScroll.scrollTo(0, 0);
+    }
+
+    private void getDownloadedData() {
         downloaded = new ArrayList<>();
         ArrayList<LocalInfo> temp = localInfoOp.findDataByDownloaded();
         Article article;
@@ -284,28 +313,9 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         }
         downloadedAdapter.setDataSet(downloaded);
         downloadedStatic.setText(context.getString(R.string.article_downloaded_static, downloaded.size()));
-
-        downloading = new ArrayList<>();
-        temp = localInfoOp.findDataByDownloading();
-        if (temp.size() == 0) {
-            downloadingBar.setVisibility(View.GONE);
-            downloadingAdapter.setDataSet(downloading);
-        } else {
-            downloadingBar.setVisibility(View.VISIBLE);
-            for (LocalInfo local : temp) {
-                article = articleOp.findById(local.getApp(), local.getId());
-                article.setExpireContent(local.getSeeTime());
-                article.setId(local.getId());
-                article.setApp(local.getApp());
-                downloading.add(article);
-            }
-            downloadingAdapter.setDataSet(downloading);
-            downloadingStatic.setText(context.getString(R.string.article_downloading_static, downloading.size()));
-        }
         if (DownloadSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
             StudyManager.getInstance().setSourceArticleList(downloaded);
         }
-        downloadScroll.scrollTo(0, 0);
     }
 
     private void deleteFile(int id, String app, String state) {

@@ -18,9 +18,11 @@ import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
+import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 
@@ -73,6 +75,7 @@ public class NullActivity {
                     break;
                 case "song":                                              // 进入某首歌曲
                     Article tempArticle = new ArticleOp().findById(ConstantManager.getInstance().getAppId(), Integer.parseInt(path.substring(1)));
+                    RuntimeManager.getApplication().startService(new Intent(RuntimeManager.getContext(), PlayerService.class));
                     if (tempArticle.getId() == 0) {
                         getAppointArticle(context, path.substring(1));
                     } else {

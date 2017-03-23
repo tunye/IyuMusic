@@ -99,6 +99,7 @@
     <string-array name="flavors">
         <item>Default</item>
         <item>Fiery Red</item>
+        <item>Rose Red</item>
         <item>Romantic Pink</item>
         <item>Temptation Purple</item>
         <item>Royal Blue</item>
@@ -112,6 +113,7 @@
     <string-array name="flavors_def">
         <item></item>
         <item>red</item>
+        <item>rose</item>
         <item>pink</item>
         <item>purple</item>
         <item>indigo</item>

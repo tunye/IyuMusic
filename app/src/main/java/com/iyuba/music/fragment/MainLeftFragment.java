@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.iyuba.headlinelibrary.ui.activity.MainHeadlinesActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
@@ -33,6 +32,7 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
+import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
@@ -155,12 +155,12 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 1:
-//                        startActivity(new Intent(context, AppGroundActivity.class));
-                        String userid = "0";
-                        if (AccountManager.getInstance().checkUserLogin()) {
-                            userid = AccountManager.getInstance().getUserId();
-                        }
-                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music"));
+                        startActivity(new Intent(context, AppGroundActivity.class));
+//                        String userid = "0";
+//                        if (AccountManager.getInstance().checkUserLogin()) {
+//                            userid = AccountManager.getInstance().getUserId();
+//                        }
+//                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music"));
                         break;
                     case 2:
                         startActivity(new Intent(context, DiscoverActivity.class));
