@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -28,6 +29,8 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
+
+import java.util.Arrays;
 
 /**
  * Created by 10202 on 2015/11/16.
@@ -143,6 +146,9 @@ public class WelcomeActivity extends AppCompatActivity {
             if (lastVersion < 83) {                                       // 广告获取方式改变
                 SettingConfigManager.getInstance().setADUrl("");
                 SettingConfigManager.getInstance().setDownloadMode(1);
+            }
+            if (lastVersion < 87) {                                       // 皮肤列表变换，重置初始值
+                SkinManager.getInstance().changeSkin(Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)).get(0), 0);
             }
             appUpgrade(currentVersion);
         }
