@@ -226,15 +226,26 @@ public class DownloadTask {
             file = new File(path + ".tmp");
             try {
                 file.createNewFile();
-                URL url = new URL(fileUrl);
-                HttpURLConnection connection = (HttpURLConnection) url
-                        .openConnection();
-                connection.setConnectTimeout(5000);
-                connection.setReadTimeout(5000);
+            } catch (IOException e) {
+                handler.sendEmptyMessage(4);
+                return;
+            }
+            URL url = null;
+            HttpURLConnection connection = null;
+            try {
+                url = new URL(fileUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(3000);
+                connection.setReadTimeout(10000);
+            } catch (IOException e) {
+                handler.sendEmptyMessage(4);
+                return;
+            }
+            try {
                 InputStream inputStream = connection.getInputStream();
                 FileOutputStream outputStream = new FileOutputStream(file);
                 long fileLength = connection.getContentLength();
-                byte[] buffer = new byte[1024 * 4];
+                byte[] buffer = new byte[1024 * 2];
                 int length;
                 Message message = new Message();
                 message.what = 0;
@@ -247,7 +258,7 @@ public class DownloadTask {
                     message = new Message();
                     message.what = 1;
                     message.obj = downedFileLength;
-                    handler.sendMessageDelayed(message, 1000);
+                    handler.sendMessageDelayed(message, 500);
                 }
                 inputStream.close();
                 outputStream.flush();

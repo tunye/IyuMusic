@@ -225,7 +225,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 DownloadManager.getInstance().fileList.remove(file);
                                 break;
                             case "fail":
-                                localInfoOp.updateDownload(file.id, article.getApp(), 0);
+                                localInfoOp.updateDownload(file.id, article.getApp(), 3);
                                 CustomToast.getInstance().showToast(R.string.article_download_fail);
                                 DownloadManager.getInstance().fileList.remove(file);
                                 break;

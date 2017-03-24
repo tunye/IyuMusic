@@ -184,7 +184,6 @@ public class PlayerService extends Service {
 
     public void startPlay(Article article, boolean modeChange) {
         if (article != null && article.getId() == curArticleId && !modeChange) {
-            Log.e("aaa","this");
         } else if (article != null) {
             if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();

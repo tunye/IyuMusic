@@ -128,7 +128,7 @@
     <string name="regist_repwd_hint">Enter password again</string>
     <string name="regist_username_hint">Enter your user name</string>
     <string name="regist_by_phone">Phone</string>
-    <string name="regist_by_email">Otherway</string>
+    <string name="regist_by_email">Mail</string>
     <string name="regist_get_code">Verification code</string>
     <string name="regist_refresh_code">Get verification code again%1$ds</string>
     <string name="regist_protocol_checkbox">Agree</string>
@@ -586,9 +586,9 @@
     <string name="pay_detail_oper">Pay</string>
     <string name="pay_detail_going">The order is on the way. please wait for a secend.</string>
     <!--网络状态-->
-    <string name="net_no_net">No network, please check it!</string>
+    <string name="net_no_net">No network, please check it</string>
     <string name="net_set">Set</string>
-    <string name="net_cut_wifi">WIFI is disconnected!</string>
+    <string name="net_cut_wifi">WIFI is disconnected</string>
     <string name="net_wifi_sign_in">Maybe you need sign in to use this WIFI!</string>
     <string name="net_sign_in">Sign in</string>
     <string name="net_better_net">Please select a better net!</string>

@@ -57,7 +57,6 @@ public class StudyManager {
     }
 
     public void setCurArticle(Article curArticle) {
-        Log.e("aaa", curArticle.getId() + " ");
         this.curArticle = curArticle;
         this.app = curArticle.getApp();
     }

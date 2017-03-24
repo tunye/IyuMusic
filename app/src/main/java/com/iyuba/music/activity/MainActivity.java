@@ -227,7 +227,7 @@ public class MainActivity extends BaseSkinActivity {
     private void showWhatsNew() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
         } else {
             StartFragment.resetDownLoadData();
         }
@@ -264,7 +264,7 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE) {
+        if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 LocationUtil.getInstance().initLocationUtil();
                 LocationUtil.getInstance().refreshGPS(new ILocationListener() {
@@ -274,7 +274,7 @@ public class MainActivity extends BaseSkinActivity {
                     }
                 });
             }
-        } else if (requestCode == WRITE_EXTERNAL_TASK_CODE) {
+        } else if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 StartFragment.resetDownLoadData();
             } else {
