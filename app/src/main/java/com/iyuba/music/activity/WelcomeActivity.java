@@ -147,9 +147,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 SettingConfigManager.getInstance().setADUrl("");
                 SettingConfigManager.getInstance().setDownloadMode(1);
             }
-            if (lastVersion < 87) {                                       // 皮肤列表变换，重置初始值
-                SkinManager.getInstance().changeSkin(Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)).get(0), 0);
-            }
             appUpgrade(currentVersion);
         }
         handler.sendEmptyMessageDelayed(1, 4500);

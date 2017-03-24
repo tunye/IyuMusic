@@ -24,6 +24,7 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -127,11 +128,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         currLanguage.setText(getLanguage(SettingConfigManager.getInstance().getLanguage()));
         currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
         handler.sendEmptyMessage(1);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -286,9 +282,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return languages[language];
     }
 
-    private String getSkin(int skin) {
-        String[] languages = context.getResources().getStringArray(R.array.flavors);
-        return languages[skin];
+    private String getSkin(String skin) {
+        int pos = GetAppColor.getInstance().getSkinFlg(skin);
+        String[] skins = context.getResources().getStringArray(R.array.flavors);
+        return skins[pos];
     }
 
     private void logout() {

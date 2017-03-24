@@ -1,6 +1,7 @@
 package com.iyuba.music.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.R;
@@ -28,7 +29,7 @@ public class GetAppColor {
     }
 
     public int getAppColor(Context context) {
-        int skin = SkinManager.getInstance().getCurrSkin();
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return context.getResources().getColor(R.color.skin_app_color);
         } else {
@@ -37,7 +38,7 @@ public class GetAppColor {
     }
 
     public int getAppColorLight(Context context) {
-        int skin = SkinManager.getInstance().getCurrSkin();
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return context.getResources().getColor(R.color.skin_app_color_light);
         } else {
@@ -46,12 +47,26 @@ public class GetAppColor {
     }
 
     public int getAppColorAccent(Context context) {
-        int skin = SkinManager.getInstance().getCurrSkin();
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return context.getResources().getColor(R.color.skin_color_accent);
         } else {
             return context.getResources().getColor(GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin)));
         }
+    }
+
+    public int getSkinFlg(String curSkin) {
+        int position = 0;
+        if (!TextUtils.isEmpty(curSkin)) {
+            for (String name : flavorsDef) {
+                if (name.equals(curSkin)) {
+                    break;
+                } else {
+                    position++;
+                }
+            }
+        }
+        return position;
     }
 
     private static class SingleInstanceHelper {

@@ -111,7 +111,7 @@
         <item>典雅灰</item>
     </string-array>
     <string-array name="flavors_def">
-        <item></item>
+        <item>default</item>
         <item>red</item>
         <item>rose</item>
         <item>pink</item>

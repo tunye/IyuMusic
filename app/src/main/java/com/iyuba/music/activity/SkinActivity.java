@@ -14,6 +14,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 
 
 public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemClickListener {
-    private int initPos;
+    private String initSkin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         FlavorAdapter mAdapter = new FlavorAdapter(this);
         mAdapter.setItemClickListener(this);
         mAdapter.addAll(Arrays.asList(context.getResources().getStringArray(R.array.flavors)), Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)));
-        mAdapter.setCurrentFlavor(SkinManager.getInstance().getCurrSkin());
+        mAdapter.setCurrentFlavor(GetAppColor.getInstance().getSkinFlg(SkinManager.getInstance().getCurrSkin()));
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration());
@@ -60,7 +61,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (initPos != SkinManager.getInstance().getCurrSkin()) {
+                if (!initSkin.equals(SkinManager.getInstance().getCurrSkin())) {
                     Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                     intent.putExtra(ChangePropertyBroadcast.SOURCE, "SettingActivity.class");
                     sendBroadcast(intent);
@@ -76,12 +77,12 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         super.changeUIByPara();
         title.setText(R.string.setting_skin);
         toolbarOper.setText(R.string.dialog_save);
-        initPos = SkinManager.getInstance().getCurrSkin();
+        initSkin = SkinManager.getInstance().getCurrSkin();
     }
 
     @Override
     public void onItemClicked(View view, String item, int position) {
-        SkinManager.getInstance().changeSkin(item, position);
+        SkinManager.getInstance().changeSkin(item);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (position == 0) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.skin_app_color));
@@ -99,7 +100,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
 
     @Override
     public void onBackPressed() {
-        if (initPos != SkinManager.getInstance().getCurrSkin()) {
+        if (!initSkin.equals(SkinManager.getInstance().getCurrSkin())) {
             showSaveChangeDialog();
         } else {
             finish();
@@ -117,7 +118,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
 
             @Override
             public void fail(Object object) {
-                SkinManager.getInstance().changeSkin(Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)).get(initPos), initPos);
+                SkinManager.getInstance().changeSkin(initSkin);
                 finish();
             }
         });

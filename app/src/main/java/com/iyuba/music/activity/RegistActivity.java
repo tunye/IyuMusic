@@ -61,8 +61,7 @@ public class RegistActivity extends BaseInputActivity {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),
-                            0);
+                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
                 }
                 if (v.getId() == R.id.regist_msg_code) {
                     registByPhone();
