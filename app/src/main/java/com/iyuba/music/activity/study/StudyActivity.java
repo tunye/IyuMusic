@@ -215,12 +215,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             case R.id.latter:
                 ((MusicApplication) getApplication()).getPlayerService().next(false);
                 startPlay();
-                refresh(false);
+                refresh(true);
                 break;
             case R.id.formmer:
                 ((MusicApplication) getApplication()).getPlayerService().before();
                 startPlay();
-                refresh(false);
+                refresh(true);
                 break;
             case R.id.study_more:
                 if (studyMoreDialog.isShown()) {
@@ -495,13 +495,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (((MusicApplication) getApplication()).getPlayerService().getCurArticle() == StudyManager.getInstance().getCurArticle().getId()) {
+        if (((MusicApplication) getApplication()).getPlayerService().getCurArticleId() == StudyManager.getInstance().getCurArticle().getId()) {
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
         } else {
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
         }
         setIntervalImage(0);
     }
@@ -544,9 +544,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void startPlay() {
         if (checkNetWorkState()) {
-            ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                    StudyManager.getInstance().getCurArticle(), false);
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+            ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
         }
     }
 
@@ -559,6 +558,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 player.seekTo(0);
             }
+            player.start();
         } else {
             if (isDestroyed) {
             } else if (defaultPos) {
@@ -640,7 +640,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             duration.setText("00:00");
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), true);
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
             int currPage = viewPager.getCurrentItem();
             viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
             viewPager.setCurrentItem(currPage);
@@ -765,7 +765,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         public void refreshUI(String message) {
             switch (message) {
                 case "change":
-                    refresh(false);
+                    refresh(true);
                 case "pause":
                     setPauseImage(false);
                     break;

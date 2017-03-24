@@ -225,7 +225,6 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         } else {
             loadNetData(maxid, refreshType);
         }
-
     }
 
     private void getDbData(int maxId) {

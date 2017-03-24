@@ -1,5 +1,7 @@
 package com.iyuba.music.manager;
 
+import android.util.Log;
+
 import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
@@ -55,17 +57,9 @@ public class StudyManager {
     }
 
     public void setCurArticle(Article curArticle) {
+        Log.e("aaa", curArticle.getId() + " ");
         this.curArticle = curArticle;
         this.app = curArticle.getApp();
-        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0) {
-            if (curArticleList == null) {
-                curArticleList = new ArrayList<>();
-                curArticleList.add(curArticle);
-            } else {
-                curArticleList.clear();
-                curArticleList.add(curArticle);
-            }
-        }
     }
 
     public String getApp() {
@@ -122,7 +116,8 @@ public class StudyManager {
         curArticleList = new ArrayList<>();
         switch (SettingConfigManager.getInstance().getStudyPlayMode()) {
             case 0:
-                curArticleList.add(curArticle);
+//                curArticleList.add(curArticle);
+                curArticleList.addAll(sourceArticleList);
                 break;
             case 1:
                 curArticleList.addAll(sourceArticleList);

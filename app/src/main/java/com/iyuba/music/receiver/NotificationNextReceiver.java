@@ -25,7 +25,7 @@ public class NotificationNextReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (RuntimeManager.getApplication().getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
+        if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                 Intent i = new Intent("com.iyuba.music.main");
@@ -37,7 +37,7 @@ public class NotificationNextReceiver extends BroadcastReceiver {
             RuntimeManager.getApplication().getPlayerService().next(false);
             RuntimeManager.getApplication().getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
-            RuntimeManager.getApplication().getPlayerService().setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+            RuntimeManager.getApplication().getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
             RuntimeManager.getApplication().getPlayerService().getPlayer().start();
             if (RuntimeManager.getApplication().isAppointForeground("StudyActivity")) {
                 Intent i = new Intent("com.iyuba.music.study");

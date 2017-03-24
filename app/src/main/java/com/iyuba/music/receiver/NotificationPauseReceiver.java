@@ -31,7 +31,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
         Article curArticle = StudyManager.getInstance().getCurArticle();
         final PlayerService playerService = RuntimeManager.getApplication().getPlayerService();
         playerService.startPlay(curArticle, false);
-        playerService.setCurArticle(StudyManager.getInstance().getCurArticle().getId());
+        playerService.setCurArticleId(curArticle.getId());
         StandardPlayer player = playerService.getPlayer();
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -43,7 +43,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (RuntimeManager.getApplication().getPlayerService().getCurArticle() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
+        if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             Intent i;
             if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {

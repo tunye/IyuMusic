@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
@@ -19,6 +20,7 @@ import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
 import com.iyuba.music.receiver.NotificationBeforeReceiver;
@@ -40,7 +42,7 @@ public class PlayerService extends Service {
     private HttpProxyCacheServer proxy;
     private StandardPlayer player;
     private boolean changeByAudioListener;
-    private int curArticle;
+    private int curArticleId;
     private MyOnAudioFocusChangeListener onAudioFocusChangeListener;
     private PhoneStateListener phoneStateListener;
     private HeadsetPlugReceiver headsetPlugReceiver;
@@ -112,7 +114,7 @@ public class PlayerService extends Service {
     public void init() {
         player = new StandardPlayer(RuntimeManager.getContext());
         proxy = RuntimeManager.getProxy();
-        curArticle = 0;
+        curArticleId = 0;
     }
 
     public void setListener(final IPlayerListener playerListener) {
@@ -127,15 +129,17 @@ public class PlayerService extends Service {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                next(true);
-                if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
-                    Intent i = new Intent("com.iyuba.music.main");
-                    i.putExtra("message", "change");
-                    sendBroadcast(i);
-                } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
-                    Intent i = new Intent("com.iyuba.music.localmusic");
-                    i.putExtra("message", "change");
-                    sendBroadcast(i);
+                if (SettingConfigManager.getInstance().getStudyPlayMode()!=0) {
+                    next(true);
+                    if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+                        Intent i = new Intent("com.iyuba.music.main");
+                        i.putExtra("message", "change");
+                        sendBroadcast(i);
+                    } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
+                        Intent i = new Intent("com.iyuba.music.localmusic");
+                        i.putExtra("message", "change");
+                        sendBroadcast(i);
+                    }
                 }
                 if (playerListener != null) {
                     playerListener.onFinish();
@@ -166,12 +170,12 @@ public class PlayerService extends Service {
         return player;
     }
 
-    public int getCurArticle() {
-        return curArticle;
+    public int getCurArticleId() {
+        return curArticleId;
     }
 
-    public void setCurArticle(int curArticle) {
-        this.curArticle = curArticle;
+    public void setCurArticleId(int curArticleId) {
+        this.curArticleId = curArticleId;
     }
 
     public boolean isPlaying() {
@@ -179,7 +183,8 @@ public class PlayerService extends Service {
     }
 
     public void startPlay(Article article, boolean modeChange) {
-        if (article != null && article.getId() == curArticle && !modeChange) {
+        if (article != null && article.getId() == curArticleId && !modeChange) {
+            Log.e("aaa","this");
         } else if (article != null) {
             if (!StudyManager.getInstance().getApp().equals("101")) {
                 LocalInfoOp localInfoOp = new LocalInfoOp();

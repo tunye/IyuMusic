@@ -203,7 +203,7 @@ public class MusicApplication extends Application {
     }
 
     private void stopLessonRecord() {
-        if (playerService.getCurArticle() != 0) {
+        if (playerService.getCurArticleId() != 0) {
             StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
         }
     }
