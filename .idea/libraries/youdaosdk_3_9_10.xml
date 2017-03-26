@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="youdaosdk-3.9.8">
+  <library name="youdaosdk-3.9.10">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/youdaosdk-3.9.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/youdaosdk-3.9.10.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

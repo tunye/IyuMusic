@@ -51,6 +51,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     private NewsAdapter newsAdapter;
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
+    private boolean isVipLastState;
     //有道广告
     private YouDaoRecyclerAdapter mAdAdapter;
 
@@ -74,6 +75,27 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isVipLastState = DownloadService.checkVip();
+        newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
+                StudyManager.getInstance().setStartPlaying(true);
+                StudyManager.getInstance().setLesson("music");
+                StudyManager.getInstance().setSourceArticleList(newsList);
+                StudyManager.getInstance().setCurArticle(newsList.get(position));
+                context.startActivity(new Intent(context, StudyActivity.class));
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        if (!isVipLastState) {
+            initVipRecyclerView();
+        } else {
+            initUnVipRecyclerView();
+        }
         getNewsData(0, MySwipeRefreshLayout.TOP_REFRESH);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -81,61 +103,13 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onResume() {
         super.onResume();
-        if (DownloadService.checkVip()) {
-            newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setCurArticle(newsList.get(position - 1));
-                    context.startActivity(new Intent(context, StudyActivity.class));
-                }
-
-                @Override
-                public void onItemLongClick(View view, int position) {
-                }
-            });
-            recyclerView.setAdapter(newsAdapter);
-        } else {
-            mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), newsAdapter,
-                    YouDaoNativeAdPositioning
-                            .newBuilder().addFixedPosition(3).enableRepeatingPositions(10).build());
-            newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position) - 1));
-                    context.startActivity(new Intent(context, StudyActivity.class));
-                }
-
-                @Override
-                public void onItemLongClick(View view, int position) {
-                }
-            });
-            // 绑定界面组件与广告参数的映射关系，用于渲染广告
-            final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
-                    new ViewBinder.Builder(R.layout.native_ad_row)
-                            .titleId(R.id.native_title)
-                            .textId(R.id.native_text)
-                            .mainImageId(R.id.native_main_image).build());
-            mAdAdapter.registerAdRenderer(adRenderer);
-            final Location location = null;
-            final String keywords = null;
-            // 声明app需要的资源，这样可以提供高质量的广告，也会节省网络带宽
-            final EnumSet<RequestParameters.NativeAdAsset> desiredAssets = EnumSet.of(
-                    RequestParameters.NativeAdAsset.TITLE, RequestParameters.NativeAdAsset.TEXT,
-                    RequestParameters.NativeAdAsset.ICON_IMAGE, RequestParameters.NativeAdAsset.MAIN_IMAGE,
-                    RequestParameters.NativeAdAsset.CALL_TO_ACTION_TEXT);
-            RequestParameters mRequestParameters = new RequestParameters.Builder()
-                    .location(location).keywords(keywords)
-                    .desiredAssets(desiredAssets).build();
-            recyclerView.setAdapter(mAdAdapter);
-            mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
+        if (isVipLastState != DownloadService.checkVip()) {
+            isVipLastState = DownloadService.checkVip();
+            if (isVipLastState) {
+                initVipRecyclerView();
+            } else {
+                initUnVipRecyclerView();
+            }
         }
         if (newsList.size() == 0) {
             getDbData(0);
@@ -144,9 +118,36 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         View view = recyclerView.getLayoutManager().getChildAt(0);
         if (view != null) {
             BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
-            if (bannerView != null)
+            if (bannerView != null && bannerView.hasData())
                 bannerView.startAd();
         }
+    }
+
+    private void initVipRecyclerView() {
+        recyclerView.setAdapter(newsAdapter);
+    }
+
+    private void initUnVipRecyclerView() {
+        mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), newsAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+        // 绑定界面组件与广告参数的映射关系，用于渲染广告
+        final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
+                new ViewBinder.Builder(R.layout.native_ad_row)
+                        .titleId(R.id.native_title)
+                        .textId(R.id.native_text)
+                        .mainImageId(R.id.native_main_image).build());
+        mAdAdapter.registerAdRenderer(adRenderer);
+        final Location location = null;
+        final String keywords = null;
+        // 声明app需要的资源，这样可以提供高质量的广告，也会节省网络带宽
+        final EnumSet<RequestParameters.NativeAdAsset> desiredAssets = EnumSet.of(
+                RequestParameters.NativeAdAsset.TITLE, RequestParameters.NativeAdAsset.TEXT,
+                RequestParameters.NativeAdAsset.ICON_IMAGE, RequestParameters.NativeAdAsset.MAIN_IMAGE,
+                RequestParameters.NativeAdAsset.CALL_TO_ACTION_TEXT);
+        RequestParameters mRequestParameters = new RequestParameters.Builder()
+                .location(location).keywords(keywords)
+                .desiredAssets(desiredAssets).build();
+        recyclerView.setAdapter(mAdAdapter);
+        mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         View view = recyclerView.getLayoutManager().getChildAt(0);
         if (view != null) {
             BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
-            if (bannerView != null)
+            if (bannerView != null && bannerView.hasData())
                 bannerView.stopAd();
         }
     }

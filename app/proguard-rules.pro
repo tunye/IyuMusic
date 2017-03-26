@@ -15,6 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#-optimizationpasses 5
 -dontoptimize
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -23,6 +24,12 @@
 -keepattributes Exceptions
 -keepattributes Signature
 -keepattributes EnclosingMethod
+-keepattributes *Annotation*
+-keepattributes InnerClasses
+-keepattributes Deprecated
+-keepattributes SourceFile
+-keepattributes LineNumberTable
+
 -assumenosideeffects class android.util.Log {
     public static *** v(...);
     public static *** i(...);
@@ -76,7 +83,6 @@
 -keep class com.android.volley.**{*;}
 
 #gson混淆配置
--keepattributes *Annotation*
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class com.google.gson.JsonObject { *; }
@@ -85,7 +91,6 @@
 -keep class android.webkit.**{*;}
 -keep class cn.sharesdk.**{*;}
 -keep class cn.smssdk.**{*;}
--keepattributes InnerClasses,LineNumberTable
 -keep class **.R$* {
     *;
 }
@@ -99,16 +104,6 @@
 -keep class com.wang.avi.** { *; }
 -keep class com.wang.avi.indicators.** { *; }
 
--keep class com.tencent.open.TDialog$*
--keep class com.tencent.open.TDialog$* {*;}
--keep class com.tencent.open.PKDialog
--keep class com.tencent.open.PKDialog {*;}
--keep class com.tencent.open.PKDialog$*
--keep class com.tencent.open.PKDialog$* {*;}
--keep class com.tencent.** {*;}
--dontwarn com.tencent.**
--keep class com.sina.** {*;}
--dontwarn com.sina.**
 #alipay
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
@@ -131,9 +126,6 @@
 -keep public class javax.**
 -keep public class android.webkit.**
 -dontwarn android.support.v4.**
--keepattributes InnerClasses
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
 -keep public interface com.tencent.**
 -keep public interface com.umeng.socialize.**
 -keep public interface com.umeng.socialize.sensor.**
@@ -170,8 +162,6 @@
 -dontwarn com.sina.**
 
 -dontwarn retrofit2.**
--keep class retrofit2.** { *; }
-
 -keepclasseswithmembers class * {
     @retrofit2.http.* <methods>;
 }

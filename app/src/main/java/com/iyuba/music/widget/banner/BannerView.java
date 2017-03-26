@@ -237,6 +237,10 @@ public class BannerView extends RelativeLayout {
         return drawable;
     }
 
+    public boolean hasData() {
+        return bannerData != null && bannerData.size() != 0;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_UP) {

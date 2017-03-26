@@ -156,7 +156,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 newsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
+                        onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos - 1);
                     }
                 });
             }
