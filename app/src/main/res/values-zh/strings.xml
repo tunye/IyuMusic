@@ -269,7 +269,7 @@
     <string name="article_search_clear_hint">确定清空已有搜索记录吗？</string>
     <string name="article_clear_all">清空记录</string>
     <string name="article_clear_hint">确定清空已有听歌记录吗？</string>
-    <string name="article_clear_download_hint">确定清空已有听下载记录吗？这将删除所有本地文件！</string>
+    <string name="article_clear_download_hint">确定清空下载记录吗？这将删除所有本地文件！</string>
     <string name="article_search_clear_sure">清除</string>
     <string name="article_load_all">文章列表加载完毕</string>
     <string name="article_no_search">搜索无结果</string>

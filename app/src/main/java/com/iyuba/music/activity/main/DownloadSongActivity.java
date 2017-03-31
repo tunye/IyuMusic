@@ -26,18 +26,18 @@ import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/3/7.
@@ -149,12 +149,9 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     downloadingAdapter.setDeleteAll();
                     downloadedAdapter.setDeleteAll();
                 } else {
-                    final MaterialDialog dialog = new MaterialDialog(context);
-                    dialog.setTitle(R.string.article_clear_all);
-                    dialog.setMessage(R.string.article_clear_download_hint);
-                    dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
+                    CustomDialog.clearDownload(context, R.string.article_clear_download_hint, new IOperationResult() {
                         @Override
-                        public void onClick(View v) {
+                        public void success(Object object) {
                             File file = new File(ConstantManager.getInstance().getMusicFolder());
                             if (file.exists()) {
                                 downloadedAdapter.setDataSet(new ArrayList<Article>());
@@ -163,16 +160,13 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                                 FileUtil.deleteFile(file);
                             }
                             getData();
-                            dialog.dismiss();
                         }
-                    });
-                    dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+
                         @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
+                        public void fail(Object object) {
+
                         }
                     });
-                    dialog.show();
                 }
             }
         });
@@ -214,12 +208,22 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadedDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (Article temp : downloaded) {
-                    deleteFile(temp.getId(), temp.getApp(), "1");
-                }
-                downloadedAdapter.setDataSet(new ArrayList<Article>());
-                localInfoOp.clearDownloaded();
-                downloadedStatic.setText(context.getString(R.string.article_downloaded_static, 0));
+                CustomDialog.clearDownload(context, R.string.article_clear_download_hint, new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        for (Article temp : downloaded) {
+                            deleteFile(temp.getId(), temp.getApp(), "1");
+                        }
+                        downloadedAdapter.setDataSet(new ArrayList<Article>());
+                        localInfoOp.clearDownloaded();
+                        downloadedStatic.setText(context.getString(R.string.article_downloaded_static, 0));
+                    }
+
+                    @Override
+                    public void fail(Object object) {
+
+                    }
+                });
             }
         });
         downloadingDel.setOnClickListener(new View.OnClickListener() {

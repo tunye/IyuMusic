@@ -2,13 +2,20 @@ package com.iyuba.music.widget.dialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.StringRes;
 import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
+import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.ConstantManager;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -79,6 +86,27 @@ public class CustomDialog {
             public void onClick(View v) {
                 dialog.dismiss();
                 ConfigManager.getInstance().putInt("updateVersion", Integer.parseInt(para[1]));
+            }
+        });
+        dialog.show();
+    }
+
+    public static void clearDownload(Context context, @StringRes int hintCode, final IOperationResult result){
+        final MaterialDialog dialog = new MaterialDialog(context);
+        dialog.setTitle(R.string.article_clear_all);
+        dialog.setMessage(hintCode);
+        dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result.success(null);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result.fail(null);
+                dialog.dismiss();
             }
         });
         dialog.show();

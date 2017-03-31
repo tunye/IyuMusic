@@ -17,6 +17,7 @@ import com.iyuba.music.activity.study.StudySetActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.fragment.StartFragment;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -27,6 +28,7 @@ import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
@@ -184,13 +186,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 setPushState();
                 break;
             case R.id.setting_audio_clear:
-                new Thread(new Runnable() {
+                CustomDialog.clearDownload(context, R.string.article_clear_cache_hint, new IOperationResult() {
                     @Override
-                    public void run() {
-                        FileUtil.clearFileDir(RuntimeManager.getApplication().getProxy(context).getCacheFolder());
+                    public void success(Object object) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FileUtil.clearFileDir(RuntimeManager.getApplication().getProxy(context).getCacheFolder());
+                            }
+                        }).start();
+                        handler.sendEmptyMessage(3);
                     }
-                }).start();
-                handler.sendEmptyMessage(3);
+
+                    @Override
+                    public void fail(Object object) {
+
+                    }
+                });
                 break;
             case R.id.setting_pic_clear:
                 ImageUtil.clearMemoryCache(this);

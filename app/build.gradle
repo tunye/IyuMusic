@@ -21,17 +21,17 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 87
-        versionName "8.7"
+        versionCode 88
+        versionName "8.8"
         multiDexEnabled true
     }
     buildTypes {
         release {
             signingConfig signingConfigs.releaseConfig
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            minifyEnabled true
+//            shrinkResources true
+//            zipAlignEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     packagingOptions {// 删除不必要的信息
