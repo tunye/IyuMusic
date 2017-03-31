@@ -91,7 +91,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             public void onItemLongClick(View view, int position) {
             }
         });
-        if (!isVipLastState) {
+        if (isVipLastState) {
             initVipRecyclerView();
         } else {
             initUnVipRecyclerView();
