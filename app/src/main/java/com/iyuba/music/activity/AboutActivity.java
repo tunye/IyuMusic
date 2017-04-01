@@ -27,6 +27,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.dialog.VersionInfoDialog;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
@@ -46,11 +47,10 @@ public class AboutActivity extends BaseActivity {
 
     private TextView version, copyright;
     private RoundRelativeLayout appUpdate, praise, developer, website;
-    private View appNewImg, root;
+    private View appNewImg, root, icon;
     private String newVersionCode;
     private String appUpdateUrl;// 版本号
     private RoundProgressBar progressBar;
-    private boolean update;
     private boolean isCurrent;
     private int cookie;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
@@ -63,7 +63,7 @@ public class AboutActivity extends BaseActivity {
         initWidget();
         setListener();
         changeUIByPara();
-        update = getIntent().getBooleanExtra("update", false);
+        boolean update = getIntent().getBooleanExtra("update", false);
         if (update) {
             this.appUpdateUrl = getIntent().getStringExtra("url");
             this.newVersionCode = getIntent().getStringExtra("version");
@@ -82,6 +82,7 @@ public class AboutActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
         root = findViewById(R.id.root);
+        icon = findViewById(R.id.icon);
         praise = (RoundRelativeLayout) findViewById(R.id.praise);
         AddRippleEffect.addRippleEffect(praise);
         website = (RoundRelativeLayout) findViewById(R.id.website);
@@ -99,6 +100,12 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void setListener() {
         super.setListener();
+        icon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new VersionInfoDialog(context);
+            }
+        });
         praise.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,7 +293,7 @@ public class AboutActivity extends BaseActivity {
 
     private void openCookie() {
         if (SettingConfigManager.getInstance().isEggShell()) {
-            startActivity(new Intent(context, EggShellActivity.class));
+            new VersionInfoDialog(context);
         } else if (cookie == 0) {
             SettingConfigManager.getInstance().setEggShell(true);
             CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new OnClickListener() {

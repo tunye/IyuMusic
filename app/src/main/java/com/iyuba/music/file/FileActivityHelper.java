@@ -170,11 +170,10 @@ public class FileActivityHelper {
             ((TextView) layout.findViewById(R.id.file_contents))
                     .setText("文件夹数量:" + info.getFolderCount() + ", 文件数量:" + info.getFileCount());
         } else {
-            layout.findViewById(R.id.file_contents_info).setVisibility(
-                    View.GONE);
+            layout.findViewById(R.id.file_contents_info).setVisibility(View.GONE);
         }
         MaterialRippleLayout sure = (MaterialRippleLayout) layout.findViewById(R.id.button_accept);
-        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout);
+        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true, 24);
         iyubaDialog.show();
         sure.setOnClickListener(new View.OnClickListener() {
             @Override

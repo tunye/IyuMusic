@@ -70,9 +70,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initWidget() {
+        welcomeAdProgressbar = (RoundProgressBar) findViewById(R.id.welcome_ad_progressbar);
         escapeAd = findViewById(R.id.welcome_escape_ad);
         header = (ImageView) findViewById(R.id.welcome_header);
-        welcomeAdProgressbar = (RoundProgressBar) findViewById(R.id.welcome_ad_progressbar);
         initWelcomeAdProgress();
     }
 
