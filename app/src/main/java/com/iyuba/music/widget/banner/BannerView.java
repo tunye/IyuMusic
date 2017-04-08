@@ -202,7 +202,7 @@ public class BannerView extends RelativeLayout {
         if (!isLooping && bannerData.size() > 1) {
             isLooping = true;
             scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), System.currentTimeMillis(), 1, TimeUnit.SECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1500, 2000, TimeUnit.MILLISECONDS);
         }
     }
 
