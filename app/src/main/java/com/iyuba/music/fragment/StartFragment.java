@@ -157,7 +157,7 @@ public class StartFragment {
         final MaterialDialog materialDialog = new MaterialDialog(context);
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
-        sb.append("1.[性能优化] 提升软件稳定性").append("\n");
+        sb.append("1.[适配7.0] 程序适配安卓7.0").append("\n");
         sb.append("2.[界面UI] 调整了主题配色，夜间模式更加柔和").append("\n");
         sb.append("3.[部分优化] 优化部分实用功能，敬请体验");
         materialDialog.setMessage(sb.toString());

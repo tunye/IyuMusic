@@ -35,10 +35,7 @@ public class HelpUseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setNavigationBarColor(0xff009FE8);
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
