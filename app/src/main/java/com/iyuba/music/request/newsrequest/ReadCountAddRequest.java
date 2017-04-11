@@ -56,7 +56,7 @@ public class ReadCountAddRequest {
         String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
         HashMap<String, Object> para = new HashMap<>();
         para.put("protocol", 70001);
-        para.put("counts", new Random().nextInt(3) + 1);
+        para.put("counts", new Random().nextInt(2) + 1);
         para.put("format", "json");
         para.put("appName", app);
         para.put("voaids", voaid);
