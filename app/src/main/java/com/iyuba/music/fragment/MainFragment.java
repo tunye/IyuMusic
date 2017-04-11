@@ -271,9 +271,9 @@ public class MainFragment extends BaseFragment {
             switch (msg.what) {
                 case 0:
                     fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
-                    if (fragment.player.isPlaying() && fragment.pause.getState().equals(MorphButton.MorphState.START)) {
+                    if (fragment.player.isPlaying()) {
                         fragment.pause.setState(MorphButton.MorphState.END, false);
-                    } else if (!fragment.player.isPlaying() && fragment.pause.getState().equals(MorphButton.MorphState.END)) {
+                    } else if (!fragment.player.isPlaying()) {
                         fragment.pause.setState(MorphButton.MorphState.START, false);
                     }
                     fragment.handler.sendEmptyMessageDelayed(0, 1000);

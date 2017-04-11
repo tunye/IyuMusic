@@ -4,12 +4,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
@@ -18,6 +16,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.listener.IPlayerListener;
+import com.iyuba.music.listener.OnHeadSetListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
@@ -29,6 +28,7 @@ import com.iyuba.music.receiver.NotificationNextReceiver;
 import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.HeadSetUtil;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import java.io.File;
@@ -37,13 +37,10 @@ import java.util.Calendar;
 /**
  * Created by 10202 on 2015/12/22.
  */
-public class PlayerService extends Service {
-    private AudioManager audioManager;
+public class PlayerService extends Service implements OnHeadSetListener {
     private HttpProxyCacheServer proxy;
     private StandardPlayer player;
-    private boolean changeByAudioListener;
     private int curArticleId;
-    private MyOnAudioFocusChangeListener onAudioFocusChangeListener;
     private PhoneStateListener phoneStateListener;
     private HeadsetPlugReceiver headsetPlugReceiver;
 
@@ -62,9 +59,7 @@ public class PlayerService extends Service {
         super.onCreate();
         registerBroadcastReceiver();
         registerNotificationBroadcastReceiver();
-        onAudioFocusChangeListener = new MyOnAudioFocusChangeListener();
-        audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        HeadSetUtil.getInstance().open(getApplicationContext(), this);
         init();
         ((MusicApplication) getApplication()).setPlayerService(this);
     }
@@ -129,7 +124,7 @@ public class PlayerService extends Service {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                if (SettingConfigManager.getInstance().getStudyPlayMode()!=0) {
+                if (SettingConfigManager.getInstance().getStudyPlayMode() != 0) {
                     next(true);
                     if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                         Intent i = new Intent("com.iyuba.music.main");
@@ -290,45 +285,26 @@ public class PlayerService extends Service {
     }
 
     private void unRegisterBroadcastReceiver() {
-        audioManager.abandonAudioFocus(onAudioFocusChangeListener);
+        HeadSetUtil.getInstance().close(getApplicationContext());
         unregisterReceiver(headsetPlugReceiver);
         if (phoneStateListener != null) {
-            TelephonyManager tm = (TelephonyManager) this
-                    .getSystemService(Service.TELEPHONY_SERVICE);
+            TelephonyManager tm = (TelephonyManager) this.getSystemService(Service.TELEPHONY_SERVICE);
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
         }
     }
 
-    private class MyOnAudioFocusChangeListener implements
-            AudioManager.OnAudioFocusChangeListener {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    if (player.isPlaying()) {
-                        //player.pause();// 因为会长时间失去，所以直接暂停
-                        sendBroadcast(new Intent("iyumusic.pause"));
-                    }
-//                    mPausedByTransientLossOfFocus = false;
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    if (player.isPlaying()) {
-                        // 短暂失去焦点，先暂停。同时将标志位置成重新获得焦点后就开始播放
-                        changeByAudioListener = true;
-                        sendBroadcast(new Intent("iyumusic.pause"));
-//                        mPausedByTransientLossOfFocus = true;
-                    }
-                    break;
-                case AudioManager.AUDIOFOCUS_GAIN:
-                    // 重新获得焦点，且符合播放条件，开始播放
-                    if (!player.isPlaying() && changeByAudioListener) {
-//                        mPausedByTransientLossOfFocus = false;
-                        changeByAudioListener = false;
-                        sendBroadcast(new Intent("iyumusic.pause"));
-                    }
-                    break;
-            }
-        }
+    @Override
+    public void onClick() {
+        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.pause"));
+    }
+
+    @Override
+    public void onDoubleClick() {
+        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.next"));
+    }
+
+    @Override
+    public void onThreeClick() {
+        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.before"));
     }
 }

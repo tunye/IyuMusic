@@ -385,12 +385,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 case 0:
                     activity.progressBar.setProgress(activity.player.getCurrentPosition());
                     activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
-                    if (activity.player.isPlaying() && activity.pause.getState().equals(MorphButton.MorphState.START)) {
-                        activity.pause.setState(MorphButton.MorphState.END, false);
-                    } else if (!activity.player.isPlaying() && activity.pause.getState().equals(MorphButton.MorphState.END)) {
-                        activity.pause.setState(MorphButton.MorphState.START, false);
-                    }
-                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    activity.handler.sendEmptyMessageDelayed(0, 500);
                     break;
             }
         }

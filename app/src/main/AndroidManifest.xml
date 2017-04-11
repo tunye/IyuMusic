@@ -182,6 +182,11 @@
         </receiver>
 
         <service android:name=".service.PlayerService" />
+        <receiver android:name=".receiver.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
         <!--分享-->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -192,6 +197,7 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
+
         <service
             android:name="com.xiaomi.push.service.XMJobService"
             android:enabled="true"

@@ -734,7 +734,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         int pos = activity.player.getCurrentPosition();
                         activity.currTime.setText(Mathematics.formatTime(pos / 1000));
                         activity.seekBar.setProgress(pos);
-                        activity.handler.sendEmptyMessageDelayed(0, 1000);
+                        activity.handler.sendEmptyMessageDelayed(0, 500);
                         if (activity.intervalState == END) {
                             if (Math.abs(pos - activity.bPosition) <= 1000) {
                                 activity.handler.sendEmptyMessage(1);
@@ -743,9 +743,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         if (pos != 0 && activity.waittingDialog.isShowing()) {
                             activity.waittingDialog.dismiss();
                         }
-                        if (activity.player.isPlaying() && activity.playSound.getState().equals(MorphButton.MorphState.START)) {
+                        if (activity.player.isPlaying()) {
                             activity.playSound.setState(MorphButton.MorphState.END, false);
-                        } else if (!activity.player.isPlaying() && activity.playSound.getState().equals(MorphButton.MorphState.END)) {
+                        } else if (!activity.player.isPlaying()) {
                             activity.playSound.setState(MorphButton.MorphState.START, false);
                         }
                     }
