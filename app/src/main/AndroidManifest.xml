@@ -100,13 +100,16 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.study.StudyActivity"
+            android:keepScreenOn="true"
             android:launchMode="singleTask" />
         <activity android:name=".activity.study.StudySetActivity" />
         <activity
             android:name=".activity.study.CommentActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.study.RecommendSongActivity" />
-        <activity android:name=".activity.study.ReadActivity" />
+        <activity
+            android:name=".activity.study.ReadActivity"
+            android:keepScreenOn="true" />
         <activity android:name=".activity.study.OriginalSizeActivity" />
         <activity android:name=".activity.me.MeActivity" />
         <activity android:name=".activity.me.MessageActivity" />

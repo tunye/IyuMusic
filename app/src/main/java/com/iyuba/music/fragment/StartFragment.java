@@ -159,7 +159,7 @@ public class StartFragment {
         StringBuilder sb = new StringBuilder();
         sb.append("1.[适配7.0] 程序适配安卓7.0").append("\n");
         sb.append("2.[界面UI] 调整了主题配色，夜间模式更加柔和").append("\n");
-        sb.append("3.[部分优化] 优化部分实用功能，敬请体验");
+        sb.append("3.[实用功能] 增加线控和学习界面屏幕常亮");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
             @Override
