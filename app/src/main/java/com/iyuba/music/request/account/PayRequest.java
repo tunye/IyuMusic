@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -20,7 +22,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -94,7 +96,7 @@ public class PayRequest {
 
     public static String generateUrl(String[] paras) {
         String originalUrl = "http://app.iyuba.com/pay/payVipApi.jsp";
-        HashMap<String, Object> para = new HashMap<>();
+        Map<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);
         para.put("appId", ConstantManager.getInstance().getAppId());

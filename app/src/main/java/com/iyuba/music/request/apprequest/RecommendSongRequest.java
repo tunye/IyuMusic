@@ -1,5 +1,7 @@
 package com.iyuba.music.request.apprequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -13,8 +15,6 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/11/21.
@@ -47,7 +47,7 @@ public class RecommendSongRequest {
 
     public static String generateUrl(String uid, String title, String singer) {
         String feedbackUrl = "http://apps.iyuba.com/afterclass/suggestApi.jsp";
-        HashMap<String, Object> map = new HashMap<>();
+        ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("uid", uid);
         map.put("songtitle", ParameterUrl.encode(title));
         map.put("songsinger", ParameterUrl.encode(singer));

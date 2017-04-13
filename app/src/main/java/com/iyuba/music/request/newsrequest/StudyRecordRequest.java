@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -23,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -68,7 +69,7 @@ public class StudyRecordRequest {
         String originalUrl = "http://daxue.iyuba.com/ecollege/updateStudyRecordNew.jsp";
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("appId", ConstantManager.getInstance().getAppId());
         para.put("Lesson", studyRecord.getLesson());
         para.put("LessonId", studyRecord.getId());

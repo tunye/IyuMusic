@@ -216,6 +216,9 @@ public class MusicApplication extends Application {
         stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
+        if (changeProperty != null) {
+            unregisterReceiver(changeProperty);
+        }
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }

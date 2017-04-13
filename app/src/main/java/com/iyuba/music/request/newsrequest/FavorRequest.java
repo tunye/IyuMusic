@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -10,8 +12,6 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
-
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -44,7 +44,7 @@ public class FavorRequest {
 
     public static String generateUrl(String userid, int voaid, String type) {
         String originalUrl = "http://apps.iyuba.com/afterclass/updateCollect.jsp";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", userid);
         para.put("voaId", voaid);
         para.put("type", type);

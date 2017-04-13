@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -20,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2017/1/10.
@@ -69,7 +70,7 @@ public class WxPay {
 
     public static String generateUrl(String cost, String month, String productId) {
         String originalUrl = "http://vip.iyuba.com/weixinPay.jsp";
-        HashMap<String, Object> paras = new HashMap<>();
+        ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("wxkey", ConstantManager.WXID);
         paras.put("format", "json");
         paras.put("money", cost);

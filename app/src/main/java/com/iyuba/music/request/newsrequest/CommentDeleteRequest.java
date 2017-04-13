@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -14,8 +16,6 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -47,7 +47,7 @@ public class CommentDeleteRequest {
 
     public static String generateUrl(int id) {
         String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 60004);
         para.put("id", id);
         para.put("code", MD5.getMD5ofStr("60004" + id + "Iyuba"));

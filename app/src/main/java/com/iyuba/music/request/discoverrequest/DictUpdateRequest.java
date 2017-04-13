@@ -1,5 +1,7 @@
 package com.iyuba.music.request.discoverrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -15,7 +17,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/12/5.
@@ -62,7 +63,7 @@ public class DictUpdateRequest {
 
     public static String generateUrl(String... paras) {
         String originalUrl = "http://word.iyuba.com/words/updateWord.jsp";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("mod", paras[1]);
         para.put("word", ParameterUrl.encode(paras[2]));

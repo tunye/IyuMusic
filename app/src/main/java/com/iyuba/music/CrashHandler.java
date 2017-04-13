@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Looper;
+import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,7 +39,7 @@ import java.util.Map;
 public class CrashHandler implements UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private MusicApplication application;
-    private Map<String, Object> infos = new HashMap<>();
+    private Map<String, Object> infos = new ArrayMap<>();
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**

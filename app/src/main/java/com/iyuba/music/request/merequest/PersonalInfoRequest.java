@@ -1,5 +1,7 @@
 package com.iyuba.music.request.merequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -19,7 +21,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -105,7 +106,7 @@ public class PersonalInfoRequest {
 
     public static String generateUrl(String id, String myid) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 20001);
         para.put("platform", "android");
         para.put("id", id);

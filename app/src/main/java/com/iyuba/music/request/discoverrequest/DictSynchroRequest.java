@@ -1,5 +1,7 @@
 package com.iyuba.music.request.discoverrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
@@ -19,7 +21,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 
 /**
@@ -118,7 +119,7 @@ public class DictSynchroRequest {
     public String generateUrl(String uid, int page) {
         String originalUrl = "http://word.iyuba.com/words/wordListService.jsp";
         this.uid = uid;
-        HashMap<String, Object> map = new HashMap<>();
+        ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("u", uid);
         map.put("pageCounts", 500);
         map.put("pageNumber", page);

@@ -7,12 +7,13 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
 public class ParameterUrl {
-    public static String setRequestParameter(String url, HashMap<String, Object> para) {
+    public static String setRequestParameter(String url, Map<String, Object> para) {
         StringBuilder requestURLTemp = new StringBuilder(url);
         Iterator iterator = para.entrySet().iterator();
         HashMap.Entry entry;

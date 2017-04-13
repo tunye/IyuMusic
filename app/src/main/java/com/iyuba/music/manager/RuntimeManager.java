@@ -1,6 +1,7 @@
 package com.iyuba.music.manager;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import android.util.DisplayMetrics;
 
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
@@ -17,7 +18,7 @@ public class RuntimeManager {
     private boolean showSignInToast;
 
     private RuntimeManager() {
-        singleInstanceRequest = new HashMap<>();
+        singleInstanceRequest = new ArrayMap<>();
     }
 
     public static RuntimeManager getInstance() {

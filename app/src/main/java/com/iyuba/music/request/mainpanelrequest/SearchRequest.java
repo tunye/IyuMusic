@@ -1,5 +1,7 @@
 package com.iyuba.music.request.mainpanelrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -20,7 +22,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -73,7 +74,7 @@ public class SearchRequest {
 
     public static String generateUrl(String key, int curPage) {
         String originalUrl = "http://apps.iyuba.com/afterclass/searchApi.jsp";
-        HashMap<String, Object> map = new HashMap<>();
+        ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("key", ParameterUrl.encode(ParameterUrl.encode(key)));
         map.put("pageNum", curPage);
         map.put("pageCounts", 20);

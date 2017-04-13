@@ -4,6 +4,8 @@ package com.iyuba.music.request.mainpanelrequest;
  * Created by 10202 on 2016/3/10.
  */
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -24,7 +26,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -65,7 +66,7 @@ public class FavorSynRequest {
 
     public static String generateUrl(String userid) {
         String originalUrl = "http://apps.iyuba.com/afterclass/getCollect.jsp";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", userid);
         para.put("pageNumber", 1);
         para.put("pageCounts", 100);

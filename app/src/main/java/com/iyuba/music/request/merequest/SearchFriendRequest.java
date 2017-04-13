@@ -1,5 +1,7 @@
 package com.iyuba.music.request.merequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,7 +24,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -76,7 +77,7 @@ public class SearchFriendRequest {
 
     public static String generateUrl(String uid, String content, int page) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 52001);
         para.put("uid", uid);
         para.put("search", ParameterUrl.encode(content));

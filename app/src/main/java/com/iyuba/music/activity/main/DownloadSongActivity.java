@@ -2,6 +2,7 @@ package com.iyuba.music.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -36,7 +37,6 @@ import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -369,7 +369,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     }
 
     public Map<String, Integer> getFileMap() {
-        Map<String, Integer> fileMap = new HashMap<>();
+        Map<String, Integer> fileMap = new ArrayMap<>();
         File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
         if (packageFile.exists() && packageFile.list() != null) {
             String id;

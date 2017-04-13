@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -21,8 +23,8 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -70,7 +72,7 @@ public class AliPay {
 
     public static String generateUrl(String subject, String body, String cost, String month, String productId) {
         String originalUrl = "http://vip.iyuba.com/chargeapinew.jsp";
-        HashMap<String, Object> paras = new HashMap<>();
+        Map<String, Object> paras = new ArrayMap<>();
         paras.put("WIDseller_email", "iyuba@sina.com");
         paras.put("WIDout_trade_no", getOutTradeNo());
         paras.put("WIDsubject", subject);

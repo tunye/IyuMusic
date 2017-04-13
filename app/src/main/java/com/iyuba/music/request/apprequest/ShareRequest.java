@@ -1,5 +1,7 @@
 package com.iyuba.music.request.apprequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -17,7 +19,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2016/3/12.
@@ -71,7 +72,7 @@ public class ShareRequest {
 
     public static String generateUrl(String uid, int id, int type) {
         String originalUrl = "http://api.iyuba.com/credits/updateScore.jsp";
-        HashMap<String, Object> paras = new HashMap<>();
+        ArrayMap<String, Object> paras = new ArrayMap<>();
         if (type == 2) {
             paras.put("srid", 38);
         } else {

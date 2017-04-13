@@ -1,5 +1,7 @@
 package com.iyuba.music.request.apprequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -10,8 +12,6 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
-
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/11/21.
@@ -40,7 +40,7 @@ public class FeedbackRequest {
 
     public static String generateUrl(String uid, String content, String contact) {
         String feedbackUrl = "http://api.iyuba.com/mobile/android/afterclass/feedback.plain";
-        HashMap<String, Object> map = new HashMap<>();
+        ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("uid", uid);
         map.put("content", content);
         map.put("email", contact);

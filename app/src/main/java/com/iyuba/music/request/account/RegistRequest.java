@@ -1,5 +1,7 @@
 package com.iyuba.music.request.account;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -17,7 +19,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/11/25.
@@ -54,7 +56,7 @@ public class RegistRequest {
 
     public static String generateUrl(String[] paras) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-        HashMap<String, Object> para = new HashMap<>();
+        Map<String, Object> para = new ArrayMap<>();
         para.put("protocol", 10002);
         para.put("platform", "android");
         para.put("username", paras[0]);

@@ -1,5 +1,6 @@
 package com.iyuba.music.request.account;
 
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.android.volley.Response;
@@ -25,8 +26,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/8.
@@ -126,7 +127,7 @@ public class LoginRequest {
 
     public static String generateUrl(String[] paras) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-        HashMap<String, Object> para = new HashMap<>();
+        Map<String, Object> para = new ArrayMap<>();
         para.put("protocol", 11001);
         para.put("platform", "android");
         para.put("username", TextAttr.encode(TextAttr.encode(paras[0])));

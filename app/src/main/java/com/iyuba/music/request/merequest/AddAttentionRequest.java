@@ -1,5 +1,7 @@
 package com.iyuba.music.request.merequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -14,8 +16,6 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -49,7 +49,7 @@ public class AddAttentionRequest {
 
     public static String generateUrl(String uid, String followid) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 50001);
         para.put("uid", uid);
         para.put("followid", followid);

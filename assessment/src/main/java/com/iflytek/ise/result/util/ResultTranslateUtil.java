@@ -14,8 +14,8 @@ import java.util.HashMap;
  */
 public class ResultTranslateUtil {
 	
-	private static HashMap<Integer, String> dp_message_map = new HashMap<Integer, String>();
-	private static HashMap<String, String> special_content_map = new HashMap<String, String>();
+	private static HashMap<Integer, String> dp_message_map = new HashMap<>();
+	private static HashMap<String, String> special_content_map = new HashMap<>();
 	
 	static {
 		dp_message_map.put(0, "正常");

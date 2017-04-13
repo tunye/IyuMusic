@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -22,7 +24,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by 10202 on 2015/9/30.
@@ -60,7 +61,7 @@ public class OriginalRequest {
 
     public static String generateUrl(int id) {
         String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getText.jsp";
-        HashMap<String, Object> paras = new HashMap<>();
+        ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("SongId", id);
         paras.put("appid", ConstantManager.getInstance().getAppId());
         paras.put("uid", AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0");

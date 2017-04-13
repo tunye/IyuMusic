@@ -1,5 +1,7 @@
 package com.iyuba.music.request.newsrequest;
 
+import android.support.v4.util.ArrayMap;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -12,7 +14,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -54,7 +55,7 @@ public class ReadCountAddRequest {
 
     public static String generateUrl(int voaid, String app) {
         String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
-        HashMap<String, Object> para = new HashMap<>();
+        ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 70001);
         para.put("counts", new Random().nextInt(2) + 1);
         para.put("format", "json");
