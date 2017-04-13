@@ -22,7 +22,7 @@ public class FriendFragmentAdapter extends FragmentPagerAdapter {
     public FriendFragmentAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        this.list = new ArrayList<>();
+        this.list = new ArrayList<>(3);
         list.add(new FollowFragment());
         list.add(new FanFragment());
         list.add(new RecommendFragment());

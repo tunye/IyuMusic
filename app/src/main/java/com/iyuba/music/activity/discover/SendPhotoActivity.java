@@ -31,6 +31,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -155,7 +156,26 @@ public class SendPhotoActivity extends BaseActivity {
                     }
                 });
             } else {
-                new UploadThread().start();
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar/photo?uid="
+                                        + AccountManager.getInstance().getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
+                                new File(images.get(0)), new IOperationResult() {
+                                    @Override
+                                    public void success(Object object) {
+                                        handler.sendEmptyMessage(0);
+                                        handler.sendEmptyMessage(1);
+                                    }
+
+                                    @Override
+                                    public void fail(Object object) {
+                                        handler.sendEmptyMessage(1);
+                                        CustomToast.getInstance().showToast(R.string.photo_fail);
+                                    }
+                                });
+                    }
+                });
             }
         }
     }
@@ -264,29 +284,6 @@ public class SendPhotoActivity extends BaseActivity {
                     activity.finish();
                     break;
             }
-        }
-    }
-
-    class UploadThread extends Thread {
-
-        @Override
-        public void run() {
-            super.run();
-            UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar/photo?uid="
-                            + AccountManager.getInstance().getUserId() + "&iyu_describe=" + ParameterUrl.encode(ParameterUrl.encode(content.getEditableText().toString())),
-                    new File(images.get(0)), new IOperationResult() {
-                        @Override
-                        public void success(Object object) {
-                            handler.sendEmptyMessage(0);
-                            handler.sendEmptyMessage(1);
-                        }
-
-                        @Override
-                        public void fail(Object object) {
-                            handler.sendEmptyMessage(1);
-                            CustomToast.getInstance().showToast(R.string.photo_fail);
-                        }
-                    });
         }
     }
 }

@@ -31,6 +31,7 @@ import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -49,12 +50,12 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     private ArticleOp articleOp;
     private View downloadingBar;
     private ScrollView downloadScroll;
+    private Map<String, Integer> fileMap;
     private TextView toolBarOperSub, downloadingDel, downloadingContinue, downloadedDel,
             downloadedStatic, downloadingStatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.download_song);
         context = this;
@@ -68,7 +69,12 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        final Map<String, Integer> fileMap = getFileMap();
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                getFileMap();
+            }
+        });
         downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
@@ -116,10 +122,16 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadingAdapter.setDownloadCompleteClickLitener(new IOperationFinish() {
             @Override
             public void finish() {
-                downloadedAdapter.setFileMap(getFileMap());
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        getFileMap();
+                    }
+                });
                 title.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        downloadedAdapter.setFileMap(fileMap);
                         getData();
                     }
                 }, 500);
@@ -368,8 +380,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         }
     }
 
-    public Map<String, Integer> getFileMap() {
-        Map<String, Integer> fileMap = new ArrayMap<>();
+    public void getFileMap() {
+        fileMap = new ArrayMap<>();
         File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
         if (packageFile.exists() && packageFile.list() != null) {
             String id;
@@ -400,6 +412,5 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 }
             }
         }
-        return fileMap;
     }
 }

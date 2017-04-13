@@ -30,6 +30,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -129,7 +130,30 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         switch (index) {
             case 0:
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    new UploadVoice().start();
+                    ThreadPoolUtil.getInstance().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            StringBuilder sb = new StringBuilder(
+                                    "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
+                            sb.append("&userid=").append(
+                                    AccountManager.getInstance().getUserId());
+                            sb.append("&shuoshuotype=").append(2);
+                            sb.append("&voaid=").append(curArticle.getId());
+                            final File file = new File(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
+                            UploadFile.postSound(sb.toString(), file, new IOperationResult() {
+                                @Override
+                                public void success(Object object) {
+                                    file.delete();
+                                    CustomToast.getInstance().showToast(R.string.read_send_success);
+                                }
+
+                                @Override
+                                public void fail(Object object) {
+                                    CustomToast.getInstance().showToast(R.string.read_send_fail);
+                                }
+                            });
+                        }
+                    });
                 } else {
                     CustomDialog.showLoginDialog(context);
                 }
@@ -374,34 +398,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     adapter.curText.setText("");
                     break;
             }
-        }
-    }
-
-    private class UploadVoice extends Thread {
-
-        @Override
-        public void run() {
-
-            super.run();
-            StringBuilder sb = new StringBuilder(
-                    "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
-            sb.append("&userid=").append(
-                    AccountManager.getInstance().getUserId());
-            sb.append("&shuoshuotype=").append(2);
-            sb.append("&voaid=").append(curArticle.getId());
-            final File file = new File(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
-            UploadFile.postSound(sb.toString(), file, new IOperationResult() {
-                @Override
-                public void success(Object object) {
-                    file.delete();
-                    CustomToast.getInstance().showToast(R.string.read_send_success);
-                }
-
-                @Override
-                public void fail(Object object) {
-                    CustomToast.getInstance().showToast(R.string.read_send_fail);
-                }
-            });
         }
     }
 }

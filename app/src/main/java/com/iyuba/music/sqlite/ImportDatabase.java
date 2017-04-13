@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -48,11 +49,12 @@ public class ImportDatabase {
                 database.delete();
             }
             ConfigManager.getInstance().putInt("database_version", currentVersion);
-            new Thread(new Runnable() {
+            ThreadPoolUtil.getInstance().execute(new Runnable() {
+                @Override
                 public void run() {
                     loadDataBase();
                 }
-            }).start();
+            });
         }
     }
 

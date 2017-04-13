@@ -28,6 +28,7 @@ import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -76,10 +77,9 @@ public class MusicApplication extends Application {
         super.onCreate();//必须调用父类方法
         RuntimeManager.initRuntimeManager(this);
         if (shouldInit()) {
-            HeadlinesRuntimeManager.setApplicationContext(this);
-            pushSdkInit();
-            prepareForApp();
             activityList = new ArrayList<>();
+            prepareForApp();
+            HeadlinesRuntimeManager.setApplicationContext(this);
             CrashHandler crashHandler = new CrashHandler(this);
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
@@ -149,19 +149,24 @@ public class MusicApplication extends Application {
     }
 
     private void prepareForApp() {
-        // 文件目录的初始化
-        File file = new File(ConstantManager.getInstance().getEnvir());
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        file = new File(ConstantManager.getInstance().getEnvir() + "/.nomedia");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                // 文件目录的初始化
+                File file = new File(ConstantManager.getInstance().getEnvir());
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                file = new File(ConstantManager.getInstance().getEnvir() + "/.nomedia");
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
+        });
         // 程序皮肤、字符集、夜间模式、网络状态初始化
         ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
         ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
@@ -171,15 +176,22 @@ public class MusicApplication extends Application {
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter(ChangePropertyBroadcast.FLAG);
         registerReceiver(changeProperty, intentFilter);
-        // 共享平台
-        PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
-        PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
-        PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
-        // 讯飞初始化
-        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
-        UMShareConfig config = new UMShareConfig();
-        config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
-        UMShareAPI.get(this).setShareConfig(config);
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                // 共享平台
+                PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
+                PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
+                PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
+                // 讯飞初始化
+                SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
+                UMShareConfig config = new UMShareConfig();
+                config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
+                UMShareAPI.get(getApplicationContext()).setShareConfig(config);
+                // 初始化推送
+                pushSdkInit();
+            }
+        });
     }
 
     public void pushActivity(Activity activity) {

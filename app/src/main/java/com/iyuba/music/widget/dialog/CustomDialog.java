@@ -8,14 +8,8 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
-import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.ConstantManager;
-
-import java.io.File;
-import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -91,7 +85,7 @@ public class CustomDialog {
         dialog.show();
     }
 
-    public static void clearDownload(Context context, @StringRes int hintCode, final IOperationResult result){
+    public static void clearDownload(Context context, @StringRes int hintCode, final IOperationResult result) {
         final MaterialDialog dialog = new MaterialDialog(context);
         dialog.setTitle(R.string.article_clear_all);
         dialog.setMessage(hintCode);

@@ -19,6 +19,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
@@ -131,7 +132,7 @@ public class PasteFileActivity extends BaseActivity {
                 progressDialog = ProgressDialog.show(PasteFileActivity.this, RuntimeManager.getString(R.string.file_remove),
                         RuntimeManager.getString(R.string.file_remove_info), true, false);
 
-                new Thread() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
                         if ("MOVE".equals(action)) {
@@ -143,7 +144,7 @@ public class PasteFileActivity extends BaseActivity {
                         }
                         progressHandler.sendEmptyMessage(0);
                     }
-                }.start();
+                });
             }
         });
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {

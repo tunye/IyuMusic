@@ -27,6 +27,7 @@ import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -189,12 +190,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 CustomDialog.clearDownload(context, R.string.article_clear_cache_hint, new IOperationResult() {
                     @Override
                     public void success(Object object) {
-                        new Thread(new Runnable() {
+                        ThreadPoolUtil.getInstance().execute(new Runnable() {
                             @Override
                             public void run() {
                                 FileUtil.clearFileDir(RuntimeManager.getApplication().getProxy(context).getCacheFolder());
                             }
-                        }).start();
+                        });
                         handler.sendEmptyMessage(3);
                     }
 
@@ -206,7 +207,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_pic_clear:
                 ImageUtil.clearMemoryCache(this);
-                new Thread(new Runnable() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
@@ -214,7 +215,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
                         Glide.get(context).clearDiskCache();
                     }
-                }).start();
+                });
                 handler.sendEmptyMessage(2);
                 break;
             case R.id.setting_curr_push:

@@ -115,12 +115,12 @@ public class ImageUtil {
      * @param context context
      */
     public static void clearDiskCache(final Context context) {
-        new Thread(new Runnable() {
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
                 Glide.get(context).clearDiskCache();
             }
-        }).start();
+        });
     }
 
     /**

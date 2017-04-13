@@ -8,7 +8,6 @@
 package com.iyuba.music.download;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
@@ -31,6 +30,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * 类名
@@ -44,6 +45,12 @@ public class DownloadTask {
     private int id;
     private String app;
     private DownloadFile downloadFile;
+    private static Executor downloadExecutor;
+
+    static {
+        downloadExecutor = Executors.newFixedThreadPool(3);
+    }
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -133,9 +140,8 @@ public class DownloadTask {
     }
 
     public void start() {
-        Thread thread = new Thread(new Runnable() {
+        downloadExecutor.execute(new Runnable() {
             public void run() {
-                Looper.prepare();
                 downedFileLength = 0;
                 if (app.equals("209") && !TextUtils.isEmpty(soundPath)) {
                     if (SettingConfigManager.getInstance().getDownloadMode() == 0) {
@@ -160,7 +166,6 @@ public class DownloadTask {
                                         }
                                     });
                         }
-                        Looper.loop();
                     } else {
                         getWebOriginal(id);
                         downFile(soundPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + "s.mp3", new IOperationFinish() {
@@ -180,7 +185,6 @@ public class DownloadTask {
                                         });
                             }
                         });
-                        Looper.loop();
                     }
                 } else {
                     String localPath;
@@ -207,11 +211,9 @@ public class DownloadTask {
                             handler.sendEmptyMessage(2);
                         }
                     });
-                    Looper.loop();
                 }
             }
         });
-        thread.start();
     }
 
     private void downFile(String fileUrl, String path, IOperationFinish finish) {

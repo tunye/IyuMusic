@@ -35,6 +35,7 @@ import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.CommentExpressRequest;
 import com.iyuba.music.request.newsrequest.CommentRequest;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -366,8 +367,31 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         });
     }
 
-    private void startUploadVoice(String url) {
-        new UploadVoice(url).start();
+    private void startUploadVoice(final String url) {
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder sb = new StringBuilder(
+                        "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
+                sb.append("&userid=").append(
+                        AccountManager.getInstance().getUserId());
+                sb.append("&shuoshuotype=").append(1);
+                sb.append("&voaid=").append(curArticle.getId());
+                final File file = new File(url);
+                UploadFile.postSound(sb.toString(), file, new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        handler.sendEmptyMessage(2);
+                        file.delete();
+                    }
+
+                    @Override
+                    public void fail(Object object) {
+                        CustomToast.getInstance().showToast(R.string.comment_send_fail);
+                    }
+                });
+            }
+        });
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<CommentActivity> {
@@ -386,39 +410,6 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     activity.commentRecycleView.scrollToPosition(0);
                     break;
             }
-        }
-    }
-
-    public class UploadVoice extends Thread {
-        String filePath;
-
-        public UploadVoice(String path) {
-            filePath = path;
-        }
-
-        @Override
-        public void run() {
-
-            super.run();
-            StringBuilder sb = new StringBuilder(
-                    "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
-            sb.append("&userid=").append(
-                    AccountManager.getInstance().getUserId());
-            sb.append("&shuoshuotype=").append(1);
-            sb.append("&voaid=").append(curArticle.getId());
-            final File file = new File(filePath);
-            UploadFile.postSound(sb.toString(), file, new IOperationResult() {
-                @Override
-                public void success(Object object) {
-                    handler.sendEmptyMessage(2);
-                    file.delete();
-                }
-
-                @Override
-                public void fail(Object object) {
-                    CustomToast.getInstance().showToast(R.string.comment_send_fail);
-                }
-            });
         }
     }
 }

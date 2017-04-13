@@ -26,6 +26,7 @@ import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -172,71 +173,81 @@ public class StartFragment {
     }
 
     public static void resetDownLoadData() {
-        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+        final File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
         if (packageFile.exists() && packageFile.list() != null) {
-            LocalInfoOp lOp = new LocalInfoOp();
-            final ArticleOp articleOp = new ArticleOp();
-            int id;
-            LocalInfo temp;
-            StringBuilder stringBuilder = new StringBuilder();
-            for (String fileName : packageFile.list()) {
-                if (fileName.endsWith(".mp3")) {
-                    fileName = fileName.split("\\.")[0];
-                    if (!fileName.contains("-")) {
-                        if (fileName.endsWith("s")) {
-                            id = Integer.parseInt(fileName.substring(0, fileName.length() - 1));
+            ThreadPoolUtil.getInstance().execute(new Runnable() {
+                @Override
+                public void run() {
+                    LocalInfoOp lOp = new LocalInfoOp();
+                    final ArticleOp articleOp = new ArticleOp();
+                    int id;
+                    LocalInfo temp;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (String fileName : packageFile.list()) {
+                        if (fileName.endsWith(".mp3")) {
+                            fileName = fileName.split("\\.")[0];
+                            if (!fileName.contains("-")) {
+                                if (fileName.endsWith("s")) {
+                                    id = Integer.parseInt(fileName.substring(0, fileName.length() - 1));
+                                } else {
+                                    id = Integer.parseInt(fileName);
+                                }
+                                temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
+                                if (temp == null || temp.getId() == 0) {
+                                    temp = new LocalInfo();
+                                    temp.setId(id);
+                                    temp.setApp(ConstantManager.getInstance().getAppId());
+                                    temp.setDownload(1);
+                                    temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
+                                    lOp.saveData(temp);
+                                } else {
+                                    lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
+                                }
+                                stringBuilder.append(id).append(',');
+                            }
                         } else {
-                            id = Integer.parseInt(fileName);
+                            new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
                         }
-                        temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
-                        if (temp == null || temp.getId() == 0) {
-                            temp = new LocalInfo();
-                            temp.setId(id);
-                            temp.setApp(ConstantManager.getInstance().getAppId());
-                            temp.setDownload(1);
-                            temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
-                            lOp.saveData(temp);
-                        } else {
-                            lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
+                    }
+                    NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
+                        @Override
+                        public void onNetError(String msg) {
+
                         }
-                        stringBuilder.append(id).append(',');
-                    }
-                } else {
-                    new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
-                }
-            }
-            NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
-                @Override
-                public void onNetError(String msg) {
 
-                }
+                        @Override
+                        public void onServerError(String msg) {
 
-                @Override
-                public void onServerError(String msg) {
+                        }
 
-                }
-
-                @Override
-                public void response(Object object) {
-                    BaseListEntity listEntity = (BaseListEntity) object;
-                    ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
-                    for (Article temp : netData) {
-                        temp.setApp(ConstantManager.getInstance().getAppId());
-                    }
-                    articleOp.saveData(netData);
+                        @Override
+                        public void response(Object object) {
+                            BaseListEntity listEntity = (BaseListEntity) object;
+                            ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+                            for (Article temp : netData) {
+                                temp.setApp(ConstantManager.getInstance().getAppId());
+                            }
+                            articleOp.saveData(netData);
+                        }
+                    });
                 }
             });
         }
     }
 
     public static void checkTmpFile() {
-        File file = new File(ConstantManager.getInstance().getMusicFolder());
-        if (file.exists()) {
-            for (File fileChild : file.listFiles()) {
-                if (fileChild.getName().contains(".tmp")) {
-                    fileChild.delete();
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(ConstantManager.getInstance().getMusicFolder());
+                if (file.exists()) {
+                    for (File fileChild : file.listFiles()) {
+                        if (fileChild.getName().contains(".tmp")) {
+                            fileChild.delete();
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 }

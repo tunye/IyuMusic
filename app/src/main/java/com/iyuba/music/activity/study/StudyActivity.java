@@ -18,8 +18,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -127,8 +127,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.study);
+        Log.e("aaa", "11");
         context = this;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
@@ -154,6 +154,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (player.isPrepared()) {
             handler.sendEmptyMessage(0);
         }
+        Log.e("aaa", "12");
     }
 
     @Override
@@ -176,7 +177,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onBackPressed() {
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
-        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
+        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).list.get(viewPager.getCurrentItem()).onBackPressed()) {
             if (!mipush && !changeProperty) {
                 if (((MusicApplication) getApplication()).onlyForeground("StudyActivity")) {
                     startActivity(new Intent(this, MainActivity.class));

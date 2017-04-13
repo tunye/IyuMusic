@@ -22,7 +22,7 @@ public class ReadFragmentAdapter extends FragmentPagerAdapter {
     public ReadFragmentAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        this.list = new ArrayList<>();
+        this.list = new ArrayList<>(3);
         list.add(new ReadFragment());
         list.add(new ReadTopFragment());
         list.add(new ReadNewFragment());

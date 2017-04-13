@@ -1,10 +1,10 @@
 package com.iyuba.music.download;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 
 import com.iyuba.music.listener.IOperationFinish;
+import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,9 +44,9 @@ public class AppUpdateThread {
     }
 
     public void start() {
-        Thread thread = new Thread(new Runnable() {
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
             public void run() {
-                Looper.prepare();
                 downedFileLength = 0;
                 downFile(new IOperationFinish() {
 
@@ -56,10 +56,8 @@ public class AppUpdateThread {
                         handler.sendEmptyMessage(2);
                     }
                 });
-                Looper.loop();
             }
         });
-        thread.start();
     }
 
     private void downFile(IOperationFinish downloadFinish) {

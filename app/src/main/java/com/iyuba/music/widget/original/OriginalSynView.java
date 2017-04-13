@@ -139,8 +139,7 @@ public class OriginalSynView extends ScrollView implements
             float y = getHeight() / 2 + getScrollY();
             for (int i = 1; i <= originalList.size(); i++) {
                 float itemY = subtitleLayout.getChildAt(i + 1).getTop();
-                if (itemY < y) {
-                } else {
+                if (itemY >= y) {
                     currParagraph = i;
                     break;
                 }

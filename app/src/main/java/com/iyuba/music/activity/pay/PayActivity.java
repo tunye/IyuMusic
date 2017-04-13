@@ -22,6 +22,7 @@ import com.iyuba.music.request.account.AliPay;
 import com.iyuba.music.request.account.WxPay;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
@@ -218,9 +219,7 @@ public class PayActivity extends BaseActivity {
                             handler.sendMessage(msg);
                         }
                     };
-                    // 必须异步调用
-                    Thread payThread = new Thread(payRunnable);
-                    payThread.start();
+                    ThreadPoolUtil.getInstance().execute(payRunnable);
                 } else {
                     CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
                 }

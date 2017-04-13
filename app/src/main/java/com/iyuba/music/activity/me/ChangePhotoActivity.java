@@ -22,6 +22,7 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -170,13 +171,13 @@ public class ChangePhotoActivity extends BaseActivity {
                         ArrayList<String> images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
                         imgPath = images.get(0);
                         photo.setImageBitmap(getImage());
-                        new UploadThread().start();
+                        startUploadThread();
                     }
                     break;
                 case ImageCropActivity.REQUEST_CROP:
                     imgPath = data.getStringExtra(ImageCropActivity.OUTPUT_PATH);
                     photo.setImageBitmap(getImage());
-                    new UploadThread().start();
+                    startUploadThread();
                     break;
             }
         } else if (resultCode == RESULT_CANCELED) {
@@ -198,45 +199,44 @@ public class ChangePhotoActivity extends BaseActivity {
         return null;
     }
 
-    private void showSnackBar() {
-        CustomSnackBar.make(root, context.getString(R.string.changephoto_intro)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, CreditActivity.class));
-            }
-        });
-    }
-
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ChangePhotoActivity> {
         @Override
         public void handleMessageByRef(final ChangePhotoActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
                     CustomToast.getInstance().showToast(R.string.changephoto_success);
+                    CustomSnackBar.make(activity.root, activity.getString(R.string.changephoto_intro)).info(activity.getString(R.string.credit_check), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activity.startActivity(new Intent(activity, CreditActivity.class));
+                        }
+                    });
                     SettingConfigManager.getInstance().setUserPhotoTimeStamp();
+                    break;
+                case 1:
+                    CustomToast.getInstance().showToast(R.string.changephoto_fail);
                     break;
             }
         }
     }
 
-    class UploadThread extends Thread {
-        @Override
-        public void run() {
+    private void startUploadThread() {
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
+                        + AccountManager.getInstance().getUserId(), new File(imgPath), new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        handler.sendEmptyMessage(0);
+                    }
 
-            super.run();
-            UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
-                    + AccountManager.getInstance().getUserId(), new File(imgPath), new IOperationResult() {
-                @Override
-                public void success(Object object) {
-                    handler.sendEmptyMessage(0);
-                    showSnackBar();
-                }
-
-                @Override
-                public void fail(Object object) {
-                    CustomToast.getInstance().showToast(R.string.changephoto_fail);
-                }
-            });
-        }
+                    @Override
+                    public void fail(Object object) {
+                        handler.sendEmptyMessage(1);
+                    }
+                });
+            }
+        });
     }
 }

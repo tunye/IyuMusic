@@ -1,5 +1,7 @@
 package com.iyuba.music.manager;
 
+import com.iyuba.music.util.ThreadPoolUtil;
+
 /**
  * Created by 10202 on 2015/11/18.
  */
@@ -32,31 +34,36 @@ public class SettingConfigManager {
     private String lastADUrl, photoTimestamp;
 
     private SettingConfigManager() {
-        push = ConfigManager.getInstance().loadBoolean(PUSH_TAG, true);
-        night = ConfigManager.getInstance().loadBoolean(NIGHT_TAG);
-        language = ConfigManager.getInstance().loadInt(LANGUAGE_TAG);
-        autoLogin = ConfigManager.getInstance().loadBoolean(AUTO_LOGIN_TAG, true);
-        autoplay = ConfigManager.getInstance().loadBoolean(AUTO_PLAY_TAG);
-        autostop = ConfigManager.getInstance().loadBoolean(AUTO_STOP_TAG, true);
-        lastADUrl = ConfigManager.getInstance().loadString(AD_TAG);
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                push = ConfigManager.getInstance().loadBoolean(PUSH_TAG, true);
+                night = ConfigManager.getInstance().loadBoolean(NIGHT_TAG);
+                language = ConfigManager.getInstance().loadInt(LANGUAGE_TAG);
+                autoLogin = ConfigManager.getInstance().loadBoolean(AUTO_LOGIN_TAG, true);
+                autoplay = ConfigManager.getInstance().loadBoolean(AUTO_PLAY_TAG);
+                autostop = ConfigManager.getInstance().loadBoolean(AUTO_STOP_TAG, true);
+                lastADUrl = ConfigManager.getInstance().loadString(AD_TAG);
 
-        sayingMode = ConfigManager.getInstance().loadInt(SAYING_MODE_TAG);
-        wordDefShow = ConfigManager.getInstance().loadBoolean(WORD_DEF_SHOW_TAG, true);
-        wordOrder = ConfigManager.getInstance().loadInt(WORD_ORDER_TAG);
-        wordAutoPlay = ConfigManager.getInstance().loadBoolean(WORD_AUTO_PLAY_TAG, true);
-        wordAutoAdd = ConfigManager.getInstance().loadBoolean(WORD_AUTO_ADD_TAG);
+                sayingMode = ConfigManager.getInstance().loadInt(SAYING_MODE_TAG);
+                wordDefShow = ConfigManager.getInstance().loadBoolean(WORD_DEF_SHOW_TAG, true);
+                wordOrder = ConfigManager.getInstance().loadInt(WORD_ORDER_TAG);
+                wordAutoPlay = ConfigManager.getInstance().loadBoolean(WORD_AUTO_PLAY_TAG, true);
+                wordAutoAdd = ConfigManager.getInstance().loadBoolean(WORD_AUTO_ADD_TAG);
 
-        originalSize = ConfigManager.getInstance().loadInt(ORIGINAL_SIZE, 16);
-        studyPlayMode = ConfigManager.getInstance().loadInt(STUDY_PLAY_MODE, 1);
-        studyMode = ConfigManager.getInstance().loadInt(STUDY_MODE, 1);
-        studyTranslate = ConfigManager.getInstance().loadInt(STUDY_TRANSLATE, 1);
+                originalSize = ConfigManager.getInstance().loadInt(ORIGINAL_SIZE, 16);
+                studyPlayMode = ConfigManager.getInstance().loadInt(STUDY_PLAY_MODE, 1);
+                studyMode = ConfigManager.getInstance().loadInt(STUDY_MODE, 1);
+                studyTranslate = ConfigManager.getInstance().loadInt(STUDY_TRANSLATE, 1);
 
-        eggshell = ConfigManager.getInstance().loadBoolean(EGGSHELL_TAG);
-        upgrade = ConfigManager.getInstance().loadBoolean(UPGRADE_TAG);
-        autoRound = ConfigManager.getInstance().loadBoolean(AUTOROUND, true);
-        photoTimestamp = ConfigManager.getInstance().loadString(PHOTO_TIMESTAMP, "");
-        autoDownload = ConfigManager.getInstance().loadBoolean(DOWNLOADMEANWHILE);
-        download = ConfigManager.getInstance().loadInt(DOWNLOAD, 0);
+                eggshell = ConfigManager.getInstance().loadBoolean(EGGSHELL_TAG);
+                upgrade = ConfigManager.getInstance().loadBoolean(UPGRADE_TAG);
+                autoRound = ConfigManager.getInstance().loadBoolean(AUTOROUND, true);
+                photoTimestamp = ConfigManager.getInstance().loadString(PHOTO_TIMESTAMP, "");
+                autoDownload = ConfigManager.getInstance().loadBoolean(DOWNLOADMEANWHILE);
+                download = ConfigManager.getInstance().loadInt(DOWNLOAD, 0);
+            }
+        });
     }
 
     public static SettingConfigManager getInstance() {
