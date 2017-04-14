@@ -18,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -128,7 +127,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study);
-        Log.e("aaa", "11");
         context = this;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
@@ -154,7 +152,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (player.isPrepared()) {
             handler.sendEmptyMessage(0);
         }
-        Log.e("aaa", "12");
     }
 
     @Override
@@ -177,7 +174,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onBackPressed() {
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
-        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).list.get(viewPager.getCurrentItem()).onBackPressed()) {
+        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
             if (!mipush && !changeProperty) {
                 if (((MusicApplication) getApplication()).onlyForeground("StudyActivity")) {
                     startActivity(new Intent(this, MainActivity.class));
@@ -234,7 +231,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
                 SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
-                setStudyTranslateImage(musicTranslate);
+                setStudyTranslateImage(musicTranslate,true);
                 break;
             case R.id.study_comment:
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
@@ -509,11 +506,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     protected void changeUIResumeByPara() {
         setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
-        setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate());
         switch (StudyManager.getInstance().getMusicType()) {
             case 0:
                 studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
+                setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate(),false);
                 break;
             case 1:
                 studyMode.setImageResource(R.drawable.study_singer_mode);
@@ -648,7 +645,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void setStudyTranslateImage(int state) {
+    private void setStudyTranslateImage(int state,boolean click) {
         switch (state) {
             case 1:
                 studyTranslate.setImageResource(R.drawable.study_translate);
@@ -657,9 +654,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 studyTranslate.setImageResource(R.drawable.study_no_translate);
                 break;
         }
-        int currPage = viewPager.getCurrentItem();
-        viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
-        viewPager.setCurrentItem(currPage);
+        if (click) {
+            int currPage = viewPager.getCurrentItem();
+            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+            viewPager.setCurrentItem(currPage);
+        }
     }
 
     private void setIntervalImage(int mode) {
