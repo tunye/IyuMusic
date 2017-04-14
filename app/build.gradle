@@ -168,7 +168,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile project(':smssdk')
     compile project(':umengshare')
     compile project(':assessment')

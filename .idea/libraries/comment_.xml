@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="comment-">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/848af71ad404d77f1a3ba6ad3bbf0451daa76924/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/848af71ad404d77f1a3ba6ad3bbf0451daa76924/output/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/comment/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/comment/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="headlinelibrary-">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/b24bf39e22fd28a5dbc15da7fca16a31164b8280/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/b24bf39e22fd28a5dbc15da7fca16a31164b8280/output/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/b24bf39e22fd28a5dbc15da7fca16a31164b8280/output/jars/libs/youdaosdk-3.9.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/headlinelibrary/jars/libs/youdaosdk-3.9.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/headlinelibrary/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/headlinelibrary/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
