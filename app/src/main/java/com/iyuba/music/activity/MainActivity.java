@@ -94,7 +94,7 @@ public class MainActivity extends BaseSkinActivity {
                 drawerLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
+                        ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
                     }
                 }, 200);
             }
@@ -115,7 +115,7 @@ public class MainActivity extends BaseSkinActivity {
             drawerLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ((MainFragment) (getSupportFragmentManager().getFragments().get(1))).setShowItem(2);
+                    ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
                 }
             }, 200);
         }

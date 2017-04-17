@@ -266,6 +266,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         } else {
             originalView.setShowChinese(false);
         }
+        originalView.setOriginalList(originalView.getOriginalList());
     }
 
     @Override

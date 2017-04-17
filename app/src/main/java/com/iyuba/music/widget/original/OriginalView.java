@@ -106,6 +106,10 @@ public class OriginalView extends ScrollView implements
         this.showChinese = showChinese;
     }
 
+    public ArrayList<Original> getOriginalList() {
+        return originalList;
+    }
+
     public void setOriginalList(ArrayList<Original> originalList) {
         this.originalList = originalList;
         initData();

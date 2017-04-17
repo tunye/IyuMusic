@@ -174,7 +174,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onBackPressed() {
         if (studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
-        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getCurrentFragment().onBackPressed()) {
+        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).onBackPressed()) {
             if (!mipush && !changeProperty) {
                 if (((MusicApplication) getApplication()).onlyForeground("StudyActivity")) {
                     startActivity(new Intent(this, MainActivity.class));
@@ -518,7 +518,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         setPauseImage(false);
-        refresh(true);
+        handler.sendEmptyMessage(2);
+        setFuncImgShowState();
+        viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+        viewPager.setCurrentItem(1);
     }
 
     @Override
@@ -551,7 +554,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         handler.sendEmptyMessage(2);
         if (SettingConfigManager.getInstance().getStudyPlayMode() == 0 || StudyManager.getInstance().getCurArticleList().size() == 1) {
             if (defaultPos) {
-                viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
                 viewPager.setCurrentItem(1);
             } else {
                 player.seekTo(0);
@@ -560,7 +562,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         } else {
             if (isDestroyed) {
             } else if (defaultPos) {
-                viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+                ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
                 viewPager.setCurrentItem(1);
             } else {
                 if (checkNetWorkState()) {
@@ -569,10 +571,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     duration.setText("00:00");
                 }
                 int currPage = viewPager.getCurrentItem();
-                viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+                ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
                 viewPager.setCurrentItem(currPage);
             }
         }
+        setFuncImgShowState();
+    }
+
+    private void setFuncImgShowState() {
         if (StudyManager.getInstance().getCurArticle().getSimple() == 1) {
             studyMode.setVisibility(View.GONE);
             comment.setVisibility(View.VISIBLE);
@@ -640,7 +646,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     StudyManager.getInstance().getCurArticle(), true);
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
             int currPage = viewPager.getCurrentItem();
-            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
             viewPager.setCurrentItem(currPage);
         }
     }
@@ -655,9 +661,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         if (click) {
-            int currPage = viewPager.getCurrentItem();
-            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
-            viewPager.setCurrentItem(currPage);
+            ((StudyFragmentAdapter)viewPager.getAdapter()).changeLanguage();
         }
     }
 

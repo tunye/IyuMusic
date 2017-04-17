@@ -159,7 +159,7 @@ public class StartFragment {
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
         sb.append("1.[适配7.0] 程序适配安卓7.0").append("\n");
-        sb.append("2.[性能优化] 网络加载速度提升").append("\n");
+        sb.append("2.[性能优化] 听歌页面加载速度提升").append("\n");
         sb.append("3.[实用功能] 增加线控和学习界面屏幕常亮");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {

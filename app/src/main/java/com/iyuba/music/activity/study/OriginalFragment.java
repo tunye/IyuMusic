@@ -48,8 +48,13 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.original, null);
+        View view = initView();
+        refresh();
+        return view;
+    }
 
+    private View initView() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.original, null);
         originalView = (OriginalView) view.findViewById(R.id.original);
         originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
@@ -66,7 +71,6 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
             }
         });
         wordCard = (WordCard) view.findViewById(R.id.wordcard);
-        refresh();
         return view;
     }
 
@@ -78,6 +82,9 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     }
 
     public void refresh() {
+        if (originalView==null){
+            initView();
+        }
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }
@@ -136,6 +143,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         } else {
             originalView.setShowChinese(false);
         }
+        originalView.setOriginalList(originalView.getOriginalList());
     }
 
     @Override
