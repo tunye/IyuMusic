@@ -63,7 +63,7 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
         newsAdapter = new SimpleNewsAdapter(context, 1);
-        newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 StudyManager.getInstance().setStartPlaying(true);

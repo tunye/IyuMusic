@@ -90,8 +90,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         });
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    public void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
     public void setDataSet(ArrayList<Article> newses) {

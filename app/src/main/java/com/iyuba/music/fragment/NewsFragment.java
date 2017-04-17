@@ -76,7 +76,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         isVipLastState = DownloadService.checkVip();
-        newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());

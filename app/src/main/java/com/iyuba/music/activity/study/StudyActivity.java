@@ -522,10 +522,10 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setFuncImgShowState();
         if (viewPager.getAdapter()==null) {
             viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+            viewPager.setCurrentItem(1);
         }else{
             ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
         }
-        viewPager.setCurrentItem(1);
     }
 
     @Override

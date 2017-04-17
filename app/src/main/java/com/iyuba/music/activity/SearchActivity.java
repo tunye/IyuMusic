@@ -108,7 +108,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         searchNewsAdapter = new SimpleNewsAdapter(context, 2);
-        searchNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        searchNewsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 StudyManager.getInstance().setStartPlaying(true);

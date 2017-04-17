@@ -80,7 +80,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
         newsAdapter = new SimpleNewsAdapter(context);
         if (DownloadService.checkVip()) {
-            newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setStartPlaying(true);
@@ -98,7 +98,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
             newsRecycleView.setAdapter(newsAdapter);
         } else {
             mAdAdapter = new YouDaoRecyclerAdapter(this, newsAdapter,YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
-            newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setStartPlaying(true);

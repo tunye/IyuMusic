@@ -62,7 +62,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
         musicList = new ArrayList<>();
         musicAdapter = new SimpleNewsAdapter(context);
         if (DownloadService.checkVip()) {
-            musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            musicAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
@@ -80,7 +80,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             recyclerView.setAdapter(musicAdapter);
         } else {
             mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), musicAdapter,YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
-            musicAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            musicAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
