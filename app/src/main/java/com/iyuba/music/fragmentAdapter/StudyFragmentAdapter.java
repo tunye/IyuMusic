@@ -2,7 +2,6 @@ package com.iyuba.music.fragmentAdapter;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.iyuba.music.activity.study.OriginalFragment;
@@ -13,7 +12,7 @@ import com.iyuba.music.fragment.BaseFragment;
 import java.util.ArrayList;
 
 /**
- * Created by 10202 on 2015/12/17.
+ * Created by 10202 on 2015/12/17.s
  */
 public class StudyFragmentAdapter extends FragmentPagerAdapter {
     public FragmentManager fm;
@@ -21,7 +20,6 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
 
     public StudyFragmentAdapter(FragmentManager fm) {
         super(fm);
-        Log.e("aaa","adapter new");
         this.fm = fm;
         this.list = new ArrayList<>(3);
         list.add(new StudyInfoFragment());
@@ -32,14 +30,12 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public BaseFragment getItem(int position) {
         BaseFragment fragment = list.get(position);
-        Log.e("aaa","adapter get");
         return fragment;
     }
 
     @Override
     public BaseFragment instantiateItem(ViewGroup container, int position) {
         BaseFragment fragment = (BaseFragment) super.instantiateItem(container, position);
-        Log.e("aaa","adapter instant");
         fm.beginTransaction().show(fragment).commit();
         return fragment;
     }
@@ -50,12 +46,12 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
         fm.beginTransaction().hide(fragment).commit();
     }
 
-    public void refresh(){
-        StudyInfoFragment infoFragment= (StudyInfoFragment) list.get(0);
+    public void refresh() {
+        StudyInfoFragment infoFragment = (StudyInfoFragment) list.get(0);
         infoFragment.refresh();
-        OriginalSynFragment synFragment= (OriginalSynFragment) list.get(1);
+        OriginalSynFragment synFragment = (OriginalSynFragment) list.get(1);
         synFragment.refresh();
-        OriginalFragment originalFragment= (OriginalFragment) list.get(2);
+        OriginalFragment originalFragment = (OriginalFragment) list.get(2);
         originalFragment.refresh();
     }
 
