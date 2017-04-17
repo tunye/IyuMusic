@@ -130,6 +130,14 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         originalView.postDelayed(loadLocalLrcFile, 1000);
     }
 
+    public void changeLanguage() {
+        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+            originalView.setShowChinese(true);
+        } else {
+            originalView.setShowChinese(false);
+        }
+    }
+
     @Override
     public boolean onBackPressed() {
         if (wordCard.isShowing()) {
