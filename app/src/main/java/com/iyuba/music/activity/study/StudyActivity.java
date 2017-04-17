@@ -520,7 +520,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setPauseImage(false);
         handler.sendEmptyMessage(2);
         setFuncImgShowState();
-        viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+        if (viewPager.getAdapter()==null) {
+            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+        }else{
+            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+        }
         viewPager.setCurrentItem(1);
     }
 

@@ -1,18 +1,14 @@
 package com.iyuba.music.fragmentAdapter;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.iyuba.music.activity.study.OriginalFragment;
 import com.iyuba.music.activity.study.OriginalSynFragment;
-import com.iyuba.music.activity.study.ReadFragment;
-import com.iyuba.music.activity.study.ReadNewFragment;
-import com.iyuba.music.activity.study.ReadTopFragment;
 import com.iyuba.music.activity.study.StudyInfoFragment;
 import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.fragment.SimpleFragment;
 
 import java.util.ArrayList;
 
@@ -25,6 +21,7 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
 
     public StudyFragmentAdapter(FragmentManager fm) {
         super(fm);
+        Log.e("aaa","adapter new");
         this.fm = fm;
         this.list = new ArrayList<>(3);
         list.add(new StudyInfoFragment());
@@ -35,12 +32,14 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public BaseFragment getItem(int position) {
         BaseFragment fragment = list.get(position);
+        Log.e("aaa","adapter get");
         return fragment;
     }
 
     @Override
     public BaseFragment instantiateItem(ViewGroup container, int position) {
         BaseFragment fragment = (BaseFragment) super.instantiateItem(container, position);
+        Log.e("aaa","adapter instant");
         fm.beginTransaction().show(fragment).commit();
         return fragment;
     }

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -109,6 +110,7 @@ public class FilePosActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
+        backIcon.setState(MaterialMenuDrawable.IconState.X);
         title.setText(R.string.file_pos_title);
     }
 

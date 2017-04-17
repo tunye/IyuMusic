@@ -12,8 +12,8 @@ import android.os.Message;
 import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.manager.RuntimeManager;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class LocationUtil {
 
@@ -37,10 +37,9 @@ public class LocationUtil {
      * location services
      */
     private MyLocationListener mLocationListener = null;
-
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
     private double latitude = 39.9;
     private double longitude = 116.3;
-    private Timer mGpsTimer = new Timer();
     private Handler mGpsTimerHandler = new Handler() {
         public void handleMessage(Message msg) {
             if (locationManager == null) {
@@ -85,9 +84,8 @@ public class LocationUtil {
             locationManager.removeUpdates(mLocationListener);
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-                mGpsTimer = new Timer();
-                GpsTimeOutTask mGpsTimeOutTask = new GpsTimeOutTask();
-                mGpsTimer.schedule(mGpsTimeOutTask, 300000);
+                scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+                scheduledThreadPoolExecutor.schedule(new GpsTimeOutTask(), 5, TimeUnit.MINUTES);
             }
             if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
@@ -118,8 +116,8 @@ public class LocationUtil {
     }
 
     public void destroy() {
-        if (mGpsTimer != null) {
-            mGpsTimer.cancel();
+        if (scheduledThreadPoolExecutor != null) {
+            scheduledThreadPoolExecutor.shutdown();
         }
         cancelRefreshGPS();
         iLocationListener = null;
@@ -185,7 +183,7 @@ public class LocationUtil {
     /**
      * this class is TimerTask for time out of GPS location update
      */
-    private class GpsTimeOutTask extends TimerTask {
+    private class GpsTimeOutTask implements Runnable {
         public void run() {
             Message message = new Message();
             message.what = 1;

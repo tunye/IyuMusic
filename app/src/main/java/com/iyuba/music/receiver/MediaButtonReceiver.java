@@ -13,6 +13,8 @@ import com.iyuba.music.util.HeadSetUtil;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 10202 on 2017-04-11.
@@ -20,14 +22,13 @@ import java.util.TimerTask;
 
 public class MediaButtonReceiver extends BroadcastReceiver {
     private MyHandler myHandler;
-    private Timer timer = null;
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = null;
     public OnHeadSetListener headSetListener = null;
-    private static MTask myTimer = null;
     private static int clickCount;
 
     public MediaButtonReceiver() {
         this.headSetListener = HeadSetUtil.getInstance().getOnHeadSetListener();
-        timer = new Timer(true);
+        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
         myHandler = new MyHandler(this);
     }
 
@@ -39,23 +40,26 @@ public class MediaButtonReceiver extends BroadcastReceiver {
         //过滤按下事件
         if (event.getAction() != KeyEvent.ACTION_UP) return;
         if (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK) {
-            if (clickCount == 0) {                              // 单击
-                clickCount++;
-                myTimer = new MTask();
-                timer.schedule(myTimer, 500);
-            } else if (clickCount == 1) {                       // 双击
-                clickCount++;
-            } else if (clickCount == 2) {                       // 三连击
-                clickCount = 0;
-                myTimer.cancel();
-                headSetListener.onThreeClick();
+            switch (clickCount) {
+                case 0:                               // 单击
+                    clickCount++;
+                    scheduledThreadPoolExecutor.schedule(new MTask(), 500, TimeUnit.MILLISECONDS);
+                    break;
+                case 1:                        // 双击
+                    clickCount++;
+                    break;
+                case 2:                        // 三连击
+                    clickCount = 0;
+                    scheduledThreadPoolExecutor.shutdown();
+                    headSetListener.onThreeClick();
+                    break;
             }
         }
         //终止广播(不让别的程序收到此广播，免受干扰)
         abortBroadcast();
     }
 
-    private class MTask extends TimerTask {
+    private class MTask implements Runnable {
         @Override
         public void run() {
             if (clickCount == 1) {

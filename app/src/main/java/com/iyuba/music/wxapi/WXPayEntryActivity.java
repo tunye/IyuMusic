@@ -15,19 +15,18 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private IWXAPI api;
+    private View root;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
+        root=findViewById(R.id.pay_result_root);
         api = WXAPIFactory.createWXAPI(this, ConstantManager.WXID, false);
         api.handleIntent(getIntent(), this);
     }
@@ -72,12 +71,12 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        root.postDelayed(new Runnable() {
+            @Override
             public void run() {
                 finish();
             }
-        }, 5000);
+        },4000);
     }
 
     @Override
