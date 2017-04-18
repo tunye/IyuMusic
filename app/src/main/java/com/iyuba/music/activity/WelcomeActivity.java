@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.buaa.ct.skin.SkinManager;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -26,14 +25,13 @@ import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
-
-import java.util.Arrays;
 
 /**
  * Created by 10202 on 2015/11/16.
@@ -183,6 +181,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             }
                         } else {
                             activity.startActivity(new Intent(activity, LocalMusicActivity.class));
+                            StudyManager.getInstance().setApp("101");
                         }
                         ((MusicApplication) activity.getApplication()).popActivity(activity);
                         activity.finish();

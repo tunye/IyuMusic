@@ -261,6 +261,19 @@ public class MusicApplication extends Application {
         return activityList.size() == 1 && activityList.get(0).getLocalClassName().contains(appoint);
     }
 
+    public boolean noMain() {
+        if (activityList != null && activityList.size() > 0) {
+            for (Activity activity:activityList){
+                if (activity.getLocalClassName().contains("MainActivity")) {
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            return true;
+        }
+    }
+
     public PlayerService getPlayerService() {
         return playerService;
     }
