@@ -100,6 +100,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         if (originalView==null){
             initView();
         }
+        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }

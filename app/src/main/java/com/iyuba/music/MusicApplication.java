@@ -228,8 +228,12 @@ public class MusicApplication extends Application {
         stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
-        if (changeProperty != null) {
-            unregisterReceiver(changeProperty);
+        try {
+            if (changeProperty != null) {
+                unregisterReceiver(changeProperty);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
@@ -263,13 +267,13 @@ public class MusicApplication extends Application {
 
     public boolean noMain() {
         if (activityList != null && activityList.size() > 0) {
-            for (Activity activity:activityList){
+            for (Activity activity : activityList) {
                 if (activity.getLocalClassName().contains("MainActivity")) {
                     return false;
                 }
             }
             return true;
-        }else{
+        } else {
             return true;
         }
     }

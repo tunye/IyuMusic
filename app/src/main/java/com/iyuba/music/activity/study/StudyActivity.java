@@ -563,6 +563,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 player.seekTo(0);
             }
+            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
             player.start();
         } else {
             if (isDestroyed) {

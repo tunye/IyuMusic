@@ -56,7 +56,6 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     private View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original, null);
         originalView = (OriginalView) view.findViewById(R.id.original);
-        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
             @Override
             public void onSelectText(String text) {
@@ -85,6 +84,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         if (originalView==null){
             initView();
         }
+        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }
