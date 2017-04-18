@@ -93,6 +93,7 @@ public class MainFragment extends BaseFragment {
         super.onResume();
         setContent();
         setImageState(false);
+        handler.sendEmptyMessage(0);
     }
 
     @Override
@@ -248,15 +249,11 @@ public class MainFragment extends BaseFragment {
             if (player == null) {
                 pause.setState(MorphButton.MorphState.START);
             } else if (player.isPlaying()) {
-                handler.removeMessages(0);
                 startAnimation();
                 pause.setState(MorphButton.MorphState.END, animation);
-                handler.sendEmptyMessage(0);
             } else {
-                handler.removeMessages(0);
                 pauseAnimation();
                 pause.setState(MorphButton.MorphState.START, animation);
-                handler.sendEmptyMessage(0);
             }
         }
     }

@@ -363,6 +363,7 @@ public class AboutActivity extends BaseActivity {
                         activity.handler.sendEmptyMessage(1);
                         activity.handler.removeMessages(2);
                         Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         DownloadFile downloadFile = (DownloadFile) msg.obj;
                         String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
                         intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");

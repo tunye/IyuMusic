@@ -178,6 +178,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (!mipush && !changeProperty) {
                 if (((MusicApplication) getApplication()).noMain()) {
                     startActivity(new Intent(this, MainActivity.class));
+                    finish();
                 } else {
                     super.onBackPressed();
                 }
