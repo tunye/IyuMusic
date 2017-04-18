@@ -52,6 +52,8 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
                 context.sendBroadcast(i);
             }
             NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
+        } else if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && StudyManager.getInstance().getApp().equals("101")) {
+
         } else {
             StandardPlayer player = RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player.isPlaying()) {

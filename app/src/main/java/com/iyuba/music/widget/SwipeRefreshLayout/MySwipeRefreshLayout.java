@@ -111,6 +111,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
     private float mInitialMotionY;
     private boolean mIsBeingDragged;
     private int mActivePointerId = INVALID_POINTER;
+    private int mInitialTouchX, mInitialTouchY;
     // Whether this item is scaled up rather than clipped
     private boolean mScale;
     // Target is returning to its start offset because it was cancelled or a
@@ -729,8 +730,15 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
+                float x = MotionEventCompat.getX(ev, index) + 0.5f;
+                float y = MotionEventCompat.getY(ev, index) + 0.5f;
+                final int dx = (int) (x - mInitialTouchX);
+                final int dy = (int) (y - mInitialTouchY);
 
-                final float y = getMotionEventY(ev, mActivePointerId);
+                if (Math.abs(dy) <= mTouchSlop || (Math.abs(dy) < Math.abs(dx))) {
+                    return false;
+                }
+                y = getMotionEventY(ev, mActivePointerId);
                 if (y == -1) {
                     return false;
                 }
@@ -819,6 +827,8 @@ public class MySwipeRefreshLayout extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                mInitialTouchX = (int) (ev.getX() + 0.5f);
+                mInitialTouchY = (int) (ev.getY() + 0.5f);
                 mIsBeingDragged = false;
                 break;
 
@@ -827,7 +837,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 if (pointerIndex < 0) {
                     return false;
                 }
-
                 final float y = MotionEventCompat.getY(ev, pointerIndex);
 
                 float overscrollTop;
@@ -964,7 +973,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 return false;
             }
         }
-
         return true;
     }
 

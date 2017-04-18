@@ -1,6 +1,7 @@
 package com.iyuba.music.util;
 
 import android.content.Context;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -11,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.iyuba.music.R;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 
 /**
@@ -47,7 +49,13 @@ public class ImageUtil {
             imageView.setImageResource(placeholderDrawableId);
             return;
         }
-        Glide.with(imageView.getContext()).load(imageUrl).placeholder(placeholderDrawableId)
+        Context context;
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            context = imageView.getContext();
+        } else {
+            context = RuntimeManager.getContext();
+        }
+        Glide.with(context).load(imageUrl).placeholder(placeholderDrawableId)
                 .error(placeholderDrawableId).animate(R.anim.fade_in).centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
     }
@@ -64,7 +72,13 @@ public class ImageUtil {
             imageView.setImageResource(placeholderDrawableId);
             return;
         }
-        DrawableRequestBuilder<String> builder = Glide.with(imageView.getContext())
+        Context context;
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            context = imageView.getContext();
+        } else {
+            context = RuntimeManager.getContext();
+        }
+        DrawableRequestBuilder<String> builder = Glide.with(context)
                 .load(imageUrl)
                 .placeholder(placeholderDrawableId)
                 .error(placeholderDrawableId)
