@@ -232,7 +232,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
                 SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
-                setStudyTranslateImage(musicTranslate,true);
+                setStudyTranslateImage(musicTranslate, true);
                 break;
             case R.id.study_comment:
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
@@ -511,7 +511,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             case 0:
                 studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
-                setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate(),false);
+                setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate(), false);
                 break;
             case 1:
                 studyMode.setImageResource(R.drawable.study_singer_mode);
@@ -521,11 +521,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setPauseImage(false);
         handler.sendEmptyMessage(2);
         setFuncImgShowState();
-        if (viewPager.getAdapter()==null) {
+        if (viewPager.getAdapter() == null) {
             viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
             viewPager.setCurrentItem(1);
-        }else{
-            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+        } else {
+            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
         }
     }
 
@@ -563,12 +563,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 player.seekTo(0);
             }
-            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
             player.start();
         } else {
             if (isDestroyed) {
             } else if (defaultPos) {
-                ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+                ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
                 viewPager.setCurrentItem(1);
             } else {
                 if (checkNetWorkState()) {
@@ -577,7 +577,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     duration.setText("00:00");
                 }
                 int currPage = viewPager.getCurrentItem();
-                ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+                ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
                 viewPager.setCurrentItem(currPage);
             }
         }
@@ -652,12 +652,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     StudyManager.getInstance().getCurArticle(), true);
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
             int currPage = viewPager.getCurrentItem();
-            ((StudyFragmentAdapter)viewPager.getAdapter()).refresh();
+            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
             viewPager.setCurrentItem(currPage);
         }
     }
 
-    private void setStudyTranslateImage(int state,boolean click) {
+    private void setStudyTranslateImage(int state, boolean click) {
         switch (state) {
             case 1:
                 studyTranslate.setImageResource(R.drawable.study_translate);
@@ -667,7 +667,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         if (click) {
-            ((StudyFragmentAdapter)viewPager.getAdapter()).changeLanguage();
+            ((StudyFragmentAdapter) viewPager.getAdapter()).changeLanguage();
         }
     }
 
@@ -754,9 +754,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             activity.waittingDialog.dismiss();
                         }
                         if (activity.player.isPlaying()) {
-                            activity.playSound.setState(MorphButton.MorphState.END, false);
+                            if (activity.playSound.getState().equals(MorphButton.MorphState.START)) {
+                                activity.playSound.setState(MorphButton.MorphState.END, false);
+                            }
                         } else if (!activity.player.isPlaying()) {
-                            activity.playSound.setState(MorphButton.MorphState.START, false);
+                            if (activity.playSound.getState().equals(MorphButton.MorphState.END)) {
+                                activity.playSound.setState(MorphButton.MorphState.START, false);
+                            }
                         }
                     }
                     break;

@@ -249,10 +249,8 @@ public class MainFragment extends BaseFragment {
             if (player == null) {
                 pause.setState(MorphButton.MorphState.START);
             } else if (player.isPlaying()) {
-                startAnimation();
                 pause.setState(MorphButton.MorphState.END, animation);
             } else {
-                pauseAnimation();
                 pause.setState(MorphButton.MorphState.START, animation);
             }
         }
@@ -269,11 +267,21 @@ public class MainFragment extends BaseFragment {
                 case 0:
                     fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
                     if (fragment.player.isPlaying()) {
-                        fragment.pause.setState(MorphButton.MorphState.END, false);
+                        if (fragment.pic.getAnimation() == null) {
+                            fragment.startAnimation();
+                        }
+                        if (fragment.pause.getState().equals(MorphButton.MorphState.START)) {
+                            fragment.pause.setState(MorphButton.MorphState.END, false);
+                        }
                     } else if (!fragment.player.isPlaying()) {
-                        fragment.pause.setState(MorphButton.MorphState.START, false);
+                        if (fragment.pic.getAnimation() != null) {
+                            fragment.pauseAnimation();
+                        }
+                        if (fragment.pause.getState().equals(MorphButton.MorphState.END)) {
+                            fragment.pause.setState(MorphButton.MorphState.START, false);
+                        }
                     }
-                    fragment.handler.sendEmptyMessageDelayed(0, 1000);
+                    fragment.handler.sendEmptyMessageDelayed(0, 500);
                     break;
             }
         }

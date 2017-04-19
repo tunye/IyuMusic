@@ -56,8 +56,8 @@ public class NotificationUtil {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         notificationBuilder.setContentIntent(pendingIntent);
+        notificationBuilder.setCustomBigContentView(contentView);
         notification = notificationBuilder.build();
-        notification.bigContentView = contentView;
         return notification;
     }
 
@@ -74,6 +74,10 @@ public class NotificationUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
+        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
+        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
         contentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         switch (StudyManager.getInstance().getApp()) {
             case "209":
@@ -106,8 +110,8 @@ public class NotificationUtil {
         notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
+        notificationBuilder.setCustomBigContentView(contentView);
         notification = notificationBuilder.build();
-        notification.bigContentView = contentView;
         if (!StudyManager.getInstance().getApp().equals("101")) {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
                     R.id.notify_img, notification, NOTIFICATION_ID);

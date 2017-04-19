@@ -53,7 +53,9 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
             }
             NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
         } else if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && StudyManager.getInstance().getApp().equals("101")) {
-
+            Intent i = new Intent("com.iyuba.music.localmusic");
+            i.putExtra("message", "randomPlay");
+            context.sendBroadcast(i);
         } else {
             StandardPlayer player = RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player.isPlaying()) {

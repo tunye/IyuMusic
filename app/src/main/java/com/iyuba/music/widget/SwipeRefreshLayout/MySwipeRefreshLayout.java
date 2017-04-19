@@ -730,13 +730,19 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
-                float x = MotionEventCompat.getX(ev, index) + 0.5f;
-                float y = MotionEventCompat.getY(ev, index) + 0.5f;
-                final int dx = (int) (x - mInitialTouchX);
-                final int dy = (int) (y - mInitialTouchY);
+                float x, y;
+                try {
+                    // 处理和水平滑动的干扰
+                    x = MotionEventCompat.getX(ev, index) + 0.5f;
+                    y = MotionEventCompat.getY(ev, index) + 0.5f;
+                    final int dx = (int) (x - mInitialTouchX);
+                    final int dy = (int) (y - mInitialTouchY);
 
-                if (Math.abs(dy) <= mTouchSlop || (Math.abs(dy) < Math.abs(dx))) {
-                    return false;
+                    if (Math.abs(dy) <= mTouchSlop || (Math.abs(dy) < Math.abs(dx))) {
+                        return false;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 y = getMotionEventY(ev, mActivePointerId);
                 if (y == -1) {

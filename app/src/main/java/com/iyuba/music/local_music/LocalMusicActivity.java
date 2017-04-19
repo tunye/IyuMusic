@@ -106,7 +106,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
 
     @Override
     public void onBackPressed() {
-        if (((MusicApplication) getApplication()).onlyForeground("LocalMusicActivity")) {
+        if (((MusicApplication) getApplication()).noMain()) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             if (!mipush) {
@@ -385,6 +385,15 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 case 0:
                     activity.progressBar.setProgress(activity.player.getCurrentPosition());
                     activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
+                    if (activity.player.isPlaying()) {
+                        if (activity.pause.getState().equals(MorphButton.MorphState.START)) {
+                            activity.pause.setState(MorphButton.MorphState.END, false);
+                        }
+                    } else if (!activity.player.isPlaying()) {
+                        if (activity.pause.getState().equals(MorphButton.MorphState.END)) {
+                            activity.pause.setState(MorphButton.MorphState.START, false);
+                        }
+                    }
                     activity.handler.sendEmptyMessageDelayed(0, 500);
                     break;
             }
@@ -399,6 +408,9 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     refresh();
                 case "pause":
                     setPauseImage();
+                    break;
+                case "randomPlay":
+                    randomPlay();
                     break;
             }
         }
