@@ -498,11 +498,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             int i = player.getDuration();
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
-            handler.sendEmptyMessage(0);
         } else {
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
         }
-        setIntervalImage(0);
     }
 
     protected void changeUIResumeByPara() {

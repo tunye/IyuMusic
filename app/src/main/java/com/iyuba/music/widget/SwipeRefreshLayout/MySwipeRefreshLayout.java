@@ -103,6 +103,8 @@ public class MySwipeRefreshLayout extends ViewGroup {
     private OnRefreshListener mListener;
     private boolean mRefreshing = false;
     private int mTouchSlop;
+    // 上一次触摸时的X坐标
+    private float mPrevX;
     private float mTotalDragDistance = -1;
     private int mMediumAnimationDuration;
     private int mCurrentTargetOffsetTop;
@@ -111,7 +113,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
     private float mInitialMotionY;
     private boolean mIsBeingDragged;
     private int mActivePointerId = INVALID_POINTER;
-    private int mInitialTouchX, mInitialTouchY;
     // Whether this item is scaled up rather than clipped
     private boolean mScale;
     // Target is returning to its start offset because it was cancelled or a
@@ -725,26 +726,19 @@ public class MySwipeRefreshLayout extends ViewGroup {
                     return false;
                 }
                 mInitialMotionY = initialMotionY;
+                mPrevX = ev.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
-                float x, y;
-                try {
-                    // 处理和水平滑动的干扰
-                    x = MotionEventCompat.getX(ev, index) + 0.5f;
-                    y = MotionEventCompat.getY(ev, index) + 0.5f;
-                    final int dx = (int) (x - mInitialTouchX);
-                    final int dy = (int) (y - mInitialTouchY);
-
-                    if (Math.abs(dy) <= mTouchSlop || (Math.abs(dy) < Math.abs(dx))) {
-                        return false;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                final float eventX = ev.getX();
+                float xDiff = Math.abs(eventX - mPrevX);
+                // 增加60的容差，让下拉刷新在竖直滑动时就可以触发
+                if (xDiff > mTouchSlop + 60) {
+                    return false;
                 }
-                y = getMotionEventY(ev, mActivePointerId);
+                final float y = getMotionEventY(ev, mActivePointerId);
                 if (y == -1) {
                     return false;
                 }
@@ -833,8 +827,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-                mInitialTouchX = (int) (ev.getX() + 0.5f);
-                mInitialTouchY = (int) (ev.getY() + 0.5f);
                 mIsBeingDragged = false;
                 break;
 
@@ -843,6 +835,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 if (pointerIndex < 0) {
                     return false;
                 }
+
                 final float y = MotionEventCompat.getY(ev, pointerIndex);
 
                 float overscrollTop;
@@ -979,6 +972,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 return false;
             }
         }
+
         return true;
     }
 

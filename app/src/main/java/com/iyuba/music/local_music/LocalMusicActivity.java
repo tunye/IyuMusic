@@ -69,7 +69,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             player.start();
             pause.setState(MorphButton.MorphState.END);
             progressBar.setMax(player.getDuration());
-            handler.sendEmptyMessage(0);
             refresh();
         }
 
@@ -80,7 +79,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
 
         @Override
         public void onFinish() {
-            handler.removeMessages(0);
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
             player.start();
@@ -205,7 +203,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.removeMessages(0);
                 ((MusicApplication) getApplication()).getPlayerService().next(false);
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
@@ -214,7 +211,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         before.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.removeMessages(0);
                 ((MusicApplication) getApplication()).getPlayerService().before();
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
@@ -333,6 +329,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             musicList.scrollToPosition(position);
             adapter.setCurPos(position);
             ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+            ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(musics.get(position).getId());
         } else {
             CustomToast.getInstance().showToast(R.string.eggshell_music_no);
         }
