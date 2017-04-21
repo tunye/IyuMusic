@@ -104,7 +104,6 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            loadLocalBannerData();
             if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                     @Override
@@ -128,6 +127,8 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                         newsAdapter.setAdSet(bannerEntities);
                     }
                 });
+            } else {
+                loadLocalBannerData();
             }
         }
         SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {

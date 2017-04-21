@@ -104,7 +104,7 @@ public class MySwipeRefreshLayout extends ViewGroup {
     private boolean mRefreshing = false;
     private int mTouchSlop;
     // 上一次触摸时的X坐标
-    private float mPrevX;
+    private float mPrevX, mPrevY;
     private float mTotalDragDistance = -1;
     private int mMediumAnimationDuration;
     private int mCurrentTargetOffsetTop;
@@ -727,15 +727,16 @@ public class MySwipeRefreshLayout extends ViewGroup {
                 }
                 mInitialMotionY = initialMotionY;
                 mPrevX = ev.getX();
+                mPrevY = ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
-                final float eventX = ev.getX();
-                float xDiff = Math.abs(eventX - mPrevX);
-                // 增加60的容差，让下拉刷新在竖直滑动时就可以触发
-                if (xDiff > mTouchSlop + 60) {
+                float xDiff = Math.abs(ev.getX() - mPrevX);
+                float yDiff = Math.abs(ev.getY() - mPrevY);
+                // 增加30的容差，让下拉刷新在竖直滑动时就可以触发
+                if (xDiff > mTouchSlop + 30 || yDiff <= mTouchSlop) {
                     return false;
                 }
                 final float y = getMotionEventY(ev, mActivePointerId);
@@ -752,7 +753,6 @@ public class MySwipeRefreshLayout extends ViewGroup {
                         return false;
                     }
                 }
-                float yDiff;
                 switch (mDirection) {
                     case BOTTOM:
                         yDiff = mInitialMotionY - y;

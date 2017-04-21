@@ -185,7 +185,6 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            loadLocalBannerData();
             if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                     @Override
@@ -205,6 +204,8 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                         newsAdapter.setAdSet(bannerEntities);
                     }
                 });
+            } else {
+                loadLocalBannerData();
             }
         }
         if (maxid == 0) {

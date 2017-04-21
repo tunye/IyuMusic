@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
-import com.bumptech.glide.Glide;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -206,14 +205,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 });
                 break;
             case R.id.setting_pic_clear:
-                ImageUtil.clearMemoryCache(this);
+                ImageUtil.clearImageAllCache(this);
                 ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getUpdateFolder()));
                         FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
-                        Glide.get(context).clearDiskCache();
                     }
                 });
                 handler.sendEmptyMessage(2);
