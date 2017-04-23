@@ -187,21 +187,25 @@ public class StudyMore {
                         break;
                     case 5:
                         dismiss();
-                        if (curArticle.getSimple() == 0) {
-                            Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
-                            if (announcer == null || announcer.getId() == 0) {
-                                getAnnounceList();
+                        if (AccountManager.getInstance().checkUserLogin()) {
+                            if (curArticle.getSimple() == 0) {
+                                Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
+                                if (announcer == null || announcer.getId() == 0) {
+                                    getAnnounceList();
+                                } else {
+                                    SocialManager.getInstance().pushFriendId(announcer.getUid());
+                                    intent = new Intent(context, PersonalHomeActivity.class);
+                                    intent.putExtra("needpop", true);
+                                    context.startActivity(intent);
+                                }
                             } else {
-                                SocialManager.getInstance().pushFriendId(announcer.getUid());
+                                SocialManager.getInstance().pushFriendId("928");
                                 intent = new Intent(context, PersonalHomeActivity.class);
                                 intent.putExtra("needpop", true);
                                 context.startActivity(intent);
                             }
                         } else {
-                            SocialManager.getInstance().pushFriendId("928");
-                            intent = new Intent(context, PersonalHomeActivity.class);
-                            intent.putExtra("needpop", true);
-                            context.startActivity(intent);
+                            CustomDialog.showLoginDialog(context);
                         }
                         break;
                     case 6:
