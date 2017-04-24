@@ -13,6 +13,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.RecommendSongRequest;
@@ -59,7 +60,12 @@ public class RecommendSongActivity extends BaseActivity {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     submit();
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            submit();
+                        }
+                    });
                 }
             }
         });

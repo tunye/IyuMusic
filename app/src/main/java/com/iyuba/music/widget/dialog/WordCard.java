@@ -182,21 +182,30 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             });
         } else if (view.equals(add)) {
             if (AccountManager.getInstance().checkUserLogin()) {
-                if (!collected) {
-                    word.setUser(AccountManager.getInstance().getUserId());
-                    word.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
-                    word.setViewCount("1");
-                    word.setIsdelete("-1");
-                    new PersonalWordOp().saveData(word);
-                    synchroYun();
-                } else {
-                    CustomToast.getInstance().showToast(R.string.word_add);
-                }
+                synchroCollect();
             } else {
-                CustomDialog.showLoginDialog(context);
+                CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    @Override
+                    public void finish() {
+                        synchroCollect();
+                    }
+                });
             }
         } else if (view.equals(close)) {
             dismiss();
+        }
+    }
+
+    private void synchroCollect() {
+        if (!collected) {
+            word.setUser(AccountManager.getInstance().getUserId());
+            word.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
+            word.setViewCount("1");
+            word.setIsdelete("-1");
+            new PersonalWordOp().saveData(word);
+            synchroYun();
+        } else {
+            CustomToast.getInstance().showToast(R.string.word_add);
         }
     }
 

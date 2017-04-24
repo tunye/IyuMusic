@@ -14,6 +14,7 @@ import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
 import com.iyuba.music.ground.AppGroundActivity;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
@@ -60,14 +61,24 @@ public class DiscoverActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, CircleActivity.class));
+                                }
+                            });
                         }
                         break;
                     case 2:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, MessageActivity.class));
+                                }
+                            });
                         }
                         break;
                     case 3:
@@ -78,7 +89,16 @@ public class DiscoverActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                                    Intent intent = new Intent(context, FriendCenter.class);
+                                    intent.putExtra("type", "2");
+                                    intent.putExtra("needPop", true);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                         break;
                     case 5:

@@ -12,6 +12,7 @@ import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.fragment.BaseRecyclerViewFragment;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -49,15 +50,15 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
             @Override
             public void onItemClick(View view, int position) {
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    if (position == -1) {
-                        position = 0;
-                    }
-                    if (AccountManager.getInstance().getUserId()
-                            .equals(readList.get(position).getUserid())) {//是自己，删除
-                        delDialog(position);
-                    }
+                    delReadItem(position);
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    final int pos = position;
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            delReadItem(pos);
+                        }
+                    });
                 }
             }
 
@@ -69,6 +70,16 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
         recyclerView.setAdapter(readAdapter);
         setUserVisibleHint(true);
         return view;
+    }
+
+    private void delReadItem(int position) {
+        if (position == -1) {
+            position = 0;
+        }
+        if (AccountManager.getInstance().getUserId()
+                .equals(readList.get(position).getUserid())) {//是自己，删除
+            delDialog(position);
+        }
     }
 
     @Override

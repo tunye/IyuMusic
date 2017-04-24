@@ -23,6 +23,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SettingConfigManager;
@@ -188,24 +189,14 @@ public class StudyMore {
                     case 5:
                         dismiss();
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            if (curArticle.getSimple() == 0) {
-                                Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
-                                if (announcer == null || announcer.getId() == 0) {
-                                    getAnnounceList();
-                                } else {
-                                    SocialManager.getInstance().pushFriendId(announcer.getUid());
-                                    intent = new Intent(context, PersonalHomeActivity.class);
-                                    intent.putExtra("needpop", true);
-                                    context.startActivity(intent);
-                                }
-                            } else {
-                                SocialManager.getInstance().pushFriendId("928");
-                                intent = new Intent(context, PersonalHomeActivity.class);
-                                intent.putExtra("needpop", true);
-                                context.startActivity(intent);
-                            }
+                            goAnnouncerHomePage(curArticle);
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    goAnnouncerHomePage(curArticle);
+                                }
+                            });
                         }
                         break;
                     case 6:
@@ -239,6 +230,26 @@ public class StudyMore {
                 shown = false;
             }
         });
+    }
+
+    private void goAnnouncerHomePage(Article curArticle) {
+        Intent intent;
+        if (curArticle.getSimple() == 0) {
+            Announcer announcer = new AnnouncerOp().findById(StudyManager.getInstance().getCurArticle().getStar());
+            if (announcer == null || announcer.getId() == 0) {
+                getAnnounceList();
+            } else {
+                SocialManager.getInstance().pushFriendId(announcer.getUid());
+                intent = new Intent(context, PersonalHomeActivity.class);
+                intent.putExtra("needpop", true);
+                context.startActivity(intent);
+            }
+        } else {
+            SocialManager.getInstance().pushFriendId("928");
+            intent = new Intent(context, PersonalHomeActivity.class);
+            intent.putExtra("needpop", true);
+            context.startActivity(intent);
+        }
     }
 
     private void getAnnounceList() {

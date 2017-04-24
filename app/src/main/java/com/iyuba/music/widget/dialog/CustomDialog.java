@@ -8,6 +8,7 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
 
@@ -17,14 +18,23 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/12/4.
  */
 public class CustomDialog {
-    public static void showLoginDialog(final Context context) {
+    public static void showLoginDialog(final Context context, final IOperationFinish finish) {
         final MaterialDialog dialog = new MaterialDialog(context);
         dialog.setTitle(R.string.login_login);
         dialog.setMessage(R.string.personal_no_login);
         dialog.setPositiveButton(R.string.login_login, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, LoginActivity.class));
+                LoginActivity.launch(context, new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        finish.finish();
+                    }
+
+                    @Override
+                    public void fail(Object object) {
+                    }
+                });
                 dialog.dismiss();
             }
         });

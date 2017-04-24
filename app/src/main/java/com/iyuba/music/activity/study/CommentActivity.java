@@ -26,6 +26,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -121,7 +122,19 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                         commentView.getmEtText().setSelection(commentView.getmEtText().length());
                     }
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    final int pos = position;
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            if (AccountManager.getInstance().getUserId().equals(comments.get(pos).getUserid())) {//是自己，删除
+                                delDialog(pos);
+                            } else {//不是自己  回复
+                                commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,
+                                        comments.get(pos).getUserName()));
+                                commentView.getmEtText().setSelection(commentView.getmEtText().length());
+                            }
+                        }
+                    });
                 }
             }
 
@@ -143,31 +156,15 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onSendText(String s) {
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
-                            String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
-                            AccountManager.getInstance().getUserInfo().getUsername(), s), new IProtocolResponse() {
+                    sendComment(s);
+                } else {
+                    final String string = s;
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
                         @Override
-                        public void onNetError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void onServerError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void response(Object object) {
-                            if (object.toString().equals("501")) {
-                                commentView.clearText();
-                                handler.sendEmptyMessage(2);
-                            } else {
-                                CustomToast.getInstance().showToast(R.string.comment_send_fail);
-                            }
+                        public void finish() {
+                            sendComment(string);
                         }
                     });
-                } else {
-                    CustomDialog.showLoginDialog(context);
                 }
                 commentView.hideEmojiOptAndKeyboard();
             }
@@ -180,7 +177,13 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     if (AccountManager.getInstance().checkUserLogin()) {
                         handler.obtainMessage(1, s).sendToTarget();
                     } else {
-                        CustomDialog.showLoginDialog(context);
+                        final String string = s;
+                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            @Override
+                            public void finish() {
+                                handler.obtainMessage(1, string).sendToTarget();
+                            }
+                        });
                     }
                 }
             }
@@ -193,6 +196,32 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             @Override
             public void onSendLocationClicked(View view) {
 
+            }
+        });
+    }
+
+    private void sendComment(String s) {
+        CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
+                String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
+                AccountManager.getInstance().getUserInfo().getUsername(), s), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+                CustomToast.getInstance().showToast(msg);
+            }
+
+            @Override
+            public void onServerError(String msg) {
+                CustomToast.getInstance().showToast(msg);
+            }
+
+            @Override
+            public void response(Object object) {
+                if (object.toString().equals("501")) {
+                    commentView.clearText();
+                    handler.sendEmptyMessage(2);
+                } else {
+                    CustomToast.getInstance().showToast(R.string.comment_send_fail);
+                }
             }
         });
     }

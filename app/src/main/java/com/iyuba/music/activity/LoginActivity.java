@@ -1,5 +1,6 @@
 package com.iyuba.music.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class LoginActivity extends BaseInputActivity {
     private CheckBox autoLogin;
     private RoundTextView login;
     private IyubaDialog waitingDialog;
+    private static IOperationResult result;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -58,6 +60,16 @@ public class LoginActivity extends BaseInputActivity {
         }
     };
     private View photo, loginMsg;
+
+    public static void launchForResult(Activity activity) {
+        LoginActivity.result = null;
+        activity.startActivityForResult(new Intent(activity, LoginActivity.class), 101);
+    }
+
+    public static void launch(Context context, IOperationResult result) {
+        LoginActivity.result = result;
+        context.startActivity(new Intent(context, LoginActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,12 +214,18 @@ public class LoginActivity extends BaseInputActivity {
                     SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(2, intent);
+                    if (result != null) {
+                        result.success(null);
+                    }
                     LoginActivity.this.finish();
                 }
 
                 @Override
                 public void fail(Object object) {
                     CustomToast.getInstance().showToast(object.toString());
+                    if (result != null) {
+                        result.fail(null);
+                    }
                     waitingDialog.dismiss();
                 }
             });
@@ -224,12 +242,18 @@ public class LoginActivity extends BaseInputActivity {
                     SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(1, intent);
+                    if (result != null) {
+                        result.success(null);
+                    }
                     LoginActivity.this.finish();
                 }
 
                 @Override
                 public void fail(Object object) {
                     waitingDialog.dismiss();
+                    if (result != null) {
+                        result.fail(null);
+                    }
                     CustomToast.getInstance().showToast(object.toString());
                 }
             });

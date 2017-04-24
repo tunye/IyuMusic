@@ -24,6 +24,7 @@ import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -158,7 +159,15 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                     intent.putExtra("needpop", true);
                     startActivity(intent);
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            SocialManager.getInstance().pushFriendId(announcer.getUid());
+                            Intent intent = new Intent(context, PersonalHomeActivity.class);
+                            intent.putExtra("needpop", true);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
         });

@@ -16,6 +16,7 @@ import com.iyuba.music.adapter.discover.WordExpandableAdapter;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -101,7 +102,12 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     if (AccountManager.getInstance().checkUserLogin()) {
                         synchroFromNet(1);
                     } else {
-                        CustomDialog.showLoginDialog(context);
+                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            @Override
+                            public void finish() {
+                                synchroFromNet(1);
+                            }
+                        });
                     }
                 }
             }

@@ -34,6 +34,7 @@ import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
@@ -112,7 +113,7 @@ public class MainLeftFragment extends BaseFragment {
         noLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(context, LoginActivity.class), 101);
+                LoginActivity.launchForResult(getActivity());
             }
         });
         personalPhoto.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +153,12 @@ public class MainLeftFragment extends BaseFragment {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, VipCenterActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, VipCenterActivity.class));
+                                }
+                            });
                         }
                         break;
                     case 1:

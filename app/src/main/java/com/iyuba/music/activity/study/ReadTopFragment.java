@@ -12,6 +12,7 @@ import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.fragment.BaseRecyclerViewFragment;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -54,7 +55,16 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
                         delDialog(position);
                     }
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    final int pos=position;
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            if (AccountManager.getInstance().getUserId()
+                                    .equals(readList.get(pos).getUserid())) {//是自己，删除
+                                delDialog(pos);
+                            }
+                        }
+                    });
                 }
             }
 

@@ -14,6 +14,7 @@ import com.iyuba.music.activity.main.DownloadSongActivity;
 import com.iyuba.music.activity.main.FavorSongActivity;
 import com.iyuba.music.activity.main.ListenSongActivity;
 import com.iyuba.music.adapter.me.MeAdapter;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -61,7 +62,16 @@ public class MeActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                                    Intent intent = new Intent(context, FriendCenter.class);
+                                    intent.putExtra("type", "0");
+                                    intent.putExtra("needPop", true);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                         break;
                     case 2:
@@ -72,14 +82,28 @@ public class MeActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                                    Intent intent = new Intent(context, FriendCenter.class);
+                                    intent.putExtra("type", "1");
+                                    intent.putExtra("needPop", true);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                         break;
                     case 3:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, FindFriendActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, FindFriendActivity.class));
+                                }
+                            });
                         }
                         break;
                     case 5:
@@ -95,46 +119,48 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CreditActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, CreditActivity.class));
+                                }
+                            });
                         }
                         break;
                     case 10:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            StringBuilder url = new StringBuilder();
-                            url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
-                                    .append(ConstantManager.getInstance().getAppId()).append("&uid=")
-                                    .append(AccountManager.getInstance().getUserId()).append("&sign=")
-                                    .append(MD5.getMD5ofStr(AccountManager.getInstance().getUserId()
-                                            + "ranking" + ConstantManager.getInstance().getAppId()));
-                            Intent intent = new Intent();
-                            intent.setClass(context, WebViewActivity.class);
-                            intent.putExtra("url", url.toString());
-                            intent.putExtra("title", context.getString(R.string.oper_rank));
-                            startActivity(intent);
+                            launchRank();
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    launchRank();
+                                }
+                            });
                         }
                         break;
                     case 11:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
-                            url.append("uid=").append(AccountManager.getInstance().getUserId()).append('&');
-                            url.append("username=").append(AccountManager.getInstance().getUserInfo().getUsername()).append('&');
-                            url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
-                            Intent intent = new Intent();
-                            intent.setClass(context, WebViewActivity.class);
-                            intent.putExtra("url", url.toString());
-                            intent.putExtra("title", context.getString(R.string.oper_bigdata));
-                            startActivity(intent);
+                            launchIStudy();
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    launchIStudy();
+                                }
+                            });
                         }
                         break;
                     case 12:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CampaignActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context);
+                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    startActivity(new Intent(context, CampaignActivity.class));
+                                }
+                            });
                         }
                         break;
                 }
@@ -145,6 +171,32 @@ public class MeActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void launchIStudy() {
+        StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
+        url.append("uid=").append(AccountManager.getInstance().getUserId()).append('&');
+        url.append("username=").append(AccountManager.getInstance().getUserInfo().getUsername()).append('&');
+        url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
+        Intent intent = new Intent();
+        intent.setClass(context, WebViewActivity.class);
+        intent.putExtra("url", url.toString());
+        intent.putExtra("title", context.getString(R.string.oper_bigdata));
+        startActivity(intent);
+    }
+
+    private void launchRank() {
+        StringBuilder url = new StringBuilder();
+        url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
+                .append(ConstantManager.getInstance().getAppId()).append("&uid=")
+                .append(AccountManager.getInstance().getUserId()).append("&sign=")
+                .append(MD5.getMD5ofStr(AccountManager.getInstance().getUserId()
+                        + "ranking" + ConstantManager.getInstance().getAppId()));
+        Intent intent = new Intent();
+        intent.setClass(context, WebViewActivity.class);
+        intent.putExtra("url", url.toString());
+        intent.putExtra("title", context.getString(R.string.oper_rank));
+        startActivity(intent);
     }
 
     @Override

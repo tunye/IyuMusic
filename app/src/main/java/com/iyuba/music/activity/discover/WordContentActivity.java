@@ -15,6 +15,7 @@ import com.iyuba.music.entity.word.ExampleSentenceOp;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
@@ -98,25 +99,34 @@ public class WordContentActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    if (!collected) {
-                        currentWord.setUser(AccountManager.getInstance().getUserId());
-                        currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
-                        currentWord.setViewCount("1");
-                        currentWord.setIsdelete("-1");
-                        wordCollect.setBackgroundResource(R.drawable.word_collect);
-                        new PersonalWordOp().saveData(currentWord);
-                        synchroYun("insert");
-                    } else {
-                        wordCollect.setBackgroundResource(R.drawable.word_uncollect);
-                        new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.getInstance().getUserId());
-                        synchroYun("delete");
-                    }
-                    collected = !collected;
+                    synchroCollect();
                 } else {
-                    CustomDialog.showLoginDialog(context);
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            synchroCollect();
+                        }
+                    });
                 }
             }
         });
+    }
+
+    private void synchroCollect() {
+        if (!collected) {
+            currentWord.setUser(AccountManager.getInstance().getUserId());
+            currentWord.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
+            currentWord.setViewCount("1");
+            currentWord.setIsdelete("-1");
+            wordCollect.setBackgroundResource(R.drawable.word_collect);
+            new PersonalWordOp().saveData(currentWord);
+            synchroYun("insert");
+        } else {
+            wordCollect.setBackgroundResource(R.drawable.word_uncollect);
+            new PersonalWordOp().tryToDeleteWord(currentWord.getWord(), AccountManager.getInstance().getUserId());
+            synchroYun("delete");
+        }
+        collected = !collected;
     }
 
     @Override

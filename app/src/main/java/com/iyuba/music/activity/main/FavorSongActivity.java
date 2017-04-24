@@ -19,6 +19,7 @@ import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -119,7 +120,12 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                     if (AccountManager.getInstance().checkUserLogin()) {
                         getYunFavor();
                     } else {
-                        CustomDialog.showLoginDialog(context);
+                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            @Override
+                            public void finish() {
+                                getYunFavor();
+                            }
+                        });
                     }
                 } else {
                     newsAdapter.setDeleteAll();
