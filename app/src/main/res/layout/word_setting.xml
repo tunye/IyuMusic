@@ -62,14 +62,14 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text" />
 
-            <CheckBox
+            <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/word_set_show_def_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
-                android:checked="true" />
+                app:kswThumbColor="@color/white" />
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -89,14 +89,14 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text" />
 
-            <CheckBox
+            <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/word_set_play_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
-                android:checked="true" />
+                app:kswThumbColor="@color/white"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
@@ -119,14 +119,14 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text" />
 
-            <CheckBox
+            <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/word_set_auto_add_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
-                android:checked="true" />
+                app:kswThumbColor="@color/white"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
     </LinearLayout>
 </RelativeLayout>

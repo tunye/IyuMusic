@@ -61,7 +61,6 @@ public class MediaButtonControlActivity extends BaseActivity {
             switchButton.setCheckedImmediatelyNoEvent(false);
             switchButton.setBackColorRes(R.color.background_light);
         }
-        switchButton.setThumbColorRes(R.color.white);
         title.setText(R.string.setting_mediabutton);
     }
 }

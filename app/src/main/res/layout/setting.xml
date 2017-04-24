@@ -169,14 +169,15 @@
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/big_text" />
 
-                    <CheckBox
+                    <com.kyleduo.switchbutton.SwitchButton
                         android:id="@+id/setting_curr_push"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
-                        android:checked="true" />
+                        app:kswThumbColor="@color/white" />
+
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout

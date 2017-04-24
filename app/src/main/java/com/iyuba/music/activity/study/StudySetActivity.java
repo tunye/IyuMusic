@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
@@ -12,10 +12,12 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.Arrays;
 
@@ -26,7 +28,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class StudySetActivity extends BaseActivity implements View.OnClickListener {
     private RoundRelativeLayout playMode, nextMode, autoRound, downLoad, headplugPlay, headplugPause, originalSize, mediaButton;
-    private CheckBox currAutoRound, currHeadplugPlay, currHeadplugPause;
+    private SwitchButton currAutoRound, currHeadplugPlay, currHeadplugPause;
     private TextView currPlayMode, currNextMode, currDownLoad;
 
     @Override
@@ -61,9 +63,9 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currPlayMode = (TextView) findViewById(R.id.study_set_playmode_current);
         currNextMode = (TextView) findViewById(R.id.study_set_nextmode_current);
         currDownLoad = (TextView) findViewById(R.id.study_set_download_current);
-        currAutoRound = (CheckBox) findViewById(R.id.study_set_auto_round_current);
-        currHeadplugPlay = (CheckBox) findViewById(R.id.study_set_headplug_play_current);
-        currHeadplugPause = (CheckBox) findViewById(R.id.study_set_headplug_pause_current);
+        currAutoRound = (SwitchButton) findViewById(R.id.study_set_auto_round_current);
+        currHeadplugPlay = (SwitchButton) findViewById(R.id.study_set_headplug_play_current);
+        currHeadplugPause = (SwitchButton) findViewById(R.id.study_set_headplug_pause_current);
     }
 
     @Override
@@ -77,12 +79,43 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         headplugPause.setOnClickListener(this);
         originalSize.setOnClickListener(this);
         mediaButton.setOnClickListener(this);
-        currAutoRound.setOnClickListener(this);
-        currHeadplugPlay.setOnClickListener(this);
-        currHeadplugPause.setOnClickListener(this);
         currPlayMode.setOnClickListener(this);
         currNextMode.setOnClickListener(this);
         currDownLoad.setOnClickListener(this);
+
+        currAutoRound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingConfigManager.getInstance().setAutoRound(isChecked);
+                if (isChecked) {
+                    currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                } else {
+                    currAutoRound.setBackColorRes(R.color.background_light);
+                }
+            }
+        });
+        currHeadplugPlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingConfigManager.getInstance().setAutoPlay(isChecked);
+                if (isChecked) {
+                    currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                } else {
+                    currHeadplugPlay.setBackColorRes(R.color.background_light);
+                }
+            }
+        });
+        currHeadplugPause.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingConfigManager.getInstance().setAutoStop(isChecked);
+                if (isChecked) {
+                    currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                } else {
+                    currHeadplugPause.setBackColorRes(R.color.background_light);
+                }
+            }
+        });
     }
 
     @Override
@@ -91,9 +124,24 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currPlayMode.setText(getPlayMode(SettingConfigManager.getInstance().getStudyMode()));
         currNextMode.setText(getNextMode(SettingConfigManager.getInstance().getStudyPlayMode()));
         currDownLoad.setText(getDownload(SettingConfigManager.getInstance().getDownloadMode()));
-        currAutoRound.setChecked(SettingConfigManager.getInstance().isAutoRound());
-        currHeadplugPlay.setChecked(SettingConfigManager.getInstance().isAutoPlay());
-        currHeadplugPause.setChecked(SettingConfigManager.getInstance().isAutoStop());
+        currAutoRound.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoRound());
+        currHeadplugPlay.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoPlay());
+        currHeadplugPause.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoStop());
+        if (currAutoRound.isChecked()) {
+            currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+        } else {
+            currAutoRound.setBackColorRes(R.color.background_light);
+        }
+        if (currHeadplugPlay.isChecked()) {
+            currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+        } else {
+            currHeadplugPlay.setBackColorRes(R.color.background_light);
+        }
+        if (currHeadplugPause.isChecked()) {
+            currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+        } else {
+            currHeadplugPause.setBackColorRes(R.color.background_light);
+        }
         title.setText(R.string.setting_study_set);
     }
 
@@ -128,15 +176,6 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.study_set_headplug_pause:
                 currHeadplugPause.setChecked(!currHeadplugPause.isChecked());
-                SettingConfigManager.getInstance().setAutoStop(currHeadplugPause.isChecked());
-                break;
-            case R.id.study_set_auto_round_current:
-                SettingConfigManager.getInstance().setAutoRound(currAutoRound.isChecked());
-                break;
-            case R.id.study_set_headplug_play_current:
-                SettingConfigManager.getInstance().setAutoPlay(currHeadplugPlay.isChecked());
-                break;
-            case R.id.study_set_headplug_pause_current:
                 SettingConfigManager.getInstance().setAutoStop(currHeadplugPause.isChecked());
                 break;
             case R.id.study_set_original_size:

@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.buaa.ct.skin.SkinManager;
@@ -34,6 +34,7 @@ import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature, moreApp;
     private RoundRelativeLayout language, push, clearPic, clearAudio;
     private TextView currLanguage, picCache, audioCache, currSkin;
-    private CheckBox currPush;
+    private SwitchButton currPush;
     private RoundTextView logout;
 
     @Override
@@ -93,7 +94,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         audioCache = (TextView) findViewById(R.id.setting_audio_cache);
         currLanguage = (TextView) findViewById(R.id.setting_curr_language);
         currSkin = (TextView) findViewById(R.id.setting_curr_skin);
-        currPush = (CheckBox) findViewById(R.id.setting_curr_push);
+        currPush = (SwitchButton) findViewById(R.id.setting_curr_push);
         logout = (RoundTextView) findViewById(R.id.setting_logout);
         AddRippleEffect.addRippleEffect(logout);
     }
@@ -112,24 +113,40 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         push.setOnClickListener(this);
         clearPic.setOnClickListener(this);
         clearAudio.setOnClickListener(this);
-        currPush.setOnClickListener(this);
         currSkin.setOnClickListener(this);
         logout.setOnClickListener(this);
         share.setOnClickListener(this);
         moreApp.setOnClickListener(this);
+        currPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setPushState();
+                if (isChecked) {
+                    currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                } else {
+                    currPush.setBackColorRes(R.color.background_light);
+                }
+            }
+        });
     }
 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.setting_title);
+        if (SettingConfigManager.getInstance().isPush()) {
+            currPush.setCheckedImmediatelyNoEvent(true);
+            currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+        } else {
+            currPush.setCheckedImmediatelyNoEvent(false);
+            currPush.setBackColorRes(R.color.background_light);
+        }
+        handler.sendEmptyMessage(1);
     }
 
     protected void changeUIResumeByPara() {
-        currPush.setChecked(SettingConfigManager.getInstance().isPush());
         currLanguage.setText(getLanguage(SettingConfigManager.getInstance().getLanguage()));
         currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
-        handler.sendEmptyMessage(1);
     }
 
     @Override
@@ -215,9 +232,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     }
                 });
                 handler.sendEmptyMessage(2);
-                break;
-            case R.id.setting_curr_push:
-                setPushState();
                 break;
             case R.id.setting_word_set:
                 startActivity(new Intent(context, WordSetActivity.class));
