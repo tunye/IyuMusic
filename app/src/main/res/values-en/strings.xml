@@ -196,6 +196,9 @@
     <string name="setting_share_content">Current version %1$sAndroid is nice, try it. Download site</string>
     <string name="setting_share_ways">Select the way to share</string>
     <string name="setting_clearing">Cache is being deleted</string>
+    <string name="setting_mediabutton">Headphone Control</string>
+    <string name="setting_mediabutton_on">Headphone Control On</string>
+    <string name="setting_mediabutton_off">Headphone Control Off</string>
     <!--睡眠-->
     <string name="sleep_title">Sleep mode</string>
     <string name="sleep_hint">App will exit after %1$d minutes</string>
@@ -264,6 +267,7 @@
     <string name="article_list_count">%1$s songs</string>
     <string name="article_duration">Duration %1$s</string>
     <string name="article_search_info">%1$s titles;%2$s texts matched</string>
+    <string name="article_clear_cache_hint">Are you sure to clear all cache files？</string>
     <string name="article_search_all">Search result is loaded</string>
     <string name="article_load_all">Article loading is completed</string>
     <string name="article_no_search">No search result</string>

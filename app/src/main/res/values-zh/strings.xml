@@ -196,6 +196,9 @@
     <string name="setting_share_content">我正在使用%1$sAndroid版，感觉不错，你也来试试吧。下载地址</string>
     <string name="setting_share_ways">选择分享方式</string>
     <string name="setting_clearing">缓存正在删除</string>
+    <string name="setting_mediabutton">智能线控</string>
+    <string name="setting_mediabutton_on">智能线控功能开启</string>
+    <string name="setting_mediabutton_off">智能线控功能关闭</string>
     <!--睡眠-->
     <string name="sleep_title">睡眠设置</string>
     <string name="sleep_hint">亲，app将在%1$d分钟后退出</string>
@@ -270,6 +273,7 @@
     <string name="article_clear_all">清空记录</string>
     <string name="article_clear_hint">确定清空已有听歌记录吗？</string>
     <string name="article_clear_download_hint">确定清空下载记录吗？这将删除所有本地文件！</string>
+    <string name="article_clear_cache_hint">确定清空缓存吗？</string>
     <string name="article_search_clear_sure">清除</string>
     <string name="article_load_all">文章列表加载完毕</string>
     <string name="article_no_search">搜索无结果</string>
