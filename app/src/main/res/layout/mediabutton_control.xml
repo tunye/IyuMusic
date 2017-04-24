@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mediabutton_header"
+            app:layout_heightPercent="25%" />
+
+        <ImageView
+            android:id="@+id/imageview_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView_header"
+            android:background="@drawable/mediabutton_content"
+            app:layout_heightPercent="65%" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageview_content"
+            android:background="@color/background"
+            app:layout_heightPercent="10%">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_thin"
+                android:background="@color/background_complementary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_big"
+                android:text="@string/setting_mediabutton"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/large_text" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/mediabutton_control"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin_big" />
+        </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>

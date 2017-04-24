@@ -196,6 +196,9 @@
     <string name="setting_share_content">我正在使用%1$sAndroid版，感觉不错，你也来试试吧。下载地址</string>
     <string name="setting_share_ways">选择分享方式</string>
     <string name="setting_clearing">缓存正在删除</string>
+    <string name="setting_mediabutton">智能线控</string>
+    <string name="setting_mediabutton_on">智能线控功能开启</string>
+    <string name="setting_mediabutton_off">智能线控功能关闭</string>
     <!--睡眠-->
     <string name="sleep_title">睡眠设置</string>
     <string name="sleep_hint">亲，app将在%1$d分钟后退出</string>

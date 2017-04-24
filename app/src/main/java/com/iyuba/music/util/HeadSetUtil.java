@@ -7,6 +7,7 @@ import android.media.AudioManager;
 
 import com.iyuba.music.listener.OnHeadSetListener;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.receiver.MediaButtonReceiver;
 
 /**
@@ -29,8 +30,10 @@ public class HeadSetUtil {
         this.headSetListener = headSetListener;
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
-        audioManager.registerMediaButtonEventReceiver(name);
+        if (SettingConfigManager.getInstance().isMediaButton()) {
+            ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
+            audioManager.registerMediaButtonEventReceiver(name);
+        }
     }
 
     /**
@@ -41,8 +44,10 @@ public class HeadSetUtil {
     public void close(Context context) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
-        ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
-        audioManager.unregisterMediaButtonEventReceiver(name);
+        if (SettingConfigManager.getInstance().isMediaButton()) {
+            ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
+            audioManager.unregisterMediaButtonEventReceiver(name);
+        }
         this.headSetListener = null;
     }
 

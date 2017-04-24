@@ -25,7 +25,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by 10202 on 2015/12/5.
  */
 public class StudySetActivity extends BaseActivity implements View.OnClickListener {
-    private RoundRelativeLayout playMode, nextMode, autoRound, downLoad, headplugPlay, headplugPause, originalSize;
+    private RoundRelativeLayout playMode, nextMode, autoRound, downLoad, headplugPlay, headplugPause, originalSize, mediaButton;
     private CheckBox currAutoRound, currHeadplugPlay, currHeadplugPause;
     private TextView currPlayMode, currNextMode, currDownLoad;
 
@@ -56,6 +56,8 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         AddRippleEffect.addRippleEffect(headplugPause);
         originalSize = (RoundRelativeLayout) findViewById(R.id.study_set_original_size);
         AddRippleEffect.addRippleEffect(originalSize);
+        mediaButton = (RoundRelativeLayout) findViewById(R.id.study_set_media_button);
+        AddRippleEffect.addRippleEffect(mediaButton);
         currPlayMode = (TextView) findViewById(R.id.study_set_playmode_current);
         currNextMode = (TextView) findViewById(R.id.study_set_nextmode_current);
         currDownLoad = (TextView) findViewById(R.id.study_set_download_current);
@@ -74,6 +76,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         headplugPlay.setOnClickListener(this);
         headplugPause.setOnClickListener(this);
         originalSize.setOnClickListener(this);
+        mediaButton.setOnClickListener(this);
         currAutoRound.setOnClickListener(this);
         currHeadplugPlay.setOnClickListener(this);
         currHeadplugPause.setOnClickListener(this);
@@ -138,6 +141,9 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.study_set_original_size:
                 startActivity(new Intent(context, OriginalSizeActivity.class));
+                break;
+            case R.id.study_set_media_button:
+                startActivity(new Intent(context, MediaButtonControlActivity.class));
                 break;
         }
     }

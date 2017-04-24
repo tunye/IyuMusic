@@ -13,6 +13,7 @@ public class SettingConfigManager {
     private final static String AUTO_LOGIN_TAG = "autoLogin";
     private final static String AUTO_PLAY_TAG = "autoplay";
     private final static String AUTO_STOP_TAG = "autostop";
+    private static final String MEDIA_BUTTON = "media_button";
     private final static String AD_TAG = "lastADUrl";
     private final static String UPGRADE_TAG = "upgrade";
     private final static String SAYING_MODE_TAG = "sayingMode";
@@ -29,7 +30,7 @@ public class SettingConfigManager {
     private final static String DOWNLOADMEANWHILE = "downloadMeanwhile";
     private final static String AUTOROUND = "autoRound";
     private int language, sayingMode, wordOrder, studyMode, studyPlayMode, originalSize, download, studyTranslate;
-    private boolean eggshell, push, night, autoLogin, autoplay, autostop, autoRound,
+    private boolean eggshell, push, night, mediaButton, autoLogin, autoplay, autostop, autoRound,
             autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;
     private String lastADUrl, photoTimestamp;
 
@@ -43,6 +44,7 @@ public class SettingConfigManager {
                 autoLogin = ConfigManager.getInstance().loadBoolean(AUTO_LOGIN_TAG, true);
                 autoplay = ConfigManager.getInstance().loadBoolean(AUTO_PLAY_TAG);
                 autostop = ConfigManager.getInstance().loadBoolean(AUTO_STOP_TAG, true);
+                mediaButton = ConfigManager.getInstance().loadBoolean(MEDIA_BUTTON, true);
                 lastADUrl = ConfigManager.getInstance().loadString(AD_TAG);
 
                 sayingMode = ConfigManager.getInstance().loadInt(SAYING_MODE_TAG);
@@ -122,6 +124,15 @@ public class SettingConfigManager {
     public void setAutoStop(boolean autoStop) {
         this.autostop = autoStop;
         ConfigManager.getInstance().putBoolean(AUTO_STOP_TAG, autoStop);
+    }
+
+    public boolean isMediaButton() {
+        return mediaButton;
+    }
+
+    public void setMediaButton(boolean mediaButton) {
+        this.mediaButton = mediaButton;
+        ConfigManager.getInstance().putBoolean(MEDIA_BUTTON, mediaButton);
     }
 
     public String getADUrl() {

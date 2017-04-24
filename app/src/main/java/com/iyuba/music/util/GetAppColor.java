@@ -37,6 +37,15 @@ public class GetAppColor {
         }
     }
 
+    public int getAppColorRes(Context context) {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.color.skin_app_color;
+        } else {
+            return GetAppColor.getResource(context, "skin_app_color_" + flavorsDef.get(skin));
+        }
+    }
+
     public int getAppColorLight(Context context) {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
@@ -46,12 +55,30 @@ public class GetAppColor {
         }
     }
 
+    public int getAppColorLightRes(Context context) {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.color.skin_app_color_light;
+        } else {
+            return GetAppColor.getResource(context, "skin_app_color_light_" + flavorsDef.get(skin));
+        }
+    }
+
     public int getAppColorAccent(Context context) {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return context.getResources().getColor(R.color.skin_color_accent);
         } else {
             return context.getResources().getColor(GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin)));
+        }
+    }
+
+    public int getAppColorAccentRes(Context context) {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.color.skin_color_accent;
+        } else {
+            return GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin));
         }
     }
 
