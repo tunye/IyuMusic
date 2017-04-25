@@ -38,10 +38,19 @@ public class RoundImageView extends AppCompatImageView {
     private boolean isShow;
     private int radius;
 
+    private Paint paint;
+    private RectF oval;
+
     public RoundImageView(Context context) {
         super(context);
         isShow = true;
         radius = 0;
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+        paint.setStyle(Paint.Style.STROKE);
+        oval = new RectF();
     }
 
     public RoundImageView(Context context, AttributeSet attrs) {
@@ -69,6 +78,9 @@ public class RoundImageView extends AppCompatImageView {
                 defaultColor);
         isShow = a.getBoolean(R.styleable.roundedimageview_show_image, true);
         a.recycle();
+
+        paint = new Paint();
+        oval = new RectF();
     }
 
     @Override
@@ -107,16 +119,14 @@ public class RoundImageView extends AppCompatImageView {
             if (progress != 0) {
                 drawArcProgressBorder(canvas, centre);
             }
-        } else if (mBorderInsideColor != defaultColor
-                && mBorderOutsideColor == defaultColor) {// 定义画一个边框
+        } else if (mBorderInsideColor != defaultColor) {// 定义画一个边框
             radius = centre - mBorderThickness;
             drawCircleBorder(canvas, radius + mBorderThickness / 2,
                     mBorderInsideColor);
             if (progress != 0) {
                 drawArcProgressBorder(canvas, centre);
             }
-        } else if (mBorderInsideColor == defaultColor
-                && mBorderOutsideColor != defaultColor) {// 定义画一个边框
+        } else if (mBorderOutsideColor != defaultColor) {// 定义画一个边框
             radius = centre - mBorderThickness;
             drawCircleBorder(canvas, radius + mBorderThickness / 2,
                     mBorderOutsideColor);
@@ -130,7 +140,10 @@ public class RoundImageView extends AppCompatImageView {
             Bitmap roundBitmap = getCroppedRoundBitmap(bitmap);
             canvas.drawBitmap(roundBitmap, defaultWidth / 2 - radius,
                     defaultHeight / 2 - radius, null);
+            roundBitmap.recycle();
         }
+        b.recycle();
+        bitmap.recycle();
     }
 
     /**
@@ -192,9 +205,7 @@ public class RoundImageView extends AppCompatImageView {
         bmp.recycle();
         squareBitmap.recycle();
         scaledSrcBmp.recycle();
-//        bmp = null;
-//        squareBitmap = null;
-//        scaledSrcBmp = null;
+
         return output;
     }
 
@@ -202,29 +213,18 @@ public class RoundImageView extends AppCompatImageView {
      * 边缘画圆
      */
     private void drawCircleBorder(Canvas canvas, int radius, int color) {
-        Paint paint = new Paint();
-        /* 去锯齿 */
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
-        paint.setDither(true);
         paint.setColor(color);
-        /* 设置paint的　style　为STROKE：空心 */
-        paint.setStyle(Paint.Style.STROKE);
-        /* 设置paint的外框宽度 */
         paint.setStrokeWidth(mBorderThickness);
         canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, paint);
     }
 
     private void drawArcProgressBorder(Canvas canvas, int centre) {
-        Paint paint = new Paint();
-        RectF oval = new RectF(centre - radius - mBorderThickness / 2, centre
+        oval.set(centre - radius - mBorderThickness / 2, centre
                 - radius - mBorderThickness / 2, centre + radius
                 + mBorderThickness / 2, centre + radius
                 + mBorderThickness / 2);
         paint.setColor(mBorderProgressColor);
-        paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(mBorderThickness);
-        paint.setAntiAlias(true);
         canvas.drawArc(oval, 270, 360 * progress, false, paint);
     }
 

@@ -77,8 +77,12 @@ public class PageIndicator extends View {
         strokePaint = new Paint();
         strokePaint.setAntiAlias(true);
         strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setColor(strokeColor);
+        strokePaint.setStrokeWidth(stroke);
+
         fillPaint = new Paint();
         fillPaint.setAntiAlias(true);
+        fillPaint.setColor(fillColor);
     }
 
     private void invalidateView() {
@@ -142,9 +146,6 @@ public class PageIndicator extends View {
         if (circleCount == 0) {
             return;
         }
-        strokePaint.setColor(strokeColor);
-        strokePaint.setStrokeWidth(stroke);
-        fillPaint.setColor(fillColor);
         float length = (radius + stroke) * 2 * circleCount + (circleCount - 1) * circlePadding;
         float dx = (getWidth() - length) / 2 + (radius + stroke),
                 dy = (radius + stroke);
@@ -170,16 +171,19 @@ public class PageIndicator extends View {
 
     public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
+        strokePaint.setColor(strokeColor);
         invalidateView();
     }
 
     public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
+        fillPaint.setColor(fillColor);
         invalidateView();
     }
 
     public void setStroke(float stroke) {
         this.stroke = stroke;
+        strokePaint.setStrokeWidth(stroke);
         invalidateView();
     }
 

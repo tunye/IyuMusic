@@ -22,6 +22,7 @@ public class RoundProgressBar extends View {
     public static final int STROKE = 0;
     public static final int FILL = 1;
     private Paint paint;
+    private RectF oval;
     private int roundColor;
     private int roundProgressColor;
     private int textColor;
@@ -43,6 +44,8 @@ public class RoundProgressBar extends View {
     public RoundProgressBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         paint = new Paint();
+        paint.setAntiAlias(true);
+        oval = new RectF();
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.circleProgressBar);
         roundColor = mTypedArray.getColor(
@@ -68,9 +71,8 @@ public class RoundProgressBar extends View {
         int centre = getWidth() / 2;
         int radius = (int) (centre - roundWidth / 2);
         paint.setColor(roundColor);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(roundWidth);
         paint.setAntiAlias(true);
+        paint.setStrokeWidth(roundWidth);
         canvas.drawCircle(centre, centre, radius, paint);
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
@@ -84,8 +86,7 @@ public class RoundProgressBar extends View {
         }
         paint.setStrokeWidth(roundWidth);
         paint.setColor(roundProgressColor);
-        RectF oval = new RectF(centre - radius, centre - radius, centre
-                + radius, centre + radius);
+        oval.set(centre - radius, centre - radius, centre + radius, centre + radius);
         switch (style) {
             case STROKE: {
                 paint.setStyle(Paint.Style.STROKE);

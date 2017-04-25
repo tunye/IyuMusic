@@ -81,7 +81,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     }
 
     public void refresh() {
-        if (originalView==null){
+        if (originalView == null) {
             initView();
         }
         originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
@@ -134,7 +134,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     }
 
     private void reloadLocalData() {
-        originalView.postDelayed(loadLocalLrcFile, 1000);
+        originalView.postDelayed(loadLocalLrcFile, 1500);
     }
 
     public void changeLanguage() {
@@ -143,7 +143,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         } else {
             originalView.setShowChinese(false);
         }
-        originalView.setOriginalList(originalView.getOriginalList());
+        originalView.synchroLanguage();
     }
 
     @Override

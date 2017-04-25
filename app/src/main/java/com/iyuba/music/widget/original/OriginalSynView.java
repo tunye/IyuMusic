@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
@@ -47,26 +45,12 @@ public class OriginalSynView extends ScrollView implements
     private float[] oldXY;
     //当前段，上一段落
     private int currParagraph, lastParagraph;
-    Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    int center = changeHighLight(currParagraph);
-                    center = center - getHeight() / 2;
-                    if (center > 0) {
-                        smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
-                    } else {
-                        smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    //整个类通用的textpage
+    private TextPage textPage;
+    //画时间线控件
+    private Rect textBounds;
+    private RectF rf;
+    private Paint rectPaint, mPaintForTimeLine;
     //实现接口
     private TextSelectCallBack textSelectCallBack;
     private SeekToCallBack seekToCallBack;
@@ -74,21 +58,15 @@ public class OriginalSynView extends ScrollView implements
     public OriginalSynView(Context context) {
         super(context);
         this.context = context;
-        showChinese = true;
-        drawTimeLine = false;
-        textSize = RuntimeManager.sp2px(14);
-        lineWidth = 4;
-        rectMarginBottom = 10;
-        rectPadding = 20;
-        rectRadius = 15;
+        defaultProperty();
         init();
     }
 
     public OriginalSynView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        drawTimeLine = false;
         if (attrs != null) {
+            drawTimeLine = false;
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
             textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
@@ -98,12 +76,7 @@ public class OriginalSynView extends ScrollView implements
             rectRadius = a.getInt(R.styleable.originalsynview_ori_timeline_radius, 15);
             a.recycle();
         } else {
-            showChinese = true;
-            textSize = RuntimeManager.sp2px(14);
-            lineWidth = 4;
-            rectMarginBottom = 10;
-            rectPadding = 20;
-            rectRadius = 15;
+            defaultProperty();
         }
         init();
     }
@@ -111,8 +84,8 @@ public class OriginalSynView extends ScrollView implements
     public OriginalSynView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-        drawTimeLine = false;
         if (attrs != null) {
+            drawTimeLine = false;
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
             textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
@@ -122,12 +95,7 @@ public class OriginalSynView extends ScrollView implements
             rectRadius = a.getInt(R.styleable.originalsynview_ori_timeline_radius, 15);
             a.recycle();
         } else {
-            showChinese = true;
-            textSize = RuntimeManager.sp2px(14);
-            lineWidth = 4;
-            rectMarginBottom = 10;
-            rectPadding = 20;
-            rectRadius = 15;
+            defaultProperty();
         }
         init();
     }
@@ -137,8 +105,9 @@ public class OriginalSynView extends ScrollView implements
         super.onDraw(canvas);
         if (drawTimeLine) {
             float y = getHeight() / 2 + getScrollY();
+            float itemY;
             for (int i = 1; i <= originalList.size(); i++) {
-                float itemY = subtitleLayout.getChildAt(i + 1).getTop();
+                itemY = subtitleLayout.getChildAt(i + 1).getTop();
                 if (itemY >= y) {
                     currParagraph = i;
                     break;
@@ -182,13 +151,7 @@ public class OriginalSynView extends ScrollView implements
                     }
                     drawTimeLine = false;
                     canDrag = false;
-                    int center = changeHighLight(currParagraph);
-                    center = center - getHeight() / 2;
-                    if (center > 0) {
-                        smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
-                    } else {
-                        smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
-                    }
+                    scrollToPosition();
                     invalidate();
                 }
                 break;
@@ -213,87 +176,112 @@ public class OriginalSynView extends ScrollView implements
         return super.dispatchTouchEvent(event);
     }
 
+    private void defaultProperty() {
+        showChinese = true;
+        drawTimeLine = false;
+        textSize = RuntimeManager.sp2px(14);
+        lineWidth = 4;
+        rectMarginBottom = 10;
+        rectPadding = 20;
+        rectRadius = 15;
+    }
+
     private void init() {
         setVerticalScrollBarEnabled(false);
         currParagraph = lastParagraph = 1;
         subtitleLayout = new LinearLayout(context);
         subtitleLayout.setOrientation(LinearLayout.VERTICAL);
+        //时间线画笔
+        mPaintForTimeLine = new Paint();
+        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight(context));
+        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
+        mPaintForTimeLine.setStrokeWidth(lineWidth);
+        //半透背景画笔
+        rectPaint = new Paint();
+        rectPaint.setColor(context.getResources().getColor(R.color.text_color));
+        textBounds = new Rect();
+        rf = new RectF();
     }
 
     private void initData() {
         subtitleLayout.removeAllViews();
         removeAllViews();
         int size = originalList.size();
-        TextPage tp;
-        TextPage blank = new TextPage(context);
-        blank.setHeight(RuntimeManager.getWindowHeight() / 2);
-        subtitleLayout.addView(blank);
+        textPage = new TextPage(context);
+        textPage.setHeight(RuntimeManager.getWindowHeight() / 2);
+        subtitleLayout.addView(textPage);
         for (int i = 0; i < size; i++) {
-            tp = new TextPage(context);
-            tp.setTextColor(context.getResources().getColor(R.color.text_color));
-            tp.setTextSize(RuntimeManager.px2sp(textSize));
+            textPage = new TextPage(context);
+            textPage.setTextColor(context.getResources().getColor(R.color.text_color));
+            textPage.setTextSize(RuntimeManager.px2sp(textSize));
             if (isShowChinese()) {
-                tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+                textPage.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
             } else {
-                tp.setText(originalList.get(i).getSentence());
+                textPage.setText(originalList.get(i).getSentence());
             }
-            tp.setTextpageSelectTextCallBack(this);
-            subtitleLayout.addView(tp);
+            textPage.setTextpageSelectTextCallBack(this);
+            subtitleLayout.addView(textPage);
         }
-        blank = new TextPage(context);
-        blank.setHeight(RuntimeManager.getWindowHeight() / 2);
-        subtitleLayout.addView(blank);
+        textPage = new TextPage(context);
+        textPage.setHeight(RuntimeManager.getWindowHeight() / 2);
+        subtitleLayout.addView(textPage);
         addView(subtitleLayout);
-        handler.sendEmptyMessage(0);
+    }
+
+    private void scrollToPosition() {
+        int center = changeHighLight(currParagraph);
+        center = center - getHeight() / 2;
+        if (center > 0) {
+            smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
+        } else {
+            smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
+        }
     }
 
     public void synchroParagraph(int paragraph) {
         currParagraph = paragraph;
         if (currParagraph == 0) {
             currParagraph = 1;
-            handler.sendEmptyMessage(0);
+            scrollToPosition();
         } else if (currParagraph < subtitleLayout.getChildCount()) {
-            handler.sendEmptyMessage(0);
+            scrollToPosition();
         }
     }
 
-    private void synchroLanguage() {
+    public void synchroLanguage() {
         int size = originalList.size();
-        TextPage tp;
         for (int i = 0; i < size; i++) {
-            tp = (TextPage) subtitleLayout.getChildAt(i);
+            textPage = (TextPage) subtitleLayout.getChildAt(i);
             if (isShowChinese()) {
-                tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+                textPage.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
             } else {
-                tp.setText(originalList.get(i).getSentence());
+                textPage.setText(originalList.get(i).getSentence());
             }
         }
         synchroParagraph(currParagraph);
     }
 
     private int changeHighLight(int current) {
-        TextPage textView = (TextPage) subtitleLayout
-                .getChildAt(lastParagraph);
-        textView.setTextColor(context.getResources().getColor(R.color.text_color));
-        textView = (TextPage) subtitleLayout
-                .getChildAt(current);
-        textView.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+        textPage = (TextPage) subtitleLayout.getChildAt(lastParagraph);
+        textPage.setTextColor(context.getResources().getColor(R.color.text_color));
+        textPage = (TextPage) subtitleLayout.getChildAt(current);
+        textPage.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
         lastParagraph = current;
-        return textView.getTop() + textView.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
+        return textPage.getTop() + textPage.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
     }
 
     private void drawTimeCanvas(Canvas canvas, String time, float y) {
         //时间线画笔
-        Paint mPaintForTimeLine = new Paint();
+        mPaintForTimeLine = new Paint();
         mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight(context));
         mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔
-        Paint rectPaint = new Paint();
+        rectPaint = new Paint();
         rectPaint.setColor(context.getResources().getColor(R.color.text_color));
 
-        Rect textBounds = new Rect();
-        RectF rf = new RectF();
+        textBounds = new Rect();
+        rf = new RectF();
         //计算边距
         mPaintForTimeLine.getTextBounds(time, 0, time.length(), textBounds);
         rf.set(0, y - textBounds.height() - rectPadding * 2 - rectMarginBottom,

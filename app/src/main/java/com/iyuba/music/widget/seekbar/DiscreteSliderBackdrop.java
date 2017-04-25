@@ -31,6 +31,7 @@ public class DiscreteSliderBackdrop extends FrameLayout {
     private int yRadius = RuntimeManager.dip2px(8);
     private int discreteSliderBackdropLeftMargin = RuntimeManager.dip2px(32);
     private int discreteSliderBackdropRightMargin = RuntimeManager.dip2px(32);
+    private RectF rectF = new RectF();
     // endregion
 
     // region Constructors
@@ -68,7 +69,7 @@ public class DiscreteSliderBackdrop extends FrameLayout {
 
         setUpFillPaint();
         setUpStrokePaint();
-        RectF rectF = new RectF(discreteSliderBackdropLeftMargin,
+        rectF.set(discreteSliderBackdropLeftMargin,
                 (height / 2) - (horizontalBarThickness / 2),
                 width - discreteSliderBackdropRightMargin,
                 (height / 2) + (horizontalBarThickness / 2));
@@ -79,11 +80,11 @@ public class DiscreteSliderBackdrop extends FrameLayout {
             canvas.drawCircle(discreteSliderBackdropLeftMargin + (i * interval), height / 2, tickMarkRadius, fillPaint);
             canvas.drawCircle(discreteSliderBackdropLeftMargin + (i * interval), height / 2, tickMarkRadius, strokePaint);
         }
-
-        canvas.drawRoundRect(new RectF(discreteSliderBackdropLeftMargin,
+        rectF.set(discreteSliderBackdropLeftMargin,
                 (height / 2) - ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1)),
                 width - discreteSliderBackdropRightMargin,
-                (height / 2) + ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1))), xRadius, yRadius, fillPaint);
+                (height / 2) + ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1)));
+        canvas.drawRoundRect(rectF, xRadius, yRadius, fillPaint);
     }
 
     private void setUpFillPaint() {

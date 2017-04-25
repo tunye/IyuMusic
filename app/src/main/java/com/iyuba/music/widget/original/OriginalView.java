@@ -72,8 +72,7 @@ public class OriginalView extends ScrollView implements
     private void initData() {
         subtitleLayout.removeAllViews();
         removeAllViews();
-        ArrayList<String> contents = makeContent();
-        int size = contents.size();
+        int size = originalList.size();
         TextPage tp;
         for (int i = 0; i < size; i++) {
             tp = new TextPage(context);
@@ -90,12 +89,17 @@ public class OriginalView extends ScrollView implements
         addView(subtitleLayout);
     }
 
-    private ArrayList<String> makeContent() {
-        ArrayList<String> contents = new ArrayList<>();
-        for (int i = 0; i < originalList.size(); i++) {
-            contents.add(originalList.get(i).getSentence());
+    public void synchroLanguage() {
+        int size = originalList.size();
+        TextPage textPage;
+        for (int i = 0; i < size; i++) {
+            textPage = (TextPage) subtitleLayout.getChildAt(i);
+            if (isShowChinese()) {
+                textPage.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+            } else {
+                textPage.setText(originalList.get(i).getSentence());
+            }
         }
-        return contents;
     }
 
     public boolean isShowChinese() {

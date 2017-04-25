@@ -7,20 +7,23 @@ package com.iyuba.music.widget.textview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * 自适应TextView
  */
-public class JustifyTextView extends TextView {
+public class JustifyTextView extends AppCompatTextView {
 
     private int mLineY;
     private int mViewWidth;
+    private TextPaint paint;
+    private Layout layout;
+    private Paint.FontMetrics fm;
 
     public JustifyTextView(Context context) {
         super(context);
@@ -41,18 +44,18 @@ public class JustifyTextView extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        TextPaint paint = getPaint();
+        paint = getPaint();
         paint.setColor(getCurrentTextColor());
         paint.drawableState = getDrawableState();
         mViewWidth = getMeasuredWidth();
         String text = getText().toString();
         mLineY = 0;
         mLineY += getTextSize();
-        Layout layout = getLayout();
+        layout = getLayout();
         if (layout == null) {
             return;
         }
-        Paint.FontMetrics fm = paint.getFontMetrics();
+        fm = paint.getFontMetrics();
 
         int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));
         textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());

@@ -27,6 +27,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
+import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
@@ -225,7 +226,12 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     }
                 }
                 finish.finish();
-                LrcMaker.getInstance().makeOriginal(id, originalList);
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        LrcMaker.getInstance().makeOriginal(id, originalList);
+                    }
+                });
             }
         });
     }
@@ -250,7 +256,12 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     original.setArticleID(id);
                 }
                 finish.finish();
-                OriginalMaker.getInstance().makeOriginal(id, originalList);
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        OriginalMaker.getInstance().makeOriginal(id, originalList);
+                    }
+                });
             }
         });
     }
@@ -275,7 +286,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         } else {
             originalView.setShowChinese(false);
         }
-        originalView.setOriginalList(originalView.getOriginalList());
+        originalView.synchroLanguage();
     }
 
     @Override
