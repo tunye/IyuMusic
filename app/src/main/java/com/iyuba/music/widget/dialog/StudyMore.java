@@ -169,7 +169,7 @@ public class StudyMore {
                             downloadFile.id = curArticle.getId();
                             downloadFile.downloadState = "start";
                             DownloadManager.getInstance().fileList.add(downloadFile);
-                            new DownloadTask(curArticle).start();
+                            DownloadTask.getInstance().setTask(curArticle);
                         } else {
                             CustomToast.getInstance().showToast(R.string.article_downloading);
                         }

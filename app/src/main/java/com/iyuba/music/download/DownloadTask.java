@@ -7,8 +7,6 @@
  */
 package com.iyuba.music.download;
 
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 
 import com.iyuba.music.entity.BaseListEntity;
@@ -30,7 +28,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -41,42 +39,25 @@ import java.util.concurrent.Executors;
  */
 public class DownloadTask {
     private String singPath, soundPath;
-    private long downedFileLength = 0;
+    private int downedFileLength = 0;
     private int id;
     private String app;
     private DownloadFile downloadFile;
-    private static Executor downloadExecutor;
+    private ExecutorService downloadExecutor;
 
-    static {
+    private static class InstanceHelper {
+        private static DownloadTask instance = new DownloadTask();
+    }
+
+    public static DownloadTask getInstance() {
+        return InstanceHelper.instance;
+    }
+
+    public DownloadTask() {
         downloadExecutor = Executors.newFixedThreadPool(3);
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    downloadFile.fileSize = Integer.parseInt(msg.obj.toString());
-                    break;
-                case 1:
-                    downloadFile.downloadSize = Integer.parseInt(msg.obj.toString());
-                    break;
-                case 2:
-                    downloadFile.downloadState = "finish";
-                    break;
-                case 3:
-                    downloadFile.downloadState = "half_finish";
-                    downloadFile.downloadSize = 0;
-                    break;
-                case 4:
-                    downloadFile.downloadState = "fail";
-                    break;
-            }
-            return false;
-        }
-    });
-
-    public DownloadTask(Article article) {
+    public void setTask(Article article) {
         this.app = article.getApp();
         this.singPath = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
         if (article.getSimple() == 0) {
@@ -95,6 +76,7 @@ public class DownloadTask {
                 downloadFile = file;
             }
         }
+        start();
     }
 
     public static boolean checkFileExists(Article article) {
@@ -139,7 +121,7 @@ public class DownloadTask {
         }
     }
 
-    public void start() {
+    private void start() {
         downloadExecutor.execute(new Runnable() {
             public void run() {
                 downedFileLength = 0;
@@ -152,7 +134,7 @@ public class DownloadTask {
                                         @Override
                                         public void finish() {
                                             downedFileLength = 0;
-                                            handler.sendEmptyMessage(2);
+                                            downloadFile.downloadState = "finish";
                                         }
                                     });
                         } else {
@@ -162,7 +144,7 @@ public class DownloadTask {
                                         @Override
                                         public void finish() {
                                             downedFileLength = 0;
-                                            handler.sendEmptyMessage(2);
+                                            downloadFile.downloadState = "finish";
                                         }
                                     });
                         }
@@ -172,7 +154,8 @@ public class DownloadTask {
                             @Override
                             public void finish() {
                                 downedFileLength = 0;
-                                handler.sendEmptyMessage(3);
+                                downloadFile.downloadState = "half_finish";
+                                downloadFile.downloadSize = 0;
                                 getWebLrc(id);
                                 downFile(singPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + ".mp3",
                                         new IOperationFinish() {
@@ -180,7 +163,7 @@ public class DownloadTask {
                                             @Override
                                             public void finish() {
                                                 downedFileLength = 0;
-                                                handler.sendEmptyMessage(2);
+                                                downloadFile.downloadState = "finish";
                                             }
                                         });
                             }
@@ -208,7 +191,7 @@ public class DownloadTask {
                         @Override
                         public void finish() {
                             downedFileLength = 0;
-                            handler.sendEmptyMessage(2);
+                            downloadFile.downloadState = "finish";
                         }
                     });
                 }
@@ -229,7 +212,7 @@ public class DownloadTask {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                handler.sendEmptyMessage(4);
+                downloadFile.downloadState = "fail";
                 return;
             }
             URL url = null;
@@ -240,27 +223,21 @@ public class DownloadTask {
                 connection.setConnectTimeout(3000);
                 connection.setReadTimeout(10000);
             } catch (IOException e) {
-                handler.sendEmptyMessage(4);
+                downloadFile.downloadState = "fail";
                 return;
             }
             try {
                 InputStream inputStream = connection.getInputStream();
                 FileOutputStream outputStream = new FileOutputStream(file);
-                long fileLength = connection.getContentLength();
-                byte[] buffer = new byte[1024 * 2];
+                int fileLength = connection.getContentLength();
+                byte[] buffer = new byte[1024];
                 int length;
-                Message message = new Message();
-                message.what = 0;
-                message.obj = fileLength;
-                handler.sendMessage(message);
+                downloadFile.fileSize = fileLength;
                 while (downedFileLength < fileLength) {
                     length = inputStream.read(buffer);
                     downedFileLength += length;
                     outputStream.write(buffer, 0, length);
-                    message = new Message();
-                    message.what = 1;
-                    message.obj = downedFileLength;
-                    handler.sendMessageDelayed(message, 500);
+                    downloadFile.downloadSize = downedFileLength;
                 }
                 inputStream.close();
                 outputStream.flush();
@@ -269,7 +246,7 @@ public class DownloadTask {
                 reNameFile(path + ".tmp", path);
                 finish.finish();
             } catch (IOException e) {
-                handler.sendEmptyMessage(4);
+                downloadFile.downloadState = "fail";
                 e.printStackTrace();
             }
         }
@@ -332,5 +309,9 @@ public class DownloadTask {
                 OriginalMaker.getInstance().makeOriginal(id, (ArrayList<Original>) listEntity.getData());
             }
         });
+    }
+
+    public void shutDown() {
+        downloadExecutor.shutdownNow();
     }
 }

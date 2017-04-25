@@ -9,8 +9,10 @@ import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.animation.Animation;
-import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Private class created to work around issues with AnimationListeners being
@@ -19,7 +21,7 @@ import android.widget.ImageView;
  *
  * @hide
  */
-class CircleImageView extends ImageView {
+class CircleImageView extends AppCompatImageView {
 
     private static final int KEY_SHADOW_COLOR = 0x1E000000;
     private static final int FILL_SHADOW_COLOR = 0x3D000000;
@@ -46,7 +48,7 @@ class CircleImageView extends ImageView {
             circle = new ShapeDrawable(new OvalShape());
             ViewCompat.setElevation(this, SHADOW_ELEVATION * density);
         } else {
-            OvalShape oval = new OvalShadow(mShadowRadius, diameter);
+            OvalShape oval = new OvalShadow(this, mShadowRadius, diameter);
             circle = new ShapeDrawable(oval);
             ViewCompat.setLayerType(this, ViewCompat.LAYER_TYPE_SOFTWARE,
                     circle.getPaint());
@@ -94,15 +96,17 @@ class CircleImageView extends ImageView {
     }
 
 
-    private class OvalShadow extends OvalShape {
+    private static class OvalShadow extends OvalShape {
+        private final WeakReference<CircleImageView> mWeakReference;
         private RadialGradient mRadialGradient;
         private int mShadowRadius;
         private Paint mShadowPaint;
         private int mCircleDiameter;
 
-        public OvalShadow(int shadowRadius, int circleDiameter) {
+        public OvalShadow(CircleImageView imageView, int shadowRadius, int circleDiameter) {
             super();
             mShadowPaint = new Paint();
+            mWeakReference = new WeakReference<>(imageView);
             mShadowRadius = shadowRadius;
             mCircleDiameter = circleDiameter;
             mRadialGradient = new RadialGradient(mCircleDiameter / 2,
@@ -114,8 +118,8 @@ class CircleImageView extends ImageView {
 
         @Override
         public void draw(Canvas canvas, Paint paint) {
-            final int viewWidth = CircleImageView.this.getWidth();
-            final int viewHeight = CircleImageView.this.getHeight();
+            final int viewWidth = mWeakReference.get().getWidth();
+            final int viewHeight = mWeakReference.get().getHeight();
             canvas.drawCircle(viewWidth / 2, viewHeight / 2,
                     (mCircleDiameter / 2 + mShadowRadius), mShadowPaint);
             canvas.drawCircle(viewWidth / 2, viewHeight / 2,

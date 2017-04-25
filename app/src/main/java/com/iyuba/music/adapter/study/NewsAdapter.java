@@ -179,7 +179,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         downloadFile.id = article.getId();
                         downloadFile.downloadState = "start";
                         DownloadManager.getInstance().fileList.add(downloadFile);
-                        new DownloadTask(article).start();
+                        DownloadTask.getInstance().setTask(article);
                         notifyItemChanged(pos);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.iyuba.headlinelibrary.manager.HeadlinesRuntimeManager;
+import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -206,7 +207,9 @@ public class MusicApplication extends Application {
     }
 
     public void clearActivityList() {
-        for (Activity activity : activityList) {
+        Activity activity;
+        for (int i = activityList.size() - 1; i > -1; i--) {
+            activity = activityList.get(i);
             if (null != activity) {
                 activity.finish();
             }
@@ -228,6 +231,8 @@ public class MusicApplication extends Application {
         stopLessonRecord();
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
+        ThreadPoolUtil.getInstance().shutdown();
+        DownloadTask.getInstance().shutDown();
         try {
             if (changeProperty != null) {
                 unregisterReceiver(changeProperty);

@@ -11,8 +11,6 @@ import com.iyuba.music.listener.OnHeadSetListener;
 import com.iyuba.music.util.HeadSetUtil;
 
 import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +41,7 @@ public class MediaButtonReceiver extends BroadcastReceiver {
             switch (clickCount) {
                 case 0:                               // 单击
                     clickCount++;
-                    scheduledThreadPoolExecutor.schedule(new MTask(), 500, TimeUnit.MILLISECONDS);
+                    scheduledThreadPoolExecutor.schedule(new MTask(this), 500, TimeUnit.MILLISECONDS);
                     break;
                 case 1:                        // 双击
                     clickCount++;
@@ -59,13 +57,19 @@ public class MediaButtonReceiver extends BroadcastReceiver {
         abortBroadcast();
     }
 
-    private class MTask implements Runnable {
+    private static class MTask implements Runnable {
+        private final WeakReference<MediaButtonReceiver> mWeakReference;
+
+        public MTask(MediaButtonReceiver mediaButtonReceiver) {
+            mWeakReference = new WeakReference<>(mediaButtonReceiver);
+        }
+
         @Override
         public void run() {
             if (clickCount == 1) {
-                myHandler.sendEmptyMessage(1);
+                mWeakReference.get().myHandler.sendEmptyMessage(1);
             } else if (clickCount == 2) {
-                myHandler.sendEmptyMessage(2);
+                mWeakReference.get().myHandler.sendEmptyMessage(2);
             }
             clickCount = 0;
         }

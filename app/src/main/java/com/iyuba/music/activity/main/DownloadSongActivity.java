@@ -262,7 +262,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                         DownloadManager.getInstance().fileList.add(downloadFile);
                         for (Article article : downloading) {
                             if (article.getId() == localInfo.getId()) {
-                                new DownloadTask(article).start();
+                                DownloadTask.getInstance().setTask(article);
                                 break;
                             }
                         }

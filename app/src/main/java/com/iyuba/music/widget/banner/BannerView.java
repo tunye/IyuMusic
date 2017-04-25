@@ -28,6 +28,7 @@ import com.iyuba.music.util.ImageUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -114,9 +115,9 @@ public class BannerView extends RelativeLayout {
 
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
-        myAdapter = new MyAdapter();
+        myAdapter = new MyAdapter(this);
         bannerViewPager.setAdapter(myAdapter);// 设置填充ViewPager页面的适配器
-        bannerViewPager.addOnPageChangeListener(new MyPageChangeListener());
+        bannerViewPager.addOnPageChangeListener(new MyPageChangeListener(this));
         bannerViewPager.setPageTransformer(true, new DepthPageTransformer());
 
         RelativeLayout.LayoutParams params;
@@ -202,7 +203,7 @@ public class BannerView extends RelativeLayout {
         if (!isLooping && bannerData.size() > 1) {
             isLooping = true;
             scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1500, 1500, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(this), 1500, 1500, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -256,24 +257,35 @@ public class BannerView extends RelativeLayout {
     public @interface Align {
     }
 
-    private class ScrollTask implements Runnable {
+    private static class ScrollTask implements Runnable {
+        private final WeakReference<BannerView> mWeakReference;
+
+        public ScrollTask(BannerView bannerView) {
+            mWeakReference = new WeakReference<>(bannerView);
+        }
 
         @Override
         public void run() {
-            if (bannerImages.size() > 1) {
-                currentItem = currentItem % (bannerImages.size() - 2) + 1;
-                bannerViewPager.post(new Runnable() {
+            if (mWeakReference.get().bannerImages.size() > 1) {
+                final BannerView bannerView = mWeakReference.get();
+                bannerView.currentItem = bannerView.currentItem % (bannerView.bannerImages.size() - 2) + 1;
+                bannerView.bannerViewPager.post(new Runnable() {
                     @Override
                     public void run() {
-                        bannerViewPager.setCurrentItem(currentItem, currentItem != 0);
+                        bannerView.bannerViewPager.setCurrentItem(bannerView.currentItem, bannerView.currentItem != 0);
                     }
                 });
             }
         }
     }
 
-    private class MyPageChangeListener implements ViewPager.OnPageChangeListener {
+    private static class MyPageChangeListener implements ViewPager.OnPageChangeListener {
         private int oldPosition = 0;
+        private final WeakReference<BannerView> mWeakReference;
+
+        private MyPageChangeListener(BannerView bannerView) {
+            this.mWeakReference = new WeakReference<>(bannerView);
+        }
 
         @Override
         public void onPageScrollStateChanged(int state) {
@@ -285,41 +297,48 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public void onPageSelected(int position) {
-            if (bannerData.size() > 1) {
+            if (mWeakReference.get().bannerData.size() > 1) {
+                BannerView bannerView = mWeakReference.get();
                 if (position < 1) {
-                    position = bannerData.size();
-                    bannerViewPager.setCurrentItem(position, false);
-                } else if (position > bannerData.size()) {
-                    bannerViewPager.setCurrentItem(1, false);
+                    position = bannerView.bannerData.size();
+                    bannerView.bannerViewPager.setCurrentItem(position, false);
+                } else if (position > bannerView.bannerData.size()) {
+                    bannerView.bannerViewPager.setCurrentItem(1, false);
                     position = 1;
                 }
-                currentItem = position - 1 + bannerData.size();
-                dots.get(oldPosition).setImageDrawable(createPoint(unselectedItemColor));
-                oldPosition = (currentItem) % bannerData.size();
-                bannerTitle.setText(bannerData.get(oldPosition).getDesc());
-                dots.get(oldPosition).setImageDrawable(createPoint(selectItemColor));
+                bannerView.currentItem = position - 1 + bannerView.bannerData.size();
+                bannerView.dots.get(oldPosition).setImageDrawable(bannerView.createPoint(bannerView.unselectedItemColor));
+                oldPosition = (bannerView.currentItem) % bannerView.bannerData.size();
+                bannerView.bannerTitle.setText(bannerView.bannerData.get(oldPosition).getDesc());
+                bannerView.dots.get(oldPosition).setImageDrawable(bannerView.createPoint(bannerView.selectItemColor));
             }
         }
     }
 
-    private class MyAdapter extends PagerAdapter {
+    private static class MyAdapter extends PagerAdapter {
+        private final WeakReference<BannerView> mWeakReference;
+
+        public MyAdapter(BannerView bannerView) {
+            mWeakReference = new WeakReference<>(bannerView);
+        }
 
         @Override
         public int getCount() {
-            return bannerImages.size();
+            return mWeakReference.get().bannerImages.size();
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            ImageView iv = bannerImages.get(position);
+            final BannerView bannerView = mWeakReference.get();
+            ImageView iv = bannerView.bannerImages.get(position);
             container.addView(iv);
-            final int pos = position - 1 + bannerData.size();
+            final int pos = position - 1 + bannerView.bannerData.size();
             iv.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if (onClickListener != null) {
-                        onClickListener.onClick(v, bannerData.get(pos % bannerData.size()));
+                    if (bannerView.onClickListener != null) {
+                        bannerView.onClickListener.onClick(v, bannerView.bannerData.get(pos % bannerView.bannerData.size()));
                     }
                 }
             });
@@ -328,7 +347,7 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public void destroyItem(View arg0, int arg1, Object arg2) {
-            ((ViewPager) arg0).removeView(bannerImages.get(arg1));
+            ((ViewPager) arg0).removeView(mWeakReference.get().bannerImages.get(arg1));
         }
 
         @Override

@@ -1,6 +1,6 @@
 package com.iyuba.music.util;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
  */
 
 public class ThreadPoolUtil {
-    private Executor fixedExecutor;
+    private ExecutorService fixedExecutor;
 
     private ThreadPoolUtil() {
         fixedExecutor = Executors.newFixedThreadPool(3);
@@ -18,11 +18,15 @@ public class ThreadPoolUtil {
         private static ThreadPoolUtil instance = new ThreadPoolUtil();
     }
 
-    public  static ThreadPoolUtil getInstance() {
+    public static ThreadPoolUtil getInstance() {
         return InstanceHelper.instance;
     }
 
     public void execute(Runnable runnable) {
         fixedExecutor.execute(runnable);
+    }
+
+    public void shutdown() {
+        fixedExecutor.shutdownNow();
     }
 }
