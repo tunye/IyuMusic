@@ -43,21 +43,14 @@ public class DownloadTask {
     private int id;
     private String app;
     private DownloadFile downloadFile;
-    private ExecutorService downloadExecutor;
+    private static ExecutorService downloadExecutor;
 
-    private static class InstanceHelper {
-        private static DownloadTask instance = new DownloadTask();
-    }
 
-    public static DownloadTask getInstance() {
-        return InstanceHelper.instance;
-    }
-
-    public DownloadTask() {
+    static {
         downloadExecutor = Executors.newFixedThreadPool(3);
     }
 
-    public void setTask(Article article) {
+    public DownloadTask(Article article) {
         this.app = article.getApp();
         this.singPath = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
         if (article.getSimple() == 0) {
@@ -76,7 +69,10 @@ public class DownloadTask {
                 downloadFile = file;
             }
         }
-        start();
+    }
+
+    public static ExecutorService getDownloadExecutor() {
+        return downloadExecutor;
     }
 
     public static boolean checkFileExists(Article article) {
@@ -121,7 +117,7 @@ public class DownloadTask {
         }
     }
 
-    private void start() {
+    public void start() {
         downloadExecutor.execute(new Runnable() {
             public void run() {
                 downedFileLength = 0;

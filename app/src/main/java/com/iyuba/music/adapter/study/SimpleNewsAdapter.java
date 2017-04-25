@@ -239,7 +239,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
                     DownloadManager.getInstance().fileList.add(downloadFile);
-                    DownloadTask.getInstance().setTask(article);
+                    new DownloadTask(article).start();
                     notifyItemChanged(holder.getAdapterPosition());
                 } else {
                     ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);

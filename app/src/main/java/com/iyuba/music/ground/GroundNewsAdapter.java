@@ -92,7 +92,7 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
                     downloadFile.id = article.getId();
                     downloadFile.downloadState = "start";
                     DownloadManager.getInstance().fileList.add(downloadFile);
-                    DownloadTask.getInstance().setTask(article);
+                    new DownloadTask(article).start();
                     CustomToast.getInstance().showToast(R.string.article_download_start);
                 }
             }

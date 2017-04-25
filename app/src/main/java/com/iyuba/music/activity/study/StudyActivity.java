@@ -173,7 +173,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
-        if (studyMoreDialog.isShown()) {
+        if (studyMoreDialog != null && studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
         } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).onBackPressed()) {
             if (!mipush && !changeProperty) {
@@ -223,9 +223,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 refresh(true);
                 break;
             case R.id.study_more:
-                if (studyMoreDialog.isShown()) {
+                if (studyMoreDialog != null && studyMoreDialog.isShown()) {
                     studyMoreDialog.dismiss();
                 } else {
+                    if (studyMoreDialog == null) {
+                        studyMoreDialog = new StudyMore(this);
+                    }
                     studyMoreDialog.show();
                 }
                 break;
@@ -366,7 +369,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         comment = (RoundTextView) findViewById(R.id.study_comment);
         studyMode = (ImageView) findViewById(R.id.study_mode);
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
-        studyMoreDialog = new StudyMore(this);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadService.checkVip()) {

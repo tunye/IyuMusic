@@ -232,7 +232,7 @@ public class MusicApplication extends Application {
         ImageUtil.clearMemoryCache(this);
         clearActivityList();
         ThreadPoolUtil.getInstance().shutdown();
-        DownloadTask.getInstance().shutDown();
+        DownloadTask.getDownloadExecutor().shutdownNow();
         try {
             if (changeProperty != null) {
                 unregisterReceiver(changeProperty);
