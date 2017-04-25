@@ -183,6 +183,8 @@
     <string name="setting_title">设  置</string>
     <string name="setting_language_hint">界面语言</string>
     <string name="setting_push_hint">推送消息</string>
+    <string name="setting_push_on">消息推送功能打开</string>
+    <string name="setting_push_off">消息推送功能关闭</string>
     <string name="setting_moreapp">更多应用</string>
     <string name="setting_clean_audio">清除歌曲缓存</string>
     <string name="setting_clean_pic">清除其他缓存</string>

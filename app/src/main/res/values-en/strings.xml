@@ -183,6 +183,8 @@
     <string name="setting_title">Setting</string>
     <string name="setting_language_hint">Language setting</string>
     <string name="setting_push_hint">Push message</string>
+    <string name="setting_push_on">Push On</string>
+    <string name="setting_push_off">Push Off</string>
     <string name="setting_clean_audio">Clean music cache</string>
     <string name="setting_clean_pic">Clean other cache</string>
     <string name="setting_word_set">Word setting</string>

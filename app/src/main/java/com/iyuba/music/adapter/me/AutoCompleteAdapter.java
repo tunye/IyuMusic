@@ -15,6 +15,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -90,7 +91,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     @Override
     public Filter getFilter() {
         if (filter == null) {
-            filter = new ArrayFilter();
+            filter = new ArrayFilter(this);
         }
         return filter;
     }
@@ -100,7 +101,12 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         MaterialMenuView delete;
     }
 
-    private class ArrayFilter extends Filter {
+    private static class ArrayFilter extends Filter {
+        private final WeakReference<AutoCompleteAdapter> mWeakReference;
+
+        public ArrayFilter(AutoCompleteAdapter adapter) {
+            mWeakReference = new WeakReference<>(adapter);
+        }
 
         @Override
         protected FilterResults performFiltering(CharSequence prefix) {
@@ -108,15 +114,15 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
             if (TextUtils.isEmpty(prefix)) {
                 ArrayList<String> list = new ArrayList<>();
-                list.addAll(historyAll);
+                list.addAll(mWeakReference.get().historyAll);
                 results.values = list;
                 results.count = list.size();
                 return results;
             } else {
                 String prefixString = prefix.toString().toLowerCase();
                 final ArrayList<String> newValues = new ArrayList<>();
-                for (int i = 0; i < historyAll.size(); i++) {
-                    final String value = historyAll.get(i);
+                for (int i = 0; i < mWeakReference.get().historyAll.size(); i++) {
+                    final String value = mWeakReference.get().historyAll.get(i);
                     final String valueText = value.toLowerCase();
                     if (valueText.startsWith(prefixString)) {
                         if (newValues.size() > 5)
@@ -133,11 +139,11 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            historyFilter = (ArrayList<String>) results.values;
+            mWeakReference.get().historyFilter = (ArrayList<String>) results.values;
             if (results.count > 0) {
-                notifyDataSetChanged();
+                mWeakReference.get().notifyDataSetChanged();
             } else {
-                notifyDataSetInvalidated();
+                mWeakReference.get().notifyDataSetInvalidated();
             }
         }
     }

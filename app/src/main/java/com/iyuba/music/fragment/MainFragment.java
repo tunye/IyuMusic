@@ -36,6 +36,7 @@ import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.wnafee.vector.MorphButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -83,7 +84,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        broadCast = new MainChangeUIBroadCast();
+        broadCast = new MainChangeUIBroadCast(this);
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.main");
         context.registerReceiver(broadCast, intentFilter);
     }
@@ -287,15 +288,21 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    public class MainChangeUIBroadCast extends ChangeUIBroadCast {
+    public static class MainChangeUIBroadCast extends ChangeUIBroadCast {
+        private final WeakReference<MainFragment> mWeakReference;
+
+        public MainChangeUIBroadCast(MainFragment fragment) {
+            mWeakReference = new WeakReference<>(fragment);
+        }
+
         @Override
         public void refreshUI(String message) {
             switch (message) {
                 case "change":
-                    setContent();
+                    mWeakReference.get().setContent();
                     // 故意如此，刷新界面必须刷新UI
                 case "pause":
-                    setImageState(true);
+                    mWeakReference.get().setImageState(true);
                     break;
             }
         }

@@ -28,6 +28,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
@@ -123,8 +124,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 setPushState();
                 if (isChecked) {
                     currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    CustomToast.getInstance().showToast(R.string.setting_push_on);
                 } else {
                     currPush.setBackColorRes(R.color.background_light);
+                    CustomToast.getInstance().showToast(R.string.setting_push_off);
                 }
             }
         });

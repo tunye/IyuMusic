@@ -46,6 +46,8 @@ import com.iyuba.music.widget.dialog.CustomDialog;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
+import java.lang.ref.WeakReference;
+
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseSkinActivity {
@@ -171,7 +173,7 @@ public class MainActivity extends BaseSkinActivity {
                 MiPushClient.disablePush(context);
             }
         }
-        netWorkChange = new NetWorkChangeBroadcastReceiver();
+        netWorkChange = new NetWorkChangeBroadcastReceiver(this);
         IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(netWorkChange, intentFilter);
     }
@@ -207,7 +209,7 @@ public class MainActivity extends BaseSkinActivity {
                 startActivity(new Intent(context, SearchActivity.class));
             }
         });
-        drawerLayout.addDrawerListener(new DrawerLayoutStateListener());
+        drawerLayout.addDrawerListener(new DrawerLayoutStateListener(this));
     }
 
     private void requestLocation() {
@@ -373,14 +375,20 @@ public class MainActivity extends BaseSkinActivity {
         });
     }
 
-    private class DrawerLayoutStateListener extends
+    private static class DrawerLayoutStateListener extends
             DrawerLayout.SimpleDrawerListener {
+        private final WeakReference<MainActivity> mWeakReference;
+
+        public DrawerLayoutStateListener(MainActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+        }
+
         /**
          * 当导航菜单滑动的时候被执行
          */
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
-            menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
+            mWeakReference.get().menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
         }
 
         /**
@@ -398,7 +406,12 @@ public class MainActivity extends BaseSkinActivity {
         }
     }
 
-    class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
+    static class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
+        private final WeakReference<MainActivity> mWeakReference;
+
+        public NetWorkChangeBroadcastReceiver(MainActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -407,9 +420,9 @@ public class MainActivity extends BaseSkinActivity {
             NetWorkState.getInstance().setNetWorkState(netWorkState);
             if (!netWorkState.equals(oldState)) {
                 if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
-                    setNetwork(context);
+                    mWeakReference.get().setNetwork(context);
                 } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
-                    CustomSnackBar.make(root, context.getString(R.string.net_cut_wifi)).warning();
+                    CustomSnackBar.make(mWeakReference.get().root, context.getString(R.string.net_cut_wifi)).warning();
                 } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
                     PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
                         @Override
@@ -419,7 +432,7 @@ public class MainActivity extends BaseSkinActivity {
                         @Override
                         public void fail(Object object) {
                             NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
-                            checkWifiSignIn();
+                            mWeakReference.get().checkWifiSignIn();
                         }
                     });
                     pingIPThread.start();

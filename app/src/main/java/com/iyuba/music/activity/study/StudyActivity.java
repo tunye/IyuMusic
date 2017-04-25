@@ -60,6 +60,7 @@ import com.youdao.sdk.nativeads.YouDaoNative;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -342,7 +343,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initBroadCast() {
-        studyChangeUIBroadCast = new StudyChangeUIBroadCast();
+        studyChangeUIBroadCast = new StudyChangeUIBroadCast(this);
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.study");
         registerReceiver(studyChangeUIBroadCast, intentFilter);
     }
@@ -772,14 +773,20 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public class StudyChangeUIBroadCast extends ChangeUIBroadCast {
+    public static class StudyChangeUIBroadCast extends ChangeUIBroadCast {
+        private final WeakReference<StudyActivity> mWeakReference;
+
+        public StudyChangeUIBroadCast(StudyActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+        }
+
         @Override
         public void refreshUI(String message) {
             switch (message) {
                 case "change":
-                    refresh(true);
+                    mWeakReference.get().refresh(true);
                 case "pause":
-                    setPauseImage(false);
+                    mWeakReference.get().setPauseImage(false);
                     break;
             }
         }

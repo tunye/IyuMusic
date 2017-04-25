@@ -13,13 +13,10 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
-public class AppGroundActivity extends BaseActivity {
+public class AppGroundActivity extends BaseActivity implements OnItemClickListener {
     private GridView gridview;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -80,15 +77,13 @@ public class AppGroundActivity extends BaseActivity {
                 R.layout.item_app, new String[]{"ItemImage", "ItemText"},
                 new int[]{R.id.item_image, R.id.item_text});
         gridview.setAdapter(saImageItems);
-        gridview.setOnItemClickListener(new ItemClickListener());
+        gridview.setOnItemClickListener(this);
     }
 
-    class ItemClickListener implements OnItemClickListener {
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-            ArrayMap<String, Object> item = (ArrayMap<String, Object>) arg0.getItemAtPosition(arg2);
-            Intent intent = new Intent(context, GroundNewsActivity.class);
-            intent.putExtra("type", item.get("ItemText").toString());
-            startActivity(intent);
-        }
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        ArrayMap<String, Object> item = (ArrayMap<String, Object>) arg0.getItemAtPosition(arg2);
+        Intent intent = new Intent(context, GroundNewsActivity.class);
+        intent.putExtra("type", item.get("ItemText").toString());
+        startActivity(intent);
     }
 }

@@ -235,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/row_space_large"
-                    android:text="@string/study_set_headplug_pause"
+                    android:text="@string/setting_mediabutton"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/big_text" />
 

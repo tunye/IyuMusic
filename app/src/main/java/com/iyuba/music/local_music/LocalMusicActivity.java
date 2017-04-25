@@ -43,6 +43,7 @@ import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wnafee.vector.MorphButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -272,7 +273,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        broadCast = new LocalMusicChangeUIBroadCast();
+        broadCast = new LocalMusicChangeUIBroadCast(this);
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.localmusic");
         registerReceiver(broadCast, intentFilter);
         setPauseImage();
@@ -397,17 +398,23 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         }
     }
 
-    public class LocalMusicChangeUIBroadCast extends ChangeUIBroadCast {
+    public static class LocalMusicChangeUIBroadCast extends ChangeUIBroadCast {
+        private final WeakReference<LocalMusicActivity> mWeakReference;
+
+        public LocalMusicChangeUIBroadCast(LocalMusicActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+        }
+
         @Override
         public void refreshUI(String message) {
             switch (message) {
                 case "change":
-                    refresh();
+                    mWeakReference.get().refresh();
                 case "pause":
-                    setPauseImage();
+                    mWeakReference.get().setPauseImage();
                     break;
                 case "randomPlay":
-                    randomPlay();
+                    mWeakReference.get().randomPlay();
                     break;
             }
         }
