@@ -142,7 +142,6 @@ public class RoundImageView extends AppCompatImageView {
                     defaultHeight / 2 - radius, null);
             roundBitmap.recycle();
         }
-        b.recycle();
         bitmap.recycle();
     }
 

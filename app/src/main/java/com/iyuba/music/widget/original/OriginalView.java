@@ -129,6 +129,8 @@ public class OriginalView extends ScrollView implements
 
     @Override
     public void onSelectText(String text) {
-        textSelectCallBack.onSelectText(text);
+        if(textSelectCallBack!=null) {
+            textSelectCallBack.onSelectText(text);
+        }
     }
 }

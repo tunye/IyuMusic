@@ -40,14 +40,14 @@ public class FriendFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public BaseFragment instantiateItem(ViewGroup container, int position) {
         BaseFragment fragment = (BaseFragment) super.instantiateItem(container, position);
-        fm.beginTransaction().show(fragment).commit();
+        fm.beginTransaction().show(fragment).commitAllowingStateLoss();
         return fragment;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         BaseFragment fragment = list.get(position);
-        fm.beginTransaction().hide(fragment).commit();
+        fm.beginTransaction().hide(fragment).commitAllowingStateLoss();
     }
 
     @Override

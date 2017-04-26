@@ -184,9 +184,9 @@ public class MainActivity extends BaseSkinActivity {
         menu = (MaterialMenuView) findViewById(R.id.material_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Fragment fragment = new MainLeftFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, fragment).commitAllowingStateLoss();
         fragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commitAllowingStateLoss();
         drawView = findViewById(R.id.left_drawer);
     }
 
