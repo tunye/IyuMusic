@@ -2,13 +2,13 @@ package com.iyuba.music.request.apprequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.volley.MyStringRequest;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
 
@@ -18,7 +18,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 public class UpdateRequest {
     public static void exeRequest(final String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            StringRequest request = new StringRequest(url,
+            MyStringRequest request = new MyStringRequest(url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String message) {

@@ -2,7 +2,7 @@ package com.iyuba.music.request.discoverrequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class GroundNewsListRequest {
     public static void exeRequest(String url, final String app, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            JsonObjectRequest request = new JsonObjectRequest(
+            MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {

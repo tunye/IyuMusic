@@ -4,7 +4,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class RegistByPhoneRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            JsonObjectRequest request = new JsonObjectRequest(
+            MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {

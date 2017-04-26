@@ -4,7 +4,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.iyuba.music.volley.MyJsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class NewsListRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            JsonObjectRequest request = new JsonObjectRequest(
+            MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {

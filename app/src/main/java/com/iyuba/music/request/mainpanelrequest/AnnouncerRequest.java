@@ -2,7 +2,7 @@ package com.iyuba.music.request.mainpanelrequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.iyuba.music.volley.MyJsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
@@ -27,7 +27,7 @@ public class AnnouncerRequest {
     public static void exeRequest(final IProtocolResponse response) {
         String originalUrl = "http://apps.iyuba.com/afterclass/getStar.jsp";
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            JsonObjectRequest request = new JsonObjectRequest(
+            MyJsonRequest request = new MyJsonRequest(
                     originalUrl, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
