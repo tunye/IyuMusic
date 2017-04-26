@@ -2,7 +2,6 @@ package com.iyuba.music.request.mainpanelrequest;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.iyuba.music.volley.MyJsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
@@ -11,6 +10,7 @@ import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
 

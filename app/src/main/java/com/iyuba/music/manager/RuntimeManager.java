@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RuntimeManager {

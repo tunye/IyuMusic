@@ -11,7 +11,6 @@ import android.view.WindowManager;
 
 import com.iyuba.music.R;
 import com.iyuba.music.fragmentAdapter.HelpFragmentAdapter;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.umeng.analytics.MobclickAgent;
 

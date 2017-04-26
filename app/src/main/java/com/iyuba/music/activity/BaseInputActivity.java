@@ -15,6 +15,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
+import com.iyuba.music.listener.NoDoubleClickListener;
 import com.iyuba.music.util.GetAppColor;
 import com.umeng.analytics.MobclickAgent;
 
@@ -49,7 +50,7 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
     }
 
     protected void setListener() {
-        back.setOnClickListener(new BaseActivity.NoDoubleClickListener() {
+        back.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
                 onBackPressed();

@@ -1,7 +1,5 @@
 package com.iyuba.music.manager;
 
-import android.util.Log;
-
 import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
