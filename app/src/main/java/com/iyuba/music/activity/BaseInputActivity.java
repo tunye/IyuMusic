@@ -49,9 +49,9 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
     }
 
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new BaseActivity.NoDoubleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onNoDoubleClick(View v) {
                 onBackPressed();
             }
         });
