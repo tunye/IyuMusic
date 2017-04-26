@@ -10,7 +10,7 @@ import java.io.File;
 public class ConstantManager {
     public final static String SMSAPPID = "19f74c7fb89c";
     public final static String SMSAPPSECRET = "a4f1e7a1e13c63162cc987f9cc9785e0";
-    public final static String YOUDAOSECRET = "b932187c3ec9f01c9ef45ad523510edd";
+    public final static String YOUDAOSECRET = "5542d99e63893312d28d7e49e2b43559";
     public final static String WXSECRET = "5d5d3eaf4c6b69a278cf16c115014474";
     public final static String WXID = "wx182643cdcfc2b59f";
     private static final String songUrl = "http://static.iyuba.com/sounds/song/";

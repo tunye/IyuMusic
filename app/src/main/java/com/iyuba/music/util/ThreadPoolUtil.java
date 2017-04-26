@@ -1,17 +1,19 @@
 package com.iyuba.music.util;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 10202 on 2017-04-13.
  */
 
 public class ThreadPoolUtil {
-    private ExecutorService fixedExecutor;
+    private ThreadPoolExecutor fixedExecutor;
 
     private ThreadPoolUtil() {
-        fixedExecutor = Executors.newFixedThreadPool(3);
+        fixedExecutor = new ThreadPoolExecutor(1, 3, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+        fixedExecutor.allowCoreThreadTimeOut(true);
     }
 
     private static class InstanceHelper {

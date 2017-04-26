@@ -29,7 +29,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 类名
@@ -43,11 +45,12 @@ public class DownloadTask {
     private int id;
     private String app;
     private DownloadFile downloadFile;
-    private static ExecutorService downloadExecutor;
+    private static ThreadPoolExecutor downloadExecutor;
 
 
     static {
-        downloadExecutor = Executors.newFixedThreadPool(3);
+        downloadExecutor = new ThreadPoolExecutor(1, 3, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+        downloadExecutor.allowCoreThreadTimeOut(true);
     }
 
     public DownloadTask(Article article) {

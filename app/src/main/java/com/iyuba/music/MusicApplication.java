@@ -31,7 +31,6 @@ import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
-import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -82,7 +81,7 @@ public class MusicApplication extends Application {
             activityList = new ArrayList<>();
             prepareForApp();
             HeadlinesRuntimeManager.setApplicationContext(this);
-            LeakCanary.install(this);
+//            LeakCanary.install(this);
             CrashHandler crashHandler = new CrashHandler(this);
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
