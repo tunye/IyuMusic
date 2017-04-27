@@ -66,10 +66,12 @@ public class MediaButtonReceiver extends BroadcastReceiver {
 
         @Override
         public void run() {
-            if (clickCount == 1) {
-                mWeakReference.get().myHandler.sendEmptyMessage(1);
-            } else if (clickCount == 2) {
-                mWeakReference.get().myHandler.sendEmptyMessage(2);
+            if (mWeakReference.get()!=null) {
+                if (clickCount == 1) {
+                    mWeakReference.get().myHandler.sendEmptyMessage(1);
+                } else if (clickCount == 2) {
+                    mWeakReference.get().myHandler.sendEmptyMessage(2);
+                }
             }
             clickCount = 0;
         }

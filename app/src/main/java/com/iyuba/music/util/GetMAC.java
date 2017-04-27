@@ -46,6 +46,8 @@ public class GetMAC {
             while ((line = br.readLine()) != null && !line.contains(filter)) {
             }
             result = line;
+            br.close();
+            is.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -140,4 +140,14 @@ public class Original implements Comparable<Original> {
             return -1;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Original) {
+            Original equalPre = (Original) obj;
+            return equalPre.articleID == this.articleID && equalPre.getSentence().equals(this.sentence) && equalPre.getStartTime() == this.startTime;
+        } else {
+            return false;
+        }
+    }
 }

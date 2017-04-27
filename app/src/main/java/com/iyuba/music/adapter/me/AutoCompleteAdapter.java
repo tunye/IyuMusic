@@ -114,20 +114,24 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
             if (TextUtils.isEmpty(prefix)) {
                 ArrayList<String> list = new ArrayList<>();
-                list.addAll(mWeakReference.get().historyAll);
+                if (mWeakReference.get() != null) {
+                    list.addAll(mWeakReference.get().historyAll);
+                }
                 results.values = list;
                 results.count = list.size();
                 return results;
             } else {
                 String prefixString = prefix.toString().toLowerCase();
                 final ArrayList<String> newValues = new ArrayList<>();
-                for (int i = 0; i < mWeakReference.get().historyAll.size(); i++) {
-                    final String value = mWeakReference.get().historyAll.get(i);
-                    final String valueText = value.toLowerCase();
-                    if (valueText.startsWith(prefixString)) {
-                        if (newValues.size() > 5)
-                            break;
-                        newValues.add(valueText);
+                if (mWeakReference.get() != null) {
+                    for (int i = 0; i < mWeakReference.get().historyAll.size(); i++) {
+                        final String value = mWeakReference.get().historyAll.get(i);
+                        final String valueText = value.toLowerCase();
+                        if (valueText.startsWith(prefixString)) {
+                            if (newValues.size() > 5)
+                                break;
+                            newValues.add(valueText);
+                        }
                     }
                 }
                 results.values = newValues;

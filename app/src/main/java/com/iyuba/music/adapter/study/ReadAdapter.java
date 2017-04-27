@@ -60,7 +60,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private IyubaDialog waittingDialog;
     private AssessmentDialog assessmentDialog;
     private EvaluatorListener evaluatorListener = new EvaluatorListener() {
-        final String TAG = "assessment";
+        private static final String TAG = "assessment";
 
         @Override
         public void onResult(EvaluatorResult result, boolean isLast) {

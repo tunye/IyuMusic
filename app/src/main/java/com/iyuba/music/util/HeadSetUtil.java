@@ -60,7 +60,7 @@ public class HeadSetUtil {
         return headSetListener;
     }
 
-    private class MyOnAudioFocusChangeListener implements
+    private static class MyOnAudioFocusChangeListener implements
             AudioManager.OnAudioFocusChangeListener {
         private boolean changeByAudioListener;
 

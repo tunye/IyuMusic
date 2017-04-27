@@ -266,7 +266,7 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public void run() {
-            if (mWeakReference.get().bannerImages.size() > 1) {
+            if (mWeakReference.get() != null && mWeakReference.get().bannerImages.size() > 1) {
                 final BannerView bannerView = mWeakReference.get();
                 bannerView.currentItem = bannerView.currentItem % (bannerView.bannerImages.size() - 2) + 1;
                 bannerView.bannerViewPager.post(new Runnable() {
@@ -297,7 +297,7 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public void onPageSelected(int position) {
-            if (mWeakReference.get().bannerData.size() > 1) {
+            if (mWeakReference.get() != null && mWeakReference.get().bannerData.size() > 1) {
                 BannerView bannerView = mWeakReference.get();
                 if (position < 1) {
                     position = bannerView.bannerData.size();
@@ -324,7 +324,11 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public int getCount() {
-            return mWeakReference.get().bannerImages.size();
+            if (mWeakReference.get() != null) {
+                return mWeakReference.get().bannerImages.size();
+            } else {
+                return 0;
+            }
         }
 
         @Override
@@ -347,7 +351,9 @@ public class BannerView extends RelativeLayout {
 
         @Override
         public void destroyItem(View arg0, int arg1, Object arg2) {
-            ((ViewPager) arg0).removeView(mWeakReference.get().bannerImages.get(arg1));
+            if (mWeakReference.get() != null) {
+                ((ViewPager) arg0).removeView(mWeakReference.get().bannerImages.get(arg1));
+            }
         }
 
         @Override

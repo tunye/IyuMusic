@@ -93,12 +93,7 @@ public class ShareDialog {
     private void init() {
         GridView moreGrid = (GridView) root.findViewById(R.id.study_menu);
         moreGrid.setNumColumns(3);
-        int[] menuDrawable = new int[]{R.drawable.umeng_socialize_wxcircle, R.drawable.umeng_socialize_wechat,
-                R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
-                R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_fav,};
-        String[] menuText = context.getResources().getStringArray(R.array.share);
         ShareAdapter shareAdapter = new ShareAdapter(context);
-        shareAdapter.setDataSet(menuText, menuDrawable);
         moreGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -22,19 +22,17 @@ public class ShareAdapter extends BaseAdapter {
     private static final float ITEM_SCALE_END = 1.0F;               // item结束大小
     private static final float ITEM_ALPHA_START = 0.6F;             // item初始透明度
     private static final float ITEM_ALPHA_END = 1.0F;               // item初始透明度
-    private static final int NUM_COLUMNS = 3;                              // 同行子item数量
+    private static final int NUM_COLUMNS = 3;                       // 同行子item数量
     private int[] menuImageList;
     private String[] menuList;
     private Context context;
 
     public ShareAdapter(Context context) {
         this.context = context;
-    }
-
-    public void setDataSet(String[] menuList, int[] menuImageList) {
-        this.menuList = menuList;
-        this.menuImageList = menuImageList;
-        notifyDataSetChanged();
+        menuImageList = new int[]{R.drawable.umeng_socialize_wxcircle, R.drawable.umeng_socialize_wechat,
+                R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
+                R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_fav,};
+        menuList = context.getResources().getStringArray(R.array.share);
     }
 
     @Override

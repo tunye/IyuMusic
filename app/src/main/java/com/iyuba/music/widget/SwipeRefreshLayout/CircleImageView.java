@@ -118,12 +118,14 @@ class CircleImageView extends AppCompatImageView {
 
         @Override
         public void draw(Canvas canvas, Paint paint) {
-            final int viewWidth = mWeakReference.get().getWidth();
-            final int viewHeight = mWeakReference.get().getHeight();
-            canvas.drawCircle(viewWidth / 2, viewHeight / 2,
-                    (mCircleDiameter / 2 + mShadowRadius), mShadowPaint);
-            canvas.drawCircle(viewWidth / 2, viewHeight / 2,
-                    (mCircleDiameter / 2), paint);
+            if (mWeakReference.get()!=null) {
+                final int viewWidth = mWeakReference.get().getWidth();
+                final int viewHeight = mWeakReference.get().getHeight();
+                canvas.drawCircle(viewWidth / 2, viewHeight / 2,
+                        (mCircleDiameter / 2 + mShadowRadius), mShadowPaint);
+                canvas.drawCircle(viewWidth / 2, viewHeight / 2,
+                        (mCircleDiameter / 2), paint);
+            }
         }
     }
 }

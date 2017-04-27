@@ -388,7 +388,9 @@ public class MainActivity extends BaseSkinActivity {
          */
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
-            mWeakReference.get().menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
+            if (mWeakReference.get() != null) {
+                mWeakReference.get().menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
+            }
         }
 
         /**
@@ -415,27 +417,29 @@ public class MainActivity extends BaseSkinActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String oldState = NetWorkState.getInstance().getNetWorkState();
-            String netWorkState = NetWorkType.getNetworkType(context);
-            NetWorkState.getInstance().setNetWorkState(netWorkState);
-            if (!netWorkState.equals(oldState)) {
-                if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
-                    mWeakReference.get().setNetwork(context);
-                } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
-                    CustomSnackBar.make(mWeakReference.get().root, context.getString(R.string.net_cut_wifi)).warning();
-                } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
-                    PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
-                        @Override
-                        public void success(Object object) {
-                        }
+            if (mWeakReference.get() != null) {
+                String oldState = NetWorkState.getInstance().getNetWorkState();
+                String netWorkState = NetWorkType.getNetworkType(context);
+                NetWorkState.getInstance().setNetWorkState(netWorkState);
+                if (!netWorkState.equals(oldState)) {
+                    if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
+                        mWeakReference.get().setNetwork(context);
+                    } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
+                        CustomSnackBar.make(mWeakReference.get().root, context.getString(R.string.net_cut_wifi)).warning();
+                    } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
+                        PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
+                            @Override
+                            public void success(Object object) {
+                            }
 
-                        @Override
-                        public void fail(Object object) {
-                            NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
-                            mWeakReference.get().checkWifiSignIn();
-                        }
-                    });
-                    pingIPThread.start();
+                            @Override
+                            public void fail(Object object) {
+                                NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
+                                mWeakReference.get().checkWifiSignIn();
+                            }
+                        });
+                        pingIPThread.start();
+                    }
                 }
             }
         }

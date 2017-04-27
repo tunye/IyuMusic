@@ -221,6 +221,9 @@ public class FilePosActivity extends BaseActivity {
                     }
                 }
             }
+            br.close();
+            isr.close();
+            is.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

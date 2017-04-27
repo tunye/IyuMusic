@@ -27,7 +27,6 @@ public class LocationUtil {
     public final static int REFRESHGPS_COMPLETED = 7;
     public final static int REFRESHGPS_NOPROVIDER = 8;
     public final static int GETLOCATION_FAILED = 9;
-    private static LocationUtil instanceGetLocation;
     private ILocationListener iLocationListener = null;
     /**
      * location services
@@ -66,11 +65,12 @@ public class LocationUtil {
         }
     };
 
+    private static class InstanceHelper{
+        private static LocationUtil instance=new LocationUtil();
+    }
+
     public static LocationUtil getInstance() {
-        if (instanceGetLocation == null) {
-            instanceGetLocation = new LocationUtil();
-        }
-        return instanceGetLocation;
+        return InstanceHelper.instance;
     }
 
     public void initLocationUtil() {

@@ -171,7 +171,7 @@ public class NullActivity {
         try {
             ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName,
                     PackageManager.GET_UNINSTALLED_PACKAGES);
-            return true;
+            return info != null;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
