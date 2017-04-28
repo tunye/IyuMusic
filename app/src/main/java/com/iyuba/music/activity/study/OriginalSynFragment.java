@@ -62,8 +62,8 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         return view;
     }
 
-    private View initView(){
-        View view =LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
+    private View initView() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
         player = RuntimeManager.getApplication().getPlayerService().getPlayer();
         originalView = (OriginalSynView) view.findViewById(R.id.original);
         originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
@@ -98,7 +98,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
 
 
     public void refresh() {
-        if (originalView==null){
+        if (originalView == null) {
             initView();
         }
         originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
@@ -318,7 +318,8 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        wordCard.destory();
+        wordCard.destroy();
+        originalView.destroy();
     }
 
     @Override

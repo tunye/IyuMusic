@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          android:id="@+id/root"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/background"
+          android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -28,11 +28,11 @@
                 app:mrl_rippleDuration="400">
 
                 <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/back_material"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mm_color="#ededed"
-                    app:mm_strokeWidth="2" />
+                                                          android:id="@+id/back_material"
+                                                          android:layout_width="wrap_content"
+                                                          android:layout_height="wrap_content"
+                                                          app:mm_color="#ededed"
+                                                          app:mm_strokeWidth="2"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="#ededed"
-                android:textSize="@dimen/title_text" />
+                android:textSize="@dimen/title_text"/>
 
             <com.iyuba.music.widget.roundview.RoundTextView
                 android:id="@+id/study_comment"
@@ -59,7 +59,7 @@
                 android:textSize="@dimen/big_text"
                 app:rv_backgroundColor="#ededed"
                 app:rv_isRadiusHalfHeight="true"
-                app:rv_isRippleEnable="false" />
+                app:rv_isRippleEnable="false"/>
 
             <ImageView
                 android:id="@+id/study_translate"
@@ -69,7 +69,7 @@
                 android:layout_toLeftOf="@+id/study_mode"
                 android:paddingLeft="@dimen/row_space_medium"
                 android:paddingRight="@dimen/row_space_medium"
-                android:src="@drawable/study_translate" />
+                android:src="@drawable/study_translate"/>
 
             <ImageView
                 android:id="@+id/study_mode"
@@ -79,7 +79,7 @@
                 android:layout_toLeftOf="@+id/study_more"
                 android:paddingLeft="@dimen/row_space_medium"
                 android:paddingRight="@dimen/row_space_medium"
-                android:src="@drawable/study_singer_mode" />
+                android:src="@drawable/study_singer_mode"/>
 
             <ImageView
                 android:id="@+id/study_more"
@@ -90,7 +90,7 @@
                 android:layout_marginRight="@dimen/row_space_big"
                 android:paddingLeft="@dimen/row_space_very_large"
                 android:paddingRight="@dimen/row_space_big"
-                android:src="@drawable/study_more" />
+                android:src="@drawable/study_more"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -98,7 +98,7 @@
         android:id="@+id/study_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <com.iyuba.music.widget.imageview.PageIndicator
         android:id="@+id/study_indicator"
@@ -109,7 +109,7 @@
         app:pi_circlepadding="@dimen/row_space_medium"
         app:pi_count="3"
         app:pi_radius="@dimen/row_space_default"
-        app:pi_stroke="@dimen/line_thin" />
+        app:pi_stroke="@dimen/line_thin"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/medium_text"/>
 
             <SeekBar
                 android:id="@+id/study_progress"
@@ -140,7 +140,7 @@
                 android:maxHeight="@dimen/line_thick"
                 android:minHeight="@dimen/line_thick"
                 android:progressDrawable="@drawable/audio_progress"
-                android:thumb="@drawable/thumb" />
+                android:thumb="@drawable/thumb"/>
 
             <TextView
                 android:id="@+id/study_duration"
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/medium_text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -163,14 +163,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/interval_none" />
+                android:src="@drawable/interval_none"/>
 
             <ImageView
                 android:id="@+id/formmer"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/formmer" />
+                android:src="@drawable/formmer"/>
 
             <com.wnafee.vector.MorphButton
                 android:id="@+id/play"
@@ -179,53 +179,29 @@
                 android:layout_weight="1"
                 app:vc_endDrawable="@drawable/ic_pause_to_play"
                 app:vc_foregroundTint="@color/skin_app_color"
-                app:vc_startDrawable="@drawable/ic_play_to_pause" />
+                app:vc_startDrawable="@drawable/ic_play_to_pause"/>
 
             <ImageView
                 android:id="@+id/latter"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/latter" />
+                android:src="@drawable/latter"/>
 
             <ImageView
                 android:id="@+id/play_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/single_replay" />
+                android:src="@drawable/single_replay"/>
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/youdao_ad"
+    <ViewStub
+        android:id="@+id/youdao_ad_view_stub"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:clickable="true"
         android:gravity="center_vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/photoImage"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_thin"
-            android:background="@color/background_complementary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="#77000000"
-            android:gravity="center_vertical"
-            android:padding="@dimen/line_thin"
-            android:text=" 广告 "
-            android:textColor="#ededed"
-            android:textSize="12sp" />
-    </RelativeLayout>
+        android:layout="@layout/youdao_ad_layout"/>
 </LinearLayout>

@@ -109,7 +109,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         super.onDestroy();
         videoView.stopPlayback();
         handler.removeCallbacksAndMessages(null);
-        wordCard.destory();
+        wordCard.destroy();
     }
 
     protected void initWidget() {

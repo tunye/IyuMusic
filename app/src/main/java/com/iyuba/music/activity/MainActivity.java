@@ -34,6 +34,7 @@ import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseSkinActivity {
                 }
             }, 8000);
         }
-        Log.e("aaa", MiPushClient.getRegId(context));
+        Log.e("aaa", MiPushClient.getRegId(RuntimeManager.getContext()));
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
@@ -168,9 +169,9 @@ public class MainActivity extends BaseSkinActivity {
     private void initBroadcast() {
         if (SettingConfigManager.getInstance().isUpgrade()) {
             if (SettingConfigManager.getInstance().isPush()) {
-                MiPushClient.enablePush(context);
+                MiPushClient.enablePush(RuntimeManager.getContext());
             } else {
-                MiPushClient.disablePush(context);
+                MiPushClient.disablePush(RuntimeManager.getContext());
             }
         }
         netWorkChange = new NetWorkChangeBroadcastReceiver(this);

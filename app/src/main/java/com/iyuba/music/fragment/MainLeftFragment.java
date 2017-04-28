@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.headlinelibrary.manager.HeadlinesRuntimeManager;
 import com.iyuba.headlinelibrary.ui.activity.MainHeadlinesActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
@@ -162,12 +163,12 @@ public class MainLeftFragment extends BaseFragment {
                         }
                         break;
                     case 1:
-//                        startActivity(new Intent(context, AppGroundActivity.class));
+                        HeadlinesRuntimeManager.setApplicationContext(RuntimeManager.getContext());
                         String userid = "0";
                         if (AccountManager.getInstance().checkUserLogin()) {
                             userid = AccountManager.getInstance().getUserId();
                         }
-                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music", (DownloadService.checkVip()?"1":"0")));
+                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music", (DownloadService.checkVip() ? "1" : "0")));
                         break;
                     case 2:
                         startActivity(new Intent(context, DiscoverActivity.class));
@@ -343,6 +344,7 @@ public class MainLeftFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         handler.removeCallbacksAndMessages(null);
+        operAdapter.setItemClickListener(null);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {

@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -139,7 +140,9 @@ public class OriginalSynView extends ScrollView implements
                         canDrag = true;
                         drawTimeLine = true;
                         oldXY[1] = event.getRawY();
-                        seekToCallBack.onSeekStart();
+                        if (seekToCallBack != null) {
+                            seekToCallBack.onSeekStart();
+                        }
                     }
                 }
                 break;
@@ -335,5 +338,19 @@ public class OriginalSynView extends ScrollView implements
         if (textSelectCallBack != null) {
             textSelectCallBack.onSelectText(text);
         }
+    }
+
+    public void destroy() {
+        setSeekToCallBack(null);
+        setTextSelectCallBack(null);
+        View child;
+        for (int i = 0; i < subtitleLayout.getChildCount(); i++) {
+            child = subtitleLayout.getChildAt(i);
+            if (child instanceof TextPage) {
+                ((TextPage) child).setTextpageSelectTextCallBack(null);
+            }
+        }
+        subtitleLayout.removeAllViews();
+        removeAllViews();
     }
 }

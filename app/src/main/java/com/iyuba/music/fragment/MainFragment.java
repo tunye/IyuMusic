@@ -108,6 +108,7 @@ public class MainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         context.unregisterReceiver(broadCast);
+        pause.setOnClickListener(null);
     }
 
     private void initPlayControl(View root) {

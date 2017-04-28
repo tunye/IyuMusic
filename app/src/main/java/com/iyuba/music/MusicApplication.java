@@ -15,7 +15,6 @@ import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
-import com.iyuba.headlinelibrary.manager.HeadlinesRuntimeManager;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
@@ -80,7 +79,6 @@ public class MusicApplication extends Application {
         if (shouldInit()) {
             activityList = new ArrayList<>();
             prepareForApp();
-            HeadlinesRuntimeManager.setApplicationContext(this);
 //            LeakCanary.install(this);
             CrashHandler crashHandler = new CrashHandler(this);
             Thread.setDefaultUncaughtExceptionHandler(crashHandler);

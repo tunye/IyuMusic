@@ -279,7 +279,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                 });
     }
 
-    public void destory() {
+    public void destroy() {
         if (player != null) {
             player.stopPlayback();
         }

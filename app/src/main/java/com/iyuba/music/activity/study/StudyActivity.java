@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -165,8 +166,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(studyChangeUIBroadCast);
+        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
+        iPlayerListener = null;
         isDestroyed = true;
         if (youdaoNative != null) {
+            youdaoNative.setNativeEventListener(null);
             youdaoNative.destroy();
         }
     }
@@ -379,6 +383,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initAd() {
+        ViewStub adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
+        adViewStub.inflate();
         final View adView = findViewById(R.id.youdao_ad);
         final ImageView photoImage = (ImageView) findViewById(R.id.photoImage);
         youdaoNative = new YouDaoNative(context, "230d59b7c0a808d01b7041c2d127da95",
@@ -401,7 +407,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                                     Bitmap bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
                                     if (bitMap != null) {
                                         photoImage.setImageBitmap(bitMap);
-                                        photoImage.setVisibility(View.VISIBLE);
                                         nativeResponse.recordImpression(photoImage);
                                     }
                                 }
@@ -411,7 +416,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             public void onFail() {
                             }
                         });
-                        adView.setVisibility(View.VISIBLE);
                     }
 
                     @Override

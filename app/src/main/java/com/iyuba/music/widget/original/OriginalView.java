@@ -3,6 +3,7 @@ package com.iyuba.music.widget.original;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -132,5 +133,18 @@ public class OriginalView extends ScrollView implements
         if(textSelectCallBack!=null) {
             textSelectCallBack.onSelectText(text);
         }
+    }
+
+    public void destroy() {
+        setTextSelectCallBack(null);
+        View child;
+        for (int i = 0; i < subtitleLayout.getChildCount(); i++) {
+            child = subtitleLayout.getChildAt(i);
+            if (child instanceof TextPage) {
+                ((TextPage) child).setTextpageSelectTextCallBack(null);
+            }
+        }
+        subtitleLayout.removeAllViews();
+        removeAllViews();
     }
 }
