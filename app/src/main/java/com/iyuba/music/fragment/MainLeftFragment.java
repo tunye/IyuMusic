@@ -54,7 +54,7 @@ import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 /**
  * Created by 10202 on 2015/12/29.
  */
-public class MainLeftFragment extends BaseFragment implements View.OnClickListener{
+public class MainLeftFragment extends BaseFragment {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
     private View root;
@@ -102,12 +102,45 @@ public class MainLeftFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setOnClickListener() {
-        login.setOnClickListener(this);
-        noLogin.setOnClickListener(this);
-        personalPhoto.setOnClickListener(this);
-        sign.setOnClickListener(this);
-        about.setOnClickListener(this);
-        exit.setOnClickListener(this);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                Intent intent = new Intent(context, PersonalHomeActivity.class);
+                intent.putExtra("needpop", true);
+                startActivity(intent);
+            }
+        });
+        noLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.launchForResult(getActivity());
+            }
+        });
+        personalPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, ChangePhotoActivity.class));
+            }
+        });
+        sign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, WriteStateActivity.class));
+            }
+        });
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, AboutActivity.class));
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RuntimeManager.getApplication().exit();
+            }
+        });
         menuList.setAdapter(operAdapter);
         ((SimpleItemAnimator) menuList.getItemAnimator()).setSupportsChangeAnimations(false);
         // menuList.getItemAnimator().setChangeDuration(0); 或者采用这个方案
@@ -312,33 +345,12 @@ public class MainLeftFragment extends BaseFragment implements View.OnClickListen
         super.onDestroyView();
         handler.removeCallbacksAndMessages(null);
         operAdapter.setItemClickListener(null);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.personal_login:
-                SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
-                Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
-                startActivity(intent);
-                break;
-            case R.id.personal_nologin:
-                LoginActivity.launchForResult(getActivity());
-                break;
-            case R.id.personal_photo:
-                startActivity(new Intent(context, ChangePhotoActivity.class));
-                break;
-            case R.id.personal_sign:
-                startActivity(new Intent(context, WriteStateActivity.class));
-                break;
-            case R.id.exit:
-                RuntimeManager.getApplication().exit();
-                break;
-            case R.id.about:
-                startActivity(new Intent(context, AboutActivity.class));
-                break;
-        }
+        login.setOnClickListener(null);
+        noLogin.setOnClickListener(null);
+        personalPhoto.setOnClickListener(null);
+        sign.setOnClickListener(null);
+        about.setOnClickListener(null);
+        exit.setOnClickListener(null);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {

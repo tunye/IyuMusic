@@ -10,6 +10,8 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -41,6 +43,7 @@ import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.LocationUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
@@ -62,6 +65,7 @@ public class MainActivity extends BaseSkinActivity {
     private MaterialMenuView menu;
     private NetWorkChangeBroadcastReceiver netWorkChange;
     private boolean isExit = false;// 是否点过退出
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class MainActivity extends BaseSkinActivity {
         initWidget();
         setListener();
         if (SettingConfigManager.getInstance().isUpgrade()) {
-            drawerLayout.postDelayed(new Runnable() {
+            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     showWhatsNew();
@@ -94,14 +98,14 @@ public class MainActivity extends BaseSkinActivity {
             }
             StartFragment.checkTmpFile();
             if (getIntent().getBooleanExtra("pushIntent", false)) {
-                drawerLayout.postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
                     }
                 }, 200);
             }
-            drawerLayout.postDelayed(new Runnable() {
+            handler.postDelayed(new Runnable() {
                 public void run() {
                     checkForUpdate();
                 }
@@ -115,7 +119,7 @@ public class MainActivity extends BaseSkinActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra("pushIntent", false)) {
-            drawerLayout.postDelayed(new Runnable() {
+            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
@@ -128,7 +132,7 @@ public class MainActivity extends BaseSkinActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        toolbarOper.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 switch (NetWorkState.getInstance().getNetWorkState()) {
@@ -259,6 +263,7 @@ public class MainActivity extends BaseSkinActivity {
     public void finish() {
         super.finish();
         unRegistBroadcast();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -319,7 +324,7 @@ public class MainActivity extends BaseSkinActivity {
 
     private void doExitInOneSecond() {
         isExit = true;
-        drawerLayout.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 isExit = false;
@@ -438,6 +443,13 @@ public class MainActivity extends BaseSkinActivity {
                     }
                 }
             }
+        }
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainActivity> {
+        @Override
+        public void handleMessageByRef(MainActivity mainActivity, Message msg) {
+
         }
     }
 }
