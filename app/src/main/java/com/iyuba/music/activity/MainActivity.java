@@ -220,12 +220,7 @@ public class MainActivity extends BaseSkinActivity {
                     ACCESS_COARSE_LOCATION_TASK_CODE);
         } else {
             LocationUtil.getInstance().initLocationUtil();
-            LocationUtil.getInstance().refreshGPS(new ILocationListener() {
-                @Override
-                public void notifyChange(int arg, String des) {
-
-                }
-            });
+            LocationUtil.getInstance().refreshGPS(null);
         }
     }
 

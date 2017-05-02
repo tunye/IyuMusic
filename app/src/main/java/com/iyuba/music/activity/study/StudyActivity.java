@@ -1,14 +1,11 @@
 package com.iyuba.music.activity.study;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -39,6 +37,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -52,7 +51,6 @@ import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.umeng.socialize.UMShareAPI;
 import com.wnafee.vector.MorphButton;
-import com.youdao.sdk.nativeads.ImageService;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
 import com.youdao.sdk.nativeads.RequestParameters;
@@ -62,9 +60,6 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -391,29 +386,21 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
-                        List<String> imageUrls = new ArrayList<>();
-                        imageUrls.add(nativeResponse.getMainImageUrl());
                         adView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 nativeResponse.handleClick(adView);
                             }
                         });
-                        ImageService.get(context, imageUrls, new ImageService.ImageServiceListener() {
-                            @TargetApi(Build.VERSION_CODES.KITKAT)
+                        ImageUtil.loadImage(photoImage, nativeResponse.getMainImageUrl(), 0, new ImageUtil.OnDrawableLoadListener() {
                             @Override
-                            public void onSuccess(final Map<String, Bitmap> bitmaps) {
-                                if (nativeResponse.getMainImageUrl() != null) {
-                                    Bitmap bitMap = bitmaps.get(nativeResponse.getMainImageUrl());
-                                    if (bitMap != null) {
-                                        photoImage.setImageBitmap(bitMap);
-                                        nativeResponse.recordImpression(photoImage);
-                                    }
-                                }
+                            public void onSuccess(GlideDrawable drawable) {
+                                nativeResponse.recordImpression(photoImage);
                             }
 
                             @Override
-                            public void onFail() {
+                            public void onFail(Exception e) {
+
                             }
                         });
                     }
