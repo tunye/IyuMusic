@@ -150,6 +150,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
 
     @Override
     public boolean onBackPressed() {
+        originalView.removeCallbacks(loadLocalLrcFile);
         if (wordCard.isShowing()) {
             wordCard.dismiss();
             return true;

@@ -29,8 +29,7 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public BaseFragment getItem(int position) {
-        BaseFragment fragment = list.get(position);
-        return fragment;
+        return list.get(position);
     }
 
     @Override

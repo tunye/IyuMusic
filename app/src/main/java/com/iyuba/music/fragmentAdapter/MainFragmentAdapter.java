@@ -1,6 +1,5 @@
 package com.iyuba.music.fragmentAdapter;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
@@ -38,11 +37,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public BaseFragment getItem(int position) {
-        BaseFragment fragment = list.get(position);
-        Bundle bundle = new Bundle();
-        bundle.putString("id", String.valueOf(position));
-        fragment.setArguments(bundle);
-        return fragment;
+        return list.get(position);
     }
 
     @Override
