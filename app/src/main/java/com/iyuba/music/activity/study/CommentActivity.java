@@ -416,7 +416,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
 
                     @Override
                     public void fail(Object object) {
-                        CustomToast.getInstance().showToast(R.string.comment_send_fail);
+                        handler.sendEmptyMessage(3);
                     }
                 });
             }
@@ -437,6 +437,9 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                 case 2:
                     activity.onRefresh(0);
                     activity.commentRecycleView.scrollToPosition(0);
+                    break;
+                case 3:
+                    CustomToast.getInstance().showToast(R.string.comment_send_fail);
                     break;
             }
         }

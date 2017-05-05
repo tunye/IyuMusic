@@ -58,22 +58,23 @@ public class OriginalParser {
         String lrcLine;
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
+            Original row;
             while ((lrcLine = br.readLine()) != null) {
-                Original row = Original.createRows(lrcLine);
+                row = Original.createRows(lrcLine);
                 originalRows.add(row);
             }
             br.close();
-            if (originalRows.size() == 0) {
-                result.fail("");
-            } else if (originalRows.size() == 1) {
-                result.success(originalRows);
-            } else {
-                Collections.sort(originalRows);
-                result.success(originalRows);
-            }
         } catch (IOException e) {
             e.printStackTrace();
             result.fail("");
+        }
+        if (originalRows.size() == 0) {
+            result.fail("");
+        } else if (originalRows.size() == 1) {
+            result.success(originalRows);
+        } else {
+            Collections.sort(originalRows);
+            result.success(originalRows);
         }
     }
 }

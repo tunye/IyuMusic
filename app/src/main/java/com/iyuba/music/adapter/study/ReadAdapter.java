@@ -184,12 +184,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     @Override
                     public void success(Object object) {
                         file.delete();
-                        CustomToast.getInstance().showToast(R.string.read_send_success);
+                        handler.sendEmptyMessage(6);
                     }
 
                     @Override
                     public void fail(Object object) {
-                        CustomToast.getInstance().showToast(R.string.read_send_fail);
+                        handler.sendEmptyMessage(7);
                     }
                 });
             }
@@ -406,6 +406,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 case 5:
                     adapter.handler.removeMessages(4);
                     adapter.curText.setText("");
+                    break;
+                case 6:
+                    CustomToast.getInstance().showToast(R.string.read_send_success);
+                    break;
+                case 7:
+                    CustomToast.getInstance().showToast(R.string.read_send_fail);
                     break;
             }
         }

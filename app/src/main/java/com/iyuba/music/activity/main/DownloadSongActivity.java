@@ -164,12 +164,17 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     CustomDialog.clearDownload(context, R.string.article_clear_download_hint, new IOperationResult() {
                         @Override
                         public void success(Object object) {
-                            File file = new File(ConstantManager.getInstance().getMusicFolder());
+                            final File file = new File(ConstantManager.getInstance().getMusicFolder());
                             if (file.exists()) {
                                 downloadedAdapter.setDataSet(new ArrayList<Article>());
                                 downloadingAdapter.setDataSet(new ArrayList<Article>());
                                 localInfoOp.clearAllDownload();
-                                FileUtil.deleteFile(file);
+                                ThreadPoolUtil.getInstance().execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FileUtil.deleteFile(file);
+                                    }
+                                });
                             }
                             getData();
                         }

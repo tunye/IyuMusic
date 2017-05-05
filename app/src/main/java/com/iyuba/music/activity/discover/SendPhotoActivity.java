@@ -171,7 +171,7 @@ public class SendPhotoActivity extends BaseActivity {
                                     @Override
                                     public void fail(Object object) {
                                         handler.sendEmptyMessage(1);
-                                        CustomToast.getInstance().showToast(R.string.photo_fail);
+                                        handler.sendEmptyMessage(3);
                                     }
                                 });
                     }
@@ -282,6 +282,9 @@ public class SendPhotoActivity extends BaseActivity {
                     Intent intent = new Intent();
                     activity.setResult(1, intent);
                     activity.finish();
+                    break;
+                case 3:
+                    CustomToast.getInstance().showToast(R.string.photo_fail);
                     break;
             }
         }
