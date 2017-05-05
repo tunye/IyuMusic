@@ -25,7 +25,7 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 892
+        versionCode 893
         versionName "8.9.5"
         multiDexEnabled true
     }
