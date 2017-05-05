@@ -1,6 +1,7 @@
 package com.iyuba.music.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class HelpFragment extends BaseFragment {
         }
         View root = inflater.inflate(R.layout.help_fragment, container, false);
         ImageView iv = (ImageView) root.findViewById(R.id.iv);
-        iv.setImageBitmap(ReadBitmap.readBitmap(getContext(), getContext().getResources().getIdentifier("help" + mContent, "raw", getContext().getPackageName())));
+        iv.setImageBitmap(ReadBitmap.readBitmap(getContext(), getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", getContext().getPackageName())));
         PullDoorView pullDoorView = (PullDoorView) root.findViewById(R.id.root);
         if (usePullDown) {
             pullDoorView.setEnable(true);
