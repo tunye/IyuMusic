@@ -25,8 +25,8 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 893
-        versionName "8.9.5"
+        versionCode 894
+        versionName "8.9.6"
         multiDexEnabled true
     }
     buildTypes {
@@ -52,10 +52,10 @@ android {
                     output.outputFile = new File(outputFile.parent, fileName)
                 }
             }
-//            shrinkResources true
-//            minifyEnabled true
-//            zipAlignEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     packagingOptions {// 删除不必要的信息
@@ -109,7 +109,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     /*sbsdk*/
-    compile(name: 'headlinelibrary', ext: 'aar')
+//    compile(name: 'headlinelibrary', ext: 'aar')
     /*歌曲缓存*/
     compile(name: 'videocache', ext: 'aar')
     /*皮肤*/
@@ -153,25 +153,25 @@ dependencies {
     /*截图*/
     compile 'com.isseiaoki:simplecropview:1.0.13'
 
-    final RETROFIT_VERSION = '2.1.0'
-    final OKHTTP_VERSION = '3.6.0'
-    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
-    compile("com.squareup.retrofit2:converter-simplexml:$RETROFIT_VERSION")
-            {
-                exclude group: 'xpp3', module: 'xpp3'
-                exclude group: 'stax', module: 'stax-api'
-                exclude group: 'stax', module: 'stax'
-            }
-    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
-    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
-    compile 'com.artemzin.rxjava:proguard-rules:1.2.7.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+//    final RETROFIT_VERSION = '2.1.0'
+//    final OKHTTP_VERSION = '3.6.0'
+//    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+//    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+//    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
+//    compile("com.squareup.retrofit2:converter-simplexml:$RETROFIT_VERSION")
+//            {
+//                exclude group: 'xpp3', module: 'xpp3'
+//                exclude group: 'stax', module: 'stax-api'
+//                exclude group: 'stax', module: 'stax'
+//            }
+//    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
+//    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
+//    compile 'com.artemzin.rxjava:proguard-rules:1.2.7.0'
+//    compile 'io.reactivex:rxjava:1.1.0'
+//    compile 'io.reactivex:rxandroid:1.1.0'
+//    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+//    compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile project(':smssdk')
     compile project(':umengshare')
     compile project(':assessment')
