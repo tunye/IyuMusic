@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/swipe_refresh_widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        myswipe:direction="both">
+                                                                    android:id="@+id/swipe_refresh_widget"
+                                                                    android:layout_width="match_parent"
+                                                                    android:layout_height="match_parent"
+                                                                    android:layout_below="@+id/toolbar"
+                                                                    myswipe:direction="both">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/news_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
 </RelativeLayout>

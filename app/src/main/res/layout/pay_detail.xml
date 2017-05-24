@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pay_detail_user"
                 android:textColor="@color/text_gray_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/pay_detail_user"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_default"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pay_detail_buy"
                 android:textColor="@color/text_gray_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/pay_detail_buy"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_default"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pay_detail_money"
                 android:textColor="@color/text_gray_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/pay_detail_money"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_default"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@color/background_light" />
+        android:background="@color/background_light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -97,12 +97,12 @@
         android:layout_marginTop="@dimen/row_space_very_large"
         android:text="@string/vip_buy_way"
         android:textColor="@color/text_complementary"
-        android:textSize="@dimen/big_text" />
+        android:textSize="@dimen/big_text"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light" />
+        android:background="@color/background_light"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/pay_detail_bao"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_very_large"
                 android:layout_marginRight="@dimen/row_space_very_large"
-                android:src="@drawable/pay_bao" />
+                android:src="@drawable/pay_bao"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pay_detail_bao_way_name"
                     android:textColor="@color/text_complementary"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                     android:layout_marginTop="@dimen/row_space_medium"
                     android:text="@string/pay_detail_bao_way_content"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
             </LinearLayout>
 
             <ImageView
@@ -155,14 +155,14 @@
                 android:layout_marginLeft="@dimen/row_space_medium"
                 android:layout_marginRight="@dimen/row_space_very_large"
                 android:src="@drawable/ic_radio_button"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light" />
+        android:background="@color/background_light"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/pay_detail_wx"
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/row_space_very_large"
                 android:layout_marginRight="@dimen/row_space_very_large"
-                android:src="@drawable/pay_wx" />
+                android:src="@drawable/pay_wx"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -197,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pay_detail_wx_way_name"
                     android:textColor="@color/text_complementary"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                     android:layout_marginTop="@dimen/row_space_medium"
                     android:text="@string/pay_detail_wx_way_content"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
             </LinearLayout>
 
             <ImageView
@@ -216,24 +216,24 @@
                 android:layout_marginLeft="@dimen/row_space_medium"
                 android:layout_marginRight="@dimen/row_space_very_large"
                 android:src="@drawable/ic_radio_button"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light" />
+        android:background="@color/background_light"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light" />
+        android:background="@color/background_light"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/pay_detail_sure"
@@ -250,6 +250,6 @@
             android:gravity="center"
             android:text="@string/pay_detail_sure"
             android:textColor="@color/skin_color_accent"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"/>
     </com.balysv.materialripple.MaterialRippleLayout>
 </LinearLayout>

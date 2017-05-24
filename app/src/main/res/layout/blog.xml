@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/background"
+                                                 android:orientation="vertical">
 
 
     <android.support.v4.widget.NestedScrollView
@@ -26,7 +26,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/large_text"/>
 
             <TextView
                 android:id="@+id/blog_author"
@@ -35,7 +35,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/row_space_large"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/blog_time"
@@ -44,7 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/blog_content"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="@dimen/row_space_large"
                 android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/medium_text"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -65,6 +65,6 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_oper" />
+            layout="@layout/toolbar_with_oper"/>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

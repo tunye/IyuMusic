@@ -79,7 +79,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             });
             recyclerView.setAdapter(musicAdapter);
         } else {
-            mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), musicAdapter,YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+            mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), musicAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
             musicAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

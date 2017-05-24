@@ -364,7 +364,7 @@ public class TabIndicator extends LinearLayout {
          * </pre>
          */
         // 不断改变偏移量，invalidate
-        translationX = getWidth() / visibleTabCount * (position + offset);
+        translationX = getWidth() * 1.0f / visibleTabCount * (position + offset);
 
         int tabWidth = getScreenWidth() / visibleTabCount;
 

@@ -247,7 +247,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         adapter.setDataSet(musics);
         statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
         setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
-        refresh();
     }
 
     @Override

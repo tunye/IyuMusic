@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/row_space_medium"
-    app:mrl_rippleColor="@color/text_complementary"
-    app:mrl_rippleDuration="600">
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:padding="@dimen/row_space_medium"
+                                                app:mrl_rippleColor="@color/text_complementary"
+                                                app:mrl_rippleDuration="600">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:id="@+id/friend_photo"
             android:layout_width="60dip"
             android:layout_height="60dip"
-            android:layout_marginRight="@dimen/row_space_large" />
+            android:layout_marginRight="@dimen/row_space_large"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <com.iyuba.music.widget.textview.JustifyTextView
                 android:id="@+id/friend_state"
@@ -43,7 +43,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/medium_text"/>
         </LinearLayout>
 
         <com.iyuba.music.widget.imageview.GoImageView
@@ -54,6 +54,6 @@
             android:layout_marginRight="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
-            app:go_stroke="@dimen/line_default" />
+            app:go_stroke="@dimen/line_default"/>
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

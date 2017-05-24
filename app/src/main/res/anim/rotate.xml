@@ -7,6 +7,6 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:repeatCount="-1"
-        android:toDegrees="359" />
+        android:toDegrees="359"/>
 
 </set>

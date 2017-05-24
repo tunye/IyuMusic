@@ -120,20 +120,14 @@ public class MusicApplication extends Application {
             if (info.pid == myPid && mainProcessName.equals(info.processName)) {
                 if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                     isForeground = true;
-                } else if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE) {
-                    hasAppProcess = true;
+//                } else if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE) {
+//                    hasAppProcess = true;
                 } else {
                     hasAppProcess = true;
                 }
             }
         }
-        if (isForeground) {
-            return true;
-        }
-        if (hasAppProcess) {
-            return true;
-        }
-        return false;
+        return isForeground || hasAppProcess;
     }
 
     @Override

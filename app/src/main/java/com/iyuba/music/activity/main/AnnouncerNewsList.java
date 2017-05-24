@@ -105,7 +105,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             });
             newsRecycleView.setAdapter(newsAdapter);
         } else {
-            mAdAdapter = new YouDaoRecyclerAdapter(this, newsAdapter,YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+            mAdAdapter = new YouDaoRecyclerAdapter(this, newsAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
             newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

@@ -124,4 +124,19 @@ public class Word {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int result = user != null ? user.hashCode() : 0;
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + word.hashCode();
+        result = 31 * result + (pron != null ? pron.hashCode() : 0);
+        result = 31 * result + (pronMP3 != null ? pronMP3.hashCode() : 0);
+        result = 31 * result + def.hashCode();
+        result = 31 * result + (viewCount != null ? viewCount.hashCode() : 0);
+        result = 31 * result + (sentences != null ? sentences.hashCode() : 0);
+        result = 31 * result + (exampleSentence != null ? exampleSentence.hashCode() : 0);
+        result = 31 * result + (isdelete != null ? isdelete.hashCode() : 0);
+        return result;
+    }
 }

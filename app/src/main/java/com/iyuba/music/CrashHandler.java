@@ -8,6 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Looper;
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -82,7 +84,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         //收集设备参数信息
         collectDeviceInfo(application.getApplicationContext());
         //保存日志文件
-        String filePath = saveCrashInfo2File(ex);
+//        String filePath = saveCrashInfo2File(ex);
         //上传服务器
         //uploadFile(filePath,"www.iyuba.com");
         return true;
@@ -140,6 +142,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
+        FileOutputStream fos = null;
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
@@ -148,12 +151,20 @@ public class CrashHandler implements UncaughtExceptionHandler {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            FileOutputStream fos = new FileOutputStream(dir.getPath() + File.separator + fileName);
+            fos = new FileOutputStream(dir.getPath() + File.separator + fileName);
             fos.write(sb.toString().getBytes());
-            fos.close();
+
             return fileName;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
@@ -193,6 +204,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         String end = "/r/n";
         String Hyphens = "--";
         String boundary = "*****";
+        FileInputStream fStream = null;
         try {
             URL url = new URL(webUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -211,7 +223,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             DataOutputStream ds = new DataOutputStream(con.getOutputStream());
             ds.writeBytes(Hyphens + boundary + end);
             /* 取得文件的FileInputStream */
-            FileInputStream fStream = new FileInputStream(new File(position));
+            fStream = new FileInputStream(new File(position));
             /* 设定每次写入1024bytes */
             int bufferSize = 4096;
             byte[] buffer = new byte[bufferSize];
@@ -232,9 +244,18 @@ public class CrashHandler implements UncaughtExceptionHandler {
             while ((ch = is.read()) != -1) {
                 b.append((char) ch);
             }
+            Log.e("aaa", b.toString());
             ds.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fStream != null) {
+                try {
+                    fStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

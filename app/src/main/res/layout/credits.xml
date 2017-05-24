@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh
         android:id="@+id/swipe_refresh_widget"
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/credits_count"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
 
                 <com.iyuba.music.widget.boundnumber.RiseNumberTextView
                     android:id="@+id/credit_counts"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_large"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/extreme_large_text" />
+                    android:textSize="@dimen/extreme_large_text"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                     android:layout_marginTop="@dimen/activity_horizontal_margin_big"
                     android:text="@string/credits_rank"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
 
                 <com.iyuba.music.widget.boundnumber.RiseNumberTextView
                     android:id="@+id/credit_rank"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_large"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/extreme_large_text" />
+                    android:textSize="@dimen/extreme_large_text"/>
 
                 <TextView
                     android:id="@+id/credit_duration"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_large"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
             </LinearLayout>
 
             <LinearLayout
@@ -97,7 +97,7 @@
                             android:padding="@dimen/row_space_large"
                             android:text="@string/credits_details"
                             android:textColor="@color/text_complementary"
-                            android:textSize="@dimen/large_text" />
+                            android:textSize="@dimen/large_text"/>
 
                         <com.iyuba.music.widget.imageview.GoImageView
                             android:layout_width="24dp"
@@ -106,7 +106,7 @@
                             android:layout_centerVertical="true"
                             app:go_color="@color/background_complementary"
                             app:go_direction="LEFT"
-                            app:go_stroke="@dimen/line_default" />
+                            app:go_stroke="@dimen/line_default"/>
                     </RelativeLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -115,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/row_space_large"
                     android:layout_marginTop="@dimen/row_space_large"
-                    android:background="@color/background_light" />
+                    android:background="@color/background_light"/>
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/credit_exchange"
@@ -140,7 +140,7 @@
                             android:padding="@dimen/row_space_large"
                             android:text="@string/campaign_exchange"
                             android:textColor="@color/text_complementary"
-                            android:textSize="@dimen/large_text" />
+                            android:textSize="@dimen/large_text"/>
 
                         <com.iyuba.music.widget.imageview.GoImageView
                             android:layout_width="24dp"
@@ -149,7 +149,7 @@
                             android:layout_centerVertical="true"
                             app:go_color="@color/background_complementary"
                             app:go_direction="LEFT"
-                            app:go_stroke="@dimen/line_default" />
+                            app:go_stroke="@dimen/line_default"/>
                     </RelativeLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
@@ -157,7 +157,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_default"
-                android:background="@color/background_light" />
+                android:background="@color/background_light"/>
         </LinearLayout>
     </com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh>
 </LinearLayout>

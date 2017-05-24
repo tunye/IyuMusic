@@ -150,4 +150,18 @@ public class Original implements Comparable<Original> {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        int result = articleID;
+        result = 31 * result + paraID;
+        result = 31 * result + sentenceID;
+        result = 31 * result + (startTime != +0.0f ? Float.floatToIntBits(startTime) : 0);
+        result = 31 * result + (endTime != +0.0f ? Float.floatToIntBits(endTime) : 0);
+        result = 31 * result + (sentence != null ? sentence.hashCode() : 0);
+        result = 31 * result + (sentence_cn != null ? sentence_cn.hashCode() : 0);
+        result = 31 * result + (sentence_cn_backup != null ? sentence_cn_backup.hashCode() : 0);
+        result = 31 * result + (totalTime != +0.0f ? Float.floatToIntBits(totalTime) : 0);
+        return result;
+    }
 }

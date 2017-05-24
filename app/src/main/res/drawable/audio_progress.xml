@@ -4,8 +4,8 @@
     <!--背景色-->
     <item android:id="@android:id/background">
         <shape>
-            <corners android:radius="2dip" />
-            <solid android:color="#dcdcdc" />
+            <corners android:radius="2dip"/>
+            <solid android:color="#dcdcdc"/>
         </shape>
     </item>
 
@@ -13,8 +13,8 @@
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape>
-                <corners android:radius="2dip" />
-                <solid android:color="#aaaaaa" />
+                <corners android:radius="2dip"/>
+                <solid android:color="#aaaaaa"/>
             </shape>
         </clip>
     </item>
@@ -23,8 +23,8 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <corners android:radius="2dip" />
-                <solid android:color="@color/skin_app_color" />
+                <corners android:radius="2dip"/>
+                <solid android:color="@color/skin_app_color"/>
             </shape>
         </clip>
     </item>

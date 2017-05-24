@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#343434">
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#343434">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:textColor="@color/text_gray_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/big_text"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="@string/webview_technique"
             android:textColor="@color/text_gray_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/big_text"/>
     </LinearLayout>
 
     <com.iyuba.music.widget.view.FlexibleView
@@ -44,7 +44,7 @@
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </com.iyuba.music.widget.view.FlexibleView>
 
     <FrameLayout
@@ -60,6 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_default"
             android:indeterminate="false"
-            android:progressDrawable="@color/skin_color_accent" />
+            android:progressDrawable="@color/skin_color_accent"/>
     </FrameLayout>
 </RelativeLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <RelativeLayout
         android:id="@id/toolbar"
@@ -25,11 +25,11 @@
                 app:mrl_rippleDuration="400">
 
                 <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/back_material"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mm_color="#ededed"
-                    app:mm_strokeWidth="2" />
+                                                          android:id="@+id/back_material"
+                                                          android:layout_width="wrap_content"
+                                                          android:layout_height="wrap_content"
+                                                          app:mm_color="#ededed"
+                                                          app:mm_strokeWidth="2"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="#ededed"
-                android:textSize="@dimen/title_text" />
+                android:textSize="@dimen/title_text"/>
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/row_space_default"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
             </com.balysv.materialripple.MaterialRippleLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -71,7 +71,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/default_photo" />
+            android:src="@drawable/default_photo"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -93,7 +93,7 @@
             app:met_baseColor="@color/text_gray_color"
             app:met_clearButton="true"
             app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/skin_app_color" />
+            app:met_primaryColor="@color/skin_app_color"/>
 
         <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
             android:id="@+id/userpwd"
@@ -109,7 +109,7 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="20"
             app:met_minCharacters="6"
-            app:met_primaryColor="@color/skin_app_color" />
+            app:met_primaryColor="@color/skin_app_color"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -127,7 +127,7 @@
             android:layout_alignParentLeft="true"
             android:checked="true"
             android:text="@string/auto_login"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/forget_pwd"
@@ -137,7 +137,7 @@
             android:layout_centerVertical="true"
             android:text="@string/forget_pwd"
             android:textColor="@color/text_gray_color"
-            android:textSize="@dimen/medium_text" />
+            android:textSize="@dimen/medium_text"/>
     </RelativeLayout>
 
     <com.iyuba.music.widget.roundview.RoundTextView
@@ -153,5 +153,5 @@
         android:textColor="#ededed"
         android:textSize="@dimen/large_text"
         app:rv_backgroundColor="@color/skin_app_color"
-        app:rv_cornerRadius="@dimen/corner_radius_big" />
+        app:rv_cornerRadius="@dimen/corner_radius_big"/>
 </RelativeLayout>

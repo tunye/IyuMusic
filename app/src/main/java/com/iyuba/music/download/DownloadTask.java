@@ -40,18 +40,18 @@ import java.util.concurrent.TimeUnit;
  *         实现的主要功能。 创建日期 修改者，修改日期，修改内容。
  */
 public class DownloadTask {
-    private String singPath, soundPath;
-    private int downedFileLength = 0;
-    private int id;
-    private String app;
-    private DownloadFile downloadFile;
     private static ThreadPoolExecutor downloadExecutor;
-
 
     static {
         downloadExecutor = new ThreadPoolExecutor(1, 3, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
         downloadExecutor.allowCoreThreadTimeOut(true);
     }
+
+    private String singPath, soundPath;
+    private int downedFileLength = 0;
+    private int id;
+    private String app;
+    private DownloadFile downloadFile;
 
     public DownloadTask(Article article) {
         this.app = article.getApp();
@@ -225,9 +225,10 @@ public class DownloadTask {
                 downloadFile.downloadState = "fail";
                 return;
             }
+            FileOutputStream outputStream = null;
             try {
                 InputStream inputStream = connection.getInputStream();
-                FileOutputStream outputStream = new FileOutputStream(file);
+                outputStream = new FileOutputStream(file);
                 int fileLength = connection.getContentLength();
                 byte[] buffer = new byte[1024];
                 int length;
@@ -240,13 +241,20 @@ public class DownloadTask {
                 }
                 inputStream.close();
                 outputStream.flush();
-                outputStream.close();
                 connection.disconnect();
                 reNameFile(path + ".tmp", path);
                 finish.finish();
             } catch (IOException e) {
                 downloadFile.downloadState = "fail";
                 e.printStackTrace();
+            } finally {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/touch_bg">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/touch_bg">
 
     <CheckBox
         android:id="@+id/item_delete"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/row_space_medium"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/article_image_layout"
@@ -27,7 +27,7 @@
             android:id="@+id/article_image"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"/>
 
         <com.iyuba.music.widget.RoundProgressBar
             android:id="@+id/roundProgressBar"
@@ -38,7 +38,7 @@
             app:cp_circleProgressColor="@color/skin_app_color"
             app:cp_circleWidth="@dimen/line_thick"
             app:cp_textColor="@color/skin_app_color"
-            app:cp_textSize="@dimen/medium_text" />
+            app:cp_textSize="@dimen/medium_text"/>
 
         <RelativeLayout
             android:id="@+id/article_createtime_background"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="#dcdcdc"
-                android:textSize="@dimen/default_text" />
+                android:textSize="@dimen/default_text"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -72,7 +72,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/big_text"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/text_gray_color"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/medium_text"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_marginRight="@dimen/row_space_big"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
 
                 <TextView
                     android:id="@+id/article_readcount"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -122,5 +122,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/row_space_large" />
+        android:padding="@dimen/row_space_large"/>
 </RelativeLayout>

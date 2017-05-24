@@ -36,12 +36,12 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/11/19.
  */
 public class LoginActivity extends BaseInputActivity {
+    private static IOperationResult result;
     private MaterialAutoCompleteTextView username, userpwd;
     private TextView forgetPwd;
     private CheckBox autoLogin;
     private RoundTextView login;
     private IyubaDialog waitingDialog;
-    private static IOperationResult result;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

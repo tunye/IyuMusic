@@ -2,7 +2,6 @@ package com.iyuba.assessment;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -79,7 +78,6 @@ public class IseManager {
 
     public void releaseResource() {
         mSpeechEvaluator.destroy();
-        instance = null;
     }
 
     public void transformPcmToAmr() {
@@ -101,18 +99,47 @@ public class IseManager {
     }
 
     private void fileCopy(File s, File t) {
+        FileInputStream fi = null;
+        FileOutputStream fo = null;
+        FileChannel in = null;
+        FileChannel out = null;
         try {
-            FileInputStream fi = new FileInputStream(s);
-            FileOutputStream fo = new FileOutputStream(t);
-            FileChannel in = fi.getChannel();//得到对应的文件通道
-            FileChannel out = fo.getChannel();//得到对应的文件通道
+            fi = new FileInputStream(s);
+            fo = new FileOutputStream(t);
+            in = fi.getChannel();//得到对应的文件通道
+            out = fo.getChannel();//得到对应的文件通道
             in.transferTo(0, in.size(), out);//连接两个通道，并且从in通道读取，然后写入out通道
-            in.close();
-            fi.close();
-            out.close();
-            fo.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fi != null) {
+                try {
+                    fi.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fo != null) {
+                try {
+                    fo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

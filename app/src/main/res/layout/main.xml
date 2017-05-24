@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -18,12 +18,12 @@
             android:padding="@dimen/title_padding">
 
             <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/material_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mm_color="#ededed"
-                app:mm_strokeWidth="2"
-                app:mm_transformDuration="1000" />
+                                                      android:id="@+id/material_menu"
+                                                      android:layout_width="wrap_content"
+                                                      android:layout_height="wrap_content"
+                                                      app:mm_color="#ededed"
+                                                      app:mm_strokeWidth="2"
+                                                      app:mm_transformDuration="1000"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
                 android:layout_centerInParent="true"
                 android:text="@string/app_name"
                 android:textColor="#ededed"
-                android:textSize="@dimen/title_text" />
+                android:textSize="@dimen/title_text"/>
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                     android:padding="@dimen/row_space_default"
                     android:text="@string/search_word_do"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
             </com.balysv.materialripple.MaterialRippleLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -63,14 +63,14 @@
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <FrameLayout
             android:id="@+id/left_drawer"
             android:layout_width="260dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:tag="LEFT" />
+            android:tag="LEFT"/>
 
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

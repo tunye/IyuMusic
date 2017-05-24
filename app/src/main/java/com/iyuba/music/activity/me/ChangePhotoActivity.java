@@ -199,6 +199,26 @@ public class ChangePhotoActivity extends BaseActivity {
         return null;
     }
 
+    private void startUploadThread() {
+        ThreadPoolUtil.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
+                        + AccountManager.getInstance().getUserId(), new File(imgPath), new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        handler.sendEmptyMessage(0);
+                    }
+
+                    @Override
+                    public void fail(Object object) {
+                        handler.sendEmptyMessage(1);
+                    }
+                });
+            }
+        });
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ChangePhotoActivity> {
         @Override
         public void handleMessageByRef(final ChangePhotoActivity activity, Message msg) {
@@ -218,25 +238,5 @@ public class ChangePhotoActivity extends BaseActivity {
                     break;
             }
         }
-    }
-
-    private void startUploadThread() {
-        ThreadPoolUtil.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                UploadFile.postImg("http://api.iyuba.com.cn/v2/avatar?uid="
-                        + AccountManager.getInstance().getUserId(), new File(imgPath), new IOperationResult() {
-                    @Override
-                    public void success(Object object) {
-                        handler.sendEmptyMessage(0);
-                    }
-
-                    @Override
-                    public void fail(Object object) {
-                        handler.sendEmptyMessage(1);
-                    }
-                });
-            }
-        });
     }
 }

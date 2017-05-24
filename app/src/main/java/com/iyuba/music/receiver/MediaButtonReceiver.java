@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class MediaButtonReceiver extends BroadcastReceiver {
+    private static int clickCount;
+    public OnHeadSetListener headSetListener = null;
     private MyHandler myHandler;
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = null;
-    public OnHeadSetListener headSetListener = null;
-    private static int clickCount;
 
     public MediaButtonReceiver() {
         this.headSetListener = HeadSetUtil.getInstance().getOnHeadSetListener();
@@ -66,7 +66,7 @@ public class MediaButtonReceiver extends BroadcastReceiver {
 
         @Override
         public void run() {
-            if (mWeakReference.get()!=null) {
+            if (mWeakReference.get() != null) {
                 if (clickCount == 1) {
                     mWeakReference.get().myHandler.sendEmptyMessage(1);
                 } else if (clickCount == 2) {

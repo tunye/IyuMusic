@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:layout_margin="@dimen/row_space_large"
                     android:text="@string/person_detail_uploadPic"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iveditPortrait"
@@ -43,7 +43,7 @@
                     android:layout_height="60dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large" />
+                    android:layout_marginRight="@dimen/row_space_large"/>
 
 
             </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -69,7 +69,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_sex"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/editGender"
@@ -79,7 +79,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -97,7 +97,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_birth"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/editBirthday"
@@ -107,7 +107,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
@@ -125,7 +125,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_local_now"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editResideLocation"
@@ -139,7 +139,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -157,7 +157,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_zodiac"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/editZodiac"
@@ -167,7 +167,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -187,7 +187,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_constellation"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/editConstellation"
@@ -197,7 +197,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
@@ -207,7 +207,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/person_detail_edu"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/large_text"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -231,7 +231,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_college"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editSchool"
@@ -245,7 +245,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
 
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
@@ -266,7 +266,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_corp"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editCompany"
@@ -280,7 +280,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
@@ -290,7 +290,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/person_detail_other"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/large_text"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -314,7 +314,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_feeling"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editAffectiveStatus"
@@ -328,7 +328,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -346,7 +346,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_friend_aim"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editLookingFor"
@@ -360,7 +360,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -378,7 +378,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_intro"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editBio"
@@ -392,7 +392,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -412,7 +412,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/person_detail_interest"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/editInterest"
@@ -426,7 +426,7 @@
                         app:met_floatingLabel="none"
                         app:met_hideUnderline="true"
                         app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary" />
+                        app:met_textColor="@color/text_complementary"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
         </LinearLayout>

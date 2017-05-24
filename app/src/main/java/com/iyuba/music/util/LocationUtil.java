@@ -65,10 +65,6 @@ public class LocationUtil {
         }
     };
 
-    private static class InstanceHelper{
-        private static LocationUtil instance=new LocationUtil();
-    }
-
     public static LocationUtil getInstance() {
         return InstanceHelper.instance;
     }
@@ -129,6 +125,10 @@ public class LocationUtil {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    private static class InstanceHelper {
+        private static LocationUtil instance = new LocationUtil();
     }
 
     private class MyLocationListener implements LocationListener {

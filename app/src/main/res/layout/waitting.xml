@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <com.wang.avi.AVLoadingIndicatorView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/waitting_animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:indicatorColor="@color/skin_app_color"
-        app:indicatorName="PacmanIndicator" />
+                                         android:id="@+id/waitting_animation"
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_centerInParent="true"
+                                         app:indicatorColor="@color/skin_app_color"
+                                         app:indicatorName="PacmanIndicator"/>
 
     <TextView
         android:id="@+id/waitting_text"
@@ -23,5 +23,5 @@
         android:background="#88000000"
         android:padding="@dimen/row_space_medium"
         android:textColor="#dcdcdc"
-        android:textSize="@dimen/large_text" />
+        android:textSize="@dimen/large_text"/>
 </LinearLayout>

@@ -280,8 +280,8 @@ public class BannerView extends RelativeLayout {
     }
 
     private static class MyPageChangeListener implements ViewPager.OnPageChangeListener {
-        private int oldPosition = 0;
         private final WeakReference<BannerView> mWeakReference;
+        private int oldPosition = 0;
 
         private MyPageChangeListener(BannerView bannerView) {
             this.mWeakReference = new WeakReference<>(bannerView);

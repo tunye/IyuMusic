@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <RelativeLayout
         android:id="@+id/search_bar"
@@ -35,7 +35,7 @@
                     app:met_clearButton="true"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
-                    app:met_primaryColor="@color/skin_app_color" />
+                    app:met_primaryColor="@color/skin_app_color"/>
             </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -56,7 +56,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
             </com.balysv.materialripple.MaterialRippleLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -65,5 +65,5 @@
         android:id="@+id/word_search_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_bar" />
+        android:layout_below="@+id/search_bar"/>
 </RelativeLayout>

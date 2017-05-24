@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -25,11 +25,11 @@
         app:met_floatingLabel="highlight"
         app:met_hideUnderline="true"
         app:met_maxCharacters="60"
-        app:met_primaryColor="@color/skin_app_color" />
+        app:met_primaryColor="@color/skin_app_color"/>
 
     <com.buaa.ct.comment.EmojiView
         android:id="@+id/emoji"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_margin="@dimen/row_space_large"
                 android:text="@string/study_set_playmode"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/study_set_playmode_current"
@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -60,7 +60,7 @@
                 android:layout_margin="@dimen/row_space_large"
                 android:text="@string/study_set_nextmode"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/study_set_nextmode_current"
@@ -70,7 +70,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -88,7 +88,7 @@
                 android:layout_margin="@dimen/row_space_large"
                 android:text="@string/original_size_title"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <com.iyuba.music.widget.imageview.GoImageView
                 android:layout_width="24dp"
@@ -98,7 +98,7 @@
                 android:layout_marginRight="@dimen/row_space_large"
                 app:go_color="@color/background_complementary"
                 app:go_direction="LEFT"
-                app:go_stroke="@dimen/line_default" />
+                app:go_stroke="@dimen/line_default"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -116,7 +116,7 @@
                 android:layout_margin="@dimen/row_space_large"
                 android:text="@string/study_set_auto_round"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/study_set_auto_round_current"
@@ -145,7 +145,7 @@
                 android:layout_margin="@dimen/row_space_large"
                 android:text="@string/study_set_download"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <TextView
                 android:id="@+id/study_set_download_current"
@@ -155,7 +155,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
         <LinearLayout
@@ -181,7 +181,7 @@
                     android:layout_margin="@dimen/row_space_large"
                     android:text="@string/study_set_headplug_play"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <com.kyleduo.switchbutton.SwitchButton
                     android:id="@+id/study_set_headplug_play_current"
@@ -208,7 +208,7 @@
                     android:layout_margin="@dimen/row_space_large"
                     android:text="@string/study_set_headplug_pause"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <com.kyleduo.switchbutton.SwitchButton
                     android:id="@+id/study_set_headplug_pause_current"
@@ -237,7 +237,7 @@
                     android:layout_margin="@dimen/row_space_large"
                     android:text="@string/setting_mediabutton"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/big_text"/>
 
                 <com.iyuba.music.widget.imageview.GoImageView
                     android:layout_width="24dp"
@@ -247,7 +247,7 @@
                     android:layout_marginRight="@dimen/row_space_large"
                     app:go_color="@color/background_complementary"
                     app:go_direction="LEFT"
-                    app:go_stroke="@dimen/line_default" />
+                    app:go_stroke="@dimen/line_default"/>
             </com.iyuba.music.widget.roundview.RoundRelativeLayout>
         </LinearLayout>
     </LinearLayout>

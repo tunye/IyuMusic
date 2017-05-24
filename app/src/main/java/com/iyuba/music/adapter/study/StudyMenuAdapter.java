@@ -33,8 +33,8 @@ public class StudyMenuAdapter extends BaseAdapter {
 
 
     public void setDataSet(String[] menuList, int[] menuImageList) {
-        this.menuList = menuList;
-        this.menuImageList = menuImageList;
+        this.menuList = menuList.clone();
+        this.menuImageList = menuImageList.clone();
         notifyDataSetChanged();
     }
 

@@ -55,7 +55,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
                         delDialog(position);
                     }
                 } else {
-                    final int pos=position;
+                    final int pos = position;
                     CustomDialog.showLoginDialog(context, new IOperationFinish() {
                         @Override
                         public void finish() {

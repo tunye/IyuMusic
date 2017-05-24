@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:mrl_rippleColor="@color/text_complementary"
-    app:mrl_rippleDuration="600">
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                app:mrl_rippleColor="@color/text_complementary"
+                                                app:mrl_rippleDuration="600">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_marginBottom="@dimen/row_space_big"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/row_space_big" />
+            android:layout_marginTop="@dimen/row_space_big"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
 
                 <TextView
                     android:id="@+id/article_readcount"
@@ -58,7 +58,7 @@
                     android:layout_marginRight="@dimen/row_space_very_large"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:mrl_rippleColor="@color/text_complementary"
-    app:mrl_rippleDuration="600">
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                app:mrl_rippleColor="@color/text_complementary"
+                                                app:mrl_rippleDuration="600">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/row_space_medium"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/article_image_layout"
@@ -33,7 +33,7 @@
                 android:id="@+id/article_image"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"/>
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/roundProgressBar"
@@ -44,7 +44,7 @@
                 app:cp_circleProgressColor="@color/skin_app_color"
                 app:cp_circleWidth="@dimen/line_thick"
                 app:cp_textColor="@color/skin_app_color"
-                app:cp_textSize="@dimen/medium_text" />
+                app:cp_textSize="@dimen/medium_text"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -61,7 +61,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text" />
+                android:textSize="@dimen/big_text"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
 
                 <TextView
                     android:id="@+id/article_announcer"
@@ -86,7 +86,7 @@
                     android:layout_marginRight="@dimen/row_space_default"
                     android:layout_marginTop="@dimen/row_space_default"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -97,6 +97,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:padding="@dimen/corner_radius_big"
-            android:src="@drawable/downloadfile_notexist" />
+            android:src="@drawable/downloadfile_notexist"/>
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

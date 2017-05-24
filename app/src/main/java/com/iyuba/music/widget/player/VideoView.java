@@ -23,7 +23,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
-import android.media.MediaPlayer.OnInfoListener;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -63,7 +62,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     private int mSurfaceWidth;
     private int mSurfaceHeight;
     private MediaController mMediaController;
-    private OnInfoListener mOnInfoListener;
     private OnCompletionListener mOnCompletionListener;
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private int mCurrentBufferPercentage;
@@ -148,20 +146,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
             if (mOnCompletionListener != null) {
                 mOnCompletionListener.onCompletion(mMediaPlayer);
             }
-        }
-    };
-    private OnInfoListener mInfoListener = new OnInfoListener() {
-
-        @Override
-        public boolean onInfo(MediaPlayer mp, int what, int extra) {
-
-            if (mMediaController != null) {
-                mMediaController.hide();
-            }
-            if (mOnInfoListener != null) {
-                mOnInfoListener.onInfo(mMediaPlayer, what, extra);
-            }
-            return true;
         }
     };
     private OnErrorListener mErrorListener = new OnErrorListener() {
@@ -361,7 +345,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
         try {
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setScreenOnWhilePlaying(true);
-            mMediaPlayer.setOnInfoListener(mInfoListener);
             mMediaPlayer.setOnPreparedListener(mPreparedListener);
             mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
             mIsPrepared = false;
@@ -376,10 +359,8 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
             mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.prepareAsync();
             attachMediaController();
-        } catch (IOException ex) {
-            return;
-        } catch (IllegalArgumentException ex) {
-            return;
+        } catch (IOException | IllegalArgumentException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -403,10 +384,6 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
 
     public void setOnBufferingUpdateListener(OnBufferingUpdateListener l) {
         mBufferingUpdateListener = l;
-    }
-
-    public void setOnInfoListener(OnInfoListener l) {
-        mInfoListener = l;
     }
 
     /**
@@ -588,7 +565,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
         return 0;
     }
 
-    public interface MySizeChangeLinstener {
-        public void doMyThings();
+    interface MySizeChangeLinstener {
+        void doMyThings();
     }
 }

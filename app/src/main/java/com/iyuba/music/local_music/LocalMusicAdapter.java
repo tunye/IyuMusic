@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by 10202 on 2015/10/10.
  */
 public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.MyViewHolder> {
-    private static int lastPos = -1;
+    private int lastPos = -1;
     private ArrayList<Article> musicList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;

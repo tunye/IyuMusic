@@ -80,15 +80,23 @@ public class FileOperation {
     }
 
     //写数据到SD中的文件
-    public static void writeFileSdcardFile(String fileName, String write_str) throws IOException {
+    public static void writeFileSdcardFile(String fileName, String write_str) {
+        FileOutputStream fout = null;
         try {
-            FileOutputStream fout = new FileOutputStream(fileName);
+            fout = new FileOutputStream(fileName);
             byte[] bytes = write_str.getBytes();
             fout.write(bytes);
             fout.flush();
-            fout.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fout != null) {
+                try {
+                    fout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -107,10 +115,11 @@ public class FileOperation {
     }
 
     //读SD中的文件
-    public String readFileSdcardFile(String fileName, String encode) throws IOException {
+    public String readFileSdcardFile(String fileName, String encode) {
         String res = "";
+        FileInputStream fin = null;
         try {
-            FileInputStream fin = new FileInputStream(fileName);
+            fin = new FileInputStream(fileName);
             int length = fin.available();
             byte[] buffer = new byte[length];
             fin.read(buffer);
@@ -118,6 +127,14 @@ public class FileOperation {
             fin.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fin != null) {
+                try {
+                    fin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return res;
     }

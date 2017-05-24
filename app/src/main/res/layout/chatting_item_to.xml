@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/row_space_medium">
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/row_space_medium">
 
     <RelativeLayout
         android:id="@+id/chatting_time_layout"
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ededed"
-            android:textSize="@dimen/medium_text" />
+            android:textSize="@dimen/medium_text"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -43,14 +43,14 @@
             android:paddingLeft="@dimen/row_space_big"
             android:paddingRight="@dimen/row_space_very_large"
             android:paddingTop="@dimen/row_space_default"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/big_text"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/chatting_photo"
             android:layout_width="50dp"
             android:layout_height="50dip"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="@dimen/row_space_medium" />
+            android:layout_marginLeft="@dimen/row_space_medium"/>
     </LinearLayout>
 
 </LinearLayout>

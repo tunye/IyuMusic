@@ -79,6 +79,7 @@ public class AppUpdateThread {
                     e.printStackTrace();
                 }
             }
+            FileOutputStream outputStream = null;
             try {
                 URL url = new URL(downloadFile.downLoadAddress);
                 HttpURLConnection connection = (HttpURLConnection) url
@@ -86,7 +87,7 @@ public class AppUpdateThread {
                 connection.setConnectTimeout(10000);
                 connection.setReadTimeout(10000);
                 InputStream inputStream = connection.getInputStream();
-                FileOutputStream outputStream = new FileOutputStream(file);
+                outputStream = new FileOutputStream(file);
                 long fileLength = connection.getContentLength();
                 byte[] buffer = new byte[1024 * 8];
                 int length;
@@ -105,12 +106,19 @@ public class AppUpdateThread {
                 }
                 inputStream.close();
                 outputStream.flush();
-                outputStream.close();
                 connection.disconnect();
                 reNameFile(fileFullPath + ".tmp", fileFullPath);
                 downloadFinish.finish();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

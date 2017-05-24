@@ -12,23 +12,33 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateFormat {
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-    private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+    private static ThreadLocal<SimpleDateFormat> timeFormatThreadLocal = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        }
+    };
+    private static ThreadLocal<SimpleDateFormat> yearFormatThreadLocal = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        }
+    };
 
     public static Date parseTime(String date) throws ParseException {
-        return timeFormat.parse(date);
+        return timeFormatThreadLocal.get().parse(date);
     }
 
     public static Date parseYear(String date) throws ParseException {
-        return yearFormat.parse(date);
+        return yearFormatThreadLocal.get().parse(date);
     }
 
     public static String formatTime(Date date) {
-        return timeFormat.format(date);
+        return timeFormatThreadLocal.get().format(date);
     }
 
     public static String formatYear(Date date) {
-        return yearFormat.format(date);
+        return yearFormatThreadLocal.get().format(date);
     }
 
     public static String showTime(Context context, Date ctime) {

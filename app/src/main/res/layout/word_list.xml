@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar_with_oper"/>
 
     <RelativeLayout
         android:id="@+id/statusbar"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/row_space_default"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"/>
 
         <TextView
             android:id="@+id/word_set"
@@ -33,7 +33,7 @@
             android:layout_marginRight="@dimen/row_space_medium"
             android:text="@string/word_set"
             android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"/>
 
         <TextView
             android:id="@+id/word_edit"
@@ -43,7 +43,7 @@
             android:layout_toLeftOf="@+id/word_set"
             android:text="@string/word_edit"
             android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

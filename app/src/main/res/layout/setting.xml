@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_language_hint"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/setting_curr_language"
@@ -53,7 +53,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -71,7 +71,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_skin"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/setting_curr_skin"
@@ -81,7 +81,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -99,7 +99,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_word_set"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -109,7 +109,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -129,7 +129,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_study_set"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -139,7 +139,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
@@ -167,7 +167,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_push_hint"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.kyleduo.switchbutton.SwitchButton
                         android:id="@+id/setting_curr_push"
@@ -176,7 +176,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
-                        app:kswThumbColor="@color/white" />
+                        app:kswThumbColor="@color/white"/>
 
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
@@ -197,7 +197,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_clean_audio"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/setting_audio_cache"
@@ -207,7 +207,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -227,7 +227,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_clean_pic"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <TextView
                         android:id="@+id/setting_pic_cache"
@@ -237,7 +237,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
@@ -264,7 +264,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_app_share"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -274,7 +274,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
 
@@ -293,7 +293,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/new_version_features"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -303,7 +303,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -321,7 +321,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_help_use"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -331,7 +331,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -349,7 +349,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_feedback"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -359,7 +359,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -379,7 +379,7 @@
                         android:layout_margin="@dimen/row_space_large"
                         android:text="@string/setting_moreapp"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/big_text"/>
 
                     <com.iyuba.music.widget.imageview.GoImageView
                         android:layout_width="24dp"
@@ -389,7 +389,7 @@
                         android:layout_marginRight="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
-                        app:go_stroke="@dimen/line_default" />
+                        app:go_stroke="@dimen/line_default"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
             </LinearLayout>
 
@@ -409,7 +409,7 @@
                 android:textColor="#ededed"
                 android:textSize="@dimen/title_text"
                 app:rv_backgroundColor="#db4e46"
-                app:rv_cornerRadius="@dimen/corner_radius_big" />
+                app:rv_cornerRadius="@dimen/corner_radius_big"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

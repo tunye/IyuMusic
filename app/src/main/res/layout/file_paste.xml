@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/background">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"/>
 
     <LinearLayout
         android:id="@+id/file_position"
@@ -31,7 +31,7 @@
                 android:layout_marginRight="@dimen/row_space_medium"
                 app:go_color="@color/background"
                 app:go_direction="RIGHT"
-                app:go_stroke="@dimen/line_default" />
+                app:go_stroke="@dimen/line_default"/>
 
             <TextView
                 android:id="@+id/file_path"
@@ -41,7 +41,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1.0"
                 android:textColor="@color/skin_app_color"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
 
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/controller"
-        android:layout_below="@+id/file_position" />
+        android:layout_below="@+id/file_position"/>
 
     <LinearLayout
         android:id="@+id/controller"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/file_create" />
+            android:text="@string/file_create"/>
 
         <Button
             android:id="@+id/paste"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="@string/file_paste" />
+            android:text="@string/file_paste"/>
 
         <Button
             android:id="@+id/cancel"
@@ -83,6 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:text="@string/app_cancel" />
+            android:text="@string/app_cancel"/>
     </LinearLayout>
 </RelativeLayout>

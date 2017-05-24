@@ -10,7 +10,6 @@ import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -23,12 +22,8 @@ public class SetMessageReadRequest {
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    try {
-                        //621 ok
-                        String result = jsonObject.getString("result");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    //621 ok
+//                        String result = jsonObject.getString("result");
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -36,7 +31,6 @@ public class SetMessageReadRequest {
                 }
             });
             MyVolley.getInstance().addToRequestQueue(request);
-        } else {
         }
     }
 

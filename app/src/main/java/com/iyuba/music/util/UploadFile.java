@@ -1,5 +1,7 @@
 package com.iyuba.music.util;
 
+import android.text.TextUtils;
+
 import com.iyuba.music.listener.IOperationResult;
 
 import org.json.JSONException;
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,6 +27,7 @@ public class UploadFile {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
+        FileInputStream fStream = null;
         try {
             URL url = new URL(actionUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -47,7 +51,7 @@ public class UploadFile {
                     + img + "\"" + ";filename=\""
                     + System.currentTimeMillis() + ".jpg\"" + end);
             ds.writeBytes(end);
-            FileInputStream fStream = new FileInputStream(img);
+            fStream = new FileInputStream(img);
             /* 设定每次写入1024bytes */
             int bufferSize = 4 * 1024;
             byte[] buffer = new byte[bufferSize];
@@ -71,17 +75,29 @@ public class UploadFile {
             success = b.toString().trim();
         } catch (Exception e) {
             e.printStackTrace();
+            result.fail(null);
+        } finally {
+            if (fStream != null) {
+                try {
+                    fStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        try {
-            JSONObject jsonObject = new JSONObject(success.substring(
-                    success.indexOf("{"), success.lastIndexOf("}") + 1));
-            if (jsonObject.getString("status").equals("0")) {
-                result.success(jsonObject.getString("bigUrl"));
-            } else {
+        if (!TextUtils.isEmpty(success)) {
+            try {
+                JSONObject jsonObject = new JSONObject(success.substring(
+                        success.indexOf("{"), success.lastIndexOf("}") + 1));
+                if (jsonObject.getString("status").equals("0")) {
+                    result.success(jsonObject.getString("bigUrl"));
+                } else {
+                    result.fail(null);
+                }
+                success = "";
+            } catch (JSONException e) {
                 result.fail(null);
             }
-        } catch (JSONException e) {
-            result.fail(null);
         }
     }
 
@@ -89,6 +105,7 @@ public class UploadFile {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
+        FileInputStream fStream = null;
         try {
             URL url = new URL(actionUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -112,7 +129,7 @@ public class UploadFile {
                     + "name=sound" + ";filename=\""
                     + System.currentTimeMillis() + ".amr\"" + end);
             ds.writeBytes(end);
-            FileInputStream fStream = new FileInputStream(sound);
+            fStream = new FileInputStream(sound);
             int bufferSize = 4 * 1024;
             byte[] buffer = new byte[bufferSize];
             int length = -1;
@@ -136,16 +153,28 @@ public class UploadFile {
             success = b.toString().trim();
         } catch (Exception e) {
             e.printStackTrace();
+            result.fail(null);
+        } finally {
+            if (fStream != null) {
+                try {
+                    fStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        try {
-            JSONObject jsonObjectRoot = new JSONObject(success);
-            if (jsonObjectRoot.getInt("ResultCode") == 1) {
-                result.success(null);
-            } else {
+        if (!TextUtils.isEmpty(success)) {
+            try {
+                JSONObject jsonObjectRoot = new JSONObject(success);
+                if (jsonObjectRoot.getInt("ResultCode") == 1) {
+                    result.success(null);
+                } else {
+                    result.fail(null);
+                }
+                success = "";
+            } catch (JSONException e) {
                 result.fail(null);
             }
-        } catch (JSONException e) {
-            result.fail(null);
         }
     }
 }

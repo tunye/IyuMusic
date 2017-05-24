@@ -14,10 +14,6 @@ public class ThreadPoolUtil {
         fixedExecutor = Executors.newFixedThreadPool(3);
     }
 
-    private static class InstanceHelper {
-        private static ThreadPoolUtil instance = new ThreadPoolUtil();
-    }
-
     public static ThreadPoolUtil getInstance() {
         return InstanceHelper.instance;
     }
@@ -28,5 +24,9 @@ public class ThreadPoolUtil {
 
     public void shutdown() {
         fixedExecutor.shutdownNow();
+    }
+
+    private static class InstanceHelper {
+        private static ThreadPoolUtil instance = new ThreadPoolUtil();
     }
 }

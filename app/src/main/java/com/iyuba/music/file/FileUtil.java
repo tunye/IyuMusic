@@ -153,9 +153,11 @@ public class FileUtil {
      **/
     public static boolean copyFile(File src, File tar) {
         if (src.isFile()) {
+            InputStream is = null;
+            OutputStream op = null;
             try {
-                InputStream is = new FileInputStream(src);
-                OutputStream op = new FileOutputStream(tar);
+                is = new FileInputStream(src);
+                op = new FileOutputStream(tar);
                 BufferedInputStream bis = new BufferedInputStream(is);
                 BufferedOutputStream bos = new BufferedOutputStream(op);
                 byte[] bt = new byte[1024 * 8];
@@ -168,6 +170,21 @@ public class FileUtil {
                 bos.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (op != null) {
+                    try {
+                        op.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         if (src.isDirectory()) {

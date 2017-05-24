@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@id/toolbar"
@@ -26,11 +26,11 @@
                 app:mrl_rippleDuration="400">
 
                 <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/back_material"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mm_color="#ededed"
-                    app:mm_strokeWidth="2" />
+                                                          android:id="@+id/back_material"
+                                                          android:layout_width="wrap_content"
+                                                          android:layout_height="wrap_content"
+                                                          app:mm_color="#ededed"
+                                                          app:mm_strokeWidth="2"/>
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="#ededed"
-                android:textSize="@dimen/title_text" />
+                android:textSize="@dimen/title_text"/>
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/row_space_default"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/large_text"/>
             </com.balysv.materialripple.MaterialRippleLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -74,7 +74,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:src="@drawable/default_photo" />
+            android:src="@drawable/default_photo"/>
 
         <LinearLayout
             android:id="@+id/regist_by_phone"
@@ -94,7 +94,7 @@
                 app:met_floatingLabel="highlight"
                 app:met_maxCharacters="11"
                 app:met_minCharacters="11"
-                app:met_primaryColor="@color/skin_app_color" />
+                app:met_primaryColor="@color/skin_app_color"/>
 
             <LinearLayout
                 android:layout_width="250dp"
@@ -113,7 +113,7 @@
                     app:met_baseColor="@color/text_gray_color"
                     app:met_clearButton="true"
                     app:met_floatingLabel="highlight"
-                    app:met_primaryColor="@color/skin_app_color" />
+                    app:met_primaryColor="@color/skin_app_color"/>
 
                 <com.iyuba.music.widget.roundview.RoundTextView
                     android:id="@+id/get_msg_code"
@@ -127,7 +127,7 @@
                     android:textColor="#ededed"
                     android:textSize="@dimen/medium_text"
                     app:rv_backgroundColor="@color/skin_app_color"
-                    app:rv_cornerRadius="@dimen/corner_radius_default" />
+                    app:rv_cornerRadius="@dimen/corner_radius_default"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -149,7 +149,7 @@
                 app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="3"
-                app:met_primaryColor="@color/skin_app_color" />
+                app:met_primaryColor="@color/skin_app_color"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/regist_pwd"
@@ -163,7 +163,7 @@
                 app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="6"
-                app:met_primaryColor="@color/skin_app_color" />
+                app:met_primaryColor="@color/skin_app_color"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/regist_repwd"
@@ -177,7 +177,7 @@
                 app:met_floatingLabel="none"
                 app:met_maxCharacters="20"
                 app:met_minCharacters="6"
-                app:met_primaryColor="@color/skin_app_color" />
+                app:met_primaryColor="@color/skin_app_color"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/regist_email"
@@ -189,7 +189,7 @@
                 app:met_baseColor="@color/text_gray_color"
                 app:met_clearButton="true"
                 app:met_floatingLabel="none"
-                app:met_primaryColor="@color/skin_app_color" />
+                app:met_primaryColor="@color/skin_app_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -205,13 +205,13 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/regist_protocol_checkbox"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"/>
 
             <TextView
                 android:id="@+id/regist_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#009FE8" />
+                android:textColor="#009FE8"/>
         </LinearLayout>
 
         <com.iyuba.music.widget.roundview.RoundTextView
@@ -226,6 +226,6 @@
             android:textColor="#ededed"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_cornerRadius="@dimen/corner_radius_big" />
+            app:rv_cornerRadius="@dimen/corner_radius_big"/>
     </LinearLayout>
 </LinearLayout>

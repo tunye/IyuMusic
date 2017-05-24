@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/row_space_large"
-    android:paddingLeft="@dimen/activity_horizontal_margin_big"
-    android:paddingRight="@dimen/activity_horizontal_margin_big"
-    android:paddingTop="@dimen/activity_horizontal_margin_big">
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/background"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/row_space_large"
+              android:paddingLeft="@dimen/activity_horizontal_margin_big"
+              android:paddingRight="@dimen/activity_horizontal_margin_big"
+              android:paddingTop="@dimen/activity_horizontal_margin_big">
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="版本详情"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/skin_app_color" />
+        android:textColor="@color/skin_app_color"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -22,7 +22,7 @@
         android:layout_marginTop="15dp"
         android:text="版本号"
         android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/version_name"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/text_color"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
         android:layout_marginTop="5dp"
         android:text="序列号"
         android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/version_code"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/text_color"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -54,7 +54,7 @@
         android:layout_marginTop="5dp"
         android:text="发布时间"
         android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/version_build_time"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/text_color"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -70,7 +70,7 @@
         android:layout_marginTop="5dp"
         android:text="负责人"
         android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/version_builder"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/text_color"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -86,7 +86,7 @@
         android:layout_marginTop="5dp"
         android:text="编译类型"
         android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/version_type"
@@ -94,16 +94,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:textColor="@color/text_color"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <com.balysv.materialripple.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/version_know"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="15dp"
-        app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="400">
+                                                    android:id="@+id/version_know"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="right"
+                                                    android:layout_marginTop="15dp"
+                                                    app:mrl_rippleColor="@color/text_complementary"
+                                                    app:mrl_rippleDuration="400">
 
         <Button
             android:layout_width="wrap_content"
@@ -111,6 +111,6 @@
             android:background="@color/transparent"
             android:text="@string/app_accept"
             android:textColor="@color/skin_app_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
     </com.balysv.materialripple.MaterialRippleLayout>
 </LinearLayout>

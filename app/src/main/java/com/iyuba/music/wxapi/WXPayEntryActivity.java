@@ -26,7 +26,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
-        root=findViewById(R.id.pay_result_root);
+        root = findViewById(R.id.pay_result_root);
         api = WXAPIFactory.createWXAPI(this, ConstantManager.WXID, false);
         api.handleIntent(getIntent(), this);
     }
@@ -76,7 +76,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             public void run() {
                 finish();
             }
-        },4000);
+        }, 4000);
     }
 
     @Override

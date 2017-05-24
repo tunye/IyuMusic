@@ -20,7 +20,7 @@ import java.util.List;
  * Created by 10202 on 2015/11/30.
  */
 public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAdapter.MyViewHolder> {
-    private static int selected = 0;
+    private int selected = 0;
     private ArrayList<String> sleepTextList;
     private Context context;
     private OnRecycleViewItemClickListener itemClickListener;

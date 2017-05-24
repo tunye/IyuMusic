@@ -42,6 +42,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -182,8 +183,9 @@ public class SendPhotoActivity extends BaseActivity {
 
     private Bitmap saveImage(String path, String bitmapPath) {
         File picture = new File(path);
+        FileOutputStream out = null;
         try {
-            FileOutputStream out = new FileOutputStream(picture);
+            out = new FileOutputStream(picture);
             BitmapFactory.Options op = new BitmapFactory.Options();
             op.inSampleSize = 2;
             op.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -194,6 +196,14 @@ public class SendPhotoActivity extends BaseActivity {
             return temp;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
