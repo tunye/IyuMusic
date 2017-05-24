@@ -266,7 +266,9 @@ public class OriginalSynView extends ScrollView implements
 
     private int changeHighLight(int current) {
         textPage = (TextPage) subtitleLayout.getChildAt(lastParagraph);
-        textPage.setTextColor(context.getResources().getColor(R.color.text_color));
+        if (textPage != null) {
+            textPage.setTextColor(context.getResources().getColor(R.color.text_color));
+        }
         textPage = (TextPage) subtitleLayout.getChildAt(current);
         textPage.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
         lastParagraph = current;

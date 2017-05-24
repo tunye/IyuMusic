@@ -70,6 +70,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             player.start();
             pause.setState(MorphButton.MorphState.END);
             progressBar.setMax(player.getDuration());
+            handler.sendEmptyMessage(0);
             refresh();
         }
 
@@ -137,13 +138,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos(LocalMusicActivity.this.getClass().getName());
-                StudyManager.getInstance().setSourceArticleList(musics);
-                StudyManager.getInstance().setCurArticle(musics.get(position));
-                adapter.setCurPos(position);
-                ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                        StudyManager.getInstance().getCurArticle(), false);
+                playSelectItem(position);
             }
 
             @Override
@@ -181,7 +176,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             @Override
             public void onClick(View v) {
                 if (musics.size() != 0) {
-                    randomPlay();
+                    playSelectItem(new Random().nextInt(musics.size()));
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                 }
@@ -194,7 +189,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
                     } else {
-                        randomPlay();
+                        playSelectItem(new Random().nextInt(musics.size()));
                     }
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
@@ -319,20 +314,15 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         }
     }
 
-    private void randomPlay() {
-        if (musics.size() != 0) {
-            int position = new Random().nextInt(musics.size());
-            StudyManager.getInstance().setSourceArticleList(musics);
-            StudyManager.getInstance().setListFragmentPos(LocalMusicActivity.this.getClass().getName());
-            StudyManager.getInstance().setCurArticle(musics.get(position));
-            StudyManager.getInstance().setStartPlaying(true);
-            musicList.scrollToPosition(position);
-            adapter.setCurPos(position);
-            ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
-            ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(musics.get(position).getId());
-        } else {
-            CustomToast.getInstance().showToast(R.string.eggshell_music_no);
-        }
+    private void playSelectItem(int position) {
+        StudyManager.getInstance().setSourceArticleList(musics);
+        StudyManager.getInstance().setListFragmentPos(LocalMusicActivity.this.getClass().getName());
+        StudyManager.getInstance().setCurArticle(musics.get(position));
+        StudyManager.getInstance().setStartPlaying(true);
+        musicList.scrollToPosition(position);
+        adapter.setCurPos(position);
+        ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+        ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(musics.get(position).getId());
     }
 
     private void refresh() {
@@ -413,7 +403,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     mWeakReference.get().setPauseImage();
                     break;
                 case "randomPlay":
-                    mWeakReference.get().randomPlay();
+                    mWeakReference.get().playSelectItem(new Random().nextInt(mWeakReference.get().musics.size()));
                     break;
             }
         }
