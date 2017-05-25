@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -59,6 +58,8 @@ public class MainActivity extends BaseSkinActivity {
     private static final int WRITE_EXTERNAL_TASK_NO_EXE_CODE = 2;
     private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
     private Context context;
+    private MainLeftFragment mainLeftFragment;
+    private MainFragment mainFragment;
     private DrawerLayout drawerLayout;
     private View drawView, root;
     private TextView toolbarOper;
@@ -188,10 +189,10 @@ public class MainActivity extends BaseSkinActivity {
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         menu = (MaterialMenuView) findViewById(R.id.material_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Fragment fragment = new MainLeftFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, fragment).commitAllowingStateLoss();
-        fragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commitAllowingStateLoss();
+        mainLeftFragment = new MainLeftFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, mainLeftFragment).commitAllowingStateLoss();
+        mainFragment = new MainFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commitAllowingStateLoss();
         drawView = findViewById(R.id.left_drawer);
     }
 
@@ -263,6 +264,8 @@ public class MainActivity extends BaseSkinActivity {
     public void finish() {
         super.finish();
         unRegistBroadcast();
+        getSupportFragmentManager().beginTransaction().remove(mainFragment).commitNow();
+        getSupportFragmentManager().beginTransaction().remove(mainLeftFragment).commitNow();
         handler.removeCallbacksAndMessages(null);
     }
 

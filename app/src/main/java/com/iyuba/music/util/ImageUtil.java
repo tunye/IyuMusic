@@ -1,5 +1,6 @@
 package com.iyuba.music.util;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -143,6 +144,11 @@ public class ImageUtil {
     public static void clearImageAllCache(Context context) {
         clearDiskCache(context);
         clearMemoryCache(context);
+    }
+
+    public static void destroy(Application application){
+        clearMemoryCache(application);
+        Glide.with(application).onDestroy();
     }
 
     public interface OnDrawableLoadListener {

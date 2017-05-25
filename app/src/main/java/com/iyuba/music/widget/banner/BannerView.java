@@ -210,7 +210,7 @@ public class BannerView extends RelativeLayout {
     public void stopAd() {
         if (isLooping) {
             isLooping = false;
-            scheduledExecutorService.shutdown();
+            scheduledExecutorService.shutdownNow();
         }
     }
 

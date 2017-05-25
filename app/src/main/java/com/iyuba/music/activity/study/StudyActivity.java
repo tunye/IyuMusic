@@ -72,6 +72,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public static final int NONE = 0x03;
     private static final int RECORD_AUDIO_TASK_CODE = 2;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private StudyFragmentAdapter studyFragmentAdapter;
     private StudyMore studyMoreDialog;
     private StandardPlayer player;
     private TextView currTime, duration;
@@ -160,6 +161,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        studyFragmentAdapter.destroy();
+        studyFragmentAdapter = null;
         unregisterReceiver(studyChangeUIBroadCast);
         ((MusicApplication) getApplication()).getPlayerService().setListener(null);
         iPlayerListener = null;
@@ -174,7 +177,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onBackPressed() {
         if (studyMoreDialog != null && studyMoreDialog.isShown()) {
             studyMoreDialog.dismiss();
-        } else if (!((StudyFragmentAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem()).onBackPressed()) {
+        } else if (!studyFragmentAdapter.getItem(viewPager.getCurrentItem()).onBackPressed()) {
             if (!mipush && !changeProperty) {
                 if (((MusicApplication) getApplication()).noMain()) {
                     startActivity(new Intent(this, MainActivity.class));
@@ -513,11 +516,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         setPauseImage(false);
         handler.sendEmptyMessage(2);
         setFuncImgShowState();
-        if (viewPager.getAdapter() == null) {
-            viewPager.setAdapter(new StudyFragmentAdapter(getSupportFragmentManager()));
+        if (viewPager.getAdapter() == null || studyFragmentAdapter == null) {
+            studyFragmentAdapter = new StudyFragmentAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(studyFragmentAdapter);
             viewPager.setCurrentItem(1);
         } else {
-            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
+            studyFragmentAdapter.refresh();
         }
     }
 
@@ -555,12 +559,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 player.seekTo(0);
             }
-            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
+            studyFragmentAdapter.refresh();
             player.start();
         } else {
             if (isDestroyed) {
             } else if (defaultPos) {
-                ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
+                studyFragmentAdapter.refresh();
                 viewPager.setCurrentItem(1);
             } else {
                 if (checkNetWorkState()) {
@@ -569,7 +573,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     duration.setText("00:00");
                 }
                 int currPage = viewPager.getCurrentItem();
-                ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
+                studyFragmentAdapter.refresh();
                 viewPager.setCurrentItem(currPage);
             }
         }
@@ -644,7 +648,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     StudyManager.getInstance().getCurArticle(), true);
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
             int currPage = viewPager.getCurrentItem();
-            ((StudyFragmentAdapter) viewPager.getAdapter()).refresh();
+            studyFragmentAdapter.refresh();
             viewPager.setCurrentItem(currPage);
         }
     }
@@ -659,7 +663,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         if (click) {
-            ((StudyFragmentAdapter) viewPager.getAdapter()).changeLanguage();
+            studyFragmentAdapter.changeLanguage();
         }
     }
 

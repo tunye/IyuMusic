@@ -121,6 +121,10 @@ public class DownloadTask {
     }
 
     public void start() {
+        if (downloadExecutor.isShutdown()) {
+            downloadExecutor = new ThreadPoolExecutor(1, 3, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            downloadExecutor.allowCoreThreadTimeOut(true);
+        }
         downloadExecutor.execute(new Runnable() {
             public void run() {
                 downedFileLength = 0;
@@ -318,7 +322,7 @@ public class DownloadTask {
         });
     }
 
-    public void shutDown() {
+    public static void shutDown() {
         downloadExecutor.shutdownNow();
     }
 }

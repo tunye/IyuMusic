@@ -51,6 +51,7 @@ public class MainFragment extends BaseFragment {
     private Context context;
     private StandardPlayer player;
     private TabIndicator viewPagerIndicator;
+    private MainFragmentAdapter mainFragmentAdapter;
     //控制栏
     private CircleImageView pic;
     private RoundProgressBar progressBar;
@@ -72,7 +73,8 @@ public class MainFragment extends BaseFragment {
         ArrayList<String> title = new ArrayList<>();
         title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MainFragmentAdapter(getActivity().getSupportFragmentManager()));
+        mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
+        viewPager.setAdapter(mainFragmentAdapter);
         viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
         viewPagerIndicator.setViewPager(viewPager, 0);
@@ -109,6 +111,7 @@ public class MainFragment extends BaseFragment {
         super.onDestroyView();
         context.unregisterReceiver(broadCast);
         pause.setOnClickListener(null);
+        mainFragmentAdapter.destroy();
     }
 
     private void initPlayControl(View root) {

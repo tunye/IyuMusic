@@ -26,6 +26,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
+import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
@@ -222,10 +223,11 @@ public class MusicApplication extends Application {
             proxy.shutdown();
         }
         stopLessonRecord();
-        ImageUtil.clearMemoryCache(this);
+        ImageUtil.destroy(this);
         clearActivityList();
         ThreadPoolUtil.getInstance().shutdown();
-        DownloadTask.getDownloadExecutor().shutdownNow();
+        DownloadTask.shutDown();
+        ImportDatabase.getInstance().closeDatabase();
         try {
             if (changeProperty != null) {
                 unregisterReceiver(changeProperty);

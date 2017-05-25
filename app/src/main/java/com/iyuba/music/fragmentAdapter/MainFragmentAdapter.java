@@ -53,6 +53,12 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         fm.beginTransaction().hide(fragment).commitAllowingStateLoss();
     }
 
+    public void destroy() {
+        for (BaseFragment fragment : list) {
+            fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
+        }
+    }
+
     @Override
     public int getCount() {
         return 4;

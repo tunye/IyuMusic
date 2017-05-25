@@ -41,6 +41,10 @@ public class ImportDatabase {
         return mDBHelper.getWritableDatabase();
     }
 
+    public void closeDatabase() {
+        mDBHelper.close();
+    }
+
     public void openDatabase() {
         lastVersion = ConfigManager.getInstance().loadInt("database_version");
         File database = new File(dbPath);
