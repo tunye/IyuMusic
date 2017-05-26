@@ -85,31 +85,29 @@ public class ImageUtil {
                 .error(placeholderDrawableId)
                 .animate(R.anim.fade_in)
                 .skipMemoryCache(!cache)
-                .diskCacheStrategy(cache ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.NONE)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource,
-                                                   String model,
-                                                   Target<GlideDrawable> target,
-                                                   boolean isFromMemoryCache,
-                                                   boolean isFirstResource) {
-                        if (listener != null) {
-                            listener.onSuccess(resource);
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onException(Exception e,
+                .diskCacheStrategy(cache ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.NONE);
+        if (listener != null) {
+            builder.listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onResourceReady(GlideDrawable resource,
                                                String model,
                                                Target<GlideDrawable> target,
+                                               boolean isFromMemoryCache,
                                                boolean isFirstResource) {
-                        if (listener != null) {
-                            listener.onFail(e);
-                        }
-                        return false;
-                    }
-                });
+                    listener.onSuccess(resource);
+                    return false;
+                }
+
+                @Override
+                public boolean onException(Exception e,
+                                           String model,
+                                           Target<GlideDrawable> target,
+                                           boolean isFirstResource) {
+                    listener.onFail(e);
+                    return false;
+                }
+            });
+        }
         (centerCrop ? builder.centerCrop() : builder.fitCenter()).into(imageView);
     }
 
@@ -146,7 +144,7 @@ public class ImageUtil {
         clearMemoryCache(context);
     }
 
-    public static void destroy(Application application){
+    public static void destroy(Application application) {
         clearMemoryCache(application);
         Glide.with(application).onDestroy();
     }

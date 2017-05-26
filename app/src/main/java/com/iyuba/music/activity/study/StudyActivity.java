@@ -160,17 +160,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        studyFragmentAdapter.destroy();
-        studyFragmentAdapter = null;
+        if (youdaoNative != null) {
+            youdaoNative.destroy();
+        }
         unregisterReceiver(studyChangeUIBroadCast);
         ((MusicApplication) getApplication()).getPlayerService().setListener(null);
         iPlayerListener = null;
         isDestroyed = true;
-        if (youdaoNative != null) {
-            youdaoNative.setNativeEventListener(null);
-            youdaoNative.destroy();
-        }
+        super.onDestroy();
     }
 
     @Override

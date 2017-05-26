@@ -81,8 +81,8 @@ public class MusicApplication extends Application {
             activityList = new ArrayList<>();
             prepareForApp();
 //            LeakCanary.install(this);
-            CrashHandler crashHandler = new CrashHandler(this);
-            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+//            CrashHandler crashHandler = new CrashHandler(this);
+//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 
