@@ -142,12 +142,13 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            mWeakReference.get().historyFilter = (ArrayList<String>) results.values;
-            if (results.count > 0) {
-                mWeakReference.get().notifyDataSetChanged();
-            } else {
-                mWeakReference.get().notifyDataSetInvalidated();
+            if (mWeakReference.get() != null) {
+                mWeakReference.get().historyFilter = (ArrayList<String>) results.values;
+                if (results.count > 0) {
+                    mWeakReference.get().notifyDataSetChanged();
+                } else {
+                    mWeakReference.get().notifyDataSetInvalidated();
+                }
             }
         }
     }

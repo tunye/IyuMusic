@@ -332,12 +332,8 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     private void unRegistBroadcast() {
-        try {
-            if (netWorkChange != null) {
-                unregisterReceiver(netWorkChange);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (netWorkChange != null) {
+            unregisterReceiver(netWorkChange);
         }
         LocationUtil.getInstance().destroy();
     }

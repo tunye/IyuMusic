@@ -249,7 +249,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private boolean checkNetWorkState() {
         String url = ((MusicApplication) getApplication()).getPlayerService().getUrl(StudyManager.getInstance().getCurArticle());
-        if (((MusicApplication) getApplication()).getProxy(this).isCached(url)) {
+        if (((MusicApplication) getApplication()).getProxy().isCached(url)) {
             return true;
         } else if (url.startsWith("http") && !isDestroyed) {
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
@@ -776,12 +776,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void refreshUI(String message) {
-            switch (message) {
-                case "change":
-                    mWeakReference.get().refresh(true);
-                case "pause":
-                    mWeakReference.get().setPauseImage(false);
-                    break;
+            if (mWeakReference.get() != null) {
+                switch (message) {
+                    case "change":
+                        mWeakReference.get().refresh(true);
+                    case "pause":
+                        mWeakReference.get().setPauseImage(false);
+                        break;
+                }
             }
         }
     }

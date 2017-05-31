@@ -301,13 +301,15 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public void refreshUI(String message) {
-            switch (message) {
-                case "change":
-                    mWeakReference.get().setContent();
-                    // 故意如此，刷新界面必须刷新UI
-                case "pause":
-                    mWeakReference.get().setImageState(true);
-                    break;
+            if (mWeakReference.get() != null) {
+                switch (message) {
+                    case "change":
+                        mWeakReference.get().setContent();
+                        // 故意如此，刷新界面必须刷新UI
+                    case "pause":
+                        mWeakReference.get().setImageState(true);
+                        break;
+                }
             }
         }
     }

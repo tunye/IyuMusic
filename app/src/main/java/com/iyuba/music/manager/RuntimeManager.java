@@ -43,7 +43,7 @@ public class RuntimeManager {
     }
 
     public static HttpProxyCacheServer getProxy() {
-        return InstanceHelper.instance.application.getProxy(InstanceHelper.instance.context);
+        return InstanceHelper.instance.application.getProxy();
     }
 
     public static DisplayMetrics getDisplayMetrics() {

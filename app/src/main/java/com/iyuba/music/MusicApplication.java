@@ -286,7 +286,7 @@ public class MusicApplication extends Application {
         this.playerService = playerService;
     }
 
-    public HttpProxyCacheServer getProxy(Context context) {
+    public HttpProxyCacheServer getProxy() {
         return proxy == null ? (proxy = new HttpProxyCacheServer(this)) : proxy;
     }
 }
