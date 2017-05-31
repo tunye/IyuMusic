@@ -398,12 +398,25 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         public void refreshUI(String message) {
             switch (message) {
                 case "change":
-                    mWeakReference.get().refresh();
+                    if (mWeakReference.get() != null) {
+                        mWeakReference.get().refresh();
+                    }
                 case "pause":
-                    mWeakReference.get().setPauseImage();
+                    if (mWeakReference.get() != null) {
+                        mWeakReference.get().setPauseImage();
+                    }
                     break;
                 case "randomPlay":
-                    mWeakReference.get().playSelectItem(new Random().nextInt(mWeakReference.get().musics.size()));
+                    if (mWeakReference.get() != null) {
+                        ArrayList<Article> musics = mWeakReference.get().musics;
+                        if (musics != null) {
+                            if (musics.size() != 0) {
+                                mWeakReference.get().playSelectItem(new Random().nextInt(musics.size()));
+                            } else {
+                                CustomToast.getInstance().showToast(R.string.eggshell_music_no);
+                            }
+                        }
+                    }
                     break;
             }
         }
