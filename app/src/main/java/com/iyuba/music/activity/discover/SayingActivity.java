@@ -104,7 +104,7 @@ public class SayingActivity extends BaseActivity {
     }
 
     private int getRandomId() {
-        return RandomUtil.getRandomInt(1000)% 154 + 1;
+        return RandomUtil.getRandomInt(1000) % 154 + 1;
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SayingActivity> {

@@ -9,10 +9,6 @@ import java.util.Random;
 public class RandomUtil {
     public Random random;
 
-    private static class InstanceHelper {
-        private static RandomUtil instance = new RandomUtil();
-    }
-
     private RandomUtil() {
         random = new Random();
     }
@@ -24,4 +20,9 @@ public class RandomUtil {
     public static int getRandomInt(int seed) {
         return InstanceHelper.instance.random.nextInt(seed);
     }
+
+    private static class InstanceHelper {
+        private static RandomUtil instance = new RandomUtil();
+    }
+
 }

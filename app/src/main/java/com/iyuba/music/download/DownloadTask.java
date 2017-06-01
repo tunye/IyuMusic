@@ -120,6 +120,10 @@ public class DownloadTask {
         }
     }
 
+    public static void shutDown() {
+        downloadExecutor.shutdownNow();
+    }
+
     public void start() {
         if (downloadExecutor.isShutdown()) {
             downloadExecutor = new ThreadPoolExecutor(1, 3, 500, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
@@ -320,9 +324,5 @@ public class DownloadTask {
                 OriginalMaker.getInstance().makeOriginal(id, (ArrayList<Original>) listEntity.getData());
             }
         });
-    }
-
-    public static void shutDown() {
-        downloadExecutor.shutdownNow();
     }
 }
