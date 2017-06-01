@@ -11,11 +11,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.widget.imageview.RatioImageView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -90,8 +90,7 @@ public class MeizhiAdapter extends RecyclerView.Adapter<MeizhiAdapter.MyViewHold
             super(view);
             desc = (TextView) view.findViewById(R.id.tv_title);
             pic = (RatioImageView) view.findViewById(R.id.iv_girl);
-            Random random = new Random();
-            int temp = random.nextInt(6);
+            int temp = RandomUtil.getRandomInt(6);
             int originalHeight;
             if (temp % 3 == 0) {
                 originalHeight = 50 - temp;

@@ -37,6 +37,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.CreateAppLnkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.StandardPlayer;
@@ -45,7 +46,6 @@ import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Random;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -176,7 +176,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             @Override
             public void onClick(View v) {
                 if (musics.size() != 0) {
-                    playSelectItem(new Random().nextInt(musics.size()));
+                    playSelectItem(RandomUtil.getRandomInt(musics.size()));
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                 }
@@ -189,7 +189,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
                     } else {
-                        playSelectItem(new Random().nextInt(musics.size()));
+                        playSelectItem(RandomUtil.getRandomInt(musics.size()));
                     }
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
@@ -411,7 +411,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                         ArrayList<Article> musics = mWeakReference.get().musics;
                         if (musics != null) {
                             if (musics.size() != 0) {
-                                mWeakReference.get().playSelectItem(new Random().nextInt(musics.size()));
+                                mWeakReference.get().playSelectItem(RandomUtil.getRandomInt(musics.size()));
                             } else {
                                 CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                             }

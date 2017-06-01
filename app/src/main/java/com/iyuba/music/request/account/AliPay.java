@@ -13,6 +13,7 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
@@ -25,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by 10202 on 2017/1/9.
@@ -91,8 +91,7 @@ public class AliPay {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();
         String key = format.format(date);
-        Random r = new Random();
-        key = key + Math.abs(r.nextInt());
+        key = key + Math.abs(RandomUtil.getInstance().random.nextInt());
         key = key.substring(0, 15);
         return key;
     }

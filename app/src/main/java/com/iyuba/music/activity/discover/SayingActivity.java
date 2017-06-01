@@ -14,13 +14,12 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.word.Saying;
 import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.nineoldandroids.animation.Animator;
-
-import java.util.Random;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -105,8 +104,7 @@ public class SayingActivity extends BaseActivity {
     }
 
     private int getRandomId() {
-        Random rnd = new Random();
-        return rnd.nextInt(1000) % 154 + 1;
+        return RandomUtil.getRandomInt(1000)% 154 + 1;
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SayingActivity> {
