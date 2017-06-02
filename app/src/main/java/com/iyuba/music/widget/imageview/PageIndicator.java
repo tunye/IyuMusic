@@ -65,8 +65,8 @@ public class PageIndicator extends View {
             circleCount = 1;
         } else {
             TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.PageIndicator);
-            strokeColor = typedArray.getColor(R.styleable.PageIndicator_pi_strokecolor, GetAppColor.getInstance().getAppColor(context));
-            fillColor = typedArray.getColor(R.styleable.PageIndicator_pi_fillcolor, GetAppColor.getInstance().getAppColorLight(context));
+            strokeColor = typedArray.getColor(R.styleable.PageIndicator_pi_strokecolor, GetAppColor.getInstance().getAppColor());
+            fillColor = typedArray.getColor(R.styleable.PageIndicator_pi_fillcolor, GetAppColor.getInstance().getAppColorLight());
             stroke = typedArray.getDimension(R.styleable.PageIndicator_pi_stroke, RuntimeManager.dip2px(1));
             radius = typedArray.getDimension(R.styleable.PageIndicator_pi_radius, RuntimeManager.dip2px(6));
             circleCount = typedArray.getInt(R.styleable.PageIndicator_pi_count, 1);

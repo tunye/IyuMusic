@@ -1,6 +1,5 @@
 package com.iyuba.music.util;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.buaa.ct.skin.SkinManager;
@@ -9,6 +8,7 @@ import com.iyuba.music.manager.RuntimeManager;
 
 import java.util.Arrays;
 import java.util.List;
+
 
 /**
  * Created by 10202 on 2016/7/19.
@@ -24,61 +24,61 @@ public class GetAppColor {
         return SingleInstanceHelper.instance;
     }
 
-    public static int getResource(Context context, String colorName) {
-        return context.getResources().getIdentifier(colorName, "color", context.getPackageName());
+    public static int getResource(String colorName) {
+        return RuntimeManager.getContext().getResources().getIdentifier(colorName, "color", RuntimeManager.getApplication().getPackageName());
     }
 
-    public int getAppColor(Context context) {
+    public int getAppColor() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return context.getResources().getColor(R.color.skin_app_color);
+            return RuntimeManager.getContext().getResources().getColor(R.color.skin_app_color);
         } else {
-            return context.getResources().getColor(GetAppColor.getResource(context, "skin_app_color_" + flavorsDef.get(skin)));
+            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_" + flavorsDef.get(skin)));
         }
     }
 
-    public int getAppColorRes(Context context) {
+    public int getAppColorRes() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return R.color.skin_app_color;
         } else {
-            return GetAppColor.getResource(context, "skin_app_color_" + flavorsDef.get(skin));
+            return GetAppColor.getResource("skin_app_color_" + flavorsDef.get(skin));
         }
     }
 
-    public int getAppColorLight(Context context) {
+    public int getAppColorLight() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return context.getResources().getColor(R.color.skin_app_color_light);
+            return RuntimeManager.getContext().getResources().getColor(R.color.skin_app_color_light);
         } else {
-            return context.getResources().getColor(GetAppColor.getResource(context, "skin_app_color_light_" + flavorsDef.get(skin)));
+            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_light_" + flavorsDef.get(skin)));
         }
     }
 
-    public int getAppColorLightRes(Context context) {
+    public int getAppColorLightRes() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return R.color.skin_app_color_light;
         } else {
-            return GetAppColor.getResource(context, "skin_app_color_light_" + flavorsDef.get(skin));
+            return GetAppColor.getResource("skin_app_color_light_" + flavorsDef.get(skin));
         }
     }
 
-    public int getAppColorAccent(Context context) {
+    public int getAppColorAccent() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return context.getResources().getColor(R.color.skin_color_accent);
+            return RuntimeManager.getContext().getResources().getColor(R.color.skin_color_accent);
         } else {
-            return context.getResources().getColor(GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin)));
+            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_color_accent_" + flavorsDef.get(skin)));
         }
     }
 
-    public int getAppColorAccentRes(Context context) {
+    public int getAppColorAccentRes() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
             return R.color.skin_color_accent;
         } else {
-            return GetAppColor.getResource(context, "skin_color_accent_" + flavorsDef.get(skin));
+            return GetAppColor.getResource("skin_color_accent_" + flavorsDef.get(skin));
         }
     }
 

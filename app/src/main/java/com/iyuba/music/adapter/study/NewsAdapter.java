@@ -198,8 +198,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     if (file.id == id) {
                         switch (file.downloadState) {
                             case "start":
-                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
-                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
+                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor());
                                 if (file.fileSize != 0 && file.downloadSize != 0) {
                                     newsViewHolder.download.setMax(file.fileSize);
                                     newsViewHolder.download.setProgress(file.downloadSize);
@@ -209,8 +209,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                                 }
                                 break;
                             case "half_finish":
-                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(context));
-                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                                newsViewHolder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent());
+                                newsViewHolder.download.setTextColor(GetAppColor.getInstance().getAppColor());
                                 if (file.fileSize != 0 && file.downloadSize != 0) {
                                     newsViewHolder.download.setMax(file.fileSize);
                                     newsViewHolder.download.setProgress(file.downloadSize);
@@ -282,7 +282,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
-            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor(view.getContext()));
+            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor());
         }
 
         void setBannerData(final List<BannerEntity> datas) {

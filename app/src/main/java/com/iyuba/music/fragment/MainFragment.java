@@ -78,7 +78,7 @@ public class MainFragment extends BaseFragment {
         viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
         viewPagerIndicator.setViewPager(viewPager, 0);
-        viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor(context));
+        viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor());
         initPlayControl(view);
         return view;
     }
@@ -117,14 +117,14 @@ public class MainFragment extends BaseFragment {
     private void initPlayControl(View root) {
         pic = (CircleImageView) root.findViewById(R.id.song_image);
         progressBar = (RoundProgressBar) root.findViewById(R.id.progressbar);
-        progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
+        progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
         progressBar.setMax(100);
         curArticleTitle = (TextView) root.findViewById(R.id.curarticle_title);
         curArticleInfo = (TextView) root.findViewById(R.id.curarticle_info);
         ImageView former = (ImageView) root.findViewById(R.id.main_former);
         ImageView latter = (ImageView) root.findViewById(R.id.main_latter);
         pause = (MorphButton) root.findViewById(R.id.main_play);
-        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

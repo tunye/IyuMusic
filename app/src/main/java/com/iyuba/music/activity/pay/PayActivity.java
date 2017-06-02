@@ -131,14 +131,14 @@ public class PayActivity extends BaseActivity {
 
     private void showWxSelect() {
         wxSelected.setVisibility(View.VISIBLE);
-        wxSelected.setColorFilter(GetAppColor.getInstance().getAppColor(context));
+        wxSelected.setColorFilter(GetAppColor.getInstance().getAppColor());
         baoSelected.setVisibility(View.GONE);
     }
 
     private void showBaoSelect() {
         wxSelected.setVisibility(View.GONE);
         baoSelected.setVisibility(View.VISIBLE);
-        baoSelected.setColorFilter(GetAppColor.getInstance().getAppColor(context));
+        baoSelected.setColorFilter(GetAppColor.getInstance().getAppColor());
     }
 
     @Override

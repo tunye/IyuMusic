@@ -2,10 +2,8 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +15,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -34,10 +33,10 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
+        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
+        } else {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
         }
         ((MusicApplication) getApplication()).pushActivity(this);
     }

@@ -125,8 +125,8 @@ public class TabIndicator extends LinearLayout {
             drawShape = LINE;
         }
         normalColor = a.getColor(R.styleable.TabIndicator_tab_normal_color, context.getResources().getColor(R.color.text_gray_color));
-        highlightColor = a.getColor(R.styleable.TabIndicator_tab_highlight_color, GetAppColor.getInstance().getAppColor(context));
-        paintColor = a.getColor(R.styleable.TabIndicator_tab_indicator_color, GetAppColor.getInstance().getAppColor(context));
+        highlightColor = a.getColor(R.styleable.TabIndicator_tab_highlight_color, GetAppColor.getInstance().getAppColor());
+        paintColor = a.getColor(R.styleable.TabIndicator_tab_indicator_color, GetAppColor.getInstance().getAppColor());
         if (visibleTabCount < 0)
             visibleTabCount = COUNT_DEFAULT_TAB;
         a.recycle();

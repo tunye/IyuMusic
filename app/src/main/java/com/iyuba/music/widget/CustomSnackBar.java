@@ -28,8 +28,8 @@ public class CustomSnackBar {
     }
 
     private static void setAppColor(Context context) {
-        color_info = GetAppColor.getInstance().getAppColor(context);
-        color_warning = GetAppColor.getInstance().getAppColorAccent(context);
+        color_info = GetAppColor.getInstance().getAppColor();
+        color_warning = GetAppColor.getInstance().getAppColorAccent();
     }
 
     private View getSnackBarLayout(Snackbar snackbar) {

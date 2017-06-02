@@ -23,10 +23,10 @@ android {
     }
     defaultConfig {
         applicationId "com.iyuba.music"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 25
-        versionCode 894
-        versionName "8.9.6"
+        versionCode 895
+        versionName "8.9.7"
         multiDexEnabled true
     }
     buildTypes {

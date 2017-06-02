@@ -297,14 +297,14 @@ public class MainLeftFragment extends BaseFragment {
         int follow = TextUtils.isEmpty(userInfo.getFollowing()) ? 0 : Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
-            personalFollow.setTextColor(GetAppColor.getInstance().getAppColor(context));
+            personalFollow.setTextColor(GetAppColor.getInstance().getAppColor());
         } else {
             personalFollow.setText(context.getString(R.string.personal_follow, String.valueOf(follow)));
         }
         int follower = TextUtils.isEmpty(userInfo.getFollower()) ? 0 : Integer.parseInt(userInfo.getFollower());
         if (follower > 10000) {
             personalFan.setText(context.getString(R.string.personal_fan, follower / 10000 + "w"));
-            personalFan.setTextColor(GetAppColor.getInstance().getAppColor(context));
+            personalFan.setTextColor(GetAppColor.getInstance().getAppColor());
         } else {
             personalFan.setText(context.getString(R.string.personal_fan, String.valueOf(follower)));
         }

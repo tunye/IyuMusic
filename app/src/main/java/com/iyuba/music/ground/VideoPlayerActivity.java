@@ -127,7 +127,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         videoView = (VideoView) findViewById(R.id.videoView_small);
         originalView = (OriginalSynView) findViewById(R.id.original);
         largePause = (ImageView) findViewById(R.id.large_pause);
-        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -176,12 +176,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
                 if (user) {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
-                    duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColor());
+                    duration.setTextColor(GetAppColor.getInstance().getAppColor());
                     videoView.seekTo(progress);
                 } else {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
-                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight());
+                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight());
                 }
                 currTime.setText(Mathematics.formatTime(progress / 1000));
             }

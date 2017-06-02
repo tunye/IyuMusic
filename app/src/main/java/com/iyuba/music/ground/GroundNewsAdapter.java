@@ -77,7 +77,7 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
                 holder.title.setText(article.getTitle_cn());
             }
         }
-        holder.title.setTextColor(GetAppColor.getInstance().getAppColor(context));
+        holder.title.setTextColor(GetAppColor.getInstance().getAppColor());
         holder.content.setText(article.getContent());
         holder.time.setText(article.getTime().split(" ")[0]);
         holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));

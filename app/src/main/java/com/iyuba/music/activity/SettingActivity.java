@@ -123,7 +123,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setPushState();
                 if (isChecked) {
-                    currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                     CustomToast.getInstance().showToast(R.string.setting_push_on);
                 } else {
                     currPush.setBackColorRes(R.color.background_light);
@@ -139,7 +139,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         title.setText(R.string.setting_title);
         if (SettingConfigManager.getInstance().isPush()) {
             currPush.setCheckedImmediatelyNoEvent(true);
-            currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currPush.setCheckedImmediatelyNoEvent(false);
             currPush.setBackColorRes(R.color.background_light);

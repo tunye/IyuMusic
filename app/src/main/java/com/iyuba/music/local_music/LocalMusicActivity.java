@@ -229,7 +229,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.changeUIByPara();
         title.setText(R.string.oper_local_music);
         toolbarOper.setText(R.string.eggshell_music_scan);
-        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
         if (TextUtils.isEmpty(ConfigManager.getInstance().loadString("localMusicPath"))) {
             ConfigManager.getInstance().putString("localMusicPath", "/");

@@ -218,8 +218,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                 if (file.id == id) {
                     switch (file.downloadState) {
                         case "start":
-                            holder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
-                            holder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                            holder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
+                            holder.download.setTextColor(GetAppColor.getInstance().getAppColor());
                             if (file.fileSize != 0 && file.downloadSize != 0) {
                                 holder.download.setMax(file.fileSize);
                                 holder.download.setProgress(file.downloadSize);
@@ -230,8 +230,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             holder.itemView.postDelayed(refreshItem, 500);
                             break;
                         case "half_finish":
-                            holder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent(context));
-                            holder.download.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                            holder.download.setCricleProgressColor(GetAppColor.getInstance().getAppColorAccent());
+                            holder.download.setTextColor(GetAppColor.getInstance().getAppColor());
                             if (file.fileSize != 0 && file.downloadSize != 0) {
                                 holder.download.setMax(file.fileSize);
                                 holder.download.setProgress(file.downloadSize);

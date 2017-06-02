@@ -171,7 +171,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         AdViewHolder(View view) {
             super(view);
             bannerView = (BannerView) view.findViewById(R.id.banner);
-            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor(view.getContext()));
+            bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor());
         }
 
         void setBannerData(final List<BannerEntity> datas) {

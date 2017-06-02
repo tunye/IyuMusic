@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,8 +19,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -41,6 +38,7 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -69,12 +67,10 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
+        } else {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
         }
         setContentView(R.layout.main);
         context = this;

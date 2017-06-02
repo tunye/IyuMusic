@@ -61,14 +61,14 @@ public class RoundViewDelegate {
 
         ta.recycle();
         if (backgroundColor == context.getResources().getColor(R.color.skin_app_color)) {
-            backgroundColor = GetAppColor.getInstance().getAppColor(context);
+            backgroundColor = GetAppColor.getInstance().getAppColor();
         } else if (backgroundColor == context.getResources().getColor(R.color.skin_app_color_light)) {
-            backgroundColor = GetAppColor.getInstance().getAppColorLight(context);
+            backgroundColor = GetAppColor.getInstance().getAppColorLight();
         }
         if (strokeColor == context.getResources().getColor(R.color.skin_app_color)) {
-            strokeColor = GetAppColor.getInstance().getAppColor(context);
+            strokeColor = GetAppColor.getInstance().getAppColor();
         } else if (strokeColor == context.getResources().getColor(R.color.skin_app_color_light)) {
-            strokeColor = GetAppColor.getInstance().getAppColorLight(context);
+            strokeColor = GetAppColor.getInstance().getAppColorLight();
         }
     }
 

@@ -113,7 +113,7 @@ public class OriginalSizeActivity extends BaseActivity {
                 if (sizePos != position) {
                     ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(getResources().getColor(R.color.text_color));
                     sizePos = position;
-                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(GetAppColor.getInstance().getAppColor(context));
+                    ((TextView) tickMarkLabels.getChildAt(sizePos)).setTextColor(GetAppColor.getInstance().getAppColor());
                     original.setTextSize(posToSize(position));
                     original.setOriginalList(originalRows);
                 }
@@ -186,7 +186,7 @@ public class OriginalSizeActivity extends BaseActivity {
             tv.setGravity(Gravity.CENTER);
             tv.setTextSize(14 + i * 2);
             if (i == initPos) {
-                tv.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                tv.setTextColor(GetAppColor.getInstance().getAppColor());
             } else {
                 tv.setTextColor(getResources().getColor(R.color.text_color));
             }

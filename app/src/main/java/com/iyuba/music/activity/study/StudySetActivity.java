@@ -88,7 +88,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setAutoRound(isChecked);
                 if (isChecked) {
-                    currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currAutoRound.setBackColorRes(R.color.background_light);
                 }
@@ -99,7 +99,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setAutoPlay(isChecked);
                 if (isChecked) {
-                    currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currHeadplugPlay.setBackColorRes(R.color.background_light);
                 }
@@ -110,7 +110,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setAutoStop(isChecked);
                 if (isChecked) {
-                    currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currHeadplugPause.setBackColorRes(R.color.background_light);
                 }
@@ -128,17 +128,17 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currHeadplugPlay.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoPlay());
         currHeadplugPause.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoStop());
         if (currAutoRound.isChecked()) {
-            currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currAutoRound.setBackColorRes(R.color.background_light);
         }
         if (currHeadplugPlay.isChecked()) {
-            currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currHeadplugPlay.setBackColorRes(R.color.background_light);
         }
         if (currHeadplugPause.isChecked()) {
-            currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currHeadplugPause.setBackColorRes(R.color.background_light);
         }

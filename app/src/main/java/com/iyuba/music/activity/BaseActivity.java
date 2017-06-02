@@ -3,11 +3,8 @@ package com.iyuba.music.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +17,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -41,12 +39,10 @@ public abstract class BaseActivity extends BaseSkinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
+        } else {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
         }
         changeProperty = getIntent().getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
         mipush = getIntent().getBooleanExtra("pushIntent", false);

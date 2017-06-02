@@ -41,7 +41,7 @@ public class MediaButtonControlActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setMediaButton(isChecked);
                 if (isChecked) {
-                    switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                     CustomToast.getInstance().showToast(R.string.setting_mediabutton_on);
                 } else {
                     switchButton.setBackColorRes(R.color.background_light);
@@ -56,7 +56,7 @@ public class MediaButtonControlActivity extends BaseActivity {
         super.changeUIByPara();
         if (SettingConfigManager.getInstance().isMediaButton()) {
             switchButton.setCheckedImmediatelyNoEvent(true);
-            switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             switchButton.setCheckedImmediatelyNoEvent(false);
             switchButton.setBackColorRes(R.color.background_light);

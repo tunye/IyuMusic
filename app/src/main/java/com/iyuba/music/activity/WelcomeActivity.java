@@ -30,6 +30,7 @@ import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 
@@ -53,6 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.welcome);
+        ImmersiveManager.getInstance();
         context = this;
         normalStart = getIntent().getBooleanExtra(NORMAL_START, true);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -99,7 +101,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initWelcomeAdProgress() {
-        welcomeAdProgressbar.setCricleProgressColor(GetAppColor.getInstance().getAppColor(context));
+        welcomeAdProgressbar.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
         welcomeAdProgressbar.setProgress(150);                  // 为progress设置一个初始值
         welcomeAdProgressbar.setMax(4000);                      // 总计等待4s
         handler.sendEmptyMessageDelayed(3, 500);                // 半秒刷新进度

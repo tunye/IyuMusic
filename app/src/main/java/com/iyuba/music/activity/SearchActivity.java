@@ -2,7 +2,6 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +37,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -77,9 +77,10 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
+        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
+        } else {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
         }
         setContentView(R.layout.search);
         context = this;

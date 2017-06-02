@@ -2,7 +2,6 @@ package com.iyuba.music.activity.discover;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -48,9 +48,10 @@ public class WordSearchActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor(this));
-            getWindow().setNavigationBarColor(GetAppColor.getInstance().getAppColor(this));
+        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
+        } else {
+            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
         }
         setContentView(R.layout.word_search);
         context = this;

@@ -71,7 +71,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setWordAutoAdd(isChecked);
                 if (isChecked) {
-                    currAutoAdd.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currAutoAdd.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currAutoAdd.setBackColorRes(R.color.background_light);
                 }
@@ -82,7 +82,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setWordAutoPlay(isChecked);
                 if (isChecked) {
-                    currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currAutoAudio.setBackColorRes(R.color.background_light);
                 }
@@ -93,7 +93,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingConfigManager.getInstance().setWordDefShow(isChecked);
                 if (isChecked) {
-                    currShowDef.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+                    currShowDef.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
                     currShowDef.setBackColorRes(R.color.background_light);
                 }
@@ -109,17 +109,17 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         currAutoAdd.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isWordAutoAdd());
         currShowDef.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isWordDefShow());
         if (currAutoAudio.isChecked()) {
-            currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currAutoAudio.setBackColorRes(R.color.background_light);
         }
         if (currAutoAdd.isChecked()) {
-            currAutoAdd.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currAutoAdd.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currAutoAdd.setBackColorRes(R.color.background_light);
         }
         if (currShowDef.isChecked()) {
-            currShowDef.setBackColorRes(GetAppColor.getInstance().getAppColorRes(context));
+            currShowDef.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
             currShowDef.setBackColorRes(R.color.background_light);
         }

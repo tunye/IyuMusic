@@ -196,7 +196,7 @@ public class OriginalSynView extends ScrollView implements
         subtitleLayout.setOrientation(LinearLayout.VERTICAL);
         //时间线画笔
         mPaintForTimeLine = new Paint();
-        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight(context));
+        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight());
         mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔
@@ -270,7 +270,7 @@ public class OriginalSynView extends ScrollView implements
             textPage.setTextColor(context.getResources().getColor(R.color.text_color));
         }
         textPage = (TextPage) subtitleLayout.getChildAt(current);
-        textPage.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+        textPage.setTextColor(GetAppColor.getInstance().getAppColorLight());
         lastParagraph = current;
         return textPage.getTop() + textPage.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
     }
@@ -278,7 +278,7 @@ public class OriginalSynView extends ScrollView implements
     private void drawTimeCanvas(Canvas canvas, String time, float y) {
         //时间线画笔
         mPaintForTimeLine = new Paint();
-        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight(context));
+        mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight());
         mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔

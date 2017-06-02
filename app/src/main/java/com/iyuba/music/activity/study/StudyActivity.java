@@ -368,7 +368,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         comment = (RoundTextView) findViewById(R.id.study_comment);
         studyMode = (ImageView) findViewById(R.id.study_mode);
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
-        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(context), PorterDuff.Mode.SRC_IN);
+        playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadService.checkVip()) {
             initAd();
@@ -454,12 +454,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
                 if (user) {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColor(context));
-                    duration.setTextColor(GetAppColor.getInstance().getAppColor(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColor());
+                    duration.setTextColor(GetAppColor.getInstance().getAppColor());
                     player.seekTo(progress);
                 } else {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
-                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight(context));
+                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight());
+                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight());
                 }
                 currTime.setText(Mathematics.formatTime(progress / 1000));
             }

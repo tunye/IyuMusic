@@ -91,7 +91,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         add = (RoundTextView) root.findViewById(R.id.word_add);
         close = (RoundTextView) root.findViewById(R.id.word_close);
         loading = (AVLoadingIndicatorView) root.findViewById(R.id.word_loading);
-        loading.setIndicatorColor(GetAppColor.getInstance().getAppColor(context));
+        loading.setIndicatorColor(GetAppColor.getInstance().getAppColor());
         wordContent = root.findViewById(R.id.word_content);
         wordOperation = root.findViewById(R.id.word_operation);
         speaker.setOnClickListener(this);
