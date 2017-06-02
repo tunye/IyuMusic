@@ -5,8 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
@@ -17,7 +21,10 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.bitmap.ReadBitmap;
+
+import java.util.LinkedList;
 
 public class NotificationUtil {
     public static final String PAUSE_FLAG = "pause_flag";
@@ -46,7 +53,7 @@ public class NotificationUtil {
         contentView.setTextViewText(R.id.notify_singer, context.getString(R.string.app_corp));
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
         contentView.setImageViewResource(R.id.notify_play, R.drawable.play);
-
+        setTextViewColor(contentView);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
@@ -57,6 +64,7 @@ public class NotificationUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setCustomBigContentView(contentView);
+        notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
         notification = notificationBuilder.build();
         return notification;
     }
@@ -99,7 +107,7 @@ public class NotificationUtil {
                 break;
         }
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
-
+        setTextViewColor(contentView);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setContentTitle(context.getString(R.string.app_name));
         notificationBuilder.setContentText(curArticle.getTitle());
@@ -111,6 +119,7 @@ public class NotificationUtil {
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setCustomBigContentView(contentView);
+        notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
         notification = notificationBuilder.build();
         if (!StudyManager.getInstance().getApp().equals("101")) {
             NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
@@ -156,4 +165,67 @@ public class NotificationUtil {
     private static class SingleInstanceHelper {
         private static NotificationUtil instance = new NotificationUtil();
     }
+
+    private void setTextViewColor(RemoteViews contentView) {
+        boolean isDarkNotificationTheme = isDarkNotificationTheme();
+        int color = isDarkNotificationTheme ? 0xffcdcdcd : 0xff4c4c4c;
+        contentView.setInt(R.id.notify_title, "setTextColor", color);
+        contentView.setInt(R.id.notify_singer, "setTextColor", color);
+        contentView.setInt(R.id.notify_close, "setColorFilter", color);
+        contentView.setInt(R.id.notify_play, "setColorFilter", color);
+        contentView.setInt(R.id.notify_formmer, "setColorFilter", color);
+        contentView.setInt(R.id.notify_latter, "setColorFilter", color);
+    }
+
+    private boolean isDarkNotificationTheme() {
+        return !isSimilarColor(Color.BLACK, getNotificationColor());
+    }
+
+    /**
+     * 获取通知栏颜色
+     *
+     * @return
+     */
+    private int getNotificationColor() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(RuntimeManager.getContext());
+        Notification notification = builder.build();
+        int layoutId = notification.contentView.getLayoutId();
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(RuntimeManager.getContext()).inflate(layoutId, null, false);
+        if (viewGroup.findViewById(android.R.id.title) != null) {
+            return ((TextView) viewGroup.findViewById(android.R.id.title)).getCurrentTextColor();
+        }
+        return findColor(viewGroup);
+    }
+
+    private boolean isSimilarColor(int baseColor, int color) {
+        int simpleBaseColor = baseColor | 0xff000000;
+        int simpleColor = color | 0xff000000;
+        int baseRed = Color.red(simpleBaseColor) - Color.red(simpleColor);
+        int baseGreen = Color.green(simpleBaseColor) - Color.green(simpleColor);
+        int baseBlue = Color.blue(simpleBaseColor) - Color.blue(simpleColor);
+        double value = Math.sqrt(baseRed * baseRed + baseGreen * baseGreen + baseBlue * baseBlue);
+        return value < 180.0;
+    }
+
+    private static int findColor(ViewGroup viewGroupSource) {
+        int color = Color.TRANSPARENT;
+        LinkedList<ViewGroup> viewGroups = new LinkedList<>();
+        viewGroups.add(viewGroupSource);
+        while (viewGroups.size() > 0) {
+            ViewGroup viewGroup1 = viewGroups.getFirst();
+            for (int i = 0; i < viewGroup1.getChildCount(); i++) {
+                if (viewGroup1.getChildAt(i) instanceof ViewGroup) {
+                    viewGroups.add((ViewGroup) viewGroup1.getChildAt(i));
+                } else if (viewGroup1.getChildAt(i) instanceof TextView) {
+                    if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor() != -1) {
+                        color = ((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
+                    }
+                }
+            }
+            viewGroups.remove(viewGroup1);
+        }
+        return color;
+    }
+
+
 }

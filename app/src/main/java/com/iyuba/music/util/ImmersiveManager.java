@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.iyuba.music.R;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Field;
@@ -31,6 +33,12 @@ public class ImmersiveManager {
             sInstance = new ImmersiveManager();
         }
         return sInstance;
+    }
+
+    // activity沉浸式效果实现
+    public void updateImmersiveStatus(Activity activity) {
+        Window window = activity.getWindow();
+        updateImmersive(window, !isBrightTheme());
     }
 
     // activity沉浸式效果实现
@@ -183,6 +191,10 @@ public class ImmersiveManager {
                 }
             }
         });
+    }
+
+    private boolean isBrightTheme(){
+        return GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_light_lgreen;
     }
 
     @TargetApi(4)
