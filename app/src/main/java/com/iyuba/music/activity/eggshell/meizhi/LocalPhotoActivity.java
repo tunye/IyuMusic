@@ -6,10 +6,13 @@ package com.iyuba.music.activity.eggshell.meizhi;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.TextView;
 
+import com.iyuba.music.BuildConfig;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 
@@ -30,7 +33,13 @@ public class LocalPhotoActivity extends BaseActivity {
         initWidget();
         setListener();
         changeUIByPara();
-        photoView.setImageURI(Uri.fromFile(new File(getIntent().getStringExtra(LocalPhotoActivity.EXTRA_IAMGE_URL))));
+        File target=new File(getIntent().getStringExtra(LocalPhotoActivity.EXTRA_IAMGE_URL));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // android N获取uri的新方式
+            photoView.setImageURI(FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, target));
+        } else {
+            photoView.setImageURI(Uri.fromFile(target));
+        }
     }
 
     @Override

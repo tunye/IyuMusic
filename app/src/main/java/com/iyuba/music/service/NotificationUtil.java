@@ -167,7 +167,7 @@ public class NotificationUtil {
     }
 
     private void setTextViewColor(RemoteViews contentView) {
-        boolean isDarkNotificationTheme = isDarkNotificationTheme();
+        boolean isDarkNotificationTheme = false;
         int color = isDarkNotificationTheme ? 0xffcdcdcd : 0xff4c4c4c;
         contentView.setInt(R.id.notify_title, "setTextColor", color);
         contentView.setInt(R.id.notify_singer, "setTextColor", color);

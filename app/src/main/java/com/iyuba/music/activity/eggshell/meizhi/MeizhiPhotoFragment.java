@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.iyuba.music.BuildConfig;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.ConstantManager;
@@ -71,7 +74,13 @@ public class MeizhiPhotoFragment extends DialogFragment {
         bos.flush();
         bos.close();
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(myCaptureFile);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // android N获取uri的新方式
+            uri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID, myCaptureFile);
+        } else {
+            uri = Uri.fromFile(myCaptureFile);
+        }
         intent.setData(uri);
         context.sendBroadcast(intent);
         CustomToast.getInstance().showToast(R.string.photo_downloaded);

@@ -54,8 +54,10 @@ public class VipPhoto extends RelativeLayout {
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
-        if (circleImageView != null && vipStatus != null) {
+        if (circleImageView != null) {
             circleImageView.setOnClickListener(l);
+        }
+        if (vipStatus != null) {
             vipStatus.setOnClickListener(l);
         }
     }
