@@ -1,434 +1,441 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background">
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:background="@color/background">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_with_oper"/>
 
-            <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                android:id="@+id/editPortrait"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                app:rv_cornerRadius="@dimen/corner_radius_big"
-                app:rv_strokeColor="@color/background_light"
-                app:rv_strokeWidth="@dimen/line_thin">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_horizontal_margin">
+
+                <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                    android:id="@+id/editPortrait"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:rv_cornerRadius="@dimen/corner_radius_big"
+                    app:rv_strokeColor="@color/background_light"
+                    app:rv_strokeWidth="@dimen/line_thin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/row_space_large"
+                        android:text="@string/person_detail_uploadPic"
+                        android:textColor="@color/skin_app_color"
+                        android:textSize="@dimen/big_text"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iveditPortrait"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/row_space_large"/>
+
+
+                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_sex"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <TextView
+                            android:id="@+id/editGender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:textColor="@color/text_complementary"
+                            android:textSize="@dimen/big_text"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_birth"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <TextView
+                            android:id="@+id/editBirthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:textColor="@color/text_complementary"
+                            android:textSize="@dimen/big_text"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_local_now"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editResideLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_zodiac"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <TextView
+                            android:id="@+id/editZodiac"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:textColor="@color/text_complementary"
+                            android:textSize="@dimen/big_text"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+
+                        app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_constellation"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <TextView
+                            android:id="@+id/editConstellation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:textColor="@color/text_complementary"
+                            android:textSize="@dimen/big_text"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/row_space_large"
-                    android:text="@string/person_detail_uploadPic"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/person_detail_edu"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/big_text"/>
+                    android:textSize="@dimen/large_text"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iveditPortrait"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large"/>
-
-
-            </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_large"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_sex"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
 
-                    <TextView
-                        android:id="@+id/editGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                        app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
 
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_college"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
 
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editSchool"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_birth"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                    <TextView
-                        android:id="@+id/editBirthday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
 
+                        app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
 
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_corp"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_local_now"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editCompany"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                </LinearLayout>
 
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editResideLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/person_detail_other"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/large_text"/>
 
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_large"
+                    android:orientation="vertical">
 
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_zodiac"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                        app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_TR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
 
-                    <TextView
-                        android:id="@+id/editZodiac"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_feeling"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
 
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editAffectiveStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
-                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_constellation"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
 
-                    <TextView
-                        android:id="@+id/editConstellation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:textColor="@color/text_complementary"
-                        android:textSize="@dimen/big_text"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_friend_aim"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editLookingFor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_intro"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editBio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+
+                    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_height"
+                        android:layout_marginTop="@dimen/list_divider_margin"
+
+                        app:rv_cornerRadius_BL="@dimen/corner_radius_big"
+                        app:rv_cornerRadius_BR="@dimen/corner_radius_big"
+                        app:rv_strokeColor="@color/background_light"
+                        app:rv_strokeWidth="@dimen/line_thin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/row_space_large"
+                            android:text="@string/person_detail_interest"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/big_text"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/editInterest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/row_space_large"
+                            android:minWidth="100dp"
+                            android:textSize="@dimen/big_text"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_primaryColor="@color/skin_app_color"
+                            app:met_textColor="@color/text_complementary"/>
+                    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/person_detail_edu"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_large"
-                android:orientation="vertical">
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-
-                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_college"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editSchool"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
-
-                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_corp"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editCompany"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/person_detail_other"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text"/>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_large"
-                android:orientation="vertical">
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-
-                    app:rv_cornerRadius_TL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_TR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_feeling"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editAffectiveStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
-
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_friend_aim"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editLookingFor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
-
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_intro"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editBio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-                <com.iyuba.music.widget.roundview.RoundRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height"
-                    android:layout_marginTop="@dimen/list_divider_margin"
-
-                    app:rv_cornerRadius_BL="@dimen/corner_radius_big"
-                    app:rv_cornerRadius_BR="@dimen/corner_radius_big"
-                    app:rv_strokeColor="@color/background_light"
-                    app:rv_strokeWidth="@dimen/line_thin">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/row_space_large"
-                        android:text="@string/person_detail_interest"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/editInterest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/big_text"
-                        app:met_floatingLabel="none"
-                        app:met_hideUnderline="true"
-                        app:met_primaryColor="@color/skin_app_color"
-                        app:met_textColor="@color/text_complementary"/>
-                </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

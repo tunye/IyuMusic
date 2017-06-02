@@ -1,9 +1,12 @@
 package com.iyuba.music.activity;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,7 +17,9 @@ import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.util.Mathematics;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -72,5 +77,17 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
     public void onDestroy() {
         super.onDestroy();
         ((MusicApplication) getApplication()).popActivity(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
     }
 }

@@ -95,6 +95,7 @@ public class ImmersiveManager {
         } else {
             window.getDecorView().setSystemUiVisibility(sysUIVisible);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         try {
             window.setStatusBarColor(Color.TRANSPARENT);

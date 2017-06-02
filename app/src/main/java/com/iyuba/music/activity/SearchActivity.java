@@ -2,6 +2,8 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -34,9 +37,12 @@ import com.iyuba.music.entity.article.SearchHistoryOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -77,6 +83,9 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         super.onCreate(savedInstanceState);
         ImmersiveManager.getInstance().updateImmersiveStatus(this);
         setContentView(R.layout.search);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor());
+        }
         context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
@@ -208,6 +217,18 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         showLayout.setVisibility(View.GONE);
         advice.setVisibility(View.GONE);
         historySearch.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
     }
 
     @Override

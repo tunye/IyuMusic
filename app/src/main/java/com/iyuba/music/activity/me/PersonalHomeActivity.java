@@ -122,7 +122,18 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         toolbarOper.setOnClickListener(this);
         personAttention.setOnClickListener(this);
         personFans.setOnClickListener(this);
-        personPhoto.setOnClickListener(this);
+        personPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
+                    startActivity(new Intent(context, ChangePhotoActivity.class));
+                } else {
+                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
+                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
+                    context.startActivity(intent);
+                }
+            }
+        });
         detail.setOnClickListener(this);
         message.setOnClickListener(this);
         attent.setOnClickListener(this);
@@ -243,15 +254,6 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                             }
                         });
                 mMaterialDialog.show();
-                break;
-            case R.id.personal_img:
-                if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
-                    startActivity(new Intent(context, ChangePhotoActivity.class));
-                } else {
-                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
-                    context.startActivity(intent);
-                }
                 break;
             case R.id.personal_attent:
                 String state = attent.getText().toString();

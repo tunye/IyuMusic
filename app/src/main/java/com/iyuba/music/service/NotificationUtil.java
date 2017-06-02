@@ -31,8 +31,10 @@ public class NotificationUtil {
     public static final String PLAY_FLAG = "play_flag";
     static final int NOTIFICATION_ID = 209;
     private Notification notification;
+    private int notificationTextColor;
 
     private NotificationUtil() {
+        notificationTextColor = isDarkNotificationTheme() ? 0xffcdcdcd : 0xff4c4c4c;
     }
 
     public static NotificationUtil getInstance() {
@@ -167,8 +169,7 @@ public class NotificationUtil {
     }
 
     private void setTextViewColor(RemoteViews contentView) {
-        boolean isDarkNotificationTheme = false;
-        int color = isDarkNotificationTheme ? 0xffcdcdcd : 0xff4c4c4c;
+        int color = notificationTextColor;
         contentView.setInt(R.id.notify_title, "setTextColor", color);
         contentView.setInt(R.id.notify_singer, "setTextColor", color);
         contentView.setInt(R.id.notify_close, "setColorFilter", color);
@@ -189,7 +190,12 @@ public class NotificationUtil {
     private int getNotificationColor() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(RuntimeManager.getContext());
         Notification notification = builder.build();
-        int layoutId = notification.contentView.getLayoutId();
+        int layoutId;
+        if (notification.contentView != null) {
+            layoutId = notification.contentView.getLayoutId();
+        } else {
+            layoutId = R.layout.notification;
+        }
         ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(RuntimeManager.getContext()).inflate(layoutId, null, false);
         if (viewGroup.findViewById(android.R.id.title) != null) {
             return ((TextView) viewGroup.findViewById(android.R.id.title)).getCurrentTextColor();
@@ -226,6 +232,4 @@ public class NotificationUtil {
         }
         return color;
     }
-
-
 }

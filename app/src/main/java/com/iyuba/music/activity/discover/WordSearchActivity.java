@@ -2,6 +2,8 @@ package com.iyuba.music.activity.discover;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -23,7 +26,10 @@ import com.iyuba.music.adapter.discover.WordSearchAdapter;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -49,6 +55,9 @@ public class WordSearchActivity extends BaseSkinActivity {
         super.onCreate(savedInstanceState);
         ImmersiveManager.getInstance().updateImmersiveStatus(this);
         setContentView(R.layout.word_search);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor());
+        }
         context = this;
         wordArrayList = new ArrayList<>();
         initWidget();
@@ -133,6 +142,18 @@ public class WordSearchActivity extends BaseSkinActivity {
     protected void changeUIByPara() {
         wordSetOp = new WordSetOp();
         search.setText(R.string.search_close);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
     }
 
     @Override

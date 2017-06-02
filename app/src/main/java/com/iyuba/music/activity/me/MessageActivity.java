@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.me.MessageAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.message.MessageLetter;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/1/2.
  */
-public class MessageActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+public class MessageActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     private RecyclerView messageRecycleView;
     private ArrayList<MessageLetter> messageLetters;
     private MessageAdapter messageAdapter;

@@ -1,180 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background"
-              android:orientation="vertical">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="match_parent"
+        android:background="@color/background"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/regist_photo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:src="@drawable/default_photo"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_with_oper"/>
 
         <LinearLayout
-            android:id="@+id/regist_by_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/regist_phone"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/regist_phone_hint"
-                app:met_baseColor="@color/text_gray_color"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_maxCharacters="11"
-                app:met_minCharacters="11"
-                app:met_primaryColor="@color/skin_app_color"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/regist_photo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:src="@drawable/default_photo"/>
 
             <LinearLayout
-                android:layout_width="250dp"
+                android:id="@+id/regist_by_phone"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_space_default"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/regist_msg_code"
-                    android:layout_width="0dp"
+                    android:id="@+id/regist_phone"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:hint="@string/regist_code_hint"
+                    android:hint="@string/regist_phone_hint"
+                    app:met_baseColor="@color/text_gray_color"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="11"
+                    app:met_minCharacters="11"
+                    app:met_primaryColor="@color/skin_app_color"/>
+
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/row_space_default"
+                    android:orientation="horizontal">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/regist_msg_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:hint="@string/regist_code_hint"
+                        android:imeOptions="actionSend"
+                        android:maxLines="1"
+                        app:met_baseColor="@color/text_gray_color"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_primaryColor="@color/skin_app_color"/>
+
+                    <com.iyuba.music.widget.roundview.RoundTextView
+                        android:id="@+id/get_msg_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="@dimen/row_space_medium"
+                        android:text="@string/regist_get_code"
+                        android:textColor="#ededed"
+                        android:textSize="@dimen/medium_text"
+                        app:rv_backgroundColor="@color/skin_app_color"
+                        app:rv_cornerRadius="@dimen/corner_radius_default"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/regist_by_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/regist_username"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/regist_username_hint"
+                    android:maxLines="1"
+                    app:met_baseColor="@color/text_gray_color"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="none"
+                    app:met_maxCharacters="20"
+                    app:met_minCharacters="3"
+                    app:met_primaryColor="@color/skin_app_color"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/regist_pwd"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/regist_pwd_hint"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    app:met_baseColor="@color/text_gray_color"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="none"
+                    app:met_maxCharacters="20"
+                    app:met_minCharacters="6"
+                    app:met_primaryColor="@color/skin_app_color"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/regist_repwd"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/regist_repwd_hint"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    app:met_baseColor="@color/text_gray_color"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="none"
+                    app:met_maxCharacters="20"
+                    app:met_minCharacters="6"
+                    app:met_primaryColor="@color/skin_app_color"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/regist_email"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/regist_email_hint"
                     android:imeOptions="actionSend"
                     android:maxLines="1"
                     app:met_baseColor="@color/text_gray_color"
                     app:met_clearButton="true"
-                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabel="none"
                     app:met_primaryColor="@color/skin_app_color"/>
-
-                <com.iyuba.music.widget.roundview.RoundTextView
-                    android:id="@+id/get_msg_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:padding="@dimen/row_space_medium"
-                    android:text="@string/regist_get_code"
-                    android:textColor="#ededed"
-                    android:textSize="@dimen/medium_text"
-                    app:rv_backgroundColor="@color/skin_app_color"
-                    app:rv_cornerRadius="@dimen/corner_radius_default"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/row_space_large"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/regist_protocol_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/regist_protocol_checkbox"
+                    android:textColor="@color/text_color"/>
+
+                <TextView
+                    android:id="@+id/regist_protocol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#009FE8"/>
+            </LinearLayout>
+
+            <com.iyuba.music.widget.roundview.RoundTextView
+                android:id="@+id/regist"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_large"
+                android:gravity="center"
+                android:padding="@dimen/row_space_big"
+                android:text="@string/regist_title"
+                android:textColor="#ededed"
+                android:textSize="@dimen/large_text"
+                app:rv_backgroundColor="@color/skin_app_color"
+                app:rv_cornerRadius="@dimen/corner_radius_big"/>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/regist_by_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/regist_username"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/regist_username_hint"
-                android:maxLines="1"
-                app:met_baseColor="@color/text_gray_color"
-                app:met_clearButton="true"
-                app:met_floatingLabel="none"
-                app:met_maxCharacters="20"
-                app:met_minCharacters="3"
-                app:met_primaryColor="@color/skin_app_color"/>
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/regist_pwd"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/regist_pwd_hint"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                app:met_baseColor="@color/text_gray_color"
-                app:met_clearButton="true"
-                app:met_floatingLabel="none"
-                app:met_maxCharacters="20"
-                app:met_minCharacters="6"
-                app:met_primaryColor="@color/skin_app_color"/>
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/regist_repwd"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/regist_repwd_hint"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                app:met_baseColor="@color/text_gray_color"
-                app:met_clearButton="true"
-                app:met_floatingLabel="none"
-                app:met_maxCharacters="20"
-                app:met_minCharacters="6"
-                app:met_primaryColor="@color/skin_app_color"/>
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/regist_email"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/regist_email_hint"
-                android:imeOptions="actionSend"
-                android:maxLines="1"
-                app:met_baseColor="@color/text_gray_color"
-                app:met_clearButton="true"
-                app:met_floatingLabel="none"
-                app:met_primaryColor="@color/skin_app_color"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/row_space_large"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/regist_protocol_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/regist_protocol_checkbox"
-                android:textColor="@color/text_color"/>
-
-            <TextView
-                android:id="@+id/regist_protocol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#009FE8"/>
-        </LinearLayout>
-
-        <com.iyuba.music.widget.roundview.RoundTextView
-            android:id="@+id/regist"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_large"
-            android:gravity="center"
-            android:padding="@dimen/row_space_big"
-            android:text="@string/regist_title"
-            android:textColor="#ededed"
-            android:textSize="@dimen/large_text"
-            app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_cornerRadius="@dimen/corner_radius_big"/>
     </LinearLayout>
-</LinearLayout>
+</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

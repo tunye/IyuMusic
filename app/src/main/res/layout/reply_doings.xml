@@ -1,118 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:orientation="vertical">
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-
-    <LinearLayout
-        android:id="@+id/doing_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
+        android:layout_height="match_parent"
+        android:background="@color/background"
         android:orientation="vertical">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
         <LinearLayout
+            android:id="@+id/doing_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.iyuba.music.widget.imageview.VipPhoto
-                android:id="@+id/doings_photo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="@dimen/row_space_large"/>
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/doings_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/row_space_big"
+                <com.iyuba.music.widget.imageview.VipPhoto
+                    android:id="@+id/doings_photo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="@dimen/row_space_large"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/skin_app_color"
-                    android:textSize="18sp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/doings_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/row_space_big"
+                        android:layout_weight="1"
+                        android:textColor="@color/skin_app_color"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/doings_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/row_space_default"
+                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginTop="@dimen/row_space_default"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/big_text"/>
+
+                    <TextView
+                        android:id="@+id/doings_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/row_space_default"
+                        android:textColor="@color/text_complementary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#33000000">
 
                 <TextView
-                    android:id="@+id/doings_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/row_space_default"
-                    android:layout_marginRight="@dimen/row_space_large"
-                    android:layout_marginTop="@dimen/row_space_default"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text"/>
-
-                <TextView
-                    android:id="@+id/doings_time"
+                    android:id="@+id/doings_reply_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/row_space_default"
-                    android:textColor="@color/text_complementary"/>
+                    android:layout_margin="@dimen/row_space_default"
+                    android:paddingLeft="@dimen/row_space_big"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text"/>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
+                                                                        android:id="@+id/swipe_refresh_widget"
+                                                                        android:layout_width="match_parent"
+                                                                        android:layout_height="wrap_content"
+                                                                        android:layout_above="@+id/comment_view"
+                                                                        android:layout_below="@+id/doing_layout"
+                                                                        myswipe:direction="both">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/doings_reply_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/no_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#33000000">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/comment_view"
+            android:layout_below="@+id/doing_layout"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/doings_reply_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/row_space_default"
-                android:paddingLeft="@dimen/row_space_big"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text"/>
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_centerInParent="true"
+                android:text="@string/no_comment"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/medium_text"/>
+        </RelativeLayout>
 
-    <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
-                                                                    android:id="@+id/swipe_refresh_widget"
-                                                                    android:layout_width="match_parent"
-                                                                    android:layout_height="wrap_content"
-                                                                    android:layout_above="@+id/comment_view"
-                                                                    android:layout_below="@+id/doing_layout"
-                                                                    myswipe:direction="both">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/doings_reply_list"
+        <com.buaa.ct.comment.CommentView
+            android:id="@+id/comment_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
-
-    <RelativeLayout
-        android:id="@+id/no_comment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/comment_view"
-        android:layout_below="@+id/doing_layout"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/no_comment"
-            android:textColor="@color/text_complementary"
-            android:textSize="@dimen/medium_text"/>
+            android:layout_alignParentBottom="true"
+            app:showVoice="false"/>
     </RelativeLayout>
-
-    <com.buaa.ct.comment.CommentView
-        android:id="@+id/comment_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:showVoice="false"/>
-</RelativeLayout>
+</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>
