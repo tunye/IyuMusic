@@ -35,6 +35,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.ShareDialog;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.original.OriginalSynView;
@@ -45,8 +46,6 @@ import com.iyuba.music.widget.player.VideoView;
 import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class VideoPlayerActivity extends BaseActivity implements View.OnClickListener {
@@ -404,7 +403,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

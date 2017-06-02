@@ -36,18 +36,16 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -77,11 +75,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
-        } else {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
-        }
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
         setContentView(R.layout.search);
         context = this;
         localInfoOp = new LocalInfoOp();
@@ -342,7 +336,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     private void clearAll() {
-        final MaterialDialog mMaterialDialog = new MaterialDialog(context);
+        final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
         mMaterialDialog.setTitle(R.string.search_word_do);
         mMaterialDialog.setMessage(R.string.article_search_clear_hint)
                 .setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {

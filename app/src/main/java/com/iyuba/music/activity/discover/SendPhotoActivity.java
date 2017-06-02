@@ -36,6 +36,7 @@ import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -44,8 +45,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 /**
@@ -224,7 +223,7 @@ public class SendPhotoActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.photo_title);
         materialDialog.setMessage(R.string.photo_exit);
         materialDialog.setPositiveButton(R.string.photo_exit_sure, new View.OnClickListener() {

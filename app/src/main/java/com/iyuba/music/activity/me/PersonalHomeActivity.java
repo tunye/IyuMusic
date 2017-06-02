@@ -29,12 +29,11 @@ import com.iyuba.music.request.merequest.DoingRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/29.
@@ -226,7 +225,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.toolbar_oper:
-                final MaterialDialog mMaterialDialog = new MaterialDialog(context);
+                final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
                 mMaterialDialog.setTitle(R.string.app_name)
                         .setMessage(R.string.personal_logout_textmore)
                         .setPositiveButton(R.string.personal_logout_exit, new View.OnClickListener() {
@@ -259,7 +258,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
                 if (state.equals(context.getString(R.string.person_attention))) {
                     addAttention();
                 } else {
-                    final MaterialDialog cancleAttentionDialog = new MaterialDialog(context);
+                    final MyMaterialDialog cancleAttentionDialog = new MyMaterialDialog(context);
                     cancleAttentionDialog.setTitle(R.string.app_name)
                             .setMessage(R.string.person_attention_cancel_hint)
                             .setPositiveButton(R.string.app_accept, new View.OnClickListener() {

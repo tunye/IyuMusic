@@ -42,12 +42,11 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -257,7 +256,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
@@ -271,7 +270,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             materialDialog.show();
         }
         if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
@@ -323,7 +322,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     }
 
     private void delDialog(final int position) {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.comment_title);
         materialDialog.setMessage(R.string.comment_del_msg);
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {

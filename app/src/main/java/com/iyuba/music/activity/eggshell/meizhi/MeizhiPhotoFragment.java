@@ -26,6 +26,7 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedOutputStream;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import me.drakeet.materialdialog.MaterialDialog;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -179,7 +179,7 @@ public class MeizhiPhotoFragment extends DialogFragment {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 menu.show();
             } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

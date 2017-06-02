@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.ImmersiveManager;
 
 
 public class IyubaDialog extends AppCompatDialog {
@@ -73,7 +74,6 @@ public class IyubaDialog extends AppCompatDialog {
         this.marginDimension = marginDimension;
     }
 
-
     public IyubaDialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
         super(context, R.style.MyDialogTheme);
         this.context = context;// init Context
@@ -123,11 +123,13 @@ public class IyubaDialog extends AppCompatDialog {
     public void show() {
         super.show();
         view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
     }
 
     void showAnim(int animStyle) {
         super.show();
         backView.startAnimation(AnimationUtils.loadAnimation(context, animStyle));
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
     }
 
     void dismissAnim() {

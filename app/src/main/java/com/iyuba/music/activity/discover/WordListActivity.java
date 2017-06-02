@@ -26,14 +26,13 @@ import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -270,7 +269,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                 waitingDialog.dismiss();
                 wordArrayList.addAll((ArrayList<Word>) object);
                 if (DictSynchroRequest.getInstance().getTotalPage() != DictSynchroRequest.getInstance().getCurrentPage()) {
-                    final MaterialDialog dialog = new MaterialDialog(context);
+                    final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.word_list_title);
                     dialog.setMessage(context.getString(R.string.word_synchro_finish, wordArrayList.size(), DictSynchroRequest.getInstance().getCounts() - wordArrayList.size()));
                     dialog.setPositiveButton(R.string.word_synchro_continue, new View.OnClickListener() {

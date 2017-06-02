@@ -26,12 +26,11 @@ import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2017/1/9.
@@ -240,7 +239,7 @@ public class PayActivity extends BaseActivity {
                         UserInfo userInfo = AccountManager.getInstance().getUserInfo();
                         userInfo.setVipStatus("1");
                         AccountManager.getInstance().setUserInfo(userInfo);
-                        final MaterialDialog dialog = new MaterialDialog(activity.context);
+                        final MyMaterialDialog dialog = new MyMaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
                         dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                             @Override

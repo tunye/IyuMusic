@@ -12,14 +12,12 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
 
-import me.drakeet.materialdialog.MaterialDialog;
-
 /**
  * Created by 10202 on 2015/12/4.
  */
 public class CustomDialog {
     public static void showLoginDialog(final Context context, final IOperationFinish finish) {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.login_login);
         dialog.setMessage(R.string.personal_no_login);
         dialog.setPositiveButton(R.string.login_login, new View.OnClickListener() {
@@ -48,7 +46,7 @@ public class CustomDialog {
     }
 
     public static void saveChangeDialog(final Context context, final IOperationResult iOperationResult) {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.app_name);
         dialog.setMessage(R.string.dialog_save_change);
         dialog.setPositiveButton(R.string.dialog_save, new View.OnClickListener() {
@@ -70,7 +68,7 @@ public class CustomDialog {
 
     public static void updateDialog(final Context context, String object) {
         final String[] para = object.split("@@@");
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.app_name);
         dialog.setMessage(context.getString(R.string.about_update_message, para[0]));
         dialog.setPositiveButton(R.string.about_update_accept, new View.OnClickListener() {
@@ -96,7 +94,7 @@ public class CustomDialog {
     }
 
     public static void clearDownload(Context context, @StringRes int hintCode, final IOperationResult result) {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.article_clear_all);
         dialog.setMessage(hintCode);
         dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {

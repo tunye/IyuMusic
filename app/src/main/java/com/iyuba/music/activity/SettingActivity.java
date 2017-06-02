@@ -30,6 +30,7 @@ import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
@@ -40,8 +41,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.util.Arrays;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/11/26.
@@ -264,7 +263,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void popLanguageDialog() {
-        final MaterialDialog languageDialog = new MaterialDialog(context);
+        final MyMaterialDialog languageDialog = new MyMaterialDialog(context);
         languageDialog.setTitle(R.string.setting_language_hint);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);
@@ -317,7 +316,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void logout() {
-        final MaterialDialog mMaterialDialog = new MaterialDialog(context);
+        final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
         mMaterialDialog.setTitle(R.string.app_name);
         if (AccountManager.getInstance().checkUserLogin()) {
             mMaterialDialog.setMessage(R.string.personal_logout_textmore)

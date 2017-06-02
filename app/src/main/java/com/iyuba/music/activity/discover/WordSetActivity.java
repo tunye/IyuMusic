@@ -12,6 +12,7 @@ import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
@@ -19,8 +20,6 @@ import com.iyuba.music.widget.view.AddRippleEffect;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.Arrays;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/5.
@@ -149,7 +148,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void popGroupDialog() {
-        final MaterialDialog groupDialog = new MaterialDialog(context);
+        final MyMaterialDialog groupDialog = new MyMaterialDialog(context);
         groupDialog.setTitle(R.string.word_set_group);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);

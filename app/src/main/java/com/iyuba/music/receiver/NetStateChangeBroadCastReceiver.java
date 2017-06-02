@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import me.drakeet.materialdialog.MaterialDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 /**
  * Created by 10202 on 2015/11/3.
@@ -18,7 +18,7 @@ public class NetStateChangeBroadCastReceiver extends BroadcastReceiver {
     }
 
     private void setUINetwork(final Context context, String message) {
-        final MaterialDialog mMaterialDialog = new MaterialDialog(context);
+        final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
         mMaterialDialog.setTitle("网络提示信息")
                 .setMessage(message)
                 .setPositiveButton("设置", new View.OnClickListener() {

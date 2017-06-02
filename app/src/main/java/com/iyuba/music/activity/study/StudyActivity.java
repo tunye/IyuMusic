@@ -44,6 +44,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.imageview.PageIndicator;
@@ -60,8 +61,6 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -274,7 +273,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void showNoNetDialog() {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.net_study_no_net);
         materialDialog.setMessage(R.string.net_study_no_net_message);
         boolean findFileFlg = false;
@@ -526,7 +525,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

@@ -38,13 +38,19 @@ public class ImmersiveManager {
     // activity沉浸式效果实现
     public void updateImmersiveStatus(Activity activity) {
         Window window = activity.getWindow();
-        updateImmersive(window, !isBrightTheme());
+        updateImmersive(window, isBrightTheme());
     }
 
     // activity沉浸式效果实现
     public void updateImmersiveStatus(Activity activity, boolean isBright) {
         Window window = activity.getWindow();
         updateImmersive(window, isBright);
+    }
+
+    // dialog沉浸式效果实现
+    public void updateImmersiveStatus(Dialog dialog) {
+        Window window = dialog.getWindow();
+        updateImmersive(window, isBrightTheme());
     }
 
     /**
@@ -63,6 +69,8 @@ public class ImmersiveManager {
         int sysUIVisible = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         if (isMARSHMALLOW()) {
             if (isBright) {
+                sysUIVisible &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
                 sysUIVisible |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
             setXiaomiStatusBarDarkMode(isBright, window);
@@ -193,8 +201,12 @@ public class ImmersiveManager {
         });
     }
 
-    private boolean isBrightTheme(){
-        return GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_light_lgreen;
+    private boolean isBrightTheme() {
+        return GetAppColor.getInstance().getAppColorRes() != R.color.skin_app_color_lgreen && GetAppColor.getInstance().getAppColorRes() != R.color.skin_app_color_pink;
+    }
+
+    public boolean isBrightTheme(int colorRes) {
+        return colorRes != R.color.skin_app_color_lgreen && colorRes != R.color.skin_app_color_pink;
     }
 
     @TargetApi(4)

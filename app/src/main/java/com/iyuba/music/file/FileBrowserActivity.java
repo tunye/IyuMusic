@@ -24,14 +24,13 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.widget.dialog.ContextMenu;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class FileBrowserActivity extends BaseActivity {
@@ -265,7 +264,7 @@ public class FileBrowserActivity extends BaseActivity {
                     file.mkdirs();
                 }
             } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

@@ -37,19 +37,17 @@ import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.lang.ref.WeakReference;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseSkinActivity {
     private static final int WRITE_EXTERNAL_TASK_CODE = 1;
@@ -67,11 +65,7 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
-        } else {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
-        }
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
         setContentView(R.layout.main);
         context = this;
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -278,7 +272,7 @@ public class MainActivity extends BaseSkinActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 StartFragment.resetDownLoadData();
             } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

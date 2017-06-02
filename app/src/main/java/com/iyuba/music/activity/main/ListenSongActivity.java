@@ -20,12 +20,11 @@ import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/3/7.
@@ -92,7 +91,7 @@ public class ListenSongActivity extends BaseActivity implements IOnClickListener
                 if (toolBarOperSub.getText().equals(getString(R.string.select_all))) {
                     newsAdapter.setDeleteAll();
                 } else {
-                    final MaterialDialog dialog = new MaterialDialog(context);
+                    final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.article_clear_all);
                     dialog.setMessage(R.string.article_clear_hint);
                     dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {

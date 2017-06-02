@@ -30,14 +30,13 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.VersionInfoDialog;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;
 import java.util.Calendar;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * 关于界面
@@ -118,7 +117,7 @@ public class AboutActivity extends BaseActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } catch (Exception e) {
-                    final MaterialDialog dialog = new MaterialDialog(context);
+                    final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.about_praise).setMessage(R.string.about_market_error).
                             setPositiveButton(R.string.app_accept, new OnClickListener() {
                                 @Override
@@ -248,7 +247,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void acceptForUpdate() {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.about_update).
                 setMessage(context.getString(R.string.about_update_message, newVersionCode))
                 .setPositiveButton(R.string.about_update_accept, new OnClickListener() {
@@ -318,7 +317,7 @@ public class AboutActivity extends BaseActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startDownLoad();
             } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

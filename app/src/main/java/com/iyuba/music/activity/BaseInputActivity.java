@@ -14,7 +14,6 @@ import com.buaa.ct.skin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -33,11 +32,7 @@ public abstract class BaseInputActivity extends BaseSkinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
-        } else {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
-        }
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

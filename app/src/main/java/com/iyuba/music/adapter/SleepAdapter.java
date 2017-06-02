@@ -12,6 +12,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.PickerView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
@@ -19,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/11/30.
@@ -32,7 +31,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
     private Context context;
     private int minute;
     private OnRecycleViewItemClickListener itemClickListener;
-    private MaterialDialog materialDialog;
+    private MyMaterialDialog materialDialog;
 
     public SleepAdapter(Context context) {
         this.context = context;
@@ -49,7 +48,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
     }
 
     private void generateMaterialDialog() {
-        materialDialog = new MaterialDialog(context);
+        materialDialog = new MyMaterialDialog(context);
         View pickerView = View.inflate(context, R.layout.custom_sleeptime, null);
         final PickerView minute_pv = (PickerView) pickerView.findViewById(R.id.minute_pv);
         final PickerView hour_pv = (PickerView) pickerView.findViewById(R.id.hour_pv);

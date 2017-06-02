@@ -14,13 +14,12 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * 文件浏览器相关类
@@ -43,7 +42,7 @@ public class FileActivityHelper {
     }
 
     public static void createDir(final Context context, final String path, final IOperationFinish finish) {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.file_create_dialogtitle);
         View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
         dialog.setContentView(contentView);
@@ -99,7 +98,7 @@ public class FileActivityHelper {
     }
 
     public static void renameFile(final Context context, final File f, final IOperationFinish finish) {
-        final MaterialDialog dialog = new MaterialDialog(context);
+        final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.file_rename_dialogtitle);
         View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
         dialog.setContentView(contentView);

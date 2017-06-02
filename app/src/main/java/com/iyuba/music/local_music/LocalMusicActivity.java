@@ -40,14 +40,13 @@ import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/4/16.
@@ -349,7 +348,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult(new Intent(context, FilePosActivity.class), 101);
             } else {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

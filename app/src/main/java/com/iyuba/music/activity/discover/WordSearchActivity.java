@@ -23,7 +23,6 @@ import com.iyuba.music.adapter.discover.WordSearchAdapter;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -48,11 +47,7 @@ public class WordSearchActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (GetAppColor.getInstance().getAppColorRes() == R.color.skin_app_color_gray) {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, false);
-        } else {
-            ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
-        }
+        ImmersiveManager.getInstance().updateImmersiveStatus(this);
         setContentView(R.layout.word_search);
         context = this;
         wordArrayList = new ArrayList<>();

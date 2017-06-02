@@ -34,6 +34,7 @@ import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
@@ -44,7 +45,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 public class EditUserDetailInfoActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
@@ -276,7 +276,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void popGenderDialog() {
-        final MaterialDialog genderDialog = new MaterialDialog(context);
+        final MyMaterialDialog genderDialog = new MyMaterialDialog(context);
         genderDialog.setTitle(R.string.person_detail_sex);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);

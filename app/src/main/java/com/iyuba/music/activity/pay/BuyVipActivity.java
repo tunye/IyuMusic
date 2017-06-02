@@ -22,6 +22,7 @@ import com.iyuba.music.request.account.PayForAppRequest;
 import com.iyuba.music.request.account.PayRequest;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -175,7 +175,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void payByIyubiDialog(final int pos) {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.vip_title).setMessage(context.getString(R.string.vip_buy_alert, PAY_GOODS[pos]));
         materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
@@ -194,7 +194,7 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     private void payWayDialog() {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.vip_buy_way);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView payWayList = (RecyclerView) root.findViewById(R.id.listview);
@@ -252,7 +252,7 @@ public class BuyVipActivity extends BaseActivity {
 
     private void buy(int type) {
         if (Integer.parseInt(AccountManager.getInstance().getUserInfo().getIyubi()) < PAY_GOODS[type]) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
             materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
                 @Override

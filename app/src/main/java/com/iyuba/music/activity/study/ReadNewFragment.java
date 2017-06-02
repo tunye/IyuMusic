@@ -22,10 +22,9 @@ import com.iyuba.music.request.newsrequest.ReadRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -164,7 +163,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
     }
 
     private void delDialog(final int position) {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.read_title);
         materialDialog.setMessage(R.string.read_del_msg);
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {

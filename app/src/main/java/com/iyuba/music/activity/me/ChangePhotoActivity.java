@@ -28,6 +28,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
 
@@ -35,7 +36,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/18.
@@ -132,7 +132,7 @@ public class ChangePhotoActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
@@ -144,7 +144,7 @@ public class ChangePhotoActivity extends BaseActivity {
                 }
             });
         } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {

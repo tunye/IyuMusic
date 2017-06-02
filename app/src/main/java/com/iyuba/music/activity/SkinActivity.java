@@ -15,6 +15,7 @@ import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -86,10 +87,10 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (position == 0) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.skin_app_color));
-                getWindow().setNavigationBarColor(getResources().getColor(R.color.skin_app_color));
+                ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
             } else {
                 getWindow().setStatusBarColor(getResources().getColor(getResource("skin_app_color_" + item)));
-                getWindow().setNavigationBarColor(getResources().getColor(getResource("skin_app_color_" + item)));
+                ImmersiveManager.getInstance().updateImmersiveStatus(this, ImmersiveManager.getInstance().isBrightTheme(getResource("skin_app_color_" + item)));
             }
         }
     }

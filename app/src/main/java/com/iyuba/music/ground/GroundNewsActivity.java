@@ -33,11 +33,10 @@ import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
 import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * 简版新闻列表界面
@@ -128,7 +127,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } catch (Exception e) {
-                    final MaterialDialog dialog = new MaterialDialog(context);
+                    final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.app_name).setMessage(R.string.about_market_error).
                             setPositiveButton(R.string.app_accept, new OnClickListener() {
                                 @Override

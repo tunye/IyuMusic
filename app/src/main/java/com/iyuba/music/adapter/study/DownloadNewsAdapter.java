@@ -23,12 +23,11 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -114,7 +113,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                         holder.delete.setChecked(!holder.delete.isChecked());
                         article.setDelete(holder.delete.isChecked());
                     } else if (holder.noExist.getVisibility() == View.VISIBLE) {
-                        final MaterialDialog materialDialog = new MaterialDialog(context);
+                        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                         materialDialog.setTitle(R.string.app_name);
                         int messageStringId = Integer.parseInt(article.getTextFind());
                         materialDialog.setMessage(context.getString(messageStringId));

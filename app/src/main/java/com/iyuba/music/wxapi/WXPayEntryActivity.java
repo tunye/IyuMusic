@@ -8,14 +8,13 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -45,7 +44,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            MaterialDialog dialog = new MaterialDialog(this);
+            MyMaterialDialog dialog = new MyMaterialDialog(this);
             dialog.setTitle(R.string.app_name);
             switch (resp.errCode) {
                 case 0:

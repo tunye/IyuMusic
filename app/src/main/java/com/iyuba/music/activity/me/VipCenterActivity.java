@@ -14,9 +14,9 @@ import com.iyuba.music.activity.pay.BuyVipActivity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/28.
@@ -71,7 +71,7 @@ public class VipCenterActivity extends BaseActivity {
         vipSymbol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -85,7 +85,7 @@ public class VipCenterActivity extends BaseActivity {
         vipAllapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -99,7 +99,7 @@ public class VipCenterActivity extends BaseActivity {
         vipAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -113,7 +113,7 @@ public class VipCenterActivity extends BaseActivity {
         vipHuge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -127,7 +127,7 @@ public class VipCenterActivity extends BaseActivity {
         vipHighspeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog materialDialog = new MaterialDialog(context);
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

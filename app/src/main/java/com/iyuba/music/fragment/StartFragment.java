@@ -27,12 +27,11 @@ import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -155,7 +154,7 @@ public class StartFragment {
     }
 
     public static void showVersionFeature(Context context) {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
         sb.append("1.[性能优化] 听歌页面加载速度提升").append("\n");

@@ -13,6 +13,7 @@ import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
@@ -20,8 +21,6 @@ import com.iyuba.music.widget.view.AddRippleEffect;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.Arrays;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 10202 on 2015/12/5.
@@ -188,7 +187,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void popPlayModeDialog() {
-        final MaterialDialog groupDialog = new MaterialDialog(context);
+        final MyMaterialDialog groupDialog = new MyMaterialDialog(context);
         groupDialog.setTitle(R.string.study_set_playmode);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);
@@ -223,7 +222,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void popNextModeDialog() {
-        final MaterialDialog groupDialog = new MaterialDialog(context);
+        final MyMaterialDialog groupDialog = new MyMaterialDialog(context);
         groupDialog.setTitle(R.string.study_set_nextmode);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);
@@ -259,7 +258,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
 
 
     private void popDownloadDialog() {
-        final MaterialDialog groupDialog = new MaterialDialog(context);
+        final MyMaterialDialog groupDialog = new MyMaterialDialog(context);
         groupDialog.setTitle(R.string.study_set_download);
         View root = View.inflate(context, R.layout.recycleview, null);
         RecyclerView languageList = (RecyclerView) root.findViewById(R.id.listview);
