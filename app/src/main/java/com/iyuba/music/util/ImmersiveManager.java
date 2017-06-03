@@ -85,8 +85,8 @@ public class ImmersiveManager {
             return;
         }
         if (emuiVersion.startsWith("EmotionUI_")) {
-            double version = Double.parseDouble(emuiVersion.split("_")[1]);
-            if (version < 4 && version >= 3) {
+            String version = emuiVersion.split("_")[1];
+            if (version.startsWith("3")) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             } else {
                 window.getDecorView().setSystemUiVisibility(sysUIVisible);
