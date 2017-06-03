@@ -6,7 +6,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
@@ -77,6 +79,11 @@ public class MusicApplication extends Application {
     public void onCreate() {
         super.onCreate();//必须调用父类方法
         RuntimeManager.initRuntimeManager(this);
+        // android n 获取文件必须的权限配置
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
         if (shouldInit()) {
             activityList = new ArrayList<>();
             prepareForApp();

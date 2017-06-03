@@ -4,18 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.iyuba.music.BuildConfig;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.download.AppUpdateThread;
@@ -369,12 +366,7 @@ public class AboutActivity extends BaseActivity {
                         DownloadFile downloadFile = (DownloadFile) msg.obj;
                         String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
                         File appFile = new File(path);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            // android N获取uri的新方式
-                            intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID, appFile), "application/vnd.android.package-archive");
-                        } else {
-                            intent.setDataAndType(Uri.fromFile(appFile), "application/vnd.android.package-archive");
-                        }
+                        intent.setDataAndType(Uri.fromFile(appFile), "application/vnd.android.package-archive");
                         activity.startActivity(intent);
                     }
                     break;
