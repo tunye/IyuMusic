@@ -82,15 +82,6 @@ public class LoginActivity extends BaseInputActivity {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
-    }
-
-    @Override
     protected void initWidget() {
         super.initWidget();
         photo = findViewById(R.id.login_photo);

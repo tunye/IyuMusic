@@ -243,15 +243,6 @@ public class SendPhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         ContextManager.destory();

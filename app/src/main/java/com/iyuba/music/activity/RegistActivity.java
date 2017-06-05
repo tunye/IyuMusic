@@ -281,15 +281,6 @@ public class RegistActivity extends BaseInputActivity {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (registByEmail.getVisibility() == View.VISIBLE) {
             toolbarOper.setText(context.getString(R.string.regist_by_email));

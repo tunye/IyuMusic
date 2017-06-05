@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -63,15 +62,6 @@ public class ChattingActivity extends BaseInputActivity {
     public void onResume() {
         super.onResume();
         chattingPage = 1;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
     }
 
     @Override

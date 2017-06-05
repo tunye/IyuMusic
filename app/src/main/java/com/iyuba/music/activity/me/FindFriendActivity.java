@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.friends.SearchFriend;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/3/2.
  */
-public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+public class FindFriendActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     private Context context;
     private RecyclerView recyclerView;
     private ArrayList<SearchFriend> searchArrayList;
@@ -137,15 +137,6 @@ public class FindFriendActivity extends BaseActivity implements MySwipeRefreshLa
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.friend_find);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
     }
 
     /**

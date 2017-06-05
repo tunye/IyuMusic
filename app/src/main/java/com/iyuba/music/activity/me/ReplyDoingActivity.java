@@ -1,12 +1,10 @@
 package com.iyuba.music.activity.me;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.buaa.ct.comment.CommentView;
@@ -63,15 +61,6 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         setListener();
         changeUIByPara();
         ((MusicApplication) getApplication()).pushActivity(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
     }
 
     @Override

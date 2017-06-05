@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,6 +68,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
         });
     }
 
+
     protected void changeUIByPara() {
         backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
     }
@@ -80,6 +82,10 @@ public abstract class BaseActivity extends BaseSkinActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+        }
         MobclickAgent.onPause(this);
     }
 

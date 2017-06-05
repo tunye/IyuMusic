@@ -225,6 +225,7 @@
     <string name="search_word_title">查询单词</string>
     <string name="search_word_hint">请输入查询内容</string>
     <string name="search_word_null">请填写待查询单词</string>
+    <string name="search_friend_null">搜索朋友不能为空</string>
     <string name="search_word_do">搜索</string>
     <!--word single-->
     <string name="word_title">单  词</string>
