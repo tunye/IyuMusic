@@ -23,9 +23,11 @@ import java.util.Properties;
 public class ImmersiveManager {
     private static ImmersiveManager sInstance;
     private static String emuiVersion = "none";
+    private Handler mHandler;
 
     private ImmersiveManager() {
         getEmuiLevel();
+        mHandler = new Handler();
     }
 
     public synchronized static ImmersiveManager getInstance() {
@@ -140,7 +142,7 @@ public class ImmersiveManager {
             meizuFlags.setInt(lp, value);
             window.setAttributes(lp);
         } catch (Exception e) {
-            new Handler().postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
