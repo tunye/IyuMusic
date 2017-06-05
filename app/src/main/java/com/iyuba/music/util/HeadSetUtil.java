@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 
 import com.iyuba.music.listener.OnHeadSetListener;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.MediaButtonReceiver;
 
 /**

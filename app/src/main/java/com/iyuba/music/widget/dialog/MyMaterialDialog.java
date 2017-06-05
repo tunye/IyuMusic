@@ -60,6 +60,9 @@ public class MyMaterialDialog {
         this.mContext = context;
     }
 
+    private static boolean isLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
 
     public void show() {
         if (!mHasShow) {
@@ -71,7 +74,6 @@ public class MyMaterialDialog {
         mHasShow = true;
     }
 
-
     public MyMaterialDialog setView(View view) {
         mView = view;
         if (mBuilder != null) {
@@ -79,7 +81,6 @@ public class MyMaterialDialog {
         }
         return this;
     }
-
 
     public MyMaterialDialog setContentView(View view) {
         mMessageContentView = view;
@@ -89,7 +90,6 @@ public class MyMaterialDialog {
         }
         return this;
     }
-
 
     /**
      * Set a custom view resource to be the contents of the dialog.
@@ -105,7 +105,6 @@ public class MyMaterialDialog {
         return this;
     }
 
-
     public MyMaterialDialog setBackground(Drawable drawable) {
         mBackgroundDrawable = drawable;
         if (mBuilder != null) {
@@ -113,7 +112,6 @@ public class MyMaterialDialog {
         }
         return this;
     }
-
 
     public MyMaterialDialog setBackgroundResource(int resId) {
         mBackgroundResId = resId;
@@ -123,22 +121,14 @@ public class MyMaterialDialog {
         return this;
     }
 
-
     public void dismiss() {
         mAlertDialog.dismiss();
     }
-
 
     private int dip2px(float dpValue) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
-
-
-    private static boolean isLollipop() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
 
     public MyMaterialDialog setTitle(int resId) {
         mTitleResId = resId;
@@ -237,6 +227,28 @@ public class MyMaterialDialog {
         return this;
     }
 
+    private boolean isNullOrEmpty(String nText) {
+        return nText == null || nText.isEmpty();
+    }
+
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
 
     private class Builder {
 
@@ -540,30 +552,5 @@ public class MyMaterialDialog {
             mAlertDialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
             mAlertDialog.setCancelable(canceledOnTouchOutside);
         }
-    }
-
-
-    private boolean isNullOrEmpty(String nText) {
-        return nText == null || nText.isEmpty();
-    }
-
-
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 }

@@ -13,8 +13,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 
 /**
  * Created by 102 on 2016/10/10.

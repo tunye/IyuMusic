@@ -11,8 +11,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 public class HeadsetPlugReceiver extends BroadcastReceiver {

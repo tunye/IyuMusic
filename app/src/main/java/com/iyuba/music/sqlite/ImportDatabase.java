@@ -3,8 +3,8 @@ package com.iyuba.music.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.BufferedInputStream;

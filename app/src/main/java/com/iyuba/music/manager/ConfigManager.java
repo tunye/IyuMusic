@@ -11,8 +11,6 @@ import com.iyuba.music.util.ThreadPoolUtil;
  */
 public class ConfigManager {
     private static final String CONFIG_NAME = "IyuMusic";
-    private SharedPreferences preferences;
-
     private final static String EGGSHELL_TAG = "eggshell";
     private final static String PUSH_TAG = "push";
     private final static String LANGUAGE_TAG = "language";
@@ -36,6 +34,7 @@ public class ConfigManager {
     private final static String DOWNLOAD = "download";
     private final static String DOWNLOADMEANWHILE = "downloadMeanwhile";
     private final static String AUTOROUND = "autoRound";
+    private SharedPreferences preferences;
     private int language, sayingMode, wordOrder, studyMode, studyPlayMode, originalSize, download, studyTranslate;
     private boolean eggshell, push, night, mediaButton, autoLogin, autoPlay, autoStop, autoRound,
             autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;

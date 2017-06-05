@@ -156,7 +156,7 @@ public class ChangePhotoActivity extends BaseActivity {
                 }
             });
             materialDialog.show();
-        }else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             imgPath = ImageSelectorActivity.startCameraDirect(context);
         }
     }

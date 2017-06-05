@@ -41,6 +41,26 @@ public class NotificationUtil {
         return SingleInstanceHelper.instance;
     }
 
+    private static int findColor(ViewGroup viewGroupSource) {
+        int color = Color.TRANSPARENT;
+        LinkedList<ViewGroup> viewGroups = new LinkedList<>();
+        viewGroups.add(viewGroupSource);
+        while (viewGroups.size() > 0) {
+            ViewGroup viewGroup1 = viewGroups.getFirst();
+            for (int i = 0; i < viewGroup1.getChildCount(); i++) {
+                if (viewGroup1.getChildAt(i) instanceof ViewGroup) {
+                    viewGroups.add((ViewGroup) viewGroup1.getChildAt(i));
+                } else if (viewGroup1.getChildAt(i) instanceof TextView) {
+                    if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor() != -1) {
+                        color = ((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
+                    }
+                }
+            }
+            viewGroups.remove(viewGroup1);
+        }
+        return color;
+    }
+
     Notification initNotification() {
         notification = new Notification();
         Context context = RuntimeManager.getContext();
@@ -164,10 +184,6 @@ public class NotificationUtil {
         return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
     }
 
-    private static class SingleInstanceHelper {
-        private static NotificationUtil instance = new NotificationUtil();
-    }
-
     private void setTextViewColor(RemoteViews contentView) {
         int color = notificationTextColor;
         contentView.setInt(R.id.notify_title, "setTextColor", color);
@@ -213,23 +229,7 @@ public class NotificationUtil {
         return value < 180.0;
     }
 
-    private static int findColor(ViewGroup viewGroupSource) {
-        int color = Color.TRANSPARENT;
-        LinkedList<ViewGroup> viewGroups = new LinkedList<>();
-        viewGroups.add(viewGroupSource);
-        while (viewGroups.size() > 0) {
-            ViewGroup viewGroup1 = viewGroups.getFirst();
-            for (int i = 0; i < viewGroup1.getChildCount(); i++) {
-                if (viewGroup1.getChildAt(i) instanceof ViewGroup) {
-                    viewGroups.add((ViewGroup) viewGroup1.getChildAt(i));
-                } else if (viewGroup1.getChildAt(i) instanceof TextView) {
-                    if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor() != -1) {
-                        color = ((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
-                    }
-                }
-            }
-            viewGroups.remove(viewGroup1);
-        }
-        return color;
+    private static class SingleInstanceHelper {
+        private static NotificationUtil instance = new NotificationUtil();
     }
 }

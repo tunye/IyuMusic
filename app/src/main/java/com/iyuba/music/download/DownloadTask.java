@@ -16,8 +16,8 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
 

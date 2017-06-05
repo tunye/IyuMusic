@@ -73,8 +73,8 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
             primaryDark = context.getResources().getColor(R.color.skin_app_color_light);
             accent = context.getResources().getColor(R.color.skin_color_accent);
         } else {
-            primary = context.getResources().getColor(GetAppColor.getResource( "skin_app_color_" + item));
-            primaryDark = context.getResources().getColor(GetAppColor.getResource( "skin_app_color_light_" + item));
+            primary = context.getResources().getColor(GetAppColor.getResource("skin_app_color_" + item));
+            primaryDark = context.getResources().getColor(GetAppColor.getResource("skin_app_color_light_" + item));
             accent = context.getResources().getColor(GetAppColor.getResource("skin_color_accent_" + item));
         }
         holder.primary.setBackgroundDrawable(generateDrawable(primary));
