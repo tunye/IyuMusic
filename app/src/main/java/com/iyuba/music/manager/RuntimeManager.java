@@ -1,23 +1,18 @@
 package com.iyuba.music.manager;
 
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 import android.util.DisplayMetrics;
 
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
 
-import java.util.Map;
-
 public class RuntimeManager {
     private MusicApplication application;
     private DisplayMetrics displayMetrics;
     private Context context;
-    private Map<String, String> singleInstanceRequest;
     private boolean showSignInToast;
 
     private RuntimeManager() {
-        singleInstanceRequest = new ArrayMap<>();
     }
 
     public static RuntimeManager getInstance() {
@@ -76,10 +71,6 @@ public class RuntimeManager {
     public static int sp2px(float spValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
-    }
-
-    public Map<String, String> getSingleInstanceRequest() {
-        return singleInstanceRequest;
     }
 
     public boolean isShowSignInToast() {

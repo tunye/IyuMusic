@@ -10,6 +10,7 @@ import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.MediaButtonReceiver;
 
+
 /**
  * Created by 10202 on 2017-04-11.
  */
@@ -26,26 +27,21 @@ public class HeadSetUtil {
         return HeadSetUtil.SingleInstanceHelper.instance;
     }
 
-    public void open(Context context, OnHeadSetListener headSetListener) {
+    public void open(OnHeadSetListener headSetListener) {
         this.headSetListener = headSetListener;
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) RuntimeManager.getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         if (ConfigManager.getInstance().isMediaButton()) {
-            ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
+            ComponentName name = new ComponentName(RuntimeManager.getApplication().getPackageName(), MediaButtonReceiver.class.getName());
             audioManager.registerMediaButtonEventReceiver(name);
         }
     }
 
-    /**
-     * 关闭耳机线控监听
-     *
-     * @param context
-     */
-    public void close(Context context) {
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+    public void close() {
+        AudioManager audioManager = (AudioManager) RuntimeManager.getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         if (ConfigManager.getInstance().isMediaButton()) {
-            ComponentName name = new ComponentName(context.getPackageName(), MediaButtonReceiver.class.getName());
+            ComponentName name = new ComponentName(RuntimeManager.getApplication().getPackageName(), MediaButtonReceiver.class.getName());
             audioManager.unregisterMediaButtonEventReceiver(name);
         }
         this.headSetListener = null;

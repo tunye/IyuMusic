@@ -18,7 +18,7 @@ import com.iyuba.music.entity.mainpanel.SongCategory;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
 import com.iyuba.music.widget.CustomToast;
@@ -104,7 +104,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+            if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
@@ -116,7 +116,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
 
                     @Override
                     public void response(Object object) {
-                        RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                        StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                         ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
                         BannerEntity bannerEntity = new BannerEntity();
                         bannerEntity.setOwnerid("2");

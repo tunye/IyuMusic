@@ -150,6 +150,7 @@ public class MusicApplication extends Application {
     }
 
     private void prepareForApp() {
+        ConfigManager.getInstance();
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -169,8 +170,6 @@ public class MusicApplication extends Application {
             }
         });
         // 程序皮肤、字符集、夜间模式、网络状态初始化
-        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
-        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
         SkinManager.getInstance().init(this, "MusicSkin");
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听
@@ -193,6 +192,13 @@ public class MusicApplication extends Application {
                 pushSdkInit();
             }
         });
+        baseHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
+                ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
+            }
+        }, 1000);
     }
 
     public void pushActivity(Activity activity) {

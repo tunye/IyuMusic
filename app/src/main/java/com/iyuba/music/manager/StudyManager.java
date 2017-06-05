@@ -1,9 +1,12 @@
 package com.iyuba.music.manager;
 
+import android.support.v4.util.ArrayMap;
+
 import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -17,10 +20,12 @@ public class StudyManager {
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
+    private Map<String, String> singleInstanceRequest;
 
     private StudyManager() {
         app = ConstantManager.appId;
         sourceArticleList = new ArrayList<>();
+        singleInstanceRequest = new ArrayMap<>();
     }
 
     public static StudyManager getInstance() {
@@ -126,6 +131,10 @@ public class StudyManager {
                 curArticleList.addAll(temp);
                 break;
         }
+    }
+
+    public Map<String, String> getSingleInstanceRequest() {
+        return singleInstanceRequest;
     }
 
     private static class SingleInstanceHelper {

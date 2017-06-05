@@ -25,7 +25,6 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.newsrequest.NewsListRequest;
@@ -185,7 +184,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
-            if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
+            if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
@@ -198,7 +197,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
                     @Override
                     public void response(Object object) {
-                        RuntimeManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
+                        StudyManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
                         ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
                         ConfigManager.getInstance().putString("newsbanner", new Gson().toJson(bannerEntities));
                         newsAdapter.setAdSet(bannerEntities);
@@ -209,7 +208,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             }
         }
         if (maxid == 0) {
-            if (RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+            if (StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
                 getDbData(maxid);
                 if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
                     StudyManager.getInstance().setLesson("music");
@@ -221,7 +220,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 }
                 swipeRefreshLayout.setRefreshing(false);
             } else {
-                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                 loadNetData(maxid, refreshType);
             }
         } else {

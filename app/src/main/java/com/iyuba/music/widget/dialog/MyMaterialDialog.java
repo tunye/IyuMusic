@@ -408,7 +408,7 @@ public class MyMaterialDialog {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             button.setLayoutParams(params);
-            button.setBackgroundResource(R.drawable.material_dialog_card);
+            button.setBackgroundColor(mContext.getResources().getColor(R.color.background_dark));
             button.setTextColor(Color.argb(255, 35, 159, 242));
             button.setText(text);
             button.setGravity(Gravity.CENTER);
@@ -429,7 +429,7 @@ public class MyMaterialDialog {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             button.setLayoutParams(params);
-            button.setBackgroundResource(R.drawable.material_dialog_card);
+            button.setBackgroundColor(mContext.getResources().getColor(R.color.background_dark));
             button.setText(text);
             button.setTextColor(Color.argb(222, 0, 0, 0));
             button.setTextSize(14);

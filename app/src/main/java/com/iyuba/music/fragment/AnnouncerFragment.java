@@ -14,7 +14,7 @@ import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerRequest;
 
@@ -62,7 +62,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
         disableSwipeLayout();
         announcerList = announcerOp.findAll();
         anouncerAdapter.setAnnouncerList(announcerList);
-        if (!RuntimeManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+        if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
             if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
                 getData();
             }
@@ -83,7 +83,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
 
             @Override
             public void response(Object object) {
-                RuntimeManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
                 announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
                 announcerOp.saveData(announcerList);
                 anouncerAdapter.setAnnouncerList(announcerList);

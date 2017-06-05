@@ -59,7 +59,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
         super.onCreate();
         registerBroadcastReceiver();
         registerNotificationBroadcastReceiver();
-        HeadSetUtil.getInstance().open(getApplicationContext(), this);
+        HeadSetUtil.getInstance().open(this);
         init();
         ((MusicApplication) getApplication()).setPlayerService(this);
     }
@@ -285,7 +285,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     private void unRegisterBroadcastReceiver() {
-        HeadSetUtil.getInstance().close(getApplicationContext());
+        HeadSetUtil.getInstance().close();
         unregisterReceiver(headsetPlugReceiver);
         if (phoneStateListener != null) {
             TelephonyManager tm = (TelephonyManager) this.getSystemService(Service.TELEPHONY_SERVICE);
