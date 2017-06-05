@@ -278,7 +278,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         materialDialog.setMessage(R.string.net_study_no_net_message);
         boolean findFileFlg = false;
         if (SettingConfigManager.getInstance().getStudyMode() == 1) {
-            File packageFile = new File(ConstantManager.getInstance().getOriginalFolder());
+            File packageFile = new File(ConstantManager.originalFolder);
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
@@ -309,7 +309,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 });
             }
         } else {
-            File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+            File packageFile = new File(ConstantManager.musicFolder);
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {

@@ -13,27 +13,24 @@ public class ConstantManager {
     public final static String YOUDAOSECRET = "5542d99e63893312d28d7e49e2b43559";
     public final static String WXSECRET = "5d5d3eaf4c6b69a278cf16c115014474";
     public final static String WXID = "wx182643cdcfc2b59f";
-    private static final String songUrl = "http://static.iyuba.com/sounds/song/";
-    private static final String vipUrl = "http://staticvip.iyuba.com/sounds/song/";
-    private static final String oldSoundUrl = "http://static2.iyuba.com/go/musichigh/";
-    private static final String oldSoundVipUrl = "http://staticvip2.iyuba.com/go/musichigh/";
-    private String envir;
-    private String appId;
-    private String appName;
-    private String appEnglishName;
-    private String updateFolder;
-    private String musicFolder;
-    private String crashFolder;
-    private String lrcFolder;
-    private String originalFolder;
-    private String recordFile;
-    private String imgFile;
+    public static final String songUrl = "http://static.iyuba.com/sounds/song/";
+    public static final String vipUrl = "http://staticvip.iyuba.com/sounds/song/";
+    public static final String oldSoundUrl = "http://static2.iyuba.com/go/musichigh/";
+    public static final String oldSoundVipUrl = "http://staticvip2.iyuba.com/go/musichigh/";
+    public static final String appId = "209";
+    public static final String appName = "听歌学英语";
+    public static final String appEnglishName = "afterclass";
+    public static String envir;
+    public static String updateFolder;
+    public static String musicFolder;
+    public static String crashFolder;
+    public static String lrcFolder;
+    public static String originalFolder;
+    public static String recordFile;
+    public static String imgFile;
 
-    private ConstantManager() {
+    static {
         envir = Environment.getExternalStorageDirectory() + "/iyuba/music";
-        appId = "209";
-        appName = "听歌学英语";
-        appEnglishName = "afterclass";
         updateFolder = envir + File.separator + "update";
         musicFolder = envir + File.separator + "audio";
         lrcFolder = envir + File.separator + "audioLrc";
@@ -41,73 +38,5 @@ public class ConstantManager {
         crashFolder = envir + File.separator + "crash";
         recordFile = envir + File.separator + "sound";
         imgFile = envir + File.separator + "image";
-    }
-
-    public static ConstantManager getInstance() {
-        return SingleInstanceHelper.instance;
-    }
-
-    public static String getSongUrl() {
-        return songUrl;
-    }
-
-    public static String getVipUrl() {
-        return vipUrl;
-    }
-
-    public static String getOldSoundUrl() {
-        return oldSoundUrl;
-    }
-
-    public static String getOldSoundVipUrl() {
-        return oldSoundVipUrl;
-    }
-
-    public String getEnvir() {
-        return envir;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public String getUpdateFolder() {
-        return updateFolder;
-    }
-
-    public String getMusicFolder() {
-        return musicFolder;
-    }
-
-    public String getLrcFolder() {
-        return lrcFolder;
-    }
-
-    public String getOriginalFolder() {
-        return originalFolder;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public String getAppEnglishName() {
-        return appEnglishName;
-    }
-
-    public String getCrashFolder() {
-        return crashFolder;
-    }
-
-    public String getRecordFile() {
-        return recordFile;
-    }
-
-    public String getImgFile() {
-        return imgFile;
-    }
-
-    private static class SingleInstanceHelper {
-        private static ConstantManager instance = new ConstantManager();
     }
 }

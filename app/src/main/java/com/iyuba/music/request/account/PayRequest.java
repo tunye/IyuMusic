@@ -99,9 +99,9 @@ public class PayRequest {
         Map<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);
-        para.put("appId", ConstantManager.getInstance().getAppId());
+        para.put("appId", ConstantManager.appId);
         para.put("productId", paras[2]);
-        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.getInstance().getAppId()
+        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.appId
                 + paras[0] + paras[2] + "iyuba"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }

@@ -172,7 +172,7 @@ public class StartFragment {
     }
 
     public static void resetDownLoadData() {
-        final File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+        final File packageFile = new File(ConstantManager.musicFolder);
         if (packageFile.exists() && packageFile.list() != null) {
             ThreadPoolUtil.getInstance().execute(new Runnable() {
                 @Override
@@ -191,21 +191,21 @@ public class StartFragment {
                                 } else {
                                     id = Integer.parseInt(fileName);
                                 }
-                                temp = lOp.findDataById(ConstantManager.getInstance().getAppId(), id);
+                                temp = lOp.findDataById(ConstantManager.appId, id);
                                 if (temp == null || temp.getId() == 0) {
                                     temp = new LocalInfo();
                                     temp.setId(id);
-                                    temp.setApp(ConstantManager.getInstance().getAppId());
+                                    temp.setApp(ConstantManager.appId);
                                     temp.setDownload(1);
                                     temp.setDownTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                                     lOp.saveData(temp);
                                 } else {
-                                    lOp.updateDownload(id, ConstantManager.getInstance().getAppId(), 1);
+                                    lOp.updateDownload(id, ConstantManager.appId, 1);
                                 }
                                 stringBuilder.append(id).append(',');
                             }
                         } else {
-                            new File(ConstantManager.getInstance().getMusicFolder() + File.separator + fileName).delete();
+                            new File(ConstantManager.musicFolder + File.separator + fileName).delete();
                         }
                     }
                     NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
@@ -224,7 +224,7 @@ public class StartFragment {
                             BaseListEntity listEntity = (BaseListEntity) object;
                             ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                             for (Article temp : netData) {
-                                temp.setApp(ConstantManager.getInstance().getAppId());
+                                temp.setApp(ConstantManager.appId);
                             }
                             articleOp.saveData(netData);
                         }
@@ -238,7 +238,7 @@ public class StartFragment {
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                File file = new File(ConstantManager.getInstance().getMusicFolder());
+                File file = new File(ConstantManager.musicFolder);
                 if (file.exists()) {
                     for (File fileChild : file.listFiles()) {
                         if (fileChild.getName().contains(".tmp")) {

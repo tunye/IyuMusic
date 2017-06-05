@@ -79,7 +79,7 @@ public class AliPay {
         paras.put("WIDbody", body);
         paras.put("WIDtotal_fee", cost);
         paras.put("WIDdefaultbank", "");
-        paras.put("app_id", ConstantManager.getInstance().getAppId());
+        paras.put("app_id", ConstantManager.appId);
         paras.put("userId", AccountManager.getInstance().getUserId());
         paras.put("amount", month);
         paras.put("product_id", productId);

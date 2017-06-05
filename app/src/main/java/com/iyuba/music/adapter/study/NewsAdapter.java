@@ -77,7 +77,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 BaseListEntity listEntity = (BaseListEntity) object;
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.getInstance().getAppId());
+                    temp.setApp(ConstantManager.appId);
                 }
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);
@@ -297,7 +297,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             view.getContext().startActivity(intent);
                             break;
                         case "1":
-                            Article tempArticle = new ArticleOp().findById(ConstantManager.getInstance().getAppId(), Integer.parseInt(data.getName()));
+                            Article tempArticle = new ArticleOp().findById(ConstantManager.appId, Integer.parseInt(data.getName()));
                             if (tempArticle.getId() == 0) {
                                 getAppointArticle(view.getContext(), data.getName());
                             } else {

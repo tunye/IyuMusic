@@ -52,7 +52,7 @@ public class GradeRequest {
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("format", "json");
         para.put("uid", uid);
-        para.put("appName", ConstantManager.getInstance().getAppEnglishName());
+        para.put("appName", ConstantManager.appEnglishName);
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

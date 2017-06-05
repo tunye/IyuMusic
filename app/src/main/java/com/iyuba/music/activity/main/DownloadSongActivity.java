@@ -164,7 +164,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     CustomDialog.clearDownload(context, R.string.article_clear_download_hint, new IOperationResult() {
                         @Override
                         public void success(Object object) {
-                            final File file = new File(ConstantManager.getInstance().getMusicFolder());
+                            final File file = new File(ConstantManager.musicFolder);
                             if (file.exists()) {
                                 downloadedAdapter.setDataSet(new ArrayList<Article>());
                                 downloadingAdapter.setDataSet(new ArrayList<Article>());
@@ -340,7 +340,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     }
 
     private void deleteFile(int id, String app, String state) {
-        String baseUrl = ConstantManager.getInstance().getMusicFolder() + File.separator;
+        String baseUrl = ConstantManager.musicFolder + File.separator;
         File deleteFile;
         switch (app) {
             case "209": {
@@ -387,7 +387,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
 
     public void getFileMap() {
         fileMap = new ArrayMap<>();
-        File packageFile = new File(ConstantManager.getInstance().getMusicFolder());
+        File packageFile = new File(ConstantManager.musicFolder);
         if (packageFile.exists() && packageFile.list() != null) {
             String id;
             for (String fileName : packageFile.list()) {

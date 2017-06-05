@@ -19,7 +19,7 @@ public class StudyManager {
     private boolean isStartPlaying;
 
     private StudyManager() {
-        app = ConstantManager.getInstance().getAppId();
+        app = ConstantManager.appId;
         sourceArticleList = new ArrayList<>();
     }
 

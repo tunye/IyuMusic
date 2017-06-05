@@ -142,7 +142,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 }
                 break;
             case 1:
-                simplePlayer.setVideoPath(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
+                simplePlayer.setVideoPath(ConstantManager.recordFile + IseManager.AMR_SUFFIX);
                 simplePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -179,7 +179,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                         AccountManager.getInstance().getUserId());
                 sb.append("&shuoshuotype=").append(2);
                 sb.append("&voaid=").append(curArticle.getId());
-                final File file = new File(ConstantManager.getInstance().getRecordFile() + IseManager.AMR_SUFFIX);
+                final File file = new File(ConstantManager.recordFile + IseManager.AMR_SUFFIX);
                 UploadFile.postSound(sb.toString(), file, new IOperationResult() {
                     @Override
                     public void success(Object object) {
@@ -298,7 +298,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     private String getPath() {
         String url = DownloadService.getSongUrl(curArticle.getApp(), curArticle.getMusicUrl());
         StringBuilder localUrl = new StringBuilder();
-        localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(curArticle.getId()).append(".mp3");
+        localUrl.append(ConstantManager.musicFolder).append(File.separator).append(curArticle.getId()).append(".mp3");
         File localFile = new File(localUrl.toString());
         if (localFile.exists()) {
             return localUrl.toString();
@@ -308,7 +308,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     }
 
     private void initRecorder(String sentence) {
-        IseManager.getInstance(context).startEvaluate(sentence, ConstantManager.getInstance().getRecordFile(), evaluatorListener);
+        IseManager.getInstance(context).startEvaluate(sentence, ConstantManager.recordFile, evaluatorListener);
         Message message = new Message();
         message.arg1 = 0;
         message.what = 2;

@@ -102,7 +102,7 @@ public class SendPhotoActivity extends BaseActivity {
                     ImageSelectorActivity.start(SendPhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, true, true, false);
                 } else {
                     Intent intent = new Intent(context, LocalPhotoActivity.class);
-                    intent.putExtra("url", ConstantManager.getInstance().getEnvir() + "/temp.jpg");
+                    intent.putExtra("url", ConstantManager.envir + "/temp.jpg");
                     startActivityForResult(intent, 101);
                 }
             }
@@ -211,13 +211,13 @@ public class SendPhotoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ImageSelectorActivity.REQUEST_IMAGE) {
             images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
-            photo.setImageBitmap(saveImage(ConstantManager.getInstance().getEnvir() + "/temp.jpg", images.get(0)));
+            photo.setImageBitmap(saveImage(ConstantManager.envir + "/temp.jpg", images.get(0)));
         } else if (resultCode == -2) {
             CustomToast.getInstance().showToast(R.string.storage_permission_cancel);
         } else if (requestCode == 101 && resultCode == 1) {//删除
             images = new ArrayList<>();
             photo.setImageResource(R.drawable.circle_photo_add);
-            new File(ConstantManager.getInstance().getEnvir() + "/temp.jpg").delete();
+            new File(ConstantManager.envir + "/temp.jpg").delete();
         }
     }
 

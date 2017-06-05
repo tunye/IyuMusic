@@ -259,7 +259,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                 if (netData.size() != 0) {
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.getInstance().getAppId());
+                        temp.setApp(ConstantManager.appId);
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());

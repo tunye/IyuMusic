@@ -265,7 +265,7 @@ public class AboutActivity extends BaseActivity {
     private void startDownLoad() {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
-        File file = new File(ConstantManager.getInstance().getUpdateFolder());
+        File file = new File(ConstantManager.updateFolder);
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -279,7 +279,7 @@ public class AboutActivity extends BaseActivity {
         downloadFile.downloadState = "start";
         downloadFile.fileAppend = ".apk";
         downloadFile.downLoadAddress = appUpdateUrl;
-        downloadFile.filePath = ConstantManager.getInstance().getUpdateFolder() + File.separator;
+        downloadFile.filePath = ConstantManager.updateFolder + File.separator;
         downloadFile.fileName = "iyumusic";
         DownloadManager.getInstance().fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();

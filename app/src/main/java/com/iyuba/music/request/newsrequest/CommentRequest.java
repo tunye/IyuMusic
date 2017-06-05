@@ -81,7 +81,7 @@ public class CommentRequest {
         para.put("platform", "android");
         para.put("format", "json");
         para.put("voaid", id);
-        para.put("appid", ConstantManager.getInstance().getAppId());
+        para.put("appid", ConstantManager.appId);
         para.put("shuoshuotype", 0);
         para.put("pageNumber", page);
         para.put("pageCounts", 20);

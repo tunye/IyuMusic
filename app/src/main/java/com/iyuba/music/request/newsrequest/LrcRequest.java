@@ -62,7 +62,7 @@ public class LrcRequest {
     public static String generateUrl(int id, int type) {
         String url;
         ArrayMap<String, Object> paras = new ArrayMap<>();
-        paras.put("appid", ConstantManager.getInstance().getAppId());
+        paras.put("appid", ConstantManager.appId);
         paras.put("uid", AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0");
         switch (type) {
             case 0:

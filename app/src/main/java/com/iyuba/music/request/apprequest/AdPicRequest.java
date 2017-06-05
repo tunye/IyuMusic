@@ -62,7 +62,7 @@ public class AdPicRequest {
     public static String generateUrl() {
         String originalUrl = "http://app.iyuba.com/dev/getAdEntryAll.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
-        paras.put("appId", ConstantManager.getInstance().getAppId());
+        paras.put("appId", ConstantManager.appId);
         paras.put("flag", 1);
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }

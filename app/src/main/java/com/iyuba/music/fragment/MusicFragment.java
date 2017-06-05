@@ -182,7 +182,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.getInstance().getAppId());
+                        temp.setApp(ConstantManager.appId);
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());

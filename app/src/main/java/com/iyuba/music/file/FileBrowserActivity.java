@@ -49,7 +49,7 @@ public class FileBrowserActivity extends BaseActivity {
         setContentView(R.layout.file_browser);
         context = this;
         files = new ArrayList<>();
-        currentPath = ConstantManager.getInstance().getEnvir();
+        currentPath = ConstantManager.envir;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限

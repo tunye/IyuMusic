@@ -58,7 +58,7 @@ public class RegistByPhoneRequest {
         para.put("username", paras[0]);
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("mobile", paras[2]);
-        para.put("app", ConstantManager.getInstance().getAppEnglishName());
+        para.put("app", ConstantManager.appEnglishName);
         para.put("format", "json");
         para.put("sign", MD5.getMD5ofStr("11002" + paras[0]
                 + MD5.getMD5ofStr(paras[1]) + "iyubaV2"));

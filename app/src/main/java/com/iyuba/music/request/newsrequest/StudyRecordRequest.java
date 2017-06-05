@@ -70,7 +70,7 @@ public class StudyRecordRequest {
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
         ArrayMap<String, Object> para = new ArrayMap<>();
-        para.put("appId", ConstantManager.getInstance().getAppId());
+        para.put("appId", ConstantManager.appId);
         para.put("Lesson", studyRecord.getLesson());
         para.put("LessonId", studyRecord.getId());
         para.put("BeginTime", TextAttr.encode(studyRecord.getStartTime()));

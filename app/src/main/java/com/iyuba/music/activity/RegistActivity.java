@@ -332,7 +332,7 @@ public class RegistActivity extends BaseInputActivity {
             return;
         if (cur.moveToNext()) {
             String smsbody = cur.getString(cur.getColumnIndex("body"));
-            if (smsbody.contains(ConstantManager.getInstance().getAppName())) {
+            if (smsbody.contains(ConstantManager.appName)) {
                 String regEx = "[^0-9]";
                 Pattern p = Pattern.compile(regEx);
                 Matcher m = p.matcher(smsbody);

@@ -20,15 +20,15 @@ public class DownloadService {
         StringBuilder url = new StringBuilder();
         if (checkVip()) {
             if (id < 1000) {
-                url.append(ConstantManager.getOldSoundVipUrl()).append(sound);
+                url.append(ConstantManager.oldSoundVipUrl).append(sound);
             } else {
-                url.append(ConstantManager.getVipUrl()).append(sound);
+                url.append(ConstantManager.vipUrl).append(sound);
             }
         } else {
             if (id < 1000) {
-                url.append(ConstantManager.getOldSoundUrl()).append(sound);
+                url.append(ConstantManager.oldSoundUrl).append(sound);
             } else {
-                url.append(ConstantManager.getSongUrl()).append(sound);
+                url.append(ConstantManager.songUrl).append(sound);
             }
         }
         return url.toString();
@@ -39,7 +39,7 @@ public class DownloadService {
         if (checkVip()) {
             switch (app) {
                 case "209":
-                    url.append(ConstantManager.getVipUrl()).append(song);
+                    url.append(ConstantManager.vipUrl).append(song);
                     break;
                 case "215":
                 case "221":
@@ -53,7 +53,7 @@ public class DownloadService {
         } else {
             switch (app) {
                 case "209":
-                    url.append(ConstantManager.getSongUrl()).append(song);
+                    url.append(ConstantManager.songUrl).append(song);
                     break;
                 case "215":
                 case "221":

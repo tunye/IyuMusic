@@ -33,9 +33,9 @@ public class OriginalParser {
     public boolean fileExist(int para) {
         String fileUrl;
         if (StudyManager.getInstance().getApp().equals("209")) {
-            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + para + ".lrc";
+            fileUrl = ConstantManager.originalFolder + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.originalFolder + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         File file = new File(fileUrl);
         return file.exists();
@@ -47,9 +47,9 @@ public class OriginalParser {
     public void getOriginal(int para, IOperationResult result) {
         String fileUrl;
         if (StudyManager.getInstance().getApp().equals("209")) {
-            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + para + ".lrc";
+            fileUrl = ConstantManager.originalFolder + File.separator + para + ".lrc";
         } else {
-            fileUrl = ConstantManager.getInstance().getOriginalFolder() + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
+            fileUrl = ConstantManager.originalFolder + File.separator + StudyManager.getInstance().getApp() + "-" + para + ".lrc";
         }
         File file = new File(fileUrl);
         if (!file.exists())

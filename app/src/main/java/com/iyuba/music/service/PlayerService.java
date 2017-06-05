@@ -225,11 +225,11 @@ public class PlayerService extends Service implements OnHeadSetListener {
             case "209":
                 if (StudyManager.getInstance().getMusicType() == 0) {
                     url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
-                    localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getId()).append(".mp3");
+                    localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getId()).append(".mp3");
                     localFile = new File(localUrl.toString());
                 } else {
                     url = DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl());
-                    localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getId()).append("s.mp3");
+                    localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getId()).append("s.mp3");
                     localFile = new File(localUrl.toString());
                 }
                 if (localFile.exists()) {
@@ -241,7 +241,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
                 return article.getMusicUrl();
             default:
                 url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
-                localUrl.append(ConstantManager.getInstance().getMusicFolder()).append(File.separator).append(article.getApp()).append("-").append(article.getId()).append(".mp3");
+                localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getApp()).append("-").append(article.getId()).append(".mp3");
                 localFile = new File(localUrl.toString());
                 if (localFile.exists()) {
                     return localUrl.toString();

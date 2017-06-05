@@ -83,19 +83,19 @@ public class DownloadTask {
             if (SettingConfigManager.getInstance().getDownloadMode() == 0) {
                 String path;
                 if (SettingConfigManager.getInstance().getStudyMode() == 0) {
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getId() + ".mp3";
+                    path = ConstantManager.musicFolder + File.separator + article.getId() + ".mp3";
                 } else {
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getId() + "s.mp3";
+                    path = ConstantManager.musicFolder + File.separator + article.getId() + "s.mp3";
                 }
                 File file = new File(path);
                 return file.exists();
             } else {
-                String path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getId() + ".mp3";
+                String path = ConstantManager.musicFolder + File.separator + article.getId() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
                     return false;
                 } else {
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getId() + "s.mp3";
+                    path = ConstantManager.musicFolder + File.separator + article.getId() + "s.mp3";
                     file = new File(path);
                     return file.exists();
                 }
@@ -104,15 +104,15 @@ public class DownloadTask {
             String path;
             switch (article.getApp()) {
                 case "209":
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getId() + ".mp3";
+                    path = ConstantManager.musicFolder + File.separator + article.getId() + ".mp3";
                     break;
                 case "229":
                 case "217":
                 case "213":
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getApp() + "-" + article.getId() + ".mp4";
+                    path = ConstantManager.musicFolder + File.separator + article.getApp() + "-" + article.getId() + ".mp4";
                     break;
                 default:
-                    path = ConstantManager.getInstance().getMusicFolder() + File.separator + article.getApp() + "-" + article.getId() + ".mp3";
+                    path = ConstantManager.musicFolder + File.separator + article.getApp() + "-" + article.getId() + ".mp3";
                     break;
             }
             File file = new File(path);
@@ -136,7 +136,7 @@ public class DownloadTask {
                     if (SettingConfigManager.getInstance().getDownloadMode() == 0) {
                         if (SettingConfigManager.getInstance().getStudyMode() == 0) {
                             getWebLrc(id);
-                            downFile(singPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + ".mp3",
+                            downFile(singPath, ConstantManager.musicFolder + File.separator + id + ".mp3",
                                     new IOperationFinish() {
                                         @Override
                                         public void finish() {
@@ -146,7 +146,7 @@ public class DownloadTask {
                                     });
                         } else {
                             getWebOriginal(id);
-                            downFile(soundPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + "s.mp3",
+                            downFile(soundPath, ConstantManager.musicFolder + File.separator + id + "s.mp3",
                                     new IOperationFinish() {
                                         @Override
                                         public void finish() {
@@ -157,14 +157,14 @@ public class DownloadTask {
                         }
                     } else {
                         getWebOriginal(id);
-                        downFile(soundPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + "s.mp3", new IOperationFinish() {
+                        downFile(soundPath, ConstantManager.musicFolder + File.separator + id + "s.mp3", new IOperationFinish() {
                             @Override
                             public void finish() {
                                 downedFileLength = 0;
                                 downloadFile.downloadState = "half_finish";
                                 downloadFile.downloadSize = 0;
                                 getWebLrc(id);
-                                downFile(singPath, ConstantManager.getInstance().getMusicFolder() + File.separator + id + ".mp3",
+                                downFile(singPath, ConstantManager.musicFolder + File.separator + id + ".mp3",
                                         new IOperationFinish() {
 
                                             @Override
@@ -180,16 +180,16 @@ public class DownloadTask {
                     String localPath;
                     switch (app) {
                         case "209":
-                            localPath = ConstantManager.getInstance().getMusicFolder() + File.separator + id + ".mp3";
+                            localPath = ConstantManager.musicFolder + File.separator + id + ".mp3";
                             break;
                         case "229":
                         case "217":
                         case "213":
                             singPath = "http://staticvip.iyuba.com/video/voa/" + id + ".mp4";
-                            localPath = ConstantManager.getInstance().getMusicFolder() + File.separator + app + "-" + id + ".mp4";
+                            localPath = ConstantManager.musicFolder + File.separator + app + "-" + id + ".mp4";
                             break;
                         default:
-                            localPath = ConstantManager.getInstance().getMusicFolder() + File.separator + app + "-" + id + ".mp3";
+                            localPath = ConstantManager.musicFolder + File.separator + app + "-" + id + ".mp3";
                             break;
                     }
                     getWebLrc(id);
@@ -211,7 +211,7 @@ public class DownloadTask {
         if (file.exists()) {
             finish.finish();
         } else {
-            File fileTemp = new File(ConstantManager.getInstance().getMusicFolder());
+            File fileTemp = new File(ConstantManager.musicFolder);
             if (!fileTemp.exists()) {
                 fileTemp.mkdirs();
             }

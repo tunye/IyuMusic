@@ -226,7 +226,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
-                        temp.setApp(ConstantManager.getInstance().getAppId());
+                        temp.setApp(ConstantManager.appId);
                         localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                         if (localinfo.getId() == 0) {
                             localinfo.setApp(temp.getApp());
@@ -254,7 +254,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
     }
 
     private void getDbData() {
-        newsList.addAll(articleOp.findDataByCategory(ConstantManager.getInstance().getAppId(), classify, newsList.size(), 20));
+        newsList.addAll(articleOp.findDataByCategory(ConstantManager.appId, classify, newsList.size(), 20));
         newsAdapter.setDataSet(newsList);
     }
 }

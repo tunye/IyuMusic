@@ -73,7 +73,7 @@ public class NullActivity {
                     context.startActivity(intent);
                     break;
                 case "song":                                              // 进入某首歌曲
-                    Article tempArticle = new ArticleOp().findById(ConstantManager.getInstance().getAppId(), Integer.parseInt(path.substring(1)));
+                    Article tempArticle = new ArticleOp().findById(ConstantManager.appId, Integer.parseInt(path.substring(1)));
                     RuntimeManager.getApplication().startService(new Intent(RuntimeManager.getContext(), PlayerService.class));
                     if (tempArticle.getId() == 0) {
                         getAppointArticle(context, path.substring(1));
@@ -149,7 +149,7 @@ public class NullActivity {
                 BaseListEntity listEntity = (BaseListEntity) object;
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.getInstance().getAppId());
+                    temp.setApp(ConstantManager.appId);
                 }
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);

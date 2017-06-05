@@ -128,11 +128,11 @@ public class MeizhiPhotoActivity extends AppCompatActivity {
     }
 
     private void saveFile(Bitmap bm, String fileName) throws IOException {
-        File folder = new File(ConstantManager.getInstance().getImgFile());
+        File folder = new File(ConstantManager.imgFile);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        File myCaptureFile = new File(ConstantManager.getInstance().getImgFile(), fileName);
+        File myCaptureFile = new File(ConstantManager.imgFile, fileName);
         if (!myCaptureFile.exists()) {
             myCaptureFile.createNewFile();
         }

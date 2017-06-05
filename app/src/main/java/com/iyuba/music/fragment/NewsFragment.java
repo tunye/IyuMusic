@@ -231,9 +231,9 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     private void getDbData(int maxId) {
         if (maxId == 0) {
-            newsList = articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), 0, 20);
+            newsList = articleOp.findDataByAll(ConstantManager.appId, 0, 20);
         } else {
-            newsList.addAll(articleOp.findDataByAll(ConstantManager.getInstance().getAppId(), newsList.size(), 20));
+            newsList.addAll(articleOp.findDataByAll(ConstantManager.appId, newsList.size(), 20));
         }
         newsAdapter.setDataSet(newsList);
     }
@@ -298,7 +298,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 newsAdapter.setDataSet(newsList);
                 LocalInfo localinfo;
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.getInstance().getAppId());
+                    temp.setApp(ConstantManager.appId);
                     localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
                     if (localinfo.getId() == 0) {
                         localinfo.setApp(temp.getApp());

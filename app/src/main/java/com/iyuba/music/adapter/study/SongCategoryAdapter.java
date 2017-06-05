@@ -67,7 +67,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 BaseListEntity listEntity = (BaseListEntity) object;
                 ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
                 for (Article temp : netData) {
-                    temp.setApp(ConstantManager.getInstance().getAppId());
+                    temp.setApp(ConstantManager.appId);
                 }
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);

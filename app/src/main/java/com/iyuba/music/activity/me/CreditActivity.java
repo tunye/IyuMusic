@@ -86,7 +86,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
-                        + "&appid=" + ConstantManager.getInstance().getAppId() + "&username="
+                        + "&appid=" + ConstantManager.appId + "&username="
                         + AccountManager.getInstance().getUserInfo().getUsername() + "&sign=" +
                         MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
                 intent.putExtra("title", context.getString(R.string.campaign_exchange));

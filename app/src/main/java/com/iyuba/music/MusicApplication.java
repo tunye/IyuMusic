@@ -155,11 +155,11 @@ public class MusicApplication extends Application {
             @Override
             public void run() {
                 // 文件目录的初始化
-                File file = new File(ConstantManager.getInstance().getEnvir());
+                File file = new File(ConstantManager.envir);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
-                file = new File(ConstantManager.getInstance().getEnvir() + "/.nomedia");
+                file = new File(ConstantManager.envir + "/.nomedia");
                 if (!file.exists()) {
                     try {
                         file.createNewFile();

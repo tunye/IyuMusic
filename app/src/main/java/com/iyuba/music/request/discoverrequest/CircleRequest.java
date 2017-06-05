@@ -71,7 +71,7 @@ public class CircleRequest {
         para.put("protocol", 31001);
         para.put("uid", uid);
         para.put("find", 2);
-        para.put("appid", ConstantManager.getInstance().getAppId());
+        para.put("appid", ConstantManager.appId);
         para.put("feeds", "blog,doing,album");
         para.put("pageNumber", page);
         para.put("pageCounts", 20);

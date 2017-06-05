@@ -178,9 +178,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_share:
                 String text = getResources().getString(R.string.setting_share_content,
-                        ConstantManager.getInstance().getAppName())
+                        ConstantManager.appName)
                         + "：http://app.iyuba.com/android/androidDetail.jsp?id="
-                        + ConstantManager.getInstance().getAppId();
+                        + ConstantManager.appId;
                 Intent shareInt = new Intent(Intent.ACTION_SEND);
                 shareInt.setType("text/*");
                 shareInt.putExtra(Intent.EXTRA_TEXT, text);
@@ -228,9 +228,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
-                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getCrashFolder()));
-                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getUpdateFolder()));
-                        FileUtil.clearFileDir(new File(ConstantManager.getInstance().getImgFile()));
+                        FileUtil.clearFileDir(new File(ConstantManager.crashFolder));
+                        FileUtil.clearFileDir(new File(ConstantManager.updateFolder));
+                        FileUtil.clearFileDir(new File(ConstantManager.imgFile));
                     }
                 });
                 handler.sendEmptyMessage(2);
@@ -355,9 +355,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(RuntimeManager.getApplication().getProxy().getCacheFolder())));
                     long size = 0;
                     size += FileUtil.getGlideCacheSize(activity);
-                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getCrashFolder()));
-                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getUpdateFolder()));
-                    size += FileUtil.getFolderSize(new File(ConstantManager.getInstance().getImgFile()));
+                    size += FileUtil.getFolderSize(new File(ConstantManager.crashFolder));
+                    size += FileUtil.getFolderSize(new File(ConstantManager.updateFolder));
+                    size += FileUtil.getFolderSize(new File(ConstantManager.imgFile));
                     activity.picCache.setText(FileUtil.formetFileSize(size));
                     break;
                 case 2:

@@ -100,9 +100,9 @@ public class PayForAppRequest {
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);
         para.put("month", 0);
-        para.put("appId", ConstantManager.getInstance().getAppId());
+        para.put("appId", ConstantManager.appId);
         para.put("productId", 0);
-        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.getInstance().getAppId()
+        para.put("sign", MD5.getMD5ofStr(paras[1] + ConstantManager.appId
                 + paras[0] + "00iyuba"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }

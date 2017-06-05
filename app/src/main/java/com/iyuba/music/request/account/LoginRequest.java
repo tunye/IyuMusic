@@ -134,7 +134,7 @@ public class LoginRequest {
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("x", paras[2]);
         para.put("y", paras[3]);
-        para.put("appid", ConstantManager.getInstance().getAppId());
+        para.put("appid", ConstantManager.appId);
         para.put("format", "xml");
         para.put("sign", MD5.getMD5ofStr("11001" + paras[0]
                 + MD5.getMD5ofStr(paras[1]) + "iyubaV2"));
