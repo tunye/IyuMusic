@@ -14,7 +14,7 @@ import com.iyuba.music.activity.eggshell.material_edittext.MaterialEdittextMainA
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiActivity;
 import com.iyuba.music.activity.eggshell.view_animations.MyActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
@@ -30,7 +30,7 @@ public class EggShellActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.egg_shell);
         context = this;
-        SettingConfigManager.getInstance().setEggShell(true);
+        ConfigManager.getInstance().setEggShell(true);
         initWidget();
         setListener();
         changeUIByPara();

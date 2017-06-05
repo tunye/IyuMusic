@@ -23,7 +23,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
@@ -66,7 +66,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
         player = RuntimeManager.getApplication().getPlayerService().getPlayer();
         originalView = (OriginalSynView) view.findViewById(R.id.original);
-        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
+        originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
             @Override
             public void onSelectText(String text) {
@@ -101,7 +101,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         if (originalView == null) {
             initView();
         }
-        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
+        originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }
@@ -113,7 +113,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     @Override
                     public void success(Object object) {
                         originalList = (ArrayList<Original>) object;
-                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
                             originalView.setShowChinese(true);
                         } else {
                             originalView.setShowChinese(false);
@@ -127,7 +127,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                         getWebLrc(article.getId(), new IOperationFinish() {
                             @Override
                             public void finish() {
-                                if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+                                if (ConfigManager.getInstance().getStudyTranslate() == 1) {
                                     originalView.setShowChinese(true);
                                 } else {
                                     originalView.setShowChinese(false);
@@ -142,7 +142,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                 getWebLrc(article.getId(), new IOperationFinish() {
                     @Override
                     public void finish() {
-                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
                             originalView.setShowChinese(true);
                         } else {
                             originalView.setShowChinese(false);
@@ -281,7 +281,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     }
 
     public void changeLanguage() {
-        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
             originalView.setShowChinese(true);
         } else {
             originalView.setShowChinese(false);

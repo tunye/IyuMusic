@@ -18,7 +18,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +110,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
                     deleteWord(word, delete, delete.isChecked());
                 }
             });
-            if (SettingConfigManager.getInstance().isWordDefShow()) {
+            if (ConfigManager.getInstance().isWordDefShow()) {
                 def.setVisibility(View.VISIBLE);
             } else {
                 def.setVisibility(View.GONE);

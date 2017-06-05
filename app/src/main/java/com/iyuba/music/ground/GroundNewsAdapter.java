@@ -16,7 +16,7 @@ import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
@@ -67,8 +67,8 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
             });
         }
         final Article article = mList.get(position);
-        if (SettingConfigManager.getInstance().getLanguage() == 2 ||
-                (SettingConfigManager.getInstance().getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
+        if (ConfigManager.getInstance().getLanguage() == 2 ||
+                (ConfigManager.getInstance().getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
             holder.title.setText(article.getTitle());
         } else {
             if (TextUtils.isEmpty(article.getTitle_cn())) {

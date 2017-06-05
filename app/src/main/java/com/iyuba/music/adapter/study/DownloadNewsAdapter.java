@@ -18,7 +18,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.CustomToast;
@@ -174,7 +174,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                         holder.noExist.setVisibility(View.GONE);
                         break;
                     case 1:                                               // 存在解说文件
-                        if (SettingConfigManager.getInstance().getStudyMode() != 0) {
+                        if (ConfigManager.getInstance().getStudyMode() != 0) {
                             article.setTextFind(String.valueOf(R.string.article_download_only_sound));
                             holder.noExist.setVisibility(View.VISIBLE);
                         } else {
@@ -182,7 +182,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                         }
                         break;
                     case -1:                                              // 存在原唱文件
-                        if (SettingConfigManager.getInstance().getStudyMode() != 1) {
+                        if (ConfigManager.getInstance().getStudyMode() != 1) {
                             article.setTextFind(String.valueOf(R.string.article_download_only_song));
                             holder.noExist.setVisibility(View.VISIBLE);
                         } else {

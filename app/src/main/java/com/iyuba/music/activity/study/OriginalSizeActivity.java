@@ -13,7 +13,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
@@ -100,7 +100,7 @@ public class OriginalSizeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (initPos != sizePos) {
-                    SettingConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
+                    ConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
                     finish();
                 } else {
                     CustomToast.getInstance().showToast(R.string.app_no_change);
@@ -126,8 +126,8 @@ public class OriginalSizeActivity extends BaseActivity {
         super.changeUIByPara();
         title.setText(R.string.original_size_title);
         toolbarOper.setText(R.string.dialog_save);
-        initPos = sizePos = sizeToPos(SettingConfigManager.getInstance().getOriginalSize());
-        original.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
+        initPos = sizePos = sizeToPos(ConfigManager.getInstance().getOriginalSize());
+        original.setTextSize(ConfigManager.getInstance().getOriginalSize());
         original.setOriginalList(originalRows);
         discreteSlider.setSelected(sizePos);
         tickMarkLabels.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -215,7 +215,7 @@ public class OriginalSizeActivity extends BaseActivity {
         CustomDialog.saveChangeDialog(context, new IOperationResult() {
             @Override
             public void success(Object object) {
-                SettingConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
+                ConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
                 finish();
             }
 

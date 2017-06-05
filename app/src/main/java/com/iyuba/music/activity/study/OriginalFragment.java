@@ -15,7 +15,7 @@ import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
@@ -86,7 +86,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
         if (originalView == null) {
             initView();
         }
-        originalView.setTextSize(SettingConfigManager.getInstance().getOriginalSize());
+        originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         article = StudyManager.getInstance().getCurArticle();
         getOriginal();
     }
@@ -98,7 +98,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
                     @Override
                     public void success(Object object) {
                         originalList = (ArrayList<Original>) object;
-                        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
                             originalView.setShowChinese(true);
                         } else {
                             originalView.setShowChinese(false);
@@ -140,7 +140,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     }
 
     public void changeLanguage() {
-        if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
             originalView.setShowChinese(true);
         } else {
             originalView.setShowChinese(false);

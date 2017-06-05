@@ -57,7 +57,7 @@ public class AccountManager {
         userPwd = ""; // 用户密码
         userInfo = new UserInfo();
         saveUserNameAndPwd();
-        SettingConfigManager.getInstance().setAutoLogin(false);
+        ConfigManager.getInstance().setAutoLogin(false);
         return true;
     }
 
@@ -116,11 +116,11 @@ public class AccountManager {
                         rc.success(apiEntity.getMessage());
                     } else if (BaseApiEntity.isFail(apiEntity)) {
                         loginState = SIGN_OUT;
-                        SettingConfigManager.getInstance().setAutoLogin(false);
+                        ConfigManager.getInstance().setAutoLogin(false);
                         rc.fail(RuntimeManager.getString(R.string.login_fail));
                     } else {
                         loginState = SIGN_OUT;
-                        SettingConfigManager.getInstance().setAutoLogin(false);
+                        ConfigManager.getInstance().setAutoLogin(false);
                         rc.fail(RuntimeManager.getString(R.string.login_error));
                     }
                 }

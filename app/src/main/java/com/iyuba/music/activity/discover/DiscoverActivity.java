@@ -18,7 +18,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
@@ -117,7 +117,7 @@ public class DiscoverActivity extends BaseActivity {
                         startActivity(new Intent(context, LocalMusicActivity.class));
                         break;
                     case 11:
-                        if (SettingConfigManager.getInstance().isEggShell()) {
+                        if (ConfigManager.getInstance().isEggShell()) {
                             startActivity(new Intent(context, EggShellActivity.class));
                         }
                         break;

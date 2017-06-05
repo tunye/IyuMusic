@@ -26,7 +26,7 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.LrcRequest;
@@ -236,8 +236,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     protected void changeUIResumeByPara() {
         setPauseImage(false);
-        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
-        setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate());
+        setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
+        setStudyTranslateImage(ConfigManager.getInstance().getStudyTranslate());
     }
 
     private void refresh() {
@@ -325,7 +325,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         getWebLrc(article.getId(), new IOperationFinish() {
             @Override
             public void finish() {
-                if (SettingConfigManager.getInstance().getStudyTranslate() == 1) {
+                if (ConfigManager.getInstance().getStudyTranslate() == 1) {
                     originalView.setShowChinese(true);
                 } else {
                     originalView.setShowChinese(false);
@@ -367,9 +367,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_mode:
-                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
+                int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                ConfigManager.getInstance().setStudyPlayMode(nextMusicType);
                 StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
                 break;
@@ -385,9 +385,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 refresh();
                 break;
             case R.id.translate:
-                int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
+                int musicTranslate = ConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
-                SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
+                ConfigManager.getInstance().setStudyTranslate(musicTranslate);
                 setStudyTranslateImage(musicTranslate);
                 if (musicTranslate == 1) {
                     originalView.setShowChinese(true);

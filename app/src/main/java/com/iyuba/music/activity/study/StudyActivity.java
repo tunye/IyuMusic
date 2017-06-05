@@ -32,7 +32,7 @@ import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
@@ -192,9 +192,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_mode:
-                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
+                int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                ConfigManager.getInstance().setStudyPlayMode(nextMusicType);
                 StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
                 break;
@@ -202,9 +202,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 setPauseImage(true);
                 break;
             case R.id.study_mode:
-                int musicType = SettingConfigManager.getInstance().getStudyMode();
+                int musicType = ConfigManager.getInstance().getStudyMode();
                 musicType = (musicType + 1) % 2;
-                SettingConfigManager.getInstance().setStudyMode(musicType);
+                ConfigManager.getInstance().setStudyMode(musicType);
                 setStudyModeImage(musicType);
                 break;
             case R.id.interval:
@@ -231,9 +231,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
             case R.id.study_translate:
-                int musicTranslate = SettingConfigManager.getInstance().getStudyTranslate();
+                int musicTranslate = ConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
-                SettingConfigManager.getInstance().setStudyTranslate(musicTranslate);
+                ConfigManager.getInstance().setStudyTranslate(musicTranslate);
                 setStudyTranslateImage(musicTranslate, true);
                 break;
             case R.id.study_comment:
@@ -277,7 +277,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         materialDialog.setTitle(R.string.net_study_no_net);
         materialDialog.setMessage(R.string.net_study_no_net_message);
         boolean findFileFlg = false;
-        if (SettingConfigManager.getInstance().getStudyMode() == 1) {
+        if (ConfigManager.getInstance().getStudyMode() == 1) {
             File packageFile = new File(ConstantManager.originalFolder);
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
@@ -497,12 +497,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     protected void changeUIResumeByPara() {
-        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
+        setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
         switch (StudyManager.getInstance().getMusicType()) {
             case 0:
                 studyMode.setImageResource(R.drawable.study_annoucer_mode);
                 studyTranslate.setVisibility(View.VISIBLE);
-                setStudyTranslateImage(SettingConfigManager.getInstance().getStudyTranslate(), false);
+                setStudyTranslateImage(ConfigManager.getInstance().getStudyTranslate(), false);
                 break;
             case 1:
                 studyMode.setImageResource(R.drawable.study_singer_mode);
@@ -549,7 +549,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void refresh(boolean defaultPos) {
         handler.sendEmptyMessage(2);
-        if (SettingConfigManager.getInstance().getStudyPlayMode() == 0 || StudyManager.getInstance().getCurArticleList().size() == 1) {
+        if (ConfigManager.getInstance().getStudyPlayMode() == 0 || StudyManager.getInstance().getCurArticleList().size() == 1) {
             if (defaultPos) {
                 viewPager.setCurrentItem(1);
             } else {

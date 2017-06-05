@@ -17,7 +17,7 @@ import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
 
@@ -80,9 +80,9 @@ public class DownloadTask {
 
     public static boolean checkFileExists(Article article) {
         if (article.getApp().equals("209") && article.getSimple() == 0) {
-            if (SettingConfigManager.getInstance().getDownloadMode() == 0) {
+            if (ConfigManager.getInstance().getDownloadMode() == 0) {
                 String path;
-                if (SettingConfigManager.getInstance().getStudyMode() == 0) {
+                if (ConfigManager.getInstance().getStudyMode() == 0) {
                     path = ConstantManager.musicFolder + File.separator + article.getId() + ".mp3";
                 } else {
                     path = ConstantManager.musicFolder + File.separator + article.getId() + "s.mp3";
@@ -133,8 +133,8 @@ public class DownloadTask {
             public void run() {
                 downedFileLength = 0;
                 if (app.equals("209") && !TextUtils.isEmpty(soundPath)) {
-                    if (SettingConfigManager.getInstance().getDownloadMode() == 0) {
-                        if (SettingConfigManager.getInstance().getStudyMode() == 0) {
+                    if (ConfigManager.getInstance().getDownloadMode() == 0) {
+                        if (ConfigManager.getInstance().getStudyMode() == 0) {
                             getWebLrc(id);
                             downFile(singPath, ConstantManager.musicFolder + File.separator + id + ".mp3",
                                     new IOperationFinish() {

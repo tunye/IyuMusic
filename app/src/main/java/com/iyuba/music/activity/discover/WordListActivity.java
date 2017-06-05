@@ -20,7 +20,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.discoverrequest.DictSynchroRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.widget.CustomToast;
@@ -221,7 +221,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void sortWordList(int order) {
         if (order == -1) {
-            order = SettingConfigManager.getInstance().getWordOrder();
+            order = ConfigManager.getInstance().getWordOrder();
         }
         if (order == 1) {
             Collections.sort(wordArrayList, new Comparator<Word>() {

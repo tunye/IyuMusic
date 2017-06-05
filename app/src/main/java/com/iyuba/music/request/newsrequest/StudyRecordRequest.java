@@ -10,7 +10,7 @@ import com.iyuba.music.entity.article.StudyRecord;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetMAC;
@@ -79,7 +79,7 @@ public class StudyRecordRequest {
         para.put("uid", uid);
         para.put("Device", TextAttr.encode(device));
         para.put("DeviceId", GetMAC.getMAC());
-        para.put("TestNumber", SettingConfigManager.getInstance().getStudyMode());
+        para.put("TestNumber", ConfigManager.getInstance().getStudyMode());
         para.put("platform", "android");
         para.put("sign", MD5.getMD5ofStr(uid + studyRecord.getStartTime() + DateFormat.formatYear(Calendar.getInstance().getTime())));
         return ParameterUrl.setRequestParameter(originalUrl, para);

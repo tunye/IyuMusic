@@ -20,7 +20,7 @@ import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
@@ -233,7 +233,7 @@ public class ChangePhotoActivity extends BaseActivity {
                             activity.startActivity(new Intent(activity, CreditActivity.class));
                         }
                     });
-                    SettingConfigManager.getInstance().setUserPhotoTimeStamp();
+                    ConfigManager.getInstance().setUserPhotoTimeStamp();
                     break;
                 case 1:
                     CustomToast.getInstance().showToast(R.string.changephoto_fail);

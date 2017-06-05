@@ -22,9 +22,8 @@ import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
-import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
@@ -147,12 +146,12 @@ public class WelcomeActivity extends AppCompatActivity {
             db.openDatabase();
             appUpgrade(currentVersion);
         } else if (currentVersion > lastVersion) {
-            if (lastVersion < 72 && SettingConfigManager.getInstance().getOriginalSize() == 14) {
-                SettingConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
+            if (lastVersion < 72 && ConfigManager.getInstance().getOriginalSize() == 14) {
+                ConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
             }
             if (lastVersion < 83) {                                       // 广告获取方式改变
-                SettingConfigManager.getInstance().setADUrl("");
-                SettingConfigManager.getInstance().setDownloadMode(1);
+                ConfigManager.getInstance().setADUrl("");
+                ConfigManager.getInstance().setDownloadMode(1);
             }
             appUpgrade(currentVersion);
         }
@@ -162,7 +161,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void appUpgrade(int currentVersion) {
         showGuide = true;
         ConfigManager.getInstance().putInt("version", currentVersion);
-        SettingConfigManager.getInstance().setUpgrade(true);
+        ConfigManager.getInstance().setUpgrade(true);
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
@@ -170,7 +169,7 @@ public class WelcomeActivity extends AppCompatActivity {
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    SettingConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
+                    ConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
                             + "@@@" + activity.adEntity.getLoadUrl());
                     break;
                 case 1:
@@ -190,7 +189,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                     break;
                 case 2:
-                    String adUrl = SettingConfigManager.getInstance().getADUrl();
+                    String adUrl = ConfigManager.getInstance().getADUrl();
                     activity.adEntity = new AdEntity();
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.adEntity.setPicUrl("http://app.iyuba.com/dev/upload/1478933401279.png");

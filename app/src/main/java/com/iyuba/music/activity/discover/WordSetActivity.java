@@ -10,7 +10,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -68,7 +68,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         currAutoAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setWordAutoAdd(isChecked);
+                ConfigManager.getInstance().setWordAutoAdd(isChecked);
                 if (isChecked) {
                     currAutoAdd.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -79,7 +79,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         currAutoAudio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setWordAutoPlay(isChecked);
+                ConfigManager.getInstance().setWordAutoPlay(isChecked);
                 if (isChecked) {
                     currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -90,7 +90,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         currShowDef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setWordDefShow(isChecked);
+                ConfigManager.getInstance().setWordDefShow(isChecked);
                 if (isChecked) {
                     currShowDef.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -103,10 +103,10 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        currGroup.setText(getWordOrder(SettingConfigManager.getInstance().getWordOrder()));
-        currAutoAudio.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isWordAutoPlay());
-        currAutoAdd.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isWordAutoAdd());
-        currShowDef.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isWordDefShow());
+        currGroup.setText(getWordOrder(ConfigManager.getInstance().getWordOrder()));
+        currAutoAudio.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isWordAutoPlay());
+        currAutoAdd.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isWordAutoAdd());
+        currShowDef.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isWordDefShow());
         if (currAutoAudio.isChecked()) {
             currAutoAudio.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
@@ -134,15 +134,15 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.word_set_show_def:
                 currShowDef.setChecked(!currShowDef.isChecked());
-                SettingConfigManager.getInstance().setWordDefShow(currShowDef.isChecked());
+                ConfigManager.getInstance().setWordDefShow(currShowDef.isChecked());
                 break;
             case R.id.word_set_auto_add:
                 currAutoAdd.setChecked(!currAutoAdd.isChecked());
-                SettingConfigManager.getInstance().setWordAutoAdd(currAutoAdd.isChecked());
+                ConfigManager.getInstance().setWordAutoAdd(currAutoAdd.isChecked());
                 break;
             case R.id.word_set_play:
                 currAutoAudio.setChecked(!currAutoAudio.isChecked());
-                SettingConfigManager.getInstance().setWordAutoPlay(currAutoAudio.isChecked());
+                ConfigManager.getInstance().setWordAutoPlay(currAutoAudio.isChecked());
                 break;
         }
     }
@@ -156,8 +156,8 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (SettingConfigManager.getInstance().getWordOrder() != position) {
-                    SettingConfigManager.getInstance().setWordOrder(position);
+                if (ConfigManager.getInstance().getWordOrder() != position) {
+                    ConfigManager.getInstance().setWordOrder(position);
                     currGroup.setText(getWordOrder(position));
                 }
                 groupDialog.dismiss();
@@ -168,7 +168,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getWordOrder());
+        adapter.setSelected(ConfigManager.getInstance().getWordOrder());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);

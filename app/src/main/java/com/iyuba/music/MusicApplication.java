@@ -19,10 +19,9 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.StudyRecordUtil;
-import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
@@ -95,7 +94,7 @@ public class MusicApplication extends Application {
 
     private void pushSdkInit() {
         final String TAG = "mipush";
-        if (SettingConfigManager.getInstance().isPush()) {
+        if (ConfigManager.getInstance().isPush()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
         LoggerInterface newLogger = new LoggerInterface() {
@@ -170,8 +169,8 @@ public class MusicApplication extends Application {
             }
         });
         // 程序皮肤、字符集、夜间模式、网络状态初始化
-        ChangePropery.updateNightMode(ConfigManager.getInstance().loadBoolean("night", false));
-        ChangePropery.updateLanguageMode(ConfigManager.getInstance().loadInt("language", 0));
+        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
         SkinManager.getInstance().init(this, "MusicSkin");
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听

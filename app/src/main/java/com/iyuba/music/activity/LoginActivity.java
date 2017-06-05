@@ -22,7 +22,7 @@ import com.iyuba.music.entity.user.HistoryLoginOp;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -202,7 +202,7 @@ public class LoginActivity extends BaseInputActivity {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();
-                    SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
+                    ConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(2, intent);
                     if (result != null) {
@@ -230,7 +230,7 @@ public class LoginActivity extends BaseInputActivity {
                 @Override
                 public void success(Object object) {
                     waitingDialog.dismiss();
-                    SettingConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
+                    ConfigManager.getInstance().setAutoLogin(autoLogin.isChecked());
                     Intent intent = new Intent();
                     setResult(1, intent);
                     if (result != null) {

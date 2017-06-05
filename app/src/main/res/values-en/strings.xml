@@ -224,7 +224,7 @@
     <!--word search-->
     <string name="search_word_title">Look up new words</string>
     <string name="search_word_hint">Please enter content</string>
-    <string name="search_friend_hint">Please enter content</string>
+    <string name="search_friend_null">Please enter content</string>
     <string name="search_word_null">Please enter a word</string>
     <string name="search_word_do">Find</string>
     <!--word single-->

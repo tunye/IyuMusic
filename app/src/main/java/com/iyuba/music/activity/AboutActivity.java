@@ -21,7 +21,7 @@ import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -291,10 +291,10 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void openCookie() {
-        if (SettingConfigManager.getInstance().isEggShell()) {
+        if (ConfigManager.getInstance().isEggShell()) {
             new VersionInfoDialog(context);
         } else if (cookie == 0) {
-            SettingConfigManager.getInstance().setEggShell(true);
+            ConfigManager.getInstance().setEggShell(true);
             CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new OnClickListener() {
                 @Override
                 public void onClick(View v) {

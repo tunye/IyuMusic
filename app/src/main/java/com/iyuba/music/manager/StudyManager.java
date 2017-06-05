@@ -97,7 +97,7 @@ public class StudyManager {
         } else if (curArticle.getSimple() == 1) {
             return 0;
         } else {
-            return SettingConfigManager.getInstance().getStudyMode();
+            return ConfigManager.getInstance().getStudyMode();
         }
     }
 
@@ -111,7 +111,7 @@ public class StudyManager {
 
     public void generateArticleList() {
         curArticleList = new ArrayList<>();
-        switch (SettingConfigManager.getInstance().getStudyPlayMode()) {
+        switch (ConfigManager.getInstance().getStudyPlayMode()) {
             case 0:
 //                curArticleList.add(curArticle);
                 curArticleList.addAll(sourceArticleList);

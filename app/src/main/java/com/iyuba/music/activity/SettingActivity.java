@@ -21,7 +21,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
@@ -136,7 +136,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.setting_title);
-        if (SettingConfigManager.getInstance().isPush()) {
+        if (ConfigManager.getInstance().isPush()) {
             currPush.setCheckedImmediatelyNoEvent(true);
             currPush.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
@@ -147,7 +147,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     protected void changeUIResumeByPara() {
-        currLanguage.setText(getLanguage(SettingConfigManager.getInstance().getLanguage()));
+        currLanguage.setText(getLanguage(ConfigManager.getInstance().getLanguage()));
         currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
     }
 
@@ -254,8 +254,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setPushState() {
-        SettingConfigManager.getInstance().setPush(!SettingConfigManager.getInstance().isPush());
-        if (SettingConfigManager.getInstance().isPush()) {
+        ConfigManager.getInstance().setPush(!ConfigManager.getInstance().isPush());
+        if (ConfigManager.getInstance().isPush()) {
             MiPushClient.enablePush(context);
         } else {
             MiPushClient.disablePush(context);
@@ -271,7 +271,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (SettingConfigManager.getInstance().getLanguage() != position) {
+                if (ConfigManager.getInstance().getLanguage() != position) {
                     onLanguageChanged(position);
                 }
                 languageDialog.dismiss();
@@ -282,7 +282,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getLanguage());
+        adapter.setSelected(ConfigManager.getInstance().getLanguage());
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
@@ -297,7 +297,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void onLanguageChanged(int language) {
-        SettingConfigManager.getInstance().setLanguage(language);
+        ConfigManager.getInstance().setLanguage(language);
         ChangePropery.updateLanguageMode(language);
         Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
         intent.putExtra(ChangePropertyBroadcast.SOURCE, this.getClass().getSimpleName());

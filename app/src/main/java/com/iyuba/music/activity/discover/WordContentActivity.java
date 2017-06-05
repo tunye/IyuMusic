@@ -19,7 +19,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.discoverrequest.DictRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
@@ -137,7 +137,7 @@ public class WordContentActivity extends BaseActivity {
         currentWord = wordSetOp.findDataByKey(appointWord);
         if (currentWord != null) {
             currentWord.setSentences(new ExampleSentenceOp().findData(appointWord));
-            if (SettingConfigManager.getInstance().isWordAutoPlay()) {
+            if (ConfigManager.getInstance().isWordAutoPlay()) {
                 if (TextUtils.isEmpty(currentWord.getPronMP3())) {
                     playSound = true;
                 } else {
@@ -147,7 +147,7 @@ public class WordContentActivity extends BaseActivity {
             setContent();
             saveDB();
         } else {
-            if (SettingConfigManager.getInstance().isWordAutoPlay()) {
+            if (ConfigManager.getInstance().isWordAutoPlay()) {
                 playSound = true;
             }
             waitingDialog.show();
@@ -188,7 +188,7 @@ public class WordContentActivity extends BaseActivity {
                 }
             }
         });
-        if (SettingConfigManager.getInstance().isWordAutoAdd()) {
+        if (ConfigManager.getInstance().isWordAutoAdd()) {
             if (AccountManager.getInstance().checkUserLogin()) {
                 if (!collected) {
                     currentWord.setUser(AccountManager.getInstance().getUserId());

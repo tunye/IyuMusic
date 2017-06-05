@@ -11,7 +11,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.My
         }
         holder.key.setText(wordList.get(position).getWord());
         holder.def.setText(wordList.get(position).getDef());
-        if (SettingConfigManager.getInstance().isWordDefShow()) {
+        if (ConfigManager.getInstance().isWordDefShow()) {
             holder.def.setVisibility(View.VISIBLE);
         } else {
             holder.def.setVisibility(View.GONE);

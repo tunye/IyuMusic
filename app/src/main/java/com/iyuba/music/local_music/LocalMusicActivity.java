@@ -32,7 +32,6 @@ import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.SettingConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.CreateAppLnkUtil;
 import com.iyuba.music.util.GetAppColor;
@@ -214,9 +213,9 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         playMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nextMusicType = SettingConfigManager.getInstance().getStudyPlayMode();
+                int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
-                SettingConfigManager.getInstance().setStudyPlayMode(nextMusicType);
+                ConfigManager.getInstance().setStudyPlayMode(nextMusicType);
                 StudyManager.getInstance().generateArticleList();
                 setPlayModeImage(nextMusicType);
             }
@@ -240,7 +239,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         }
         adapter.setDataSet(musics);
         statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
-        setPlayModeImage(SettingConfigManager.getInstance().getStudyPlayMode());
+        setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
     }
 
     @Override

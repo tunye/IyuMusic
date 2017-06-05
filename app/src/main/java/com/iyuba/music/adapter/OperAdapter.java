@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.imageview.GoImageView;
 
@@ -83,7 +83,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         if (holder.menuText.getText().equals(context.getString(R.string.oper_night))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            holder.menuResult.setText(SettingConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
         if (holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);

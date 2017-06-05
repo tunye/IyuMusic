@@ -37,7 +37,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
@@ -176,8 +176,8 @@ public class MainLeftFragment extends BaseFragment {
                         startActivity(new Intent(context, MeActivity.class));
                         break;
                     case 4:
-                        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
-                        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
+                        ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
+                        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
                         Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                         intent.putExtra(ChangePropertyBroadcast.SOURCE, getActivity().getClass().getSimpleName());
                         context.sendBroadcast(intent);
@@ -220,7 +220,7 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void autoLogin() {
-        if (SettingConfigManager.getInstance().isAutoLogin()) { // 自动登录
+        if (ConfigManager.getInstance().isAutoLogin()) { // 自动登录
             AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
             String[] userNameAndPwd = AccountManager.getInstance().getUserNameAndPwd();
             if (!TextUtils.isEmpty(userNameAndPwd[0]) && !TextUtils.isEmpty(userNameAndPwd[1])) {

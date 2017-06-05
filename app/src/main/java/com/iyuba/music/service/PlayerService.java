@@ -19,7 +19,7 @@ import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.OnHeadSetListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
 import com.iyuba.music.receiver.NotificationBeforeReceiver;
@@ -124,7 +124,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                if (SettingConfigManager.getInstance().getStudyPlayMode() != 0) {
+                if (ConfigManager.getInstance().getStudyPlayMode() != 0) {
                     next(true);
                     if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
                         Intent i = new Intent("com.iyuba.music.main");

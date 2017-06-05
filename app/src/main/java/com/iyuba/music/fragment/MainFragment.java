@@ -26,7 +26,7 @@ import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
 import com.iyuba.music.listener.ChangeUIBroadCast;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
@@ -163,7 +163,7 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
-        if (SettingConfigManager.getInstance().isAutoRound()) {
+        if (ConfigManager.getInstance().isAutoRound()) {
             initAnimation();
         }
     }
@@ -202,7 +202,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void startAnimation() {
-        if (SettingConfigManager.getInstance().isAutoRound()) {
+        if (ConfigManager.getInstance().isAutoRound()) {
             if (operatingAnim == null) {
                 initAnimation();
             }
@@ -211,7 +211,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void pauseAnimation() {
-        if (SettingConfigManager.getInstance().isAutoRound()) {
+        if (ConfigManager.getInstance().isAutoRound()) {
             pic.clearAnimation();
         }
     }

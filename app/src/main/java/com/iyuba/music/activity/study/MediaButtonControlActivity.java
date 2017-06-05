@@ -5,7 +5,7 @@ import android.widget.CompoundButton;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -39,7 +39,7 @@ public class MediaButtonControlActivity extends BaseActivity {
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setMediaButton(isChecked);
+                ConfigManager.getInstance().setMediaButton(isChecked);
                 if (isChecked) {
                     switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                     CustomToast.getInstance().showToast(R.string.setting_mediabutton_on);
@@ -54,7 +54,7 @@ public class MediaButtonControlActivity extends BaseActivity {
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        if (SettingConfigManager.getInstance().isMediaButton()) {
+        if (ConfigManager.getInstance().isMediaButton()) {
             switchButton.setCheckedImmediatelyNoEvent(true);
             switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {

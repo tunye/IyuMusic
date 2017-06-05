@@ -11,7 +11,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -85,7 +85,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currAutoRound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setAutoRound(isChecked);
+                ConfigManager.getInstance().setAutoRound(isChecked);
                 if (isChecked) {
                     currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -96,7 +96,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currHeadplugPlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setAutoPlay(isChecked);
+                ConfigManager.getInstance().setAutoPlay(isChecked);
                 if (isChecked) {
                     currHeadplugPlay.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -107,7 +107,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         currHeadplugPause.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingConfigManager.getInstance().setAutoStop(isChecked);
+                ConfigManager.getInstance().setAutoStop(isChecked);
                 if (isChecked) {
                     currHeadplugPause.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
                 } else {
@@ -120,12 +120,12 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        currPlayMode.setText(getPlayMode(SettingConfigManager.getInstance().getStudyMode()));
-        currNextMode.setText(getNextMode(SettingConfigManager.getInstance().getStudyPlayMode()));
-        currDownLoad.setText(getDownload(SettingConfigManager.getInstance().getDownloadMode()));
-        currAutoRound.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoRound());
-        currHeadplugPlay.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoPlay());
-        currHeadplugPause.setCheckedImmediatelyNoEvent(SettingConfigManager.getInstance().isAutoStop());
+        currPlayMode.setText(getPlayMode(ConfigManager.getInstance().getStudyMode()));
+        currNextMode.setText(getNextMode(ConfigManager.getInstance().getStudyPlayMode()));
+        currDownLoad.setText(getDownload(ConfigManager.getInstance().getDownloadMode()));
+        currAutoRound.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isAutoRound());
+        currHeadplugPlay.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isAutoPlay());
+        currHeadplugPause.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isAutoStop());
         if (currAutoRound.isChecked()) {
             currAutoRound.setBackColorRes(GetAppColor.getInstance().getAppColorRes());
         } else {
@@ -167,15 +167,15 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.study_set_auto_round:
                 currAutoRound.setChecked(!currAutoRound.isChecked());
-                SettingConfigManager.getInstance().setAutoRound(currAutoRound.isChecked());
+                ConfigManager.getInstance().setAutoRound(currAutoRound.isChecked());
                 break;
             case R.id.study_set_headplug_play:
                 currHeadplugPlay.setChecked(!currHeadplugPlay.isChecked());
-                SettingConfigManager.getInstance().setAutoPlay(currHeadplugPlay.isChecked());
+                ConfigManager.getInstance().setAutoPlay(currHeadplugPlay.isChecked());
                 break;
             case R.id.study_set_headplug_pause:
                 currHeadplugPause.setChecked(!currHeadplugPause.isChecked());
-                SettingConfigManager.getInstance().setAutoStop(currHeadplugPause.isChecked());
+                ConfigManager.getInstance().setAutoStop(currHeadplugPause.isChecked());
                 break;
             case R.id.study_set_original_size:
                 startActivity(new Intent(context, OriginalSizeActivity.class));
@@ -195,8 +195,8 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position != SettingConfigManager.getInstance().getStudyMode()) {
-                    SettingConfigManager.getInstance().setStudyMode(position);
+                if (position != ConfigManager.getInstance().getStudyMode()) {
+                    ConfigManager.getInstance().setStudyMode(position);
                     currPlayMode.setText(getPlayMode(position));
                 }
                 groupDialog.dismiss();
@@ -207,7 +207,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getStudyMode());
+        adapter.setSelected(ConfigManager.getInstance().getStudyMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
@@ -230,8 +230,8 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (SettingConfigManager.getInstance().getStudyPlayMode() != position) {
-                    SettingConfigManager.getInstance().setStudyPlayMode(position);
+                if (ConfigManager.getInstance().getStudyPlayMode() != position) {
+                    ConfigManager.getInstance().setStudyPlayMode(position);
                     currNextMode.setText(getNextMode(position));
                 }
                 groupDialog.dismiss();
@@ -242,7 +242,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getStudyPlayMode());
+        adapter.setSelected(ConfigManager.getInstance().getStudyPlayMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
@@ -266,8 +266,8 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         adapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position != SettingConfigManager.getInstance().getDownloadMode()) {
-                    SettingConfigManager.getInstance().setDownloadMode(position);
+                if (position != ConfigManager.getInstance().getDownloadMode()) {
+                    ConfigManager.getInstance().setDownloadMode(position);
                     currDownLoad.setText(getDownload(position));
                 }
                 groupDialog.dismiss();
@@ -278,7 +278,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-        adapter.setSelected(SettingConfigManager.getInstance().getDownloadMode());
+        adapter.setSelected(ConfigManager.getInstance().getDownloadMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);

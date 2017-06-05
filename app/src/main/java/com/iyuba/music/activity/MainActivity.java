@@ -33,7 +33,7 @@ import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
@@ -73,7 +73,7 @@ public class MainActivity extends BaseSkinActivity {
         initBroadcast();
         initWidget();
         setListener();
-        if (SettingConfigManager.getInstance().isUpgrade()) {
+        if (ConfigManager.getInstance().isUpgrade()) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -160,8 +160,8 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     private void initBroadcast() {
-        if (SettingConfigManager.getInstance().isUpgrade()) {
-            if (SettingConfigManager.getInstance().isPush()) {
+        if (ConfigManager.getInstance().isUpgrade()) {
+            if (ConfigManager.getInstance().isPush()) {
                 MiPushClient.enablePush(RuntimeManager.getContext());
             } else {
                 MiPushClient.disablePush(RuntimeManager.getContext());
@@ -224,7 +224,7 @@ public class MainActivity extends BaseSkinActivity {
         } else {
             StartFragment.resetDownLoadData();
         }
-        SettingConfigManager.getInstance().setUpgrade(false);
+        ConfigManager.getInstance().setUpgrade(false);
         StartFragment.showVersionFeature(context);
     }
 

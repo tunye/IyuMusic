@@ -14,7 +14,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 
 /**
  * Created by 102 on 2016/10/10.
@@ -22,7 +22,7 @@ import com.iyuba.music.manager.SettingConfigManager;
 
 public class ImageUtil {
     public static void loadAvatar(String userid, ImageView imageView) {
-        String photoStamp = SettingConfigManager.getInstance().getUserPhotoTimeStamp();
+        String photoStamp = ConfigManager.getInstance().getUserPhotoTimeStamp();
         StringBuilder avatarUrl = new StringBuilder();
         avatarUrl.append("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=").append(userid);
         if (!TextUtils.isEmpty(photoStamp)) {
@@ -32,7 +32,7 @@ public class ImageUtil {
     }
 
     public static void loadAvatar(ImageView imageView, String userid, String size) {
-        String photoStamp = SettingConfigManager.getInstance().getUserPhotoTimeStamp();
+        String photoStamp = ConfigManager.getInstance().getUserPhotoTimeStamp();
         StringBuilder avatarUrl = new StringBuilder();
         avatarUrl.append("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=").append(userid).append("&size=").append(size);
         if (!TextUtils.isEmpty(photoStamp)) {

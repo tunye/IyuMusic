@@ -26,7 +26,7 @@ import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.SettingConfigManager;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
@@ -91,7 +91,7 @@ public class StudyMore {
             menuDrawable[2] = R.drawable.download;
         }
         if (app.equals("209")) {
-            if (SettingConfigManager.getInstance().isNight()) {
+            if (ConfigManager.getInstance().isNight()) {
                 menuDrawable[6] = R.drawable.night_true;
             } else {
                 menuDrawable[6] = R.drawable.night;
@@ -200,8 +200,8 @@ public class StudyMore {
                         }
                         break;
                     case 6:
-                        SettingConfigManager.getInstance().setNight(!SettingConfigManager.getInstance().isNight());
-                        ChangePropery.updateNightMode(SettingConfigManager.getInstance().isNight());
+                        ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
+                        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
                         intent = new Intent(ChangePropertyBroadcast.FLAG);
                         intent.putExtra(ChangePropertyBroadcast.SOURCE, "StudyActivity.class");
                         context.sendBroadcast(intent);
