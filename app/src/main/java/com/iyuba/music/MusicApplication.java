@@ -84,10 +84,10 @@ public class MusicApplication extends Application {
         }
         if (shouldInit()) {
             activityList = new ArrayList<>();
-            prepareForApp();
+            initApplication();
 //            LeakCanary.install(this);
-//            CrashHandler crashHandler = new CrashHandler(this);
-//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+            CrashHandler crashHandler = new CrashHandler(this);
+            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 
@@ -148,8 +148,18 @@ public class MusicApplication extends Application {
         Glide.get(this).trimMemory(level);
     }
 
-    private void prepareForApp() {
+    private void initApplication() {
         ConfigManager.getInstance();
+        SkinManager.getInstance().init(this, "MusicSkin");
+        baseHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                prepareLazy();
+            }
+        }, 1000);
+    }
+
+    private void prepareLazy() {
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
@@ -168,8 +178,7 @@ public class MusicApplication extends Application {
                 }
             }
         });
-        // 程序皮肤、字符集、夜间模式、网络状态初始化
-        SkinManager.getInstance().init(this, "MusicSkin");
+        // 网络状态初始化
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听
         changeProperty = new ChangePropertyBroadcast();

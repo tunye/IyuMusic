@@ -52,9 +52,6 @@ public class LoginActivity extends BaseInputActivity {
                 }
                 login();
                 return true;
-            } else if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                userpwd.requestFocus();
-                return true;
             }
             return false;
         }
@@ -138,7 +135,6 @@ public class LoginActivity extends BaseInputActivity {
                 startActivityForResult(new Intent(context, RegistActivity.class), 101);
             }
         });
-        username.setOnEditorActionListener(editor);
         userpwd.setOnEditorActionListener(editor);
         setUserNameAutoLogin();
     }

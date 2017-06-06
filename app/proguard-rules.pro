@@ -81,6 +81,12 @@
 #volley混淆配置
 -dontwarn com.android.volley.jar.**
 -keep class com.android.volley.**{*;}
+#glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
 #gson混淆配置
 -keep class sun.misc.Unsafe { *; }
