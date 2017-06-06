@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class FileBrowserActivity extends BaseActivity {
+public class FileBrowserActivity extends BaseInputActivity {
     private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
 
     private ArrayList<FileInfo> files;

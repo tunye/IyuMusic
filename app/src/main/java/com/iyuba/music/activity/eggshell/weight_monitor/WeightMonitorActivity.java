@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -27,7 +27,7 @@ import java.util.Calendar;
  * Created by chentong1 on 2017/6/6.
  */
 
-public class WeightMonitorActivity extends BaseActivity {
+public class WeightMonitorActivity extends BaseInputActivity {
     private RecyclerView recyclerView;
     private ArrayList<WeightMonitorEntity> weights;
     private final static String token = "weight_monitor";
