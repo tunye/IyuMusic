@@ -39,7 +39,6 @@ public class WeightMonitorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_monitor);
         context = this;
-        ConfigManager.getInstance().removeKey(token);
         Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
         }.getType();
         transfer = new Gson();

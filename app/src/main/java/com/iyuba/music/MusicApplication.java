@@ -176,29 +176,20 @@ public class MusicApplication extends Application {
         changeProperty = new ChangePropertyBroadcast();
         IntentFilter intentFilter = new IntentFilter(ChangePropertyBroadcast.FLAG);
         registerReceiver(changeProperty, intentFilter);
-        ThreadPoolUtil.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                // 共享平台
-                PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
-                PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
-                PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
-                // 讯飞初始化
-                SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
-                UMShareConfig config = new UMShareConfig();
-                config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
-                UMShareAPI.get(getApplicationContext()).setShareConfig(config);
-                // 初始化推送
-                pushSdkInit();
-            }
-        });
-        baseHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
-                ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
-            }
-        }, 1000);
+        // 共享平台
+        PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
+        PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.com");
+        PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
+        // 讯飞初始化
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
+        UMShareConfig config = new UMShareConfig();
+        config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
+        UMShareAPI.get(getApplicationContext()).setShareConfig(config);
+        // 初始化推送
+        pushSdkInit();
+        // 延迟加载config
+        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
     }
 
     public void pushActivity(Activity activity) {

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/row_space_large"
-            android:textColor="#343434"/>
+            android:textColor="@color/text_color"/>
 
         <RadioButton
             android:id="@+id/sleep_selector"

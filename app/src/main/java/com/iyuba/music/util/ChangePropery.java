@@ -27,22 +27,22 @@ public class ChangePropery {
         DisplayMetrics dm = resources.getDisplayMetrics();
         switch (languageType) {
             case 0://跟随系统
-                config.locale = Locale.getDefault();
+                config.setLocale(Locale.getDefault());
                 break;
             case 1://中文
-                config.locale = Locale.SIMPLIFIED_CHINESE;
+                config.setLocale(Locale.SIMPLIFIED_CHINESE);
                 break;
             case 2://英文
-                config.locale = Locale.ENGLISH;
+                config.setLocale(Locale.ENGLISH);
                 break;
             case 3://日文
-                config.locale = Locale.JAPANESE;
+                config.setLocale(Locale.JAPANESE);
                 break;
             case 4://阿拉伯语
-                config.locale = new Locale("ar");
+                config.setLocale(new Locale("ar"));
                 break;
             default:
-                config.locale = Locale.getDefault();
+                config.setLocale(Locale.getDefault());
                 break;
         }
         resources.updateConfiguration(config, dm);
