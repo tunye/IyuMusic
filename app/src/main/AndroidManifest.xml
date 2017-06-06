@@ -137,6 +137,7 @@
         <activity android:name=".activity.main.MusicActivity"/>
         <!--eggshell-->
         <activity android:name=".activity.eggshell.EggShellActivity"/>
+        <activity android:name=".activity.eggshell.weight_monitor.WeightMonitorActivity"/>
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator"/>
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList"/>
         <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity"/>
@@ -279,7 +280,7 @@
 
         <meta-data
             android:name="com.bumptech.glide.integration.volley.VolleyGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
     </application>
 
 </manifest>

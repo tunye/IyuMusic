@@ -13,6 +13,7 @@ import com.iyuba.music.activity.eggshell.loading_indicator.LoadingIndicatorList;
 import com.iyuba.music.activity.eggshell.material_edittext.MaterialEdittextMainActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiActivity;
 import com.iyuba.music.activity.eggshell.view_animations.MyActivity;
+import com.iyuba.music.activity.eggshell.weight_monitor.WeightMonitorActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -65,6 +66,9 @@ public class EggShellActivity extends BaseActivity {
                         startActivity(new Intent(context, LoadingIndicatorList.class));
                         break;
                     case 3:
+                        startActivity(new Intent(context, WeightMonitorActivity.class));
+                        break;
+                    case 4:
                         startActivity(new Intent(context, MeizhiActivity.class));
                         break;
                 }
