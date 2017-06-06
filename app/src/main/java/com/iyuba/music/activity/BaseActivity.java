@@ -2,7 +2,6 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +16,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
-import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.util.ChangePropery;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -38,8 +37,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        ImmersiveManager.getInstance().updateImmersiveStatus(this);
+        ChangePropery.setAppConfig(this);
         changeProperty = getIntent().getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
         mipush = getIntent().getBooleanExtra("pushIntent", false);
         ((MusicApplication) getApplication()).pushActivity(this);

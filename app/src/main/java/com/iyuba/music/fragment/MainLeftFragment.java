@@ -96,7 +96,7 @@ public class MainLeftFragment extends BaseFragment {
         personalSign = (TextView) root.findViewById(R.id.personal_sign);
         about = root.findViewById(R.id.about);
         exit = root.findViewById(R.id.exit);
-        operAdapter = new OperAdapter(context);
+        operAdapter = new OperAdapter();
     }
 
     private void setOnClickListener() {

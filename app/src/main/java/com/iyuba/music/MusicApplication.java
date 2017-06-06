@@ -28,7 +28,6 @@ import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.sqlite.ImportDatabase;
-import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
@@ -187,9 +186,6 @@ public class MusicApplication extends Application {
         UMShareAPI.get(getApplicationContext()).setShareConfig(config);
         // 初始化推送
         pushSdkInit();
-        // 延迟加载config
-        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
-        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
     }
 
     public void pushActivity(Activity activity) {

@@ -40,8 +40,8 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
+import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
@@ -81,7 +81,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImmersiveManager.getInstance().updateImmersiveStatus(this);
+        ChangePropery.setAppConfig(this);
         setContentView(R.layout.search);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(GetAppColor.getInstance().getAppColor());

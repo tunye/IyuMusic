@@ -1,7 +1,5 @@
 package com.iyuba.music.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.imageview.GoImageView;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -47,11 +46,9 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList.add(R.string.oper_setting);
     }
 
-    private Context context;
     private OperAdapter.OnItemClickListener mItemClickListener;
 
-    public OperAdapter(Context context) {
-        this.context = context;
+    public OperAdapter() {
     }
 
     public void setItemClickListener(OperAdapter.OnItemClickListener itemClickListener) {
@@ -65,7 +62,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
 
     @Override
     public OperAdapter.OperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OperAdapter.OperViewHolder(LayoutInflater.from(context).inflate(R.layout.item_operlist, parent, false));
+        return new OperAdapter.OperViewHolder(LayoutInflater.from(RuntimeManager.getContext()).inflate(R.layout.item_operlist, parent, false));
     }
 
     @Override
@@ -78,25 +75,25 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 }
             }
         });
-        holder.menuText.setText(context.getString(menuTextList.get(position)));
+        holder.menuText.setText(RuntimeManager.getString(menuTextList.get(position)));
         holder.menuIcon.setImageResource(menuIconList.get(position));
-        if (holder.menuText.getText().equals(context.getString(R.string.oper_night))) {
+        if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_night))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
-        if (holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
+        if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            int sleepSecond = ((MusicApplication) ((Activity) context).getApplication()).getSleepSecond();
+            int sleepSecond = RuntimeManager.getApplication().getSleepSecond();
             if (sleepSecond == 0) {
                 holder.menuResult.setText(R.string.sleep_no_set);
             } else {
                 holder.menuResult.setText(Mathematics.formatTime(sleepSecond));
             }
         }
-        if (!holder.menuText.getText().equals(context.getString(R.string.oper_night)) &&
-                !holder.menuText.getText().equals(context.getString(R.string.oper_sleep))) {
+        if (!holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_night)) &&
+                !holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_sleep))) {
             holder.menuResult.setVisibility(View.GONE);
             holder.go.setVisibility(View.VISIBLE);
         }

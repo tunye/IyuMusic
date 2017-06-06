@@ -244,7 +244,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             while ((ch = is.read()) != -1) {
                 b.append((char) ch);
             }
-            Log.e("aaa", b.toString());
+            Log.d("aaa", b.toString());
             ds.close();
         } catch (Exception e) {
             e.printStackTrace();

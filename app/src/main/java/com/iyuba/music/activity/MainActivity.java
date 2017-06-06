@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,7 +36,7 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
-import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -65,10 +64,9 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImmersiveManager.getInstance().updateImmersiveStatus(this);
+        ChangePropery.setAppConfig(this);
         setContentView(R.layout.main);
         context = this;
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         requestLocation();
         initBroadcast();
         initWidget();
