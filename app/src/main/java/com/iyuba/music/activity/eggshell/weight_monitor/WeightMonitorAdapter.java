@@ -12,6 +12,7 @@ import com.iyuba.music.util.DateFormat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class WeightMonitorAdapter extends RecyclerView.Adapter<WeightMonitorAdapter.WeightViewHolder> {
     private List<WeightMonitorEntity> datas;
@@ -33,7 +34,7 @@ public class WeightMonitorAdapter extends RecyclerView.Adapter<WeightMonitorAdap
         holder.time.setText(DateFormat.formatYear(item.getTime()));
         holder.weight.setText("体重为: " + item.getWeight());
         double change = item.getChange();
-        holder.change.setText(String.valueOf(change));
+        holder.change.setText(String.format(Locale.CHINA, "%.2f", change));
         if (change > 0) {
             holder.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_red));
         } else if (change < 0) {
