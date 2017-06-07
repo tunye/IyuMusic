@@ -1,11 +1,14 @@
 package com.iyuba.music.file;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -94,6 +97,13 @@ public class FileActivityHelper {
                 dialog.dismiss();
             }
         });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(fileName.getApplicationWindowToken(), 0);
+            }
+        });
         dialog.show();
     }
 
@@ -130,7 +140,14 @@ public class FileActivityHelper {
         dialog.setPositiveButton(R.string.file_rename, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 100);
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(fileName.getApplicationWindowToken(), 0);
                 String newName = fileName.getText().toString();
                 if (TextUtils.isEmpty(newName)) {
                     CustomToast.getInstance().showToast(R.string.file_create_fail);
@@ -152,7 +169,14 @@ public class FileActivityHelper {
         dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 100);
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(fileName.getApplicationWindowToken(), 0);
             }
         });
         dialog.show();

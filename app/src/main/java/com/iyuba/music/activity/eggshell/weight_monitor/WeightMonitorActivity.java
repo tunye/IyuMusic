@@ -1,5 +1,6 @@
 package com.iyuba.music.activity.eggshell.weight_monitor;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +9,20 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +31,7 @@ import java.util.Calendar;
  * Created by chentong1 on 2017/6/6.
  */
 
-public class WeightMonitorActivity extends BaseActivity {
+public class WeightMonitorActivity extends BaseInputActivity {
     private RecyclerView recyclerView;
     private ArrayList<WeightMonitorEntity> weights;
     private final static String token = "weight_monitor";
@@ -72,7 +76,7 @@ public class WeightMonitorActivity extends BaseActivity {
             public void onClick(View v) {
                 final MyMaterialDialog dialog = new MyMaterialDialog(context);
                 dialog.setTitle("今日体重");
-                View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
+                final View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
                 dialog.setContentView(contentView);
                 final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
                 fileName.setHint("请输入今日体重，公斤计");
@@ -97,7 +101,14 @@ public class WeightMonitorActivity extends BaseActivity {
                 dialog.setPositiveButton(R.string.file_create, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        recyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                            }
+                        }, 100);
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(fileName.getApplicationWindowToken(), 0);
                         WeightMonitorEntity entity = new WeightMonitorEntity();
                         entity.setTime(Calendar.getInstance().getTime());
                         entity.setWeight(Double.parseDouble(fileName.getText().toString()));
@@ -109,17 +120,43 @@ public class WeightMonitorActivity extends BaseActivity {
                         weights.add(0, entity);
                         adapter.notifyDataSetChanged();
                         ConfigManager.getInstance().putString(token, transfer.toJson(weights));
+
                     }
                 });
                 dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        recyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                            }
+                        }, 100);
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(fileName.getApplicationWindowToken(), 0);
                     }
                 });
                 dialog.show();
             }
         });
+    }
+
+    public void hideSoftKeyboard(EditText editText) {
+        Object o = null;
+        try {
+            Class<?> threadClazz = Class.forName("android.view.inputmethod.InputMethodManager");
+            Method method = threadClazz.getDeclaredMethod("peekInstance");
+            method.setAccessible(true);
+            o = method.invoke(null);
+            if (o == null) {
+                return;
+            }
+            InputMethodManager inputMethodManager = (InputMethodManager) o;
+            if (inputMethodManager.isActive(editText)) {
+                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+        }
     }
 
     @Override
