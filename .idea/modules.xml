@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/IyuMusic.iml" filepath="$PROJECT_DIR$/IyuMusic.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/assessment/assessment.iml" filepath="$PROJECT_DIR$/assessment/assessment.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smssdk/smssdk.iml" filepath="$PROJECT_DIR$/smssdk/smssdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/umengshare/umengshare.iml" filepath="$PROJECT_DIR$/umengshare/umengshare.iml" />
     </modules>
   </component>

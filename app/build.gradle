@@ -116,6 +116,8 @@ dependencies {
     compile(name: 'skin', ext: 'aar')
     /*评论模块*/
     compile(name: 'comment', ext: 'aar')
+    /*短信模块*/
+    compile(name: 'smssdk', ext: 'aar')
     /*筛图模块*/
     compile(name: 'image_selector', ext: 'aar')
     /*水波效果*/
@@ -170,7 +172,6 @@ dependencies {
     //    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     //    compile 'com.squareup.picasso:picasso:2.5.2'
     //    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
-    compile project(':smssdk')
     compile project(':umengshare')
     compile project(':assessment')
 }
