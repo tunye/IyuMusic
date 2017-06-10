@@ -8,8 +8,8 @@ import java.io.File;
  * Created by 10202 on 2015/10/16.
  */
 public class ConstantManager {
-    public final static String SMSAPPID = "19f74c7fb89c";
-    public final static String SMSAPPSECRET = "a4f1e7a1e13c63162cc987f9cc9785e0";
+    public final static String SMSAPPID = "1e93e2e17fe3e";
+    public final static String SMSAPPSECRET = "20a214f48119fbbc88bbf729590618c0";
     public final static String YOUDAOSECRET = "5542d99e63893312d28d7e49e2b43559";
     public final static String WXSECRET = "5d5d3eaf4c6b69a278cf16c115014474";
     public final static String WXID = "wx182643cdcfc2b59f";

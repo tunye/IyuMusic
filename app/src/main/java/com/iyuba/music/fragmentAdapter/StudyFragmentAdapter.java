@@ -45,11 +45,6 @@ public class StudyFragmentAdapter extends FragmentPagerAdapter {
         fm.beginTransaction().hide(fragment).commitAllowingStateLoss();
     }
 
-    public void destroy() {
-        list.clear();
-        list = null;
-    }
-
     public void refresh() {
         StudyInfoFragment infoFragment = (StudyInfoFragment) list.get(0);
         infoFragment.refresh();
