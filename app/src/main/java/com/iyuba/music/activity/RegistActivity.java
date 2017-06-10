@@ -136,6 +136,10 @@ public class RegistActivity extends BaseInputActivity {
                 if (!phone.isCharactersCountValid() || !regexPhone()) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(phone);
                 } else {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                    }
                     CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse() {
                         @Override
                         public void onNetError(String msg) {
@@ -295,6 +299,7 @@ public class RegistActivity extends BaseInputActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        SMSSDK.unregisterAllEventHandler();
     }
 
     private void initSMSService() {
@@ -500,9 +505,7 @@ public class RegistActivity extends BaseInputActivity {
                             CustomToast.getInstance().showToast(R.string.regist_code_on_way);
                         }
                     } else {
-                        activity.messageCode.setError(activity.getString(R.string.matches_msg_code));
-                        activity.getMessageCode.setText(R.string.regist_get_code);
-                        activity.getMessageCode.setEnabled(true);
+                        CustomToast.getInstance().showToast("验证码获取失败，建议采用邮箱注册方式进行注册，我们会尽快修复~");
                     }
                     break;
                 case 1:

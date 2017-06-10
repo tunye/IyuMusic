@@ -93,14 +93,11 @@
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class com.google.gson.JsonObject { *; }
 #mob sms
--keep class android.net.http.SslError
--keep class android.webkit.**{*;}
--keep class cn.sharesdk.**{*;}
 -keep class cn.smssdk.**{*;}
--keep class **.R$* {
-    *;
-}
 -keep class com.mob.**{*;}
+
+-dontwarn com.mob.**
+-dontwarn cn.smssdk.**
 #webview
 -keepattributes *JavascriptInterface*
 -keepclassmembers  class  com.iyuba.music.activity.WebViewActivity$*{
