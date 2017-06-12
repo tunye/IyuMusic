@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by chentong1 on 2017/6/6.
@@ -37,6 +38,9 @@ public class WeightMonitorActivity extends BaseInputActivity {
     private final static String token = "weight_monitor";
     private Gson transfer;
     private WeightMonitorAdapter adapter;
+    private TextView sum, wedding;
+    private static final double initWeight = 120.35;
+    private static final double targetWeight = 85;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class WeightMonitorActivity extends BaseInputActivity {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         recyclerView = (RecyclerView) findViewById(R.id.listview);
+        sum = (TextView) findViewById(R.id.weight_sum);
+        wedding = (TextView) findViewById(R.id.weight_wedding);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration());
         adapter = new WeightMonitorAdapter(context, weights);
@@ -115,7 +121,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
                         if (weights.size() != 0) {
                             entity.setChange(entity.getWeight() - weights.get(0).getWeight());
                         } else {
-                            entity.setChange(0);
+                            entity.setChange(entity.getWeight() - initWeight);
                         }
                         weights.add(0, entity);
                         adapter.notifyDataSetChanged();
@@ -164,5 +170,13 @@ public class WeightMonitorActivity extends BaseInputActivity {
         super.changeUIByPara();
         title.setText("体重管家");
         toolbarOper.setText("添加");
+        double currWeight;
+        if (weights.size() != 0) {
+            currWeight = weights.get(0).getWeight();
+        } else {
+            currWeight = 112;
+        }
+        sum.setText("已经减重" + String.format(Locale.CHINA, "%.2f", (initWeight - currWeight)) + "公斤");
+        wedding.setText("距离迎娶琪儿还有" + String.format(Locale.CHINA, "%.2f", (currWeight - targetWeight)) + "公斤");
     }
 }
