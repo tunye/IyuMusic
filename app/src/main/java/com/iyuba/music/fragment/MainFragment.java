@@ -23,7 +23,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
-import com.iyuba.music.listener.ChangeUIBroadCast;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;

@@ -26,7 +26,7 @@ import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
-import com.iyuba.music.listener.ChangeUIBroadCast;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IPlayerListener;
@@ -284,6 +284,13 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onPause();
         unregisterReceiver(broadCast);
         handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
+        iPlayerListener = null;
     }
 
     private void setPauseImage() {

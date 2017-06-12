@@ -3,6 +3,7 @@ package com.iyuba.music.network;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.util.ThreadPoolUtil;
 
+import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -11,10 +12,10 @@ import java.net.URL;
  */
 public class PingIPThread {
     private static final String url = "https://www.baidu.com";                          //百度
-    private IOperationResult resultListner;
+    private SoftReference<IOperationResult> resultListner;
 
-    public PingIPThread(IOperationResult resultListner) {
-        this.resultListner = resultListner;
+    public PingIPThread(IOperationResult resultListener) {
+        this.resultListner = new SoftReference<>(resultListener);
     }
 
     public void start() {
@@ -33,13 +34,19 @@ public class PingIPThread {
                     urlConnection.setConnectTimeout(1000 * intTimeout);
                     urlConnection.connect();
                     if (urlConnection.getResponseCode() == 200) {
-                        resultListner.success("可以连接");
+                        if (resultListner.get() != null) {
+                            resultListner.get().success("可以连接");
+                        }
                     } else {
-                        resultListner.fail("不可以连接");
+                        if (resultListner.get() != null) {
+                            resultListner.get().fail("不可以连接");
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    resultListner.fail("连接异常");
+                    if (resultListner.get() != null) {
+                        resultListner.get().fail("连接异常");
+                    }
                 }
             }
         });

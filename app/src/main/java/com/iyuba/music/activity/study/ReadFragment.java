@@ -1,6 +1,8 @@
 package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
+import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -32,6 +36,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     private ReadAdapter readAdapter;
     private Article curArticle;
     private IyubaDialog waittingDialog;
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,15 +70,20 @@ public class ReadFragment extends BaseRecyclerViewFragment {
 
     private void getOriginal() {
         if (LrcParser.getInstance().fileExist(curArticle.getId())) {
-            LrcParser.getInstance().getOriginal(curArticle.getId(), new IOperationResult() {
+            ThreadPoolUtil.getInstance().execute(new Runnable() {
                 @Override
-                public void success(Object object) {
-                    readAdapter.setDataSet((ArrayList<Original>) object);
-                }
+                public void run() {
+                    LrcParser.getInstance().getOriginal(curArticle.getId(), new IOperationResult() {
+                        @Override
+                        public void success(Object object) {
+                            handler.obtainMessage(0, object).sendToTarget();
+                        }
 
-                @Override
-                public void fail(Object object) {
+                        @Override
+                        public void fail(Object object) {
 
+                        }
+                    });
                 }
             });
         } else {
@@ -110,5 +120,16 @@ public class ReadFragment extends BaseRecyclerViewFragment {
                 finish.finish();
             }
         });
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ReadFragment> {
+        @Override
+        public void handleMessageByRef(final ReadFragment fragment, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    fragment.readAdapter.setDataSet((ArrayList<Original>) msg.obj);
+                    break;
+            }
+        }
     }
 }

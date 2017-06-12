@@ -19,6 +19,7 @@ import com.iyuba.music.widget.CustomToast;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.SoftReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -82,21 +83,26 @@ public class AccountManager {
     }
 
     public void login(final String userName, String userPwd,
-                      final IOperationResult rc) {
+                      IOperationResult rc) {
         this.userName = userName;
         this.userPwd = userPwd;
+        final SoftReference<IOperationResult> callback = new SoftReference<>(rc);
         String[] paras = new String[]{userName, userPwd, String.valueOf(LocationUtil.getInstance().getLongitude())
                 , String.valueOf(LocationUtil.getInstance().getLatitude())};
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
                 @Override
                 public void onNetError(String msg) {
-                    rc.fail(msg);
+                    if (callback.get() != null) {
+                        callback.get().fail(msg);
+                    }
                 }
 
                 @Override
                 public void onServerError(String msg) {
-                    rc.fail(msg);
+                    if (callback.get() != null) {
+                        callback.get().fail(msg);
+                    }
                 }
 
                 @Override
@@ -113,15 +119,21 @@ public class AccountManager {
                                     R.string.login_success, userInfo.getUsername()));
                         }
                         saveUserNameAndPwd();
-                        rc.success(apiEntity.getMessage());
+                        if (callback.get() != null) {
+                            callback.get().success(apiEntity.getMessage());
+                        }
                     } else if (BaseApiEntity.isFail(apiEntity)) {
                         loginState = SIGN_OUT;
                         ConfigManager.getInstance().setAutoLogin(false);
-                        rc.fail(RuntimeManager.getString(R.string.login_fail));
+                        if (callback.get() != null) {
+                            callback.get().fail(RuntimeManager.getString(R.string.login_fail));
+                        }
                     } else {
                         loginState = SIGN_OUT;
                         ConfigManager.getInstance().setAutoLogin(false);
-                        rc.fail(RuntimeManager.getString(R.string.login_error));
+                        if (callback.get() != null) {
+                            callback.get().fail(RuntimeManager.getString(R.string.login_error));
+                        }
                     }
                 }
             });
@@ -132,19 +144,20 @@ public class AccountManager {
         }
     }
 
-    public void getPersonalInfo(final IOperationResult result) {
+    public void getPersonalInfo(IOperationResult result) {
+        final SoftReference<IOperationResult> callback = new SoftReference<>(result);
         PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), userInfo, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                if (result != null) {
-                    result.fail(null);
+                if (callback.get() != null) {
+                    callback.get().fail(null);
                 }
             }
 
             @Override
             public void onServerError(String msg) {
-                if (result != null) {
-                    result.fail(null);
+                if (callback.get() != null) {
+                    callback.get().fail(null);
                 }
             }
 
@@ -154,12 +167,12 @@ public class AccountManager {
                 if (BaseApiEntity.isSuccess(baseApiEntity)) {
                     userInfo = (UserInfo) baseApiEntity.getData();
                     new UserInfoOp().saveData(userInfo);
-                    if (result != null) {
-                        result.success(null);
+                    if (callback.get() != null) {
+                        callback.get().success(null);
                     }
                 } else {
-                    if (result != null) {
-                        result.fail(null);
+                    if (callback.get() != null) {
+                        callback.get().fail(null);
                     }
                 }
             }

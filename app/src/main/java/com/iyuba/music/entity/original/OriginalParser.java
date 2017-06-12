@@ -23,7 +23,7 @@ public class OriginalParser {
     private OriginalParser() {
     }
 
-    public static final OriginalParser getInstance() {
+    public static OriginalParser getInstance() {
         if (instance == null) {
             instance = new OriginalParser();
         }

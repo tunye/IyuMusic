@@ -65,8 +65,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
             }
         });
     }
-
-
+    
     protected void changeUIByPara() {
         backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
     }

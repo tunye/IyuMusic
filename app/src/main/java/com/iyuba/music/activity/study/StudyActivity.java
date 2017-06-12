@@ -28,7 +28,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
-import com.iyuba.music.listener.ChangeUIBroadCast;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;

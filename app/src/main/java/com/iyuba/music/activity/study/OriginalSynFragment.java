@@ -109,31 +109,29 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     private void getOriginal() {
         if (StudyManager.getInstance().getMusicType() == 0) {//原唱
             if (LrcParser.getInstance().fileExist(article.getId())) {
-                LrcParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
-                    public void success(Object object) {
-                        originalList = (ArrayList<Original>) object;
-                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
-                            originalView.setShowChinese(true);
-                        } else {
-                            originalView.setShowChinese(false);
-                        }
-                        originalView.setOriginalList(originalList);
-                        handler.sendEmptyMessage(0);
-                    }
-
-                    @Override
-                    public void fail(Object object) {
-                        getWebLrc(article.getId(), new IOperationFinish() {
+                    public void run() {
+                        LrcParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
                             @Override
-                            public void finish() {
-                                if (ConfigManager.getInstance().getStudyTranslate() == 1) {
-                                    originalView.setShowChinese(true);
-                                } else {
-                                    originalView.setShowChinese(false);
-                                }
-                                originalView.setOriginalList(originalList);
-                                handler.sendEmptyMessage(0);
+                            public void success(Object object) {
+                                handler.obtainMessage(1, object).sendToTarget();
+                            }
+
+                            @Override
+                            public void fail(Object object) {
+                                getWebLrc(article.getId(), new IOperationFinish() {
+                                    @Override
+                                    public void finish() {
+                                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
+                                            originalView.setShowChinese(true);
+                                        } else {
+                                            originalView.setShowChinese(false);
+                                        }
+                                        originalView.setOriginalList(originalList);
+                                        handler.sendEmptyMessage(0);
+                                    }
+                                });
                             }
                         });
                     }
@@ -154,23 +152,25 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
             }
         } else {
             if (OriginalParser.getInstance().fileExist(article.getId())) {
-                OriginalParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
-                    public void success(Object object) {
-                        originalList = (ArrayList<Original>) object;
-                        originalView.setShowChinese(false);
-                        originalView.setOriginalList(originalList);
-                        handler.sendEmptyMessage(0);
-                    }
-
-                    @Override
-                    public void fail(Object object) {
-                        getWebOriginal(article.getId(), new IOperationFinish() {
+                    public void run() {
+                        OriginalParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
                             @Override
-                            public void finish() {
-                                originalView.setShowChinese(false);
-                                originalView.setOriginalList(originalList);
-                                handler.sendEmptyMessage(0);
+                            public void success(Object object) {
+                                handler.obtainMessage(2, object).sendToTarget();
+                            }
+
+                            @Override
+                            public void fail(Object object) {
+                                getWebOriginal(article.getId(), new IOperationFinish() {
+                                    @Override
+                                    public void finish() {
+                                        originalView.setShowChinese(false);
+                                        originalView.setOriginalList(originalList);
+                                        handler.sendEmptyMessage(0);
+                                    }
+                                });
                             }
                         });
                     }
@@ -345,6 +345,22 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                         fragment.originalView.synchroParagraph(fragment.getCurrentPara(current / 1000.0));
                         fragment.handler.sendEmptyMessageDelayed(0, 500);
                     }
+                    break;
+                case 1:
+                    fragment.originalList = (ArrayList<Original>) msg.obj;
+                    if (ConfigManager.getInstance().getStudyTranslate() == 1) {
+                        fragment.originalView.setShowChinese(true);
+                    } else {
+                        fragment.originalView.setShowChinese(false);
+                    }
+                    fragment.originalView.setOriginalList(fragment.originalList);
+                    fragment.handler.sendEmptyMessage(0);
+                    break;
+                case 2:
+                    fragment.originalList = (ArrayList<Original>) msg.obj;
+                    fragment.originalView.setShowChinese(false);
+                    fragment.originalView.setOriginalList(fragment.originalList);
+                    fragment.handler.sendEmptyMessage(0);
                     break;
             }
         }

@@ -1,6 +1,8 @@
 package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.original.OriginalView;
@@ -39,6 +43,8 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
             getOriginal();
         }
     };
+
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,39 +100,42 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     private void getOriginal() {
         if (StudyManager.getInstance().getMusicType() == 0) {//原唱
             if (LrcParser.getInstance().fileExist(article.getId())) {
-                LrcParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
-                    public void success(Object object) {
-                        originalList = (ArrayList<Original>) object;
-                        if (ConfigManager.getInstance().getStudyTranslate() == 1) {
-                            originalView.setShowChinese(true);
-                        } else {
-                            originalView.setShowChinese(false);
-                        }
-                        originalView.setOriginalList(originalList);
-                    }
+                    public void run() {
+                        LrcParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                            @Override
+                            public void success(Object object) {
+                                handler.obtainMessage(0, object).sendToTarget();
+                            }
 
-                    @Override
-                    public void fail(Object object) {
-                        reloadLocalData();
+                            @Override
+                            public void fail(Object object) {
+                                reloadLocalData();
+                            }
+                        });
                     }
                 });
+
             } else {
                 reloadLocalData();
             }
         } else {
             if (OriginalParser.getInstance().fileExist(article.getId())) {
-                OriginalParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
-                    public void success(Object object) {
-                        originalList = (ArrayList<Original>) object;
-                        originalView.setShowChinese(false);
-                        originalView.setOriginalList(originalList);
-                    }
+                    public void run() {
+                        OriginalParser.getInstance().getOriginal(article.getId(), new IOperationResult() {
+                            @Override
+                            public void success(Object object) {
+                                handler.obtainMessage(1, object).sendToTarget();
+                            }
 
-                    @Override
-                    public void fail(Object object) {
-                        reloadLocalData();
+                            @Override
+                            public void fail(Object object) {
+                                reloadLocalData();
+                            }
+                        });
                     }
                 });
             } else {
@@ -170,5 +179,27 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     @Override
     public void onClick(View view, Object message) {
         originalView.setScrollY(0);
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<OriginalFragment> {
+        @Override
+        public void handleMessageByRef(OriginalFragment originalFragment, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    originalFragment.originalList = (ArrayList<Original>) msg.obj;
+                    if (ConfigManager.getInstance().getStudyTranslate() == 1) {
+                        originalFragment.originalView.setShowChinese(true);
+                    } else {
+                        originalFragment.originalView.setShowChinese(false);
+                    }
+                    originalFragment.originalView.setOriginalList(originalFragment.originalList);
+                    break;
+                case 1:
+                    originalFragment.originalList = (ArrayList<Original>) msg.obj;
+                    originalFragment.originalView.setShowChinese(false);
+                    originalFragment.originalView.setOriginalList(originalFragment.originalList);
+                    break;
+            }
+        }
     }
 }

@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,7 +21,6 @@ import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -145,24 +143,6 @@ public class WeightMonitorActivity extends BaseInputActivity {
                 dialog.show();
             }
         });
-    }
-
-    public void hideSoftKeyboard(EditText editText) {
-        Object o = null;
-        try {
-            Class<?> threadClazz = Class.forName("android.view.inputmethod.InputMethodManager");
-            Method method = threadClazz.getDeclaredMethod("peekInstance");
-            method.setAccessible(true);
-            o = method.invoke(null);
-            if (o == null) {
-                return;
-            }
-            InputMethodManager inputMethodManager = (InputMethodManager) o;
-            if (inputMethodManager.isActive(editText)) {
-                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-            }
-        } catch (Exception e) {
-        }
     }
 
     @Override
