@@ -46,9 +46,8 @@ public class MeizhiAdapter extends RecyclerView.Adapter<MeizhiAdapter.MyViewHold
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_meizhi,
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_meizhi,
                 parent, false));
-        return holder;
     }
 
     @Override

@@ -1,18 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FindBugs-IDEA">
-    <plugins>
-      <plugin id="com.sina.weibo" enabled="true">
-        <url>file:$USER_HOME$/IdeaProjects/WeiboFindBugs/build/libs/WeiboFindBugs-1.0.jar</url>
-      </plugin>
-    </plugins>
     <detectors>
-      <detector name="CovariantArrayAssignment" enabled="true" />
-      <detector name="InefficientIndexOf" enabled="true" />
-      <detector name="InefficientInitializationInsideLoop" enabled="true" />
-      <detector name="InefficientMemberAccess" enabled="true" />
-      <detector name="InefficientToArray" enabled="true" />
+      <detector name="AppendingToAnObjectOutputStream" enabled="false" />
+      <detector name="AtomicityProblem" enabled="false" />
+      <detector name="BadResultSetAccess" enabled="false" />
+      <detector name="BadSyntaxForRegularExpression" enabled="false" />
+      <detector name="BadUseOfReturnValue" enabled="false" />
+      <detector name="BadlyOverriddenAdapter" enabled="false" />
+      <detector name="BooleanReturnNull" enabled="false" />
+      <detector name="CheckImmutableAnnotation" enabled="false" />
+      <detector name="CheckRelaxingNullnessAnnotation" enabled="false" />
+      <detector name="CheckTypeQualifiers" enabled="false" />
+      <detector name="CloneIdiom" enabled="false" />
+      <detector name="ComparatorIdiom" enabled="false" />
+      <detector name="ConfusedInheritance" enabled="false" />
+      <detector name="ConfusionBetweenInheritedAndOuterMethod" enabled="false" />
+      <detector name="CrossSiteScripting" enabled="false" />
+      <detector name="DefaultEncodingDetector" enabled="false" />
+      <detector name="DoInsideDoPrivileged" enabled="false" />
+      <detector name="DontCatchIllegalMonitorStateException" enabled="false" />
+      <detector name="DontIgnoreResultOfPutIfAbsent" enabled="false" />
+      <detector name="DontUseEnum" enabled="false" />
+      <detector name="DroppedException" enabled="false" />
+      <detector name="DumbMethodInvocations" enabled="false" />
+      <detector name="DumbMethods" enabled="false" />
+      <detector name="DuplicateBranches" enabled="false" />
+      <detector name="EqualsOperandShouldHaveClassCompatibleWithThis" enabled="false" />
+      <detector name="ExplicitSerialization" enabled="false" />
+      <detector name="FinalizerNullsFields" enabled="false" />
+      <detector name="FindBadCast2" enabled="false" />
+      <detector name="FindBadForLoop" enabled="false" />
+      <detector name="FindComparatorProblems" enabled="false" />
+      <detector name="FindDeadLocalStores" enabled="false" />
+      <detector name="FindDoubleCheck" enabled="false" />
+      <detector name="FindEmptySynchronizedBlock" enabled="false" />
+      <detector name="FindFieldSelfAssignment" enabled="false" />
+      <detector name="FindFinalizeInvocations" enabled="false" />
+      <detector name="FindFloatEquality" enabled="false" />
+      <detector name="FindHEmismatch" enabled="false" />
+      <detector name="FindInconsistentSync2" enabled="false" />
+      <detector name="FindJSR166LockMonitorenter" enabled="false" />
+      <detector name="FindLocalSelfAssignment2" enabled="false" />
+      <detector name="FindMaskedFields" enabled="false" />
+      <detector name="FindMismatchedWaitOrNotify" enabled="false" />
+      <detector name="FindNakedNotify" enabled="false" />
+      <detector name="FindNonShortCircuit" enabled="false" />
+      <detector name="FindNullDeref" enabled="false" />
+      <detector name="FindNullDerefsInvolvingNonShortCircuitEvaluation" enabled="false" />
+      <detector name="FindOpenStream" enabled="false" />
+      <detector name="FindPuzzlers" enabled="false" />
+      <detector name="FindRefComparison" enabled="false" />
+      <detector name="FindReturnRef" enabled="false" />
+      <detector name="FindRoughConstants" enabled="false" />
+      <detector name="FindRunInvocations" enabled="false" />
+      <detector name="FindSelfComparison" enabled="false" />
+      <detector name="FindSelfComparison2" enabled="false" />
+      <detector name="FindSleepWithLockHeld" enabled="false" />
+      <detector name="FindSpinLoop" enabled="false" />
+      <detector name="FindSqlInjection" enabled="false" />
+      <detector name="FindTwoLockWait" enabled="false" />
+      <detector name="FindUncalledPrivateMethods" enabled="false" />
+      <detector name="FindUnconditionalWait" enabled="false" />
+      <detector name="FindUninitializedGet" enabled="false" />
+      <detector name="FindUnrelatedTypesInGenericContainer" enabled="false" />
+      <detector name="FindUnreleasedLock" enabled="false" />
+      <detector name="FindUnsatisfiedObligation" enabled="false" />
+      <detector name="FindUnsyncGet" enabled="false" />
+      <detector name="FindUseOfNonSerializableValue" enabled="false" />
+      <detector name="FindUselessControlFlow" enabled="false" />
+      <detector name="FindUselessObjects" enabled="false" />
+      <detector name="FormatStringChecker" enabled="false" />
+      <detector name="HugeSharedStringConstants" enabled="false" />
+      <detector name="IDivResultCastToDouble" enabled="false" />
+      <detector name="IncompatMask" enabled="false" />
+      <detector name="InconsistentAnnotations" enabled="false" />
+      <detector name="InfiniteLoop" enabled="false" />
+      <detector name="InfiniteRecursiveLoop" enabled="false" />
+      <detector name="InheritanceUnsafeGetResource" enabled="false" />
+      <detector name="InitializationChain" enabled="false" />
+      <detector name="InitializeNonnullFieldsInConstructor" enabled="false" />
+      <detector name="InstantiateStaticClass" enabled="false" />
+      <detector name="IntCast2LongAsInstant" enabled="false" />
+      <detector name="InvalidJUnitTest" enabled="false" />
+      <detector name="IteratorIdioms" enabled="false" />
+      <detector name="LazyInit" enabled="false" />
+      <detector name="LoadOfKnownNullValue" enabled="false" />
+      <detector name="LostLoggerDueToWeakReference" enabled="false" />
+      <detector name="MethodReturnCheck" enabled="false" />
+      <detector name="MultithreadedInstanceAccess" enabled="false" />
+      <detector name="MutableEnum" enabled="false" />
+      <detector name="MutableLock" enabled="false" />
+      <detector name="MutableStaticFields" enabled="false" />
+      <detector name="Naming" enabled="false" />
+      <detector name="NoteUnconditionalParamDerefs" enabled="false" />
+      <detector name="NumberConstructor" enabled="false" />
+      <detector name="OptionalReturnNull" enabled="false" />
+      <detector name="OverridingEqualsNotSymmetrical" enabled="false" />
+      <detector name="PreferZeroLengthArrays" enabled="false" />
+      <detector name="QuestionableBooleanAssignment" enabled="false" />
+      <detector name="ReadOfInstanceFieldInMethodInvokedByConstructorInSuperclass" enabled="false" />
+      <detector name="ReadReturnShouldBeChecked" enabled="false" />
+      <detector name="RedundantConditions" enabled="false" />
+      <detector name="RedundantInterfaces" enabled="false" />
+      <detector name="RepeatedConditionals" enabled="false" />
+      <detector name="RuntimeExceptionCapture" enabled="false" />
+      <detector name="SerializableIdiom" enabled="false" />
+      <detector name="StartInConstructor" enabled="false" />
+      <detector name="StaticCalendarDetector" enabled="false" />
+      <detector name="StringConcatenation" enabled="false" />
+      <detector name="SuperfluousInstanceOf" enabled="false" />
+      <detector name="SuspiciousThreadInterrupted" enabled="false" />
       <detector name="SwitchFallthrough" enabled="false" />
+      <detector name="SynchronizationOnSharedBuiltinConstant" enabled="false" />
+      <detector name="SynchronizeAndNullCheckField" enabled="false" />
+      <detector name="SynchronizeOnClassLiteralNotGetClass" enabled="false" />
+      <detector name="SynchronizingOnContentsOfFieldToProtectField" enabled="false" />
+      <detector name="URLProblems" enabled="false" />
+      <detector name="UncallableMethodOfAnonymousClass" enabled="false" />
+      <detector name="UnnecessaryMath" enabled="false" />
+      <detector name="UnreadFields" enabled="false" />
+      <detector name="VarArgsProblems" enabled="false" />
+      <detector name="VolatileUsage" enabled="false" />
+      <detector name="WaitInLoop" enabled="false" />
+      <detector name="WrongMapIterator" enabled="false" />
+      <detector name="XMLFactoryBypass" enabled="false" />
     </detectors>
   </component>
 </project>

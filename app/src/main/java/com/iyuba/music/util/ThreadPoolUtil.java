@@ -17,6 +17,7 @@ public class ThreadPoolUtil {
     public static ThreadPoolUtil getInstance() {
         ThreadPoolUtil instance = InstanceHelper.instance;
         if (instance.fixedExecutor.isShutdown()) {
+            instance.fixedExecutor = null;
             instance.fixedExecutor = Executors.newFixedThreadPool(3);
         }
         return InstanceHelper.instance;

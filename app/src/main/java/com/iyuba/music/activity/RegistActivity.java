@@ -344,6 +344,7 @@ public class RegistActivity extends BaseInputActivity {
                 handler.obtainMessage(2, m.replaceAll("").trim()).sendToTarget();
             }
         }
+        cur.close();
     }
 
     private boolean regexPhone() {
