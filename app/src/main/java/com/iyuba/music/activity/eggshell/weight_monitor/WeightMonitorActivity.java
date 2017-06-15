@@ -123,6 +123,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
                         }
                         weights.add(0, entity);
                         adapter.notifyDataSetChanged();
+                        changeUIByPara();
                         ConfigManager.getInstance().putString(token, transfer.toJson(weights));
 
                     }
