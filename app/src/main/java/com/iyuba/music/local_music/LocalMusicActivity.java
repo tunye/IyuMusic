@@ -286,13 +286,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         handler.removeCallbacksAndMessages(null);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
-        iPlayerListener = null;
-    }
-
     private void setPauseImage() {
         if (player == null || !StudyManager.getInstance().getApp().equals("101")) {
             pause.setState(MorphButton.MorphState.START);

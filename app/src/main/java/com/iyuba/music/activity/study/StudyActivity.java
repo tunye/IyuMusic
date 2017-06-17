@@ -163,8 +163,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             youdaoNative.destroy();
         }
         unregisterReceiver(studyChangeUIBroadCast);
-        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
-        iPlayerListener = null;
         isDestroyed = true;
         super.onDestroy();
     }
