@@ -137,10 +137,4 @@ public class WeightMonitorActivity extends BaseInputActivity {
         toolbarOper.setText("添加");
         toolbarOperSub.setText("设置");
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-    }
 }

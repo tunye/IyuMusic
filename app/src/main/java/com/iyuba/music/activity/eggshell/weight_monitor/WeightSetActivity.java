@@ -150,7 +150,7 @@ public class WeightSetActivity extends BaseInputActivity implements View.OnClick
         dialog.setContentView(contentView);
         final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
         fileName.setHint("请输入初始体重，以公斤计");
-        dialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -177,7 +177,7 @@ public class WeightSetActivity extends BaseInputActivity implements View.OnClick
         dialog.setContentView(contentView);
         final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
         fileName.setHint("请输入目标体重，以公斤计");
-        dialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
