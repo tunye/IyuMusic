@@ -23,7 +23,7 @@ android {
     }
     defaultConfig {
         applicationId "com.iyuba.music"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 898
         versionName "8.9.8"

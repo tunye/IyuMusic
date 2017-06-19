@@ -78,6 +78,8 @@ public class WeightMonitorAdapter extends RecyclerView.Adapter<RecyclerView.View
             itemView.target.setText("距离迎娶琪儿还有" + String.format(Locale.CHINA, "%.2f", (currWeight - targetWeight)) + "公斤");
             if (!ConfigManager.getInstance().isShowTarget()) {
                 itemView.target.setVisibility(View.GONE);
+            } else {
+                itemView.target.setVisibility(View.VISIBLE);
             }
         }
     }

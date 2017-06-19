@@ -28,7 +28,6 @@ import com.iyuba.music.util.ImageUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class BannerView extends RelativeLayout {
     private boolean isAutoStart;
     @Align
     private int align;
-    private SoftReference<IOnClickListener> onClickListener;
+    private IOnClickListener onClickListener;
 
     public BannerView(Context context) {
         super(context);
@@ -153,7 +152,7 @@ public class BannerView extends RelativeLayout {
     }
 
     public void initData(List<BannerEntity> mDatas, IOnClickListener onClickListener) {
-        this.onClickListener = new SoftReference<>(onClickListener);
+        this.onClickListener = onClickListener;
         bannerData = mDatas;
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
@@ -342,8 +341,8 @@ public class BannerView extends RelativeLayout {
 
                 @Override
                 public void onClick(View v) {
-                    if (bannerView.onClickListener != null && bannerView.onClickListener.get() != null) {
-                        bannerView.onClickListener.get().onClick(v, bannerView.bannerData.get(pos % bannerView.bannerData.size()));
+                    if (bannerView.onClickListener != null) {
+                        bannerView.onClickListener.onClick(v, bannerView.bannerData.get(pos % bannerView.bannerData.size()));
                     }
                 }
             });
@@ -353,6 +352,7 @@ public class BannerView extends RelativeLayout {
         @Override
         public void destroyItem(View arg0, int arg1, Object arg2) {
             if (mWeakReference.get() != null) {
+                mWeakReference.get().bannerImages.get(arg1).setOnClickListener(null);
                 ((ViewPager) arg0).removeView(mWeakReference.get().bannerImages.get(arg1));
             }
         }

@@ -13,6 +13,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
@@ -27,7 +28,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 /**
  * Created by 10202 on 2015/11/20.
  */
-public class RecommendSongActivity extends BaseActivity {
+public class RecommendSongActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText recommendTitle, recommendSinger;
     private View mainContent;

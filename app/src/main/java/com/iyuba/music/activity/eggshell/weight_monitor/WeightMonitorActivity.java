@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -43,15 +41,6 @@ public class WeightMonitorActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_monitor);
         context = this;
-        Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
-        }.getType();
-        transfer = new Gson();
-        String historyData = ConfigManager.getInstance().loadString(token);
-        if (TextUtils.isEmpty(historyData)) {
-            weights = new ArrayList<>();
-        } else {
-            weights = transfer.fromJson(historyData, listType);
-        }
         initWidget();
         setListener();
         changeUIByPara();
@@ -65,7 +54,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
         recyclerView = (RecyclerView) findViewById(R.id.listview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration());
-        adapter = new WeightMonitorAdapter(context, weights);
+        adapter = new WeightMonitorAdapter(context, new ArrayList<WeightMonitorEntity>());
         recyclerView.setAdapter(adapter);
     }
 
@@ -136,5 +125,14 @@ public class WeightMonitorActivity extends BaseInputActivity {
         title.setText("体重管家");
         toolbarOper.setText("添加");
         toolbarOperSub.setText("设置");
+        Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
+        }.getType();
+        String historyData = ConfigManager.getInstance().loadString(token);
+        if (TextUtils.isEmpty(historyData)) {
+            weights = new ArrayList<>();
+        } else {
+            weights = transfer.fromJson(historyData, listType);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

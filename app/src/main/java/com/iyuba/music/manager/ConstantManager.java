@@ -8,6 +8,8 @@ import java.io.File;
  * Created by 10202 on 2015/10/16.
  */
 public class ConstantManager {
+    public static final String MIPUSH_APP_ID = "2882303761517139929";
+    public static final String MIPUSH_APP_KEY = "5671713914929";
     public final static String SMSAPPID = "1e93e2e17fe3e";
     public final static String SMSAPPSECRET = "20a214f48119fbbc88bbf729590618c0";
     public final static String YOUDAOSECRET = "5542d99e63893312d28d7e49e2b43559";
