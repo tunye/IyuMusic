@@ -120,20 +120,12 @@ public class MusicApplication extends Application {
         List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
         String mainProcessName = getPackageName();
         int myPid = android.os.Process.myPid();
-        boolean isForeground = false;
-        boolean hasAppProcess = false;
         for (ActivityManager.RunningAppProcessInfo info : processInfos) {
             if (info.pid == myPid && mainProcessName.equals(info.processName)) {
-                if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    isForeground = true;
-//                } else if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE) {
-//                    hasAppProcess = true;
-                } else {
-                    hasAppProcess = true;
-                }
+                return true;
             }
         }
-        return isForeground || hasAppProcess;
+        return false;
     }
 
     @Override
@@ -178,6 +170,7 @@ public class MusicApplication extends Application {
                 }
             }
         });
+        startService(new Intent(getApplicationContext(), PlayerService.class));
         // 网络状态初始化
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听
@@ -199,9 +192,9 @@ public class MusicApplication extends Application {
 
     public void pushActivity(Activity activity) {
         activityList.add(activity);
-        if (playerService == null) {
-            startService(new Intent(getApplicationContext(), PlayerService.class));
-        }
+//        if (playerService == null) {
+//            startService(new Intent(getApplicationContext(), PlayerService.class));
+//        }
     }
 
     public void popActivity(Activity activity) {
@@ -228,17 +221,17 @@ public class MusicApplication extends Application {
     public void exit() {
         stopService(new Intent(getApplicationContext(), PlayerService.class));
         stopLessonRecord();
-        ImageUtil.destroy(this);
         clearActivityList();
-        ThreadPoolUtil.getInstance().shutdown();
+        ImageUtil.destroy(this);
         DownloadTask.shutDown();
+        ThreadPoolUtil.getInstance().shutdown();
         ImportDatabase.getInstance().closeDatabase();
         try {
-            if (changeProperty != null) {
-                unregisterReceiver(changeProperty);
-            }
             if (proxy != null) {
                 proxy.shutdown();
+            }
+            if (changeProperty != null) {
+                unregisterReceiver(changeProperty);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.article.Article;
@@ -38,7 +37,6 @@ import java.util.Calendar;
  * Created by 10202 on 2015/12/22.
  */
 public class PlayerService extends Service implements OnHeadSetListener {
-    private HttpProxyCacheServer proxy;
     private StandardPlayer player;
     private int curArticleId;
     private PhoneStateListener phoneStateListener;
@@ -108,7 +106,6 @@ public class PlayerService extends Service implements OnHeadSetListener {
 
     public void init() {
         player = new StandardPlayer(RuntimeManager.getContext());
-        proxy = RuntimeManager.getProxy();
         curArticleId = 0;
     }
 
@@ -189,7 +186,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
             String netUrl = getUrl(article);
             String playPath;
             if (netUrl.startsWith("http")) {
-                playPath = proxy.getProxyUrl(netUrl);
+                playPath = RuntimeManager.getProxy().getProxyUrl(netUrl);
             } else {
                 playPath = netUrl;
             }

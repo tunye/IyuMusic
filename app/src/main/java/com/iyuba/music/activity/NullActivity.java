@@ -74,7 +74,9 @@ public class NullActivity {
                     break;
                 case "song":                                              // 进入某首歌曲
                     Article tempArticle = new ArticleOp().findById(ConstantManager.appId, Integer.parseInt(path.substring(1)));
-                    RuntimeManager.getApplication().startService(new Intent(RuntimeManager.getContext(), PlayerService.class));
+                    if (RuntimeManager.getApplication().getPlayerService() == null) {
+                        RuntimeManager.getApplication().startService(new Intent(RuntimeManager.getContext(), PlayerService.class));
+                    }
                     if (tempArticle.getId() == 0) {
                         getAppointArticle(context, path.substring(1));
                     } else {
