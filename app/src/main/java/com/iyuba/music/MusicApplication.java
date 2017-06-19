@@ -86,8 +86,8 @@ public class MusicApplication extends Application {
             activityList = new ArrayList<>();
             initApplication();
 //            LeakCanary.install(this);
-            CrashHandler crashHandler = new CrashHandler(this);
-            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+//            CrashHandler crashHandler = new CrashHandler(this);
+//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 
@@ -227,9 +227,6 @@ public class MusicApplication extends Application {
 
     public void exit() {
         stopService(new Intent(getApplicationContext(), PlayerService.class));
-        if (proxy != null) {
-            proxy.shutdown();
-        }
         stopLessonRecord();
         ImageUtil.destroy(this);
         clearActivityList();
@@ -239,6 +236,9 @@ public class MusicApplication extends Application {
         try {
             if (changeProperty != null) {
                 unregisterReceiver(changeProperty);
+            }
+            if (proxy != null) {
+                proxy.shutdown();
             }
         } catch (Exception e) {
             e.printStackTrace();

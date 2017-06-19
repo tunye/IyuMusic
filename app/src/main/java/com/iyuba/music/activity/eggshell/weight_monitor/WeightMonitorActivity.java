@@ -1,6 +1,7 @@
 package com.iyuba.music.activity.eggshell.weight_monitor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +25,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by chentong1 on 2017/6/6.
@@ -36,9 +36,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
     private final static String token = "weight_monitor";
     private Gson transfer;
     private WeightMonitorAdapter adapter;
-    private TextView sum, wedding;
-    private static final double initWeight = 120.35;
-    private static final double targetWeight = 85;
+    private TextView toolbarOperSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +61,8 @@ public class WeightMonitorActivity extends BaseInputActivity {
     protected void initWidget() {
         super.initWidget();
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         recyclerView = (RecyclerView) findViewById(R.id.listview);
-        sum = (TextView) findViewById(R.id.weight_sum);
-        wedding = (TextView) findViewById(R.id.weight_wedding);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration());
         adapter = new WeightMonitorAdapter(context, weights);
@@ -75,6 +72,12 @@ public class WeightMonitorActivity extends BaseInputActivity {
     @Override
     protected void setListener() {
         super.setListener();
+        toolbarOperSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, WeightSetActivity.class));
+            }
+        });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +122,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
                         if (weights.size() != 0) {
                             entity.setChange(entity.getWeight() - weights.get(0).getWeight());
                         } else {
-                            entity.setChange(entity.getWeight() - initWeight);
+                            entity.setChange(0.0);
                         }
                         weights.add(0, entity);
                         adapter.notifyDataSetChanged();
@@ -151,13 +154,6 @@ public class WeightMonitorActivity extends BaseInputActivity {
         super.changeUIByPara();
         title.setText("体重管家");
         toolbarOper.setText("添加");
-        double currWeight;
-        if (weights.size() != 0) {
-            currWeight = weights.get(0).getWeight();
-        } else {
-            currWeight = 112;
-        }
-        sum.setText("已经减重" + String.format(Locale.CHINA, "%.2f", (initWeight - currWeight)) + "公斤");
-        wedding.setText("距离迎娶琪儿还有" + String.format(Locale.CHINA, "%.2f", (currWeight - targetWeight)) + "公斤");
+        toolbarOperSub.setText("设置");
     }
 }

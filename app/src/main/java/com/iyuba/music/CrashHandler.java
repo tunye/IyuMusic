@@ -84,7 +84,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         //收集设备参数信息
         collectDeviceInfo(application.getApplicationContext());
         //保存日志文件
-//        String filePath = saveCrashInfo2File(ex);
+        String filePath = saveCrashInfo2File(ex);
         //上传服务器
         //uploadFile(filePath,"www.iyuba.com");
         return true;

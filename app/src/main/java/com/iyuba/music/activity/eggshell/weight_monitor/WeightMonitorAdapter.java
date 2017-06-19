@@ -14,7 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class WeightMonitorAdapter extends RecyclerView.Adapter<WeightMonitorAdapter.WeightViewHolder> {
+public class WeightMonitorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private static final double initWeight = 120.35;
+    private static final double targetWeight = 85;
     private List<WeightMonitorEntity> datas;
     private Context context;
 
@@ -24,29 +28,54 @@ public class WeightMonitorAdapter extends RecyclerView.Adapter<WeightMonitorAdap
     }
 
     @Override
-    public WeightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new WeightViewHolder(LayoutInflater.from(context).inflate(R.layout.item_weight_monitor, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(final WeightViewHolder holder, int position) {
-        final WeightMonitorEntity item = datas.get(position);
-        holder.time.setText(DateFormat.formatYear(item.getTime()));
-        holder.weight.setText("体重为: " + item.getWeight());
-        double change = item.getChange();
-        holder.change.setText(String.format(Locale.CHINA, "%.2f", change));
-        if (change > 0) {
-            holder.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_red));
-        } else if (change < 0) {
-            holder.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_lgreen));
-        } else {
-            holder.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_gray));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_ITEM) {
+            return new WeightViewHolder(LayoutInflater.from(context).inflate(R.layout.item_weight_monitor, parent, false));
+        } else if (viewType == TYPE_HEADER) {
+            return new WeightViewTopHolder(LayoutInflater.from(context).inflate(R.layout.item_weight_monitor_top, parent, false));
         }
+        return null;
     }
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return datas.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0)
+            return TYPE_HEADER;
+        return TYPE_ITEM;
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof WeightViewHolder) {
+            WeightViewHolder itemView = (WeightViewHolder) holder;
+            final WeightMonitorEntity item = datas.get(position - 1);
+            itemView.time.setText(DateFormat.formatYear(item.getTime()));
+            itemView.weight.setText("体重为: " + item.getWeight());
+            double change = item.getChange();
+            itemView.change.setText(String.format(Locale.CHINA, "%.2f", change));
+            if (change > 0) {
+                itemView.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_red));
+            } else if (change < 0) {
+                itemView.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_lgreen));
+            } else {
+                itemView.change.setTextColor(context.getResources().getColor(R.color.skin_app_color_gray));
+            }
+        } else {
+            double currWeight;
+            if (datas.size() != 0) {
+                currWeight = datas.get(0).getWeight();
+            } else {
+                currWeight = 112;
+            }
+            WeightViewTopHolder itemView = (WeightViewTopHolder) holder;
+            itemView.minus.setText("已经减重" + String.format(Locale.CHINA, "%.2f", (initWeight - currWeight)) + "公斤");
+            itemView.target.setText("距离迎娶琪儿还有" + String.format(Locale.CHINA, "%.2f", (currWeight - targetWeight)) + "公斤");
+        }
     }
 
     static class WeightViewHolder extends RecyclerView.ViewHolder {
@@ -58,6 +87,17 @@ public class WeightMonitorAdapter extends RecyclerView.Adapter<WeightMonitorAdap
             time = (TextView) itemView.findViewById(R.id.weight_time);
             weight = (TextView) itemView.findViewById(R.id.weight);
             change = (TextView) itemView.findViewById(R.id.weight_change);
+        }
+    }
+
+    static class WeightViewTopHolder extends RecyclerView.ViewHolder {
+
+        TextView minus, target;
+
+        WeightViewTopHolder(View itemView) {
+            super(itemView);
+            minus = (TextView) itemView.findViewById(R.id.weight_minus);
+            target = (TextView) itemView.findViewById(R.id.weight_target);
         }
     }
 }
