@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.DateFormat;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.Locale;
 public class WeightMonitorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private static final double initWeight = 120.35;
-    private static final double targetWeight = 85;
+    private static final double initWeight = ConfigManager.getInstance().getInitWeight();
+    private static final double targetWeight = ConfigManager.getInstance().getTargetWeight();
     private List<WeightMonitorEntity> datas;
     private Context context;
 
@@ -70,11 +71,14 @@ public class WeightMonitorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (datas.size() != 0) {
                 currWeight = datas.get(0).getWeight();
             } else {
-                currWeight = 112;
+                currWeight = initWeight;
             }
             WeightViewTopHolder itemView = (WeightViewTopHolder) holder;
-            itemView.minus.setText("已经减重" + String.format(Locale.CHINA, "%.2f", (initWeight - currWeight)) + "公斤");
+            itemView.minus.setText("初始体重" + String.format(Locale.CHINA, "%.2f", initWeight) + "公斤，已减重" + String.format(Locale.CHINA, "%.2f", (initWeight - currWeight)) + "公斤");
             itemView.target.setText("距离迎娶琪儿还有" + String.format(Locale.CHINA, "%.2f", (currWeight - targetWeight)) + "公斤");
+            if (!ConfigManager.getInstance().isShowTarget()) {
+                itemView.target.setVisibility(View.GONE);
+            }
         }
     }
 

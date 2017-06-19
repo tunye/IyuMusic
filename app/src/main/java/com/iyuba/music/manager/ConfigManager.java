@@ -34,10 +34,15 @@ public class ConfigManager {
     private final static String DOWNLOAD = "download";
     private final static String DOWNLOADMEANWHILE = "downloadMeanwhile";
     private final static String AUTOROUND = "autoRound";
+
+    private final static String INITWEIGHT = "initWeight";
+    private final static String TARGETWEIGHT = "targetWeight";
+    private final static String SHOWTARGET = "showTarget";
     private SharedPreferences preferences;
     private int language, sayingMode, wordOrder, studyMode, studyPlayMode, originalSize, download, studyTranslate;
     private boolean eggshell, push, night, mediaButton, autoLogin, autoPlay, autoStop, autoRound,
-            autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd;
+            autoDownload, upgrade, wordDefShow, wordAutoPlay, wordAutoAdd, showWeightTarget;
+    private float initWeight, targetWeight;
     private String lastADUrl, photoTimestamp;
 
     private ConfigManager() {
@@ -71,6 +76,10 @@ public class ConfigManager {
                 photoTimestamp = loadString(PHOTO_TIMESTAMP, "");
                 autoDownload = loadBoolean(DOWNLOADMEANWHILE);
                 download = loadInt(DOWNLOAD, 0);
+
+                initWeight = loadFloat(INITWEIGHT, 100);
+                targetWeight = loadFloat(TARGETWEIGHT, 80);
+                showWeightTarget = loadBoolean(SHOWTARGET);
             }
         });
     }
@@ -91,6 +100,10 @@ public class ConfigManager {
         preferences.edit().putInt(name, value).apply();
     }
 
+    public void putFloat(String name, float value) {
+        preferences.edit().putFloat(name, value).apply();
+    }
+
     public void putString(String name, String value) {
         preferences.edit().putString(name, value).apply();
     }
@@ -109,6 +122,14 @@ public class ConfigManager {
 
     public int loadInt(String key, int defaultInt) {
         return preferences.getInt(key, defaultInt);
+    }
+
+    public float loadFloat(String key) {
+        return preferences.getFloat(key, 0);
+    }
+
+    public float loadFloat(String key, float defaultInt) {
+        return preferences.getFloat(key, defaultInt);
     }
 
     public String loadString(String key) {
@@ -324,6 +345,33 @@ public class ConfigManager {
     public void setOriginalSize(int size) {
         this.originalSize = size;
         putInt(ORIGINAL_SIZE, size);
+    }
+
+    public float getInitWeight() {
+        return initWeight;
+    }
+
+    public void setInitWeight(float weight) {
+        this.initWeight = weight;
+        putFloat(INITWEIGHT, weight);
+    }
+
+    public float getTargetWeight() {
+        return targetWeight;
+    }
+
+    public void setTargetWeight(float weight) {
+        this.targetWeight = weight;
+        putFloat(TARGETWEIGHT, weight);
+    }
+
+    public boolean isShowTarget() {
+        return showWeightTarget;
+    }
+
+    public void setShowTarget(boolean show) {
+        this.showWeightTarget = show;
+        putBoolean(SHOWTARGET, show);
     }
 
     public String getUserPhotoTimeStamp() {

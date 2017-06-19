@@ -87,24 +87,6 @@ public class WeightMonitorActivity extends BaseInputActivity {
                 dialog.setContentView(contentView);
                 final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
                 fileName.setHint("请输入今日体重，公斤计");
-                fileName.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        if (TextUtils.isEmpty(s)) {
-                            fileName.setError(context.getResources().getString(R.string.file_name_empty));
-                        } else {
-                            fileName.setError("");
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
                 dialog.setPositiveButton(R.string.file_create, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,7 +108,6 @@ public class WeightMonitorActivity extends BaseInputActivity {
                         }
                         weights.add(0, entity);
                         adapter.notifyDataSetChanged();
-                        changeUIByPara();
                         ConfigManager.getInstance().putString(token, transfer.toJson(weights));
 
                     }
@@ -155,5 +136,11 @@ public class WeightMonitorActivity extends BaseInputActivity {
         title.setText("体重管家");
         toolbarOper.setText("添加");
         toolbarOperSub.setText("设置");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

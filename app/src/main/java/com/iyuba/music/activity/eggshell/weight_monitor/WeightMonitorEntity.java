@@ -34,4 +34,13 @@ public class WeightMonitorEntity {
     public void setChange(double change) {
         this.change = change;
     }
+
+    public WeightMonitorEntity(Date time, double weight, double change) {
+        this.time = time;
+        this.weight = weight;
+        this.change = change;
+    }
+
+    public WeightMonitorEntity() {
+    }
 }
