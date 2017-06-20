@@ -168,7 +168,6 @@ public class MusicApplication extends Application {
                 }
             }
         });
-        startService(new Intent(getApplicationContext(), PlayerService.class));
         // 网络状态初始化
         NetWorkState.getInstance().setNetWorkState(NetWorkType.getNetworkType(this));
         // 皮肤等状态切换监听
@@ -190,9 +189,14 @@ public class MusicApplication extends Application {
 
     public void pushActivity(Activity activity) {
         activityList.add(activity);
-//        if (playerService == null) {
-//            startService(new Intent(getApplicationContext(), PlayerService.class));
-//        }
+        if (playerService == null) {
+            baseHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startService(new Intent(getApplicationContext(), PlayerService.class));
+                }
+            }, 800);
+        }
     }
 
     public void popActivity(Activity activity) {

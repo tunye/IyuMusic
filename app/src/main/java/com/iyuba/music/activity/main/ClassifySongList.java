@@ -118,7 +118,6 @@ public class ClassifySongList extends BaseActivity implements MySwipeRefreshLayo
             final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
                     new ViewBinder.Builder(R.layout.native_ad_row)
                             .titleId(R.id.native_title)
-                            .textId(R.id.native_text)
                             .mainImageId(R.id.native_main_image).build());
             mAdAdapter.registerAdRenderer(adRenderer);
             final Location location = null;

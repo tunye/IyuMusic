@@ -41,6 +41,15 @@ public class WeightMonitorActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_monitor);
         context = this;
+        Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
+        }.getType();
+        transfer = new Gson();
+        String historyData = ConfigManager.getInstance().loadString(token);
+        if (TextUtils.isEmpty(historyData)) {
+            weights = new ArrayList<>();
+        } else {
+            weights = transfer.fromJson(historyData, listType);
+        }
         initWidget();
         setListener();
         changeUIByPara();
@@ -54,7 +63,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
         recyclerView = (RecyclerView) findViewById(R.id.listview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new DividerItemDecoration());
-        adapter = new WeightMonitorAdapter(context, new ArrayList<WeightMonitorEntity>());
+        adapter = new WeightMonitorAdapter(context, weights);
         recyclerView.setAdapter(adapter);
     }
 
@@ -64,7 +73,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
         toolbarOperSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context, WeightSetActivity.class));
+                startActivityForResult(new Intent(context, WeightSetActivity.class),101);
             }
         });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
@@ -125,14 +134,23 @@ public class WeightMonitorActivity extends BaseInputActivity {
         title.setText("体重管家");
         toolbarOper.setText("添加");
         toolbarOperSub.setText("设置");
-        Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
-        }.getType();
-        String historyData = ConfigManager.getInstance().loadString(token);
-        if (TextUtils.isEmpty(historyData)) {
-            weights = new ArrayList<>();
-        } else {
-            weights = transfer.fromJson(historyData, listType);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==101&&resultCode==1){
+            Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
+            }.getType();
+            transfer = new Gson();
+            String historyData = ConfigManager.getInstance().loadString(token);
+            if (TextUtils.isEmpty(historyData)) {
+                weights = new ArrayList<>();
+            } else {
+                weights = transfer.fromJson(historyData, listType);
+            }
+            adapter = new WeightMonitorAdapter(context, weights);
+            recyclerView.setAdapter(adapter);
         }
-        adapter.notifyDataSetChanged();
     }
 }

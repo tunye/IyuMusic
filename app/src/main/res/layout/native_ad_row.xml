@@ -25,23 +25,6 @@
                 android:layout_width="100dp"
                 android:layout_height="80dp"
                 android:scaleType="fitXY"/>
-
-            <RelativeLayout
-                android:id="@+id/article_createtime_background"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/native_main_image"
-                android:background="#66000000"
-                android:padding="@dimen/row_space_small">
-
-                <TextView
-                    android:id="@+id/native_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#dcdcdc"
-                    android:textSize="@dimen/default_text"/>
-            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout

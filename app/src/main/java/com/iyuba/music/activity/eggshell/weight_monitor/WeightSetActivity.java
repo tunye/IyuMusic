@@ -143,6 +143,12 @@ public class WeightSetActivity extends BaseInputActivity implements View.OnClick
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(1);
+        super.onBackPressed();
+    }
+
     private void popInitDialog() {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle("体重管家");

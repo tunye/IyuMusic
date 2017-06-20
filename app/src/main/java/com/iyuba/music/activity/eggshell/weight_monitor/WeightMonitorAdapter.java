@@ -18,14 +18,16 @@ import java.util.Locale;
 public class WeightMonitorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private static final double initWeight = ConfigManager.getInstance().getInitWeight();
-    private static final double targetWeight = ConfigManager.getInstance().getTargetWeight();
+    private double initWeight;
+    private double targetWeight;
     private List<WeightMonitorEntity> datas;
     private Context context;
 
     public WeightMonitorAdapter(Context context, ArrayList<WeightMonitorEntity> datas) {
         this.context = context;
         this.datas = datas;
+        initWeight = ConfigManager.getInstance().getInitWeight();
+        targetWeight = ConfigManager.getInstance().getTargetWeight();
     }
 
     @Override
