@@ -28,13 +28,13 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
-import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
@@ -85,7 +85,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private int aPosition, bPosition;// 区间播放
     @IntervalState
     private int intervalState;
-    private boolean isDestroyed = false;
     private IyubaDialog waittingDialog;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
@@ -97,7 +96,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
-            player.start();
             playSound.setState(MorphButton.MorphState.END, true);
         }
 
@@ -108,7 +106,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void onFinish() {
-            startPlay();
+            checkNetWorkState();
             refresh(false);
         }
 
@@ -138,7 +136,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         initWidget();
         setListener();
         changeUIByPara();
-        isDestroyed = false;
         checkNetWorkState();
     }
 
@@ -163,7 +160,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             youdaoNative.destroy();
         }
         unregisterReceiver(studyChangeUIBroadCast);
-        isDestroyed = true;
+        ((MusicApplication) getApplication()).getPlayerService().setListener(null);
         super.onDestroy();
     }
 
@@ -248,7 +245,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         String url = ((MusicApplication) getApplication()).getPlayerService().getUrl(StudyManager.getInstance().getCurArticle());
         if (((MusicApplication) getApplication()).getProxy().isCached(url)) {
             return true;
-        } else if (url.startsWith("http") && !isDestroyed) {
+        } else if (url.startsWith("http")) {
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                 showNoNetDialog();
                 return false;
@@ -554,10 +551,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 player.seekTo(0);
             }
             studyFragmentAdapter.refresh();
-            player.start();
         } else {
-            if (isDestroyed) {
-            } else if (defaultPos) {
+            if (defaultPos) {
                 studyFragmentAdapter.refresh();
                 viewPager.setCurrentItem(1);
             } else {
@@ -777,6 +772,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 switch (message) {
                     case "change":
                         mWeakReference.get().refresh(true);
+                        break;
                     case "pause":
                         mWeakReference.get().setPauseImage(false);
                         break;

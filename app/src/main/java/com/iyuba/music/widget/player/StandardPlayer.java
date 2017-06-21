@@ -174,6 +174,7 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     private void openVideo() {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
+            mMediaPlayer.reset();
         } else {
             mMediaPlayer = new MediaPlayer();
         }

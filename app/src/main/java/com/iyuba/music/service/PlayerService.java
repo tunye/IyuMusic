@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.download.DownloadService;
@@ -20,6 +21,7 @@ import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
 import com.iyuba.music.receiver.NotificationBeforeReceiver;
 import com.iyuba.music.receiver.NotificationCloseReceiver;
@@ -113,6 +115,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                player.start();
                 if (playerListener != null) {
                     playerListener.onPrepare();
                 }
@@ -127,12 +130,13 @@ public class PlayerService extends Service implements OnHeadSetListener {
                         Intent i = new Intent("com.iyuba.music.main");
                         i.putExtra("message", "change");
                         sendBroadcast(i);
-                    } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
-                        Intent i = new Intent("com.iyuba.music.localmusic");
-                        i.putExtra("message", "change");
-                        sendBroadcast(i);
                     }
                 }
+                if (checkNetWorkState()) {
+                    ((MusicApplication) getApplication()).getPlayerService().startPlay(StudyManager.getInstance().getCurArticle(), false);
+                    ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
+                }
+                player.start();
                 if (playerListener != null) {
                     playerListener.onFinish();
                 }
@@ -191,11 +195,6 @@ public class PlayerService extends Service implements OnHeadSetListener {
                 playPath = netUrl;
             }
             setNotification();
-            try {
-                player.reset();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             player.setVideoPath(playPath);
         }
     }
@@ -303,5 +302,22 @@ public class PlayerService extends Service implements OnHeadSetListener {
     @Override
     public void onThreeClick() {
         RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.before"));
+    }
+
+    private boolean checkNetWorkState() {
+        String url = ((MusicApplication) getApplication()).getPlayerService().getUrl(StudyManager.getInstance().getCurArticle());
+        if (((MusicApplication) getApplication()).getProxy().isCached(url)) {
+            return true;
+        } else if (url.startsWith("http")) {
+            if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
+                return false;
+            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 }

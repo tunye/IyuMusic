@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,11 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
-import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -51,13 +52,11 @@ public class MainFragment extends BaseFragment {
     private Context context;
     private StandardPlayer player;
     private TabIndicator viewPagerIndicator;
-    private MainFragmentAdapter mainFragmentAdapter;
     //控制栏
     private CircleImageView pic;
     private RoundProgressBar progressBar;
     private TextView curArticleTitle, curArticleInfo;
     private MorphButton pause;
-    private Article curArticle;
     private Animation operatingAnim;
     private MainChangeUIBroadCast broadCast;
 
@@ -73,7 +72,7 @@ public class MainFragment extends BaseFragment {
         ArrayList<String> title = new ArrayList<>();
         title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
+        MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(mainFragmentAdapter);
         viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
@@ -169,7 +168,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setContent() {
-        curArticle = StudyManager.getInstance().getCurArticle();
+        Article curArticle = StudyManager.getInstance().getCurArticle();
         if (curArticle == null || TextUtils.isEmpty(curArticle.getTitle())) {
             curArticleTitle.setText(R.string.app_name);
             curArticleInfo.setText(R.string.app_intro);
@@ -305,7 +304,7 @@ public class MainFragment extends BaseFragment {
                 switch (message) {
                     case "change":
                         mWeakReference.get().setContent();
-                        // 故意如此，刷新界面必须刷新UI
+                        break;
                     case "pause":
                         mWeakReference.get().setImageState(true);
                         break;

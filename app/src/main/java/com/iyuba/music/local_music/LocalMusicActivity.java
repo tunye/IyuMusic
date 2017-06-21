@@ -26,13 +26,13 @@ import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
-import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
+import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.CreateAppLnkUtil;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Mathematics;
@@ -65,7 +65,6 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
-            player.start();
             pause.setState(MorphButton.MorphState.END);
             progressBar.setMax(player.getDuration());
             handler.sendEmptyMessage(0);
@@ -79,9 +78,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
 
         @Override
         public void onFinish() {
-            ((MusicApplication) getApplication()).getPlayerService().startPlay(
-                    StudyManager.getInstance().getCurArticle(), false);
-            player.start();
+            refresh();
         }
 
         @Override
@@ -399,6 +396,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     if (mWeakReference.get() != null) {
                         mWeakReference.get().refresh();
                     }
+                    break;
                 case "pause":
                     if (mWeakReference.get() != null) {
                         mWeakReference.get().setPauseImage();
