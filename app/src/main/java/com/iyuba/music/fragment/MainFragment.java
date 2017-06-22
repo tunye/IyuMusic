@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +32,9 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         setContent();
-        setImageState(false);
+        setImageState();
         handler.sendEmptyMessage(0);
     }
 
@@ -245,17 +244,17 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private void setImageState(boolean animation) {
+    private void setImageState() {
         if (RuntimeManager.getApplication().getPlayerService() == null) {
-            pause.setState(MorphButton.MorphState.START);
+            pause.setState(MorphButton.PAUSE_STATE);
         } else {
             player = RuntimeManager.getApplication().getPlayerService().getPlayer();
             if (player == null) {
-                pause.setState(MorphButton.MorphState.START);
+                pause.setState(MorphButton.PAUSE_STATE);
             } else if (player.isPlaying()) {
-                pause.setState(MorphButton.MorphState.END, animation);
+                pause.setState(MorphButton.PLAY_STATE);
             } else {
-                pause.setState(MorphButton.MorphState.START, animation);
+                pause.setState(MorphButton.PAUSE_STATE);
             }
         }
     }
@@ -274,15 +273,15 @@ public class MainFragment extends BaseFragment {
                         if (fragment.pic.getAnimation() == null) {
                             fragment.startAnimation();
                         }
-                        if (fragment.pause.getState().equals(MorphButton.MorphState.START)) {
-                            fragment.pause.setState(MorphButton.MorphState.END, false);
+                        if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
+                            fragment.pause.setState(MorphButton.PLAY_STATE);
                         }
                     } else if (!fragment.player.isPlaying()) {
                         if (fragment.pic.getAnimation() != null) {
                             fragment.pauseAnimation();
                         }
-                        if (fragment.pause.getState().equals(MorphButton.MorphState.END)) {
-                            fragment.pause.setState(MorphButton.MorphState.START, false);
+                        if (fragment.pause.getState()==MorphButton.PLAY_STATE) {
+                            fragment.pause.setState(MorphButton.PAUSE_STATE);
                         }
                     }
                     fragment.handler.sendEmptyMessageDelayed(0, 500);
@@ -306,7 +305,7 @@ public class MainFragment extends BaseFragment {
                         mWeakReference.get().setContent();
                         break;
                     case "pause":
-                        mWeakReference.get().setImageState(true);
+                        mWeakReference.get().setImageState();
                         break;
                 }
             }

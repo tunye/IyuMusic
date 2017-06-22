@@ -47,11 +47,11 @@ import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.StudyMore;
 import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.umeng.socialize.UMShareAPI;
-import com.wnafee.vector.MorphButton;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
 import com.youdao.sdk.nativeads.RequestParameters;
@@ -96,7 +96,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             seekBar.setMax(i);
             duration.setText(Mathematics.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
-            playSound.setState(MorphButton.MorphState.END, true);
+            playSound.setState(MorphButton.PLAY_STATE);
         }
 
         @Override
@@ -558,7 +558,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             } else {
                 if (checkNetWorkState()) {
                     seekBar.setSecondaryProgress(0);
-                    playSound.setState(MorphButton.MorphState.START, true);
+                    playSound.setState(MorphButton.PLAY_STATE);
                     duration.setText("00:00");
                 }
                 int currPage = viewPager.getCurrentItem();
@@ -608,11 +608,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
         } else {
             if (player == null) {
-                playSound.setState(MorphButton.MorphState.START, true);
+                playSound.setState(MorphButton.PAUSE_STATE);
             } else if (player.isPlaying()) {
-                playSound.setState(MorphButton.MorphState.END, true);
+                playSound.setState(MorphButton.PLAY_STATE);
             } else {
-                playSound.setState(MorphButton.MorphState.START, true);
+                playSound.setState(MorphButton.PAUSE_STATE);
             }
         }
     }
@@ -631,7 +631,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (checkNetWorkState()) {
             handler.sendEmptyMessage(2);
             seekBar.setSecondaryProgress(0);
-            playSound.setState(MorphButton.MorphState.START, true);
+            playSound.setState(MorphButton.PLAY_STATE);
             duration.setText("00:00");
             ((MusicApplication) getApplication()).getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), true);
@@ -739,12 +739,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             activity.waittingDialog.dismiss();
                         }
                         if (activity.player.isPlaying()) {
-                            if (activity.playSound.getState().equals(MorphButton.MorphState.START)) {
-                                activity.playSound.setState(MorphButton.MorphState.END, false);
+                            if (activity.playSound.getState() == MorphButton.PAUSE_STATE) {
+                                activity.playSound.setState(MorphButton.PLAY_STATE);
                             }
                         } else if (!activity.player.isPlaying()) {
-                            if (activity.playSound.getState().equals(MorphButton.MorphState.END)) {
-                                activity.playSound.setState(MorphButton.MorphState.START, false);
+                            if (activity.playSound.getState() == MorphButton.PLAY_STATE) {
+                                activity.playSound.setState(MorphButton.PAUSE_STATE);
                             }
                         }
                     }

@@ -99,13 +99,12 @@
                 android:paddingRight="@dimen/row_space_default"
                 android:src="@drawable/formmer"/>
 
-            <com.wnafee.vector.MorphButton
+            <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/main_play"
                 android:layout_width="40dp"
-                android:layout_height="match_parent"
-                app:vc_endDrawable="@drawable/ic_pause_to_play"
-                app:vc_foregroundTint="@color/skin_app_color"
-                app:vc_startDrawable="@drawable/ic_play_to_pause"/>
+                android:paddingLeft="@dimen/row_space_default"
+                android:paddingRight="@dimen/row_space_default"
+                android:layout_height="match_parent"/>
 
             <ImageView
                 android:id="@+id/main_latter"

@@ -40,9 +40,9 @@ import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
+import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
-            pause.setState(MorphButton.MorphState.END);
+            pause.setState(MorphButton.PLAY_STATE);
             progressBar.setMax(player.getDuration());
             handler.sendEmptyMessage(0);
             refresh();
@@ -285,12 +285,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
 
     private void setPauseImage() {
         if (player == null || !StudyManager.getInstance().getApp().equals("101")) {
-            pause.setState(MorphButton.MorphState.START);
+            pause.setState(MorphButton.PAUSE_STATE);
         } else if (player.isPlaying()) {
-            pause.setState(MorphButton.MorphState.END, true);
+            pause.setState(MorphButton.PLAY_STATE);
             refresh();
         } else {
-            pause.setState(MorphButton.MorphState.START, true);
+            pause.setState(MorphButton.PAUSE_STATE);
             adapter.setCurPos(-1);
         }
     }
@@ -368,12 +368,12 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     activity.progressBar.setProgress(activity.player.getCurrentPosition());
                     activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
                     if (activity.player.isPlaying()) {
-                        if (activity.pause.getState().equals(MorphButton.MorphState.START)) {
-                            activity.pause.setState(MorphButton.MorphState.END, false);
+                        if (activity.pause.getState() == MorphButton.PAUSE_STATE) {
+                            activity.pause.setState(MorphButton.PLAY_STATE);
                         }
                     } else if (!activity.player.isPlaying()) {
-                        if (activity.pause.getState().equals(MorphButton.MorphState.END)) {
-                            activity.pause.setState(MorphButton.MorphState.START, false);
+                        if (activity.pause.getState()==MorphButton.PLAY_STATE) {
+                            activity.pause.setState(MorphButton.PAUSE_STATE);
                         }
                     }
                     activity.handler.sendEmptyMessageDelayed(0, 500);

@@ -82,8 +82,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             waittingDialog.dismiss();
             if (error != null) {
                 CustomToast.getInstance().showToast("error:" + error.getErrorCode() + "," + error.getErrorDescription());
-            } else {
-                Log.e(TAG, "evaluator over");
             }
         }
 

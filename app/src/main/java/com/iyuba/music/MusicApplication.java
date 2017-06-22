@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -102,12 +103,16 @@ public class MusicApplication extends Application {
 
             @Override
             public void log(String content, Throwable t) {
-                Log.e(TAG, content, t);
+                if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+                    Log.d(TAG, content, t);
+                }
             }
 
             @Override
             public void log(String content) {
-                Log.e(TAG, content);
+                if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+                    Log.d(TAG, content);
+                }
             }
         };
         Logger.setLogger(this, newLogger);

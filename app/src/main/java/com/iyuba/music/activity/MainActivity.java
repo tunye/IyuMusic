@@ -98,7 +98,6 @@ public class MainActivity extends BaseSkinActivity {
                 }
             }, 8000);
         }
-        Log.e("aaa", MiPushClient.getRegId(RuntimeManager.getContext()));
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 

@@ -129,7 +129,6 @@ dependencies {
     /*圆型图片*/
     compile 'de.hdodenhof:circleimageview:2.1.0'
     /*返回动画*/
-    compile 'com.wnafee:vector-compat:1.0.5'
     compile 'com.balysv.materialmenu:material-menu:1.5.4'
     /*damajia的刁刁库*/
     compile 'com.nineoldandroids:library:2.4.0'

@@ -38,12 +38,12 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.ShareDialog;
 import com.iyuba.music.widget.dialog.WordCard;
+import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.original.OriginalSynView;
 import com.iyuba.music.widget.original.SeekToCallBack;
 import com.iyuba.music.widget.original.TextSelectCallBack;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.player.VideoView;
-import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
 
@@ -149,7 +149,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 handler.sendEmptyMessage(0);
                 videoView.start();
                 largePause.setVisibility(View.GONE);
-                playSound.setState(MorphButton.MorphState.END);
+                playSound.setState(MorphButton.PLAY_STATE);
             }
         });
         videoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
@@ -235,7 +235,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     protected void changeUIResumeByPara() {
-        setPauseImage(false);
+        setPauseImage();
         setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
         setStudyTranslateImage(ConfigManager.getInstance().getStudyTranslate());
     }
@@ -282,15 +282,15 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         } else {
             videoView.start();
         }
-        setPauseImage(true);
+        setPauseImage();
     }
 
-    private void setPauseImage(boolean delay) {
+    private void setPauseImage() {
         if (videoView.isPlaying()) {
-            playSound.setState(MorphButton.MorphState.END, delay);
+            playSound.setState(MorphButton.PLAY_STATE);
             largePause.setVisibility(View.GONE);
         } else {
-            playSound.setState(MorphButton.MorphState.START, delay);
+            playSound.setState(MorphButton.PAUSE_STATE);
             largePause.setVisibility(View.VISIBLE);
         }
     }
