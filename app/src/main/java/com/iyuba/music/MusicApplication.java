@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
@@ -54,23 +55,7 @@ public class MusicApplication extends Application {
     private PlayerService playerService;
     private HttpProxyCacheServer proxy;
     private ChangePropertyBroadcast changeProperty;
-
-    private Runnable baseRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (sleepSecond == 0) {
-                baseHandler.removeCallbacks(this);
-                exit();
-            } else if (sleepSecond == 2) {
-                CustomToast.getInstance().showToast(R.string.sleep_time_finish);
-                sleepSecond--;
-                baseHandler.postDelayed(this, 1000);
-            } else {
-                sleepSecond--;
-                baseHandler.postDelayed(this, 1000);
-            }
-        }
-    };
+    private CountDownTimer timer;
 
     @Override
     public void onCreate() {
@@ -251,12 +236,29 @@ public class MusicApplication extends Application {
         return sleepSecond;
     }
 
-    public void setSleepSecond(int sleepSecond) {
-        this.sleepSecond = sleepSecond;
-        baseHandler.removeCallbacks(baseRunnable);
-        if (sleepSecond != 0) {
-            baseHandler.postDelayed(baseRunnable, 1000);
+    public void setSleepSecond(final int setTime) {
+        if (timer != null) {
+            timer.cancel();
         }
+        if (setTime == 0) {
+            sleepSecond = 0;
+            return;
+        }
+        timer = new CountDownTimer(setTime * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                sleepSecond = (int) millisUntilFinished / 1000;
+                if (sleepSecond == 2) {
+                    CustomToast.getInstance().showToast(R.string.sleep_time_finish);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                exit();
+            }
+        };
+        timer.start();
     }
 
     public boolean isAppointForeground(String appoint) {
