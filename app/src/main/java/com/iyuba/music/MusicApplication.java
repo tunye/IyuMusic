@@ -61,7 +61,7 @@ public class MusicApplication extends Application {
             if (sleepSecond == 0) {
                 baseHandler.removeCallbacks(this);
                 exit();
-            } else if (sleepSecond == 1) {
+            } else if (sleepSecond == 2) {
                 CustomToast.getInstance().showToast(R.string.sleep_time_finish);
                 sleepSecond--;
                 baseHandler.postDelayed(this, 1000);
@@ -151,7 +151,7 @@ public class MusicApplication extends Application {
             public void run() {
                 prepareLazy();
             }
-        }, 1000);
+        }, 800);
     }
 
     private void prepareLazy() {
@@ -200,7 +200,7 @@ public class MusicApplication extends Application {
                 public void run() {
                     startService(new Intent(getApplicationContext(), PlayerService.class));
                 }
-            }, 800);
+            }, 600);
         }
     }
 
