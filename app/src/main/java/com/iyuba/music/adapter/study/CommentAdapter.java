@@ -20,6 +20,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.entity.comment.CommentAgreeOp;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
@@ -28,6 +29,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.newsrequest.CommentAgreeRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
@@ -244,10 +246,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         commentViewHolder.pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
-                Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
-                context.startActivity(intent);
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
+                    Intent intent = new Intent(context, PersonalHomeActivity.class);
+                    intent.putExtra("needpop", true);
+                    context.startActivity(intent);
+                }else{
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
+                            Intent intent = new Intent(context, PersonalHomeActivity.class);
+                            intent.putExtra("needpop", true);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             }
         });
     }

@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.mainpanel.Announcer;
+import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
@@ -64,10 +67,22 @@ public class AnnouncerAdapter extends RecyclerView.Adapter<AnnouncerAdapter.MyVi
             @Override
             @TargetApi(21)
             public void onClick(View v) {
-                SocialManager.getInstance().pushFriendId(announcer.getUid());
-                Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
-                context.startActivity(intent);
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    SocialManager.getInstance().pushFriendId(announcer.getUid());
+                    Intent intent = new Intent(context, PersonalHomeActivity.class);
+                    intent.putExtra("needpop", true);
+                    context.startActivity(intent);
+                } else {
+                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        @Override
+                        public void finish() {
+                            SocialManager.getInstance().pushFriendId(announcer.getUid());
+                            Intent intent = new Intent(context, PersonalHomeActivity.class);
+                            intent.putExtra("needpop", true);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
             }
         });
     }

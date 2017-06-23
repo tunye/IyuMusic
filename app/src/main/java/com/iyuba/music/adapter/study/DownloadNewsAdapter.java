@@ -173,17 +173,17 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                     case 2:                                               // 文件整齐
                         holder.noExist.setVisibility(View.GONE);
                         break;
-                    case 1:                                               // 存在解说文件
+                    case 1:                                               // 存在原唱文件
                         if (ConfigManager.getInstance().getStudyMode() != 0) {
-                            article.setTextFind(String.valueOf(R.string.article_download_only_sound));
+                            article.setTextFind(String.valueOf(R.string.article_download_only_song));
                             holder.noExist.setVisibility(View.VISIBLE);
                         } else {
                             holder.noExist.setVisibility(View.GONE);
                         }
                         break;
-                    case -1:                                              // 存在原唱文件
+                    case -1:                                              // 存在解说文件
                         if (ConfigManager.getInstance().getStudyMode() != 1) {
-                            article.setTextFind(String.valueOf(R.string.article_download_only_song));
+                            article.setTextFind(String.valueOf(R.string.article_download_only_sound));
                             holder.noExist.setVisibility(View.VISIBLE);
                         } else {
                             holder.noExist.setVisibility(View.GONE);

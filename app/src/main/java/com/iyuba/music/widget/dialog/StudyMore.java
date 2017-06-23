@@ -268,13 +268,30 @@ public class StudyMore {
             public void response(Object object) {
                 ArrayList<Announcer> announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
                 new AnnouncerOp().saveData(announcerList);
+                final Announcer item = new Announcer();
+                item.setUid("-1");
                 for (Announcer announcer : announcerList) {
                     if (announcer.getName().equals(StudyManager.getInstance().getCurArticle().getStar())) {
-                        SocialManager.getInstance().pushFriendId(announcer.getUid());
+                        item.setUid(announcer.getUid());
+                        break;
+                    }
+                }
+                if (!item.getUid().equals("-1")) {
+                    if (AccountManager.getInstance().checkUserLogin()) {
+                        SocialManager.getInstance().pushFriendId(item.getUid());
                         Intent intent = new Intent(context, PersonalHomeActivity.class);
                         intent.putExtra("needpop", true);
                         context.startActivity(intent);
-                        break;
+                    } else {
+                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            @Override
+                            public void finish() {
+                                SocialManager.getInstance().pushFriendId(item.getUid());
+                                Intent intent = new Intent(context, PersonalHomeActivity.class);
+                                intent.putExtra("needpop", true);
+                                context.startActivity(intent);
+                            }
+                        });
                     }
                 }
             }

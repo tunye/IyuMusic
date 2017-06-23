@@ -129,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
+                android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/medium_text"/>
 
             <SeekBar
@@ -148,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
+                android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/medium_text"/>
         </LinearLayout>
 

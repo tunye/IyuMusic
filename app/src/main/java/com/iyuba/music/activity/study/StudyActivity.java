@@ -448,12 +448,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
                 if (user) {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColor());
-                    duration.setTextColor(GetAppColor.getInstance().getAppColor());
                     player.seekTo(progress);
-                } else {
-                    currTime.setTextColor(GetAppColor.getInstance().getAppColorLight());
-                    duration.setTextColor(GetAppColor.getInstance().getAppColorLight());
                 }
                 currTime.setText(Mathematics.formatTime(progress / 1000));
             }
