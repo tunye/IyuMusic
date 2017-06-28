@@ -112,7 +112,7 @@ public class MainLeftFragment extends BaseFragment {
         noLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginActivity.launchForResult(getActivity());
+                startActivityForResult(new Intent(context, LoginActivity.class), 101);
             }
         });
         personalPhoto.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +205,7 @@ public class MainLeftFragment extends BaseFragment {
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
             personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
-            if (TextUtils.isEmpty(AccountManager.getInstance().getUserInfo().getFollower())) {
+            if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
                 getPersonalInfo();
             }
         } else {
@@ -221,12 +221,16 @@ public class MainLeftFragment extends BaseFragment {
 
     private void autoLogin() {
         if (ConfigManager.getInstance().isAutoLogin()) { // 自动登录
-            AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
             String[] userNameAndPwd = AccountManager.getInstance().getUserNameAndPwd();
             if (!TextUtils.isEmpty(userNameAndPwd[0]) && !TextUtils.isEmpty(userNameAndPwd[1])) {
+                AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
+                userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
+                AccountManager.getInstance().setUserInfo(userInfo);
+                if (!TextUtils.isEmpty(userInfo.getFollower())) {
+                    updatePersonalInfoView();
+                }
+                getPersonalInfo();
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-                    userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
-                    AccountManager.getInstance().setUserInfo(userInfo);
                     AccountManager.getInstance().login(userNameAndPwd[0], userNameAndPwd[1],
                             new IOperationResult() {
                                 @Override
@@ -239,16 +243,13 @@ public class MainLeftFragment extends BaseFragment {
                                             }
                                         });
                                     }
-                                    getPersonalInfo();
                                 }
 
                                 @Override
                                 public void fail(Object message) {
-                                    localLogin();
+
                                 }
                             });
-                } else {
-                    localLogin();
                 }
             } else {
                 AccountManager.getInstance().setLoginState(AccountManager.SIGN_OUT);
@@ -256,19 +257,12 @@ public class MainLeftFragment extends BaseFragment {
         }
     }
 
-    private void localLogin() {
-        AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
-        userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());
-        AccountManager.getInstance().setUserInfo(userInfo);
-        handler.sendEmptyMessage(0);
-    }
-
     private void getPersonalInfo() {
         AccountManager.getInstance().getPersonalInfo(new IOperationResult() {
             @Override
             public void success(Object object) {
                 userInfo = AccountManager.getInstance().getUserInfo();
-                handler.sendEmptyMessage(0);
+                updatePersonalInfoView();
             }
 
             @Override
@@ -279,7 +273,7 @@ public class MainLeftFragment extends BaseFragment {
                 } else {
                     userInfo = AccountManager.getInstance().getUserInfo();
                 }
-                handler.sendEmptyMessage(0);
+                updatePersonalInfoView();
             }
         });
     }
@@ -352,19 +346,18 @@ public class MainLeftFragment extends BaseFragment {
         exit.setOnClickListener(null);
     }
 
+    private void updatePersonalInfoView() {
+        personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
+        setPersonalInfoContent();
+        login.setVisibility(View.VISIBLE);
+        noLogin.setVisibility(View.GONE);
+        sign.setVisibility(View.VISIBLE);
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {
         @Override
         public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
             switch (msg.what) {
-                case 0:
-                    if (!TextUtils.isEmpty(fragment.userInfo.getUid())) {
-                        fragment.personalPhoto.setVipStateVisible(fragment.userInfo.getUid(), "1".equals(fragment.userInfo.getVipStatus()));
-                        fragment.setPersonalInfoContent();
-                        fragment.login.setVisibility(View.VISIBLE);
-                        fragment.noLogin.setVisibility(View.GONE);
-                        fragment.sign.setVisibility(View.VISIBLE);
-                    }
-                    break;
                 case 1:
                     fragment.operAdapter.notifyItemChanged(5);
                     fragment.handler.sendEmptyMessageDelayed(1, 1000);

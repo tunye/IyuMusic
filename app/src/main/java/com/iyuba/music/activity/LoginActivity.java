@@ -58,11 +58,6 @@ public class LoginActivity extends BaseInputActivity {
     };
     private View photo, loginMsg;
 
-    public static void launchForResult(Activity activity) {
-        LoginActivity.result = null;
-        activity.startActivityForResult(new Intent(activity, LoginActivity.class), 101);
-    }
-
     public static void launch(Context context, IOperationResult result) {
         LoginActivity.result = result;
         context.startActivity(new Intent(context, LoginActivity.class));

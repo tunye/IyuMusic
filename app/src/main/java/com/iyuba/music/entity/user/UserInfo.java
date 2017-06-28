@@ -1,6 +1,7 @@
 package com.iyuba.music.entity.user;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.iyuba.music.R;
 import com.iyuba.music.util.Mathematics;
@@ -212,5 +213,59 @@ public class UserInfo {
                 ", deadline='" + deadline + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 '}';
+    }
+
+    public void update(UserInfo update) {
+        if (!TextUtils.isEmpty(update.icoins)) {
+            this.icoins = update.icoins;
+        }
+        if (!TextUtils.isEmpty(update.uid)) {
+            this.uid = update.uid;
+        }
+        if (!TextUtils.isEmpty(update.username)) {
+            this.username = update.username;
+        }
+        if (!TextUtils.isEmpty(update.doings)) {
+            this.doings = update.doings;
+        }
+        if (!TextUtils.isEmpty(update.views)) {
+            this.views = update.views;
+        }
+        if (!TextUtils.isEmpty(update.gender)) {
+            this.gender = update.gender;
+        }
+        if (!TextUtils.isEmpty(update.text)) {
+            this.text = update.text;
+        }
+        if (!TextUtils.isEmpty(update.follower)) {
+            this.follower = update.follower;
+        }
+        if (!TextUtils.isEmpty(update.following)) {
+            this.following = update.following;
+        }
+        if (!TextUtils.isEmpty(update.relation)) {
+            this.relation = update.relation;
+        }
+        if (!TextUtils.isEmpty(update.iyubi)) {
+            this.iyubi = update.iyubi;
+        }
+        if (!TextUtils.isEmpty(update.vipStatus)) {
+            this.vipStatus = update.vipStatus;
+        }
+        if (!TextUtils.isEmpty(update.distance)) {
+            this.distance = update.distance;
+        }
+        if (!TextUtils.isEmpty(update.notification)) {
+            this.notification = update.notification;
+        }
+        if (!TextUtils.isEmpty(update.position)) {
+            this.position = update.position;
+        }
+        if (!TextUtils.isEmpty(update.deadline)) {
+            this.deadline = update.deadline;
+        }
+        if (!TextUtils.isEmpty(update.userEmail)) {
+            this.userEmail = update.userEmail;
+        }
     }
 }
