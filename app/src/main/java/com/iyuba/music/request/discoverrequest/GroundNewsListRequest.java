@@ -41,12 +41,12 @@ public class GroundNewsListRequest {
                             try {
                                 article.setId(jsonObjectData.getInt("VoaId"));
                             } catch (JSONException e) {
-
+                                e.printStackTrace();
                             }
                             try {
                                 article.setId(jsonObjectData.getInt("BbcId"));
                             } catch (JSONException e) {
-
+                                e.printStackTrace();
                             }
                             article.setTitle_cn(jsonObjectData.getString("Title_cn"));
                             article.setTitle(jsonObjectData.getString("Title"));

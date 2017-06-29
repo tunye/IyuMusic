@@ -108,11 +108,11 @@ public class FileUtil {
         long size = 0;
         File flist[] = f.listFiles();
         if (flist != null) {
-            for (int i = 0; i < flist.length; i++) {
-                if (flist[i].isDirectory()) {
-                    size = size + getFolderSize(flist[i]);
+            for (File aFlist : flist) {
+                if (aFlist.isDirectory()) {
+                    size = size + getFolderSize(aFlist);
                 } else {
-                    size = size + flist[i].length();
+                    size = size + aFlist.length();
                 }
             }
         }
@@ -191,9 +191,9 @@ public class FileUtil {
             File[] f = src.listFiles();
             tar.mkdir();
             if (f != null) {
-                for (int i = 0; i < f.length; i++) {
-                    copyFile(f[i].getAbsoluteFile(), new File(tar.getAbsoluteFile()
-                            + File.separator + f[i].getName()));
+                for (File aF : f) {
+                    copyFile(aF.getAbsoluteFile(), new File(tar.getAbsoluteFile()
+                            + File.separator + aF.getName()));
                 }
             }
         }
@@ -222,8 +222,8 @@ public class FileUtil {
         if (f.isDirectory()) {
             File[] files = f.listFiles();
             if (files != null && files.length > 0) {
-                for (int i = 0; i < files.length; ++i) {
-                    deleteFile(files[i]);
+                for (File file : files) {
+                    deleteFile(file);
                 }
             }
             f.delete();

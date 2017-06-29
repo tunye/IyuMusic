@@ -28,6 +28,7 @@
         <item name="colorPrimary">@color/skin_app_color</item>
         <item name="colorPrimaryDark">@color/skin_app_color</item>
         <item name="colorAccent">@color/skin_app_color</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:configChanges">keyboardHidden|orientation</item>

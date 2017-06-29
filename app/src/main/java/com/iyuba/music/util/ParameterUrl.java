@@ -29,9 +29,7 @@ public class ParameterUrl {
     }
 
     public static String setRequestParameter(String url, Object key, Object value) {
-        StringBuilder requestURLTemp = new StringBuilder(url);
-        requestURLTemp.append("?").append(key).append("=").append(value);
-        return requestURLTemp.toString();
+        return url + "?" + key + "=" + value;
     }
 
     public static String encode(String content) {

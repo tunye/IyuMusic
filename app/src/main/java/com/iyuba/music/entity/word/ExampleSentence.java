@@ -34,8 +34,6 @@ public class ExampleSentence {
 
     @Override
     public String toString() {
-        StringBuilder StringBuilder = new StringBuilder();
-        StringBuilder.append(index).append(".").append(sentence).append("<br/>").append(sentence_cn).append("<br/>");
-        return StringBuilder.toString();
+        return String.valueOf(index) + "." + sentence + "<br/>" + sentence_cn + "<br/>";
     }
 }

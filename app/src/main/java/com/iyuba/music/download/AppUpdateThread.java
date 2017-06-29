@@ -1,8 +1,5 @@
 package com.iyuba.music.download;
 
-import android.os.Handler;
-import android.os.Message;
-
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.util.ThreadPoolUtil;
 
@@ -16,21 +13,6 @@ import java.net.URL;
 public class AppUpdateThread {
     private long downedFileLength = 0;
     private DownloadFile downloadFile;
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    downloadFile.fileSize = Integer.parseInt(msg.obj.toString());
-                    break;
-                case 1:
-                    downloadFile.downloadSize = Integer.parseInt(msg.obj.toString());
-                    break;
-                case 2:
-                    downloadFile.downloadState = "finish";
-                    break;
-            }
-        }
-    };
 
     public AppUpdateThread() {
         int size = DownloadManager.getInstance().fileList.size();
@@ -53,7 +35,7 @@ public class AppUpdateThread {
                     @Override
                     public void finish() {
                         downedFileLength = 0;
-                        handler.sendEmptyMessage(2);
+                        downloadFile.downloadState = "finish";
                     }
                 });
             }
@@ -91,12 +73,12 @@ public class AppUpdateThread {
                 long fileLength = connection.getContentLength();
                 byte[] buffer = new byte[1024 * 8];
                 int length;
-                handler.obtainMessage(0, fileLength).sendToTarget();
+                downloadFile.fileSize = (int) fileLength;
                 while (downedFileLength < fileLength) {
                     length = inputStream.read(buffer);
                     downedFileLength += length;
                     outputStream.write(buffer, 0, length);
-                    handler.obtainMessage(1, downedFileLength).sendToTarget();
+                    downloadFile.downloadSize = (int) downedFileLength;
                 }
                 inputStream.close();
                 outputStream.flush();

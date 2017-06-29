@@ -23,7 +23,7 @@ public class LrcMaker {
         }
     }
 
-    public static final LrcMaker getInstance() {
+    public static LrcMaker getInstance() {
         if (instance == null) {
             instance = new LrcMaker();
         }

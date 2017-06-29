@@ -167,14 +167,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                StringBuilder sb = new StringBuilder(
-                        "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
-                sb.append("&userid=").append(
-                        AccountManager.getInstance().getUserId());
-                sb.append("&shuoshuotype=").append(2);
-                sb.append("&voaid=").append(curArticle.getId());
+                String sb = "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
+                        AccountManager.getInstance().getUserId() +
+                        "&shuoshuotype=" + 2 +
+                        "&voaid=" + curArticle.getId();
                 final File file = new File(ConstantManager.recordFile + IseManager.AMR_SUFFIX);
-                UploadFile.postSound(sb.toString(), file, new IOperationResult() {
+                UploadFile.postSound(sb, file, new IOperationResult() {
                     @Override
                     public void success(Object object) {
                         file.delete();

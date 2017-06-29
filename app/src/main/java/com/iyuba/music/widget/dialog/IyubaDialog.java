@@ -109,7 +109,6 @@ public class IyubaDialog extends AppCompatDialog {
             });
         }
         backView.removeAllViewsInLayout();
-        backView.removeView(contentView);
         backView.addView(contentView, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         view = contentView;

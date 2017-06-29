@@ -329,9 +329,15 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null && bannerView.hasData())
+                bannerView.initData(null,null);
+        }
         if (mAdAdapter != null) {
             mAdAdapter.destroy();
         }
+        super.onDestroy();
     }
 }

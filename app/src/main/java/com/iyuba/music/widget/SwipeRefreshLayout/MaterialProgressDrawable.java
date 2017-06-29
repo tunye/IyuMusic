@@ -76,27 +76,11 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
     /**
      * The list of animators operating on this drawable.
      */
-    private final ArrayList<Animation> mAnimators = new ArrayList<Animation>();
+    private final ArrayList<Animation> mAnimators = new ArrayList<>();
     /**
      * The indicator ring, used to manage animation state.
      */
     private final Ring mRing;
-    private final Callback mCallback = new Callback() {
-        @Override
-        public void invalidateDrawable(Drawable d) {
-            invalidateSelf();
-        }
-
-        @Override
-        public void scheduleDrawable(Drawable d, Runnable what, long when) {
-            scheduleSelf(what, when);
-        }
-
-        @Override
-        public void unscheduleDrawable(Drawable d, Runnable what) {
-            unscheduleSelf(what);
-        }
-    };
     /**
      * Canvas rotation in degrees.
      */
@@ -113,7 +97,22 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
         mParent = parent;
         mResources = context.getResources();
 
-        mRing = new Ring(mCallback);
+        mRing = new Ring(new Callback() {
+            @Override
+            public void invalidateDrawable(Drawable d) {
+                invalidateSelf();
+            }
+
+            @Override
+            public void scheduleDrawable(Drawable d, Runnable what, long when) {
+                scheduleSelf(what, when);
+            }
+
+            @Override
+            public void unscheduleDrawable(Drawable d, Runnable what) {
+                unscheduleSelf(what);
+            }
+        });
         mRing.setColors(COLORS);
 
         updateSizes(DEFAULT);

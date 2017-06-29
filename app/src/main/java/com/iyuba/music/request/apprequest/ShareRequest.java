@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by 10202 on 2016/3/12.
@@ -82,7 +83,7 @@ public class ShareRequest {
         paras.put("appid", 209);
         paras.put("idindex", id);
         paras.put("mobile", 1);
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);//设置日期格式
         paras.put("flag", "1234567890" + df.format(new Date()));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }

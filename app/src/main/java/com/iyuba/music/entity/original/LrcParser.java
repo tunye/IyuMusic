@@ -23,7 +23,7 @@ public class LrcParser {
     private LrcParser() {
     }
 
-    public static final LrcParser getInstance() {
+    public static LrcParser getInstance() {
         if (instance == null) {
             instance = new LrcParser();
         }

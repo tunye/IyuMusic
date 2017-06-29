@@ -36,11 +36,10 @@ public class StudyRecordOp extends BaseEntityOp {
      */
     public void saveData(StudyRecord studyRecord) {
         getDatabase();
-        StringBuilder StringBuilder = new StringBuilder();
-        StringBuilder.append("insert or replace into ").append(TABLE_NAME).append(" (").append(VOAID)
-                .append(",").append(STARTTIME).append(",").append(ENDTIME).append(",").append(FLAG)
-                .append(",").append(LESSON).append(") values(?,?,?,?,?)");
-        db.execSQL(StringBuilder.toString(), new Object[]{studyRecord.getId(), studyRecord.getStartTime(),
+        String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + VOAID +
+                "," + STARTTIME + "," + ENDTIME + "," + FLAG +
+                "," + LESSON + ") values(?,?,?,?,?)";
+        db.execSQL(StringBuilder, new Object[]{studyRecord.getId(), studyRecord.getStartTime(),
                 studyRecord.getEndTime(), studyRecord.getFlag(), studyRecord.getLesson()});
         db.close();
     }
@@ -66,7 +65,7 @@ public class StudyRecordOp extends BaseEntityOp {
 
     public ArrayList<StudyRecord> selectData() {
         getDatabase();
-        ArrayList<StudyRecord> records = new ArrayList<StudyRecord>();
+        ArrayList<StudyRecord> records = new ArrayList<>();
         Cursor cursor = db.rawQuery("select " + VOAID + "," + STARTTIME + "," + ENDTIME + ","
                 + FLAG + "," + LESSON + " from " + TABLE_NAME, new String[]{});
         StudyRecord studyRecord;
@@ -79,6 +78,7 @@ public class StudyRecordOp extends BaseEntityOp {
             studyRecord.setLesson(cursor.getString(4));
             records.add(studyRecord);
         }
+        cursor.close();
         db.close();
         if (records.size() != 0) {
             return records;

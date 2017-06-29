@@ -388,14 +388,12 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                StringBuilder sb = new StringBuilder(
-                        "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json");
-                sb.append("&userid=").append(
-                        AccountManager.getInstance().getUserId());
-                sb.append("&shuoshuotype=").append(1);
-                sb.append("&voaid=").append(curArticle.getId());
+                String sb = "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
+                        AccountManager.getInstance().getUserId() +
+                        "&shuoshuotype=" + 1 +
+                        "&voaid=" + curArticle.getId();
                 final File file = new File(url);
-                UploadFile.postSound(sb.toString(), file, new IOperationResult() {
+                UploadFile.postSound(sb, file, new IOperationResult() {
                     @Override
                     public void success(Object object) {
                         handler.sendEmptyMessage(2);

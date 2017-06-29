@@ -311,11 +311,8 @@ public class PlayerService extends Service implements OnHeadSetListener {
         } else if (url.startsWith("http")) {
             if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
                 return false;
-            } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-                return false;
-            } else {
-                return true;
-            }
+            } else
+                return NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G);
         } else {
             return true;
         }

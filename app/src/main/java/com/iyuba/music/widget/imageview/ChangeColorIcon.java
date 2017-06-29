@@ -56,7 +56,7 @@ public class ChangeColorIcon extends View {
     private Rect mTextBound = new Rect();
 
     public ChangeColorIcon(Context context) {
-        super(context);
+        this(context, null);
     }
 
     /**
@@ -111,6 +111,7 @@ public class ChangeColorIcon extends View {
         mTextPaint.setColor(originalColor);
         // 得到text绘制范围
         mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
+        mIconRect = new Rect();
     }
 
     @Override
@@ -132,7 +133,7 @@ public class ChangeColorIcon extends View {
         }
         left = getMeasuredWidth() / 2 - bitmapWidth / 2;
         // 设置icon的绘制范围
-        mIconRect = new Rect(left, top, left + bitmapWidth, top + bitmapWidth);
+        mIconRect.set(left, top, left + bitmapWidth, top + bitmapWidth);
     }
 
     @Override

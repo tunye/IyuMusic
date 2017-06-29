@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by 10202 on 2017/1/10.
@@ -84,22 +85,20 @@ public class WxPay {
     }
 
     private static String generateSign(String appid, String uid, String money, String amount) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        StringBuilder sb = new StringBuilder();
-        sb.append(appid).append(uid).append(money).append(amount);
-        sb.append(sdf.format(System.currentTimeMillis()));
-        return MD5.getMD5ofStr(sb.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
+        String sb = appid + uid + money + amount +
+                sdf.format(System.currentTimeMillis());
+        return MD5.getMD5ofStr(sb);
     }
 
     private static String buildWeixinSign(PayReq payReq, String key) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("appid=").append(payReq.appId);
-        sb.append("&noncestr=").append(payReq.nonceStr);
-        sb.append("&package=").append(payReq.packageValue);
-        sb.append("&partnerid=").append(payReq.partnerId);
-        sb.append("&prepayid=").append(payReq.prepayId);
-        sb.append("&timestamp=").append(payReq.timeStamp);
-        sb.append("&key=").append(key);
-        return MD5.getMD5ofStr(sb.toString()).toUpperCase();
+        String sb = "appid=" + payReq.appId +
+                "&noncestr=" + payReq.nonceStr +
+                "&package=" + payReq.packageValue +
+                "&partnerid=" + payReq.partnerId +
+                "&prepayid=" + payReq.prepayId +
+                "&timestamp=" + payReq.timeStamp +
+                "&key=" + key;
+        return MD5.getMD5ofStr(sb).toUpperCase();
     }
 }

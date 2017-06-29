@@ -77,12 +77,12 @@ public class PickerView extends View {
                     mTask = null;
                     performSelect();
                 }
-            } else
+            } else {
                 // 这里mMoveLen / Math.abs(mMoveLen)是为了保有mMoveLen的正负号，以实现上滚或下滚
                 mMoveLen = mMoveLen - mMoveLen / Math.abs(mMoveLen) * SPEED;
+            }
             invalidate();
         }
-
     };
 
     public PickerView(Context context) {
@@ -144,7 +144,7 @@ public class PickerView extends View {
 
     private void init() {
         timer = new Timer();
-        mDataList = new ArrayList<String>();
+        mDataList = new ArrayList<>();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Style.FILL);
         mPaint.setTextAlign(Align.CENTER);

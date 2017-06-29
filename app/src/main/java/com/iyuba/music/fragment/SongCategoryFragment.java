@@ -23,6 +23,7 @@ import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.widget.banner.BannerView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -172,5 +173,38 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
         }.getType();
         ArrayList<BannerEntity> bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("songbanner"), listType);
         newsAdapter.setAdSet(bannerEntities);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null && bannerView.hasData())
+                bannerView.startAd();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null && bannerView.hasData())
+                bannerView.stopAd();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        View view = recyclerView.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            if (bannerView != null && bannerView.hasData())
+                bannerView.initData(null, null);
+        }
+        super.onDestroy();
     }
 }

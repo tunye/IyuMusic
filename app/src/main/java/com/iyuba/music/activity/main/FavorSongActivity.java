@@ -47,7 +47,6 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     private SimpleNewsAdapter newsAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
-    private MySwipeRefreshLayout swipeRefreshLayout;
     private TextView toolBarOperSub;
     private IyubaDialog waittingDialog;
 
@@ -76,7 +75,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         super.initWidget();
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
+        MySwipeRefreshLayout swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setEnabled(false);
         newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));

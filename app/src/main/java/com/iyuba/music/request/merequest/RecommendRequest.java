@@ -66,7 +66,7 @@ public class RecommendRequest {
         }
     }
 
-    public static String generateUrl(String uid, int page, double x, double y) {
+    public static String generateUrl(String uid, int page) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 52003);

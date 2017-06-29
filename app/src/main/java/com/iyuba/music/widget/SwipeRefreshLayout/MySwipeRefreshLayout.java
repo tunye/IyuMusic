@@ -170,10 +170,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
             int endTarget = 0;
             if (!mUsingCustomStart) {
                 switch (mDirection) {
-                    case BOTTOM:
+                    case MySwipeRefreshLayout.BOTTOM:
                         endTarget = getMeasuredHeight() - (int) (mSpinnerFinalOffset);
                         break;
-                    case TOP:
+                    case MySwipeRefreshLayout.TOP:
                     default:
                         endTarget = (int) (mSpinnerFinalOffset - Math.abs(mOriginalOffsetTop));
                         break;
@@ -629,10 +629,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
             mOriginalOffsetCalculated = true;
 
             switch (mDirection) {
-                case BOTTOM:
+                case MySwipeRefreshLayout.BOTTOM:
                     mCurrentTargetOffsetTop = mOriginalOffsetTop = getMeasuredHeight() - mCircleView.getMeasuredHeight();
                     break;
-                case TOP:
+                case MySwipeRefreshLayout.TOP:
                 default:
                     mCurrentTargetOffsetTop = mOriginalOffsetTop = -mCircleView.getMeasuredHeight();
                     break;
@@ -701,13 +701,13 @@ public class MySwipeRefreshLayout extends ViewGroup {
         }
 
         switch (mDirection) {
-            case BOTTOM:
+            case MySwipeRefreshLayout.BOTTOM:
                 if (!isEnabled() || mReturningToStart || (!mBothDirection && canChildScrollDown()) || mRefreshing) {
                     // Fail fast if we're not in a state where a swipe is possible
                     return false;
                 }
                 break;
-            case TOP:
+            case MySwipeRefreshLayout.TOP:
             default:
                 if (!isEnabled() || mReturningToStart || (!mBothDirection && canChildScrollUp()) || mRefreshing) {
                     // Fail fast if we're not in a state where a swipe is possible
@@ -754,10 +754,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
                     }
                 }
                 switch (mDirection) {
-                    case BOTTOM:
+                    case MySwipeRefreshLayout.BOTTOM:
                         yDiff = mInitialMotionY - y;
                         break;
-                    case TOP:
+                    case MySwipeRefreshLayout.TOP:
                     default:
                         yDiff = y - mInitialMotionY;
                         break;
@@ -809,13 +809,13 @@ public class MySwipeRefreshLayout extends ViewGroup {
         }
 
         switch (mDirection) {
-            case BOTTOM:
+            case MySwipeRefreshLayout.BOTTOM:
                 if (!isEnabled() || mReturningToStart || canChildScrollDown() || mRefreshing) {
                     // Fail fast if we're not in a state where a swipe is possible
                     return false;
                 }
                 break;
-            case TOP:
+            case MySwipeRefreshLayout.TOP:
             default:
                 if (!isEnabled() || mReturningToStart || canChildScrollUp() || mRefreshing) {
                     // Fail fast if we're not in a state where a swipe is possible
@@ -840,10 +840,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
 
                 float overscrollTop;
                 switch (mDirection) {
-                    case BOTTOM:
+                    case MySwipeRefreshLayout.BOTTOM:
                         overscrollTop = (mInitialMotionY - y) * DRAG_RATE;
                         break;
-                    case TOP:
+                    case MySwipeRefreshLayout.TOP:
                     default:
                         overscrollTop = (y - mInitialMotionY) * DRAG_RATE;
                         break;
@@ -926,11 +926,11 @@ public class MySwipeRefreshLayout extends ViewGroup {
 
                 float overscrollTop;
                 switch (mDirection) {
-                    case BOTTOM:
+                    case MySwipeRefreshLayout.BOTTOM:
                         overscrollTop = (mInitialMotionY - y) * DRAG_RATE;
                         isTop = false;
                         break;
-                    case TOP:
+                    case MySwipeRefreshLayout.TOP:
                     default:
                         overscrollTop = (y - mInitialMotionY) * DRAG_RATE;
                         isTop = true;
@@ -1071,10 +1071,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
         }
 
         switch (mDirection) {
-            case BOTTOM:
+            case MySwipeRefreshLayout.BOTTOM:
                 mCurrentTargetOffsetTop = mOriginalOffsetTop = getMeasuredHeight() - mCircleView.getMeasuredHeight();
                 break;
-            case TOP:
+            case MySwipeRefreshLayout.TOP:
             default:
                 mCurrentTargetOffsetTop = mOriginalOffsetTop = -mCircleView.getMeasuredHeight();
                 break;
@@ -1089,10 +1089,10 @@ public class MySwipeRefreshLayout extends ViewGroup {
 
         mDirection = direction;
         switch (mDirection) {
-            case BOTTOM:
+            case MySwipeRefreshLayout.BOTTOM:
                 mCurrentTargetOffsetTop = mOriginalOffsetTop = getMeasuredHeight() - mCircleView.getMeasuredHeight();
                 break;
-            case TOP:
+            case MySwipeRefreshLayout.TOP:
             default:
                 mCurrentTargetOffsetTop = mOriginalOffsetTop = -mCircleView.getMeasuredHeight();
                 break;

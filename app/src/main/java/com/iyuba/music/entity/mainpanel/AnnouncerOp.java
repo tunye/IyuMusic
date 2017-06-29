@@ -22,10 +22,9 @@ public class AnnouncerOp extends BaseEntityOp {
 
     public void saveData(Announcer announcer) {
         getDatabase();
-        StringBuilder StringBuilder = new StringBuilder();
-        StringBuilder.append("insert or replace into ").append(TABLE_NAME).append(" (").append(ID)
-                .append(",").append(NAME).append(",").append(IMG).append(",").append(UID).append(") values(?,?,?,?)");
-        db.execSQL(StringBuilder.toString(), new Object[]{announcer.getId(), announcer.getName()
+        String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + ID +
+                "," + NAME + "," + IMG + "," + UID + ") values(?,?,?,?)";
+        db.execSQL(StringBuilder, new Object[]{announcer.getId(), announcer.getName()
                 , announcer.getImgUrl(), announcer.getUid()});
         db.close();
     }

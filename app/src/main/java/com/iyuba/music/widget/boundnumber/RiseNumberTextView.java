@@ -2,13 +2,14 @@ package com.iyuba.music.widget.boundnumber;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
  * Created by ct on 2015/8/19.
  */
-public class RiseNumberTextView extends TextView implements RiseNumberBase {
+public class RiseNumberTextView extends AppCompatTextView implements RiseNumberBase {
 
     private static final int STOPPED = 0;
 

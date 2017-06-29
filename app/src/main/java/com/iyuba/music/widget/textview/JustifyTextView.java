@@ -21,9 +21,6 @@ public class JustifyTextView extends AppCompatTextView {
 
     private int mLineY;
     private int mViewWidth;
-    private TextPaint paint;
-    private Layout layout;
-    private Paint.FontMetrics fm;
 
     public JustifyTextView(Context context) {
         super(context);
@@ -44,18 +41,18 @@ public class JustifyTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        paint = getPaint();
+        TextPaint paint = getPaint();
         paint.setColor(getCurrentTextColor());
         paint.drawableState = getDrawableState();
         mViewWidth = getMeasuredWidth();
         String text = getText().toString();
         mLineY = 0;
         mLineY += getTextSize();
-        layout = getLayout();
+        Layout layout = getLayout();
         if (layout == null) {
             return;
         }
-        fm = paint.getFontMetrics();
+        Paint.FontMetrics fm = paint.getFontMetrics();
 
         int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));
         textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());

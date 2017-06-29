@@ -35,13 +35,12 @@ public class ArticleOp extends BaseEntityOp {
         if (article.getApp().equals("209") && article.getSimple() == 1) {
             article.setSoundUrl("");
         }
-        StringBuilder StringBuilder = new StringBuilder();
-        StringBuilder.append("insert or replace into ").append(TABLE_NAME).append(" (").append(ID)
-                .append(",").append(TITLE).append(",").append(TITLE_CN).append(",").append(DESCCN).append(",")
-                .append(CATEGORY).append(",").append(SINGER).append(",").append(ANNOUNCER).append(",").append(SOUND)
-                .append(",").append(SONG).append(",").append(PIC).append(",").append(CREATETIME).append(",")
-                .append(READCOUNT).append(",").append(APP).append(") values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        db.execSQL(StringBuilder.toString(), new Object[]{article.getId(), article.getTitle(), article.getTitle_cn(), article.getContent(),
+        String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + ID +
+                "," + TITLE + "," + TITLE_CN + "," + DESCCN + "," +
+                CATEGORY + "," + SINGER + "," + ANNOUNCER + "," + SOUND +
+                "," + SONG + "," + PIC + "," + CREATETIME + "," +
+                READCOUNT + "," + APP + ") values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        db.execSQL(StringBuilder, new Object[]{article.getId(), article.getTitle(), article.getTitle_cn(), article.getContent(),
                 article.getCategory(), article.getSinger(), article.getBroadcaster() + "," + article.getStar(), article.getSoundUrl(), article.getMusicUrl()
                 , article.getPicUrl(), article.getTime(), article.getReadCount(), article.getApp()});
         db.close();

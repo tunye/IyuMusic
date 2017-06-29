@@ -25,10 +25,9 @@ public class SearchHistoryOp extends BaseEntityOp {
         int result = hasData(content);
         if (result == 0) {
             getDatabase();
-            StringBuilder StringBuilder = new StringBuilder();
-            StringBuilder.append("insert into ").append(TABLE_NAME).append(" (").append(CONTENT)
-                    .append(",").append(TIME).append(") values(?,?)");
-            db.execSQL(StringBuilder.toString(), new Object[]{content, DateFormat.formatTime(Calendar.getInstance().getTime())});
+            String StringBuilder = "insert into " + TABLE_NAME + " (" + CONTENT +
+                    "," + TIME + ") values(?,?)";
+            db.execSQL(StringBuilder, new Object[]{content, DateFormat.formatTime(Calendar.getInstance().getTime())});
             db.close();
         } else {
             updateData(result);

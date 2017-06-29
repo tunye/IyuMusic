@@ -40,19 +40,19 @@ public class DictRequest {
                                     if ("data".equals(nodeName)) {
                                         word = new Word();
                                     }
-                                    if ("key".equals(nodeName)) {
+                                    if (word != null && "key".equals(nodeName)) {
                                         word.setWord(xmlPullParser.nextText());
                                     }
-                                    if ("audio".equals(nodeName)) {
+                                    if (word != null && "audio".equals(nodeName)) {
                                         word.setPronMP3(xmlPullParser.nextText());
                                     }
-                                    if ("pron".equals(nodeName)) {
+                                    if (word != null && "pron".equals(nodeName)) {
                                         word.setPron(xmlPullParser.nextText());
                                     }
-                                    if ("def".equals(nodeName)) {
+                                    if (word != null && "def".equals(nodeName)) {
                                         word.setDef(xmlPullParser.nextText());
                                     }
-                                    if ("sent".equals(nodeName)) {
+                                    if (word != null && "sent".equals(nodeName)) {
                                         sentence = new ExampleSentence();
                                     }
                                     if (sentence != null && "number".equals(nodeName)) {
@@ -70,7 +70,7 @@ public class DictRequest {
                                     if ("sent".equals(nodeName)) {
                                         sentences.add(sentence);
                                     }
-                                    if ("data".equals(nodeName)) {
+                                    if (word != null && "data".equals(nodeName)) {
                                         word.setSentences(sentences);
                                         response.response(word);
                                     }

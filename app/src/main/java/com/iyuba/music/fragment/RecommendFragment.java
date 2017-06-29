@@ -18,7 +18,6 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.RecommendRequest;
-import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 
@@ -109,8 +108,7 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
     }
 
     private void getFriendData() {
-        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage,
-                LocationUtil.getInstance().getLongitude(), LocationUtil.getInstance().getLatitude()), new IProtocolResponse() {
+        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);

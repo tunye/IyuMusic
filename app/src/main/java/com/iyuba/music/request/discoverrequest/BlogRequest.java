@@ -35,11 +35,10 @@ public class BlogRequest {
                             baseApiEntity.setState(BaseApiEntity.SUCCESS);
                             baseApiEntity.setData(jsonObject.getString("subject"));
                             baseApiEntity.setMessage(jsonObject.getString("message"));
-                            StringBuilder sb = new StringBuilder();
-                            sb.append(jsonObject.getString("username")).append("@@");
-                            sb.append(jsonObject.getString("viewnum")).append("@@");
-                            sb.append(jsonObject.getString("dateline"));
-                            baseApiEntity.setValue(sb.toString());
+                            String sb = jsonObject.getString("username") + "@@" +
+                                    jsonObject.getString("viewnum") + "@@" +
+                                    jsonObject.getString("dateline");
+                            baseApiEntity.setValue(sb);
                             response.response(baseApiEntity);
                         } else {
                             response.onServerError(RuntimeManager.getString(R.string.data_error));

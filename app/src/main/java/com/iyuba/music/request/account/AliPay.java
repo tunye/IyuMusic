@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class AliPay {
     private static String generateCode(String userId) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
         return MD5.getMD5ofStr(userId + "iyuba" + df.format(System.currentTimeMillis()));
     }
 

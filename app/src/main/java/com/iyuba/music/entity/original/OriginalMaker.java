@@ -23,7 +23,7 @@ public class OriginalMaker {
         }
     }
 
-    public static final OriginalMaker getInstance() {
+    public static OriginalMaker getInstance() {
         if (instance == null) {
             instance = new OriginalMaker();
         }

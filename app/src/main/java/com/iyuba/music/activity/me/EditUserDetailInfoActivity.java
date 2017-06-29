@@ -87,12 +87,16 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
 
     private void setText() {
         if (!TextUtils.isEmpty(editUserInfo.getGender())) {
-            if (editUserInfo.getGender().equals("1")) {
-                gender.setText(R.string.person_detail_sex_man);
-            } else if (editUserInfo.getGender().equals("2")) {
-                gender.setText(R.string.person_detail_sex_woman);
-            } else {
-                gender.setText(R.string.person_detail_sex_undefined);
+            switch (editUserInfo.getGender()) {
+                case "1":
+                    gender.setText(R.string.person_detail_sex_man);
+                    break;
+                case "2":
+                    gender.setText(R.string.person_detail_sex_woman);
+                    break;
+                default:
+                    gender.setText(R.string.person_detail_sex_undefined);
+                    break;
             }
         } else {
             gender.setText(R.string.person_detail_sex_undefined);

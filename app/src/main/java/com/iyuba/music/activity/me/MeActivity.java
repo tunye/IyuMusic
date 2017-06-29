@@ -174,27 +174,25 @@ public class MeActivity extends BaseActivity {
     }
 
     private void launchIStudy() {
-        StringBuilder url = new StringBuilder("http://m.iyuba.com/i/index.jsp?");
-        url.append("uid=").append(AccountManager.getInstance().getUserId()).append('&');
-        url.append("username=").append(AccountManager.getInstance().getUserInfo().getUsername()).append('&');
-        url.append("sign=").append(MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));
+        String url = "http://m.iyuba.com/i/index.jsp?" + "uid=" + AccountManager.getInstance().getUserId() + '&' +
+                "username=" + AccountManager.getInstance().getUserInfo().getUsername() + '&' +
+                "sign=" + MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory");
         Intent intent = new Intent();
         intent.setClass(context, WebViewActivity.class);
-        intent.putExtra("url", url.toString());
+        intent.putExtra("url", url);
         intent.putExtra("title", context.getString(R.string.oper_bigdata));
         startActivity(intent);
     }
 
     private void launchRank() {
-        StringBuilder url = new StringBuilder();
-        url.append("http://m.iyuba.com/i/getRanking.jsp?appId=")
-                .append(ConstantManager.appId).append("&uid=")
-                .append(AccountManager.getInstance().getUserId()).append("&sign=")
-                .append(MD5.getMD5ofStr(AccountManager.getInstance().getUserId()
-                        + "ranking" + ConstantManager.appId));
+        String url = "http://m.iyuba.com/i/getRanking.jsp?appId=" +
+                ConstantManager.appId + "&uid=" +
+                AccountManager.getInstance().getUserId() + "&sign=" +
+                MD5.getMD5ofStr(AccountManager.getInstance().getUserId()
+                        + "ranking" + ConstantManager.appId);
         Intent intent = new Intent();
         intent.setClass(context, WebViewActivity.class);
-        intent.putExtra("url", url.toString());
+        intent.putExtra("url", url);
         intent.putExtra("title", context.getString(R.string.oper_rank));
         startActivity(intent);
     }

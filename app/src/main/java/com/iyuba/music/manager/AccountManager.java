@@ -49,7 +49,7 @@ public class AccountManager {
         return loginState == SIGN_IN;
     }
 
-    public boolean loginOut() {
+    public void loginOut() {
         new UserInfoOp().delete(userId);
         loginState = SIGN_OUT;
         userId = ""; // 用户ID
@@ -58,7 +58,6 @@ public class AccountManager {
         userInfo = new UserInfo();
         saveUserNameAndPwd();
         ConfigManager.getInstance().setAutoLogin(false);
-        return true;
     }
 
     private void saveUserNameAndPwd() {
@@ -215,11 +214,6 @@ public class AccountManager {
 
     public String getUserId() {
         return userId;
-    }
-
-    @LoginState
-    public int getLoginState() {
-        return loginState;
     }
 
     public void setLoginState(@LoginState int state) {

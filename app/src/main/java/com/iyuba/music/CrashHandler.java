@@ -30,6 +30,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -41,7 +42,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private MusicApplication application;
     private Map<String, Object> infos = new ArrayMap<>();
-    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
     /**
      * create

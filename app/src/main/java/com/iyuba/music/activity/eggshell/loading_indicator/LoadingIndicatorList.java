@@ -50,7 +50,6 @@ public class LoadingIndicatorList extends BaseActivity {
             "BallGridBeatIndicator",
             "SemiCircleSpinIndicator",
     };
-    private RecyclerView mRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class LoadingIndicatorList extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        mRecycler = (RecyclerView) findViewById(R.id.recycler);
+        RecyclerView mRecycler = (RecyclerView) findViewById(R.id.recycler);
         GridLayoutManager layoutManager = new GridLayoutManager(context, 4);
         mRecycler.setLayoutManager(layoutManager);
         mRecycler.addItemDecoration(new DividerItemDecoration(
@@ -80,14 +79,14 @@ public class LoadingIndicatorList extends BaseActivity {
             }
 
             @Override
-            public void onBindViewHolder(IndicatorHolder holder, final int position) {
-                holder.indicatorView.setIndicator(INDICATORS[position]);
+            public void onBindViewHolder(final IndicatorHolder holder, int position) {
+                holder.indicatorView.setIndicator(INDICATORS[holder.getAdapterPosition()]);
                 holder.indicatorView.setIndicatorColor(GetAppColor.getInstance().getAppColor());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(LoadingIndicatorList.this, LoadingIndicator.class);
-                        intent.putExtra("indicator", INDICATORS[position]);
+                        intent.putExtra("indicator", INDICATORS[holder.getAdapterPosition()]);
                         startActivity(intent);
                     }
                 });

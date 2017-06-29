@@ -29,12 +29,11 @@ public class LocalInfoOp extends BaseEntityOp {
 
     public void saveData(LocalInfo localInfo) {
         getDatabase();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("insert into ").append(TABLE_NAME).append(" (").append(ID)
-                .append(",").append(FAVOURITE).append(",").append(DOWNLOAD).append(",").append(TIMES)
-                .append(",").append(SYNCHRO).append(",").append(APP).append(",").append(FAVTIME).append(",")
-                .append(DOWNTIME).append(",").append(SEETIME).append(") values(?,?,?,?,?,?,?,?,?)");
-        db.execSQL(stringBuilder.toString(), new Object[]{localInfo.getId(), localInfo.getFavourite(),
+        String stringBuilder = "insert into " + TABLE_NAME + " (" + ID +
+                "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES +
+                "," + SYNCHRO + "," + APP + "," + FAVTIME + "," +
+                DOWNTIME + "," + SEETIME + ") values(?,?,?,?,?,?,?,?,?)";
+        db.execSQL(stringBuilder, new Object[]{localInfo.getId(), localInfo.getFavourite(),
                 localInfo.getDownload(), localInfo.getTimes(), localInfo.getSynchro(), localInfo.getApp()
                 , localInfo.getFavTime(), localInfo.getDownTime(), localInfo.getSeeTime()});
         db.close();

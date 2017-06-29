@@ -57,7 +57,7 @@ public class VolleyErrorHelper {
                                 }.getType());
 
                         if (result != null && result.containsKey("error")) {
-                            return result.get("error").toString();
+                            return result.get("error");
                         }
 
                     } catch (Exception e) {

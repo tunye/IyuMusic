@@ -29,12 +29,11 @@ public class PersonalWordOp extends BaseEntityOp {
 
     public void saveData(Word word) {
         getDatabase();
-        StringBuilder StringBuilder = new StringBuilder();
-        StringBuilder.append("insert or replace into ").append(TABLE_NAME).append(" (").append(USER)
-                .append(",").append(KEY).append(",").append(LANG).append(",").append(AUDIOURL).append(",")
-                .append(PRON).append(",").append(DEF).append(",").append(EXAMPLES).append(",").append(CREATEDATE)
-                .append(",").append(ISDELETE).append(",").append(VIEWCOUNT).append(") values(?,?,?,?,?,?,?,?,?,?)");
-        db.execSQL(StringBuilder.toString(), new Object[]{word.getUser(), word.getWord(), "ENGLISH",
+        String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + USER +
+                "," + KEY + "," + LANG + "," + AUDIOURL + "," +
+                PRON + "," + DEF + "," + EXAMPLES + "," + CREATEDATE +
+                "," + ISDELETE + "," + VIEWCOUNT + ") values(?,?,?,?,?,?,?,?,?,?)";
+        db.execSQL(StringBuilder, new Object[]{word.getUser(), word.getWord(), "ENGLISH",
                 word.getPronMP3(), word.getPron(), word.getDef(),
                 word.getExampleSentence(), word.getCreateDate(), word.getIsdelete(), word.getViewCount()});
         db.close();

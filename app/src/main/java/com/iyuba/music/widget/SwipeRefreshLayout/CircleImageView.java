@@ -10,6 +10,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.AttributeSet;
 import android.view.animation.Animation;
 
 import java.lang.ref.WeakReference;
@@ -33,6 +34,15 @@ class CircleImageView extends AppCompatImageView {
 
     private Animation.AnimationListener mListener;
     private int mShadowRadius;
+
+    public CircleImageView(Context context) {
+        this(context, 0xff00ff00, 0);
+
+    }
+
+    public CircleImageView(Context context, AttributeSet attrs) {
+        this(context, 0xff00ff00, 0);
+    }
 
     public CircleImageView(Context context, int color, final float radius) {
         super(context);

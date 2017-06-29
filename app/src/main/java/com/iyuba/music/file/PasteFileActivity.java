@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -43,19 +41,6 @@ public class PasteFileActivity extends BaseInputActivity {
     private String currentPasteFilePath;
     private String action;
     private ProgressDialog progressDialog;
-    private Handler progressHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            progressDialog.dismiss();
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putString("CURRENTPATH", currentPath);
-            intent.putExtras(bundle);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-        }
-    };
-
 
     /**
      * Called when the activity is first created.
@@ -142,7 +127,18 @@ public class PasteFileActivity extends BaseInputActivity {
                         } else {
                             FileUtil.copyFile(src, tar);
                         }
-                        progressHandler.sendEmptyMessage(0);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("CURRENTPATH", currentPath);
+                                intent.putExtras(bundle);
+                                setResult(Activity.RESULT_OK, intent);
+                                finish();
+                            }
+                        });
                     }
                 });
             }

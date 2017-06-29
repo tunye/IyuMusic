@@ -24,7 +24,7 @@ public class WordSetOp extends BaseEntityOp {
 
     public ArrayList<Word> findDataByFuzzy(String word) {
         getDatabase();
-        ArrayList<Word> words = new ArrayList<Word>();
+        ArrayList<Word> words = new ArrayList<>();
         Cursor cursor = db.rawQuery("select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + "," + DEF +
                 "," + VIEWCOUNT + " from " + TABLE_NAME + " WHERE " + KEY + " LIKE '" + word
                 + "%' limit 0,30;", new String[]{});

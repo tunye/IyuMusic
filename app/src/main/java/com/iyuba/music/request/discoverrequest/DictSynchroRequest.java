@@ -82,7 +82,7 @@ public class DictSynchroRequest {
                                     break;
                                 case XmlPullParser.END_TAG:
                                     nodeName = xmlPullParser.getName();
-                                    if ("row".equals(nodeName)) {
+                                    if ("row".equals(nodeName) && word != null) {
                                         word.setUser(uid);
                                         word.setCreateDate(time);
                                         word.setViewCount("1");

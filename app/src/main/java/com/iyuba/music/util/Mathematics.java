@@ -3,6 +3,8 @@ package com.iyuba.music.util;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Locale;
+
 /**
  * Created by 10202 on 2015/11/19.
  */
@@ -24,9 +26,9 @@ public class Mathematics {
         int minute = time / 60 % 60;
         int second = time % 60;
         if (hour != 0) {
-            return String.format("%02d:%02d:%02d", hour, minute, second);
+            return String.format(Locale.CHINA, "%02d:%02d:%02d", hour, minute, second);
         } else {
-            return String.format("%02d:%02d", minute, second);
+            return String.format(Locale.CHINA, "%02d:%02d", minute, second);
         }
     }
 
