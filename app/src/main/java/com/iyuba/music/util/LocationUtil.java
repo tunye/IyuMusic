@@ -185,9 +185,7 @@ public class LocationUtil {
      */
     private class GpsTimeOutTask implements Runnable {
         public void run() {
-            Message message = new Message();
-            message.what = 1;
-            mGpsTimerHandler.sendMessage(message);
+            mGpsTimerHandler.sendEmptyMessage(1);
         }
     }
 

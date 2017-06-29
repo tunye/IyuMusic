@@ -68,11 +68,11 @@
             android:layout_marginRight="10dp">
 
             <Button
-                android:id="@+id/file_createdir"
+                android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/file_create"/>
+                android:text="@string/app_cancel"/>
 
             <Button
                 android:id="@+id/paste"
@@ -83,12 +83,12 @@
                 android:text="@string/file_paste"/>
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/file_createdir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="@string/app_cancel"/>
+                android:text="@string/file_create"/>
         </LinearLayout>
     </RelativeLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

@@ -212,10 +212,7 @@ public class PayActivity extends BaseActivity {
                             PayTask alipay = new PayTask(PayActivity.this);
                             // 调用支付接口，获取支付结果
                             String result = alipay.pay(payInfo, true);
-                            Message msg = new Message();
-                            msg.what = 0;
-                            msg.obj = result;
-                            handler.sendMessage(msg);
+                            handler.obtainMessage(0,result).sendToTarget();
                         }
                     };
                     ThreadPoolUtil.getInstance().execute(payRunnable);

@@ -91,18 +91,12 @@ public class AppUpdateThread {
                 long fileLength = connection.getContentLength();
                 byte[] buffer = new byte[1024 * 8];
                 int length;
-                Message message = new Message();
-                message.what = 0;
-                message.obj = fileLength;
-                handler.sendMessage(message);
+                handler.obtainMessage(0, fileLength).sendToTarget();
                 while (downedFileLength < fileLength) {
                     length = inputStream.read(buffer);
                     downedFileLength += length;
                     outputStream.write(buffer, 0, length);
-                    message = new Message();
-                    message.what = 1;
-                    message.obj = downedFileLength;
-                    handler.sendMessage(message);
+                    handler.obtainMessage(1, downedFileLength).sendToTarget();
                 }
                 inputStream.close();
                 outputStream.flush();

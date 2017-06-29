@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,10 +144,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         simplePlayer.start();
-                        Message message = new Message();
-                        message.what = 4;
-                        message.arg1 = simplePlayer.getDuration();
-                        handler.sendMessage(message);
+                        handler.obtainMessage(4, simplePlayer.getDuration(), 0).sendToTarget();
                     }
                 });
                 simplePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -213,17 +209,15 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     resetFunction();
                     player.seekTo((int) original.getStartTime() * 1000);
                     player.start();
-                    Message message = new Message();
-                    message.what = 0;
-                    message.arg1 = (int) original.getEndTime() * 1000;
-                    if (message.arg1 == 0) {
+                    int arg1 = (int) original.getEndTime() * 1000;
+                    if (arg1 == 0) {
                         if (pos + 1 == originals.size()) {
-                            message.arg1 = player.getDuration() - 500;
+                            arg1 = player.getDuration() - 500;
                         } else {
-                            message.arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
+                            arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
                         }
                     }
-                    handler.sendMessage(message);
+                    handler.obtainMessage(0, arg1, 0).sendToTarget();
                 }
             }
         });
@@ -258,15 +252,13 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     resetFunction();
                     player.seekTo((int) original.getStartTime() * 1000);
                     player.start();
-                    Message message = new Message();
-                    message.what = 0;
-                    message.arg1 = (int) original.getEndTime() * 1000;
+                    int arg1 = 0;
                     if (pos + 1 == originals.size()) {
-                        message.arg1 = player.getDuration() - 500;
+                        arg1 = player.getDuration() - 500;
                     } else {
-                        message.arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
+                        arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
                     }
-                    handler.sendMessage(message);
+                    handler.obtainMessage(0, arg1).sendToTarget();
                 } else {
                     resetFunction();
                 }
@@ -307,10 +299,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
     private void initRecorder(String sentence) {
         IseManager.getInstance(context).startEvaluate(sentence, ConstantManager.recordFile, evaluatorListener);
-        Message message = new Message();
-        message.arg1 = 0;
-        message.what = 2;
-        handler.sendMessage(message);
+        handler.obtainMessage(2, 0, 0).sendToTarget();
     }
 
     private void resetFunction() {
@@ -365,10 +354,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 case 0:
                     if (adapter.player.getCurrentPosition() < msg.arg1) {
                         adapter.curText.setText(Mathematics.formatTime((msg.arg1 - adapter.player.getCurrentPosition()) / 1000));
-                        message = new Message();
-                        message.what = 0;
-                        message.arg1 = msg.arg1;
-                        adapter.handler.sendMessageDelayed(message, 300);
+                        adapter.handler.sendMessageDelayed(msg, 300);
                     } else {
                         adapter.handler.sendEmptyMessage(1);
                     }
@@ -383,10 +369,9 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     break;
                 case 2:
                     adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    message = new Message();
-                    message.what = 2;
-                    message.arg1 = msg.arg1 + 1000;
-                    adapter.handler.sendMessageDelayed(message, 1000);
+                    msg.what = 2;
+                    msg.arg1 = msg.arg1 + 1000;
+                    adapter.handler.sendMessageDelayed(msg, 1000);
                     break;
                 case 3:
                     adapter.isRecord = false;
@@ -396,10 +381,9 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     break;
                 case 4:
                     adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    message = new Message();
-                    message.what = 4;
-                    message.arg1 = msg.arg1 - 1000;
-                    adapter.handler.sendMessageDelayed(message, 1000);
+                    msg.what = 4;
+                    msg.arg1 = msg.arg1 - 1000;
+                    adapter.handler.sendMessageDelayed(msg, 1000);
                     break;
                 case 5:
                     adapter.handler.removeMessages(4);

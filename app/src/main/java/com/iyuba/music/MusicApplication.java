@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.buaa.ct.skin.SkinManager;
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;

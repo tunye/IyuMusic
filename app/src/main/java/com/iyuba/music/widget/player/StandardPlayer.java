@@ -16,7 +16,6 @@ package com.iyuba.music.widget.player;
  * limitations under the License.
  */
 
-import android.app.Service;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -24,8 +23,6 @@ import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.MediaController;
 
 import java.io.IOException;
@@ -46,66 +43,12 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     private Context mContext;
     // settable by the client
     private Uri mUri;
-    private int currVolume;
     private int mDuration;
     // All the stuff we need for playing and showing a video
     private MediaPlayer mMediaPlayer = null;
     private boolean mIsPrepared = false;
     private int mCurrentBufferPercentage;
-    private AudioManager audioManager;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            Message message;
-            switch (msg.what) {
-                case 0:
-                    currVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                    message = new Message();
-                    message.what = 1;
-                    message.arg1 = 0;
-                    handler.sendMessage(message);
-                    break;
-                case 1:
-                    message = new Message();
-                    message.what = 1;
-                    message.arg1 = msg.arg1 + 1;
-                    if (message.arg1 < 7) {
-                        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, currVolume / 6 * (6 - message.arg1), 0);
-                        handler.sendMessageDelayed(message, 150);
-                    } else {
-                        handler.sendEmptyMessage(2);
-                    }
-                    break;
-                case 2:
-                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, currVolume, 0);
-                    mMediaPlayer.pause();
-                    break;
-                case 3:
-                    currVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-                    message = new Message();
-                    message.what = 4;
-                    message.arg1 = 0;
-                    handler.sendMessage(message);
-                    mMediaPlayer.start();
-                    break;
-                case 4:
-                    message = new Message();
-                    message.what = 4;
-                    message.arg1 = msg.arg1 + 1;
-                    if (message.arg1 < 7) {
-                        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, currVolume / 7 * (message.arg1), 0);
-                        handler.sendMessageDelayed(message, 150);
-                    } else {
-                        handler.sendEmptyMessage(5);
-                    }
-                    break;
-                case 5:
-                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM, currVolume, 0);
-                    break;
-            }
-            return false;
-        }
-    });
+
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
         public void onPrepared(MediaPlayer mp) {
@@ -151,7 +94,6 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
     public StandardPlayer(Context context) {
         mContext = context;
         mMediaPlayer = new MediaPlayer();
-        audioManager = (AudioManager) mContext.getSystemService(Service.AUDIO_SERVICE);
     }
 
     public void setVideoPath(String path) {
@@ -246,20 +188,6 @@ public class StandardPlayer implements MediaController.MediaPlayerControl {
         if (mIsPrepared && mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();
-            }
-        }
-    }
-
-    public void startDelay() {
-        if (mIsPrepared) {
-            handler.sendEmptyMessage(3);
-        }
-    }
-
-    public void pauseDelay() {
-        if (mIsPrepared) {
-            if (mMediaPlayer.isPlaying()) {
-                handler.sendEmptyMessage(0);
             }
         }
     }

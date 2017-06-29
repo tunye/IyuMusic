@@ -39,7 +39,7 @@
                 android:id="@+id/word_def"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/row_space_default"
                 android:ellipsize="end"
                 android:maxLines="2"

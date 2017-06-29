@@ -243,7 +243,9 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    if (newsArrayList != null) {
+                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    }
                     StudyManager.getInstance().setApp(app);
                 } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
@@ -258,7 +260,9 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    if (newsArrayList != null) {
+                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    }
                     StudyManager.getInstance().setApp(app);
                 } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);

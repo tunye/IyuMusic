@@ -156,10 +156,7 @@ public class RegistActivity extends BaseInputActivity {
                             int result = (int) object;
                             if (result == 1) {
                                 SMSSDK.getVerificationCode("86", phone.getText().toString());
-                                Message message = new Message();
-                                message.arg1 = 60;
-                                message.what = 1;
-                                handler.sendMessage(message);
+                                handler.obtainMessage(1, 60, 0).sendToTarget();
                             } else {
                                 YoYo.with(Techniques.Shake).duration(500).playOn(phone);
                                 phone.setError(context.getString(R.string.regist_phone_registed, phone.getText()));
@@ -308,12 +305,7 @@ public class RegistActivity extends BaseInputActivity {
 
             @Override
             public void afterEvent(int event, int result, Object data) {
-                Message msg = new Message();
-                msg.arg1 = event;
-                msg.arg2 = result;
-                msg.obj = data;
-                msg.what = 0;
-                handler.sendMessage(msg);
+                handler.obtainMessage(0, event, result, data).sendToTarget();
             }
         };
         SMSSDK.registerEventHandler(eh);

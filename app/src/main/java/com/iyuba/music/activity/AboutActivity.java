@@ -193,10 +193,7 @@ public class AboutActivity extends BaseActivity {
         for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
             file = DownloadManager.getInstance().fileList.get(i);
             if (file.id == -1) {
-                Message message = new Message();
-                message.what = 2;
-                message.obj = file;
-                handler.sendMessage(message);
+                handler.obtainMessage(2, file).sendToTarget();
                 progressBar.setVisibility(View.VISIBLE);
             }
         }
@@ -284,10 +281,7 @@ public class AboutActivity extends BaseActivity {
         DownloadManager.getInstance().fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();
         appUpdateThread.start();
-        Message message = new Message();
-        message.what = 2;
-        message.obj = downloadFile;
-        handler.sendMessage(message);
+        handler.obtainMessage(2,downloadFile).sendToTarget();
     }
 
     private void openCookie() {

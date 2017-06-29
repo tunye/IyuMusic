@@ -47,6 +47,7 @@
         </LinearLayout>
 
         <com.iyuba.music.widget.imageview.GoImageView
+            android:id="@+id/go"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"

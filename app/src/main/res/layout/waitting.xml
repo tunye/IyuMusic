@@ -9,7 +9,7 @@
                                          android:id="@+id/waitting_animation"
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
-                                         android:layout_centerInParent="true"
+                                         android:layout_gravity="center"
                                          app:indicatorColor="@color/skin_app_color"
                                          app:indicatorName="PacmanIndicator"/>
 
@@ -17,8 +17,7 @@
         android:id="@+id/waitting_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/waitting_animation"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/row_space_default"
         android:background="#88000000"
         android:padding="@dimen/row_space_medium"
