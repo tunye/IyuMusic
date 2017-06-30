@@ -221,7 +221,7 @@ public class MainLeftFragment extends BaseFragment {
 
     private void autoLogin() {
         if (ConfigManager.getInstance().isAutoLogin()) { // 自动登录
-            String[] userNameAndPwd = AccountManager.getInstance().getUserNameAndPwd();
+            String[] userNameAndPwd = AccountManager.getInstance().getNameAndPwdFromSp();
             if (!TextUtils.isEmpty(userNameAndPwd[0]) && !TextUtils.isEmpty(userNameAndPwd[1])) {
                 AccountManager.getInstance().setLoginState(AccountManager.SIGN_IN);
                 userInfo = new UserInfoOp().selectData(AccountManager.getInstance().getUserId());

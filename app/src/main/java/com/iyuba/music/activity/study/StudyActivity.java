@@ -30,6 +30,7 @@ import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
@@ -38,7 +39,6 @@ import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
@@ -405,8 +405,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
         Location location = new Location("appPos");
-        location.setLatitude(LocationUtil.getInstance().getLatitude());
-        location.setLongitude(LocationUtil.getInstance().getLongitude());
+        location.setLatitude(AccountManager.getInstance().getLatitude());
+        location.setLongitude(AccountManager.getInstance().getLongitude());
         location.setAccuracy(100);
 
         RequestParameters requestParameters = new RequestParameters.Builder()

@@ -28,15 +28,14 @@ import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.fragment.MainFragment;
 import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
-import com.iyuba.music.listener.ILocationListener;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.network.PingIPThread;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
@@ -208,8 +207,7 @@ public class MainActivity extends BaseSkinActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     ACCESS_COARSE_LOCATION_TASK_CODE);
         } else {
-            LocationUtil.getInstance().initLocationUtil();
-            LocationUtil.getInstance().refreshGPS(null);
+            AccountManager.getInstance().getGPS();
         }
     }
 
@@ -256,13 +254,7 @@ public class MainActivity extends BaseSkinActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LocationUtil.getInstance().initLocationUtil();
-                LocationUtil.getInstance().refreshGPS(new ILocationListener() {
-                    @Override
-                    public void notifyChange(int arg, String des) {
-
-                    }
-                });
+                AccountManager.getInstance().getGPS();
             }
         } else if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -321,7 +313,6 @@ public class MainActivity extends BaseSkinActivity {
         if (netWorkChange != null) {
             unregisterReceiver(netWorkChange);
         }
-        LocationUtil.getInstance().destroy();
     }
 
     private void checkWifiSignIn() {

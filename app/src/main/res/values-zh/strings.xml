@@ -120,6 +120,7 @@
     <string name="regist_title">注  册</string>
     <string name="regist_phone_part_two">完 成 注 册</string>
     <string name="regist_oper">注册</string>
+    <string name="regist_oper_sub">网页</string>
     <string name="regist_phone_hint">填写手机号</string>
     <string name="regist_phone_registed">%1$s已经被注册过</string>
     <string name="regist_code_hint">填写验证码</string>
@@ -127,8 +128,8 @@
     <string name="regist_pwd_hint">请输入密码</string>
     <string name="regist_repwd_hint">再次输入密码</string>
     <string name="regist_username_hint">请输入用户名</string>
-    <string name="regist_by_phone">手机注册</string>
-    <string name="regist_by_email">邮箱注册</string>
+    <string name="regist_by_phone">手机</string>
+    <string name="regist_by_email">邮箱</string>
     <string name="regist_get_code">获取验证码</string>
     <string name="regist_refresh_code">重新获取%1$ds</string>
     <string name="regist_protocol_checkbox">同意</string>

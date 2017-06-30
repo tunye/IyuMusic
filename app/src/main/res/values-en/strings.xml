@@ -120,6 +120,7 @@
     <string name="regist_title">Sign up</string>
     <string name="regist_phone_part_two">Sign up is finished</string>
     <string name="regist_oper">Sign up</string>
+    <string name="regist_oper_sub">Web</string>
     <string name="regist_phone_hint">Enter phone number</string>
     <string name="regist_phone_registed">%1$s has been signed up</string>
     <string name="regist_code_hint">Enter verification code</string>

@@ -30,7 +30,6 @@ import com.iyuba.music.request.merequest.EditUserInfoRequest;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.JudgeZodicaAndConstellation;
-import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
@@ -230,8 +229,8 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void getAddr() {
-        double latitude = LocationUtil.getInstance().getLatitude();
-        double longitude = LocationUtil.getInstance().getLongitude();
+        double latitude = AccountManager.getInstance().getLatitude();
+        double longitude = AccountManager.getInstance().getLongitude();
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {

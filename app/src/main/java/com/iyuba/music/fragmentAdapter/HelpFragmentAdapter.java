@@ -2,11 +2,11 @@ package com.iyuba.music.fragmentAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.iyuba.music.fragment.HelpFragment;
 
-public class HelpFragmentAdapter extends FragmentPagerAdapter {
+public class HelpFragmentAdapter extends FragmentStatePagerAdapter {
     private boolean usePullDown;
 
     public HelpFragmentAdapter(FragmentManager fm, boolean usePullDown) {

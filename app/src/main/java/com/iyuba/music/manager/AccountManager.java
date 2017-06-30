@@ -1,6 +1,10 @@
 package com.iyuba.music.manager;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.iyuba.music.R;
@@ -14,7 +18,6 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.account.LoginRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
-import com.iyuba.music.util.LocationUtil;
 import com.iyuba.music.widget.CustomToast;
 
 import java.lang.annotation.Retention;
@@ -36,6 +39,10 @@ public class AccountManager {
     private String userId; // 用户ID
     private String userName; // 用户姓名
     private String userPwd; // 用户密码
+
+    private boolean isGetPosition = false;
+    private double latitude = 39.9;
+    private double longitude = 116.3;
 
     private AccountManager() {
         loginState = SIGN_OUT;
@@ -74,7 +81,7 @@ public class AccountManager {
         }
     }
 
-    public String[] getUserNameAndPwd() {
+    public String[] getNameAndPwdFromSp() {
         return new String[]{
                 ConfigManager.getInstance().loadString("userName"),
                 ConfigManager.getInstance().loadString("userPwd")};
@@ -83,8 +90,8 @@ public class AccountManager {
     public void login(String userName, String userPwd, final IOperationResult rc) {
         this.userName = userName;
         this.userPwd = userPwd;
-        String[] paras = new String[]{userName, userPwd, String.valueOf(LocationUtil.getInstance().getLongitude())
-                , String.valueOf(LocationUtil.getInstance().getLatitude())};
+        String[] paras = new String[]{userName, userPwd, String.valueOf(getLongitude())
+                , String.valueOf(getLatitude())};
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
                 @Override
@@ -185,8 +192,8 @@ public class AccountManager {
     }
 
     public void refreshVipStatus() {
-        String[] paras = new String[]{userName, userPwd, String.valueOf(LocationUtil.getInstance().getLongitude())
-                , String.valueOf(LocationUtil.getInstance().getLatitude())};
+        String[] paras = new String[]{userName, userPwd, String.valueOf(getLongitude())
+                , String.valueOf(getLatitude())};
         LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -220,10 +227,51 @@ public class AccountManager {
         loginState = state;
         if (loginState == SIGN_IN) {
             userId = ConfigManager.getInstance().loadString("userId");
-            String[] nameAndPwd = getUserNameAndPwd();
-            userName = nameAndPwd[0];
-            userPwd = nameAndPwd[1];
         }
+    }
+
+    public void getGPS() {
+        Location location = null;
+        try {
+            LocationManager locationManager = (LocationManager) RuntimeManager.getContext().getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            setLocation(location);
+        }
+    }
+
+    private void setLocation(@Nullable Location location) {
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            isGetPosition = true;
+        } else {
+            latitude = 39.9;
+            longitude = 116.3;
+            isGetPosition = false;
+        }
+    }
+
+    public double getLatitude() {
+        if (!isGetPosition) {
+            getGPS();
+        }
+        return latitude;
+    }
+
+    public double getLongitude() {
+        if (!isGetPosition) {
+            getGPS();
+        }
+        return longitude;
     }
 
     public UserInfo getUserInfo() {

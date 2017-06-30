@@ -49,7 +49,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RegistActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
-    private TextView protocolText;
+    private TextView protocolText, toolBarSub;
     private RoundTextView regist, getMessageCode;
     private CheckBox protocol;
     private View registByPhone, registByEmail;
@@ -92,6 +92,7 @@ public class RegistActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolBarSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         photo = (CircleImageView) findViewById(R.id.regist_photo);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         regist = (RoundTextView) findViewById(R.id.regist);
@@ -238,6 +239,15 @@ public class RegistActivity extends BaseInputActivity {
                 startActivity(intent);
             }
         });
+        toolBarSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", "http://m.iyuba.com/m_login/inputPhone.jsp");
+                intent.putExtra("title", context.getString(R.string.regist_title));
+                startActivity(intent);
+            }
+        });
         userPwd2.setOnEditorActionListener(editor);
         email.setOnEditorActionListener(editor);
         messageCode.setOnEditorActionListener(editor);
@@ -251,6 +261,7 @@ public class RegistActivity extends BaseInputActivity {
         registByPhone.setVisibility(View.VISIBLE);
         registByEmail.setVisibility(View.GONE);
         title.setText(R.string.regist_title);
+        toolBarSub.setText(R.string.regist_oper_sub);
     }
 
     protected void changeUIResumeByPara() {
