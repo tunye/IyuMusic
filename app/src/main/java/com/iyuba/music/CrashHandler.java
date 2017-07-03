@@ -128,9 +128,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private String saveCrashInfo2File(Throwable ex) {
 
         StringBuilder sb = new StringBuilder();
+        Gson gson = new Gson();
         for (Map.Entry<String, Object> entry : infos.entrySet()) {
-            String key = entry.getKey();
-            sb.append(key).append("=").append(new Gson().toJson(entry.getValue())).append("\n");
+            sb.append(entry.getKey()).append("=").append(gson.toJson(entry.getValue())).append("\n");
         }
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -178,9 +178,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private String saveLogInfo2File(String logMsg) {
 
         StringBuilder sb = new StringBuilder();
+        Gson gson = new Gson();
         for (Map.Entry<String, Object> entry : infos.entrySet()) {
-            String key = entry.getKey();
-            sb.append(key).append("=").append(new Gson().toJson(entry.getValue())).append("\n");
+            sb.append(entry.getKey()).append("=").append(gson.toJson(entry.getValue())).append("\n");
         }
         sb.append(logMsg);
         try {
