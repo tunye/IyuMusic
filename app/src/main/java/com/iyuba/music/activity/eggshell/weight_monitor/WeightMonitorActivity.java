@@ -29,9 +29,9 @@ import java.util.Calendar;
  */
 
 public class WeightMonitorActivity extends BaseInputActivity {
+    private final static String token = "weight_monitor";
     private RecyclerView recyclerView;
     private ArrayList<WeightMonitorEntity> weights;
-    private final static String token = "weight_monitor";
     private Gson transfer;
     private WeightMonitorAdapter adapter;
     private TextView toolbarOperSub;
@@ -73,7 +73,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
         toolbarOperSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(context, WeightSetActivity.class),101);
+                startActivityForResult(new Intent(context, WeightSetActivity.class), 101);
             }
         });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +139,7 @@ public class WeightMonitorActivity extends BaseInputActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==101&&resultCode==1){
+        if (requestCode == 101 && resultCode == 1) {
             Type listType = new TypeToken<ArrayList<WeightMonitorEntity>>() {
             }.getType();
             transfer = new Gson();

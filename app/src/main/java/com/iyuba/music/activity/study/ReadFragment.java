@@ -33,10 +33,10 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/12/17.
  */
 public class ReadFragment extends BaseRecyclerViewFragment {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ReadAdapter readAdapter;
     private Article curArticle;
     private IyubaDialog waittingDialog;
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.download.DownloadService;

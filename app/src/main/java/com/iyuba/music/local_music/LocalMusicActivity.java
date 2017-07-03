@@ -372,7 +372,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                             activity.pause.setState(MorphButton.PLAY_STATE);
                         }
                     } else if (!activity.player.isPlaying()) {
-                        if (activity.pause.getState()==MorphButton.PLAY_STATE) {
+                        if (activity.pause.getState() == MorphButton.PLAY_STATE) {
                             activity.pause.setState(MorphButton.PAUSE_STATE);
                         }
                     }

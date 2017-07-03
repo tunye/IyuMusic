@@ -251,7 +251,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
                     intent.putExtra("needpop", true);
                     context.startActivity(intent);
-                }else{
+                } else {
                     CustomDialog.showLoginDialog(context, new IOperationFinish() {
                         @Override
                         public void finish() {

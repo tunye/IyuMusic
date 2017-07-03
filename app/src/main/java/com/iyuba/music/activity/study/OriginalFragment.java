@@ -32,19 +32,17 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/12/17.
  */
 public class OriginalFragment extends BaseFragment implements IOnClickListener {
+    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private OriginalView originalView;
     private ArrayList<Original> originalList;
     private WordCard wordCard;
     private Article article;
-
     private Runnable loadLocalLrcFile = new Runnable() {
         @Override
         public void run() {
             getOriginal();
         }
     };
-
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

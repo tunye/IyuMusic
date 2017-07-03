@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.buaa.ct.skin.SkinManager;
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
@@ -71,8 +70,8 @@ public class MusicApplication extends Application {
             activityList = new ArrayList<>();
             initApplication();
 //            LeakCanary.install(this);
-//            CrashHandler crashHandler = new CrashHandler(this);
-//            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+            CrashHandler crashHandler = new CrashHandler(this);
+            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
     }
 

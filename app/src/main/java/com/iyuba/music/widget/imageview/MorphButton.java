@@ -21,13 +21,19 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public class MorphButton extends FrameLayout {
+    public static final int PLAY_STATE = 1;
+    public static final int PAUSE_STATE = 2;
+    private static final int pauseDrawable = R.drawable.play;
+    private static final int playDrawable = R.drawable.pause;
+    @MorphButton.MorphState
+    int morphButtonState;
     private ImageView imageView;
+    private Drawable pause, play;
 
     public MorphButton(@NonNull Context context) {
         super(context);
         init(context);
     }
-
     public MorphButton(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -37,21 +43,6 @@ public class MorphButton extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init(context);
     }
-
-    private static final int pauseDrawable = R.drawable.play;
-    private static final int playDrawable = R.drawable.pause;
-    private Drawable pause, play;
-
-    public static final int PLAY_STATE = 1;
-    public static final int PAUSE_STATE = 2;
-
-    @IntDef({PLAY_STATE, PAUSE_STATE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface MorphState {
-    }
-
-    @MorphButton.MorphState
-    int morphButtonState;
 
     private void init(Context context) {
         pause = getResources().getDrawable(pauseDrawable);
@@ -66,6 +57,10 @@ public class MorphButton extends FrameLayout {
         play.setColorFilter(color, mode);
     }
 
+    public int getState() {
+        return morphButtonState;
+    }
+
     public void setState(int state) {
         morphButtonState = state;
         switch (state) {
@@ -78,8 +73,9 @@ public class MorphButton extends FrameLayout {
         }
     }
 
-    public int getState() {
-        return morphButtonState;
+    @IntDef({PLAY_STATE, PAUSE_STATE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MorphState {
     }
 }
 

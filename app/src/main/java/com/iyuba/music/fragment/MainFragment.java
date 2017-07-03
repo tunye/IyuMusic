@@ -280,7 +280,7 @@ public class MainFragment extends BaseFragment {
                         if (fragment.pic.getAnimation() != null) {
                             fragment.pauseAnimation();
                         }
-                        if (fragment.pause.getState()==MorphButton.PLAY_STATE) {
+                        if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
                             fragment.pause.setState(MorphButton.PAUSE_STATE);
                         }
                     }

@@ -281,7 +281,7 @@ public class AboutActivity extends BaseActivity {
         DownloadManager.getInstance().fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();
         appUpdateThread.start();
-        handler.obtainMessage(2,downloadFile).sendToTarget();
+        handler.obtainMessage(2, downloadFile).sendToTarget();
     }
 
     private void openCookie() {

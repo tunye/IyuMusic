@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
