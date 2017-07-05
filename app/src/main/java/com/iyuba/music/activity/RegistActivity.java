@@ -425,7 +425,8 @@ public class RegistActivity extends BaseInputActivity {
                         CustomToast.getInstance().showToast(R.string.regist_email_same);
                         email.setError(context.getString(R.string.regist_email_same));
                     } else {
-                        CustomToast.getInstance().showToast(R.string.regist_fail + " " + baseApiEntity.getMessage());
+                        CustomToast.getInstance().showToast(context.getString(R.string.regist_fail) + " " + baseApiEntity.getMessage());
+                        email.setError(context.getString(R.string.regist_fail));
                     }
                 }
             });

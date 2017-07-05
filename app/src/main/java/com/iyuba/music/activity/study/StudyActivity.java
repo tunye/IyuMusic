@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -26,8 +27,12 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
+import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
@@ -37,6 +42,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
+import com.iyuba.music.request.newsrequest.StudyAdRequest;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.Mathematics;
@@ -61,6 +67,8 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -86,6 +94,12 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @IntervalState
     private int intervalState;
     private IyubaDialog waittingDialog;
+
+    private static boolean isNativeAd = false;
+    private View adView;
+    private ImageView photoImage;
+    private Timer timer;
+    private TimerTask timerTask;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
@@ -123,6 +137,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study);
         context = this;
+        isNativeAd = false;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.getInstance().getCurArticle(), false);
@@ -140,6 +155,15 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (isNativeAd) {
+            timer = new Timer();
+            timer.schedule(timerTask, 0, 60000);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
@@ -152,6 +176,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     protected void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (timer != null && isNativeAd) {
+            timer.cancel();
+        }
     }
 
     @Override
@@ -374,8 +406,83 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private void initAd() {
         ViewStub adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
         adViewStub.inflate();
-        final View adView = findViewById(R.id.youdao_ad);
-        final ImageView photoImage = (ImageView) findViewById(R.id.photoImage);
+        adView = findViewById(R.id.youdao_ad);
+        photoImage = (ImageView) findViewById(R.id.photoImage);
+        getAdContent(new IOperationResult() {
+            @Override
+            public void success(Object object) {
+                initNativeAdTimer();
+                refreshNativeAd((BaseApiEntity) object);
+            }
+
+            @Override
+            public void fail(Object object) {
+                refreshYouDaoAd();
+            }
+        });
+    }
+
+    private void getAdContent(final IOperationResult iOperationResult) {
+        StudyAdRequest.exeRequest(StudyAdRequest.generateUrl(), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+                refreshYouDaoAd();
+            }
+
+            @Override
+            public void onServerError(String msg) {
+                refreshYouDaoAd();
+            }
+
+            @Override
+            public void response(Object object) {
+                BaseApiEntity result = (BaseApiEntity) object;
+                if (result.getState() == BaseApiEntity.SUCCESS) {
+                    iOperationResult.success(object);
+                } else {
+                    iOperationResult.fail(null);
+                }
+            }
+        });
+    }
+
+    private void initNativeAdTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                getAdContent(new IOperationResult() {
+                    @Override
+                    public void success(Object object) {
+                        handler.obtainMessage(3, object);
+                    }
+
+                    @Override
+                    public void fail(Object object) {
+
+                    }
+                });
+            }
+        };
+        timer = new Timer();
+        timer.schedule(timerTask, 60000, 60000);
+    }
+
+    private void refreshNativeAd(BaseApiEntity data) {
+        isNativeAd = true;
+        final AdEntity adEntity = (AdEntity) data.getData();
+        adView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", adEntity.getLoadUrl());
+                startActivity(intent);
+            }
+        });
+        ImageUtil.loadImage(adEntity.getPicUrl(), photoImage);
+    }
+
+    private void refreshYouDaoAd() {
+        isNativeAd = false;
         youdaoNative = new YouDaoNative(context, "230d59b7c0a808d01b7041c2d127da95",
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
@@ -749,6 +856,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     break;
                 case 2:
                     activity.setIntervalImage(0);
+                    break;
+                case 3:
+                    activity.refreshNativeAd((BaseApiEntity) msg.obj);
                     break;
             }
         }
