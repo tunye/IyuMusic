@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -27,7 +26,7 @@ import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
-import com.iyuba.music.activity.WebViewActivity;
+import com.iyuba.music.activity.WelcomeAdWebView;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
@@ -473,9 +472,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         adView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", adEntity.getLoadUrl());
-                startActivity(intent);
+                WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
+                        "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
             }
         });
         ImageUtil.loadImage(adEntity.getPicUrl(), photoImage);

@@ -28,6 +28,11 @@ public class WelcomeAdWebView extends WebViewActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
     public void finish() {
         switch (nextActivity) {
             case 0:
@@ -35,6 +40,8 @@ public class WelcomeAdWebView extends WebViewActivity {
                 break;
             case 1:
                 startActivity(new Intent(WelcomeAdWebView.this, LocalMusicActivity.class));
+                break;
+            case -1:
                 break;
         }
         super.finish();
