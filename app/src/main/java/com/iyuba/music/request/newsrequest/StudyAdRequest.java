@@ -42,14 +42,15 @@ public class StudyAdRequest {
                             baseApiEntity.setState(BaseApiEntity.SUCCESS);
                             AdEntity adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
                             if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
-                                String url = "http://app.iyuba.com/dev/" + adEntity.getPicUrl();
+                                adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                                String url = adEntity.getLoadUrl();
                                 String userId = AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0";
                                 if (url.contains("?")) {
                                     url += "&uid=" + AccountManager.getInstance().getUserId();
                                 } else {
                                     url += "?uid=" + AccountManager.getInstance().getUserId();
                                 }
-                                adEntity.setPicUrl(url);
+                                adEntity.setLoadUrl(url);
                                 baseApiEntity.setData(adEntity);
                             } else {
                                 baseApiEntity.setState(BaseApiEntity.FAIL);

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/23.
  */
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends BaseInputActivity {
     private WebView web;
     private String url, titleText;
     private ProgressBar loadProgress;

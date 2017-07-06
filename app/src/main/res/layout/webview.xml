@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/root"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#343434">
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="156dp"
-        android:layout_below="@+id/toolbar"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:textColor="@color/text_gray_color"
-            android:textSize="@dimen/big_text"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_big"
-            android:gravity="center"
-            android:text="@string/webview_technique"
-            android:textColor="@color/text_gray_color"
-            android:textSize="@dimen/big_text"/>
-    </LinearLayout>
-
-    <com.iyuba.music.widget.view.FlexibleView
+    <RelativeLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:background="#343434">
 
-        <WebView
-            android:id="@+id/webview"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_with_oper"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </com.iyuba.music.widget.view.FlexibleView>
+            android:layout_height="156dp"
+            android:layout_below="@+id/toolbar"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/load_progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_default"
-        android:layout_below="@+id/toolbar"
-        android:background="#ededed">
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:gravity="center"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/big_text"/>
 
-        <ProgressBar
-            android:id="@+id/load_progress"
-            style="?android:attr/progressBarStyleHorizontal"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+                android:gravity="center"
+                android:text="@string/webview_technique"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/big_text"/>
+        </LinearLayout>
+
+        <com.iyuba.music.widget.view.FlexibleView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.iyuba.music.widget.view.FlexibleView>
+
+        <FrameLayout
+            android:id="@+id/load_progress_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_default"
-            android:indeterminate="false"
-            android:progressDrawable="@color/skin_color_accent"/>
-    </FrameLayout>
-</RelativeLayout>
+            android:layout_below="@+id/toolbar"
+            android:background="#ededed">
+
+            <ProgressBar
+                android:id="@+id/load_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_default"
+                android:indeterminate="false"
+                android:progressDrawable="@color/skin_color_accent"/>
+        </FrameLayout>
+    </RelativeLayout>
+</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

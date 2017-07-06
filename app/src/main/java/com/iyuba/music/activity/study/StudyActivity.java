@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
@@ -158,7 +160,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         super.onStart();
         if (isNativeAd) {
             timer = new Timer();
-            timer.schedule(timerTask, 0, 60000);
+            timer.schedule(timerTask, 0, 30000);
         }
     }
 
@@ -452,18 +454,17 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 getAdContent(new IOperationResult() {
                     @Override
                     public void success(Object object) {
-                        handler.obtainMessage(3, object);
+                        handler.obtainMessage(3, object).sendToTarget();
                     }
 
                     @Override
                     public void fail(Object object) {
-
                     }
                 });
             }
         };
-        timer = new Timer();
-        timer.schedule(timerTask, 60000, 60000);
+        timer = new Timer(false);
+        timer.scheduleAtFixedRate(timerTask, 30000, 30000);
     }
 
     private void refreshNativeAd(BaseApiEntity data) {
@@ -476,7 +477,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
             }
         });
-        ImageUtil.loadImage(adEntity.getPicUrl(), photoImage);
+        Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
     }
 
     private void refreshYouDaoAd() {
