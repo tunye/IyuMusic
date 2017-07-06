@@ -90,7 +90,7 @@ public class BlogActivity extends BaseActivity {
                 ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
-                        message.replaceAll("<br/>", "");
+                        message = message.replaceAll("<br/>", "");
                         sp = Html.fromHtml(message + "<br/><br/><br/>", new Html.ImageGetter() {
                             @Override
                             public Drawable getDrawable(String source) {
