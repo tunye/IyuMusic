@@ -8,6 +8,7 @@
 package com.iyuba.music.ground;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
+import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -28,6 +30,7 @@ import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
 import com.iyuba.music.util.TextAttr;
@@ -35,8 +38,14 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.youdao.sdk.nativeads.RequestParameters;
+import com.youdao.sdk.nativeads.ViewBinder;
+import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
+import com.youdao.sdk.nativeads.YouDaoNativeAdRenderer;
+import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 /**
  * 简版新闻列表界面
@@ -60,6 +69,9 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
 
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
+    //有道广告
+    private YouDaoRecyclerAdapter mAdAdapter;
+    private boolean isVipLastState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,29 +84,12 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         initWidget();
         setListener();
         changeUIByPara();
-        groundNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (app.equals("229") || app.equals("217") || app.equals("213")) {
-                    Intent intent = new Intent(context, VideoPlayerActivity.class);
-                    intent.putExtra("pos", position);
-                    intent.putExtra("articleList", newsArrayList);
-                    context.startActivity(intent);
-                } else {
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(lesson)));
-                    StudyManager.getInstance().setCurArticle(newsArrayList.get(position));
-                    context.startActivity(new Intent(context, StudyActivity.class));
-                }
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        });
+        isVipLastState = DownloadService.checkVip();
+        if (isVipLastState) {
+            initVipRecyclerView();
+        } else {
+            initUnVipRecyclerView();
+        }
     }
 
     @Override
@@ -108,7 +103,6 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
         newsList.setLayoutManager(new LinearLayoutManager(context));
-        newsList.setAdapter(groundNewsAdapter);
         newsList.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
@@ -139,6 +133,29 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 }
             }
         });
+        groundNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (app.equals("229") || app.equals("217") || app.equals("213")) {
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    intent.putExtra("pos", position);
+                    intent.putExtra("articleList", newsArrayList);
+                    context.startActivity(intent);
+                } else {
+                    StudyManager.getInstance().setStartPlaying(true);
+                    StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
+                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(lesson)));
+                    StudyManager.getInstance().setCurArticle(newsArrayList.get(position));
+                    context.startActivity(new Intent(context, StudyActivity.class));
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
     }
 
     @Override
@@ -151,6 +168,32 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
     @Override
     public void onClick(View view, Object message) {
         newsList.scrollToPosition(0);
+    }
+
+    private void initVipRecyclerView() {
+        newsList.setAdapter(groundNewsAdapter);
+    }
+
+    private void initUnVipRecyclerView() {
+        mAdAdapter = new YouDaoRecyclerAdapter(GroundNewsActivity.this, groundNewsAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+        // 绑定界面组件与广告参数的映射关系，用于渲染广告
+        final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
+                new ViewBinder.Builder(R.layout.native_ad_row)
+                        .titleId(R.id.native_title)
+                        .mainImageId(R.id.native_main_image).build());
+        mAdAdapter.registerAdRenderer(adRenderer);
+        final Location location = null;
+        final String keywords = null;
+        // 声明app需要的资源，这样可以提供高质量的广告，也会节省网络带宽
+        final EnumSet<RequestParameters.NativeAdAsset> desiredAssets = EnumSet.of(
+                RequestParameters.NativeAdAsset.TITLE, RequestParameters.NativeAdAsset.TEXT,
+                RequestParameters.NativeAdAsset.ICON_IMAGE, RequestParameters.NativeAdAsset.MAIN_IMAGE,
+                RequestParameters.NativeAdAsset.CALL_TO_ACTION_TEXT);
+        RequestParameters mRequestParameters = new RequestParameters.Builder()
+                .location(location).keywords(keywords)
+                .desiredAssets(desiredAssets).build();
+        newsList.setAdapter(mAdAdapter);
+        mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
     }
 
     /**
@@ -181,6 +224,19 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         } else {
             swipeRefreshLayout.setRefreshing(false);
             CustomToast.getInstance().showToast(R.string.article_load_all);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isVipLastState != DownloadService.checkVip()) {
+            isVipLastState = DownloadService.checkVip();
+            if (isVipLastState) {
+                initVipRecyclerView();
+            } else {
+                initUnVipRecyclerView();
+            }
         }
     }
 

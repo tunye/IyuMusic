@@ -96,7 +96,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private int intervalState;
     private IyubaDialog waittingDialog;
 
-    private static boolean isNativeAd = false;
+    private boolean isNativeAd = false;
     private View adView;
     private ImageView photoImage;
     private Timer timer;
@@ -156,30 +156,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (isNativeAd) {
-            timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    getAdContent(new IOperationResult() {
-                        @Override
-                        public void success(Object object) {
-                            handler.obtainMessage(3, object).sendToTarget();
-                        }
-
-                        @Override
-                        public void fail(Object object) {
-                        }
-                    });
-                }
-            };
-            timer = new Timer();
-            timer.schedule(timerTask, 0, 30000);
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
@@ -195,17 +171,13 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (timer != null && isNativeAd) {
-            timer.cancel();
-        }
-    }
-
-    @Override
     public void onDestroy() {
         if (youdaoNative != null) {
             youdaoNative.destroy();
+        }
+        if (timer != null && isNativeAd) {
+            timerTask.cancel();
+            timer.purge();
         }
         unregisterReceiver(studyChangeUIBroadCast);
         ((MusicApplication) getApplication()).getPlayerService().setListener(null);
@@ -484,16 +456,18 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void refreshNativeAd(BaseApiEntity data) {
         isNativeAd = true;
-        final AdEntity adEntity = (AdEntity) data.getData();
-        adView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
-                        "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
-            }
-        });
-        Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
+        if (!isDestroyed()) {
+            final AdEntity adEntity = (AdEntity) data.getData();
+            adView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
+                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
+                }
+            });
+            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
+        }
     }
 
     private void refreshYouDaoAd() {
