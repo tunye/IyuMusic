@@ -159,6 +159,21 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     protected void onStart() {
         super.onStart();
         if (isNativeAd) {
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    getAdContent(new IOperationResult() {
+                        @Override
+                        public void success(Object object) {
+                            handler.obtainMessage(3, object).sendToTarget();
+                        }
+
+                        @Override
+                        public void fail(Object object) {
+                        }
+                    });
+                }
+            };
             timer = new Timer();
             timer.schedule(timerTask, 0, 30000);
         }

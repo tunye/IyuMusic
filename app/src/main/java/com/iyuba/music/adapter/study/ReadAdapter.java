@@ -352,7 +352,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 case 0:
                     if (adapter.player.getCurrentPosition() < msg.arg1) {
                         adapter.curText.setText(Mathematics.formatTime((msg.arg1 - adapter.player.getCurrentPosition()) / 1000));
-                        adapter.handler.sendMessageDelayed(msg, 300);
+                        message = new Message();
+                        message.what = 0;
+                        message.arg1 = msg.arg1;
+                        adapter.handler.sendMessageDelayed(message, 300);
                     } else {
                         adapter.handler.sendEmptyMessage(1);
                     }
@@ -367,9 +370,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     break;
                 case 2:
                     adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    msg.what = 2;
-                    msg.arg1 = msg.arg1 + 1000;
-                    adapter.handler.sendMessageDelayed(msg, 1000);
+                    message = new Message();
+                    message.what = 2;
+                    message.arg1 = msg.arg1 + 1000;
+                    adapter.handler.sendMessageDelayed(message, 1000);
                     break;
                 case 3:
                     adapter.isRecord = false;
@@ -379,9 +383,10 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     break;
                 case 4:
                     adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
-                    msg.what = 4;
-                    msg.arg1 = msg.arg1 - 1000;
-                    adapter.handler.sendMessageDelayed(msg, 1000);
+                    message = new Message();
+                    message.what = 4;
+                    message.arg1 = msg.arg1 - 1000;
+                    adapter.handler.sendMessageDelayed(message, 1000);
                     break;
                 case 5:
                     adapter.handler.removeMessages(4);
