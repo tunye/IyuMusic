@@ -128,6 +128,8 @@
     <string name="regist_pwd_hint">Enter password</string>
     <string name="regist_repwd_hint">Enter password again</string>
     <string name="regist_username_hint">Enter your user name</string>
+    <string name="regist_username_error1">Can not use email</string>
+    <string name="regist_username_error2">No "@" character</string>
     <string name="regist_by_phone">Phone</string>
     <string name="regist_by_email">Mail</string>
     <string name="regist_get_code">Verification code</string>

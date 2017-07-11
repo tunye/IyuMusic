@@ -128,6 +128,8 @@
     <string name="regist_pwd_hint">请输入密码</string>
     <string name="regist_repwd_hint">再次输入密码</string>
     <string name="regist_username_hint">请输入用户名</string>
+    <string name="regist_username_error1">不能使用邮箱作为用户名</string>
+    <string name="regist_username_error2">用户名不能包含@字符</string>
     <string name="regist_by_phone">手机</string>
     <string name="regist_by_email">邮箱</string>
     <string name="regist_get_code">获取验证码</string>

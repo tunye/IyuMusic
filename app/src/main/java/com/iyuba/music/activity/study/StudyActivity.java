@@ -451,7 +451,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
         };
         timer = new Timer(false);
-        timer.scheduleAtFixedRate(timerTask, 30000, 30000);
+        timer.scheduleAtFixedRate(timerTask, 0, 60000);
     }
 
     private void refreshNativeAd(BaseApiEntity data) {

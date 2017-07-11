@@ -370,6 +370,16 @@ public class RegistActivity extends BaseInputActivity {
         }
     }
 
+    private int regexUserName(String userName) {
+        String regex = "^([a-z0-9A-Z]+[-|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?.)+[a-zA-Z]{2,}$";
+        if (userName.matches(regex)) {
+            return -1;
+        } else if (userName.contains("@")) {
+            return -2;
+        }
+        return 1;
+    }
+
     private boolean regexUserPwd() {
         if (userPwd2.getEditableText().toString().equals(userPwd.getEditableText().toString())) {
             return true;
@@ -381,6 +391,12 @@ public class RegistActivity extends BaseInputActivity {
 
     private void registByEmail() {
         if (!userName.isCharactersCountValid()) {
+            YoYo.with(Techniques.Shake).duration(500).playOn(userName);
+        } else if (regexUserName(userName.getEditableText().toString()) == -1) {
+            userName.setError(context.getString(R.string.regist_username_error1));
+            YoYo.with(Techniques.Shake).duration(500).playOn(userName);
+        } else if (regexUserName(userName.getEditableText().toString()) == -2) {
+            userName.setError(context.getString(R.string.regist_username_error2));
             YoYo.with(Techniques.Shake).duration(500).playOn(userName);
         } else if (!regexUserPwd()) {
             YoYo.with(Techniques.Shake).duration(500).playOn(userPwd2);
@@ -435,6 +451,12 @@ public class RegistActivity extends BaseInputActivity {
 
     private void registByPhoneContinue() {
         if (!userName.isCharactersCountValid()) {
+            YoYo.with(Techniques.Shake).duration(500).playOn(userName);
+        } else if (regexUserName(userName.getEditableText().toString()) == -1) {
+            userName.setError(context.getString(R.string.regist_username_error1));
+            YoYo.with(Techniques.Shake).duration(500).playOn(userName);
+        } else if (regexUserName(userName.getEditableText().toString()) == -2) {
+            userName.setError(context.getString(R.string.regist_username_error2));
             YoYo.with(Techniques.Shake).duration(500).playOn(userName);
         } else if (!regexUserPwd()) {
             YoYo.with(Techniques.Shake).duration(500).playOn(userPwd2);
