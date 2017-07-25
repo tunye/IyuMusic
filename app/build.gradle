@@ -25,8 +25,8 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 901
-        versionName "9.0"
+        versionCode 902
+        versionName "9.0.1"
         multiDexEnabled true
     }
     buildTypes {
