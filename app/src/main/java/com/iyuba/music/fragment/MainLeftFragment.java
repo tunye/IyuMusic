@@ -347,11 +347,13 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void updatePersonalInfoView() {
-        personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
-        setPersonalInfoContent();
-        login.setVisibility(View.VISIBLE);
-        noLogin.setVisibility(View.GONE);
-        sign.setVisibility(View.VISIBLE);
+        if (!getActivity().isDestroyed()) {
+            personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
+            setPersonalInfoContent();
+            login.setVisibility(View.VISIBLE);
+            noLogin.setVisibility(View.GONE);
+            sign.setVisibility(View.VISIBLE);
+        }
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {
