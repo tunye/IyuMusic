@@ -29,7 +29,6 @@ import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 
@@ -53,19 +52,29 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.welcome);
-        ImmersiveManager.getInstance();
         context = this;
         normalStart = getIntent().getBooleanExtra(NORMAL_START, true);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+        if (RuntimeManager.getApplication().getPlayerService() != null && RuntimeManager.getApplication().getPlayerService().isPlaying()) {
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+            finish();
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            }
+            initWidget();
+            setListener();
+            getBannerPic();
+            initialDatabase();
+            RuntimeManager.getInstance().setShowSignInToast(true);
+            ((MusicApplication) getApplication()).pushActivity(this);
         }
-        initWidget();
-        setListener();
-        getBannerPic();
-        initialDatabase();
-        RuntimeManager.getInstance().setShowSignInToast(true);
-        ((MusicApplication) getApplication()).pushActivity(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void initWidget() {

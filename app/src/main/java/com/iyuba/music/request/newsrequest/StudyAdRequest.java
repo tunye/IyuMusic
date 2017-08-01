@@ -36,8 +36,10 @@ public class StudyAdRequest {
                     BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
                         data = data.trim();
-                        String cutResult = data.trim().substring(1, data.length() - 1);
-                        JSONObject jsonObject = new JSONObject(cutResult);
+                        if (data.startsWith("[")) {
+                            data = data.substring(1, data.length() - 1);
+                        }
+                        JSONObject jsonObject = new JSONObject(data);
                         if (jsonObject.getString("result").equals("1")) {
                             baseApiEntity.setState(BaseApiEntity.SUCCESS);
                             AdEntity adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
@@ -46,9 +48,9 @@ public class StudyAdRequest {
                                 String url = adEntity.getLoadUrl();
                                 String userId = AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0";
                                 if (url.contains("?")) {
-                                    url += "&uid=" + AccountManager.getInstance().getUserId();
+                                    url += "&uid=" + userId;
                                 } else {
-                                    url += "?uid=" + AccountManager.getInstance().getUserId();
+                                    url += "?uid=" + userId;
                                 }
                                 adEntity.setLoadUrl(url);
                                 baseApiEntity.setData(adEntity);

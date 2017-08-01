@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -23,11 +24,9 @@ import java.util.Properties;
 public class ImmersiveManager {
     private static ImmersiveManager sInstance;
     private static String emuiVersion = "none";
-    private Handler mHandler;
 
     private ImmersiveManager() {
         getEmuiLevel();
-        mHandler = new Handler();
     }
 
     public synchronized static ImmersiveManager getInstance() {
@@ -142,13 +141,18 @@ public class ImmersiveManager {
             meizuFlags.setInt(lp, value);
             window.setAttributes(lp);
         } catch (Exception e) {
-            mHandler.postDelayed(new Runnable() {
+            CountDownTimer timer = new CountDownTimer(5, 5) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
 
                 @Override
-                public void run() {
+                public void onFinish() {
                     setLeshiStatusBarDarkMode(darkmode, window);
                 }
-            }, 5);
+            };
+            timer.start();
         }
     }
 
