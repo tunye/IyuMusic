@@ -72,12 +72,12 @@ public class ShareDialog {
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享失败");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mKeyword + "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mShowWord + "分享取消");
+            CustomToast.getInstance().showToast(share_media.toSnsPlatform().mKeyword + "分享取消");
         }
     };
 
@@ -115,28 +115,28 @@ public class ShareDialog {
                                 .share();
                         break;
                     case 1:
-                        new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
-                                .withMedia(music).setCallback(shareSinglePeopleListener)
-                                .share();
-                        break;
-                    case 2:
+//                        new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
+//                                .withMedia(music).setCallback(shareSinglePeopleListener)
+//                                .share();
+//                        break;
+//                    case 2:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.SINA)
                                 .withText("#听歌学英语# " + article.getTitle() + " — " + article.getSinger())
                                 .withMedia(music).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
-                    case 3:
+                    case 2:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.QQ)
                                 .withMedia(music).setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
-                    case 4:
+                    case 3:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.QZONE)
                                 .withText(article.getTitle() + " — " + article.getSinger())
                                 .withMedia(music).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
-                    case 5:
+                    case 4:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_FAVORITE)
                                 .withText("听歌学英语 " + article.getTitle() + " — " + article.getSinger())
                                 .withMedia(music)
