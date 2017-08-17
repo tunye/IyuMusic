@@ -12,7 +12,6 @@ import com.iyuba.music.R;
  */
 public class DeveloperActivity extends BaseActivity {
     private TextView blog;
-    private TextView github;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +27,11 @@ public class DeveloperActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
         blog = (TextView) findViewById(R.id.developer_blog);
-        github = (TextView) findViewById(R.id.developer_github);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        github.setAutoLinkMask(Linkify.ALL);
-        github.setMovementMethod(LinkMovementMethod.getInstance());
-
         blog.setAutoLinkMask(Linkify.ALL);
         blog.setMovementMethod(LinkMovementMethod.getInstance());
     }
