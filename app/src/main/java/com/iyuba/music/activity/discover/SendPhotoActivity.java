@@ -24,6 +24,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.activity.eggshell.meizhi.LocalPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/20.
  */
-public class SendPhotoActivity extends BaseActivity {
+public class SendPhotoActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
     private IyubaDialog waittingDialog;
