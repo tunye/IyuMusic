@@ -42,8 +42,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private RoundProgressBar welcomeAdProgressbar;              // 等待进度条
     private AdEntity adEntity;                                  // 开屏广告对象
     private boolean normalStart = true;                         // 是否正常进入程序
-    private boolean showAd;                                     // 是否进入广告
-    private boolean showGuide;                                  // 是否跳转开屏引导
+    private boolean showAd = false;                             // 是否进入广告
+    private boolean showGuide = false;                          // 是否跳转开屏引导
     private Context context;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
@@ -62,9 +62,9 @@ public class WelcomeActivity extends AppCompatActivity {
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             }
+            getBannerPic();
             initWidget();
             setListener();
-            getBannerPic();
             initialDatabase();
             RuntimeManager.getInstance().setShowSignInToast(true);
             ((MusicApplication) getApplication()).pushActivity(this);
@@ -81,7 +81,6 @@ public class WelcomeActivity extends AppCompatActivity {
         welcomeAdProgressbar = (RoundProgressBar) findViewById(R.id.welcome_ad_progressbar);
         escapeAd = findViewById(R.id.welcome_escape_ad);
         header = (ImageView) findViewById(R.id.welcome_header);
-        initWelcomeAdProgress();
     }
 
     private void setListener() {
@@ -154,13 +153,15 @@ public class WelcomeActivity extends AppCompatActivity {
             appUpgrade(currentVersion);
         } else if (currentVersion > lastVersion) {
             if (lastVersion < 72 && ConfigManager.getInstance().getOriginalSize() == 14) {
-                ConfigManager.getInstance().setOriginalSize(16);   // 修改默认文字大小
+                ConfigManager.getInstance().setOriginalSize(16);          // 修改默认文字大小
             }
             if (lastVersion < 83) {                                       // 广告获取方式改变
                 ConfigManager.getInstance().setADUrl("");
                 ConfigManager.getInstance().setDownloadMode(1);
             }
             appUpgrade(currentVersion);
+        } else {
+            initWelcomeAdProgress();
         }
         handler.sendEmptyMessageDelayed(1, 4500);
     }
@@ -203,7 +204,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.adEntity.setPicUrl("http://app.iyuba.com/dev/upload/1478933401279.png");
                         activity.adEntity.setLoadUrl("");
-                        ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
+                        activity.header.setImageResource(R.drawable.default_header);
                     } else if (!activity.isDestroyed()) {
                         String[] adUrls = adUrl.split("@@@");
                         activity.adEntity.setPicUrl(adUrls[0]);
