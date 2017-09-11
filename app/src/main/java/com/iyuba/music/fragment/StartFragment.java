@@ -158,7 +158,7 @@ public class StartFragment {
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
         sb.append("1.[性能优化] 听歌页面加载速度提升").append("\n");
-        sb.append("2.[Bug修复] 修复用户反馈的诸多问题").append("\n");
+        sb.append("2.[Bug修复] 修复首启动部分机型上的问题").append("\n");
         sb.append("3.[实用功能] 增加线控和学习界面屏幕常亮");
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
