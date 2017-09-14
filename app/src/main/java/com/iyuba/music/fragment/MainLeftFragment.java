@@ -235,7 +235,7 @@ public class MainLeftFragment extends BaseFragment {
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {
-                                    if ("add".equals(message.toString()) && !getActivity().isDestroyed()) {
+                                    if ("add".equals(message.toString()) && getActivity() != null && !getActivity().isDestroyed()) {
                                         CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {

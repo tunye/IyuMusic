@@ -58,13 +58,13 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         } else {
+            getBannerPic();
+            initWidget();
+            setListener();
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             }
-            getBannerPic();
-            initWidget();
-            setListener();
             initialDatabase();
             RuntimeManager.getInstance().setShowSignInToast(true);
             ((MusicApplication) getApplication()).pushActivity(this);
@@ -200,15 +200,10 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case 2:
                     String adUrl = ConfigManager.getInstance().getADUrl();
-                    activity.adEntity = new AdEntity();
                     if (TextUtils.isEmpty(adUrl)) {
-                        activity.adEntity.setPicUrl("http://app.iyuba.com/dev/upload/1478933401279.png");
-                        activity.adEntity.setLoadUrl("");
                         activity.header.setImageResource(R.drawable.default_header);
                     } else if (!activity.isDestroyed()) {
                         String[] adUrls = adUrl.split("@@@");
-                        activity.adEntity.setPicUrl(adUrls[0]);
-                        activity.adEntity.setLoadUrl(adUrls[1]);
                         ImageUtil.loadImage(adUrls[0], activity.header);
                     }
                     break;
