@@ -61,10 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
             getBannerPic();
             initWidget();
             setListener();
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-            }
             initialDatabase();
             RuntimeManager.getInstance().setShowSignInToast(true);
             ((MusicApplication) getApplication()).pushActivity(this);
