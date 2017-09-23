@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -97,13 +96,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @IntervalState
     private int intervalState;
     private IyubaDialog waittingDialog;
-
-    private boolean isNativeAd = false;
-    private View adView;
-    private ImageView photoImage;
-    private Timer timer;
-    private TimerTask timerTask;
-
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
@@ -133,6 +125,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         }
     };
+    private boolean isNativeAd = false;
+    private View adView;
+    private ImageView photoImage;
+    private Timer timer;
+    private TimerTask timerTask;
     private YouDaoNative youdaoNative;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 

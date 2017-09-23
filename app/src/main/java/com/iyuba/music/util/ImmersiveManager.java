@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;

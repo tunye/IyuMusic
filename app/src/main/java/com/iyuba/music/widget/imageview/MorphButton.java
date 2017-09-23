@@ -34,6 +34,7 @@ public class MorphButton extends FrameLayout {
         super(context);
         init(context);
     }
+
     public MorphButton(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);

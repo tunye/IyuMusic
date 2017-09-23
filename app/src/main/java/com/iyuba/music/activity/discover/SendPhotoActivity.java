@@ -23,7 +23,6 @@ import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.BaseInputActivity;
 import com.iyuba.music.activity.eggshell.meizhi.LocalPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
