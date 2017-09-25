@@ -229,7 +229,6 @@ public class MainLeftFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(userInfo.getFollower())) {
                     updatePersonalInfoView();
                 }
-                getPersonalInfo();
                 if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
                     AccountManager.getInstance().login(userNameAndPwd[0], userNameAndPwd[1],
                             new IOperationResult() {
@@ -347,7 +346,7 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void updatePersonalInfoView() {
-        if (!getActivity().isDestroyed()) {
+        if (getActivity() != null && !getActivity().isDestroyed()) {
             personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
             setPersonalInfoContent();
             login.setVisibility(View.VISIBLE);
