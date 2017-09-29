@@ -1,5 +1,6 @@
 package com.iyuba.music.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -234,7 +235,8 @@ public class MainLeftFragment extends BaseFragment {
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {
-                                    if ("add".equals(message.toString()) && getActivity() != null && !getActivity().isDestroyed()) {
+                                    Activity parent = getActivity();
+                                    if ("add".equals(message.toString()) && parent != null && !parent.isDestroyed()) {
                                         CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -346,7 +348,8 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void updatePersonalInfoView() {
-        if (getActivity() != null && !getActivity().isDestroyed()) {
+        Activity parent = getActivity();
+        if (parent != null && !parent.isDestroyed()) {
             personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
             setPersonalInfoContent();
             login.setVisibility(View.VISIBLE);

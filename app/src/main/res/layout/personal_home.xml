@@ -55,22 +55,22 @@
                 android:id="@+id/fans_attention"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/row_space_large"
-                android:textColor="#cdcdcd"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:textColor="#fafafa"
                 android:textSize="@dimen/big_text"/>
 
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:layout_gravity="center"
-                android:background="#cdcdcd"/>
+                android:background="#fafafa"/>
 
             <TextView
                 android:id="@+id/fans_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/row_space_large"
-                android:textColor="#cdcdcd"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:textColor="#fafafa"
                 android:textSize="@dimen/big_text"/>
         </LinearLayout>
 
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/row_space_medium"
-            android:textColor="#cdcdcd"
+            android:textColor="#fafafa"
             android:textSize="@dimen/medium_text"/>
 
         <LinearLayout
@@ -97,7 +97,7 @@
                 android:layout_height="26dp"
                 android:background="#66ffffff"
                 android:text="@string/person_detail"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
 
             <Button
@@ -107,7 +107,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:background="#66ffffff"
                 android:text="@string/person_message"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
 
             <Button
@@ -117,9 +117,8 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:background="#66ffffff"
                 android:text="@string/person_attention"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
-
 
         </LinearLayout>
 
@@ -137,7 +136,7 @@
                 android:layout_height="26dp"
                 android:background="#66ffffff"
                 android:text="@string/person_detail"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
 
             <Button
@@ -147,7 +146,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:background="#66ffffff"
                 android:text="@string/credits_title"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
 
             <Button
@@ -157,7 +156,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:background="#66ffffff"
                 android:text="@string/person_fix"
-                android:textColor="#cdcdcd"
+                android:textColor="#dcdcdc"
                 android:textSize="@dimen/medium_text"/>
         </LinearLayout>
     </LinearLayout>
