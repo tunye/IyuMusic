@@ -184,7 +184,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             if (AccountManager.getInstance().checkUserLogin()) {
                 synchroCollect();
             } else {
-                CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                     @Override
                     public void finish() {
                         synchroCollect();

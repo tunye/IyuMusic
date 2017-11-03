@@ -60,7 +60,7 @@ public class RecommendSongActivity extends BaseInputActivity {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     submit();
                 } else {
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             submit();

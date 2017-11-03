@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,12 +14,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.google.gson.Gson;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
@@ -28,6 +31,10 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
+import com.youdao.sdk.nativeads.NativeErrorCode;
+import com.youdao.sdk.nativeads.NativeResponse;
+import com.youdao.sdk.nativeads.RequestParameters;
+import com.youdao.sdk.nativeads.YouDaoNative;
 
 /**
  * Created by 10202 on 2015/11/16.
@@ -42,6 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean showAd = false;                             // 是否进入广告
     private boolean showGuide = false;                          // 是否跳转开屏引导
     private Context context;
+    private YouDaoNative youdaoNative;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
@@ -68,6 +76,14 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (welcomeAdProgressbar != null && welcomeAdProgressbar.getProgress() > 200) {
+            handler.sendEmptyMessage(1);
+        }
     }
 
     private void initWidget() {
@@ -122,11 +138,48 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
-                adEntity = (AdEntity) apiEntity.getData();
-                handler.sendEmptyMessage(0);
+                ConfigManager.getInstance().setADUrl(new Gson().toJson(object));
             }
         });
+    }
+
+    private void loadYouDaoSplash() {
+        youdaoNative = new YouDaoNative(context, "a710131df1638d888ff85698f0203b46",
+                new YouDaoNative.YouDaoNativeNetworkListener() {
+                    @Override
+                    public void onNativeLoad(final NativeResponse nativeResponse) {
+                        header.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                nativeResponse.handleClick(header);
+                            }
+                        });
+                        ImageUtil.loadImage(header, nativeResponse.getMainImageUrl(), 0, new ImageUtil.OnDrawableLoadListener() {
+                            @Override
+                            public void onSuccess(GlideDrawable drawable) {
+                                nativeResponse.recordImpression(header);
+                            }
+
+                            @Override
+                            public void onFail(Exception e) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNativeFail(NativeErrorCode nativeErrorCode) {
+
+                    }
+                });
+        Location location = new Location("appPos");
+        location.setLatitude(AccountManager.getInstance().getLatitude());
+        location.setLongitude(AccountManager.getInstance().getLongitude());
+        location.setAccuracy(100);
+
+        RequestParameters requestParameters = new RequestParameters.Builder()
+                .location(location).build();
+        youdaoNative.makeRequest(requestParameters);
     }
 
     private void initialDatabase() {
@@ -171,10 +224,6 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
             switch (msg.what) {
-                case 0:
-                    ConfigManager.getInstance().setADUrl(activity.adEntity.getPicUrl()
-                            + "@@@" + activity.adEntity.getLoadUrl());
-                    break;
                 case 1:
                     if (!activity.showAd) {
                         if (activity.normalStart) {
@@ -195,9 +244,21 @@ public class WelcomeActivity extends AppCompatActivity {
                     String adUrl = ConfigManager.getInstance().getADUrl();
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.header.setImageResource(R.drawable.default_header);
-                    } else if (!activity.isDestroyed()) {
+                    } else if (!activity.isDestroyed() && adUrl.contains("@@@")) {
                         String[] adUrls = adUrl.split("@@@");
                         ImageUtil.loadImage(adUrls[0], activity.header);
+                    } else if (!activity.isDestroyed()) {
+                        activity.adEntity = new Gson().fromJson(adUrl, AdEntity.class);
+                        switch (activity.adEntity.getType()) {
+                            case "addam":
+                                break;
+                            case "youdao":
+                                activity.loadYouDaoSplash();
+                                break;
+                            case "web":
+                                ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
+                                break;
+                        }
                     }
                     break;
                 case 3:

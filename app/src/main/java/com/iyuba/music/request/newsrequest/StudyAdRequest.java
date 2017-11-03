@@ -8,7 +8,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.iyuba.music.R;
-import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
@@ -18,8 +17,8 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyStringRequest;
 import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,42 +32,50 @@ public class StudyAdRequest {
                     url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String data) {
-                    BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
                         data = data.trim();
-                        if (data.startsWith("[")) {
-                            data = data.substring(1, data.length() - 1);
-                        }
-                        JSONObject jsonObject = new JSONObject(data);
-                        if (jsonObject.getString("result").equals("1")) {
-                            baseApiEntity.setState(BaseApiEntity.SUCCESS);
-                            AdEntity adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
-                            if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
-                                adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
-                                String url = adEntity.getLoadUrl();
-                                String userId = AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0";
-                                if (url.contains("?")) {
-                                    url += "&uid=" + userId;
+                        JSONObject jsonObject = new JSONArray(data).getJSONObject(0);
+                        String type = jsonObject.getJSONObject("data").getString("type");
+                        AdEntity adEntity = new AdEntity();
+                        switch (type) {
+                            case "addam":
+                                adEntity.setType(type);
+                                break;
+                            case "web":
+                                adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
+                                if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
+                                    adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                                    String url = adEntity.getLoadUrl();
+                                    String userId = AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0";
+                                    if (url.contains("?")) {
+                                        url += "&uid=" + userId;
+                                    } else {
+                                        url += "?uid=" + userId;
+                                    }
+                                    adEntity.setLoadUrl(url);
+                                    adEntity.setType(type);
                                 } else {
-                                    url += "?uid=" + userId;
+                                    adEntity.setType("youdao");
                                 }
-                                adEntity.setLoadUrl(url);
-                                baseApiEntity.setData(adEntity);
-                            } else {
-                                baseApiEntity.setState(BaseApiEntity.FAIL);
-                            }
-                        } else {
-                            baseApiEntity.setState(BaseApiEntity.FAIL);
+                                break;
+                            case "youdao":
+                            default:
+                                adEntity.setType("youdao");
+                                break;
                         }
-                        response.response(baseApiEntity);
+                        response.response(adEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        AdEntity adEntity = new AdEntity();
+                        adEntity.setType("youdao");
+                        response.response(adEntity);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
+                    AdEntity adEntity = new AdEntity();
+                    adEntity.setType("youdao");
+                    response.response(adEntity);
                 }
             });
             MyVolley.getInstance().addToRequestQueue(request);

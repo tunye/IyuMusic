@@ -52,7 +52,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment implements MySwipe
                     delReadItem(position);
                 } else {
                     final int pos = position;
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             delReadItem(pos);

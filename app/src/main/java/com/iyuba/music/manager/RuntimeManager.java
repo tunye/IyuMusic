@@ -1,6 +1,7 @@
 package com.iyuba.music.manager;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.DisplayMetrics;
 
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
@@ -71,6 +72,10 @@ public class RuntimeManager {
     public static int sp2px(float spValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
+    }
+
+    public static String newPhoneDiviceId() {
+        return Build.SERIAL;
     }
 
     public boolean isShowSignInToast() {

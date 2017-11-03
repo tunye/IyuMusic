@@ -101,7 +101,7 @@ public class WordContentActivity extends BaseActivity {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     synchroCollect();
                 } else {
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             synchroCollect();

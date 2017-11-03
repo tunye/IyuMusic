@@ -256,7 +256,19 @@
                 <action android:name="com.xiaomi.push.PING_TIMER"/>
             </intent-filter>
         </receiver>
-
+        <!--addam-->
+        <!--插屏广告-->
+        <activity
+            android:name="com.addam.library.external.InterstitialActivity"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+        <!--开屏广告-->
+        <activity
+            android:name="com.addam.library.external.InterstitialFullActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar"/>
+        <!--广告页面-->
+        <activity
+            android:name="com.addam.library.external.AdInfoActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

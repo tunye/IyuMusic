@@ -10,6 +10,8 @@ public class AdEntity {
     private String picUrl;
     @SerializedName("startuppic_Url")
     private String loadUrl;
+    @SerializedName("type")
+    private String type;
 
     public String getPicUrl() {
         return picUrl;
@@ -25,5 +27,13 @@ public class AdEntity {
 
     public void setLoadUrl(String loadUrl) {
         this.loadUrl = loadUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

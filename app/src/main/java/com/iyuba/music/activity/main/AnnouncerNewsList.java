@@ -158,7 +158,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                     intent.putExtra("needpop", true);
                     startActivity(intent);
                 } else {
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             SocialManager.getInstance().pushFriendId(announcer.getUid());

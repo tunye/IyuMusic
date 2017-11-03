@@ -101,7 +101,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     if (AccountManager.getInstance().checkUserLogin()) {
                         synchroFromNet(1);
                     } else {
-                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                             @Override
                             public void finish() {
                                 synchroFromNet(1);

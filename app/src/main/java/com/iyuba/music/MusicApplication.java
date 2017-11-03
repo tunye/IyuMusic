@@ -14,6 +14,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.addam.library.api.AddamManager;
 import com.buaa.ct.skin.SkinManager;
 import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
@@ -175,6 +176,13 @@ public class MusicApplication extends Application {
         UMShareAPI.get(getApplicationContext()).setShareConfig(config);
         // 初始化推送
         pushSdkInit();
+        // 初始化addam
+        AddamManager.start(this, "iyuba@sina.com", "a01c1754adf58704df15e929dc63b4ce", "addam_market");
+        AddamManager.initialize( new AddamManager.Callback() {
+            @Override
+            public void initialized(boolean success) {
+            }
+        });
     }
 
     public void pushActivity(Activity activity) {

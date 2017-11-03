@@ -130,7 +130,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 if (AccountManager.getInstance().checkUserLogin()) {
                     sendVoice();
                 } else {
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             sendVoice();

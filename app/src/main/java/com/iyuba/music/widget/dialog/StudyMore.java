@@ -191,7 +191,7 @@ public class StudyMore {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             goAnnouncerHomePage(curArticle);
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     goAnnouncerHomePage(curArticle);
@@ -283,7 +283,7 @@ public class StudyMore {
                         intent.putExtra("needpop", true);
                         context.startActivity(intent);
                     } else {
-                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                             @Override
                             public void finish() {
                                 SocialManager.getInstance().pushFriendId(item.getUid());

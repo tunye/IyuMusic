@@ -62,7 +62,7 @@ public class MeActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
@@ -82,7 +82,7 @@ public class MeActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
@@ -98,7 +98,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, FindFriendActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, FindFriendActivity.class));
@@ -119,7 +119,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CreditActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, CreditActivity.class));
@@ -131,7 +131,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             launchRank();
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     launchRank();
@@ -143,7 +143,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             launchIStudy();
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     launchIStudy();
@@ -155,7 +155,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CampaignActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, CampaignActivity.class));

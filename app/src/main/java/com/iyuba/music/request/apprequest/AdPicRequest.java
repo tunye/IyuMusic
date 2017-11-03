@@ -11,14 +11,15 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.volley.MyStringRequest;
 import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,24 +33,38 @@ public class AdPicRequest {
                     url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String data) {
-                    BaseApiEntity baseApiEntity = new BaseApiEntity();
                     try {
                         data = data.trim();
-                        String cutResult = data.trim().substring(1, data.length() - 1);
-                        JSONObject jsonObject = new JSONObject(cutResult);
-                        baseApiEntity.setState(BaseApiEntity.SUCCESS);
-                        AdEntity adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
-                        adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
-                        baseApiEntity.setData(adEntity);
-                        response.response(baseApiEntity);
+                        JSONObject jsonObject = new JSONArray(data).getJSONObject(0);
+                        String type = jsonObject.getJSONObject("data").getString("type");
+                        AdEntity adEntity = new AdEntity();
+                        switch (type) {
+                            case "addam":
+                                adEntity.setType(type);
+                                break;
+                            default:
+                            case "youdao":
+                                adEntity.setType("youdao");
+                                break;
+                            case "web":
+                                adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
+                                adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                                adEntity.setType("web");
+                                break;
+                        }
+                        response.response(adEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        AdEntity adEntity = new AdEntity();
+                        adEntity.setType("youdao");
+                        response.response(adEntity);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
+                    AdEntity adEntity = new AdEntity();
+                    adEntity.setType("youdao");
+                    response.response(adEntity);
                 }
             });
             request.setRetryPolicy(new DefaultRetryPolicy(1000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -64,6 +79,7 @@ public class AdPicRequest {
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("appId", ConstantManager.appId);
         paras.put("flag", 1);
+        paras.put("uid", ConfigManager.getInstance().loadString("userId", "0"));
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 }

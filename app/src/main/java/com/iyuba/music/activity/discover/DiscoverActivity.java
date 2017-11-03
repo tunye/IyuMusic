@@ -61,7 +61,7 @@ public class DiscoverActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, CircleActivity.class));
@@ -73,7 +73,7 @@ public class DiscoverActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, MessageActivity.class));
@@ -89,7 +89,7 @@ public class DiscoverActivity extends BaseActivity {
                             intent.putExtra("needPop", true);
                             startActivity(intent);
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());

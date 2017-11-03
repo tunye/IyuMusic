@@ -119,7 +119,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                     if (AccountManager.getInstance().checkUserLogin()) {
                         getYunFavor();
                     } else {
-                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                             @Override
                             public void finish() {
                                 getYunFavor();

@@ -111,7 +111,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     }
                 } else {
                     final int pos = position;
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             if (AccountManager.getInstance().getUserId().equals(comments.get(pos).getUserid())) {//是自己，删除
@@ -147,7 +147,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     sendComment(s);
                 } else {
                     final String string = s;
-                    CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                    CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
                             sendComment(string);
@@ -166,7 +166,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                         handler.obtainMessage(1, s).sendToTarget();
                     } else {
                         final String string = s;
-                        CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                        CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                             @Override
                             public void finish() {
                                 handler.obtainMessage(1, string).sendToTarget();

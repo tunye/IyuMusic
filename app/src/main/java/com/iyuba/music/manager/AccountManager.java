@@ -37,6 +37,7 @@ public class AccountManager {
     private int loginState;
     private UserInfo userInfo;
     private String userId; // 用户ID
+    private String visitorId;
     private String userName; // 用户姓名
     private String userPwd; // 用户密码
 
@@ -46,6 +47,7 @@ public class AccountManager {
 
     private AccountManager() {
         loginState = SIGN_OUT;
+        visitorId = ConfigManager.getInstance().loadString("visitorId");
     }
 
     public static AccountManager getInstance() {
@@ -60,10 +62,12 @@ public class AccountManager {
         new UserInfoOp().delete(userId);
         loginState = SIGN_OUT;
         userId = ""; // 用户ID
+        visitorId = "";
         userName = ""; // 用户姓名
         userPwd = ""; // 用户密码
         userInfo = new UserInfo();
         saveUserNameAndPwd();
+        ConfigManager.getInstance().putString("visitorId", "");
         ConfigManager.getInstance().setAutoLogin(false);
     }
 
@@ -220,7 +224,15 @@ public class AccountManager {
     }
 
     public String getUserId() {
-        return userId;
+        if (loginState == SIGN_IN) {
+            return userId;
+        } else {
+            return visitorId;
+        }
+    }
+
+    public boolean needGetVisitorID() {
+        return TextUtils.isEmpty(visitorId);
     }
 
     public void setLoginState(@LoginState int state) {

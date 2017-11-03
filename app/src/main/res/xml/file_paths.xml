@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <external-path name="iyumusic_path" path="/iyuba/music/image"/>
+    <external-cache-path name="addam_apk_download" path="addam_download"/>
 </paths>

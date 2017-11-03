@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.addam.library.api.AddamBanner;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -31,7 +32,6 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeAdWebView;
 import com.iyuba.music.download.DownloadService;
-import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.IOperationResult;
@@ -131,6 +131,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private Timer timer;
     private TimerTask timerTask;
     private YouDaoNative youdaoNative;
+    private AddamBanner addamBanner;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
@@ -175,6 +176,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onDestroy() {
         if (youdaoNative != null) {
             youdaoNative.destroy();
+        }
+        if (addamBanner != null) {
+            addamBanner.unLoad();
         }
         if (timer != null && isNativeAd) {
             timerTask.cancel();
@@ -393,20 +397,40 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initAd() {
-        ViewStub adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
-        adViewStub.inflate();
-        adView = findViewById(R.id.youdao_ad);
-        photoImage = (ImageView) findViewById(R.id.photoImage);
         getAdContent(new IOperationResult() {
             @Override
             public void success(Object object) {
-                initNativeAdTimer();
-                refreshNativeAd((BaseApiEntity) object);
+                AdEntity adEntity = (AdEntity) object;
+                switch (adEntity.getType()) {
+                    case "addam":
+                        ViewStub adViewStub = (ViewStub) findViewById(R.id.addam_ad_view_stub);
+                        adViewStub.inflate();
+                        addamBanner = (AddamBanner) findViewById(R.id.addam_ad_banner);
+                        addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
+                        addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
+                        addamBanner.load(); // 开始加载
+                        break;
+                    case "youdao":
+                        adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
+                        adViewStub.inflate();
+                        adView = findViewById(R.id.youdao_ad);
+                        photoImage = (ImageView) findViewById(R.id.photoImage);
+                        refreshYouDaoAd();
+                        break;
+                    case "web":
+                        adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
+                        adViewStub.inflate();
+                        adView = findViewById(R.id.youdao_ad);
+                        photoImage = (ImageView) findViewById(R.id.photoImage);
+                        initNativeAdTimer();
+                        refreshNativeAd((AdEntity) object);
+                        break;
+                }
             }
 
             @Override
             public void fail(Object object) {
-                refreshYouDaoAd();
+
             }
         });
     }
@@ -425,12 +449,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void response(Object object) {
-                BaseApiEntity result = (BaseApiEntity) object;
-                if (result.getState() == BaseApiEntity.SUCCESS) {
-                    iOperationResult.success(object);
-                } else {
-                    iOperationResult.fail(null);
-                }
+                iOperationResult.success(object);
             }
         });
     }
@@ -455,10 +474,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         timer.scheduleAtFixedRate(timerTask, 0, 60000);
     }
 
-    private void refreshNativeAd(BaseApiEntity data) {
+    private void refreshNativeAd(final AdEntity adEntity) {
         isNativeAd = true;
         if (!isDestroyed()) {
-            final AdEntity adEntity = (AdEntity) data.getData();
             adView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -466,7 +484,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                             "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
                 }
             });
-            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).fitCenter()
+            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
         }
     }
@@ -848,7 +866,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     activity.setIntervalImage(0);
                     break;
                 case 3:
-                    activity.refreshNativeAd((BaseApiEntity) msg.obj);
+                    activity.refreshNativeAd((AdEntity) msg.obj);
                     break;
             }
         }

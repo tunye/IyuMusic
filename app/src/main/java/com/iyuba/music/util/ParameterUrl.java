@@ -17,13 +17,10 @@ public class ParameterUrl {
         StringBuilder requestURLTemp = new StringBuilder(url);
         Iterator iterator = para.entrySet().iterator();
         HashMap.Entry entry;
-        Object key, value;
         requestURLTemp.append("?");
         while (iterator.hasNext()) {
             entry = (HashMap.Entry) iterator.next();
-            key = entry.getKey();
-            value = entry.getValue();
-            requestURLTemp.append(key).append("=").append(value).append("&");
+            requestURLTemp.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
         }
         return requestURLTemp.substring(0, requestURLTemp.length() - 1);
     }

@@ -203,4 +203,12 @@
         android:clickable="true"
         android:gravity="center_vertical"
         android:layout="@layout/youdao_ad_layout"/>
+
+    <ViewStub
+        android:id="@+id/addam_ad_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:layout="@layout/addam_ad_layout"/>
 </LinearLayout>

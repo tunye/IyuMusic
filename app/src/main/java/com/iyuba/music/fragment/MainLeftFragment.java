@@ -153,7 +153,7 @@ public class MainLeftFragment extends BaseFragment {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, VipCenterActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, false, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, VipCenterActivity.class));

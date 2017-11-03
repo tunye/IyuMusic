@@ -10,13 +10,41 @@ import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.request.apprequest.VisitorIdRequest;
 
 /**
  * Created by 10202 on 2015/12/4.
  */
 public class CustomDialog {
-    public static void showLoginDialog(final Context context, final IOperationFinish finish) {
+    public static void showLoginDialog(final Context context, boolean useVisitorMode, final IOperationFinish finish) {
+        if (useVisitorMode) {
+            if (AccountManager.getInstance().needGetVisitorID()) {
+                VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse() {
+                    @Override
+                    public void onNetError(String msg) {
+                        showLogin(context, finish);
+                    }
+
+                    @Override
+                    public void onServerError(String msg) {
+                        showLogin(context, finish);
+                    }
+
+                    @Override
+                    public void response(Object object) {
+                        finish.finish();
+                    }
+                });
+            }
+        } else {
+            showLogin(context, finish);
+        }
+    }
+
+    private static void showLogin(final Context context, final IOperationFinish finish) {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.login_login);
         dialog.setMessage(R.string.personal_no_login);
