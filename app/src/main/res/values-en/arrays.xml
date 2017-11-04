@@ -49,6 +49,7 @@
         <item>Voice</item>
         <item>Category</item>
         <item>Announcer</item>
+        <item>MTV</item>
         <item>Song</item>
     </string-array>
     <string-array name="read_tab_title">

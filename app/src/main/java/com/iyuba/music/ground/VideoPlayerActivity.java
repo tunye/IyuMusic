@@ -234,6 +234,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         toolbarOper.setText(R.string.study_share);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeUIResumeByPara();
+    }
+
     protected void changeUIResumeByPara() {
         setPauseImage();
         setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
@@ -378,10 +384,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.latter:
                 currPos = (currPos + 1) % articles.size();
+                article = articles.get(currPos);
                 refresh();
                 break;
             case R.id.formmer:
                 currPos = (currPos - 1) % articles.size();
+                article = articles.get(currPos);
                 refresh();
                 break;
             case R.id.translate:

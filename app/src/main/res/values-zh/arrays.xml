@@ -49,6 +49,7 @@
         <item>解说</item>
         <item>分类</item>
         <item>主播</item>
+        <item>MTV</item>
         <item>原声</item>
     </string-array>
     <string-array name="read_tab_title">

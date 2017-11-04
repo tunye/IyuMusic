@@ -9,22 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.download.DownloadService;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
+import com.iyuba.music.ground.GroundNewsAdapter;
+import com.iyuba.music.ground.VideoPlayerActivity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.request.mainpanelrequest.MusicRequest;
+import com.iyuba.music.request.mainpanelrequest.MTVRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.banner.BannerView;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -35,11 +33,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 /**
- * Created by 10202 on 2016/3/4.
+ * Created by 10202 on 2017/11/4.
  */
-public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
-    private ArrayList<Article> musicList;
-    private SimpleNewsAdapter musicAdapter;
+public class MTVFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
+    private ArrayList<Article> MTVList;
+    private GroundNewsAdapter MTVAdapter;
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
     private int curPage;
@@ -59,36 +57,32 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        musicList = new ArrayList<>();
-        musicAdapter = new SimpleNewsAdapter(context);
+        MTVList = new ArrayList<>();
+        MTVAdapter = new GroundNewsAdapter(context);
         if (DownloadService.checkVip()) {
-            musicAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
+            MTVAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(position));
-                    context.startActivity(new Intent(context, StudyActivity.class));
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    intent.putExtra("pos", position);
+                    intent.putExtra("articleList", MTVList);
+                    context.startActivity(intent);
                 }
 
                 @Override
                 public void onItemLongClick(View view, int position) {
                 }
             });
-            recyclerView.setAdapter(musicAdapter);
+            recyclerView.setAdapter(MTVAdapter);
         } else {
-            mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), musicAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
-            musicAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
+            mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), MTVAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+            MTVAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(mAdAdapter.getOriginalPosition(position)));
-                    context.startActivity(new Intent(context, StudyActivity.class));
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    intent.putExtra("pos", position);
+                    intent.putExtra("articleList", MTVList);
+                    context.startActivity(intent);
                 }
 
                 @Override
@@ -125,19 +119,11 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     }
 
     private void getData() {
-        MusicRequest.exeRequest(MusicRequest.generateUrl(curPage), new IProtocolResponse() {
+        MTVRequest.exeRequest(MTVRequest.generateUrl(curPage), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -145,14 +131,6 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
             public void onServerError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -165,19 +143,11 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                 if (isLastPage) {
                     CustomToast.getInstance().showToast(R.string.article_load_all);
                 } else {
-                    musicList.addAll(netData);
-                    musicAdapter.setDataSet(musicList);
+                    MTVList.addAll(netData);
+                    MTVAdapter.setData(MTVList);
                     if (curPage == 1) {
                     } else {
                         CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
-                    }
-                    if (!StudyManager.getInstance().isStartPlaying()) {
-                        StudyManager.getInstance().setLesson("music");
-                        StudyManager.getInstance().setSourceArticleList(musicList);
-                        StudyManager.getInstance().setCurArticle(musicList.get(0));
-                        StudyManager.getInstance().setApp("209");
-                    } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(musicList);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
@@ -189,7 +159,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                             localInfoOp.saveData(localinfo);
                         }
                     }
-                    articleOp.saveData(musicList);
+                    articleOp.saveData(MTVList);
                 }
             }
         });
@@ -203,7 +173,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     @Override
     public void onRefresh(int index) {
         curPage = 1;
-        musicList = new ArrayList<>();
+        MTVList = new ArrayList<>();
         isLastPage = false;
         getData();
     }
@@ -215,7 +185,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
      */
     @Override
     public void onLoad(int index) {
-        if (musicList.size() == 0) {
+        if (MTVList.size() == 0) {
 
         } else if (!isLastPage) {
             curPage++;
@@ -235,7 +205,7 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     }
 
     private void getDbData() {
-        musicList.addAll(articleOp.findDataByMusic(musicList.size(), 20));
-        musicAdapter.setDataSet(musicList);
+        MTVList.addAll(articleOp.findDataByCategory(ConstantManager.appId, 401, MTVList.size(), 20));
+        MTVAdapter.setData(MTVList);
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.iyuba.music.fragment.AnnouncerFragment;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.fragment.ClassifyFragment;
+import com.iyuba.music.fragment.MTVFragment;
 import com.iyuba.music.fragment.MusicFragment;
 import com.iyuba.music.fragment.NewsFragment;
 import com.iyuba.music.fragment.SongCategoryFragment;
@@ -28,6 +29,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         list.add(new NewsFragment());
         list.add(new ClassifyFragment());
         list.add(new AnnouncerFragment());
+        list.add(new MTVFragment());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             list.add(new SongCategoryFragment());
         } else {

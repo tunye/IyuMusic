@@ -58,11 +58,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         this.shouldAutoPlayMainPlayer = autoPlay;
         this.context = context;
         commentAgreeOp = new CommentAgreeOp();
-        if (AccountManager.getInstance().checkUserLogin()) {
-            uid = AccountManager.getInstance().getUserId();
-        } else {
-            uid = "0";
-        }
+        uid = AccountManager.getInstance().getUserId();
         comments = new ArrayList<>();
     }
 

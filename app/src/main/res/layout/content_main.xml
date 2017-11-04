@@ -11,7 +11,7 @@
         android:layout_height="36dp"
         android:background="@color/background_dark"
         android:orientation="horizontal"
-        app:tab_item_count="4"
+        app:tab_item_count="5"
         app:tab_normal_color="@color/text_complementary"
         app:tab_shape="LINE"/>
 
@@ -102,9 +102,9 @@
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/main_play"
                 android:layout_width="40dp"
+                android:layout_height="match_parent"
                 android:paddingLeft="@dimen/row_space_default"
-                android:paddingRight="@dimen/row_space_default"
-                android:layout_height="match_parent"/>
+                android:paddingRight="@dimen/row_space_default"/>
 
             <ImageView
                 android:id="@+id/main_latter"

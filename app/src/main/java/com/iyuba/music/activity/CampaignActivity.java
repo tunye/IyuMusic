@@ -140,7 +140,6 @@ public class CampaignActivity extends BaseActivity {
         return "http://m.iyuba.com/m_login/present.jsp?uid=" + userId + "&token=" + token;
     }
 
-
     private String getExchangeUrl() {
         return "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
                 + "&appid=" + ConstantManager.appId + "&username="

@@ -24,10 +24,7 @@ public class StudyRecordUtil {
             studyRecord.setEndTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
             studyRecord.setFlag(flag);
             UserInfoOp userInfoOp = new UserInfoOp();
-            String userid = "0";
-            if (AccountManager.getInstance().checkUserLogin()) {
-                userid = AccountManager.getInstance().getUserId();
-            }
+            String userid = AccountManager.getInstance().getUserId();
             studyRecord.setLesson(lesson);
             studyRecord.setId(StudyManager.getInstance().getCurArticle().getId());
             studyRecord.setStartTime(StudyManager.getInstance().getStartTime());

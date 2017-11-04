@@ -226,13 +226,15 @@ public class AccountManager {
     public String getUserId() {
         if (loginState == SIGN_IN) {
             return userId;
-        } else {
+        } else if (!TextUtils.isEmpty(visitorId)) {
             return visitorId;
+        } else {
+            return "0";
         }
     }
 
     public boolean needGetVisitorID() {
-        return TextUtils.isEmpty(visitorId);
+        return TextUtils.isEmpty(visitorId) && ConfigManager.getInstance().loadBoolean("gotVisitor", true);
     }
 
     public void setLoginState(@LoginState int state) {

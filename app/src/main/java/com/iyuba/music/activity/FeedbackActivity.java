@@ -134,12 +134,7 @@ public class FeedbackActivity extends BaseActivity {
                 imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
             }
             waitingDialog.show();
-            String uid;
-            if (AccountManager.getInstance().checkUserLogin()) {
-                uid = AccountManager.getInstance().getUserId();
-            } else {
-                uid = "0";
-            }
+            String uid=AccountManager.getInstance().getUserId();
             try {
                 contentString = contentString + "\nappversion:["
                         + context.getPackageManager().getPackageInfo(context.getPackageName(),

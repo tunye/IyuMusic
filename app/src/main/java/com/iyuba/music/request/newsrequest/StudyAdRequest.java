@@ -46,7 +46,7 @@ public class StudyAdRequest {
                                 if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
                                     adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
                                     String url = adEntity.getLoadUrl();
-                                    String userId = AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : "0";
+                                    String userId = AccountManager.getInstance().getUserId();
                                     if (url.contains("?")) {
                                         url += "&uid=" + userId;
                                     } else {
@@ -87,7 +87,7 @@ public class StudyAdRequest {
     public static String generateUrl() {
         String originalUrl = "http://app.iyuba.com/dev/getAdEntryAll.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
-        para.put("uid", AccountManager.getInstance().checkUserLogin() ? AccountManager.getInstance().getUserId() : 0);
+        para.put("uid", AccountManager.getInstance().getUserId());
         para.put("appId", ConstantManager.appId);
         para.put("flag", 4);
         return ParameterUrl.setRequestParameter(originalUrl, para);

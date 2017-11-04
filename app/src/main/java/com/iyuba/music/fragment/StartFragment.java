@@ -81,10 +81,7 @@ public class StartFragment {
         StudyRecordOp studyRecordOp = new StudyRecordOp();
         if (studyRecordOp.hasData()) {
             ArrayList<StudyRecord> records = studyRecordOp.selectData();
-            String userid = "0";
-            if (AccountManager.getInstance().checkUserLogin()) {
-                userid = AccountManager.getInstance().getUserId();
-            }
+            String userid = AccountManager.getInstance().getUserId();
             Handler handler = new Handler();
             for (StudyRecord record : records) {
                 final StudyRecord exePos = record;

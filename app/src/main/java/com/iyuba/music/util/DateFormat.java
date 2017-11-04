@@ -110,5 +110,9 @@ public class DateFormat {
         return day2 - day1;
     }
 
-
+    public static long getTimeDate() {
+        Date date = new Date();
+        long unixTimestamp = date.getTime() / 1000 + 3600 * 8; //东八区;
+        return unixTimestamp / 86400;
+    }
 }

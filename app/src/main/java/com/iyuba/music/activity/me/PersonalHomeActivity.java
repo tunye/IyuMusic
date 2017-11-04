@@ -158,7 +158,6 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             otherControl.setVisibility(View.GONE);
             toolbarOper.setVisibility(View.VISIBLE);
             userinfo = AccountManager.getInstance().getUserInfo();
-            Log.e("aaa", new Gson().toJson(userinfo));
             setContent();
         } else {//other
             myControl.setVisibility(View.GONE);
