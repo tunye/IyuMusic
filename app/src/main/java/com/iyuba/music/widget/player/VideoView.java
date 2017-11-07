@@ -420,7 +420,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (mIsPrepared && mMediaPlayer != null && mMediaController != null) {
-            toggleMediaControlsVisiblity();
+            toggleMediaControlsVisible();
         }
         return false;
     }
@@ -428,7 +428,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
         if (mIsPrepared && mMediaPlayer != null && mMediaController != null) {
-            toggleMediaControlsVisiblity();
+            toggleMediaControlsVisible();
         }
         return false;
     }
@@ -457,14 +457,14 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                 pause();
                 mMediaController.show();
             } else {
-                toggleMediaControlsVisiblity();
+                toggleMediaControlsVisible();
             }
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-    private void toggleMediaControlsVisiblity() {
+    private void toggleMediaControlsVisible() {
         if (mMediaController.isShowing()) {
             mMediaController.hide();
         } else {

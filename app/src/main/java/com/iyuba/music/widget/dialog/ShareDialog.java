@@ -211,7 +211,11 @@ public class ShareDialog {
                 url = "http://m.iyuba.com/voaS/play.jsp?id=" + article.getId();
                 break;
             case "209":
-                url = "http://m.iyuba.com/MSEn/play.jsp?id=" + article.getId();
+                if (article.getCategory().equals("401")) {
+                    url = "http://m.iyuba.com/news.html?type=topvideos&id=" + article.getId();
+                } else {
+                    url = "http://m.iyuba.com/news.html?type=song&id=" + article.getId();
+                }
                 break;
             case "212":
                 url = "http://m.iyuba.com/voaS/playC.jsp.jsp?id=" + article.getId();
