@@ -415,6 +415,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                         adViewStub.inflate();
                         adView = findViewById(R.id.youdao_ad);
                         photoImage = (ImageView) findViewById(R.id.photoImage);
+                        initNativeAdTimer();
                         refreshYouDaoAd();
                         break;
                     case "web":
@@ -475,17 +476,21 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void refreshNativeAd(final AdEntity adEntity) {
-        isNativeAd = true;
-        if (!isDestroyed()) {
-            adView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
-                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
-                }
-            });
-            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
+        if (adEntity.getType().equals("web")) {
+            isNativeAd = true;
+            if (!isDestroyed()) {
+                adView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
+                                "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
+                    }
+                });
+                Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
+            }
+        } else if (isNativeAd) {
+            refreshYouDaoAd();
         }
     }
 
