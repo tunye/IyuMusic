@@ -16,9 +16,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -59,6 +60,8 @@ import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
+import com.jesgoo.sdk.AdSize;
+import com.jesgoo.sdk.AdView;
 import com.umeng.socialize.UMShareAPI;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
@@ -69,6 +72,7 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -125,13 +129,15 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         }
     };
-    private boolean isNativeAd = false;
+    private LinearLayout root;
+    private RelativeLayout adRoot;
     private View adView;
     private ImageView photoImage;
     private Timer timer;
     private TimerTask timerTask;
     private YouDaoNative youdaoNative;
     private AddamBanner addamBanner;
+    private AdView sspAd;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
@@ -140,7 +146,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.study);
         context = this;
-        isNativeAd = false;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.getInstance().getCurArticle(), false);
@@ -180,7 +185,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (addamBanner != null) {
             addamBanner.unLoad();
         }
-        if (timer != null && isNativeAd) {
+        if (timer != null) {
             timerTask.cancel();
             timer.purge();
         }
@@ -275,7 +280,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 showNoNetDialog();
                 return false;
             } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-                CustomSnackBar.make(findViewById(R.id.root), context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+                CustomSnackBar.make(root, context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Settings.ACTION_SETTINGS);
@@ -372,6 +377,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initWidget() {
         super.initWidget();
+        root = (LinearLayout) findViewById(R.id.root);
+        adRoot = (RelativeLayout) findViewById(R.id.ad_stub);
         studyMore = (ImageView) findViewById(R.id.study_more);
         viewPager = (ViewPager) findViewById(R.id.study_main);
         pageIndicator = (PageIndicator) findViewById(R.id.study_indicator);
@@ -390,62 +397,63 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadService.checkVip()) {
-            initAd();
-        } else {
-            youdaoNative = null;
+            initAdTimer();
         }
     }
 
-    private void initAd() {
-        getAdContent(new IOperationResult() {
-            @Override
-            public void success(Object object) {
-                AdEntity adEntity = (AdEntity) object;
-                switch (adEntity.getType()) {
-                    case "addam":
-                        ViewStub adViewStub = (ViewStub) findViewById(R.id.addam_ad_view_stub);
-                        adViewStub.inflate();
-                        addamBanner = (AddamBanner) findViewById(R.id.addam_ad_banner);
-                        addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
-                        addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
-                        addamBanner.load(); // 开始加载
-                        break;
-                    case "youdao":
-                        adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
-                        adViewStub.inflate();
-                        adView = findViewById(R.id.youdao_ad);
-                        photoImage = (ImageView) findViewById(R.id.photoImage);
-                        initNativeAdTimer();
-                        refreshYouDaoAd();
-                        break;
-                    case "web":
-                        adViewStub = (ViewStub) findViewById(R.id.youdao_ad_view_stub);
-                        adViewStub.inflate();
-                        adView = findViewById(R.id.youdao_ad);
-                        photoImage = (ImageView) findViewById(R.id.photoImage);
-                        initNativeAdTimer();
-                        refreshNativeAd((AdEntity) object);
-                        break;
-                }
-            }
-
-            @Override
-            public void fail(Object object) {
-
-            }
-        });
+    private void setAdType(AdEntity adEntity) {
+        adRoot.removeAllViews();
+        if (addamBanner != null) {
+            addamBanner.unLoad();
+            addamBanner = null;
+        }
+        if (youdaoNative != null) {
+            youdaoNative.destroy();
+            youdaoNative = null;
+        }
+        switch (adEntity.getType()) {
+//            case "addam":
+//                adView = LayoutInflater.from(context).inflate(R.layout.addam_ad_layout, null);
+//                adRoot.addView(adView);
+//                addamBanner = (AddamBanner) adView.findViewById(R.id.addam_ad_banner);
+//                addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
+//                addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
+//                addamBanner.load(); // 开始加载
+//                break;
+//            case "ssp":
+            default:
+                AdView.preLoad(this);
+                AdView sspAd = new AdView(this, AdSize.Banner, "sb6458f4");
+                adRoot.addView(sspAd, new RelativeLayout.LayoutParams(-1, -2));
+                break;
+//            case "youdao":
+//                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
+//                adRoot.addView(adView);
+//                layoutParams = adRoot.getLayoutParams();
+//                layoutParams.height = RuntimeManager.dip2px(50);
+//                adRoot.setLayoutParams(layoutParams);
+//                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+//                initYouDaoAd();
+//                break;
+//            case "web":
+//                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
+//                adRoot.addView(adView);
+//                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+//                refreshNativeAd(adEntity);
+//                break;
+        }
     }
 
     private void getAdContent(final IOperationResult iOperationResult) {
         StudyAdRequest.exeRequest(StudyAdRequest.generateUrl(), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-                refreshYouDaoAd();
+                initYouDaoAd();
             }
 
             @Override
             public void onServerError(String msg) {
-                refreshYouDaoAd();
+                initYouDaoAd();
             }
 
             @Override
@@ -455,7 +463,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    private void initNativeAdTimer() {
+    private void initAdTimer() {
         timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -472,30 +480,24 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
         };
         timer = new Timer(false);
-        timer.scheduleAtFixedRate(timerTask, 0, 60000);
+        timer.scheduleAtFixedRate(timerTask, Calendar.getInstance().getTime(), 60000);
     }
 
     private void refreshNativeAd(final AdEntity adEntity) {
-        if (adEntity.getType().equals("web")) {
-            isNativeAd = true;
-            if (!isDestroyed()) {
-                adView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
-                                "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
-                    }
-                });
-                Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
-            }
-        } else if (isNativeAd) {
-            refreshYouDaoAd();
+        if (!isDestroyed()) {
+            adView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
+                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
+                }
+            });
+            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
         }
     }
 
-    private void refreshYouDaoAd() {
-        isNativeAd = false;
+    private void initYouDaoAd() {
         youdaoNative = new YouDaoNative(context, "230d59b7c0a808d01b7041c2d127da95",
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
@@ -871,7 +873,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     activity.setIntervalImage(0);
                     break;
                 case 3:
-                    activity.refreshNativeAd((AdEntity) msg.obj);
+                    activity.setAdType((AdEntity) msg.obj);
                     break;
             }
         }

@@ -28,11 +28,10 @@
                 android:layout_height="200dp"
                 android:layout_margin="@dimen/row_space_large">
 
-                <com.pili.pldroid.player.widget.PLVideoView
-                    android:id="@+id/video_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_gravity="center"/>
+                <com.iyuba.music.widget.player.VideoView
+                    android:id="@+id/videoView_small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="200dp"/>
 
                 <ImageView
                     android:id="@+id/large_pause"

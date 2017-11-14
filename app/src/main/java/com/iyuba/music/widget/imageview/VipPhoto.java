@@ -52,6 +52,11 @@ public class VipPhoto extends RelativeLayout {
         }
     }
 
+    public void setVisitor() {
+        circleImageView.setImageResource(R.drawable.default_photo);
+        vipStatus.setVisibility(GONE);
+    }
+
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
         if (circleImageView != null) {

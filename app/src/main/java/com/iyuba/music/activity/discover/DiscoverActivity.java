@@ -73,7 +73,7 @@ public class DiscoverActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
-                            CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
+                            CustomDialog.showLoginDialog(context, false, new IOperationFinish() {
                                 @Override
                                 public void finish() {
                                     startActivity(new Intent(context, MessageActivity.class));

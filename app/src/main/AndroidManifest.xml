@@ -261,10 +261,9 @@
         <activity
             android:name="com.addam.library.external.InterstitialActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
-        <!--开屏广告-->
         <activity
-            android:name="com.addam.library.external.InterstitialFullActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"/>
+            android:name="com.jesgoo.sdk.AppActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"/>
         <!--广告页面-->
         <activity
             android:name="com.addam.library.external.AdInfoActivity"

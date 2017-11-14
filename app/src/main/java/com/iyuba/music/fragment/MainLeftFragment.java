@@ -210,9 +210,16 @@ public class MainLeftFragment extends BaseFragment {
                 getPersonalInfo();
             }
         } else {
-            login.setVisibility(View.GONE);
-            noLogin.setVisibility(View.VISIBLE);
-            sign.setVisibility(View.GONE);
+            if (AccountManager.getInstance().getUserId().equals("0")) {
+                login.setVisibility(View.GONE);
+                noLogin.setVisibility(View.VISIBLE);
+                sign.setVisibility(View.GONE);
+            } else {
+                login.setVisibility(View.VISIBLE);
+                noLogin.setVisibility(View.GONE);
+                sign.setVisibility(View.VISIBLE);
+                personalPhoto.setVisitor();
+            }
         }
         int sleepSecond = ((MusicApplication) getActivity().getApplication()).getSleepSecond();
         if (sleepSecond != 0) {
@@ -352,9 +359,6 @@ public class MainLeftFragment extends BaseFragment {
         if (parent != null && !parent.isDestroyed()) {
             personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
             setPersonalInfoContent();
-            login.setVisibility(View.VISIBLE);
-            noLogin.setVisibility(View.GONE);
-            sign.setVisibility(View.VISIBLE);
         }
     }
 

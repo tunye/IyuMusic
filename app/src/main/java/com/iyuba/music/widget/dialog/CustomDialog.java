@@ -14,6 +14,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.apprequest.VisitorIdRequest;
+import com.iyuba.music.widget.CustomToast;
 
 /**
  * Created by 10202 on 2015/12/4.
@@ -22,6 +23,7 @@ public class CustomDialog {
     public static void showLoginDialog(final Context context, boolean useVisitorMode, final IOperationFinish finish) {
         if (useVisitorMode) {
             if (AccountManager.getInstance().needGetVisitorID()) {
+                CustomToast.getInstance().showToast("正在请求用户信息，请稍等片刻~", CustomToast.LENGTH_LONG);
                 VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {

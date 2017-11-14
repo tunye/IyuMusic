@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -43,8 +43,7 @@ import com.iyuba.music.widget.original.OriginalSynView;
 import com.iyuba.music.widget.original.SeekToCallBack;
 import com.iyuba.music.widget.original.TextSelectCallBack;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.pili.pldroid.player.PLMediaPlayer;
-import com.pili.pldroid.player.widget.PLVideoView;
+import com.iyuba.music.widget.player.VideoView;
 
 import java.util.ArrayList;
 
@@ -56,7 +55,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private int currPos;
     private Article article;
     private ArrayList<Article> articles;
-    private PLVideoView videoView;
+    private VideoView videoView;
     private WordCard wordCard;
     private TextView currTime, duration;
     private SeekBar seekBar;
@@ -124,7 +123,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         playMode = (ImageView) findViewById(R.id.play_mode);
         studyTranslate = (ImageView) findViewById(R.id.translate);
         wordCard = (WordCard) findViewById(R.id.wordcard);
-        videoView = (PLVideoView) findViewById(R.id.video_view);
+        videoView = (VideoView) findViewById(R.id.videoView_small);
         originalView = (OriginalSynView) findViewById(R.id.original);
         largePause = (ImageView) findViewById(R.id.large_pause);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
@@ -140,12 +139,11 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 shareDialog.show();
             }
         });
-        videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
-
-        videoView.setOnPreparedListener(new PLMediaPlayer.OnPreparedListener() {
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(PLMediaPlayer plMediaPlayer, int state) {
-                int i = (int) videoView.getDuration();
+            public void onPrepared(MediaPlayer mp) {
+                setScreen();
+                int i = videoView.getDuration();
                 seekBar.setMax(i);
                 duration.setText(Mathematics.formatTime(i / 1000));
                 handler.sendEmptyMessage(0);
@@ -153,17 +151,16 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 largePause.setVisibility(View.GONE);
                 playSound.setState(MorphButton.PLAY_STATE);
             }
-
         });
-        videoView.setOnBufferingUpdateListener(new PLMediaPlayer.OnBufferingUpdateListener() {
+        videoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
-            public void onBufferingUpdate(PLMediaPlayer mp, int percent) {
+            public void onBufferingUpdate(MediaPlayer mp, int percent) {
                 seekBar.setSecondaryProgress(percent * seekBar.getMax() / 100);
             }
         });
-        videoView.setOnCompletionListener(new PLMediaPlayer.OnCompletionListener() {
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void onCompletion(PLMediaPlayer mp) {
+            public void onCompletion(MediaPlayer mp) {
                 currPos = (currPos + 1) % articles.size();
                 refresh();
             }
@@ -171,21 +168,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.video_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                pause();
-                if (videoView.getDisplayAspectRatio() == PLVideoView.ASPECT_RATIO_FIT_PARENT) {
-                    ViewGroup.LayoutParams params = videoView.getLayoutParams();
-                    params.height = RuntimeManager.dip2px(600);
-                    params.width=RuntimeManager.dip2px(600);
-                    videoView.setLayoutParams(params);
-                    videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
-//                    videoView.setMediaController(new MediaController(context));
-                } else {
-                    ViewGroup.LayoutParams params = videoView.getLayoutParams();
-                    params.height = RuntimeManager.dip2px(240);
-                    videoView.setLayoutParams(params);
-                    videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
-                    videoView.setMediaController(null);
-                }
+                pause();
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -268,7 +251,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         localInfoOp.updateSee(article.getId(), article.getApp());
         ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
         getOriginal();
-        videoView.pause();
+        videoView.reset();
+        title.setText(article.getTitle_cn());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             String append = "http://staticvip.iyuba.com/video/voa/" + articles.get(currPos).getId() + ".mp4";
             videoView.setVideoPath(append);
@@ -277,6 +261,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         } else {
             CustomToast.getInstance().showToast(R.string.no_internet);
         }
+    }
+
+    private void setScreen() {
+        int width = RuntimeManager.getWindowWidth() - RuntimeManager.dip2px(20);// 700
+        int height = width * videoView.getVideoHeight() / videoView.getVideoWidth();
+        videoView.setVideoScale(width, height);
     }
 
     private void setPlayModeImage(int state) {
@@ -442,9 +432,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    int current = (int) activity.videoView.getCurrentPosition();
-                    activity.seekBar.setProgress(current);
-                    activity.currTime.setText(Mathematics.formatTime(current / 1000));
+                    activity.currTime.setText(Mathematics.formatTime(activity.videoView.getCurrentPosition() / 1000));
+                    activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
+                    int current = activity.videoView.getCurrentPosition();
                     activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
                     activity.handler.sendEmptyMessageDelayed(0, 1000);
                     break;

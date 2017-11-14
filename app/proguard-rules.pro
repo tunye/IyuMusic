@@ -163,13 +163,10 @@
 -keep class com.tencent.open.PKDialog$* {*;}
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
-#alipay
--keep class com.alipay.android.app.IAlixPay{*;}
--keep class com.alipay.android.app.IAlixPay$Stub{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
--keep class com.alipay.sdk.app.PayTask{ public *;}
--keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+-keep class com.jesgoo.sdk.**{
+     public protected *;
+}
 # 广场包注解
 #-dontwarn retrofit2.**
 #-keepclasseswithmembers class * {
