@@ -69,12 +69,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        ThreadPoolUtil.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                getFileMap();
-            }
-        });
+        getFileMap();
         downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
         toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
         toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
@@ -91,7 +86,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadingContinue = (TextView) findViewById(R.id.downloading_start);
         ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingBar = findViewById(R.id.downloading_bar);
-        downloadedAdapter = new DownloadNewsAdapter(context, fileMap);
+        downloadedAdapter = new DownloadNewsAdapter(context,fileMap);
         downloadedAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -118,23 +113,13 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         });
         downloadedRecycleView.setAdapter(downloadedAdapter);
 
-        downloadingAdapter = new DownloadNewsAdapter(context, fileMap);
+        downloadingAdapter = new DownloadNewsAdapter(context,fileMap);
         downloadingAdapter.setDownloadCompleteClickLitener(new IOperationFinish() {
             @Override
             public void finish() {
-                ThreadPoolUtil.getInstance().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        getFileMap();
-                    }
-                });
-                title.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadedAdapter.setFileMap(fileMap);
-                        getData();
-                    }
-                }, 500);
+                getFileMap();
+                downloadedAdapter.setFileMap(fileMap);
+                getData();
             }
         });
         downloadingAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {

@@ -114,7 +114,7 @@
                 app:met_clearButton="true"
                 app:met_floatingLabel="highlight"
                 app:met_maxCharacters="20"
-                app:met_minCharacters="6"
+                app:met_minCharacters="1"
                 app:met_primaryColor="@color/skin_app_color"/>
         </LinearLayout>
 
