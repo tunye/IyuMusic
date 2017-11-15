@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -412,35 +413,31 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             youdaoNative = null;
         }
         switch (adEntity.getType()) {
-//            case "addam":
-//                adView = LayoutInflater.from(context).inflate(R.layout.addam_ad_layout, null);
-//                adRoot.addView(adView);
-//                addamBanner = (AddamBanner) adView.findViewById(R.id.addam_ad_banner);
-//                addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
-//                addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
-//                addamBanner.load(); // 开始加载
-//                break;
-//            case "ssp":
-            default:
+            case "addam":
+                adView = LayoutInflater.from(context).inflate(R.layout.addam_ad_layout, null);
+                adRoot.addView(adView);
+                addamBanner = (AddamBanner) adView.findViewById(R.id.addam_ad_banner);
+                addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
+                addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
+                addamBanner.load(); // 开始加载
+                break;
+            case "ssp":
                 AdView.preLoad(this);
                 AdView sspAd = new AdView(this, AdSize.Banner, "sb6458f4");
                 adRoot.addView(sspAd, new RelativeLayout.LayoutParams(-1, -2));
                 break;
-//            case "youdao":
-//                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
-//                adRoot.addView(adView);
-//                layoutParams = adRoot.getLayoutParams();
-//                layoutParams.height = RuntimeManager.dip2px(50);
-//                adRoot.setLayoutParams(layoutParams);
-//                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
-//                initYouDaoAd();
-//                break;
-//            case "web":
-//                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
-//                adRoot.addView(adView);
-//                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
-//                refreshNativeAd(adEntity);
-//                break;
+            case "youdao":
+                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
+                adRoot.addView(adView);
+                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                initYouDaoAd();
+                break;
+            case "web":
+                adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
+                adRoot.addView(adView);
+                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                refreshNativeAd(adEntity);
+                break;
         }
     }
 
