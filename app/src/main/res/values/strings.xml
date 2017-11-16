@@ -60,6 +60,10 @@
     <string name="file_path_move_success">迁移成功</string>
     <string name="file_path_move_exception">迁移过程中有异常，请您重新选择文件夹或手动迁移</string>
     <!--侧边栏操作-->
+    <string name="oper_sign_in">每日打卡任务</string>
+    <string name="oper_visitor">当前是临时账户</string>
+    <string name="oper_sign_in_handle">签到</string>
+    <string name="oper_visitor_handle">登录</string>
     <string name="oper_vip">会员</string>
     <string name="oper_ground">爱语吧</string>
     <string name="oper_discover">发现</string>

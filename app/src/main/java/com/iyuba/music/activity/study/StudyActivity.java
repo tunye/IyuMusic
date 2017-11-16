@@ -61,8 +61,8 @@ import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.jesgoo.sdk.AdSize;
-import com.jesgoo.sdk.AdView;
+import com.miaoze.sdk.AdSize;
+import com.miaoze.sdk.AdView;
 import com.umeng.socialize.UMShareAPI;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
@@ -185,6 +185,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         }
         if (addamBanner != null) {
             addamBanner.unLoad();
+        }
+        if (sspAd != null) {
+            sspAd.CloseBannerCarousel();
         }
         if (timer != null) {
             timerTask.cancel();
@@ -411,6 +414,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (youdaoNative != null) {
             youdaoNative.destroy();
             youdaoNative = null;
+        }
+        if (sspAd != null) {
+            sspAd.CloseBannerCarousel();
         }
         switch (adEntity.getType()) {
             case "addam":

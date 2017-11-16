@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -47,8 +48,10 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.dialog.CustomDialog;
+import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.roundview.RoundTextView;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -59,12 +62,16 @@ public class MainLeftFragment extends BaseFragment {
     private View root;
     //侧边栏
     private UserInfo userInfo;
-    private MaterialRippleLayout login, noLogin, sign;
+    private MaterialRippleLayout login, noLogin, sign, signIn;
     private RecyclerView menuList;
     private OperAdapter operAdapter;
     private VipPhoto personalPhoto;
     private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
     private TextView personalSign;
+    private TextView signInHint;
+    private RoundTextView signInHandle;
+    private ImageView signInIcon;
+    private SignInDialog signInDialog;
     //底部
     private View about, exit;
 
@@ -88,6 +95,7 @@ public class MainLeftFragment extends BaseFragment {
         login = (MaterialRippleLayout) root.findViewById(R.id.personal_login);
         noLogin = (MaterialRippleLayout) root.findViewById(R.id.personal_nologin);
         sign = (MaterialRippleLayout) root.findViewById(R.id.sign_layout);
+        signIn = (MaterialRippleLayout) root.findViewById(R.id.sign_in_layout);
         personalPhoto = (VipPhoto) root.findViewById(R.id.personal_photo);
         personalName = (TextView) root.findViewById(R.id.personal_name);
         personalGrade = (TextView) root.findViewById(R.id.personal_grade);
@@ -97,6 +105,9 @@ public class MainLeftFragment extends BaseFragment {
         personalSign = (TextView) root.findViewById(R.id.personal_sign);
         about = root.findViewById(R.id.about);
         exit = root.findViewById(R.id.exit);
+        signInIcon = (ImageView) root.findViewById(R.id.sign_in_icon);
+        signInHint = (TextView) root.findViewById(R.id.sign_in_hint);
+        signInHandle = (RoundTextView) root.findViewById(R.id.sign_in_handle);
         operAdapter = new OperAdapter();
     }
 
@@ -138,6 +149,16 @@ public class MainLeftFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 RuntimeManager.getApplication().exit();
+            }
+        });
+        signInHandle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    signInDialog = new SignInDialog(context);
+                } else {
+                    startActivityForResult(new Intent(context, LoginActivity.class), 101);
+                }
             }
         });
         menuList.setAdapter(operAdapter);
@@ -201,24 +222,34 @@ public class MainLeftFragment extends BaseFragment {
 
     private void changeUIResumeByPara() {
         handler.removeCallbacksAndMessages(null);
-        if (AccountManager.getInstance().checkUserLogin()) {
+        if (AccountManager.getInstance().getUserId().equals("0")) {
+            login.setVisibility(View.GONE);
+            noLogin.setVisibility(View.VISIBLE);
+            sign.setVisibility(View.GONE);
+            signIn.setVisibility(View.GONE);
+        } else {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
             sign.setVisibility(View.VISIBLE);
-            personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
-            if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
-                getPersonalInfo();
-            }
-        } else {
-            if (AccountManager.getInstance().getUserId().equals("0")) {
-                login.setVisibility(View.GONE);
-                noLogin.setVisibility(View.VISIBLE);
-                sign.setVisibility(View.GONE);
+            signIn.setVisibility(View.VISIBLE);
+            if (AccountManager.getInstance().checkUserLogin()) {
+                signInIcon.setImageResource(R.drawable.sign_in_icon);
+                signInHandle.setText(R.string.oper_sign_in_handle);
+                signInHint.setText(R.string.oper_sign_in);
+                personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
+                if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
+                    getPersonalInfo();
+                }
             } else {
-                login.setVisibility(View.VISIBLE);
-                noLogin.setVisibility(View.GONE);
-                sign.setVisibility(View.VISIBLE);
+                signInIcon.setImageResource(R.drawable.sign_in_icon);
+                signInHandle.setText(R.string.oper_visitor_handle);
+                signInHint.setText(R.string.oper_visitor);
                 personalPhoto.setVisitor();
+                String visitorId = AccountManager.getInstance().getUserId();
+                userInfo = new UserInfo();
+                userInfo.setUid(visitorId);
+                AccountManager.getInstance().setUserInfo(userInfo);
+                getPersonalInfo();
             }
         }
         int sleepSecond = ((MusicApplication) getActivity().getApplication()).getSleepSecond();
@@ -352,6 +383,16 @@ public class MainLeftFragment extends BaseFragment {
         sign.setOnClickListener(null);
         about.setOnClickListener(null);
         exit.setOnClickListener(null);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (signInDialog != null && signInDialog.isShown()) {
+            signInDialog.dismiss();
+            return true;
+        } else {
+            return super.onBackPressed();
+        }
     }
 
     private void updatePersonalInfoView() {

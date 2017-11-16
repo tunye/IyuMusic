@@ -40,6 +40,8 @@ public class CustomDialog {
                         finish.finish();
                     }
                 });
+            } else {
+                finish.finish();
             }
         } else {
             showLogin(context, finish);

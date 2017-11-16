@@ -60,6 +60,10 @@
     <string name="file_path_move_success">Move file success</string>
     <string name="file_path_move_exception">If failed to move file, please reselect the folder or move with your hand</string>
     <!--侧边栏操作-->
+    <string name="oper_sign_in">Sign in</string>
+    <string name="oper_visitor">Temporary Account</string>
+    <string name="oper_sign_in_handle">Go</string>
+    <string name="oper_visitor_handle">Login</string>
     <string name="oper_vip">VIP center</string>
     <string name="oper_ground">Iyuba</string>
     <string name="oper_discover">Discover</string>

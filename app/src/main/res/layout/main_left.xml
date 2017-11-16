@@ -137,6 +137,43 @@
             app:mrl_rippleColor="@color/text_complementary"
             app:mrl_rippleDuration="600">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/row_space_large">
+
+                <ImageView
+                    android:id="@+id/sign_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/row_space_large"
+                    android:src="@drawable/personal_state"/>
+
+                <TextView
+                    android:id="@+id/personal_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/row_space_very_large"
+                    android:layout_toRightOf="@+id/sign_icon"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/big_text"/>
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/sign_in_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sign_layout"
+            android:layout_marginTop="-8dp"
+            app:mrl_rippleColor="@color/text_complementary"
+            app:mrl_rippleDuration="600">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,24 +185,39 @@
                     android:layout_margin="@dimen/row_space_large">
 
                     <ImageView
-                        android:id="@+id/sign_icon"
+                        android:id="@+id/sign_in_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/row_space_large"
-                        android:src="@drawable/personal_state"/>
+                        android:src="@drawable/sign_in_icon"/>
 
                     <TextView
-                        android:id="@+id/personal_sign"
+                        android:id="@+id/sign_in_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/row_space_very_large"
-                        android:layout_toRightOf="@+id/sign_icon"
+                        android:layout_toRightOf="@+id/sign_in_icon"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:text="当前是临时账号"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/big_text"/>
+
+                    <com.iyuba.music.widget.roundview.RoundTextView
+                        android:id="@+id/sign_in_handle"
+                        android:layout_width="54dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:padding="@dimen/row_space_small"
+                        android:text="签到"
+                        android:textColor="#ededed"
+                        android:textSize="@dimen/medium_text"
+                        app:rv_backgroundColor="@color/skin_app_color"
+                        app:rv_cornerRadius="@dimen/corner_radius_default"/>
                 </RelativeLayout>
 
                 <ImageView

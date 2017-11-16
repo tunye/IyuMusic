@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <WebView
+        android:id="@+id/sign_in_web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:id="@+id/sign_in_close"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/row_space_default"
+        android:src="@drawable/ic_action_close_common"/>
+
+</RelativeLayout>

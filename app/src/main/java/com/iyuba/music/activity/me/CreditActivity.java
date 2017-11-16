@@ -103,7 +103,11 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         title.postDelayed(new Runnable() {
             @Override
             public void run() {
-                counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
+                if (AccountManager.getInstance().getUserInfo().getIcoins() != null) {
+                    counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
+                } else {
+                    counts.setText("0");
+                }
                 rank.setText(R.string.credits_loading);
                 onRefresh(0);
             }
@@ -178,7 +182,9 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         public void handleMessageByRef(final CreditActivity activity, Message msg) {
             switch (msg.what) {
                 case 1:
-                    activity.counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
+                    if (AccountManager.getInstance().getUserInfo().getIcoins() != null) {
+                        activity.counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
+                    }
                     activity.rank.withNumber(Integer.parseInt(activity.rankPos)).start();
                     activity.creditDuration.setText(activity.getString(R.string.credits_study_time, activity.exeStudyTime(Integer.parseInt(activity.duration))));
                     break;

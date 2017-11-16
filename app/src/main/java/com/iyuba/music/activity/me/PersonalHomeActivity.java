@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -33,7 +32,6 @@ import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.umeng.socialize.utils.Log;
 
 import java.util.ArrayList;
 
@@ -156,7 +154,11 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         if (tempUid.equals(AccountManager.getInstance().getUserId())) {//himself
             myControl.setVisibility(View.VISIBLE);
             otherControl.setVisibility(View.GONE);
-            toolbarOper.setVisibility(View.VISIBLE);
+            if (AccountManager.getInstance().checkUserLogin()) {
+                toolbarOper.setVisibility(View.VISIBLE);
+            } else {
+                toolbarOper.setVisibility(View.GONE);
+            }
             userinfo = AccountManager.getInstance().getUserInfo();
             setContent();
         } else {//other

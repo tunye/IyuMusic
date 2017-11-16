@@ -162,7 +162,7 @@ public class AccountManager {
     }
 
     public void getPersonalInfo(final IOperationResult result) {
-        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(userId, userId), userInfo, new IProtocolResponse() {
+        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(getUserId(), getUserId()), userInfo, new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
                 if (result != null) {
