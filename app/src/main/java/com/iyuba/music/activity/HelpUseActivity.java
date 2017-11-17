@@ -11,7 +11,6 @@ import android.view.WindowManager;
 
 import com.iyuba.music.R;
 import com.iyuba.music.fragmentAdapter.HelpFragmentAdapter;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.VisitorIdRequest;
 import com.iyuba.music.widget.CustomToast;
@@ -100,23 +99,7 @@ public class HelpUseActivity extends AppCompatActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         if (AccountManager.getInstance().needGetVisitorID()) {
-            CustomToast.getInstance().showToast("正在请求用户信息，请稍等片刻~", CustomToast.LENGTH_LONG);
-            VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse() {
-                @Override
-                public void onNetError(String msg) {
-
-                }
-
-                @Override
-                public void onServerError(String msg) {
-
-                }
-
-                @Override
-                public void response(Object object) {
-
-                }
-            });
+            VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), null);
         }
     }
 

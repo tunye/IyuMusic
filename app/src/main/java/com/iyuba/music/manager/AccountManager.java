@@ -288,6 +288,14 @@ public class AccountManager {
         return longitude;
     }
 
+    public String getVisitorId() {
+        return visitorId;
+    }
+
+    public void setVisitorId(String visitorId) {
+        this.visitorId = visitorId;
+    }
+
     public UserInfo getUserInfo() {
         return userInfo;
     }

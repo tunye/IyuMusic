@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.RuntimeManager;
@@ -34,20 +35,29 @@ public class VisitorIdRequest {
                     try {
                         ConfigManager.getInstance().putString("visitorId", jsonObject.getString("uid"));
                         ConfigManager.getInstance().putBoolean("gotVisitor", true);
-                        response.response("success");
+                        AccountManager.getInstance().setVisitorId(jsonObject.getString("uid"));
+                        if (response != null) {
+                            response.response("success");
+                        }
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        if (response != null) {
+                            response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        }
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
+                    if (response != null) {
+                        response.onServerError(VolleyErrorHelper.getMessage(error));
+                    }
                 }
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            if (response != null) {
+                response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            }
         }
     }
 

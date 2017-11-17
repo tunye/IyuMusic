@@ -156,6 +156,7 @@ public class MainLeftFragment extends BaseFragment {
             public void onClick(View v) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     signInDialog = new SignInDialog(context);
+                    signInDialog.show();
                 } else {
                     startActivityForResult(new Intent(context, LoginActivity.class), 101);
                 }
@@ -248,6 +249,7 @@ public class MainLeftFragment extends BaseFragment {
                 String visitorId = AccountManager.getInstance().getUserId();
                 userInfo = new UserInfo();
                 userInfo.setUid(visitorId);
+                userInfo.setUsername(visitorId);
                 AccountManager.getInstance().setUserInfo(userInfo);
                 getPersonalInfo();
             }
