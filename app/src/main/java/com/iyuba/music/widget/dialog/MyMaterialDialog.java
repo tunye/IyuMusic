@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.util.ImmersiveManager;
+import com.iyuba.music.widget.textview.JustifyTextView;
 
 /**
  * Created by chentong1 on 2017/6/2.
@@ -254,7 +255,7 @@ public class MyMaterialDialog {
 
         private TextView mTitleView;
         private ViewGroup mMessageContentRoot;
-        private TextView mMessageView;
+        private JustifyTextView mMessageView;
         private Window mAlertDialogWindow;
         private LinearLayout mButtonLayout;
 
@@ -284,7 +285,7 @@ public class MyMaterialDialog {
             mAlertDialogWindow.setContentView(contentView);
 
             mTitleView = (TextView) mAlertDialogWindow.findViewById(R.id.title);
-            mMessageView = (TextView) mAlertDialogWindow.findViewById(R.id.message);
+            mMessageView = (JustifyTextView) mAlertDialogWindow.findViewById(R.id.message);
             mButtonLayout = (LinearLayout) mAlertDialogWindow.findViewById(R.id.buttonLayout);
             mPositiveButton = (Button) mButtonLayout.findViewById(R.id.btn_p);
             mNegativeButton = (Button) mButtonLayout.findViewById(R.id.btn_n);

@@ -28,7 +28,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList = new ArrayList<>(12);
 
         menuIconList.add(R.drawable.vip_icon);
-        menuIconList.add(R.drawable.ground_icon);
+//        menuIconList.add(R.drawable.ground_icon);
         menuIconList.add(R.drawable.discover_icon);
         menuIconList.add(R.drawable.me_icon);
         menuIconList.add(R.drawable.night_icon);
@@ -37,7 +37,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuIconList.add(R.drawable.setting_icon);
 
         menuTextList.add(R.string.oper_vip);
-        menuTextList.add(R.string.oper_ground);
+//        menuTextList.add(R.string.oper_ground);
         menuTextList.add(R.string.oper_discover);
         menuTextList.add(R.string.oper_me);
         menuTextList.add(R.string.oper_night);

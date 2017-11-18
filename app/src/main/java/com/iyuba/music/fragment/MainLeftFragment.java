@@ -34,7 +34,6 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
@@ -183,35 +182,35 @@ public class MainLeftFragment extends BaseFragment {
                             });
                         }
                         break;
-                    case 1:
+//                    case 1:
 //                        HeadlinesRuntimeManager.setApplicationContext(RuntimeManager.getContext());
 //                        String userid = "0";
 //                        if (AccountManager.getInstance().checkUserLogin()) {
 //                            userid = AccountManager.getInstance().getUserId();
 //                        }
 //                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music", (DownloadService.checkVip() ? "1" : "0")));
-                        startActivity(new Intent(context, AppGroundActivity.class));
-                        break;
-                    case 2:
+//                        startActivity(new Intent(context, AppGroundActivity.class));
+//                        break;
+                    case 1:
                         startActivity(new Intent(context, DiscoverActivity.class));
                         break;
-                    case 3:
+                    case 2:
                         startActivity(new Intent(context, MeActivity.class));
                         break;
-                    case 4:
+                    case 3:
                         ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
                         ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
                         Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                         intent.putExtra(ChangePropertyBroadcast.SOURCE, getActivity().getClass().getSimpleName());
                         context.sendBroadcast(intent);
                         break;
-                    case 5:
+                    case 4:
                         startActivity(new Intent(context, SleepActivity.class));
                         break;
-                    case 6:
+                    case 5:
                         startActivity(new Intent(context, WxOfficialAccountActivity.class));
                         break;
-                    case 7:
+                    case 6:
                         startActivity(new Intent(context, SettingActivity.class));
                         break;
                     default:

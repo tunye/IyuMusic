@@ -1,8 +1,10 @@
 package com.iyuba.music.manager;
 
 import android.os.Environment;
+import android.support.v4.util.ArrayMap;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/16.
@@ -31,6 +33,8 @@ public class ConstantManager {
     public static String recordFile;
     public static String imgFile;
 
+    public static Map<String, String> qun;
+
     static {
         envir = Environment.getExternalStorageDirectory() + "/iyuba/music";
         updateFolder = envir + File.separator + "update";
@@ -40,5 +44,15 @@ public class ConstantManager {
         crashFolder = envir + File.separator + "crash";
         recordFile = envir + File.separator + "sound";
         imgFile = envir + File.separator + "image";
+        qun = new ArrayMap<>();
+        qun.put("huawei", "339895927");
+        qun.put("vivo", "483288976");
+        qun.put("oppo", "624796280");
+        qun.put("mi", "493470842");
+        qun.put("sumsung", "639727892");
+        qun.put("360", "625355797");
+        qun.put("jinli", "621392974");
+        qun.put("meizu", "625401994");
+        qun.put("default", "540297996");
     }
 }

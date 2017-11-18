@@ -402,6 +402,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadService.checkVip()) {
             initAdTimer();
+        } else {
+            adRoot.setVisibility(View.GONE);
         }
     }
 
@@ -432,6 +434,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 AdView sspAd = new AdView(this, AdSize.Banner, "sb6458f4");
                 adRoot.addView(sspAd, new RelativeLayout.LayoutParams(-1, -2));
                 break;
+            default:
             case "youdao":
                 adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
                 adRoot.addView(adView);

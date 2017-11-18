@@ -2,6 +2,7 @@ package com.iyuba.music.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 
@@ -27,11 +28,13 @@ import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -154,9 +157,21 @@ public class StartFragment {
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
-        sb.append("1.[性能优化] 听歌页面加载速度提升").append("\n");
-        sb.append("2.[Bug修复] 修复首启动部分机型上的问题").append("\n");
-        sb.append("3.[实用功能] 增加线控和学习界面屏幕常亮");
+        String qun = ConstantManager.qun.get("default");
+        CustomToast.getInstance().showToast(Build.MANUFACTURER, CustomToast.LENGTH_LONG);
+        for (Map.Entry<String, String> entry : ConstantManager.qun.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
+                qun = entry.getValue();
+                break;
+            }
+        }
+        sb.append("1.[功能体验] 新增临时账号功能，在无账号的时候也能体验").append("\n");
+        sb.append("2.[燃爆MTV] 新增MTV模块，视听效果更出色").append("\n");
+        sb.append("3.[每日签到] good good study, day day up!");
+        sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
+                .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
+                .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
+                .append("群号：").append(qun);
         materialDialog.setMessage(sb.toString());
         materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
             @Override
