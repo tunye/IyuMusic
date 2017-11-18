@@ -48,10 +48,10 @@ public class ConstantManager {
         qun.put("huawei", "339895927");
         qun.put("vivo", "483288976");
         qun.put("oppo", "624796280");
-        qun.put("mi", "493470842");
-        qun.put("sumsung", "639727892");
+        qun.put("xiaomi", "493470842");
+        qun.put("samsung", "639727892");
         qun.put("360", "625355797");
-        qun.put("jinli", "621392974");
+        qun.put("gionee", "621392974");
         qun.put("meizu", "625401994");
         qun.put("default", "540297996");
     }

@@ -158,7 +158,6 @@ public class StartFragment {
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
         String qun = ConstantManager.qun.get("default");
-        CustomToast.getInstance().showToast(Build.MANUFACTURER, CustomToast.LENGTH_LONG);
         for (Map.Entry<String, String> entry : ConstantManager.qun.entrySet()) {
             if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
                 qun = entry.getValue();
@@ -167,7 +166,7 @@ public class StartFragment {
         }
         sb.append("1.[功能体验] 新增临时账号功能，在无账号的时候也能体验").append("\n");
         sb.append("2.[燃爆MTV] 新增MTV模块，视听效果更出色").append("\n");
-        sb.append("3.[每日签到] good good study, day day up!");
+        sb.append("3.[每日打卡] good good study, day day up!");
         sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
                 .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
                 .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")

@@ -62,7 +62,7 @@
     <!--侧边栏操作-->
     <string name="oper_sign_in">每日打卡任务</string>
     <string name="oper_visitor">当前是临时账户</string>
-    <string name="oper_sign_in_handle">签到</string>
+    <string name="oper_sign_in_handle">打卡</string>
     <string name="oper_visitor_handle">登录</string>
     <string name="oper_vip">会员</string>
     <string name="oper_ground">爱语吧</string>

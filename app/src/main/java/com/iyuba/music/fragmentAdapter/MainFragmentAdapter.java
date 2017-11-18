@@ -25,7 +25,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
     public MainFragmentAdapter(FragmentManager fm) {
         super(fm);
         this.fm = fm;
-        this.list = new ArrayList<>(4);
+        this.list = new ArrayList<>(5);
         list.add(new NewsFragment());
         list.add(new ClassifyFragment());
         list.add(new AnnouncerFragment());

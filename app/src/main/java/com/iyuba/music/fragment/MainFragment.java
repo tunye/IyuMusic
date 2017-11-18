@@ -48,6 +48,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MainFragment extends BaseFragment {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private ViewPager viewPager;
     private Context context;
     private StandardPlayer player;
     private TabIndicator viewPagerIndicator;
@@ -70,9 +71,7 @@ public class MainFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.content_main, null);
         ArrayList<String> title = new ArrayList<>();
         title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
-        viewPager.setAdapter(mainFragmentAdapter);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
         viewPagerIndicator.setViewPager(viewPager, 0);
@@ -84,6 +83,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
+        viewPager.setAdapter(mainFragmentAdapter);
         broadCast = new MainChangeUIBroadCast(this);
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.main");
         context.registerReceiver(broadCast, intentFilter);

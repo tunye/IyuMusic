@@ -62,7 +62,7 @@
     <!--侧边栏操作-->
     <string name="oper_sign_in">每日打卡任务</string>
     <string name="oper_visitor">当前是临时账户</string>
-    <string name="oper_sign_in_handle">签到</string>
+    <string name="oper_sign_in_handle">打卡</string>
     <string name="oper_visitor_handle">登录</string>
     <string name="oper_vip">会员</string>
     <string name="oper_ground">爱语吧</string>
@@ -70,7 +70,7 @@
     <string name="oper_me">个人中心</string>
     <string name="oper_night">夜间模式</string>
     <string name="oper_night_on">开启</string>
-    <string name="oper_night_off">关闭</string>
+    <string name="oper_night_off">关闭</string>s
     <string name="oper_sleep">睡眠模式</string>
     <string name="oper_wx">关注公众号</string>
     <string name="oper_setting">应用设置</string>
