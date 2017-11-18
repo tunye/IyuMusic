@@ -51,6 +51,7 @@ import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundTextView;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -107,6 +108,7 @@ public class MainLeftFragment extends BaseFragment {
         signInIcon = (ImageView) root.findViewById(R.id.sign_in_icon);
         signInHint = (TextView) root.findViewById(R.id.sign_in_hint);
         signInHandle = (RoundTextView) root.findViewById(R.id.sign_in_handle);
+        AddRippleEffect.addRippleEffect(signInHandle);
         operAdapter = new OperAdapter();
     }
 
@@ -241,7 +243,7 @@ public class MainLeftFragment extends BaseFragment {
                     getPersonalInfo();
                 }
             } else {
-                signInIcon.setImageResource(R.drawable.sign_in_icon);
+                signInIcon.setImageResource(R.drawable.temp_account_icon);
                 signInHandle.setText(R.string.oper_visitor_handle);
                 signInHint.setText(R.string.oper_visitor);
                 personalPhoto.setVisitor();

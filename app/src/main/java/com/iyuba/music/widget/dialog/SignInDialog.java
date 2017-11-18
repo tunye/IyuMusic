@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -31,6 +32,7 @@ public class SignInDialog {
     private boolean shown;
 
     private WebView webView;
+    private View loading;
 
     public SignInDialog(Context context) {
         this.context = context;
@@ -67,22 +69,14 @@ public class SignInDialog {
     }
 
     private void init() {
-        View cancel = root.findViewById(R.id.sign_in_close);
+        final View cancel = root.findViewById(R.id.sign_in_close);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-        webView = (WebView) root.findViewById(R.id.sign_in_web);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
-        }
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new JSHook(), "iyuba");
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
+        loading = root.findViewById(R.id.sign_in_loading_animation);
         iyubaDialog = new IyubaDialog(context, root, false, 20, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -90,13 +84,38 @@ public class SignInDialog {
             }
         });
         iyubaDialog.show();
-        cancel.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                webView.loadUrl("http://api.iyuba.com/credits/qiandao.jsp?uid=" + AccountManager.getInstance().getUserId() + "&appid=" + ConstantManager.appId);
-            }
-        }, 400);
         shown = true;
+        loadingWebView();
+    }
+
+    private void loadingWebView() {
+        webView = (WebView) root.findViewById(R.id.sign_in_web);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        }
+        webView.setWebChromeClient(
+                new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                        if (newProgress == 100) {
+                            loading.setVisibility(View.GONE);
+                            webView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onReceivedTitle(WebView view, String titleContent) {
+                        super.onReceivedTitle(view, titleContent);
+                    }
+                }
+        );
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new JSHook(), "iyuba");
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.loadUrl("http://api.iyuba.com/credits/qiandao.jsp?uid=" + AccountManager.getInstance().getUserId() + "&appid=" + ConstantManager.appId);
     }
 
     public void dismiss() {
