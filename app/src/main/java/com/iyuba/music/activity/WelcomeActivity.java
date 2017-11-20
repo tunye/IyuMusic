@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -139,6 +138,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void response(Object object) {
+                String adUrl = ConfigManager.getInstance().getADUrl();
+                if (TextUtils.isEmpty(adUrl)) {
+                    handler.sendEmptyMessage(2);
+                }
                 ConfigManager.getInstance().setADUrl(new Gson().toJson(object));
             }
         });
@@ -251,8 +254,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     } else if (!activity.isDestroyed()) {
                         activity.adEntity = new Gson().fromJson(adUrl, AdEntity.class);
                         switch (activity.adEntity.getType()) {
-                            case "addam":
-                                break;
+                            default:
                             case "youdao":
                                 activity.loadYouDaoSplash();
                                 break;

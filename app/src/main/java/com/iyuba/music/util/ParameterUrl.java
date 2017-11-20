@@ -1,6 +1,11 @@
 package com.iyuba.music.util;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+
+import com.iyuba.music.widget.CustomToast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -27,6 +32,16 @@ public class ParameterUrl {
 
     public static String setRequestParameter(String url, Object key, Object value) {
         return url + "?" + key + "=" + value;
+    }
+
+    public static void joinQQGroup(Context context, String key) {
+        Intent intent = new Intent();
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            CustomToast.getInstance().showToast("您的qq尚未安装或者版本过低");
+        }
     }
 
     public static String encode(String content) {

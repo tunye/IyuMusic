@@ -2,13 +2,13 @@ package com.iyuba.music.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
+import com.iyuba.music.entity.ad.QQun;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
@@ -27,8 +27,8 @@ import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.ThreadPoolUtil;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import java.io.File;
@@ -153,28 +153,36 @@ public class StartFragment {
         }
     }
 
-    public static void showVersionFeature(Context context) {
+    public static void showVersionFeature(final Context context) {
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.new_version_features);
         StringBuilder sb = new StringBuilder();
-        String qun = ConstantManager.qun.get("default");
-        for (Map.Entry<String, String> entry : ConstantManager.qun.entrySet()) {
+        QQun qun = ConstantManager.qun.get("default");
+        for (Map.Entry<String, QQun> entry : ConstantManager.qun.entrySet()) {
             if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
                 qun = entry.getValue();
                 break;
             }
         }
+        final String qunCode = qun.qunCode;
         sb.append("1.[功能体验] 新增临时账号功能，在无账号的时候也能体验").append("\n");
         sb.append("2.[燃爆MTV] 新增MTV模块，视听效果更出色").append("\n");
         sb.append("3.[每日打卡] good good study, day day up!");
         sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
                 .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
                 .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
-                .append("群号：").append(qun);
+                .append("群号：").append(qun.qun);
         materialDialog.setMessage(sb.toString());
-        materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.setPositiveButton(R.string.app_qun, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParameterUrl.joinQQGroup(context, qunCode);
                 materialDialog.dismiss();
             }
         });

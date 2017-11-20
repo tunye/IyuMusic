@@ -39,9 +39,6 @@ public class AdPicRequest {
                         String type = jsonObject.getJSONObject("data").getString("type");
                         AdEntity adEntity = new AdEntity();
                         switch (type) {
-                            case "addam":
-                                adEntity.setType(type);
-                                break;
                             default:
                             case "youdao":
                                 adEntity.setType("youdao");

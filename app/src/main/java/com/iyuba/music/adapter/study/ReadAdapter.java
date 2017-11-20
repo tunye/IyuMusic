@@ -246,19 +246,17 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetFunction();
                 if (!player.isPlaying()) {
-                    resetFunction();
-                    player.seekTo((int) original.getStartTime() * 1000);
+                    player.seekTo((int) (original.getStartTime() * 1000));
                     player.start();
-                    int arg1 = 0;
+                    int arg1;
                     if (pos + 1 == originals.size()) {
                         arg1 = player.getDuration() - 500;
                     } else {
-                        arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
+                        arg1 = (int) (originals.get(pos + 1).getStartTime() * 1000);
                     }
-                    handler.obtainMessage(0, arg1).sendToTarget();
-                } else {
-                    resetFunction();
+                    handler.obtainMessage(0, arg1, 0).sendToTarget();
                 }
             }
         });

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar_with_oper"/>
 
     <com.iyuba.music.widget.textview.JustifyTextView
         android:layout_width="match_parent"

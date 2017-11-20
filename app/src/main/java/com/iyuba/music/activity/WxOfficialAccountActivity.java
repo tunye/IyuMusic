@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.iyuba.music.R;
+import com.iyuba.music.entity.ad.QQun;
+import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.view.AddRippleEffect;
 import com.umeng.socialize.ShareAction;
@@ -16,6 +20,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.xiaomi.mipush.sdk.MiPushClient;
+
+import java.util.Map;
 
 /**
  * Created by 10202 on 2017/2/21.
@@ -37,6 +43,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
         shareToFriend = findViewById(R.id.share_to_friend);
         shareToCircle = findViewById(R.id.share_to_circle);
         shareToWx = findViewById(R.id.share_to_wx);
@@ -52,6 +59,19 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 ClipData clip = ClipData.newPlainText("mipush regid", MiPushClient.getRegId(context));
                 clipboard.setPrimaryClip(clip);
                 CustomToast.getInstance().showToast("regid已经复制，get新技巧");
+            }
+        });
+        toolbarOper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QQun qun = ConstantManager.qun.get("default");
+                for (Map.Entry<String, QQun> entry : ConstantManager.qun.entrySet()) {
+                    if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
+                        qun = entry.getValue();
+                        break;
+                    }
+                }
+                ParameterUrl.joinQQGroup(context, qun.qunCode);
             }
         });
         shareToCircle.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +108,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
     protected void changeUIByPara() {
         super.changeUIByPara();
         title.setText(R.string.oper_wx);
+        toolbarOper.setText(R.string.app_qun);
         AddRippleEffect.addRippleEffect(shareToCircle);
         AddRippleEffect.addRippleEffect(shareToWx);
         AddRippleEffect.addRippleEffect(shareToFriend);
