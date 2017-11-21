@@ -152,6 +152,17 @@ public class MainLeftFragment extends BaseFragment {
                 RuntimeManager.getApplication().exit();
             }
         });
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AccountManager.getInstance().checkUserLogin()) {
+                    signInDialog = new SignInDialog(context);
+                    signInDialog.show();
+                } else {
+                    startActivityForResult(new Intent(context, LoginActivity.class), 101);
+                }
+            }
+        });
         signInHandle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
