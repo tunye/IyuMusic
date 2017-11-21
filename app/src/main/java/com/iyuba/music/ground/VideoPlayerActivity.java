@@ -155,6 +155,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         videoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                if (percent > 0) {
+                    findViewById(R.id.videoView_loading).setVisibility(View.GONE);
+                }
                 seekBar.setSecondaryProgress(percent * seekBar.getMax() / 100);
             }
         });
@@ -247,6 +250,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void refresh() {
+        findViewById(R.id.videoView_loading).setVisibility(View.VISIBLE);
         LocalInfoOp localInfoOp = new LocalInfoOp();
         localInfoOp.updateSee(article.getId(), article.getApp());
         ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
