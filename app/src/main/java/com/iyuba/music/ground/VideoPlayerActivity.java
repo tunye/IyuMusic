@@ -83,7 +83,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         }
         articles = (ArrayList<Article>) getIntent().getSerializableExtra("articleList");
         currPos = getIntent().getIntExtra("pos", 0);
-        article = articles.get(currPos);
         initWidget();
         setListener();
         changeUIByPara();
@@ -101,6 +100,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             }
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pause();
     }
 
     @Override
@@ -241,6 +246,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     public void onResume() {
         super.onResume();
         changeUIResumeByPara();
+        if (videoView.isPrepared()) {
+            pause();
+        }
     }
 
     protected void changeUIResumeByPara() {
@@ -250,11 +258,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void refresh() {
+        article = articles.get(currPos);
         findViewById(R.id.videoView_loading).setVisibility(View.VISIBLE);
         LocalInfoOp localInfoOp = new LocalInfoOp();
         localInfoOp.updateSee(article.getId(), article.getApp());
         ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
         getOriginal();
+        seekBar.setSecondaryProgress(0);
         videoView.reset();
         title.setText(article.getTitle_cn());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
@@ -389,12 +399,10 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.latter:
                 currPos = (currPos + 1) % articles.size();
-                article = articles.get(currPos);
                 refresh();
                 break;
             case R.id.formmer:
                 currPos = (currPos - 1) % articles.size();
-                article = articles.get(currPos);
                 refresh();
                 break;
             case R.id.translate:

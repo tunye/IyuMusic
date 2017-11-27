@@ -184,8 +184,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                                    int h) {
             mSurfaceWidth = w;
             mSurfaceHeight = h;
-            if (mMediaPlayer != null && mIsPrepared && mVideoWidth == w
-                    && mVideoHeight == h) {
+            if (isPrepared()&& mVideoWidth == w && mVideoHeight == h) {
                 if (mSeekWhenPrepared != 0) {
                     mMediaPlayer.seekTo(mSeekWhenPrepared);
                     mSeekWhenPrepared = 0;
@@ -419,7 +418,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mIsPrepared && mMediaPlayer != null && mMediaController != null) {
+        if (isPrepared() && mMediaController != null) {
             toggleMediaControlsVisible();
         }
         return false;
@@ -427,7 +426,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
 
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
-        if (mIsPrepared && mMediaPlayer != null && mMediaController != null) {
+        if (isPrepared() && mMediaController != null) {
             toggleMediaControlsVisible();
         }
         return false;
@@ -473,7 +472,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     }
 
     public void start() {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             mMediaPlayer.start();
             mStartWhenPrepared = false;
         } else {
@@ -482,7 +481,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     }
 
     public void pause() {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.pause();
             }
@@ -491,7 +490,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     }
 
     public int getDuration() {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             if (mDuration > 0) {
                 return mDuration;
             }
@@ -503,14 +502,14 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     }
 
     public int getCurrentPosition() {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             return mMediaPlayer.getCurrentPosition();
         }
         return 0;
     }
 
     public void seekTo(int msec) {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             mMediaPlayer.seekTo(msec);
         } else {
             mSeekWhenPrepared = msec;
@@ -518,10 +517,14 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
     }
 
     public boolean isPlaying() {
-        if (mMediaPlayer != null && mIsPrepared) {
+        if (isPrepared()) {
             return mMediaPlayer.isPlaying();
         }
         return false;
+    }
+
+    public boolean isPrepared() {
+        return mMediaPlayer != null && mIsPrepared;
     }
 
     public int getBufferPercentage() {
