@@ -109,10 +109,12 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
+                        loadLocalBannerData();
                     }
 
                     @Override
                     public void onServerError(String msg) {
+                        loadLocalBannerData();
                     }
 
                     @Override

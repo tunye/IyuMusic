@@ -187,11 +187,12 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
                     @Override
                     public void onNetError(String msg) {
+                        loadLocalBannerData();
                     }
 
                     @Override
                     public void onServerError(String msg) {
-
+                        loadLocalBannerData();
                     }
 
                     @Override

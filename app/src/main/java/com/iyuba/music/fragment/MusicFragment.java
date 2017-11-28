@@ -24,7 +24,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.MusicRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.banner.BannerView;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -133,7 +132,9 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    if (musicList.size() != 0) {
+                        StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    }
                     StudyManager.getInstance().setApp("209");
                 } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(musicList);
@@ -148,7 +149,9 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setSourceArticleList(musicList);
-                    StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    if (musicList.size() != 0) {
+                        StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    }
                     StudyManager.getInstance().setApp("209");
                 } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(musicList);
@@ -174,7 +177,9 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                     if (!StudyManager.getInstance().isStartPlaying()) {
                         StudyManager.getInstance().setLesson("music");
                         StudyManager.getInstance().setSourceArticleList(musicList);
-                        StudyManager.getInstance().setCurArticle(musicList.get(0));
+                        if (musicList.size() != 0) {
+                            StudyManager.getInstance().setCurArticle(musicList.get(0));
+                        }
                         StudyManager.getInstance().setApp("209");
                     } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                         StudyManager.getInstance().setSourceArticleList(musicList);

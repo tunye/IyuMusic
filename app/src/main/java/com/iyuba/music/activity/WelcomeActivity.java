@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -256,10 +258,18 @@ public class WelcomeActivity extends AppCompatActivity {
                         switch (activity.adEntity.getType()) {
                             default:
                             case "youdao":
-                                activity.loadYouDaoSplash();
+                                if (activity.isNetworkAvailable()) {
+                                    activity.loadYouDaoSplash();
+                                } else {
+                                    activity.header.setImageResource(R.drawable.default_header);
+                                }
                                 break;
                             case "web":
-                                ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header);
+                                if (activity.isNetworkAvailable()) {
+                                    ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header, R.drawable.default_header);
+                                } else {
+                                    activity.header.setImageResource(R.drawable.default_header);
+                                }
                                 break;
                         }
                     }
@@ -274,6 +284,22 @@ public class WelcomeActivity extends AppCompatActivity {
                         activity.welcomeAdProgressbar.setVisibility(View.INVISIBLE);
                     }
                     break;
+            }
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        Context context = RuntimeManager.getApplication();
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
+            if (activeInfo != null) {
+                return activeInfo.isConnected();
+            } else {
+                return false;
             }
         }
     }

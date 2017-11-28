@@ -400,7 +400,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
-        if (!DownloadService.checkVip()) {
+        if (!DownloadService.checkVip() && NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             initAdTimer();
         } else {
             adRoot.setVisibility(View.GONE);

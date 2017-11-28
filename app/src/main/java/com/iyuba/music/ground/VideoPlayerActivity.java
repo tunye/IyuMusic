@@ -160,7 +160,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         videoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
             @Override
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                if (percent > 0) {
+                if (percent > 1) {
                     findViewById(R.id.videoView_loading).setVisibility(View.GONE);
                 }
                 seekBar.setSecondaryProgress(percent * seekBar.getMax() / 100);
