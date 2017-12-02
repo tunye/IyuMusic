@@ -7,7 +7,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
@@ -43,6 +45,10 @@ public class ScoreOperRequest {
                                 apiEntity.setState(BaseApiEntity.SUCCESS);
                                 apiEntity.setValue(jsonObject.getString("totalcredit"));
                                 apiEntity.setMessage(jsonObject.getString("addcredit"));
+                                UserInfo userInfo = AccountManager.getInstance().getUserInfo();
+                                if (userInfo != null) {
+                                    userInfo.setIcoins(apiEntity.getValue());
+                                }
                                 break;
                             case 201:
                                 apiEntity.setState(BaseApiEntity.FAIL);

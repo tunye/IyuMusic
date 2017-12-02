@@ -1,6 +1,7 @@
 package com.iyuba.music.download;
 
 import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
@@ -77,11 +78,13 @@ public class DownloadUtil {
             @Override
             public void onNetError(String msg) {
                 iOperationResult.fail(null);
+                CustomToast.getInstance().showToast("网络错误，请稍后尝试");
             }
 
             @Override
             public void onServerError(String msg) {
                 iOperationResult.fail(null);
+                CustomToast.getInstance().showToast("积分剩余不足，不能够下载文章了。");
             }
 
             @Override

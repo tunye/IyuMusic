@@ -10,7 +10,7 @@ import com.iyuba.music.util.Mathematics;
  * Created by 10202 on 2015/11/18.
  */
 public class UserInfo {
-    private String icoins;
+    private String icoins;//积分
     private String uid;
     private String username;// 用户名
     private String doings;// 发布的心情数
