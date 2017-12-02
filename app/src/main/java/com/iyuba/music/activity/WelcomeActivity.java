@@ -52,6 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean showGuide = false;                          // 是否跳转开屏引导
     private Context context;
     private YouDaoNative youdaoNative;
+    private String adUrl;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
@@ -126,7 +127,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void getBannerPic() {
-        String adUrl = ConfigManager.getInstance().getADUrl();
+        adUrl = ConfigManager.getInstance().getADUrl();
         if (TextUtils.isEmpty(adUrl)) {
             handler.sendEmptyMessage(2);
         }
@@ -143,8 +144,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void response(Object object) {
-                ConfigManager.getInstance().setADUrl(new Gson().toJson(object));
+                adUrl = new Gson().toJson(object);
                 handler.sendEmptyMessage(2);
+                ConfigManager.getInstance().setADUrl(adUrl);
             }
         });
     }
@@ -247,7 +249,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                     break;
                 case 2:
-                    String adUrl = ConfigManager.getInstance().getADUrl();
+                    String adUrl = activity.adUrl;
                     if (TextUtils.isEmpty(adUrl)) {
                         activity.header.setImageResource(R.drawable.default_header);
                     } else if (!activity.isDestroyed() && adUrl.contains("@@@")) {
