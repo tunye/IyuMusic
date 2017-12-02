@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iyuba.music.R;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -59,7 +59,7 @@ public class MTVFragment extends BaseRecyclerViewFragment implements MySwipeRefr
         swipeRefreshLayout.setOnRefreshListener(this);
         MTVList = new ArrayList<>();
         MTVAdapter = new GroundNewsAdapter(context);
-        if (DownloadService.checkVip()) {
+        if (DownloadUtil.checkVip()) {
             MTVAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

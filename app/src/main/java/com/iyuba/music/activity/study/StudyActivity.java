@@ -33,7 +33,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeAdWebView;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.IOperationResult;
@@ -400,7 +400,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         studyTranslate = (ImageView) findViewById(R.id.study_translate);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
-        if (!DownloadService.checkVip() && NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
+        if (!DownloadUtil.checkVip() && NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             initAdTimer();
         } else {
             adRoot.setVisibility(View.GONE);

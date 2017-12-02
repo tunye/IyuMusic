@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -84,7 +84,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         initWidget();
         setListener();
         changeUIByPara();
-        isVipLastState = DownloadService.checkVip();
+        isVipLastState = DownloadUtil.checkVip();
         if (isVipLastState) {
             initVipRecyclerView();
         } else {
@@ -230,8 +230,8 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
     @Override
     public void onResume() {
         super.onResume();
-        if (isVipLastState != DownloadService.checkVip()) {
-            isVipLastState = DownloadService.checkVip();
+        if (isVipLastState != DownloadUtil.checkVip()) {
+            isVipLastState = DownloadUtil.checkVip();
             if (isVipLastState) {
                 initVipRecyclerView();
             } else {

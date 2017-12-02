@@ -10,7 +10,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.iyuba.music.MusicApplication;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.article.StudyRecordUtil;
@@ -219,11 +219,11 @@ public class PlayerService extends Service implements OnHeadSetListener {
         switch (StudyManager.getInstance().getApp()) {
             case "209":
                 if (StudyManager.getInstance().getMusicType() == 0) {
-                    url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
+                    url = DownloadUtil.getSongUrl(article.getApp(), article.getMusicUrl());
                     localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getId()).append(".mp3");
                     localFile = new File(localUrl.toString());
                 } else {
-                    url = DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl());
+                    url = DownloadUtil.getAnnouncerUrl(article.getId(), article.getSoundUrl());
                     localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getId()).append("s.mp3");
                     localFile = new File(localUrl.toString());
                 }
@@ -235,7 +235,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
             case "101":
                 return article.getMusicUrl();
             default:
-                url = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
+                url = DownloadUtil.getSongUrl(article.getApp(), article.getMusicUrl());
                 localUrl.append(ConstantManager.musicFolder).append(File.separator).append(article.getApp()).append("-").append(article.getId()).append(".mp3");
                 localFile = new File(localUrl.toString());
                 if (localFile.exists()) {

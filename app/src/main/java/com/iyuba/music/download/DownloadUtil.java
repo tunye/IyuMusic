@@ -6,16 +6,9 @@ import com.iyuba.music.manager.ConstantManager;
 /**
  * Created by 10202 on 2016/3/7.
  */
-public class DownloadService {
+public class DownloadUtil {
     public static boolean checkVip() {
-
-        boolean isvip = AccountManager.getInstance().checkUserLogin();
-        if (isvip && AccountManager.getInstance().getUserId().equals("46738"))
-            return true;
-        if (isvip) {
-            isvip = "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus());
-        }
-        return isvip;
+        return AccountManager.getInstance().checkUserLogin() && (AccountManager.getInstance().getUserId().equals("46738") || "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
     }
 
     public static String getAnnouncerUrl(int id, String sound) {

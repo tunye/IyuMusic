@@ -184,7 +184,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                                    int h) {
             mSurfaceWidth = w;
             mSurfaceHeight = h;
-            if (isPrepared()&& mVideoWidth == w && mVideoHeight == h) {
+            if (isPrepared() && mVideoWidth == w && mVideoHeight == h) {
                 if (mSeekWhenPrepared != 0) {
                     mMediaPlayer.seekTo(mSeekWhenPrepared);
                     mSeekWhenPrepared = 0;
@@ -521,6 +521,10 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
             return mMediaPlayer.isPlaying();
         }
         return false;
+    }
+
+    public MediaPlayer getmMediaPlayer() {
+        return mMediaPlayer;
     }
 
     public boolean isPrepared() {

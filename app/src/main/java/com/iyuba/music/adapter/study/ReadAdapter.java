@@ -20,7 +20,7 @@ import com.iflytek.ise.result.Result;
 import com.iflytek.ise.result.xml.XmlResultParser;
 import com.iyuba.assessment.IseManager;
 import com.iyuba.music.R;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationFinish;
@@ -282,7 +282,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     }
 
     private String getPath() {
-        String url = DownloadService.getSongUrl(curArticle.getApp(), curArticle.getMusicUrl());
+        String url = DownloadUtil.getSongUrl(curArticle.getApp(), curArticle.getMusicUrl());
         StringBuilder localUrl = new StringBuilder();
         localUrl.append(ConstantManager.musicFolder).append(File.separator).append(curArticle.getId()).append(".mp3");
         File localFile = new File(localUrl.toString());

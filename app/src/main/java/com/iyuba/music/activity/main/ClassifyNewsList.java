@@ -11,7 +11,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -79,7 +79,7 @@ public class ClassifyNewsList extends BaseActivity implements MySwipeRefreshLayo
         swipeRefreshLayout.setOnRefreshListener(this);
         newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
         newsAdapter = new SimpleNewsAdapter(context);
-        if (DownloadService.checkVip()) {
+        if (DownloadUtil.checkVip()) {
             newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

@@ -10,7 +10,7 @@ import android.widget.GridView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.ShareAdapter;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -100,9 +100,9 @@ public class ShareDialog {
                 dismiss();
                 UMusic music;
                 if (StudyManager.getInstance().getApp().equals("209") && article.getSimple() == 0) {
-                    music = new UMusic(DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl()));
+                    music = new UMusic(DownloadUtil.getAnnouncerUrl(article.getId(), article.getSoundUrl()));
                 } else {
-                    music = new UMusic(DownloadService.getSongUrl(article.getApp(), article.getMusicUrl()));
+                    music = new UMusic(DownloadUtil.getSongUrl(article.getApp(), article.getMusicUrl()));
                 }
                 music.setTitle(article.getTitle());
                 music.setmTargetUrl(getShareUrl());

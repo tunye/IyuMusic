@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.NewsAdapter;
-import com.iyuba.music.download.DownloadService;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.article.Article;
@@ -74,7 +74,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isVipLastState = DownloadService.checkVip();
+        isVipLastState = DownloadUtil.checkVip();
         newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -102,8 +102,8 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     @Override
     public void onResume() {
         super.onResume();
-        if (isVipLastState != DownloadService.checkVip()) {
-            isVipLastState = DownloadService.checkVip();
+        if (isVipLastState != DownloadUtil.checkVip()) {
+            isVipLastState = DownloadUtil.checkVip();
             if (isVipLastState) {
                 initVipRecyclerView();
             } else {

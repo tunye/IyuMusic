@@ -126,7 +126,10 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void getBannerPic() {
-        handler.sendEmptyMessage(2);
+        String adUrl = ConfigManager.getInstance().getADUrl();
+        if (TextUtils.isEmpty(adUrl)) {
+            handler.sendEmptyMessage(2);
+        }
         AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
@@ -140,11 +143,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void response(Object object) {
-                String adUrl = ConfigManager.getInstance().getADUrl();
-                if (TextUtils.isEmpty(adUrl)) {
-                    handler.sendEmptyMessage(2);
-                }
                 ConfigManager.getInstance().setADUrl(new Gson().toJson(object));
+                handler.sendEmptyMessage(2);
             }
         });
     }

@@ -13,11 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/video_content_layout"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -31,6 +31,10 @@
                 <com.iyuba.music.widget.player.VideoView
                     android:id="@+id/videoView_small"
                     android:layout_width="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_height="200dp"/>
 
                 <ImageView
@@ -38,8 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/background"
-                    android:scaleType="center"
-                    android:src="@drawable/default_music"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_music" />
 
                 <ImageView
                     android:id="@+id/large_pause"
@@ -105,6 +109,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/meun_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/seekbar_layout"
@@ -140,6 +145,13 @@
 
             <ImageView
                 android:id="@+id/play_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/single_replay"/>
+
+            <ImageView
+                android:id="@+id/change_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"

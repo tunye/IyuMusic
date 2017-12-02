@@ -57,6 +57,7 @@
 
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"/>
         <activity android:name=".activity.HelpUseActivity"/>
         <activity android:name=".activity.WelcomeAdWebView"/>
@@ -100,6 +101,8 @@
         <activity android:name=".ground.GroundNewsActivity"/>
         <activity
             android:name=".ground.VideoPlayerActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
         <activity
             android:name=".activity.study.StudyActivity"

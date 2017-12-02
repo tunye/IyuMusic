@@ -55,10 +55,10 @@ public class DownloadTask {
 
     public DownloadTask(Article article) {
         this.app = article.getApp();
-        this.singPath = DownloadService.getSongUrl(article.getApp(), article.getMusicUrl());
+        this.singPath = DownloadUtil.getSongUrl(article.getApp(), article.getMusicUrl());
         if (article.getSimple() == 0) {
             if (app.equals("209")) {
-                this.soundPath = DownloadService.getAnnouncerUrl(article.getId(), article.getSoundUrl());
+                this.soundPath = DownloadUtil.getAnnouncerUrl(article.getId(), article.getSoundUrl());
             }
         } else if (app.equals("209")) {
             this.soundPath = "";

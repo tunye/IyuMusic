@@ -2,7 +2,10 @@ package com.iyuba.music.ground;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,8 +14,12 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -63,12 +70,15 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<Original> originalList;
     private ImageView largePause;
     private MorphButton playSound;
-    private ImageView former, latter, playMode, studyTranslate;
-
+    private ImageView former, latter, playMode, studyTranslate,changescreen;
+    private RelativeLayout video_layout;
+    private View toorbar,menu,seekbar_layout,video_content_layout;
+    private boolean isfullscreen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.videoplayer);
+        Log.e("VideoPlayerActivity","onCreate");
         context = this;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -105,12 +115,14 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("VideoPlayerActivity","onPause");
         pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("VideoPlayerActivity","onDestroy");
         videoView.stopPlayback();
         handler.removeCallbacksAndMessages(null);
         wordCard.destroy();
@@ -132,6 +144,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         originalView = (OriginalSynView) findViewById(R.id.original);
         largePause = (ImageView) findViewById(R.id.large_pause);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
+        video_layout = (RelativeLayout) findViewById(R.id.video_layout);
+        changescreen = (ImageView) findViewById(R.id.change_screen);
+        toorbar = findViewById(R.id.toolbar);
+        menu = findViewById(R.id.meun_layout);
+        seekbar_layout = findViewById(R.id.seekbar_layout);
+        video_content_layout = findViewById(R.id.video_content_layout);
     }
 
     @Override
@@ -197,7 +215,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -222,13 +239,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             public void onSeekStart() {
                 handler.removeMessages(0);
             }
-
             @Override
             public void onSeekTo(double time) {
                 videoView.seekTo((int) (time * 1000));
                 handler.sendEmptyMessage(0);
             }
         });
+        changescreen.setOnClickListener(this);
         playMode.setOnClickListener(this);
         playSound.setOnClickListener(this);
         former.setOnClickListener(this);
@@ -245,11 +262,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("VideoPlayerActivity","onResume");
         changeUIResumeByPara();
         if (videoView.isPrepared()) {
             pause();
         }
     }
+
 
     protected void changeUIResumeByPara() {
         setPauseImage();
@@ -298,6 +317,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void pause() {
+
         if (videoView.isPlaying()) {
             videoView.pause();
         } else {
@@ -417,9 +437,45 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 }
                 originalView.setOriginalList(originalList);
                 break;
+            case R.id.change_screen:
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    //变成竖屏
+                    isfullscreen = false;
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    //变成横屏了
+                    isfullscreen = true;
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }
+                break;
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //变成横屏了
+            toorbar.setVisibility(View.GONE);
+//            subtitle.setVisibility(View.VISIBLE);
+//            iv_change_subtitle_type.setVisibility(View.VISIBLE);
+//            iv_fullscreen.setImageResource(R.drawable.small_screen);
+            setVideoParams(videoView.getmMediaPlayer(), true);
+            video_content_layout.setBackgroundColor(Color.BLACK);
+            seekbar_layout.setBackgroundColor(Color.parseColor("#65000000"));
+            menu.setVisibility(View.GONE);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //变成竖屏了
+//            iv_change_subtitle_type.setVisibility(View.GONE);
+//            subtitle.setVisibility(View.GONE);
+            toorbar.setVisibility(View.VISIBLE);
+//            iv_fullscreen.setImageResource(R.drawable.full_screen);
+            menu.setVisibility(View.VISIBLE);
+            seekbar_layout.setBackgroundColor(Color.WHITE);
+            video_content_layout.setBackgroundColor(Color.WHITE);
+            setVideoParams(videoView.getmMediaPlayer(), false);
+        }
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -453,4 +509,51 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             }
         }
     }
+
+    public void setVideoParams(MediaPlayer mediaPlayer, boolean isLand)  {
+        //获取surfaceView父布局的参数
+        ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
+        //获取SurfaceView的参数
+        ViewGroup.LayoutParams sv_paramters = videoView.getLayoutParams();
+        //设置宽高比为16/9
+        float screen_widthPixels = getResources().getDisplayMetrics().widthPixels;
+        float screen_heightPixels = getResources().getDisplayMetrics().widthPixels * 9f / 16f;
+        //取消全屏
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (isLand) {
+            screen_heightPixels = getResources().getDisplayMetrics().heightPixels;
+            //设置全屏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        rl_paramters.width = (int) screen_widthPixels;
+        rl_paramters.height = (int) screen_heightPixels;
+        //获取MediaPlayer的宽高
+        int videoWidth = mediaPlayer.getVideoWidth();
+        int videoHeight = mediaPlayer.getVideoHeight();
+        float video_por;
+        try {
+            video_por = videoWidth / videoHeight;
+        }catch (Exception e){
+            video_por = 0;
+        }
+        float screen_por;
+        try {
+            screen_por = screen_widthPixels / screen_heightPixels;
+        }catch (Exception e){
+            screen_por =0;
+        }
+
+        //16:9    16:12
+        if (screen_por > video_por) {
+            sv_paramters.height = (int) screen_heightPixels;
+            sv_paramters.width = (int) (screen_heightPixels * screen_por);
+        } else {
+            //16:9  19:9
+            sv_paramters.width = (int) screen_widthPixels;
+            sv_paramters.height = (int) (screen_widthPixels / screen_por);
+        }
+        video_layout.setLayoutParams(rl_paramters);
+        videoView.setLayoutParams(sv_paramters);
+    }
+
 }
