@@ -1,7 +1,12 @@
 package com.iyuba.music.download;
 
+import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.request.account.ScoreOperRequest;
+import com.iyuba.music.widget.CustomToast;
 
 /**
  * Created by 10202 on 2016/3/7.
@@ -61,5 +66,36 @@ public class DownloadUtil {
             }
         }
         return url.toString();
+    }
+
+    public static void checkScore(int articleId, final IOperationResult iOperationResult) {
+        if (checkVip()) {
+            iOperationResult.success(null);
+            return;
+        }
+        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), articleId, 40), new IProtocolResponse() {
+            @Override
+            public void onNetError(String msg) {
+                iOperationResult.fail(null);
+            }
+
+            @Override
+            public void onServerError(String msg) {
+                iOperationResult.fail(null);
+            }
+
+            @Override
+            public void response(Object object) {
+                BaseApiEntity apiEntity = (BaseApiEntity) object;
+                if (apiEntity.getState() == BaseApiEntity.SUCCESS) {
+                    CustomToast.getInstance().showToast("积分已经扣除" + Math.abs(Integer.parseInt(apiEntity.getMessage()))
+                            + "，现在剩余积分为" + apiEntity.getValue());
+                    iOperationResult.success(null);
+                } else {
+                    CustomToast.getInstance().showToast("积分剩余不足，不能够下载文章了。");
+                    iOperationResult.fail(null);
+                }
+            }
+        });
     }
 }

@@ -18,8 +18,10 @@ import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
@@ -234,13 +236,24 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                     onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                 } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
-                    new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
-                    DownloadFile downloadFile = new DownloadFile();
-                    downloadFile.id = article.getId();
-                    downloadFile.downloadState = "start";
-                    DownloadManager.getInstance().fileList.add(downloadFile);
-                    new DownloadTask(article).start();
-                    notifyItemChanged(holder.getAdapterPosition());
+                    DownloadUtil.checkScore(article.getId(), new IOperationResult() {
+                        @Override
+                        public void success(Object object) {
+                            new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
+                            DownloadFile downloadFile = new DownloadFile();
+                            downloadFile.id = article.getId();
+                            downloadFile.downloadState = "start";
+                            DownloadManager.getInstance().fileList.add(downloadFile);
+                            new DownloadTask(article).start();
+                            notifyItemChanged(holder.getAdapterPosition());
+                        }
+
+                        @Override
+                        public void fail(Object object) {
+
+                        }
+                    });
+
                 } else {
                     ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }

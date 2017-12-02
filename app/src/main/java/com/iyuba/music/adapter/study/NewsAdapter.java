@@ -20,12 +20,14 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOnClickListener;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -174,13 +176,24 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
-                        new LocalInfoOp().updateDownload(article.getId(), "209", 2);
-                        DownloadFile downloadFile = new DownloadFile();
-                        downloadFile.id = article.getId();
-                        downloadFile.downloadState = "start";
-                        DownloadManager.getInstance().fileList.add(downloadFile);
-                        new DownloadTask(article).start();
-                        notifyItemChanged(pos);
+                        DownloadUtil.checkScore(article.getId(), new IOperationResult() {
+                            @Override
+                            public void success(Object object) {
+                                new LocalInfoOp().updateDownload(article.getId(), "209", 2);
+                                DownloadFile downloadFile = new DownloadFile();
+                                downloadFile.id = article.getId();
+                                downloadFile.downloadState = "start";
+                                DownloadManager.getInstance().fileList.add(downloadFile);
+                                new DownloadTask(article).start();
+                                notifyItemChanged(pos);
+                            }
+
+                            @Override
+                            public void fail(Object object) {
+
+                            }
+                        });
+
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }

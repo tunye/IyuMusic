@@ -18,12 +18,14 @@ import com.iyuba.music.adapter.study.StudyMenuAdapter;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
+import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IOperationFinish;
+import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
@@ -162,14 +164,25 @@ public class StudyMore {
                         if (downloadState == 1) {
                             CustomToast.getInstance().showToast(R.string.article_download_over);
                         } else if (downloadState == 0) {
-                            localInfoOp.updateDownload(curArticle.getId(), app, 2);
-                            menuDrawable[2] = R.drawable.downloading;
-                            studyMenuAdapter.setDataSet(menuText, menuDrawable);
-                            DownloadFile downloadFile = new DownloadFile();
-                            downloadFile.id = curArticle.getId();
-                            downloadFile.downloadState = "start";
-                            DownloadManager.getInstance().fileList.add(downloadFile);
-                            new DownloadTask(curArticle).start();
+                            DownloadUtil.checkScore(curArticle.getId(), new IOperationResult() {
+
+                                @Override
+                                public void success(Object object) {
+                                    localInfoOp.updateDownload(curArticle.getId(), app, 2);
+                                    menuDrawable[2] = R.drawable.downloading;
+                                    studyMenuAdapter.setDataSet(menuText, menuDrawable);
+                                    DownloadFile downloadFile = new DownloadFile();
+                                    downloadFile.id = curArticle.getId();
+                                    downloadFile.downloadState = "start";
+                                    DownloadManager.getInstance().fileList.add(downloadFile);
+                                    new DownloadTask(curArticle).start();
+                                }
+
+                                @Override
+                                public void fail(Object object) {
+
+                                }
+                            });
                         } else {
                             CustomToast.getInstance().showToast(R.string.article_downloading);
                         }

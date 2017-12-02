@@ -16,7 +16,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.request.apprequest.ShareRequest;
+import com.iyuba.music.request.account.ScoreOperRequest;
 import com.iyuba.music.widget.CustomToast;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -43,7 +43,7 @@ public class ShareDialog {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
             if (AccountManager.getInstance().checkUserLogin()) {
-                getScore(2);
+                getScore(39);
             }
         }
 
@@ -66,7 +66,7 @@ public class ShareDialog {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
             if (AccountManager.getInstance().checkUserLogin()) {
-                getScore(1);
+                getScore(38);
             }
         }
 
@@ -175,7 +175,7 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ShareRequest.exeRequest(ShareRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse() {
+        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
 

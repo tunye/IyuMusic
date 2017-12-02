@@ -1,6 +1,7 @@
-package com.iyuba.music.request.apprequest;
+package com.iyuba.music.request.account;
 
 import android.support.v4.util.ArrayMap;
+import android.util.Base64;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,6 +18,8 @@ import com.iyuba.music.volley.VolleyErrorHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -25,7 +28,7 @@ import java.util.Locale;
  * Created by 10202 on 2016/3/12.
  */
 
-public class ShareRequest {
+public class ScoreOperRequest {
     public static void exeRequest(String url, final IProtocolResponse response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
@@ -74,17 +77,21 @@ public class ShareRequest {
     public static String generateUrl(String uid, int id, int type) {
         String originalUrl = "http://api.iyuba.com/credits/updateScore.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
-        if (type == 2) {
-            paras.put("srid", 38);
-        } else {
-            paras.put("srid", 49);
-        }
+        paras.put("srid", type);
         paras.put("uid", uid);
         paras.put("appid", 209);
         paras.put("idindex", id);
         paras.put("mobile", 1);
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);//设置日期格式
-        paras.put("flag", "1234567890" + df.format(new Date()));
+        if (type == 40) {
+            try {
+                paras.put("flag", Base64.encodeToString(URLEncoder.encode(df.format(new Date()), "UTF-8").getBytes(), Base64.DEFAULT));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            paras.put("flag", "1234567890" + df.format(new Date()));
+        }
         return ParameterUrl.setRequestParameter(originalUrl, paras);
     }
 }

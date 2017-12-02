@@ -14,7 +14,6 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -70,15 +69,15 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<Original> originalList;
     private ImageView largePause;
     private MorphButton playSound;
-    private ImageView former, latter, playMode, studyTranslate,changescreen;
+    private ImageView former, latter, playMode, studyTranslate, changescreen;
     private RelativeLayout video_layout;
-    private View toorbar,menu,seekbar_layout,video_content_layout;
+    private View toorbar, menu, seekbar_layout, video_content_layout;
     private boolean isfullscreen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.videoplayer);
-        Log.e("VideoPlayerActivity","onCreate");
         context = this;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -115,14 +114,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("VideoPlayerActivity","onPause");
         pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("VideoPlayerActivity","onDestroy");
         videoView.stopPlayback();
         handler.removeCallbacksAndMessages(null);
         wordCard.destroy();
@@ -215,6 +212,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -239,6 +237,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             public void onSeekStart() {
                 handler.removeMessages(0);
             }
+
             @Override
             public void onSeekTo(double time) {
                 videoView.seekTo((int) (time * 1000));
@@ -262,7 +261,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("VideoPlayerActivity","onResume");
         changeUIResumeByPara();
         if (videoView.isPrepared()) {
             pause();
@@ -297,9 +295,11 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void setScreen() {
-        int width = RuntimeManager.getWindowWidth() - RuntimeManager.dip2px(20);// 700
-        int height = width * videoView.getVideoHeight() / videoView.getVideoWidth();
-        videoView.setVideoScale(width, height);
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            int width = RuntimeManager.getWindowWidth() - RuntimeManager.dip2px(20);
+            int height = width * videoView.getVideoHeight() / videoView.getVideoWidth();
+            videoView.setVideoScale(width, height);
+        }
     }
 
     private void setPlayModeImage(int state) {
@@ -476,6 +476,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             setVideoParams(videoView.getmMediaPlayer(), false);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -510,7 +511,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void setVideoParams(MediaPlayer mediaPlayer, boolean isLand)  {
+    public void setVideoParams(MediaPlayer mediaPlayer, boolean isLand) {
         //获取surfaceView父布局的参数
         ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
         //获取SurfaceView的参数
@@ -533,14 +534,14 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         float video_por;
         try {
             video_por = videoWidth / videoHeight;
-        }catch (Exception e){
+        } catch (Exception e) {
             video_por = 0;
         }
         float screen_por;
         try {
             screen_por = screen_widthPixels / screen_heightPixels;
-        }catch (Exception e){
-            screen_por =0;
+        } catch (Exception e) {
+            screen_por = 0;
         }
 
         //16:9    16:12
