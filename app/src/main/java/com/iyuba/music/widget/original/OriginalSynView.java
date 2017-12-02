@@ -105,6 +105,9 @@ public class OriginalSynView extends ScrollView implements
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (drawTimeLine) {
+            if (originalList == null || originalList.size() == 0) {
+                return;
+            }
             float y = getHeight() / 2 + getScrollY();
             float itemY;
             for (int i = 1; i <= originalList.size(); i++) {
@@ -209,6 +212,9 @@ public class OriginalSynView extends ScrollView implements
     private void initData() {
         subtitleLayout.removeAllViews();
         removeAllViews();
+        if (originalList == null || originalList.size() == 0) {
+            return;
+        }
         int size = originalList.size();
         textPage = new TextPage(context);
         textPage.setHeight(RuntimeManager.getWindowHeight() / 2);
@@ -252,6 +258,9 @@ public class OriginalSynView extends ScrollView implements
     }
 
     public void synchroLanguage() {
+        if (originalList == null || originalList.size() == 0) {
+            return;
+        }
         int size = originalList.size();
         for (int i = 0; i < size; i++) {
             textPage = (TextPage) subtitleLayout.getChildAt(i);
