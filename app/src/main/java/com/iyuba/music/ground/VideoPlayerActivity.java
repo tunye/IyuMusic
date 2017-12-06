@@ -14,14 +14,18 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.buaa.ct.imageselector.utils.ScreenUtils;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -45,6 +49,7 @@ import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.ShareDialog;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.imageview.MorphButton;
+import com.iyuba.music.widget.original.HighLightTextCallBack;
 import com.iyuba.music.widget.original.OriginalSynView;
 import com.iyuba.music.widget.original.SeekToCallBack;
 import com.iyuba.music.widget.original.TextSelectCallBack;
@@ -66,19 +71,24 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private TextView currTime, duration;
     private SeekBar seekBar;
     private OriginalSynView originalView;
+    private TextView subtitle;
     private ArrayList<Original> originalList;
     private ImageView largePause;
     private MorphButton playSound;
-    private ImageView former, latter, playMode, studyTranslate, changescreen;
+    private ImageView former, latter, playMode, studyTranslate, changescreen, subtitlteimg;
     private RelativeLayout video_layout;
-    private View toorbar, menu, seekbar_layout, video_content_layout;
+    private View toorbar, menu, seekbar_layout, video_content_layout, ll_play_state_info;
     private boolean isfullscreen = false;
+    private boolean isplay = true;
+    private boolean isshowcontrol = true;
+    private boolean isshowchinese = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.videoplayer);
         context = this;
+        Log.e("onCreate", "执行了");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
@@ -114,12 +124,18 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-        pause();
+        Log.e("onPause", "执行了");
+        if (videoView.isPlaying()) {
+            videoView.pause();
+            isplay = true;
+        }
+        setPauseImage();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("onDestroy", "执行了");
         videoView.stopPlayback();
         handler.removeCallbacksAndMessages(null);
         wordCard.destroy();
@@ -139,6 +155,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         wordCard = (WordCard) findViewById(R.id.wordcard);
         videoView = (VideoView) findViewById(R.id.videoView_small);
         originalView = (OriginalSynView) findViewById(R.id.original);
+        subtitle = (TextView) findViewById(R.id.tv_zimu);
+        subtitle.setVisibility(View.GONE);
         largePause = (ImageView) findViewById(R.id.large_pause);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         video_layout = (RelativeLayout) findViewById(R.id.video_layout);
@@ -147,6 +165,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         menu = findViewById(R.id.meun_layout);
         seekbar_layout = findViewById(R.id.seekbar_layout);
         video_content_layout = findViewById(R.id.video_content_layout);
+        subtitlteimg = (ImageView) findViewById(R.id.change_zimu);
+        ll_play_state_info = findViewById(R.id.ll_play_state_info);
     }
 
     @Override
@@ -159,6 +179,24 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 shareDialog.show();
             }
         });
+        subtitlteimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int musicTranslate = ConfigManager.getInstance().getStudyTranslate();
+                musicTranslate = (musicTranslate + 1) % 2;
+                ConfigManager.getInstance().setStudyTranslate(musicTranslate);
+                setStudyTranslateImage(musicTranslate);
+                if (musicTranslate == 1) {
+                    originalView.setShowChinese(true);
+                    isshowchinese = true;
+                } else {
+                    originalView.setShowChinese(false);
+                    isshowchinese = false;
+                }
+                originalView.setOriginalList(originalList);
+            }
+        });
+
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -188,10 +226,23 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 refresh();
             }
         });
-        findViewById(R.id.video_layout).setOnClickListener(new View.OnClickListener() {
+        largePause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pause();
+            }
+        });
+        findViewById(R.id.video_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isshowcontrol = !isshowcontrol;
+                if (isshowcontrol) {
+                    ll_play_state_info.setVisibility(View.VISIBLE);
+                    largePause.setVisibility(View.VISIBLE);
+                } else {
+                    ll_play_state_info.setVisibility(View.GONE);
+                    largePause.setVisibility(View.GONE);
+                }
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -216,6 +267,20 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+        originalView.setHighLightTextCallBack(new HighLightTextCallBack() {
+            @Override
+            public void getCurrentHighLightText(String content) {
+                if (subtitle != null) {
+                    String[] zimu = content.split("\n");
+                    if (content != null && !"".equals(content)) {
+                        if (isshowchinese)
+                            subtitle.setText(content);
+                        else
+                            subtitle.setText(zimu[0]);
+                    }
+                }
             }
         });
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
@@ -261,9 +326,15 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("onResume", "执行了");
         changeUIResumeByPara();
         if (videoView.isPrepared()) {
-            pause();
+            //pause();
+            if (isplay)
+                videoView.start();
+            else
+                videoView.pause();
+            setPauseImage();
         }
     }
 
@@ -317,12 +388,14 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void pause() {
-
         if (videoView.isPlaying()) {
             videoView.pause();
+            isplay = false;
         } else {
             videoView.start();
+            isplay = true;
         }
+        Log.e("是否暂停：", isplay + "");
         setPauseImage();
     }
 
@@ -341,9 +414,11 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         switch (state) {
             case 1:
                 studyTranslate.setImageResource(R.drawable.video_translate);
+                subtitlteimg.setImageResource(R.drawable.change_select);
                 break;
             case 0:
                 studyTranslate.setImageResource(R.drawable.video_untranslate);
+                subtitlteimg.setImageResource(R.drawable.change);
                 break;
         }
     }
@@ -423,6 +498,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.formmer:
                 currPos = (currPos - 1) % articles.size();
+                if (currPos < 0)
+                    currPos = articles.size() - 1;
                 refresh();
                 break;
             case R.id.translate:
@@ -432,12 +509,17 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 setStudyTranslateImage(musicTranslate);
                 if (musicTranslate == 1) {
                     originalView.setShowChinese(true);
+                    isshowchinese = true;
                 } else {
                     originalView.setShowChinese(false);
+                    isshowchinese = false;
                 }
                 originalView.setOriginalList(originalList);
                 break;
             case R.id.change_screen:
+                isplay = true;
+                playSound.setState(MorphButton.PLAY_STATE);
+                largePause.setVisibility(View.GONE);
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     //变成竖屏
                     isfullscreen = false;
@@ -452,29 +534,58 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                //变成竖屏
+                isfullscreen = false;
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+        //继续执行父类其他点击事件
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //变成横屏了
             toorbar.setVisibility(View.GONE);
-//            subtitle.setVisibility(View.VISIBLE);
+            subtitle.setVisibility(View.VISIBLE);
 //            iv_change_subtitle_type.setVisibility(View.VISIBLE);
 //            iv_fullscreen.setImageResource(R.drawable.small_screen);
-            setVideoParams(videoView.getmMediaPlayer(), true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            //setVideoParams(videoView.getmMediaPlayer(), true);
+            ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
+            rl_paramters.height = LinearLayout.LayoutParams.MATCH_PARENT;
+            rl_paramters.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            video_layout.setLayoutParams(rl_paramters);
+            originalView.setVisibility(View.GONE);
             video_content_layout.setBackgroundColor(Color.BLACK);
             seekbar_layout.setBackgroundColor(Color.parseColor("#65000000"));
             menu.setVisibility(View.GONE);
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //变成竖屏了
 //            iv_change_subtitle_type.setVisibility(View.GONE);
-//            subtitle.setVisibility(View.GONE);
+            subtitle.setVisibility(View.GONE);
+            originalView.setVisibility(View.VISIBLE);
             toorbar.setVisibility(View.VISIBLE);
 //            iv_fullscreen.setImageResource(R.drawable.full_screen);
             menu.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
+            rl_paramters.height = ScreenUtils.dip2px(context, 210.0f);
+            rl_paramters.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            video_layout.setLayoutParams(rl_paramters);
             seekbar_layout.setBackgroundColor(Color.WHITE);
             video_content_layout.setBackgroundColor(Color.WHITE);
-            setVideoParams(videoView.getmMediaPlayer(), false);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            //setVideoParams(videoView.getmMediaPlayer(), false);
         }
+
     }
 
     @Override
@@ -493,21 +604,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 }
             });
             materialDialog.show();
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<VideoPlayerActivity> {
-        @Override
-        public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    activity.currTime.setText(Mathematics.formatTime(activity.videoView.getCurrentPosition() / 1000));
-                    activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
-                    int current = activity.videoView.getCurrentPosition();
-                    activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
-                    activity.handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
-            }
         }
     }
 
@@ -555,6 +651,22 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         }
         video_layout.setLayoutParams(rl_paramters);
         videoView.setLayoutParams(sv_paramters);
+    }
+
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<VideoPlayerActivity> {
+        @Override
+        public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
+            switch (msg.what) {
+                case 0:
+                    activity.currTime.setText(Mathematics.formatTime(activity.videoView.getCurrentPosition() / 1000));
+                    activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
+                    int current = activity.videoView.getCurrentPosition();
+                    if (activity.originalView != null)
+                        activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
+                    activity.handler.sendEmptyMessageDelayed(0, 1000);
+                    break;
+            }
+        }
     }
 
 }

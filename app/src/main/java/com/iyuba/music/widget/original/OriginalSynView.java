@@ -55,6 +55,7 @@ public class OriginalSynView extends ScrollView implements
     //实现接口
     private TextSelectCallBack textSelectCallBack;
     private SeekToCallBack seekToCallBack;
+    private HighLightTextCallBack highLightTextCallBack;
 
     public OriginalSynView(Context context) {
         super(context);
@@ -178,7 +179,6 @@ public class OriginalSynView extends ScrollView implements
             default:
                 break;
         }
-
         return super.dispatchTouchEvent(event);
     }
 
@@ -265,7 +265,8 @@ public class OriginalSynView extends ScrollView implements
         for (int i = 0; i < size; i++) {
             textPage = (TextPage) subtitleLayout.getChildAt(i);
             if (isShowChinese()) {
-                textPage.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
+                textPage.setText(originalList.get(i).getSentence() + "\n" +
+                        originalList.get(i).getSentence_cn());
             } else {
                 textPage.setText(originalList.get(i).getSentence());
             }
@@ -279,8 +280,16 @@ public class OriginalSynView extends ScrollView implements
             textPage.setTextColor(context.getResources().getColor(R.color.text_color));
         }
         textPage = (TextPage) subtitleLayout.getChildAt(current);
+        if (textPage == null)
+            return 0;
         textPage.setTextColor(GetAppColor.getInstance().getAppColorLight());
         lastParagraph = current;
+        if (highLightTextCallBack != null) {
+            if (originalList != null && current <= originalList.size() && current > 0) {
+                highLightTextCallBack.getCurrentHighLightText(originalList.get(current - 1).getSentence()
+                        + "\n" + originalList.get(current - 1).getSentence_cn());
+            }
+        }
         return textPage.getTop() + textPage.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
     }
 
@@ -342,6 +351,10 @@ public class OriginalSynView extends ScrollView implements
 
     public void setSeekToCallBack(SeekToCallBack seekToCallBack) {
         this.seekToCallBack = seekToCallBack;
+    }
+
+    public void setHighLightTextCallBack(HighLightTextCallBack highLightTextCallBack) {
+        this.highLightTextCallBack = highLightTextCallBack;
     }
 
     @Override

@@ -228,6 +228,22 @@ public class WelcomeActivity extends AppCompatActivity {
         welcomeAdProgressbar.setVisibility(View.GONE);
     }
 
+    private boolean isNetworkAvailable() {
+        Context context = RuntimeManager.getApplication();
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
+            if (activeInfo != null) {
+                return activeInfo.isConnected();
+            } else {
+                return false;
+            }
+        }
+    }
+
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WelcomeActivity> {
         @Override
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
@@ -286,22 +302,6 @@ public class WelcomeActivity extends AppCompatActivity {
                         activity.welcomeAdProgressbar.setVisibility(View.INVISIBLE);
                     }
                     break;
-            }
-        }
-    }
-
-    private boolean isNetworkAvailable() {
-        Context context = RuntimeManager.getApplication();
-        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager == null) {
-            return false;
-        } else {
-            NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
-            if (activeInfo != null) {
-                return activeInfo.isConnected();
-            } else {
-                return false;
             }
         }
     }

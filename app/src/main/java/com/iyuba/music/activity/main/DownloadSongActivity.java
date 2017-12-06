@@ -86,7 +86,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadingContinue = (TextView) findViewById(R.id.downloading_start);
         ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingBar = findViewById(R.id.downloading_bar);
-        downloadedAdapter = new DownloadNewsAdapter(context,fileMap);
+        downloadedAdapter = new DownloadNewsAdapter(context, fileMap);
         downloadedAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -113,7 +113,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         });
         downloadedRecycleView.setAdapter(downloadedAdapter);
 
-        downloadingAdapter = new DownloadNewsAdapter(context,fileMap);
+        downloadingAdapter = new DownloadNewsAdapter(context, fileMap);
         downloadingAdapter.setDownloadCompleteClickLitener(new IOperationFinish() {
             @Override
             public void finish() {

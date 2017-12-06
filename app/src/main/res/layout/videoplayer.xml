@@ -25,17 +25,17 @@
             <RelativeLayout
                 android:id="@+id/video_layout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="210dp"
                 android:layout_margin="@dimen/row_space_large">
 
                 <com.iyuba.music.widget.player.VideoView
                     android:id="@+id/videoView_small"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_height="200dp"/>
+                    android:layout_alignParentBottom="true" />
 
                 <ImageView
                     android:id="@+id/videoView_loading"
@@ -44,13 +44,155 @@
                     android:background="@color/background"
                     android:scaleType="fitXY"
                     android:src="@drawable/default_music" />
-
+                <TextView
+                    android:id="@+id/tv_zimu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#65000000"
+                    android:padding="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:text="字幕君"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:layout_alignParentBottom="true"
+                    />
                 <ImageView
                     android:id="@+id/large_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/large_pause"/>
+                <LinearLayout
+                    android:id="@+id/ll_play_state_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#65000000"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
+                    <ImageView
+                        android:id="@+id/change_zimu"
+                        android:layout_width="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/change_eng_ch"/>
+                    <TextView
+                        android:id="@+id/study_current_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="00:00"
+                        android:textColor="@color/white" />
+                    <SeekBar
+                        android:id="@+id/study_progress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:maxHeight="2dp"
+                        android:minHeight="2dp"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/audio_progress"
+                        android:splitTrack="false"
+                        android:thumb="@drawable/thumb"
+                        android:thumbOffset="0dp"/>
+                    <TextView
+                        android:id="@+id/study_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="5dp"
+                        android:text="00:00"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/change_screen"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/full_screen"/>
+                </LinearLayout>
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/gesture_volume_layout"-->
+                    <!--android:layout_width="120dip"-->
+                    <!--android:layout_height="100dip"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:background="#65000000"-->
+                    <!--android:gravity="center"-->
+                    <!--android:visibility="gone"-->
+                    <!--&gt;-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/gesture_iv_player_volume"-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="44dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:src="@drawable/voice"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_marginTop="2dip"-->
+                        <!--android:id="@+id/geture_tv_volume_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/gesture_iv_player_volume"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:gravity="right"-->
+                        <!--android:text="80%"-->
+                        <!--android:textColor="#ffececec"/>-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/gesture_bright_layout"-->
+                    <!--android:layout_width="120dip"-->
+                    <!--android:layout_height="100dip"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:background="#65000000"-->
+                    <!--android:gravity="center"-->
+                    <!--android:visibility="gone">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/gesture_iv_player_bright"-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="44dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:src="@drawable/bright"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_marginTop="2dip"-->
+                        <!--android:id="@+id/geture_tv_bright_percentage"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/gesture_iv_player_bright"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:gravity="right"-->
+                        <!--android:text="80%"-->
+                        <!--android:textColor="#ffececec"/>-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/gesture_progress_layout"-->
+                    <!--android:layout_width="120dip"-->
+                    <!--android:layout_height="100dip"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:background="#65000000"-->
+                    <!--android:gravity="center"-->
+                    <!--android:visibility="gone"-->
+                    <!--&gt;-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/gesture_iv_progress"-->
+                        <!--android:layout_width="44dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:src="@drawable/move_fast_forward" />-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/gesture_tv_progress_time"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/gesture_iv_progress"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:gravity="right"-->
+                        <!--android:text="00:35/24:89"-->
+                        <!--android:textColor="#ffececec" />-->
+                <!--</RelativeLayout>-->
             </RelativeLayout>
 
             <com.iyuba.music.widget.original.OriginalSynView
@@ -75,37 +217,38 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/row_space_large"
             android:layout_marginRight="@dimen/row_space_large"
+            android:visibility="gone"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/study_current_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="00:00"
-                android:textColor="@color/skin_app_color_light"
-                android:textSize="@dimen/medium_text"/>
+            <!--<TextView-->
+                <!--android:id="@+id/study_current_time"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:text="00:00"-->
+                <!--android:textColor="@color/skin_app_color_light"-->
+                <!--android:textSize="@dimen/medium_text"/>-->
 
-            <SeekBar
-                android:id="@+id/study_progress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:maxHeight="@dimen/row_space_default"
-                android:minHeight="@dimen/row_space_default"
-                android:progressDrawable="@drawable/audio_progress"
-                android:thumb="@drawable/thumb"
-                android:thumbOffset="0dp"/>
+            <!--<SeekBar-->
+                <!--android:id="@+id/study_progress"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_weight="1"-->
+                <!--android:maxHeight="@dimen/row_space_default"-->
+                <!--android:minHeight="@dimen/row_space_default"-->
+                <!--android:progressDrawable="@drawable/audio_progress"-->
+                <!--android:thumb="@drawable/thumb"-->
+                <!--android:thumbOffset="0dp"/>-->
 
-            <TextView
-                android:id="@+id/study_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="00:00"
-                android:textColor="@color/skin_app_color_light"
-                android:textSize="@dimen/medium_text"/>
+            <!--<TextView-->
+                <!--android:id="@+id/study_duration"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:text="00:00"-->
+                <!--android:textColor="@color/skin_app_color_light"-->
+                <!--android:textSize="@dimen/medium_text"/>-->
         </LinearLayout>
 
         <LinearLayout
@@ -150,12 +293,13 @@
                 android:layout_weight="1"
                 android:src="@drawable/single_replay"/>
 
-            <ImageView
-                android:id="@+id/change_screen"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:src="@drawable/single_replay"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/change_screen"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:visibility="gone"-->
+                <!--android:src="@drawable/single_replay"/>-->
         </LinearLayout>
 
 

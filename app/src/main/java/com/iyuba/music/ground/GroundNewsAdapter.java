@@ -35,9 +35,16 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
     private Context context;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private ArrayList<Article> mList = new ArrayList<>();
+    private boolean IscanDL = true;
 
     public GroundNewsAdapter(Context context) {
         this.context = context;
+        mList = new ArrayList<>();
+    }
+
+    public GroundNewsAdapter(Context context, boolean IscanDL) {
+        this.context = context;
+        this.IscanDL = IscanDL;
         mList = new ArrayList<>();
     }
 
@@ -81,22 +88,24 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
         holder.content.setText(article.getContent());
         holder.time.setText(article.getTime().split(" ")[0]);
         holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
-        holder.pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (DownloadTask.checkFileExists(article)) {
-                    onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
-                } else {
-                    new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
-                    DownloadFile downloadFile = new DownloadFile();
-                    downloadFile.id = article.getId();
-                    downloadFile.downloadState = "start";
-                    DownloadManager.getInstance().fileList.add(downloadFile);
-                    new DownloadTask(article).start();
-                    CustomToast.getInstance().showToast(R.string.article_download_start);
+        if (IscanDL) {
+            holder.pic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (DownloadTask.checkFileExists(article)) {
+                        onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                    } else {
+                        new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
+                        DownloadFile downloadFile = new DownloadFile();
+                        downloadFile.id = article.getId();
+                        downloadFile.downloadState = "start";
+                        DownloadManager.getInstance().fileList.add(downloadFile);
+                        new DownloadTask(article).start();
+                        CustomToast.getInstance().showToast(R.string.article_download_start);
+                    }
                 }
-            }
-        });
+            });
+        }
         ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
     }
 

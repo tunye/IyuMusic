@@ -609,4 +609,7 @@
     <string name="net_study_no_net">网络不可用</string>
     <string name="net_study_no_net_message">网络不可用，请设置网络连接！没有网络无法听在线音乐</string>
     <string name="net_study_lrc">学习歌词</string>
+    <!--视频全屏-->
+    <string name="imusic_video_current_time">00:00</string>
+    <string name="imusic_video_total_time">00:00</string>
 </resources>

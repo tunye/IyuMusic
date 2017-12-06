@@ -101,6 +101,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @IntervalState
     private int intervalState;
     private IyubaDialog waittingDialog;
+    private LinearLayout root;
     IPlayerListener iPlayerListener = new IPlayerListener() {
         @Override
         public void onPrepare() {
@@ -130,7 +131,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         }
     };
-    private LinearLayout root;
     private RelativeLayout adRoot;
     private View adView;
     private ImageView photoImage;
@@ -605,6 +605,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
+        if (StudyManager.getInstance().getCurArticle() == null)
+            return;
         if (((MusicApplication) getApplication()).getPlayerService().getCurArticleId() == StudyManager.getInstance().getCurArticle().getId()) {
             int i = player.getDuration();
             seekBar.setMax(i);

@@ -29,6 +29,8 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     public static void playNewSong() {
         Article curArticle = StudyManager.getInstance().getCurArticle();
+        if (curArticle == null)
+            return;
         final PlayerService playerService = RuntimeManager.getApplication().getPlayerService();
         playerService.startPlay(curArticle, false);
         playerService.setCurArticleId(curArticle.getId());

@@ -135,7 +135,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         }
         final Article article = newsList.get(position);
         holder.title.setText(article.getTitle());
-        if ("209".equals(article.getApp())) {
+        if ("209".equals(article.getApp()) && !article.getCategory().equals("401")) {
             holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
             holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         } else {
@@ -259,7 +259,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
                 }
             }
         });
-        if (article.getApp().equals("209")) {
+        if (article.getApp().equals("209") && !article.getCategory().equals("401")) {
             ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
         } else {
             ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);

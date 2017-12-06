@@ -58,7 +58,7 @@ public class MTVFragment extends BaseRecyclerViewFragment implements MySwipeRefr
         View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
         MTVList = new ArrayList<>();
-        MTVAdapter = new GroundNewsAdapter(context);
+        MTVAdapter = new GroundNewsAdapter(context, false);
         if (DownloadUtil.checkVip()) {
             MTVAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
                 @Override

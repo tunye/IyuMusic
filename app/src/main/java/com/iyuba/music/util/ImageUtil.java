@@ -1,5 +1,6 @@
 package com.iyuba.music.util;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Looper;
@@ -56,9 +57,13 @@ public class ImageUtil {
         } else {
             context = RuntimeManager.getContext();
         }
-        Glide.with(context).load(imageUrl).placeholder(placeholderDrawableId)
-                .error(placeholderDrawableId).animate(R.anim.fade_in).centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (!activity.isFinishing())
+                Glide.with(context).load(imageUrl).placeholder(placeholderDrawableId)
+                        .error(placeholderDrawableId).animate(R.anim.fade_in).centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+        }
     }
 
     public static void loadImage(ImageView imageView, String imageUrl, int placeholderDrawableId, OnDrawableLoadListener listener) {

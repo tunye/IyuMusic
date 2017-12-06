@@ -178,7 +178,7 @@ public class MusicApplication extends Application {
         pushSdkInit();
         // 初始化addam
         AddamManager.start(this, "iyuba@sina.com", "a01c1754adf58704df15e929dc63b4ce", "addam_market");
-        AddamManager.initialize( new AddamManager.Callback() {
+        AddamManager.initialize(new AddamManager.Callback() {
             @Override
             public void initialized(boolean success) {
             }

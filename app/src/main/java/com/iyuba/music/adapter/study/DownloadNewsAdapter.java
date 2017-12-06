@@ -245,14 +245,24 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             CustomToast.getInstance().showToast(R.string.article_download_success);
                             DownloadManager.getInstance().fileList.remove(file);
                             holder.itemView.removeCallbacks(refreshItem);
-                            finish.finish();
+                            holder.itemView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish.finish();
+                                }
+                            }, 500);
                             break;
                         case "fail":
                             localInfoOp.updateDownload(file.id, article.getApp(), 3);
                             CustomToast.getInstance().showToast(R.string.article_download_fail);
                             DownloadManager.getInstance().fileList.remove(file);
                             holder.itemView.removeCallbacks(refreshItem);
-                            finish.finish();
+                            holder.itemView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish.finish();
+                                }
+                            }, 500);
                             break;
                     }
 
