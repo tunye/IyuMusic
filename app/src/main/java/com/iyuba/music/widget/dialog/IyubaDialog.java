@@ -25,7 +25,7 @@ public class IyubaDialog extends AppCompatDialog {
     private Context context;
     private View contentView;
     private View view;
-    AnimationListener animationListener = new AnimationListener() {
+    private AnimationListener animationListener = new AnimationListener() {
 
         @Override
         public void onAnimationStart(Animation animation) {

@@ -38,7 +38,7 @@ public class ContextMenu {
     }
 
     private void init() {
-        View cancel = root.findViewById(R.id.cancle);
+        View cancel = root.findViewById(R.id.cancel);
         AddRippleEffect.addRippleEffect(cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
 
