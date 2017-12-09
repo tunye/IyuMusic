@@ -251,6 +251,7 @@ public class MainLeftFragment extends BaseFragment {
                 signInHint.setText(R.string.oper_sign_in);
                 personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
                 if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
+                    updatePersonalInfoView();
                     getPersonalInfo();
                 }
             } else {

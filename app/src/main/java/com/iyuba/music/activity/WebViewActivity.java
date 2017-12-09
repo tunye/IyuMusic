@@ -60,7 +60,9 @@ public class WebViewActivity extends BaseInputActivity {
                 @Override
                 public void run() {
                     String titleContent = web.getTitle();
-                    title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                    if (!TextUtils.isEmpty(titleContent)) {
+                        title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                    }
                 }
             }, 500);
         } else if (!web.canGoBack()) {

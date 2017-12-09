@@ -198,6 +198,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
 
     private void synchroCollect() {
         if (!collected) {
+            CustomToast.getInstance().showToast(R.string.word_adding);
             word.setUser(AccountManager.getInstance().getUserId());
             word.setCreateDate(DateFormat.formatTime(Calendar.getInstance().getTime()));
             word.setViewCount("1");

@@ -44,6 +44,9 @@ public class PersonalInfoRequest {
                                     if ("doings".equals(nodeName)) {
                                         userInfo.setDoings(xmlPullParser.nextText());
                                     }
+                                    if ("icoins".equals(nodeName)) {
+                                        userInfo.setIcoins(xmlPullParser.nextText());
+                                    }
                                     if ("views".equals(nodeName)) {
                                         userInfo.setViews(xmlPullParser.nextText());
                                     }

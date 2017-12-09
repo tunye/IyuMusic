@@ -239,6 +239,7 @@
     <string name="word_mean">Explanation</string>
     <string name="word_example">Example sentence:</string>
     <string name="word_add">This word has been added to the cloud your word list</string>
+    <string name="word_adding">Adding</string>
     <string name="word_delete">This word has been deleted from the cloud your word list</string>
     <string name="word_searching">Word search in process</string>
     <string name="no_word_example">No sentence yet,example sentence is to be sorted out…</string>

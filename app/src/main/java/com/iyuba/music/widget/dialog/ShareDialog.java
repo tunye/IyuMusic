@@ -10,7 +10,6 @@ import android.widget.GridView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.ShareAdapter;
-import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -22,7 +21,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMusic;
+import com.umeng.socialize.media.UMWeb;
 
 /**
  * Created by 10202 on 2015/10/28.
@@ -98,48 +97,42 @@ public class ShareDialog {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dismiss();
-                UMusic music;
-                if (StudyManager.getInstance().getApp().equals("209") && article.getSimple() == 0) {
-                    music = new UMusic(DownloadUtil.getAnnouncerUrl(article.getId(), article.getSoundUrl()));
-                } else {
-                    music = new UMusic(DownloadUtil.getSongUrl(article.getApp(), article.getMusicUrl()));
-                }
-                music.setTitle(article.getTitle());
-                music.setmTargetUrl(getShareUrl());
-                music.setDescription(article.getContent());
-                music.setThumb(new UMImage(activity, getPicUrl()));
+                UMWeb web = new UMWeb(getShareUrl());
+                web.setTitle(article.getTitle());
+                web.setDescription(article.getContent());
+                web.setThumb(new UMImage(activity, getPicUrl()));
                 switch (position) {
                     case 0:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                                .withMedia(music).setCallback(shareMorePeopleListener)
+                                .withMedia(web).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
                     case 1:
-//                        new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
-//                                .withMedia(music).setCallback(shareSinglePeopleListener)
-//                                .share();
-//                        break;
-//                    case 2:
-                        new ShareAction(activity).setPlatform(SHARE_MEDIA.SINA)
-                                .withText("#听歌学英语# " + article.getTitle() + " — " + article.getSinger())
-                                .withMedia(music).setCallback(shareMorePeopleListener)
+                        new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN)
+                                .withMedia(web).setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
                     case 2:
-                        new ShareAction(activity).setPlatform(SHARE_MEDIA.QQ)
-                                .withMedia(music).setCallback(shareSinglePeopleListener)
+                        new ShareAction(activity).setPlatform(SHARE_MEDIA.SINA)
+                                .withText("#听歌学英语# " + article.getTitle() + " — " + article.getSinger())
+                                .withMedia(web).setCallback(shareMorePeopleListener)
                                 .share();
                         break;
                     case 3:
-                        new ShareAction(activity).setPlatform(SHARE_MEDIA.QZONE)
-                                .withText(article.getTitle() + " — " + article.getSinger())
-                                .withMedia(music).setCallback(shareMorePeopleListener)
+                        new ShareAction(activity).setPlatform(SHARE_MEDIA.QQ)
+                                .withMedia(web).setCallback(shareSinglePeopleListener)
                                 .share();
                         break;
                     case 4:
+                        new ShareAction(activity).setPlatform(SHARE_MEDIA.QZONE)
+                                .withText(article.getTitle() + " — " + article.getSinger())
+                                .withMedia(web).setCallback(shareMorePeopleListener)
+                                .share();
+                        break;
+                    case 5:
                         new ShareAction(activity).setPlatform(SHARE_MEDIA.WEIXIN_FAVORITE)
                                 .withText("听歌学英语 " + article.getTitle() + " — " + article.getSinger())
-                                .withMedia(music)
+                                .withMedia(web)
                                 .setCallback(shareSinglePeopleListener)
                                 .share();
                         break;

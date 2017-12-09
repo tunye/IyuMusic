@@ -239,6 +239,7 @@
     <string name="word_mean">解释:</string>
     <string name="word_example">例句:</string>
     <string name="word_add">云单词列表已添加该单词</string>
+    <string name="word_adding">单词添加中</string>
     <string name="word_delete">云单词列表已移除该单词</string>
     <string name="word_searching">正在检索单词，让单词飞一会</string>
     <string name="no_word_example">尚无例句。例句正在紧张整理中…</string>

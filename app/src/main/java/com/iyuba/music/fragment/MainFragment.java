@@ -269,20 +269,22 @@ public class MainFragment extends BaseFragment {
         public void handleMessageByRef(final MainFragment fragment, Message msg) {
             switch (msg.what) {
                 case 0:
-                    fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
-                    if (fragment.player.isPlaying()) {
-                        if (fragment.pic.getAnimation() == null) {
-                            fragment.startAnimation();
-                        }
-                        if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
-                            fragment.pause.setState(MorphButton.PLAY_STATE);
-                        }
-                    } else if (!fragment.player.isPlaying()) {
-                        if (fragment.pic.getAnimation() != null) {
-                            fragment.pauseAnimation();
-                        }
-                        if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
-                            fragment.pause.setState(MorphButton.PAUSE_STATE);
+                    if (fragment.player != null) {
+                        fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
+                        if (fragment.player.isPlaying()) {
+                            if (fragment.pic.getAnimation() == null) {
+                                fragment.startAnimation();
+                            }
+                            if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
+                                fragment.pause.setState(MorphButton.PLAY_STATE);
+                            }
+                        } else if (!fragment.player.isPlaying()) {
+                            if (fragment.pic.getAnimation() != null) {
+                                fragment.pauseAnimation();
+                            }
+                            if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
+                                fragment.pause.setState(MorphButton.PAUSE_STATE);
+                            }
                         }
                     }
                     fragment.handler.sendEmptyMessageDelayed(0, 500);

@@ -1,11 +1,14 @@
 package com.iyuba.music.activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,8 +37,11 @@ import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.mob.MobSDK;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +61,7 @@ public class RegistActivity extends BaseInputActivity {
     private View registByPhone, registByEmail;
     private CircleImageView photo;
     private IyubaDialog waittingDialog;
+    private boolean smsReady;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -307,11 +314,57 @@ public class RegistActivity extends BaseInputActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SMSSDK.unregisterAllEventHandler();
+        if (smsReady) {
+            SMSSDK.unregisterAllEventHandler();
+        }
     }
 
     private void initSMSService() {
-        SMSSDK.initSDK(this, ConstantManager.SMSAPPID, ConstantManager.SMSAPPSECRET);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int readPhone = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+            int receiveSms = checkSelfPermission(Manifest.permission.RECEIVE_SMS);
+            int readSms = checkSelfPermission(Manifest.permission.READ_SMS);
+            int readContacts = checkSelfPermission(Manifest.permission.READ_CONTACTS);
+            int readSdcard = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+
+            int requestCode = 0;
+            List<String> permissions = new ArrayList<>();
+            if (readPhone != PackageManager.PERMISSION_GRANTED) {
+                requestCode |= 1 << 0;
+                permissions.add(Manifest.permission.READ_PHONE_STATE);
+            }
+            if (receiveSms != PackageManager.PERMISSION_GRANTED) {
+                requestCode |= 1 << 1;
+                permissions.add(Manifest.permission.RECEIVE_SMS);
+            }
+            if (readSms != PackageManager.PERMISSION_GRANTED) {
+                requestCode |= 1 << 2;
+                permissions.add(Manifest.permission.READ_SMS);
+            }
+            if (readContacts != PackageManager.PERMISSION_GRANTED) {
+                requestCode |= 1 << 3;
+                permissions.add(Manifest.permission.READ_CONTACTS);
+            }
+            if (readSdcard != PackageManager.PERMISSION_GRANTED) {
+                requestCode |= 1 << 4;
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (requestCode > 0) {
+                String[] permission = new String[permissions.size()];
+                this.requestPermissions(permissions.toArray(permission), requestCode);
+                return;
+            }
+        }
+        registerSDK();
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        registerSDK();
+    }
+
+    private void registerSDK() {
+        SMSSDK.setAskPermisionOnReadContact(true);
+        MobSDK.init(this, ConstantManager.SMSAPPID, ConstantManager.SMSAPPSECRET);
         EventHandler eh = new EventHandler() {
 
             @Override
@@ -320,6 +373,7 @@ public class RegistActivity extends BaseInputActivity {
             }
         };
         SMSSDK.registerEventHandler(eh);
+        smsReady = true;
     }
 
     @Deprecated

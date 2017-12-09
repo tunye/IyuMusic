@@ -31,7 +31,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 /**
  * Created by 10202 on 2015/11/20.
  */
-public class FeedbackActivity extends BaseActivity {
+public class FeedbackActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText contact, content;
     private boolean regex;
