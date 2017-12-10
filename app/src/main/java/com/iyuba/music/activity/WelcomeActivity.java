@@ -51,7 +51,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean showAd = false;                             // 是否进入广告
     private boolean showGuide = false;                          // 是否跳转开屏引导
     private Context context;
-    private YouDaoNative youdaoNative;
     private String adUrl;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
@@ -134,12 +133,12 @@ public class WelcomeActivity extends AppCompatActivity {
         AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
-
+                header.setImageResource(R.drawable.default_header);
             }
 
             @Override
             public void onServerError(String msg) {
-
+                header.setImageResource(R.drawable.default_header);
             }
 
             @Override
@@ -152,7 +151,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void loadYouDaoSplash() {
-        youdaoNative = new YouDaoNative(context, "a710131df1638d888ff85698f0203b46",
+        YouDaoNative youdaoNative = new YouDaoNative(context, "a710131df1638d888ff85698f0203b46",
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
