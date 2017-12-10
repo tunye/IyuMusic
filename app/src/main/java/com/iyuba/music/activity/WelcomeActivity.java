@@ -65,8 +65,8 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         } else {
-            getBannerPic();
             initWidget();
+            getBannerPic();
             setListener();
             initialDatabase();
             RuntimeManager.getInstance().setShowSignInToast(true);
