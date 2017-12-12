@@ -297,6 +297,8 @@ public class MainLeftFragment extends BaseFragment {
                                             }
                                         });
                                     }
+                                    updatePersonalInfoView();
+                                    getPersonalInfo();
                                 }
 
                                 @Override
@@ -423,7 +425,7 @@ public class MainLeftFragment extends BaseFragment {
         public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
             switch (msg.what) {
                 case 1:
-                    fragment.operAdapter.notifyItemChanged(5);
+                    fragment.operAdapter.notifyItemChanged(4);
                     fragment.handler.sendEmptyMessageDelayed(1, 1000);
                     break;
             }
