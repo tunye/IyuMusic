@@ -56,7 +56,8 @@ public class SignInDialog {
             public void response(Object object) {
                 BaseApiEntity result = (BaseApiEntity) object;
                 if (result.getState() == BaseApiEntity.SUCCESS) {
-                    if (result.getData().toString().compareTo("180") >= 0) {
+                    Log.e("aaa", result.getData().toString());
+                    if (Integer.parseInt(result.getData().toString()) >= 180) {
                         init();
                     } else {
                         CustomToast.getInstance().showToast("您当日学习时长不足3分钟，赶快去听几首歌曲再来签到吧~");

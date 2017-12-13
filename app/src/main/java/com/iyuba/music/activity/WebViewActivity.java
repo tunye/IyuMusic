@@ -171,7 +171,7 @@ public class WebViewActivity extends BaseInputActivity {
 //                }
             }
         });
-        web.getSettings().setJavaScriptEnabled(false);
+        web.getSettings().setJavaScriptEnabled(true);
         web.getSettings().setSupportZoom(true);
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setDisplayZoomControls(false);
