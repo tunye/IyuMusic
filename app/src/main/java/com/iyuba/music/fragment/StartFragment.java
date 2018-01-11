@@ -8,7 +8,6 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.ad.QQun;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
@@ -23,6 +22,7 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.request.apprequest.QunRequest;
 import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
@@ -34,7 +34,6 @@ import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -154,40 +153,52 @@ public class StartFragment {
     }
 
     public static void showVersionFeature(final Context context) {
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.new_version_features);
-        StringBuilder sb = new StringBuilder();
-        QQun qun = ConstantManager.qun.get("default");
-        for (Map.Entry<String, QQun> entry : ConstantManager.qun.entrySet()) {
-            if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
-                qun = entry.getValue();
-                break;
-            }
+        String brand = "iyu360";
+        if (!android.os.Build.MANUFACTURER.contains("360")) {
+            brand = android.os.Build.MANUFACTURER;
         }
-        final String qunCode = qun.qunCode;
-        sb.append("1.[功能体验] 新增临时账号功能，在无账号的时候也能体验").append("\n");
-        sb.append("2.[燃爆MTV] 新增MTV模块，视听效果更出色").append("\n");
-        sb.append("3.[每日打卡] good good study, day day up!");
-        sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
-                .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
-                .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
-                .append("群号：").append(qun.qun);
-        materialDialog.setMessage(sb.toString());
-        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+        QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse() {
             @Override
-            public void onClick(View v) {
-                materialDialog.dismiss();
+            public void onNetError(String msg) {
+
+            }
+
+            @Override
+            public void onServerError(String msg) {
+
+            }
+
+            @Override
+            public void response(Object object) {
+                final BaseApiEntity result = (BaseApiEntity) object;
+                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+                materialDialog.setTitle(R.string.new_version_features);
+                StringBuilder sb = new StringBuilder();
+                sb.append("1.[功能体验] 新增临时账号功能，在无账号的时候也能体验").append("\n");
+                sb.append("2.[燃爆MTV] 新增MTV模块，视听效果更出色").append("\n");
+                sb.append("3.[每日打卡] good good study, day day up!");
+                sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
+                        .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
+                        .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
+                        .append("群号：").append(result.getData().toString());
+                materialDialog.setMessage(sb.toString());
+                materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.setPositiveButton(R.string.app_qun, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ParameterUrl.joinQQGroup(context, result.getValue());
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.setCanceledOnTouchOutside(false);
+                materialDialog.show();
             }
         });
-        materialDialog.setPositiveButton(R.string.app_qun, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParameterUrl.joinQQGroup(context, qunCode);
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.setCanceledOnTouchOutside(false);
-        materialDialog.show();
     }
 
     public static void resetDownLoadData() {

@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseSkinActivity {
                 public void run() {
                     showWhatsNew();
                 }
-            }, 2000);
+            }, 500);
         } else {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -94,7 +95,7 @@ public class MainActivity extends BaseSkinActivity {
                 public void run() {
                     checkForUpdate();
                 }
-            }, 8000);
+            }, 1000);
         }
         ((MusicApplication) getApplication()).pushActivity(this);
     }
@@ -142,7 +143,7 @@ public class MainActivity extends BaseSkinActivity {
                         break;
                 }
             }
-        }, 2000);
+        }, 500);
     }
 
     @Override

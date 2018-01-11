@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.entity.ad.QQun;
-import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.request.apprequest.QunRequest;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.view.AddRippleEffect;
@@ -20,8 +21,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.xiaomi.mipush.sdk.MiPushClient;
-
-import java.util.Map;
 
 /**
  * Created by 10202 on 2017/2/21.
@@ -64,14 +63,27 @@ public class WxOfficialAccountActivity extends BaseActivity {
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QQun qun = ConstantManager.qun.get("default");
-                for (Map.Entry<String, QQun> entry : ConstantManager.qun.entrySet()) {
-                    if (entry.getKey().equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
-                        qun = entry.getValue();
-                        break;
-                    }
+                String brand = "iyu360";
+                if (!android.os.Build.MANUFACTURER.contains("360")) {
+                    brand = android.os.Build.MANUFACTURER;
                 }
-                ParameterUrl.joinQQGroup(context, qun.qunCode);
+                QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse() {
+                    @Override
+                    public void onNetError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onServerError(String msg) {
+
+                    }
+
+                    @Override
+                    public void response(Object object) {
+                        BaseApiEntity result = (BaseApiEntity) object;
+                        ParameterUrl.joinQQGroup(context, result.getValue());
+                    }
+                });
             }
         });
         shareToCircle.setOnClickListener(new View.OnClickListener() {

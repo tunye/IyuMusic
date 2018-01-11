@@ -175,6 +175,7 @@ public class WebViewActivity extends BaseInputActivity {
         web.getSettings().setSupportZoom(true);
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setDisplayZoomControls(false);
+        web.getSettings().setDomStorageEnabled(true);
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
