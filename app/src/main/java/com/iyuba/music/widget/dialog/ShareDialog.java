@@ -201,7 +201,7 @@ public class ShareDialog {
         switch (StudyManager.getInstance().getApp()) {
             case "201":
             case "218":
-                url = "http://m.iyuba.com/voaS/play.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=voa&id=" + article.getId();
                 break;
             case "209":
                 if ("401".equals(article.getCategory())) {
@@ -211,21 +211,21 @@ public class ShareDialog {
                 }
                 break;
             case "212":
-                url = "http://m.iyuba.com/voaS/playC.jsp.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=csvoa&id=" + article.getId();
                 break;
             case "213":
-                url = "http://m.iyuba.com/voaS/playAM.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=meiyu&id=" + article.getId();
                 break;
             case "217":
-                url = "http://m.iyuba.com/voaS/playCV.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=voavideo&id=" + article.getId();
                 break;
             case "215":
             case "221":
             case "231":
-                url = "http://m.iyuba.com/bbcwap/play.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=bbc&id=" + article.getId();
                 break;
             case "229":
-                url = "http://m.iyuba.com/ted/play.jsp?id=" + article.getId();
+                url = "http://m.iyuba.com/news.html?type=ted&id=" + article.getId();
                 break;
             default:
                 url = "";
