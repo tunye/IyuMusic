@@ -185,7 +185,7 @@ public class DownloadTask {
                         case "229":
                         case "217":
                         case "213":
-                            singPath = "http://staticvip.iyuba.com/video/voa/" + id + ".mp4";
+                            singPath = "http://staticvip.iyuba.cn/video/voa/" + id + ".mp4";
                             localPath = ConstantManager.musicFolder + File.separator + app + "-" + id + ".mp4";
                             break;
                         default:

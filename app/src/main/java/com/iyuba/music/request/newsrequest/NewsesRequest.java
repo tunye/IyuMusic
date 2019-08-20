@@ -58,7 +58,7 @@ public class NewsesRequest {
     }
 
     public static String generateUrl(String ids) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getSongList.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getSongList.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("simpleflg", 2);
         paras.put("songIdList", ids);

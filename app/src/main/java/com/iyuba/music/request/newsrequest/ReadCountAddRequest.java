@@ -54,7 +54,7 @@ public class ReadCountAddRequest {
     }
 
     public static String generateUrl(int voaid, String app) {
-        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
+        String originalUrl = "http://daxue.iyuba.cn/appApi/UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 70001);
         para.put("counts", RandomUtil.getRandomInt(2) + 1);

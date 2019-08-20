@@ -167,7 +167,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             newsViewHolder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
             newsViewHolder.time.setText(article.getTime().split(" ")[0]);
             newsViewHolder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
-            ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
+            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
             newsViewHolder.downloadFlag.setOnClickListener(new View.OnClickListener() {
                 @Override

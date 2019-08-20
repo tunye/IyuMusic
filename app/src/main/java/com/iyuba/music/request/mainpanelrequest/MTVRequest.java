@@ -50,7 +50,7 @@ public class MTVRequest {
                                 article.setTitle_cn(jsonObjectData.getString("Title_cn"));
                                 article.setTitle(jsonObjectData.getString("Title"));
                                 article.setContent(jsonObjectData.getString("DescCn"));
-                                article.setMusicUrl("http://video.iyuba.com/voa/" + article.getId() + ".mp4");
+                                article.setMusicUrl("http://video.iyuba.cn/voa/" + article.getId() + ".mp4");
                                 article.setPicUrl(jsonObjectData.getString("Pic"));
                                 article.setTime(jsonObjectData.getString("CreatTime"));
                                 article.setReadCount(jsonObjectData.getString("ReadCount"));
@@ -79,7 +79,7 @@ public class MTVRequest {
     }
 
     public static String generateUrl(int page) {
-        String originalUrl = "http://apps.iyuba.com/iyuba/titleTed.jsp";
+        String originalUrl = "http://apps.iyuba.cn/iyuba/titleTed.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("type", "Android");
         map.put("parentID", 401);

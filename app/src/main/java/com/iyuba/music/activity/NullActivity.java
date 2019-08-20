@@ -35,7 +35,7 @@ public class NullActivity {
     public static void exePushData(Context context, String url) {
         Uri uri;
         if (TextUtils.isEmpty(url)) {
-            uri = Uri.parse("http://www.iyuba.com");
+            uri = Uri.parse("http://www.iyuba.cn");
         } else {
             uri = Uri.parse(url);
         }

@@ -146,7 +146,7 @@
 //                        break;
 //                    case "picid":
 //                        Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-//                        intent.putExtra("url", "http://static1.iyuba.com/data/attachment/album/" + circle.getImage());
+//                        intent.putExtra("url", "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
 //                        context.startActivity(intent);
 //                        break;
 //                    case "blogid":

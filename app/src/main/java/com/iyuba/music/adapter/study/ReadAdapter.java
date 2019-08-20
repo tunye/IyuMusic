@@ -167,7 +167,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                String sb = "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
+                String sb = "http://daxue.iyuba.cn/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
                         AccountManager.getInstance().getUserId() +
                         "&shuoshuotype=" + 2 +
                         "&voaid=" + curArticle.getId();

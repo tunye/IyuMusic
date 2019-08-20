@@ -48,7 +48,7 @@ public class GradeRequest {
     }
 
     public static String generateUrl(String uid) {
-        String originalUrl = "http://daxue.iyuba.com/ecollege/getPaiming.jsp";
+        String originalUrl = "http://daxue.iyuba.cn/ecollege/getPaiming.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("format", "json");
         para.put("uid", uid);

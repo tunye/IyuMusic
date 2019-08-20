@@ -174,7 +174,7 @@ public class MeActivity extends BaseActivity {
     }
 
     private void launchIStudy() {
-        String url = "http://m.iyuba.com/i/index.jsp?" + "uid=" + AccountManager.getInstance().getUserId() + '&' +
+        String url = "http://m.iyuba.cn/i/index.jsp?" + "uid=" + AccountManager.getInstance().getUserId() + '&' +
                 "username=" + AccountManager.getInstance().getUserInfo().getUsername() + '&' +
                 "sign=" + MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory");
         Intent intent = new Intent();
@@ -185,7 +185,7 @@ public class MeActivity extends BaseActivity {
     }
 
     private void launchRank() {
-        String url = "http://m.iyuba.com/i/getRanking.jsp?appId=" +
+        String url = "http://m.iyuba.cn/i/getRanking.jsp?appId=" +
                 ConstantManager.appId + "&uid=" +
                 AccountManager.getInstance().getUserId() + "&sign=" +
                 MD5.getMD5ofStr(AccountManager.getInstance().getUserId()

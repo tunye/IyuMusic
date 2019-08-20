@@ -56,7 +56,7 @@ public class BannerPicRequest {
     }
 
     public static String generateUrl(String type) {
-        String originalUrl = "http://app.iyuba.com/dev/getScrollPicApi.jsp";
+        String originalUrl = "http://app.iyuba.cn/dev/getScrollPicApi.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "type", type);
     }
 }

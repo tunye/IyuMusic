@@ -73,7 +73,7 @@ public class SearchRequest {
     }
 
     public static String generateUrl(String key, int curPage) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/searchApi.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/searchApi.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("key", ParameterUrl.encode(ParameterUrl.encode(key)));
         map.put("pageNum", curPage);

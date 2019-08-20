@@ -48,7 +48,7 @@ public class QunRequest {
     }
 
     public static String generateUrl(String type) {
-        String originalUrl = "http://m.iyuba.com/m_login/getQQGroup.jsp";
+        String originalUrl = "http://m.iyuba.cn/m_login/getQQGroup.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "type", type);
     }
 }

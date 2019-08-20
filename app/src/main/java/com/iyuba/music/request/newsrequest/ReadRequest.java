@@ -72,7 +72,7 @@ public class ReadRequest {
     }
 
     public static String generateUrl(int id, int page, String sort) {
-        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
+        String originalUrl = "http://daxue.iyuba.cn/appApi/UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 600011);
         para.put("platform", "android");

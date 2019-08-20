@@ -179,7 +179,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.setting_share:
                 String text = getResources().getString(R.string.setting_share_content,
                         ConstantManager.appName)
-                        + "：http://app.iyuba.com/android/androidDetail.jsp?id="
+                        + "：http://app.iyuba.cn/android/androidDetail.jsp?id="
                         + ConstantManager.appId;
                 Intent shareInt = new Intent(Intent.ACTION_SEND);
                 shareInt.setType("text/*");
@@ -243,7 +243,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_more_app:
                 intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://app.iyuba.com/android");
+                intent.putExtra("url", "http://app.iyuba.cn/android");
                 intent.putExtra("title", context.getString(R.string.setting_moreapp));
                 startActivity(intent);
                 break;

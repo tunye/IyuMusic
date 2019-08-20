@@ -45,7 +45,7 @@ public class UpdateRequest {
     }
 
     public static String generateUrl(int version) {
-        String updateUrl = "http://api.iyuba.com/mobile/android/iyumusic/islatestn.plain";
+        String updateUrl = "http://api.iyuba.cn/mobile/android/iyumusic/islatestn.plain";
         return ParameterUrl.setRequestParameter(updateUrl, "currver", version);
     }
 }

@@ -183,7 +183,7 @@ public class MainFragment extends BaseFragment {
                 case "209":
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
-                    ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
                 default:
                     curArticleTitle.setText(curArticle.getTitle());

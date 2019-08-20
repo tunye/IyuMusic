@@ -286,7 +286,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         });
         holder.delete.setChecked(article.isDelete());
         if (article.getApp().equals("209")) {
-            ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(),
+            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
                     holder.pic, R.drawable.default_music);
         } else {
             ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);

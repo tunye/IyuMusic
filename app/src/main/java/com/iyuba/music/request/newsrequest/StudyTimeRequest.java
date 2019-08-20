@@ -56,7 +56,7 @@ public class StudyTimeRequest {
     }
 
     public static String generateUrl() {
-        String originalUrl = "http://daxue.iyuba.com/ecollege/getMyTime.jsp";
+        String originalUrl = "http://daxue.iyuba.cn/ecollege/getMyTime.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         Calendar init = Calendar.getInstance();
         init.set(1970, 0, 1, 0, 0, 0);

@@ -46,7 +46,7 @@ public class RecommendSongRequest {
     }
 
     public static String generateUrl(String uid, String title, String singer) {
-        String feedbackUrl = "http://apps.iyuba.com/afterclass/suggestApi.jsp";
+        String feedbackUrl = "http://apps.iyuba.cn/afterclass/suggestApi.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("uid", uid);
         map.put("songtitle", ParameterUrl.encode(title));

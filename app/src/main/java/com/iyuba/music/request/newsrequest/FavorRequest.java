@@ -43,7 +43,7 @@ public class FavorRequest {
     }
 
     public static String generateUrl(String userid, int voaid, String type) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/updateCollect.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/updateCollect.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", userid);
         para.put("voaId", voaid);

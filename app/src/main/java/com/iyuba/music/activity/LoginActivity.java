@@ -118,7 +118,7 @@ public class LoginActivity extends BaseInputActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://m.iyuba.com/m_login/inputPhonefp.jsp");
+                intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhonefp.jsp");
                 intent.putExtra("title", forgetPwd.getText());
                 startActivity(intent);
             }

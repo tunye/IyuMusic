@@ -65,7 +65,7 @@ public class FavorSynRequest {
     }
 
     public static String generateUrl(String userid) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getCollect.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getCollect.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", userid);
         para.put("pageNumber", 1);

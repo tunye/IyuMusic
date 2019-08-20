@@ -260,7 +260,7 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             }
         });
         if (article.getApp().equals("209") && !"401".equals(article.getCategory())) {
-            ImageUtil.loadImage("http://static.iyuba.com/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
+            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
         } else {
             ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
         }

@@ -46,7 +46,7 @@ public class CommentAgreeRequest {
     }
 
     public static String generateUrl(int protocol, int id) {
-        String originalUrl = "http://daxue.iyuba.com/appApi//UnicomApi";
+        String originalUrl = "http://daxue.iyuba.cn/appApi//UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", protocol);
         para.put("id", id);

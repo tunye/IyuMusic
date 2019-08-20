@@ -246,47 +246,47 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
     private void getData() {
         downloadAppUrl = "market://details?id=";
         if (curNewsType.equals(context.getString(R.string.voa_speical))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&pages=" + curPage;
             downloadAppUrl += "com.iyuba.voa";
             lesson = "VOA慢速英语";
             app = "201";
         } else if (curNewsType.equals(context.getString(R.string.voa_cs))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleApi.jsp?maxid=0&pageNum=20&category=csvoa&type=json&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&category=csvoa&type=json&pages=" + curPage;
             downloadAppUrl += "com.iyuba.CSvoa";
             lesson = "VOA常速英语";
             app = "212";
         } else if (curNewsType.equals(context.getString(R.string.voa_video))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleApi.jsp?maxid=0&pageNum=20&category=csvoa&type=json&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&category=csvoa&type=json&pages=" + curPage;
             downloadAppUrl += "com.iyuba.VoaVideo";
             lesson = "VOA英语视频";
             app = "217";
         } else if (curNewsType.equals(context.getString(R.string.voa_bbc))) {
-            getTitleUrl = "http://apps.iyuba.com/minutes/titleApi.jsp?type=android&format=json&parentID=2&pageNum=20&maxid=0&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/minutes/titleApi.jsp?type=android&format=json&parentID=2&pageNum=20&maxid=0&pages=" + curPage;
             downloadAppUrl += "com.iyuba.bbcws";
             lesson = "BBC职场英语";
             app = "231";
         } else if (curNewsType.equals(context.getString(R.string.voa_bbc6))) {
-            getTitleUrl = "http://apps.iyuba.com/minutes/titleApi.jsp?type=android&format=json&parentID=1&pageNum=20&maxid=0&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/minutes/titleApi.jsp?type=android&format=json&parentID=1&pageNum=20&maxid=0&pages=" + curPage;
             downloadAppUrl += "com.iyuba.bbc";
             lesson = "BBC六分钟英语";
             app = "215";
         } else if (curNewsType.equals(context.getString(R.string.voa_ae))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&parentID=200&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&parentID=200&pages=" + curPage;
             downloadAppUrl += "com.iyuba.AE";
             lesson = "美语怎么说";
             app = "213";
         } else if (curNewsType.equals(context.getString(R.string.voa_bbcnews))) {
-            getTitleUrl = "http://apps.iyuba.com/minutes/titleApi.jsp?type=android&format=json&parentID=3&pageNum=20&maxid=0&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/minutes/titleApi.jsp?type=android&format=json&parentID=3&pageNum=20&maxid=0&pages=" + curPage;
             downloadAppUrl += "com.iyuba.bbcinone";
             lesson = "BBC新闻";
             app = "221";
         } else if (curNewsType.equals(context.getString(R.string.voa_word))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&parentID=10&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&parentID=10&pages=" + curPage;
             downloadAppUrl += "com.iyuba.WordStory";
             lesson = "VOA单词故事";
             app = "218";
         } else if (curNewsType.equals(context.getString(R.string.voa_ted))) {
-            getTitleUrl = "http://apps.iyuba.com/voa/titleTed2.jsp?maxid=0&pageNum=20&type=json&pages=" + curPage;
+            getTitleUrl = "http://apps.iyuba.cn/voa/titleTed2.jsp?maxid=0&pageNum=20&type=json&pages=" + curPage;
             downloadAppUrl += "com.iyuba.TEDVideo";
             lesson = "TED英语演讲";
             app = "229";

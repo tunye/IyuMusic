@@ -356,7 +356,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         videoView.reset();
         title.setText(article.getTitle_cn());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            String append = "http://staticvip.iyuba.com/video/voa/" + articles.get(currPos).getId() + ".mp4";
+            String append = "http://staticvip.iyuba.cn/video/voa/" + articles.get(currPos).getId() + ".mp4";
             videoView.setVideoPath(append);
         } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             CustomToast.getInstance().showToast(R.string.net_speed_slow);

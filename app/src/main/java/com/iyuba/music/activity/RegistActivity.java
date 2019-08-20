@@ -241,7 +241,7 @@ public class RegistActivity extends BaseInputActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://app.iyuba.com/ios/protocol.html");
+                intent.putExtra("url", "http://app.iyuba.cn/ios/protocol.html");
                 intent.putExtra("title", context.getString(R.string.regist_protocol));
                 startActivity(intent);
             }
@@ -250,7 +250,7 @@ public class RegistActivity extends BaseInputActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://m.iyuba.com/m_login/inputPhone.jsp");
+                intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhone.jsp");
                 intent.putExtra("title", context.getString(R.string.regist_title));
                 startActivity(intent);
             }

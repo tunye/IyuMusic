@@ -70,7 +70,7 @@ public class WxPay {
     }
 
     public static String generateUrl(String cost, String month, String productId) {
-        String originalUrl = "http://vip.iyuba.com/weixinPay.jsp";
+        String originalUrl = "http://vip.iyuba.cn/weixinPay.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("wxkey", ConstantManager.WXID);
         paras.put("format", "json");

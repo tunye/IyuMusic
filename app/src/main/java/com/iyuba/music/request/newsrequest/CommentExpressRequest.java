@@ -46,7 +46,7 @@ public class CommentExpressRequest {
     }
 
     public static String generateUrl(String... paras) {
-        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
+        String originalUrl = "http://daxue.iyuba.cn/appApi/UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 60002);
         para.put("voaid", paras[0]);

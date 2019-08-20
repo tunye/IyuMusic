@@ -63,7 +63,7 @@ public class AnnouncerNewsRequest {
     }
 
     public static String generateUrl(int star, int page) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getSongList.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getSongList.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("star", star);
         map.put("pageNum", page);

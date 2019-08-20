@@ -219,7 +219,7 @@ public class BannerView extends RelativeLayout {
             imageView.setBackgroundResource(Integer.parseInt(data.getPicUrl()));
         } else {
             imageView.setBackgroundResource(R.drawable.default_music);
-            ImageUtil.loadImage("http://app.iyuba.com/dev/" + data.getPicUrl(), imageView, R.drawable.default_music);
+            ImageUtil.loadImage("http://app.iyuba.cn/dev/" + data.getPicUrl(), imageView, R.drawable.default_music);
         }
     }
 

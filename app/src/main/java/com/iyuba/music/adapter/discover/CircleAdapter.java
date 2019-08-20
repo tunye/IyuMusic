@@ -75,13 +75,13 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
             case "picid":
                 holder.circleType.setText(R.string.circle_pic);
                 holder.circleImg.setVisibility(View.VISIBLE);
-                ImageUtil.loadImage("http://static1.iyuba.com/data/attachment/album/" + getSmallImageUrl(circle.getImage())
+                ImageUtil.loadImage("http://static1.iyuba.cn/data/attachment/album/" + getSmallImageUrl(circle.getImage())
                         , holder.circleImg, R.drawable.default_music);
                 holder.circleImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                        intent.putExtra("url", "http://static1.iyuba.com/data/attachment/album/" + circle.getImage());
+                        intent.putExtra("url", "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
                         context.startActivity(intent);
                     }
                 });

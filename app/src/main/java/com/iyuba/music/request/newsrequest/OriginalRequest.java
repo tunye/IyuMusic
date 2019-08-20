@@ -60,7 +60,7 @@ public class OriginalRequest {
     }
 
     public static String generateUrl(int id) {
-        String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getText.jsp";
+        String musicOriginalUrl = "http://apps.iyuba.cn/afterclass/getText.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("SongId", id);
         paras.put("appid", ConstantManager.appId);

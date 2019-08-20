@@ -63,7 +63,7 @@ public class ClassifyNewsRequest {
     }
 
     public static String generateUrl(int style, int page) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getSongList.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getSongList.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("style", style);
         map.put("pageNum", page);

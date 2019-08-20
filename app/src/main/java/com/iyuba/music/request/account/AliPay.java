@@ -71,7 +71,7 @@ public class AliPay {
     }
 
     public static String generateUrl(String subject, String body, String cost, String month, String productId) {
-        String originalUrl = "http://vip.iyuba.com/chargeapinew.jsp";
+        String originalUrl = "http://vip.iyuba.cn/chargeapinew.jsp";
         Map<String, Object> paras = new ArrayMap<>();
         paras.put("WIDseller_email", "iyuba@sina.com");
         paras.put("WIDout_trade_no", getOutTradeNo());

@@ -219,7 +219,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         super.changeUIByPara();
         title.setText(R.string.comment_title);
         curArticle = StudyManager.getInstance().getCurArticle();
-        ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
+        ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
         articleTitle.setText(curArticle.getTitle());
         announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
         singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
@@ -388,7 +388,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                String sb = "http://daxue.iyuba.com/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
+                String sb = "http://daxue.iyuba.cn/appApi/UnicomApi?protocol=60003&platform=android&appName=music&format=json" + "&userid=" +
                         AccountManager.getInstance().getUserId() +
                         "&shuoshuotype=" + 1 +
                         "&voaid=" + curArticle.getId();

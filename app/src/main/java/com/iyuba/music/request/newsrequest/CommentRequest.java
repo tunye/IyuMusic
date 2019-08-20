@@ -86,7 +86,7 @@ public class CommentRequest {
         para.put("pageNumber", page);
         para.put("pageCounts", 20);
         para.put("appName", "music");
-        String originalUrl = "http://daxue.iyuba.com/appApi/UnicomApi";
+        String originalUrl = "http://daxue.iyuba.cn/appApi/UnicomApi";
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

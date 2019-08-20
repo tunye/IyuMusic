@@ -46,7 +46,7 @@ public class CommentCountRequest {
     }
 
     public static String generateUrl(int id) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getShuoShuoCount.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getShuoShuoCount.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("SongId", id);
         para.put("format", "json");

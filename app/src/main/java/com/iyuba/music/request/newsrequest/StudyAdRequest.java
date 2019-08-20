@@ -44,7 +44,7 @@ public class StudyAdRequest {
                             case "web":
                                 adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
                                 if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
-                                    adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                                    adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
                                     String url = adEntity.getLoadUrl();
                                     String userId = AccountManager.getInstance().getUserId();
                                     if (url.contains("?")) {
@@ -85,7 +85,7 @@ public class StudyAdRequest {
     }
 
     public static String generateUrl() {
-        String originalUrl = "http://app.iyuba.com/dev/getAdEntryAll.jsp";
+        String originalUrl = "http://app.iyuba.cn/dev/getAdEntryAll.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("uid", AccountManager.getInstance().getUserId());
         para.put("appId", ConstantManager.appId);

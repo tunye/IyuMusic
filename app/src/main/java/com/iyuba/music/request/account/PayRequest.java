@@ -95,7 +95,7 @@ public class PayRequest {
     }
 
     public static String generateUrl(String[] paras) {
-        String originalUrl = "http://app.iyuba.com/pay/payVipApi.jsp";
+        String originalUrl = "http://app.iyuba.cn/pay/payVipApi.jsp";
         Map<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);

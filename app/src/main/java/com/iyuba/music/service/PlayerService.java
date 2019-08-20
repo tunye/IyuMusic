@@ -249,7 +249,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     private void setNotification() {
         String url;
         if (StudyManager.getInstance().getApp().equals("209")) {
-            url = "http://staticvip.iyuba.com/images/song/" + StudyManager.getInstance().getCurArticle().getPicUrl();
+            url = "http://staticvip.iyuba.cn/images/song/" + StudyManager.getInstance().getCurArticle().getPicUrl();
         } else {
             url = StudyManager.getInstance().getCurArticle().getPicUrl();
         }

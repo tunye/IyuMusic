@@ -201,31 +201,31 @@ public class ShareDialog {
         switch (StudyManager.getInstance().getApp()) {
             case "201":
             case "218":
-                url = "http://m.iyuba.com/news.html?type=voa&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=voa&id=" + article.getId();
                 break;
             case "209":
                 if ("401".equals(article.getCategory())) {
-                    url = "http://m.iyuba.com/news.html?type=topvideos&id=" + article.getId();
+                    url = "http://m.iyuba.cn/news.html?type=topvideos&id=" + article.getId();
                 } else {
-                    url = "http://m.iyuba.com/news.html?type=song&id=" + article.getId();
+                    url = "http://m.iyuba.cn/news.html?type=song&id=" + article.getId();
                 }
                 break;
             case "212":
-                url = "http://m.iyuba.com/news.html?type=csvoa&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=csvoa&id=" + article.getId();
                 break;
             case "213":
-                url = "http://m.iyuba.com/news.html?type=meiyu&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=meiyu&id=" + article.getId();
                 break;
             case "217":
-                url = "http://m.iyuba.com/news.html?type=voavideo&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=voavideo&id=" + article.getId();
                 break;
             case "215":
             case "221":
             case "231":
-                url = "http://m.iyuba.com/news.html?type=bbc&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=bbc&id=" + article.getId();
                 break;
             case "229":
-                url = "http://m.iyuba.com/news.html?type=ted&id=" + article.getId();
+                url = "http://m.iyuba.cn/news.html?type=ted&id=" + article.getId();
                 break;
             default:
                 url = "";
@@ -237,7 +237,7 @@ public class ShareDialog {
     private String getPicUrl() {
         switch (StudyManager.getInstance().getApp()) {
             case "209":
-                return "http://static.iyuba.com/images/song/" + article.getPicUrl();
+                return "http://static.iyuba.cn/images/song/" + article.getPicUrl();
             default:
                 return article.getPicUrl();
         }

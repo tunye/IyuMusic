@@ -148,7 +148,7 @@ public class AboutActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://www.iyuba.com/");
+                intent.putExtra("url", "http://www.iyuba.cn/");
                 intent.putExtra("title", context.getString(R.string.about_website));
                 startActivity(intent);
             }

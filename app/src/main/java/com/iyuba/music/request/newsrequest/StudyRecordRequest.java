@@ -66,7 +66,7 @@ public class StudyRecordRequest {
     }
 
     public static String generateUrl(String uid, StudyRecord studyRecord) {
-        String originalUrl = "http://daxue.iyuba.com/ecollege/updateStudyRecordNew.jsp";
+        String originalUrl = "http://daxue.iyuba.cn/ecollege/updateStudyRecordNew.jsp";
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
         ArrayMap<String, Object> para = new ArrayMap<>();

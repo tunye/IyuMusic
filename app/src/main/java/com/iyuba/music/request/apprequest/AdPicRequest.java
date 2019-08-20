@@ -44,7 +44,7 @@ public class AdPicRequest {
                                 break;
                             case "web":
                                 adEntity = new Gson().fromJson(jsonObject.getString("data"), AdEntity.class);
-                                adEntity.setPicUrl("http://app.iyuba.com/dev/" + adEntity.getPicUrl());
+                                adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
                                 adEntity.setType("web");
                                 break;
                         }
@@ -71,7 +71,7 @@ public class AdPicRequest {
     }
 
     public static String generateUrl() {
-        String originalUrl = "http://app.iyuba.com/dev/getAdEntryAll.jsp";
+        String originalUrl = "http://app.iyuba.cn/dev/getAdEntryAll.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("appId", ConstantManager.appId);
         paras.put("flag", 1);

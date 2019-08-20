@@ -63,7 +63,7 @@ public class MusicRequest {
     }
 
     public static String generateUrl(int page) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getSongList.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getSongList.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("simpleflg", 1);
         map.put("pageNum", page);

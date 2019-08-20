@@ -39,7 +39,7 @@ public class FeedbackRequest {
     }
 
     public static String generateUrl(String uid, String content, String contact) {
-        String feedbackUrl = "http://api.iyuba.com/mobile/android/afterclass/feedback.plain";
+        String feedbackUrl = "http://api.iyuba.cn/mobile/android/afterclass/feedback.plain";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("uid", uid);
         map.put("content", content);

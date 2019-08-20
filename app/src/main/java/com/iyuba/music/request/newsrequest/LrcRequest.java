@@ -67,17 +67,17 @@ public class LrcRequest {
         switch (type) {
             case 0:
                 paras.put("voaid", id);
-                String voaOriginalUrl = "http://apps.iyuba.com/voa/textNewApi.jsp";
+                String voaOriginalUrl = "http://apps.iyuba.cn/voa/textNewApi.jsp";
                 url = ParameterUrl.setRequestParameter(voaOriginalUrl, paras);
                 break;
             case 1:
                 paras.put("bbcid", id);
-                String bbcOriginalUrl = "http://apps.iyuba.com/minutes/textApi.jsp";
+                String bbcOriginalUrl = "http://apps.iyuba.cn/minutes/textApi.jsp";
                 url = ParameterUrl.setRequestParameter(bbcOriginalUrl, paras);
                 break;
             case 2:
                 paras.put("SongId", id);
-                String musicOriginalUrl = "http://apps.iyuba.com/afterclass/getLyrics.jsp";
+                String musicOriginalUrl = "http://apps.iyuba.cn/afterclass/getLyrics.jsp";
                 url = ParameterUrl.setRequestParameter(musicOriginalUrl, paras);
                 break;
             default:

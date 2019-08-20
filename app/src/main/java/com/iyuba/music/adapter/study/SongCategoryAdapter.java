@@ -143,7 +143,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
             }
             newsViewHolder.text.setText(songCategory.getText());
             newsViewHolder.count.setText(context.getString(R.string.article_list_count, songCategory.getCount()));
-            ImageUtil.loadImage("http://static.iyuba.com/images/song/" + songCategory.getImgUrl(),
+            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + songCategory.getImgUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
         } else if (holder instanceof AdViewHolder) {
             AdViewHolder headerViewHolder = (AdViewHolder) holder;

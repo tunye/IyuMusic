@@ -81,7 +81,7 @@ public class ScoreOperRequest {
     }
 
     public static String generateUrl(String uid, int id, int type) {
-        String originalUrl = "http://api.iyuba.com/credits/updateScore.jsp";
+        String originalUrl = "http://api.iyuba.cn/credits/updateScore.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("srid", type);
         paras.put("uid", uid);

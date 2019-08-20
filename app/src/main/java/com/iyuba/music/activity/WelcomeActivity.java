@@ -102,7 +102,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     showAd = true;
                     int nextActivity = normalStart ? 0 : 1;
                     WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
-                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), nextActivity);
+                            "http://app.iyuba.cn/android/" : adEntity.getLoadUrl(), nextActivity);
                     ((MusicApplication) getApplication()).popActivity(WelcomeActivity.this);
                     finish();
                 }

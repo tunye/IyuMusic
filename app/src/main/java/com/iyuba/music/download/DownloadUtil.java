@@ -44,10 +44,10 @@ public class DownloadUtil {
                 case "215":
                 case "221":
                 case "231":
-                    url.append("http://staticvip.iyuba.com/sounds/minutes/").append(song);
+                    url.append("http://staticvip.iyuba.cn/sounds/minutes/").append(song);
                     break;
                 default:
-                    url.append("http://staticvip.iyuba.com/sounds/voa").append(song);
+                    url.append("http://staticvip.iyuba.cn/sounds/voa").append(song);
                     break;
             }
         } else {
@@ -58,10 +58,10 @@ public class DownloadUtil {
                 case "215":
                 case "221":
                 case "231":
-                    url.append("http://static.iyuba.com/sounds/minutes/").append(song);
+                    url.append("http://static.iyuba.cn/sounds/minutes/").append(song);
                     break;
                 default:
-                    url.append("http://static.iyuba.com/sounds/voa").append(song);
+                    url.append("http://static.iyuba.cn/sounds/voa").append(song);
                     break;
             }
         }

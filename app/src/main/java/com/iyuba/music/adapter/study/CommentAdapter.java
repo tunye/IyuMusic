@@ -140,7 +140,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             playingVoiceLoading = commentViewHolder.loading;
                             playingVoiceImg = commentViewHolder.voiceImg;
                             playingVoiceText = commentViewHolder.voiceTime;
-                            playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), pos);// 播放
+                            playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), pos);// 播放
                         }
                     } else {
                         if (RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
@@ -150,7 +150,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         playingVoiceLoading = commentViewHolder.loading;
                         playingVoiceImg = commentViewHolder.voiceImg;
                         playingVoiceText = commentViewHolder.voiceTime;
-                        playVoice("http://daxue.iyuba.com/appApi/" + comment.getShuoshuo(), pos);// 播放
+                        playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), pos);// 播放
                     }
                 }
             });

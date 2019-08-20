@@ -48,7 +48,7 @@ public class StudyInfoFragment extends BaseFragment {
     public void refresh() {
         Article curArticle = StudyManager.getInstance().getCurArticle();
         if (StudyManager.getInstance().getApp().equals("209")) {
-            ImageUtil.loadImage("http://static.iyuba.com/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
+            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
             announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
             singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
         } else {

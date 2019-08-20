@@ -95,7 +95,7 @@ public class PayForAppRequest {
     }
 
     public static String generateUrl(String[] paras) {
-        String originalUrl = "http://app.iyuba.com/pay/apiPayByDate.jsp";
+        String originalUrl = "http://app.iyuba.cn/pay/apiPayByDate.jsp";
         Map<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("amount", paras[1]);

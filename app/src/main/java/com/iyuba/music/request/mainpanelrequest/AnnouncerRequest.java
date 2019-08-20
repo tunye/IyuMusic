@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class AnnouncerRequest {
     public static void exeRequest(final IProtocolResponse response) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getStar.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getStar.jsp";
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     originalUrl, null, new Response.Listener<JSONObject>() {

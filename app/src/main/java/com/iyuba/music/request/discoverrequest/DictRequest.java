@@ -98,7 +98,7 @@ public class DictRequest {
     }
 
     public static String generateUrl(String word) {
-        String originalUrl = "http://word.iyuba.com/words/apiWord.jsp";
+        String originalUrl = "http://word.iyuba.cn/words/apiWord.jsp";
         return ParameterUrl.setRequestParameter(originalUrl, "q", ParameterUrl.encode(word));
     }
 }

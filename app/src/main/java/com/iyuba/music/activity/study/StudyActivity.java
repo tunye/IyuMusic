@@ -495,7 +495,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onClick(View v) {
                     WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
-                            "http://app.iyuba.com/android/" : adEntity.getLoadUrl(), -1);
+                            "http://app.iyuba.cn/android/" : adEntity.getLoadUrl(), -1);
                 }
             });
             Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()

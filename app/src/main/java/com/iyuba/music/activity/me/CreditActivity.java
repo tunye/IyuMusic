@@ -65,7 +65,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://m.iyuba.com/mall/ruleOfintegral.jsp");
+                intent.putExtra("url", "http://m.iyuba.cn/mall/ruleOfintegral.jsp");
                 intent.putExtra("title", context.getString(R.string.credits_helper));
                 startActivity(intent);
             }
@@ -75,7 +75,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://api.iyuba.com/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.getInstance().getUserId());
+                intent.putExtra("url", "http://api.iyuba.cn/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.getInstance().getUserId());
                 intent.putExtra("title", context.getString(R.string.credits_details));
                 startActivity(intent);
             }
@@ -85,7 +85,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
-                intent.putExtra("url", "http://m.iyuba.com/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
+                intent.putExtra("url", "http://m.iyuba.cn/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
                         + "&appid=" + ConstantManager.appId + "&username="
                         + AccountManager.getInstance().getUserInfo().getUsername() + "&sign=" +
                         MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory"));

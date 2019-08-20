@@ -62,7 +62,7 @@ public class DictUpdateRequest {
     }
 
     public static String generateUrl(String... paras) {
-        String originalUrl = "http://word.iyuba.com/words/updateWord.jsp";
+        String originalUrl = "http://word.iyuba.cn/words/updateWord.jsp";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("userId", paras[0]);
         para.put("mod", paras[1]);

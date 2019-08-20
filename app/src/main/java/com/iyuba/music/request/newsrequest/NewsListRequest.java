@@ -58,7 +58,7 @@ public class NewsListRequest {
     }
 
     public static String generateUrl(int maxid) {
-        String originalUrl = "http://apps.iyuba.com/afterclass/getSongList.jsp";
+        String originalUrl = "http://apps.iyuba.cn/afterclass/getSongList.jsp";
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("maxId", maxid);
         map.put("pageNum", 1);

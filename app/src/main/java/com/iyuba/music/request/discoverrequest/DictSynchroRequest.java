@@ -117,7 +117,7 @@ public class DictSynchroRequest {
     }
 
     public String generateUrl(String uid, int page) {
-        String originalUrl = "http://word.iyuba.com/words/wordListService.jsp";
+        String originalUrl = "http://word.iyuba.cn/words/wordListService.jsp";
         this.uid = uid;
         ArrayMap<String, Object> map = new ArrayMap<>();
         map.put("u", uid);

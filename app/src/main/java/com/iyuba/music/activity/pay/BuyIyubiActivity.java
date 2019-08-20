@@ -163,7 +163,7 @@ public class BuyIyubiActivity extends BaseActivity {
     private void recharge() {
         Intent intent = new Intent();
         intent.setClass(context, WebViewActivity.class);
-        intent.putExtra("url", "http://app.iyuba.com/wap/index.jsp?uid="
+        intent.putExtra("url", "http://app.iyuba.cn/wap/index.jsp?uid="
                 + AccountManager.getInstance().getUserId() + "&appid="
                 + ConstantManager.appId);
         intent.putExtra("title", context.getString(R.string.vip_recharge));

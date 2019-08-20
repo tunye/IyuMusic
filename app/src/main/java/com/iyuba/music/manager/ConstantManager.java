@@ -15,10 +15,10 @@ public class ConstantManager {
     public final static String YOUDAOSECRET = "3438bae206978fec8995b280c49dae1e";
     public final static String WXSECRET = "5d5d3eaf4c6b69a278cf16c115014474";
     public final static String WXID = "wx182643cdcfc2b59f";
-    public static final String songUrl = "http://static.iyuba.com/sounds/song/";
-    public static final String vipUrl = "http://staticvip.iyuba.com/sounds/song/";
-    public static final String oldSoundUrl = "http://static2.iyuba.com/go/musichigh/";
-    public static final String oldSoundVipUrl = "http://staticvip2.iyuba.com/go/musichigh/";
+    public static final String songUrl = "http://static.iyuba.cn/sounds/song/";
+    public static final String vipUrl = "http://staticvip.iyuba.cn/sounds/song/";
+    public static final String oldSoundUrl = "http://static2.iyuba.cn/go/musichigh/";
+    public static final String oldSoundVipUrl = "http://staticvip2.iyuba.cn/go/musichigh/";
     public static final String appId = "209";
     public static final String appName = "听歌学英语";
     public static final String appEnglishName = "afterclass";

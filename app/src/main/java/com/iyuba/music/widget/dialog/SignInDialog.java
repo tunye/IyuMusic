@@ -116,7 +116,7 @@ public class SignInDialog {
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
-        webView.loadUrl("http://api.iyuba.com/credits/qiandao.jsp?uid=" + AccountManager.getInstance().getUserId() + "&appid=" + ConstantManager.appId);
+        webView.loadUrl("http://api.iyuba.cn/credits/qiandao.jsp?uid=" + AccountManager.getInstance().getUserId() + "&appid=" + ConstantManager.appId);
     }
 
     public void dismiss() {
