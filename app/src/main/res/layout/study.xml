@@ -1,115 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/root"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/skin_app_color"
         android:fitsSystemWindows="true">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/toolbar_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/title_padding">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.iyuba.music.widget.roundview.RoundTextView
+                    android:id="@+id/study_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/row_space_very_large"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/row_space_very_large"
+                    android:paddingTop="@dimen/row_space_small"
+                    android:paddingEnd="@dimen/row_space_very_large"
+                    android:paddingBottom="@dimen/row_space_small"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text"
+                    app:rv_backgroundColor="#ededed"
+                    app:rv_isRadiusHalfHeight="true"
+                    app:rv_isRippleEnable="false" />
+
+                <ImageView
+                    android:id="@+id/study_translate"
+                    android:layout_width="48dp"
+                    android:layout_height="28dp"
+                    android:paddingStart="@dimen/row_space_medium"
+                    android:paddingEnd="@dimen/row_space_medium"
+                    android:src="@drawable/study_translate" />
+
+                <ImageView
+                    android:id="@+id/study_mode"
+                    android:layout_width="48dp"
+                    android:layout_height="28dp"
+                    android:paddingStart="@dimen/row_space_medium"
+                    android:paddingEnd="@dimen/row_space_medium"
+                    android:src="@drawable/study_singer_mode" />
+
+                <ImageView
+                    android:id="@+id/study_more"
+                    android:layout_width="@dimen/activity_horizontal_margin_big"
+                    android:layout_height="@dimen/activity_horizontal_margin_big"
+                    android:layout_marginEnd="@dimen/row_space_big"
+                    android:paddingStart="@dimen/row_space_very_large"
+                    android:paddingEnd="@dimen/row_space_big"
+                    android:src="@drawable/study_more" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#ededed"
+                android:textSize="@dimen/title_text" />
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:mrl_rippleColor="@color/toolbar_ripple_color"
-                app:mrl_rippleDuration="400">
+                app:mrl_rippleDuration="100">
 
-                <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                          android:id="@+id/back_material"
-                                                          android:layout_width="wrap_content"
-                                                          android:layout_height="wrap_content"
-                                                          app:mm_color="#ededed"
-                                                          app:mm_strokeWidth="2"/>
+                <com.balysv.materialmenu.MaterialMenuView
+                    android:id="@+id/back_material"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mm_color="#ededed"
+                    app:mm_strokeWidth="2" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="#ededed"
-                android:textSize="@dimen/title_text"/>
-
-            <com.iyuba.music.widget.roundview.RoundTextView
-                android:id="@+id/study_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_very_large"
-                android:layout_toLeftOf="@+id/study_translate"
-                android:gravity="center"
-                android:paddingBottom="@dimen/row_space_small"
-                android:paddingLeft="@dimen/row_space_very_large"
-                android:paddingRight="@dimen/row_space_very_large"
-                android:paddingTop="@dimen/row_space_small"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text"
-                app:rv_backgroundColor="#ededed"
-                app:rv_isRadiusHalfHeight="true"
-                app:rv_isRippleEnable="false"/>
-
-            <ImageView
-                android:id="@+id/study_translate"
-                android:layout_width="48dp"
-                android:layout_height="28dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/study_mode"
-                android:paddingLeft="@dimen/row_space_medium"
-                android:paddingRight="@dimen/row_space_medium"
-                android:src="@drawable/study_translate"/>
-
-            <ImageView
-                android:id="@+id/study_mode"
-                android:layout_width="48dp"
-                android:layout_height="28dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/study_more"
-                android:paddingLeft="@dimen/row_space_medium"
-                android:paddingRight="@dimen/row_space_medium"
-                android:src="@drawable/study_singer_mode"/>
-
-            <ImageView
-                android:id="@+id/study_more"
-                android:layout_width="@dimen/activity_horizontal_margin_big"
-                android:layout_height="@dimen/activity_horizontal_margin_big"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_big"
-                android:paddingLeft="@dimen/row_space_very_large"
-                android:paddingRight="@dimen/row_space_big"
-                android:src="@drawable/study_more"/>
-        </RelativeLayout>
-    </RelativeLayout>
+        </FrameLayout>
+    </FrameLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/study_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.iyuba.music.widget.imageview.PageIndicator
         android:id="@+id/study_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/row_space_large"
         android:layout_marginTop="@dimen/row_space_large"
+        android:layout_marginBottom="@dimen/row_space_large"
         app:pi_circlepadding="@dimen/row_space_medium"
         app:pi_count="3"
         app:pi_radius="@dimen/row_space_default"
-        app:pi_stroke="@dimen/line_thin"/>
+        app:pi_stroke="@dimen/line_thin" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -196,10 +197,9 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/ad_stub"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical">
-    </RelativeLayout>
+        android:gravity="center_vertical" />
 </LinearLayout>

@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -106,7 +106,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -136,7 +136,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -147,8 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:orientation="vertical">
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:kswThumbColor="@color/white"/>
 
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -203,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -233,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         android:textColor="@color/text_complementary"
                         android:textSize="@dimen/big_text"/>
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -242,8 +242,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:orientation="vertical">
 
                 <com.iyuba.music.widget.roundview.RoundRelativeLayout
@@ -269,7 +269,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -298,7 +298,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -326,7 +326,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -354,7 +354,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -384,7 +384,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -396,8 +396,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin_big"
                 android:gravity="center"
                 android:paddingBottom="@dimen/row_space_big"

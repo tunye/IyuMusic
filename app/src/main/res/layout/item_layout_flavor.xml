@@ -6,7 +6,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_large"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:gravity="center_vertical"
             android:textColor="@color/text_color"
             android:textSize="@dimen/large_text"/>
@@ -25,7 +25,7 @@
             android:id="@+id/indicator"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:layout_marginLeft="@dimen/row_space_large"
+            android:layout_marginStart="@dimen/row_space_large"
             android:layout_toEndOf="@+id/title"
             android:layout_toRightOf="@+id/title"
             android:src="@drawable/ic_checkbox_marked_circle_outline_black_18dp"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:minHeight="56dp"
             android:orientation="horizontal">
@@ -46,14 +46,14 @@
                 android:id="@+id/primaryColor"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 tools:background="#FF5555"/>
 
             <ImageView
                 android:id="@+id/primaryColorDark"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 tools:background="#FF0000"/>
 
             <ImageView

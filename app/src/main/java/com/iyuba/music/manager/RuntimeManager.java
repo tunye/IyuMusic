@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
-import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
+import com.buaa.ct.videocache.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
 
 public class RuntimeManager {

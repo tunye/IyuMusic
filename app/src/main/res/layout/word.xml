@@ -14,7 +14,7 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/toolbar"
-        android:layout_marginRight="@dimen/activity_horizontal_margin_big"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_big"
         android:layout_marginTop="@dimen/activity_horizontal_margin_big"/>
 
     <LinearLayout
@@ -43,7 +43,7 @@
                 android:id="@+id/word_speaker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_large"
                 android:src="@drawable/speaker"/>
 
             <TextView

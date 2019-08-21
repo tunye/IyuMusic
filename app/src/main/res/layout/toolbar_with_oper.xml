@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/skin_app_color"
                 android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/toolbar_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleColor="@color/toolbar_ripple_color"
-            app:mrl_rippleDuration="400">
+            app:mrl_rippleDuration="100">
 
             <com.balysv.materialmenu.MaterialMenuView
                 android:id="@+id/back_material"
@@ -32,18 +32,17 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:textColor="#ededed"
             android:textSize="@dimen/title_text"/>
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|end"
             android:padding="@dimen/row_space_default"
             app:mrl_rippleColor="@color/toolbar_ripple_color"
-            app:mrl_rippleDuration="250">
+            app:mrl_rippleDuration="100">
 
             <TextView
                 android:id="@+id/toolbar_oper"
@@ -53,5 +52,5 @@
                 android:textColor="#ededed"
                 android:textSize="@dimen/large_text"/>
         </com.balysv.materialripple.MaterialRippleLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </FrameLayout>
+</FrameLayout>

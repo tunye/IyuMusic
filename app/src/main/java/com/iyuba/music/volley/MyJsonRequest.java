@@ -22,9 +22,4 @@ public class MyJsonRequest extends JsonObjectRequest {
 //        headerMap.put("user-agent", RuntimeManager.getApplication().getPackageName());
 //        return headerMap;
 //    }
-    @Override
-    public void cancel() {
-        super.cancel();
-        onFinish();
-    }
 }

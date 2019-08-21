@@ -61,9 +61,4 @@ public class XMLRequest extends Request<XmlPullParser> {
 //        return headerMap;
 //    }
 
-    @Override
-    public void cancel() {
-        super.cancel();
-        onFinish();
-    }
 }

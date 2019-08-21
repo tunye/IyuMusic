@@ -54,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/row_space_default"
-                        android:layout_marginRight="@dimen/row_space_large"
+                        android:layout_marginEnd="@dimen/row_space_large"
                         android:layout_marginTop="@dimen/row_space_default"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/big_text"/>
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/row_space_default"
-                    android:paddingLeft="@dimen/row_space_big"
+                    android:paddingStart="@dimen/row_space_big"
                     android:textColor="@color/skin_app_color"
                     android:textSize="@dimen/big_text"/>
             </LinearLayout>

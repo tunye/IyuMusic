@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_toLeftOf="@+id/search_news_ripple"
-                    android:paddingLeft="@dimen/row_space_big"
+                    android:paddingStart="@dimen/row_space_big"
                     app:rv_backgroundColor="#dcdcdc"
                     app:rv_cornerRadius="@dimen/corner_radius_small">
 
@@ -50,10 +50,10 @@
                     android:layout_height="36dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/row_space_big"
+                    android:layout_marginStart="@dimen/row_space_big"
                     android:padding="@dimen/row_space_default"
                     app:mrl_rippleColor="@color/toolbar_ripple_color"
-                    app:mrl_rippleDuration="250">
+                    app:mrl_rippleDuration="300">
 
                     <TextView
                         android:id="@+id/search_news"
@@ -115,11 +115,11 @@
                     android:id="@+id/search_advice_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_toRightOf="@+id/search_advice"
                     android:paddingBottom="@dimen/row_space_small"
-                    android:paddingLeft="@dimen/row_space_big"
-                    android:paddingRight="@dimen/row_space_big"
+                    android:paddingStart="@dimen/row_space_big"
+                    android:paddingEnd="@dimen/row_space_big"
                     android:paddingTop="@dimen/row_space_small"
                     android:text="@string/article_advice"
                     android:textColor="@color/skin_app_color"

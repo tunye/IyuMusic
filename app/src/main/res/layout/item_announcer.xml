@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,13 +15,13 @@
             android:id="@+id/announcer_photo"
             android:layout_width="60dip"
             android:layout_height="60dip"
-            android:layout_marginLeft="@dimen/row_space_large"
-            android:layout_marginRight="@dimen/row_space_large"/>
+            android:layout_marginStart="@dimen/row_space_large"
+            android:layout_marginEnd="@dimen/row_space_large"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginLeft="@dimen/row_space_large"
+            android:layout_marginStart="@dimen/row_space_large"
             android:layout_toRightOf="@+id/announcer_photo"
             android:orientation="vertical">
 
@@ -40,7 +40,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
             app:go_stroke="@dimen/line_default"/>

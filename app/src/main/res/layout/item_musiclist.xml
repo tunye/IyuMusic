@@ -5,7 +5,7 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="@dimen/row_space_big"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/row_space_big"/>
 
         <LinearLayout
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/row_space_very_large"
+                    android:layout_marginEnd="@dimen/row_space_very_large"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text"/>

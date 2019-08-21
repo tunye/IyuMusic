@@ -20,8 +20,8 @@
             android:layout_height="90dp"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/row_space_medium"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/row_space_medium"/>
 
         <LinearLayout
@@ -48,7 +48,7 @@
                     android:id="@+id/vip_status"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="@dimen/row_space_medium"/>
+                    android:layout_marginStart="@dimen/row_space_medium"/>
             </LinearLayout>
 
             <TextView
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:background="@color/background_light"
         android:paddingBottom="@dimen/row_space_medium"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/row_space_medium">
 
         <TextView
@@ -93,13 +93,13 @@
         android:paddingBottom="@dimen/row_space_very_large"
         android:paddingTop="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_month"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -117,14 +117,14 @@
         android:paddingBottom="@dimen/row_space_very_large"
         android:paddingTop="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_three_month"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -142,13 +142,13 @@
         android:paddingBottom="@dimen/row_space_very_large"
         android:paddingTop="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_half_year"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -166,14 +166,14 @@
         android:paddingBottom="@dimen/row_space_very_large"
         android:paddingTop="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_year"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -191,14 +191,14 @@
         android:paddingBottom="@dimen/row_space_very_large"
         android:paddingTop="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_app"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -213,7 +213,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/vip_buy_default"
             android:textColor="@color/text_complementary"
@@ -226,7 +226,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/row_space_very_large"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
         <TextView
             android:layout_width="wrap_content"

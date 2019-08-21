@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_default"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1.0"
             android:orientation="vertical"
-            android:paddingRight="@dimen/row_space_large">
+            android:paddingEnd="@dimen/row_space_large">
 
             <TextView
                 android:id="@+id/file_name"

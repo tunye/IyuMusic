@@ -33,7 +33,7 @@
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_medium"
+                    android:layout_marginEnd="@dimen/row_space_medium"
                     app:go_color="@color/background"
                     app:go_direction="RIGHT"
                     app:go_stroke="@dimen/line_default"/>
@@ -43,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     android:layout_weight="1.0"
                     android:textColor="@color/skin_app_color"
                     android:textSize="16sp"/>

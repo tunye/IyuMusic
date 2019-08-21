@@ -14,7 +14,7 @@ public class AddRippleEffect {
         MaterialRippleLayout.on(view)
                 .rippleOverlay(true)
                 .rippleAlpha(0.2f)
-                .rippleDuration(600)
+                .rippleDuration(150)
                 .rippleColor(view.getContext().getResources().getColor(R.color.text_complementary))
                 .rippleHover(true)
                 .create();

@@ -4,8 +4,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/row_space_medium"
-              android:layout_marginRight="@dimen/row_space_medium"
+              android:layout_marginStart="@dimen/row_space_medium"
+              android:layout_marginEnd="@dimen/row_space_medium"
               android:layout_marginTop="@dimen/row_space_small"
               android:background="@drawable/bg_card"
               android:orientation="vertical">
@@ -23,8 +23,8 @@
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:paddingTop="10dp">
 
         <TextView

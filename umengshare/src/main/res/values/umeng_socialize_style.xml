@@ -12,9 +12,9 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingStart">4dp</item>
         <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
@@ -28,7 +28,7 @@
     <style name="umeng_socialize_action_bar_item_tv">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
         <item name="android:text">999</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffff</item>
@@ -74,8 +74,8 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@color/umeng_socialize_list_item_bgcolor</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:layout_marginRight">6dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginBottom">6dp</item>
     </style>

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/row_space_large"
-                android:paddingRight="@dimen/row_space_large">
+                android:paddingStart="@dimen/row_space_large"
+                android:paddingEnd="@dimen/row_space_large">
 
     <com.iyuba.music.widget.original.OriginalSynView xmlns:app="http://schemas.android.com/apk/res-auto"
                                                      android:id="@+id/original"

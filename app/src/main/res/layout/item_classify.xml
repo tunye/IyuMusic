@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/row_space_small"
+            android:layout_marginStart="@dimen/row_space_small"
             android:text="@string/classify_favor"
             android:textColor="#dcdcdc"
             android:textSize="@dimen/default_text"/>

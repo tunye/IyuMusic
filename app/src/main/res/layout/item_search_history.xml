@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/row_space_large"
+            android:layout_marginStart="@dimen/row_space_large"
             android:textColor="@color/text_color"
             android:textSize="18sp"/>
 

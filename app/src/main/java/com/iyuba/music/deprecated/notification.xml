@@ -20,7 +20,7 @@
                   android:gravity="center_vertical" android:orientation="vertical">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="69dp"
-                      android:layout_marginLeft="@dimen/row_space_medium"
+                      android:layout_marginStart="@dimen/row_space_medium"
                       android:orientation="vertical">
 
             <TextView android:id="@+id/notify_title" android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
 
     <ImageView android:id="@+id/notify_close" android:layout_width="32dp"
                android:layout_height="32dp" android:layout_alignParentRight="true"
-               android:layout_alignParentTop="true" android:paddingLeft="@dimen/row_space_large"
-               android:paddingRight="@dimen/row_space_large"
+               android:layout_alignParentTop="true" android:paddingStart="@dimen/row_space_large"
+               android:paddingEnd="@dimen/row_space_large"
                android:src="@drawable/ic_action_close_common"/>
 </RelativeLayout>

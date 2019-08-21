@@ -13,7 +13,7 @@
         android:gravity="center"
         android:padding="@dimen/row_space_big"
         app:mrl_rippleColor="@color/text_complementary"
-        app:mrl_rippleDuration="600">
+        app:mrl_rippleDuration="300">
 
         <TextView
             android:id="@+id/menu_text"

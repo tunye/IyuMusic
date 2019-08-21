@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white"/>
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
     </LinearLayout>

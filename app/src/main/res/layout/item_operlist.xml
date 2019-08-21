@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_large"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,14 +16,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/row_space_large"/>
+            android:layout_marginStart="@dimen/row_space_large"/>
 
         <TextView
             android:id="@+id/oper_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@+id/oper_icon"
             android:textColor="@color/text_color"
             android:textSize="@dimen/large_text"/>
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/row_space_medium"
             android:textColor="@color/text_color"
             android:textSize="@dimen/big_text"
             android:visibility="gone"/>
@@ -45,7 +45,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
             app:go_stroke="@dimen/line_default"/>

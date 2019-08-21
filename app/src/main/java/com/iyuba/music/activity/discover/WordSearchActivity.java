@@ -19,7 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.buaa.ct.skin.BaseSkinActivity;
+import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.discover.WordSearchAdapter;

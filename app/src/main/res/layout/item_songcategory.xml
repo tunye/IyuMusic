@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,15 +15,15 @@
             android:id="@+id/songlist_image"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="@dimen/row_space_big"/>
+            android:layout_marginStart="@dimen/row_space_big"/>
 
         <TextView
             android:id="@+id/songlist_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/row_space_very_large"
-            android:layout_marginRight="@dimen/row_space_big"
+            android:layout_marginStart="@dimen/row_space_very_large"
+            android:layout_marginEnd="@dimen/row_space_big"
             android:layout_toLeftOf="@+id/songlist_count"
             android:layout_toRightOf="@+id/songlist_image"
             android:ellipsize="end"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/row_space_big"
+            android:layout_marginEnd="@dimen/row_space_big"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/medium_text"/>
     </RelativeLayout>

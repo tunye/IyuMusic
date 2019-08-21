@@ -32,7 +32,7 @@
                 android:layout_width="12dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/umeng_socialize_back_icon"
 
                 android:scaleType="center"/>
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/umeng_socialize_btn_bg"
             android:padding="4dp"
             android:text="分享"
@@ -65,7 +65,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
 
             android:checked="true"/>
 
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             android:layout_toRightOf="@id/umeng_socialize_follow_check"
             android:text="关注官方微博"
             android:textColor="#949BA4"

@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
-import com.buaa.ct.skin.BaseSkinActivity;
+import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.LocalInfoOp;

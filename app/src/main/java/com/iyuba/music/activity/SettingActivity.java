@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.buaa.ct.skin.SkinManager;
+import com.buaa.ct.appskin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;

@@ -5,7 +5,7 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,8 +24,8 @@
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:layout_marginBottom="@dimen/row_space_big"
-            android:layout_marginLeft="@dimen/row_space_very_large"
-            android:layout_marginRight="@dimen/row_space_very_large"
+            android:layout_marginStart="@dimen/row_space_very_large"
+            android:layout_marginEnd="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
             android:layout_toRightOf="@+id/item_delete">
 
@@ -73,7 +73,7 @@
                     android:id="@+id/article_singer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/row_space_default"
+                    android:layout_marginEnd="@dimen/row_space_default"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:textColor="@color/text_gray_color"
@@ -83,7 +83,7 @@
                     android:id="@+id/article_announcer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/row_space_default"
+                    android:layout_marginEnd="@dimen/row_space_default"
                     android:layout_marginTop="@dimen/row_space_default"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text"/>

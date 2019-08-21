@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     app:kswThumbColor="@color/white"/>
             </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     app:go_color="@color/background_complementary"
                     app:go_direction="LEFT"
                     app:go_stroke="@dimen/line_default"/>
@@ -102,7 +102,7 @@
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     app:go_color="@color/background_complementary"
                     app:go_direction="LEFT"
                     app:go_stroke="@dimen/line_default"/>

@@ -22,7 +22,7 @@
             android:id="@+id/music_statistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/row_space_default"
+            android:layout_marginStart="@dimen/row_space_default"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text"/>
 
@@ -30,7 +30,7 @@
             android:id="@+id/music_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/row_space_large"
+            android:layout_marginEnd="@dimen/row_space_large"
             android:layout_toLeftOf="@+id/music_random_play"
             android:text="@string/eggshell_music_link"
             android:textColor="@color/text_complementary"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/row_space_medium"
             android:text="@string/eggshell_random_play"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text"/>
@@ -53,8 +53,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/controlBar"
         android:layout_below="@+id/statusBar"
-        android:paddingLeft="@dimen/row_space_small"
-        android:paddingRight="@dimen/row_space_small"/>
+        android:paddingStart="@dimen/row_space_small"
+        android:paddingEnd="@dimen/row_space_small"/>
 
     <RelativeLayout
         android:id="@+id/controlBar"
@@ -66,7 +66,7 @@
             android:id="@+id/current_time"
             android:layout_width="52dp"
             android:layout_height="52dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/big_text"/>
@@ -77,8 +77,8 @@
             android:layout_toRightOf="@+id/current_time"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/row_space_medium"
-            android:paddingLeft="@dimen/row_space_large"
-            android:paddingRight="@dimen/row_space_medium"
+            android:paddingStart="@dimen/row_space_large"
+            android:paddingEnd="@dimen/row_space_medium"
             android:paddingTop="@dimen/row_space_medium">
 
             <ImageView

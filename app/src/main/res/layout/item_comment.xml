@@ -6,12 +6,12 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="#656565"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/row_space_default"
+        android:layout_marginStart="@dimen/row_space_default"
         android:orientation="horizontal">
 
         <com.iyuba.music.widget.imageview.VipPhoto
@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/row_space_large"
+            android:layout_marginStart="@dimen/row_space_large"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -68,15 +68,15 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
-                            android:paddingLeft="@dimen/row_space_medium"
-                            android:paddingRight="@dimen/row_space_medium"/>
+                            android:paddingStart="@dimen/row_space_medium"
+                            android:paddingEnd="@dimen/row_space_medium"/>
 
                         <TextView
                             android:id="@+id/comment_agree_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/row_space_medium"
+                            android:layout_marginStart="@dimen/row_space_medium"
                             android:gravity="center"
                             android:textColor="@color/text_complementary"
                             android:textSize="@dimen/big_text"/>
@@ -85,7 +85,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/row_space_very_large"
+                        android:layout_marginStart="@dimen/row_space_very_large"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -93,15 +93,15 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
-                            android:paddingLeft="@dimen/row_space_medium"
-                            android:paddingRight="@dimen/row_space_medium"/>
+                            android:paddingStart="@dimen/row_space_medium"
+                            android:paddingEnd="@dimen/row_space_medium"/>
 
                         <TextView
                             android:id="@+id/comment_against_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/row_space_medium"
+                            android:layout_marginStart="@dimen/row_space_medium"
                             android:gravity="center"
                             android:textColor="@color/text_complementary"
                             android:textSize="@dimen/big_text"/>
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:textColor="#ededed"
                     android:textSize="@dimen/medium_text"/>
 
@@ -145,7 +145,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginStart="45dp"
                     android:visibility="gone"/>
             </RelativeLayout>
         </LinearLayout>

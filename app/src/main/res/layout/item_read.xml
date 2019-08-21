@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_large"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/row_space_large"
+                android:layout_marginStart="@dimen/row_space_large"
                 android:background="@drawable/skin_circle_point"
                 android:gravity="center"
                 android:padding="@dimen/row_space_default"
@@ -32,7 +32,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/row_space_very_large"
+                android:layout_marginStart="@dimen/row_space_very_large"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -65,7 +65,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/row_space_big"
+                android:layout_marginStart="@dimen/row_space_big"
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/medium_text"/>
 

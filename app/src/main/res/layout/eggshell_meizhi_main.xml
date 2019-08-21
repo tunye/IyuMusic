@@ -19,7 +19,7 @@
             android:id="@+id/meizhi_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/row_space_small"
-            android:paddingRight="@dimen/row_space_small"/>
+            android:paddingStart="@dimen/row_space_small"
+            android:paddingEnd="@dimen/row_space_small"/>
     </com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh>
 </LinearLayout>

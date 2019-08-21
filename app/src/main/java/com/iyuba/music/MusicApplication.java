@@ -15,8 +15,8 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.addam.library.api.AddamManager;
-import com.buaa.ct.skin.SkinManager;
-import com.buaa.ct.videocachelibrary.HttpProxyCacheServer;
+import com.buaa.ct.appskin.SkinManager;
+import com.buaa.ct.videocache.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;

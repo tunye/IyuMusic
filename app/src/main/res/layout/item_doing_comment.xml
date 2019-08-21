@@ -5,7 +5,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:id="@+id/doing_photo"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginRight="@dimen/row_space_large"/>
+            android:layout_marginEnd="@dimen/row_space_large"/>
 
         <LinearLayout
             android:layout_width="0dip"
@@ -43,7 +43,7 @@
                     android:id="@+id/doing_dateline"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:textColor="@color/text_complementary"
@@ -61,7 +61,7 @@
                     android:id="@+id/doing_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/row_space_large"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/medium_text"/>
             </LinearLayout>

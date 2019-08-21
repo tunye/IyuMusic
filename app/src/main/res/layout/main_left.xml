@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="600">
+            app:mrl_rippleDuration="300">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                             android:id="@+id/personal_credit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/row_space_large"
+                            android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/medium_text"/>
                     </LinearLayout>
@@ -85,7 +85,7 @@
                             android:id="@+id/personal_fan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/row_space_large"
+                            android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/medium_text"/>
 
@@ -93,7 +93,7 @@
                             android:id="@+id/personal_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/row_space_large"
+                            android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/medium_text"/>
                     </LinearLayout>
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="600">
+            app:mrl_rippleDuration="300">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -135,7 +135,7 @@
             android:layout_below="@+id/personal_login"
             android:layout_marginTop="-8dp"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="600">
+            app:mrl_rippleDuration="300">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/row_space_large"
+                    android:layout_marginStart="@dimen/row_space_large"
                     android:src="@drawable/personal_state"/>
 
                 <TextView
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/row_space_very_large"
+                    android:layout_marginStart="@dimen/row_space_very_large"
                     android:layout_toRightOf="@+id/sign_icon"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -172,7 +172,7 @@
             android:layout_below="@+id/sign_layout"
             android:layout_marginTop="-8dp"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="600">
+            app:mrl_rippleDuration="300">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -189,7 +189,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/row_space_large"
+                        android:layout_marginStart="@dimen/row_space_large"
                         android:src="@drawable/sign_in_icon"/>
 
                     <TextView
@@ -197,7 +197,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/row_space_very_large"
+                        android:layout_marginStart="@dimen/row_space_very_large"
                         android:layout_toRightOf="@+id/sign_in_icon"
                         android:ellipsize="end"
                         android:maxLines="1"
@@ -250,7 +250,7 @@
             android:layout_weight="1"
             android:padding="@dimen/row_space_big"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="400">
+            app:mrl_rippleDuration="300">
 
             <TextView
                 android:layout_width="match_parent"
@@ -275,7 +275,7 @@
             android:layout_weight="1"
             android:padding="@dimen/row_space_big"
             app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="400">
+            app:mrl_rippleDuration="300">
 
             <TextView
                 android:layout_width="match_parent"

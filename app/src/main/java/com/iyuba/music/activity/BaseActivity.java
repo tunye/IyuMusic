@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenu;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.buaa.ct.skin.BaseSkinActivity;
+import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
@@ -27,7 +28,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
     protected Context context;
     protected MaterialRippleLayout back;
     protected MaterialMenu backIcon;
-    protected RelativeLayout toolBarLayout;
+    protected FrameLayout toolBarLayout;
     protected TextView title, toolbarOper;
 
     protected boolean changeProperty;
@@ -51,10 +52,10 @@ public abstract class BaseActivity extends BaseSkinActivity {
     }
 
     protected void initWidget() {
-        back = (MaterialRippleLayout) findViewById(R.id.back);
-        backIcon = (MaterialMenu) findViewById(R.id.back_material);
-        toolBarLayout = (RelativeLayout) findViewById(R.id.toolbar_title_layout);
-        title = (TextView) findViewById(R.id.toolbar_title);
+        back = findViewById(R.id.back);
+        backIcon = findViewById(R.id.back_material);
+        toolBarLayout = findViewById(R.id.toolbar_title_layout);
+        title = findViewById(R.id.toolbar_title);
     }
 
     protected void setListener() {

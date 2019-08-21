@@ -9,7 +9,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.TextView;
 
-import com.buaa.ct.skin.SkinManager;
+import com.buaa.ct.appskin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;

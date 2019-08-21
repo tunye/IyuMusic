@@ -6,7 +6,7 @@
                                                 android:minHeight="80dp"
                                                 android:padding="@dimen/row_space_large"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/indicator"

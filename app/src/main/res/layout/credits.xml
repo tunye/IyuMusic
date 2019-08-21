@@ -84,7 +84,7 @@
                     android:paddingStart="@dimen/row_space_medium"
                     android:paddingTop="@dimen/row_space_large"
                     app:mrl_rippleColor="@color/text_complementary"
-                    app:mrl_rippleDuration="600">
+                    app:mrl_rippleDuration="300">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                     android:paddingStart="@dimen/row_space_medium"
                     android:paddingTop="@dimen/row_space_large"
                     app:mrl_rippleColor="@color/background_complementary"
-                    app:mrl_rippleDuration="600">
+                    app:mrl_rippleDuration="300">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"

@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -131,7 +132,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
         }
     };
-    private RelativeLayout adRoot;
+    private FrameLayout adRoot;
     private View adView;
     private ImageView photoImage;
     private Timer timer;
@@ -381,23 +382,23 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initWidget() {
         super.initWidget();
-        root = (LinearLayout) findViewById(R.id.root);
-        adRoot = (RelativeLayout) findViewById(R.id.ad_stub);
-        studyMore = (ImageView) findViewById(R.id.study_more);
-        viewPager = (ViewPager) findViewById(R.id.study_main);
-        pageIndicator = (PageIndicator) findViewById(R.id.study_indicator);
-        currTime = (TextView) findViewById(R.id.study_current_time);
-        duration = (TextView) findViewById(R.id.study_duration);
-        seekBar = (SeekBar) findViewById(R.id.study_progress);
+        root = findViewById(R.id.root);
+        adRoot = findViewById(R.id.ad_stub);
+        studyMore = findViewById(R.id.study_more);
+        viewPager = findViewById(R.id.study_main);
+        pageIndicator = findViewById(R.id.study_indicator);
+        currTime = findViewById(R.id.study_current_time);
+        duration = findViewById(R.id.study_duration);
+        seekBar = findViewById(R.id.study_progress);
 
-        playSound = (MorphButton) findViewById(R.id.play);
-        former = (ImageView) findViewById(R.id.formmer);
-        latter = (ImageView) findViewById(R.id.latter);
-        playMode = (ImageView) findViewById(R.id.play_mode);
-        interval = (ImageView) findViewById(R.id.interval);
-        comment = (RoundTextView) findViewById(R.id.study_comment);
-        studyMode = (ImageView) findViewById(R.id.study_mode);
-        studyTranslate = (ImageView) findViewById(R.id.study_translate);
+        playSound = findViewById(R.id.play);
+        former = findViewById(R.id.formmer);
+        latter = findViewById(R.id.latter);
+        playMode = findViewById(R.id.play_mode);
+        interval = findViewById(R.id.interval);
+        comment = findViewById(R.id.study_comment);
+        studyMode = findViewById(R.id.study_mode);
+        studyTranslate = findViewById(R.id.study_translate);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         waittingDialog = WaitingDialog.create(context, null);
         if (!DownloadUtil.checkVip() && NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {

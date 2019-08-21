@@ -21,7 +21,7 @@
             android:id="@+id/word_statistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/row_space_default"
+            android:layout_marginStart="@dimen/row_space_default"
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text"/>
 
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/row_space_medium"
             android:text="@string/word_set"
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text"/>
@@ -39,7 +39,7 @@
             android:id="@+id/word_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/row_space_big"
+            android:layout_marginEnd="@dimen/row_space_big"
             android:layout_toLeftOf="@+id/word_set"
             android:text="@string/word_edit"
             android:textColor="@color/skin_app_color"

@@ -2,7 +2,7 @@ package com.iyuba.music.util;
 
 import android.text.TextUtils;
 
-import com.buaa.ct.skin.SkinManager;
+import com.buaa.ct.appskin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
 

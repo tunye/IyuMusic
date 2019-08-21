@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.buaa.ct.skin.BaseSkinActivity;
+import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.RecommendSongActivity;

@@ -35,7 +35,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/row_space_medium">
+            android:layout_marginStart="@dimen/row_space_medium">
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/progressbar"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/row_space_big"
+            android:layout_marginStart="@dimen/row_space_big"
             android:layout_toLeftOf="@+id/control_layout"
             android:layout_toRightOf="@+id/rotate_image_layout"
             android:orientation="vertical">
@@ -95,23 +95,23 @@
                 android:id="@+id/main_former"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/row_space_default"
-                android:paddingRight="@dimen/row_space_default"
+                android:paddingStart="@dimen/row_space_default"
+                android:paddingEnd="@dimen/row_space_default"
                 android:src="@drawable/formmer"/>
 
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/main_play"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/row_space_default"
-                android:paddingRight="@dimen/row_space_default"/>
+                android:paddingStart="@dimen/row_space_default"
+                android:paddingEnd="@dimen/row_space_default"/>
 
             <ImageView
                 android:id="@+id/main_latter"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/row_space_default"
-                android:paddingRight="@dimen/row_space_default"
+                android:paddingStart="@dimen/row_space_default"
+                android:paddingEnd="@dimen/row_space_default"
                 android:src="@drawable/latter"/>
         </LinearLayout>
     </RelativeLayout>

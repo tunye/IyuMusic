@@ -18,8 +18,8 @@
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:layout_marginBottom="@dimen/row_space_big"
-        android:layout_marginLeft="@dimen/row_space_very_large"
-        android:layout_marginRight="@dimen/row_space_very_large"
+        android:layout_marginStart="@dimen/row_space_very_large"
+        android:layout_marginEnd="@dimen/row_space_very_large"
         android:layout_marginTop="@dimen/row_space_big"
         android:layout_toRightOf="@+id/item_delete">
 
@@ -100,7 +100,7 @@
                     android:id="@+id/article_announcer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/row_space_big"
+                    android:layout_marginEnd="@dimen/row_space_big"
                     android:gravity="center"
                     android:textColor="@color/text_gray_color"
                     android:textSize="@dimen/medium_text"/>

@@ -5,8 +5,8 @@
               android:background="@color/background"
               android:orientation="vertical"
               android:paddingBottom="@dimen/row_space_large"
-              android:paddingLeft="@dimen/activity_horizontal_margin_big"
-              android:paddingRight="@dimen/activity_horizontal_margin_big"
+              android:paddingStart="@dimen/activity_horizontal_margin_big"
+              android:paddingEnd="@dimen/activity_horizontal_margin_big"
               android:paddingTop="@dimen/activity_horizontal_margin_big">
 
     <TextView
@@ -89,7 +89,7 @@
                                                     android:layout_gravity="right"
                                                     android:layout_marginTop="15dp"
                                                     app:mrl_rippleColor="@color/text_complementary"
-                                                    app:mrl_rippleDuration="400">
+                                                    app:mrl_rippleDuration="300">
 
         <Button
             android:layout_width="wrap_content"

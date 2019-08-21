@@ -23,7 +23,7 @@ android {
     }
     defaultConfig {
         applicationId "com.iyuba.music"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 9500
         versionName "9.5"
@@ -137,7 +137,7 @@ dependencies {
     /*解析json*/
     compile 'com.google.code.gson:gson:2.8.2'
     /*volley*/
-    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.android.volley:volley:1.1.1'
     /*edittext*/
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     /*分组recycleview*/
@@ -150,6 +150,6 @@ dependencies {
     compile 'com.github.bumptech.glide:volley-integration:1.5.0@aar'
     /*截图*/
     compile 'com.isseiaoki:simplecropview:1.0.13'
-    compile project(':umengshare')
-    compile project(':assessment')
+    compile project(path: ':umengshare')
+    compile project(path: ':assessment')
 }

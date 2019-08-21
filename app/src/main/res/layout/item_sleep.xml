@@ -6,7 +6,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:padding="@dimen/row_space_medium"
                                                 app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="600">
+                                                app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:padding="@dimen/row_space_medium"
             android:textColor="@color/text_color"
             android:textSize="@dimen/big_text"/>
@@ -27,6 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
     </RelativeLayout>
 </com.balysv.materialripple.MaterialRippleLayout>

@@ -85,7 +85,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_medium"
+                        android:layout_marginEnd="@dimen/row_space_medium"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -114,7 +114,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_medium"
+                        android:layout_marginEnd="@dimen/row_space_medium"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -143,7 +143,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_medium"
+                        android:layout_marginEnd="@dimen/row_space_medium"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -174,7 +174,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_medium"
+                        android:layout_marginEnd="@dimen/row_space_medium"
                         app:go_color="@color/background_complementary"
                         app:go_direction="LEFT"
                         app:go_stroke="@dimen/line_default"/>
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_big"
+                        android:layout_marginEnd="@dimen/row_space_big"
                         android:layout_toLeftOf="@+id/go"
                         android:src="@drawable/new_reminder"
                         android:visibility="gone"/>
@@ -194,7 +194,7 @@
                         android:layout_width="30dip"
                         android:layout_height="30dip"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/row_space_big"
+                        android:layout_marginEnd="@dimen/row_space_big"
                         android:layout_toLeftOf="@+id/newApp"
                         android:visibility="invisible"
                         app:cp_circleColor="@color/background_light"
