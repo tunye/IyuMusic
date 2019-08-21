@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.iyuba.music">
 
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -8,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
@@ -18,10 +18,8 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
@@ -47,7 +45,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:persistent="true"
-        android:theme="@style/MyAppTheme">
+        android:theme="@style/MyAppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -169,10 +168,6 @@
             android:name="com.youdao.sdk.common.YouDaoBrowser"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"/>
-        <activity
-            android:name="com.youdao.sdk.common.YouDaoNativeBrowser"
-            android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"/>
 
         <service
             android:name="com.youdao.sdk.common.YouDaoAppService"
@@ -264,9 +259,6 @@
         <activity
             android:name="com.addam.library.external.InterstitialActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
-        <activity
-            android:name="com.jesgoo.sdk.AppActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"/>
         <!--广告页面-->
         <activity
             android:name="com.addam.library.external.AdInfoActivity"
