@@ -62,7 +62,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text"/>
 
-            <com.kyleduo.switchbutton.SwitchButton
+            <com.iyuba.music.widget.view.SwitchButton
                 android:id="@+id/word_set_show_def_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text"/>
 
-            <com.kyleduo.switchbutton.SwitchButton
+            <com.iyuba.music.widget.view.SwitchButton
                 android:id="@+id/word_set_play_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text"/>
 
-            <com.kyleduo.switchbutton.SwitchButton
+            <com.iyuba.music.widget.view.SwitchButton
                 android:id="@+id/word_set_auto_add_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

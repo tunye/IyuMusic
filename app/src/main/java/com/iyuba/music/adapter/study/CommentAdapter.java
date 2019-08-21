@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;

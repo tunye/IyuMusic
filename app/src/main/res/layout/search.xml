@@ -44,7 +44,7 @@
                         app:met_primaryColor="@color/skin_app_color"/>
                 </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <com.iyuba.music.widget.view.MaterialRippleLayout
                     android:id="@+id/search_news_ripple"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
@@ -63,7 +63,7 @@
                         android:gravity="center"
                         android:textColor="#ededed"
                         android:textSize="@dimen/large_text"/>
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </com.iyuba.music.widget.view.MaterialRippleLayout>
             </RelativeLayout>
         </RelativeLayout>
 

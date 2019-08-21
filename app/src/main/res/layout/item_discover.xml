@@ -5,7 +5,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background">
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/discover_ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 app:go_direction="LEFT"
                 app:go_stroke="@dimen/line_default"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"

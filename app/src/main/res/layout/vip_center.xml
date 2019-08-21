@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/vip_photo"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -87,7 +87,7 @@
     </LinearLayout>
 
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_symbol"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,14 +117,14 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/large_text"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_allapp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -154,14 +154,14 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -191,14 +191,14 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_huge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -228,14 +228,14 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_highspeed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/big_text"/>
         </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <View
         android:layout_width="match_parent"
@@ -273,7 +273,7 @@
         android:layout_weight="1"
         android:background="@color/background_light"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -288,5 +288,5 @@
             android:layout_gravity="center"
             android:textColor="@color/skin_color_accent"
             android:textSize="@dimen/large_text"/>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 </LinearLayout>

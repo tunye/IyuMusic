@@ -82,7 +82,7 @@
         android:textColor="@color/text_color"
         android:textSize="16sp"/>
 
-    <com.balysv.materialripple.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                                                     android:id="@+id/button_accept"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
@@ -98,5 +98,5 @@
             android:text="@string/app_accept"
             android:textColor="@color/skin_app_color"
             android:textSize="18sp"/>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 </LinearLayout>

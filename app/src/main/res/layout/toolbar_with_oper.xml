@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/title_padding">
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 app:mm_color="#ededed"
                 app:mm_strokeWidth="2"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -36,7 +36,7 @@
             android:textColor="#ededed"
             android:textSize="@dimen/title_text"/>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
@@ -51,6 +51,6 @@
                 android:padding="@dimen/row_space_default"
                 android:textColor="#ededed"
                 android:textSize="@dimen/large_text"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
     </FrameLayout>
 </FrameLayout>

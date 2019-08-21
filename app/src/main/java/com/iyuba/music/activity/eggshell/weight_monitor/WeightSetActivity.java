@@ -15,7 +15,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.kyleduo.switchbutton.SwitchButton;
+import com.iyuba.music.widget.view.SwitchButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.ParseException;

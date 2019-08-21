@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.RuntimeManager;

@@ -1,5 +1,6 @@
 package com.iyuba.music.activity.discover;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,7 +20,6 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.nineoldandroids.animation.Animator;
 
 /**
  * Created by 10202 on 2015/12/2.

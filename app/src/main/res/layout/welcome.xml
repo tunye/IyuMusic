@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_heightPercent="86%"
@@ -20,11 +20,11 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/welcome_escape_ad"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin_big">
 
@@ -40,18 +40,18 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:src="@drawable/escape_ad"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:text="@string/welcome_escape_ad"
                 android:textColor="#ededed"
                 android:textSize="@dimen/default_text"/>
-        </RelativeLayout>
-    </RelativeLayout>
+        </FrameLayout>
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/welcome_footer"

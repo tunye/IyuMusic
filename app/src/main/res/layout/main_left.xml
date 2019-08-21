@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/personal_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,9 +99,9 @@
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/personal_nologin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,9 +126,9 @@
                     android:layout_height="@dimen/line_thin"
                     android:background="@color/background_light"/>
             </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/sign_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,9 +163,9 @@
                     android:textSize="@dimen/big_text"/>
             </RelativeLayout>
 
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/sign_in_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                     android:layout_height="@dimen/line_thin"
                     android:background="@color/background_light"/>
             </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -243,7 +243,7 @@
         android:background="@color/background_dark"
         android:orientation="horizontal">
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/about"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -259,7 +259,7 @@
                 android:text="@string/oper_about"
                 android:textColor="@color/skin_color_accent"
                 android:textSize="@dimen/large_text"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         <ImageView
             android:layout_width="@dimen/line_default"
@@ -268,7 +268,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:background="@color/background"/>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/exit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -284,7 +284,7 @@
                 android:text="@string/oper_exit"
                 android:textColor="@color/skin_color_accent"
                 android:textSize="@dimen/large_text"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     </LinearLayout>
 </RelativeLayout>

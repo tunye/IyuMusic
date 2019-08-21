@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/11/24.

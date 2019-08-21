@@ -77,7 +77,7 @@
                 android:textColor="#ededed"
                 android:textSize="@dimen/title_text" />
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <com.iyuba.music.widget.view.MaterialRippleLayout
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     app:mm_color="#ededed"
                     app:mm_strokeWidth="2" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         </FrameLayout>
     </FrameLayout>

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 
 public class ChattingAdapter extends BaseAdapter {

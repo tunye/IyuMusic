@@ -45,7 +45,7 @@
             android:paddingTop="@dimen/row_space_default"
             android:textSize="@dimen/big_text"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/chatting_photo"
             android:layout_width="50dp"
             android:layout_height="50dip"

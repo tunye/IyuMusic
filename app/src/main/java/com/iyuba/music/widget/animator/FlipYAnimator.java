@@ -1,9 +1,9 @@
 package com.iyuba.music.widget.animator;
 
+import android.animation.ObjectAnimator;
 import android.view.View;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlipYAnimator extends BaseViewAnimator {
     @Override

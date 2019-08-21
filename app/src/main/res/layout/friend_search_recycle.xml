@@ -43,7 +43,7 @@
                     app:met_primaryColor="@color/skin_app_color"/>
             </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <com.iyuba.music.widget.view.MaterialRippleLayout
                 android:id="@+id/friend_search"
                 android:layout_width="60dp"
                 android:layout_height="36dp"
@@ -62,7 +62,7 @@
                     android:text="@string/search_do"
                     android:textColor="#ededed"
                     android:textSize="@dimen/large_text"/>
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </com.iyuba.music.widget.view.MaterialRippleLayout>
         </RelativeLayout>
 
         <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"

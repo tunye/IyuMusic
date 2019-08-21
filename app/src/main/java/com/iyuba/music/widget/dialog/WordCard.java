@@ -1,11 +1,13 @@
 package com.iyuba.music.widget.dialog;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,7 +30,6 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
-import com.nineoldandroids.animation.Animator;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Calendar;
@@ -211,7 +212,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     public void show() {
-        YoYo.with(Techniques.FlipInX).duration(500).withListener(new Animator.AnimatorListener() {
+        YoYo.with(Techniques.FlipInX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 root.setVisibility(VISIBLE);
@@ -235,7 +236,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     public void dismiss() {
-        YoYo.with(Techniques.FlipOutX).duration(500).withListener(new Animator.AnimatorListener() {
+        YoYo.with(Techniques.FlipOutX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 

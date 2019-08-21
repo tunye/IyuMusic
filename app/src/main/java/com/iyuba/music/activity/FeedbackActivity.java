@@ -1,5 +1,6 @@
 package com.iyuba.music.activity;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -24,7 +26,6 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 
@@ -125,9 +126,9 @@ public class FeedbackActivity extends BaseInputActivity {
     private void submit() {
         String contentString = content.getEditableText().toString();
         if (!regex) {
-            YoYo.with(Techniques.Shake).duration(500).playOn(contact);
+            YoYo.with(Techniques.Shake).interpolate(new AccelerateDecelerateInterpolator()).duration(500).playOn(contact);
         } else if (TextUtils.isEmpty(contentString)) {
-            YoYo.with(Techniques.Shake).duration(500).playOn(content);
+            YoYo.with(Techniques.Shake).interpolate(new AccelerateDecelerateInterpolator()).duration(500).playOn(content);
         } else {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if (getCurrentFocus() != null) {
@@ -178,7 +179,7 @@ public class FeedbackActivity extends BaseInputActivity {
         public void handleMessageByRef(final FeedbackActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.feedback_success);

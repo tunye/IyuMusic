@@ -18,7 +18,7 @@ import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.kyleduo.switchbutton.SwitchButton;
+import com.iyuba.music.widget.view.SwitchButton;
 
 import java.util.Arrays;
 

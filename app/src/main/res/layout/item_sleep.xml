@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                                 android:id="@+id/sleep_ripple"
                                                 android:layout_width="match_parent"
@@ -29,4 +29,4 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
     </RelativeLayout>
-</com.balysv.materialripple.MaterialRippleLayout>
+</com.iyuba.music.widget.view.MaterialRippleLayout>

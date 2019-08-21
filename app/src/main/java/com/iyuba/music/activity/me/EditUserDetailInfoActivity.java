@@ -43,7 +43,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 public class EditUserDetailInfoActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());

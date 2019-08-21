@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.iyuba.music.widget.view.CircleImageView
                 android:id="@+id/regist_photo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"

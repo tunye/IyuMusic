@@ -190,4 +190,50 @@
         <attr name="rv_cornerRadius_BR"/>
         <attr name="rv_isRippleEnable"/>
     </declare-styleable>
+
+    <declare-styleable name="MaterialRippleLayout">
+        <attr name="mrl_rippleColor" format="color" localization="suggested" />
+        <attr name="mrl_rippleDimension" format="dimension" localization="suggested" />
+        <attr name="mrl_rippleOverlay" format="boolean" localization="suggested" />
+        <attr name="mrl_rippleAlpha" format="float" localization="suggested" />
+        <attr name="mrl_rippleDuration" format="integer" localization="suggested" />
+        <attr name="mrl_rippleFadeDuration" format="integer" localization="suggested" />
+        <attr name="mrl_rippleHover" format="boolean" localization="suggested" />
+        <attr name="mrl_rippleBackground" format="color" localization="suggested" />
+        <attr name="mrl_rippleDelayClick" format="boolean" localization="suggested" />
+        <attr name="mrl_ripplePersistent" format="boolean" localization="suggested" />
+        <attr name="mrl_rippleInAdapter" format="boolean" localization="suggested" />
+        <attr name="mrl_rippleRoundedCorners" format="dimension" localization="suggested" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchButton">
+        <attr name="kswThumbDrawable" format="reference" />
+        <attr name="kswThumbColor" format="color|reference" />
+        <attr name="kswThumbMargin" format="dimension|reference" />
+        <attr name="kswThumbMarginTop" format="dimension|reference" />
+        <attr name="kswThumbMarginBottom" format="dimension|reference" />
+        <attr name="kswThumbMarginLeft" format="dimension|reference" />
+        <attr name="kswThumbMarginRight" format="dimension|reference" />
+        <attr name="kswThumbWidth" format="dimension|reference" />
+        <attr name="kswThumbHeight" format="dimension|reference" />
+        <attr name="kswThumbRadius" format="dimension|reference" />
+        <attr name="kswBackRadius" format="dimension|reference" />
+        <attr name="kswBackDrawable" format="reference" />
+        <attr name="kswBackColor" format="color|reference" />
+        <attr name="kswFadeBack" format="boolean" />
+        <attr name="kswBackMeasureRatio" format="float" />
+        <attr name="kswAnimationDuration" format="integer" />
+        <attr name="kswTintColor" format="color|reference" />
+        <attr name="kswTextOn" format="string" />
+        <attr name="kswTextOff" format="string" />
+        <attr name="kswTextMarginH" format="dimension" />
+        <attr name="kswAutoAdjustTextPosition" format="boolean" />
+    </declare-styleable>
 </resources>

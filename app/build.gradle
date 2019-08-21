@@ -101,13 +101,15 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:28.0.0'
+    compile 'com.android.support:recyclerview-v7:28.0.0'
+
     compile 'com.android.support:design:28.0.0'
     compile 'com.android.support:percent:28.0.0'
-    compile 'com.android.support:recyclerview-v7:28.0.0'
     compile 'com.android.support:palette-v7:28.0.0'
-    compile 'com.android.support:cardview-v7:28.0.0'
+
     compile 'com.android.support:multidex:1.0.3'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+
     /*歌曲缓存*/
     compile(name: 'videocache', ext: 'aar')
     /*皮肤*/
@@ -118,38 +120,37 @@ dependencies {
     compile(name: 'smssdk', ext: 'aar')
     /*筛图模块*/
     compile(name: 'image_selector', ext: 'aar')
-    /*水波效果*/
-    compile 'com.balysv:material-ripple:1.0.2'
-    /*item动画*/
-    compile 'jp.wasabeef:recyclerview-animators:1.3.0'
-    /*加载进度条小动画*/
-    compile 'com.wang.avi:library:2.1.3'
-    /*圆型图片*/
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    /*返回动画*/
-    compile 'com.balysv.materialmenu:material-menu:1.5.4'
-    /*damajia的刁刁库*/
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.easing:library:1.0.1@aar'
-    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
-    /*仿ios toggle button*/
-    compile 'com.kyleduo.switchbutton:library:1.4.5'
+
+    compile project(path: ':umengshare')
+    compile project(path: ':assessment')
+
     /*解析json*/
     compile 'com.google.code.gson:gson:2.8.2'
     /*volley*/
     compile 'com.android.volley:volley:1.1.1'
-    /*edittext*/
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    /*分组recycleview*/
-    compile 'com.bignerdranch.android:expandablerecyclerview:2.0.4'
-    /*友盟统计分析*/
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    /*大图加载*/
-    compile 'com.commit451:PhotoView:1.2.5'
+    /*图片加载*/
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:volley-integration:1.5.0@aar'
-    /*截图*/
-    compile 'com.isseiaoki:simplecropview:1.0.13'
-    compile project(path: ':umengshare')
-    compile project(path: ':assessment')
+    /*友盟统计分析*/
+    compile 'com.umeng.umsdk:analytics:8.0.0'
+    compile 'com.umeng.umsdk:common:2.0.0'
+
+    /*item动画*/
+    compile 'jp.wasabeef:recyclerview-animators:1.3.0'
+    /*加载进度条小动画*/
+    compile 'com.wang.avi:library:2.1.3'
+    /*返回动画*/
+    compile 'com.balysv.materialmenu:material-menu:1.5.4'
+    /*edittext*/
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    /*动效*/
+    compile 'com.daimajia.easing:library:2.1@aar'
+    compile 'com.daimajia.androidanimations:library:2.3@aar'
+
+
+    /*分组recycleview*/
+    compile 'com.bignerdranch.android:expandablerecyclerview:2.0.4'
+
+    /*大图加载*/
+    compile 'com.commit451:PhotoView:1.2.5'
 }

@@ -1,5 +1,6 @@
 package com.iyuba.music.activity.eggshell.view_animations;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -11,7 +12,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.nineoldandroids.animation.Animator;
 
 public class MyActivity extends BaseActivity {
 

@@ -118,7 +118,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/big_text"/>
 
-            <com.kyleduo.switchbutton.SwitchButton
+            <com.iyuba.music.widget.view.SwitchButton
                 android:id="@+id/study_set_auto_round_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/big_text"/>
 
-                <com.kyleduo.switchbutton.SwitchButton
+                <com.iyuba.music.widget.view.SwitchButton
                     android:id="@+id/study_set_headplug_play_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/big_text"/>
 
-                <com.kyleduo.switchbutton.SwitchButton
+                <com.iyuba.music.widget.view.SwitchButton
                     android:id="@+id/study_set_headplug_pause_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

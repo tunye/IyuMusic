@@ -8,7 +8,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.CustomToast;
-import com.kyleduo.switchbutton.SwitchButton;
+import com.iyuba.music.widget.view.SwitchButton;
 
 /**
  * Created by chentong1 on 2017/4/24.

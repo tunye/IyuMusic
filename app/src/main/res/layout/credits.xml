@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <com.iyuba.music.widget.view.MaterialRippleLayout
                     android:id="@+id/credit_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                             app:go_direction="LEFT"
                             app:go_stroke="@dimen/line_default"/>
                     </RelativeLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </com.iyuba.music.widget.view.MaterialRippleLayout>
 
                 <ImageView
                     android:layout_width="@dimen/line_default"
@@ -117,7 +117,7 @@
                     android:layout_marginTop="@dimen/row_space_large"
                     android:background="@color/background_light"/>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <com.iyuba.music.widget.view.MaterialRippleLayout
                     android:id="@+id/credit_exchange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                             app:go_direction="LEFT"
                             app:go_stroke="@dimen/line_default"/>
                     </RelativeLayout>
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </com.iyuba.music.widget.view.MaterialRippleLayout>
             </LinearLayout>
 
             <ImageView

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenu;
 import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;

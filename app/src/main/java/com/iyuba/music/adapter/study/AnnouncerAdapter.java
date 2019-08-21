@@ -22,7 +22,7 @@ import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;

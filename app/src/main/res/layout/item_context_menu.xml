@@ -5,7 +5,7 @@
                                                     android:layout_height="wrap_content"
                                                     app:rv_cornerRadius="@dimen/corner_radius_default">
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/menu_ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text"/>
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </com.iyuba.music.widget.view.MaterialRippleLayout>
 </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
 

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.util.ImageUtil;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2017/2/27.

@@ -1,5 +1,6 @@
 package com.iyuba.music.activity.me;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -23,7 +25,6 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 
@@ -137,7 +138,7 @@ public class WriteStateActivity extends BaseInputActivity {
         public void handleMessageByRef(final WriteStateActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.state_modify_success);

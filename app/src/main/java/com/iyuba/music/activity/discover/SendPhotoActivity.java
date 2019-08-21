@@ -1,6 +1,7 @@
 package com.iyuba.music.activity.discover;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +40,6 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
@@ -253,7 +254,7 @@ public class SendPhotoActivity extends BaseInputActivity {
         public void handleMessageByRef(final SendPhotoActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.photo_success);

@@ -169,7 +169,7 @@
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/big_text"/>
 
-                    <com.kyleduo.switchbutton.SwitchButton
+                    <com.iyuba.music.widget.view.SwitchButton
                         android:id="@+id/setting_curr_push"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content"

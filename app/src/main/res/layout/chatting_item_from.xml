@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/chatting_photo"
             android:layout_width="50dip"
             android:layout_height="50dip"

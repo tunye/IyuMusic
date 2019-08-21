@@ -1,11 +1,13 @@
 package com.iyuba.music.activity.study;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -20,7 +22,6 @@ import com.iyuba.music.request.apprequest.RecommendSongRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.nineoldandroids.animation.Animator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 
@@ -120,7 +121,7 @@ public class RecommendSongActivity extends BaseInputActivity {
         public void handleMessageByRef(final RecommendSongActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.study_recommend_success);

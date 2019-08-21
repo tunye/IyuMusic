@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.iyuba.music.widget.view.CircleImageView
         android:id="@+id/vip_photo_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

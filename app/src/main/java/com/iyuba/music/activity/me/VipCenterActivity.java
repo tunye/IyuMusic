@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.pay.BuyIyubiActivity;
@@ -16,7 +16,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/12/28.

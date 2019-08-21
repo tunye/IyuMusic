@@ -36,7 +36,7 @@ import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.kyleduo.switchbutton.SwitchButton;
+import com.iyuba.music.widget.view.SwitchButton;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;

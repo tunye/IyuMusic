@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
@@ -29,7 +29,7 @@ import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/12/29.

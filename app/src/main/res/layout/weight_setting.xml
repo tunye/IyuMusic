@@ -40,7 +40,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/big_text"/>
 
-                <com.kyleduo.switchbutton.SwitchButton
+                <com.iyuba.music.widget.view.SwitchButton
                     android:id="@+id/weight_set_show_target"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

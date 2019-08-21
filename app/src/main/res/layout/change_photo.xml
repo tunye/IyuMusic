@@ -25,7 +25,7 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/big_text"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/photo"
             android:layout_width="120dp"
             android:layout_height="120dp"

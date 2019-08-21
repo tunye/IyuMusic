@@ -11,6 +11,9 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven { url 'https://dl.bintray.com/umsdk/release'
+            name 'uMeng'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
@@ -29,6 +32,9 @@ allprojects {
         maven {
             url 'https://maven.google.com/'
             name 'Google'
+        }
+        maven { url 'https://dl.bintray.com/umsdk/release'
+            name 'uMeng'
         }
     }
 }

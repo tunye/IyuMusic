@@ -35,7 +35,7 @@ import com.iyuba.music.widget.view.AddRippleEffect;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2016/2/18.
