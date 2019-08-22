@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class MeizhiRequest {
-    private static final String originalUrl = "https://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
+    private static final String originalUrl = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
     private static MeizhiRequest instance;
 
     public MeizhiRequest() {

@@ -146,11 +146,6 @@ dependencies {
     /*动效*/
     compile 'com.daimajia.easing:library:2.1@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
-
-
-    /*分组recycleview*/
-    compile 'com.bignerdranch.android:expandablerecyclerview:2.0.4'
-
     /*大图加载*/
     compile 'com.commit451:PhotoView:1.2.5'
 }

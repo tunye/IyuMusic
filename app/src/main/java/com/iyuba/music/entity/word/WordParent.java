@@ -1,6 +1,6 @@
 package com.iyuba.music.entity.word;
 
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+import com.iyuba.music.adapter.expandable.Model.ParentListItem;
 import com.iyuba.music.manager.ConfigManager;
 
 import java.util.ArrayList;

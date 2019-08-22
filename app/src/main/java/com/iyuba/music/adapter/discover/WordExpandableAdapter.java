@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyuba.music.widget.view.MaterialRippleLayout;
-import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
-import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
-import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
+import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
+import com.iyuba.music.adapter.expandable.Model.ParentListItem;
+import com.iyuba.music.adapter.expandable.ViewHolder.ChildViewHolder;
+import com.iyuba.music.adapter.expandable.ViewHolder.ParentViewHolder;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
