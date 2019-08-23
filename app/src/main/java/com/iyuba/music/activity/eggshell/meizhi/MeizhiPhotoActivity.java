@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
@@ -35,9 +36,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MeizhiPhotoActivity extends AppCompatActivity {
     private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
@@ -86,9 +84,9 @@ public class MeizhiPhotoActivity extends AppCompatActivity {
     }
 
     protected void setListener() {
-        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        photoView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onViewTap(View view, float x, float y) {
+            public void onClick(View v) {
                 finish();
             }
         });

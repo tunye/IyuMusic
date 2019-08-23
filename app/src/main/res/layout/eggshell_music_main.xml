@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
+        layout="@layout/toolbar_with_oper" />
 
     <RelativeLayout
         android:id="@+id/statusBar"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/row_space_default"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
 
         <TextView
             android:id="@+id/music_link"
@@ -34,7 +34,7 @@
             android:layout_toLeftOf="@+id/music_random_play"
             android:text="@string/eggshell_music_link"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
 
         <TextView
             android:id="@+id/music_random_play"
@@ -44,7 +44,7 @@
             android:layout_marginEnd="@dimen/row_space_medium"
             android:text="@string/eggshell_random_play"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -54,7 +54,7 @@
         android:layout_above="@+id/controlBar"
         android:layout_below="@+id/statusBar"
         android:paddingStart="@dimen/row_space_small"
-        android:paddingEnd="@dimen/row_space_small"/>
+        android:paddingEnd="@dimen/row_space_small" />
 
     <RelativeLayout
         android:id="@+id/controlBar"
@@ -69,7 +69,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,27 +86,27 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/formmer"/>
+                android:src="@drawable/formmer" />
 
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/play"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/latter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/latter"/>
+                android:src="@drawable/latter" />
 
             <ImageView
                 android:id="@+id/play_mode"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/single_replay"/>
+                android:src="@drawable/single_replay" />
         </LinearLayout>
 
         <ProgressBar
@@ -116,6 +116,6 @@
             android:layout_height="@dimen/line_thick"
             android:layout_alignParentBottom="true"
             android:indeterminate="false"
-            android:progressDrawable="@drawable/skin_load_progress"/>
+            android:progressDrawable="@drawable/skin_load_progress" />
     </RelativeLayout>
 </RelativeLayout>

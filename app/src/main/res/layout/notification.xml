@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/notify_pic_layout"
@@ -13,7 +13,7 @@
             android:id="@+id/notify_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:layout_width="28dp"
@@ -21,7 +21,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:padding="@dimen/row_space_default"
-            android:src="@drawable/ic_launcher_circle"/>
+            android:src="@drawable/ic_launcher_circle" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
             <TextView
                 android:id="@+id/notify_singer"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/row_space_default"
                 android:maxLines="1"
-                android:textSize="@dimen/default_text"/>
+                android:textSize="@dimen/default_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,21 +71,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/formmer"/>
+                android:src="@drawable/formmer" />
 
             <ImageView
                 android:id="@+id/notify_play"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/pause"/>
+                android:src="@drawable/pause" />
 
             <ImageView
                 android:id="@+id/notify_latter"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/latter"/>
+                android:src="@drawable/latter" />
 
             <ImageView
                 android:id="@+id/notify_close"
@@ -94,7 +94,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/row_space_big"
                 android:paddingTop="@dimen/row_space_big"
-                android:src="@drawable/ic_action_close_common"/>
+                android:src="@drawable/ic_action_close_common" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

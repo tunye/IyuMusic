@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/about_developer_birth"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:text="@string/about_developer_author"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:text="@string/about_developer_contact"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.textview.JustifyTextView
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:text="@string/about_developer_thanks"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <TextView
             android:id="@+id/developer_blog"
@@ -53,6 +53,6 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:text="@string/about_developer_blog"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </LinearLayout>
 </LinearLayout>

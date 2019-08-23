@@ -108,7 +108,7 @@ dependencies {
     compile 'com.android.support:palette-v7:28.0.0'
 
     compile 'com.android.support:multidex:1.0.3'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.6.3'
 
     /*歌曲缓存*/
     compile(name: 'videocache', ext: 'aar')
@@ -147,5 +147,5 @@ dependencies {
     compile 'com.daimajia.easing:library:2.1@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
     /*大图加载*/
-    compile 'com.commit451:PhotoView:1.2.5'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:padding="@dimen/row_space_large"
-                                                app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="300">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_large"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="300">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:id="@+id/circle_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="@dimen/row_space_medium"/>
+            android:layout_marginTop="@dimen/row_space_medium" />
 
 
         <LinearLayout
@@ -38,7 +38,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/large_text"/>
+                    android:textSize="@dimen/large_text" />
 
                 <TextView
                     android:id="@+id/circle_type"
@@ -48,7 +48,7 @@
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:textColor="@color/text_complementary"
-                    android:textSize="@dimen/big_text"/>
+                    android:textSize="@dimen/big_text" />
             </LinearLayout>
 
             <com.iyuba.music.widget.textview.JustifyTextView
@@ -58,7 +58,7 @@
                 android:layout_marginEnd="@dimen/row_space_very_large"
                 android:layout_marginTop="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
             <ImageView
                 android:id="@+id/circle_img"
@@ -68,7 +68,7 @@
                 android:layout_marginEnd="@dimen/row_space_very_large"
                 android:layout_marginTop="@dimen/row_space_large"
                 android:scaleType="centerCrop"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_complementary"
-                    android:textSize="@dimen/medium_text"/>
+                    android:textSize="@dimen/medium_text" />
 
                 <TextView
                     android:id="@+id/circle_pmnum"
@@ -91,7 +91,7 @@
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:textColor="@color/text_complementary"
-                    android:textSize="@dimen/medium_text"/>
+                    android:textSize="@dimen/medium_text" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

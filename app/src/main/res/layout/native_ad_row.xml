@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="300">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:id="@+id/native_main_image"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY" />
         </RelativeLayout>
 
         <LinearLayout
@@ -41,7 +41,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text"/>
+                android:textSize="@dimen/big_text" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                     android:maxLines="1"
                     android:text="@string/app_name"
                     android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text"/>
+                    android:textSize="@dimen/medium_text" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                         android:gravity="center"
                         android:text="@string/app_intro"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text"/>
+                        android:textSize="@dimen/medium_text" />
 
                     <TextView
                         android:id="@+id/article_readcount"
@@ -83,7 +83,7 @@
                         android:gravity="center"
                         android:text="广告"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text"/>
+                        android:textSize="@dimen/medium_text" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

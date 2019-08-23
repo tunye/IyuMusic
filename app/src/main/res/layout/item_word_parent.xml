@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background_light"
-                android:padding="@dimen/row_space_default">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_light"
+    android:padding="@dimen/row_space_default">
 
     <TextView
         android:id="@+id/parent_content"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/row_space_big"
         android:textColor="@color/text_color"
-        android:textSize="@dimen/large_text"/>
+        android:textSize="@dimen/large_text" />
 
     <ImageView
         android:id="@+id/expandable_status"
@@ -19,5 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/row_space_medium"/>
+        android:layout_marginEnd="@dimen/row_space_medium" />
 </RelativeLayout>

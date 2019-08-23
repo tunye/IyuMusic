@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:minWidth="280dp"
-              android:orientation="vertical"
-              android:padding="32dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:minWidth="280dp"
+    android:orientation="vertical"
+    android:padding="32dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:layout_marginTop="23dp"
                     android:textColor="@color/text_color"
                     android:textSize="20sp"
-                    tools:text="Material title"/>
+                    tools:text="Material title" />
 
                 <ScrollView
                     android:id="@+id/message_content_root"
@@ -60,7 +60,7 @@
                             android:lineSpacingMultiplier="1.2"
                             android:textColor="@color/text_complementary"
                             android:textSize="14sp"
-                            tools:text="message"/>
+                            tools:text="message" />
                     </LinearLayout>
 
                 </ScrollView>
@@ -82,7 +82,7 @@
                     style="@style/ActionButton"
                     android:stateListAnimator="@null"
                     android:textColor="@color/text_color"
-                    tools:text="CANCEL"/>
+                    tools:text="CANCEL" />
 
                 <Button
                     android:id="@+id/btn_p"
@@ -91,7 +91,7 @@
                     android:layout_marginEnd="12dp"
                     android:stateListAnimator="@null"
                     android:textColor="@color/skin_app_color"
-                    tools:text="OK"/>
+                    tools:text="OK" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

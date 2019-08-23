@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginStart="@dimen/row_space_medium"
-              android:layout_marginEnd="@dimen/row_space_medium"
-              android:layout_marginTop="@dimen/row_space_small"
-              android:background="@drawable/bg_card"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/row_space_medium"
+    android:layout_marginEnd="@dimen/row_space_medium"
+    android:layout_marginTop="@dimen/row_space_small"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical">
 
     <com.iyuba.music.widget.imageview.RatioImageView
         android:id="@+id/iv_girl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Title"/>
+            tools:text="Title" />
     </LinearLayout>
 
 </LinearLayout>

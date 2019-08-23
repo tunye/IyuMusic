@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
+        layout="@layout/toolbar_with_oper" />
 
 
     <com.iyuba.music.widget.original.OriginalView
@@ -19,7 +19,7 @@
         android:layout_below="@+id/toolbar"
         android:paddingStart="@dimen/row_space_large"
         android:paddingEnd="@dimen/row_space_large"
-        app:ori_showchinese="true"/>
+        app:ori_showchinese="true" />
 
     <LinearLayout
         android:id="@+id/size_layout"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/row_space_large"/>
+            android:paddingTop="@dimen/row_space_large" />
 
         <com.iyuba.music.widget.seekbar.DiscreteSlider
             android:id="@+id/discrete_slider"
@@ -50,6 +50,6 @@
             app:progressDrawable="@drawable/transparent_progress"
             app:thumb="@drawable/size_thumb"
             app:tickMarkCount="5"
-            app:tickMarkRadius="6dp"/>
+            app:tickMarkRadius="6dp" />
     </LinearLayout>
 </RelativeLayout>

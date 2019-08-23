@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,7 +13,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_opersub"/>
+            layout="@layout/toolbar_with_opersub" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +28,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:src="@drawable/default_photo"/>
+                android:src="@drawable/default_photo" />
 
             <LinearLayout
                 android:id="@+id/regist_by_phone"
@@ -49,7 +48,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_maxCharacters="11"
                     app:met_minCharacters="11"
-                    app:met_primaryColor="@color/skin_app_color"/>
+                    app:met_primaryColor="@color/skin_app_color" />
 
                 <LinearLayout
                     android:layout_width="250dp"
@@ -68,7 +67,7 @@
                         app:met_baseColor="@color/text_gray_color"
                         app:met_clearButton="true"
                         app:met_floatingLabel="highlight"
-                        app:met_primaryColor="@color/skin_app_color"/>
+                        app:met_primaryColor="@color/skin_app_color" />
 
                     <com.iyuba.music.widget.roundview.RoundTextView
                         android:id="@+id/get_msg_code"
@@ -82,7 +81,7 @@
                         android:textColor="#ededed"
                         android:textSize="@dimen/medium_text"
                         app:rv_backgroundColor="@color/skin_app_color"
-                        app:rv_cornerRadius="@dimen/corner_radius_default"/>
+                        app:rv_cornerRadius="@dimen/corner_radius_default" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -104,7 +103,7 @@
                     app:met_floatingLabel="none"
                     app:met_maxCharacters="20"
                     app:met_minCharacters="3"
-                    app:met_primaryColor="@color/skin_app_color"/>
+                    app:met_primaryColor="@color/skin_app_color" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/regist_pwd"
@@ -118,7 +117,7 @@
                     app:met_floatingLabel="none"
                     app:met_maxCharacters="20"
                     app:met_minCharacters="6"
-                    app:met_primaryColor="@color/skin_app_color"/>
+                    app:met_primaryColor="@color/skin_app_color" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/regist_repwd"
@@ -132,7 +131,7 @@
                     app:met_floatingLabel="none"
                     app:met_maxCharacters="20"
                     app:met_minCharacters="6"
-                    app:met_primaryColor="@color/skin_app_color"/>
+                    app:met_primaryColor="@color/skin_app_color" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/regist_email"
@@ -144,7 +143,7 @@
                     app:met_baseColor="@color/text_gray_color"
                     app:met_clearButton="true"
                     app:met_floatingLabel="none"
-                    app:met_primaryColor="@color/skin_app_color"/>
+                    app:met_primaryColor="@color/skin_app_color" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,13 +159,13 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/regist_protocol_checkbox"
-                    android:textColor="@color/text_color"/>
+                    android:textColor="@color/text_color" />
 
                 <TextView
                     android:id="@+id/regist_protocol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#009FE8"/>
+                    android:textColor="#009FE8" />
             </LinearLayout>
 
             <com.iyuba.music.widget.roundview.RoundTextView
@@ -181,7 +180,7 @@
                 android:textColor="#ededed"
                 android:textSize="@dimen/large_text"
                 app:rv_backgroundColor="@color/skin_app_color"
-                app:rv_cornerRadius="@dimen/corner_radius_big"/>
+                app:rv_cornerRadius="@dimen/corner_radius_big" />
         </LinearLayout>
     </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

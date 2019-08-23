@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.ConstantManager;
@@ -32,9 +33,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by Administrator on 2016/3/30.
@@ -96,9 +94,9 @@ public class MeizhiPhotoFragment extends DialogFragment {
     }
 
     private void setupPhotoEvent() {
-        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        photoView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onViewTap(View view, float x, float y) {
+            public void onClick(View v) {
                 dismiss();
             }
         });

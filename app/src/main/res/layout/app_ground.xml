@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <GridView
         android:id="@+id/app_shelf"
@@ -17,6 +17,6 @@
         android:horizontalSpacing="@dimen/row_space_big"
         android:numColumns="3"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/activity_vertical_margin"/>
+        android:verticalSpacing="@dimen/activity_vertical_margin" />
 
 </LinearLayout>

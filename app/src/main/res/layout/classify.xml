@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:text="@string/classify_group_person"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/person_view"
@@ -24,7 +24,7 @@
             android:layout_marginTop="@dimen/row_space_big"
             android:horizontalSpacing="@dimen/row_space_very_large"
             android:numColumns="3"
-            android:stretchMode="columnWidth"/>
+            android:stretchMode="columnWidth" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/row_space_very_large"
             android:text="@string/classify_group_system"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/system_view"
@@ -42,6 +42,6 @@
             android:horizontalSpacing="@dimen/row_space_very_large"
             android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/row_space_very_large"/>
+            android:verticalSpacing="@dimen/row_space_very_large" />
     </LinearLayout>
 </ScrollView>

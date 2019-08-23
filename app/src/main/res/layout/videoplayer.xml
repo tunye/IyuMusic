@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
+        layout="@layout/toolbar_with_oper" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
                     android:background="@color/background"
                     android:scaleType="fitXY"
                     android:src="@drawable/default_music" />
+
                 <TextView
                     android:id="@+id/tv_zimu"
                     android:layout_width="match_parent"
@@ -55,14 +56,15 @@
                     android:text="字幕君"
                     android:gravity="center"
                     android:maxLines="3"
-                    android:layout_alignParentBottom="true"
-                    />
+                    android:layout_alignParentBottom="true" />
+
                 <ImageView
                     android:id="@+id/large_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/large_pause"/>
+                    android:src="@drawable/large_pause" />
+
                 <LinearLayout
                     android:id="@+id/ll_play_state_info"
                     android:layout_width="match_parent"
@@ -72,12 +74,14 @@
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp">
+
                     <ImageView
                         android:id="@+id/change_zimu"
                         android:layout_width="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/change_eng_ch"/>
+                        android:src="@drawable/change_eng_ch" />
+
                     <TextView
                         android:id="@+id/study_current_time"
                         android:layout_width="wrap_content"
@@ -86,6 +90,7 @@
                         android:layout_marginStart="5dp"
                         android:text="00:00"
                         android:textColor="@color/white" />
+
                     <SeekBar
                         android:id="@+id/study_progress"
                         android:layout_width="0dp"
@@ -98,7 +103,8 @@
                         android:progressDrawable="@drawable/audio_progress"
                         android:splitTrack="false"
                         android:thumb="@drawable/thumb"
-                        android:thumbOffset="0dp"/>
+                        android:thumbOffset="0dp" />
+
                     <TextView
                         android:id="@+id/study_duration"
                         android:layout_width="wrap_content"
@@ -107,96 +113,96 @@
                         android:layout_marginEnd="5dp"
                         android:text="00:00"
                         android:textColor="@color/white" />
+
                     <ImageView
                         android:id="@+id/change_screen"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/full_screen"/>
+                        android:src="@drawable/full_screen" />
                 </LinearLayout>
                 <!--<RelativeLayout-->
-                    <!--android:id="@+id/gesture_volume_layout"-->
-                    <!--android:layout_width="120dip"-->
-                    <!--android:layout_height="100dip"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:background="#65000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:visibility="gone"-->
-                    <!--&gt;-->
-                    <!--<ImageView-->
-                        <!--android:id="@+id/gesture_iv_player_volume"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="44dp"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:src="@drawable/voice"/>-->
-                    <!--<TextView-->
-                        <!--android:layout_marginTop="2dip"-->
-                        <!--android:id="@+id/geture_tv_volume_percentage"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/gesture_iv_player_volume"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:gravity="right"-->
-                        <!--android:text="80%"-->
-                        <!--android:textColor="#ffececec"/>-->
+                <!--android:id="@+id/gesture_volume_layout"-->
+                <!--android:layout_width="120dip"-->
+                <!--android:layout_height="100dip"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:background="#65000000"-->
+                <!--android:gravity="center"-->
+                <!--android:visibility="gone"-->
+                <!--&gt;-->
+                <!--<ImageView-->
+                <!--android:id="@+id/gesture_iv_player_volume"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="44dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:src="@drawable/voice"/>-->
+                <!--<TextView-->
+                <!--android:layout_marginTop="2dip"-->
+                <!--android:id="@+id/geture_tv_volume_percentage"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/gesture_iv_player_volume"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:gravity="right"-->
+                <!--android:text="80%"-->
+                <!--android:textColor="#ffececec"/>-->
                 <!--</RelativeLayout>-->
 
                 <!--<RelativeLayout-->
-                    <!--android:id="@+id/gesture_bright_layout"-->
-                    <!--android:layout_width="120dip"-->
-                    <!--android:layout_height="100dip"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:background="#65000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:visibility="gone">-->
-                    <!--<ImageView-->
-                        <!--android:id="@+id/gesture_iv_player_bright"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="44dp"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:src="@drawable/bright"/>-->
+                <!--android:id="@+id/gesture_bright_layout"-->
+                <!--android:layout_width="120dip"-->
+                <!--android:layout_height="100dip"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:background="#65000000"-->
+                <!--android:gravity="center"-->
+                <!--android:visibility="gone">-->
+                <!--<ImageView-->
+                <!--android:id="@+id/gesture_iv_player_bright"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="44dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:src="@drawable/bright"/>-->
 
-                    <!--<TextView-->
-                        <!--android:layout_marginTop="2dip"-->
-                        <!--android:id="@+id/geture_tv_bright_percentage"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/gesture_iv_player_bright"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:gravity="right"-->
-                        <!--android:text="80%"-->
-                        <!--android:textColor="#ffececec"/>-->
+                <!--<TextView-->
+                <!--android:layout_marginTop="2dip"-->
+                <!--android:id="@+id/geture_tv_bright_percentage"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/gesture_iv_player_bright"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:gravity="right"-->
+                <!--android:text="80%"-->
+                <!--android:textColor="#ffececec"/>-->
                 <!--</RelativeLayout>-->
 
                 <!--<RelativeLayout-->
-                    <!--android:id="@+id/gesture_progress_layout"-->
-                    <!--android:layout_width="120dip"-->
-                    <!--android:layout_height="100dip"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:background="#65000000"-->
-                    <!--android:gravity="center"-->
-                    <!--android:visibility="gone"-->
-                    <!--&gt;-->
-                    <!--<ImageView-->
-                        <!--android:id="@+id/gesture_iv_progress"-->
-                        <!--android:layout_width="44dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:src="@drawable/move_fast_forward" />-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/gesture_tv_progress_time"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/gesture_iv_progress"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:gravity="right"-->
-                        <!--android:text="00:35/24:89"-->
-                        <!--android:textColor="#ffececec" />-->
+                <!--android:id="@+id/gesture_progress_layout"-->
+                <!--android:layout_width="120dip"-->
+                <!--android:layout_height="100dip"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:background="#65000000"-->
+                <!--android:gravity="center"-->
+                <!--android:visibility="gone"-->
+                <!--&gt;-->
+                <!--<ImageView-->
+                <!--android:id="@+id/gesture_iv_progress"-->
+                <!--android:layout_width="44dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:src="@drawable/move_fast_forward" />-->
+                <!--<TextView-->
+                <!--android:id="@+id/gesture_tv_progress_time"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/gesture_iv_progress"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:gravity="right"-->
+                <!--android:text="00:35/24:89"-->
+                <!--android:textColor="#ffececec" />-->
                 <!--</RelativeLayout>-->
             </RelativeLayout>
 
-            <com.iyuba.music.widget.original.OriginalSynView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.iyuba.music.widget.original.OriginalSynView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/original"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,7 +214,7 @@
                 app:ori_textsize="14sp"
                 app:ori_timeline_margin="4dp"
                 app:ori_timeline_padding="10dp"
-                app:ori_timeline_radius="20"/>
+                app:ori_timeline_radius="20" />
         </LinearLayout>
 
         <LinearLayout
@@ -221,34 +227,34 @@
             android:orientation="horizontal">
 
             <!--<TextView-->
-                <!--android:id="@+id/study_current_time"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:text="00:00"-->
-                <!--android:textColor="@color/skin_app_color_light"-->
-                <!--android:textSize="@dimen/medium_text"/>-->
+            <!--android:id="@+id/study_current_time"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:text="00:00"-->
+            <!--android:textColor="@color/skin_app_color_light"-->
+            <!--android:textSize="@dimen/medium_text"/>-->
 
             <!--<SeekBar-->
-                <!--android:id="@+id/study_progress"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_weight="1"-->
-                <!--android:maxHeight="@dimen/row_space_default"-->
-                <!--android:minHeight="@dimen/row_space_default"-->
-                <!--android:progressDrawable="@drawable/audio_progress"-->
-                <!--android:thumb="@drawable/thumb"-->
-                <!--android:thumbOffset="0dp"/>-->
+            <!--android:id="@+id/study_progress"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1"-->
+            <!--android:maxHeight="@dimen/row_space_default"-->
+            <!--android:minHeight="@dimen/row_space_default"-->
+            <!--android:progressDrawable="@drawable/audio_progress"-->
+            <!--android:thumb="@drawable/thumb"-->
+            <!--android:thumbOffset="0dp"/>-->
 
             <!--<TextView-->
-                <!--android:id="@+id/study_duration"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:text="00:00"-->
-                <!--android:textColor="@color/skin_app_color_light"-->
-                <!--android:textSize="@dimen/medium_text"/>-->
+            <!--android:id="@+id/study_duration"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:text="00:00"-->
+            <!--android:textColor="@color/skin_app_color_light"-->
+            <!--android:textSize="@dimen/medium_text"/>-->
         </LinearLayout>
 
         <LinearLayout
@@ -264,42 +270,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/video_translate"/>
+                android:src="@drawable/video_translate" />
 
             <ImageView
                 android:id="@+id/formmer"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/formmer"/>
+                android:src="@drawable/formmer" />
 
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/latter"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/latter"/>
+                android:src="@drawable/latter" />
 
             <ImageView
                 android:id="@+id/play_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/single_replay"/>
+                android:src="@drawable/single_replay" />
 
             <!--<ImageView-->
-                <!--android:id="@+id/change_screen"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:visibility="gone"-->
-                <!--android:src="@drawable/single_replay"/>-->
+            <!--android:id="@+id/change_screen"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:visibility="gone"-->
+            <!--android:src="@drawable/single_replay"/>-->
         </LinearLayout>
 
 
@@ -311,6 +317,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin_big"/>
+        android:layout_marginBottom="@dimen/activity_horizontal_margin_big" />
 
 </RelativeLayout>

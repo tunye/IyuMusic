@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <com.iyuba.music.widget.imageview.TabIndicator
         android:id="@+id/tab_indicator"
@@ -19,11 +19,11 @@
         android:orientation="horizontal"
         app:tab_item_count="3"
         app:tab_normal_color="@color/text_complementary"
-        app:tab_shape="LINE"/>
+        app:tab_shape="LINE" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/read_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_indicator"/>
+        android:layout_below="@id/tab_indicator" />
 </RelativeLayout>

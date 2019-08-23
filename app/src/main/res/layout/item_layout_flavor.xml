@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                xmlns:tools="http://schemas.android.com/tools"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:padding="@dimen/row_space_large"
-                                                app:mrl_rippleColor="@color/text_complementary"
-                                                app:mrl_rippleDuration="300">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_large"
+    app:mrl_rippleColor="@color/text_complementary"
+    app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_marginStart="16dp"
             android:gravity="center_vertical"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
 
         <ImageView
             android:id="@+id/indicator"
@@ -31,7 +31,7 @@
             android:src="@drawable/ic_checkbox_marked_circle_outline_black_18dp"
             android:tint="#259b24"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,20 +47,20 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                tools:background="#FF5555"/>
+                tools:background="#FF5555" />
 
             <ImageView
                 android:id="@+id/primaryColorDark"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                tools:background="#FF0000"/>
+                tools:background="#FF0000" />
 
             <ImageView
                 android:id="@+id/accentColor"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                tools:background="#33cc99"/>
+                tools:background="#33cc99" />
         </LinearLayout>
     </RelativeLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

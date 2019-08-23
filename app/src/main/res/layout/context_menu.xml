@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="#dcdcdc"
-                android:dividerHeight="@dimen/line_thin"/>
+                android:dividerHeight="@dimen/line_thin" />
 
         </com.iyuba.music.widget.roundview.RoundLinearLayout>
 
@@ -39,6 +38,6 @@
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="#baffffff"
-            app:rv_cornerRadius="@dimen/corner_radius_default"/>
+            app:rv_cornerRadius="@dimen/corner_radius_default" />
     </LinearLayout>
 </RelativeLayout>

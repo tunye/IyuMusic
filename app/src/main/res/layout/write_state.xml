@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_oper"/>
+            layout="@layout/toolbar_with_oper" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/feedback_content"
@@ -30,12 +29,12 @@
             app:met_floatingLabel="highlight"
             app:met_hideUnderline="true"
             app:met_maxCharacters="60"
-            app:met_primaryColor="@color/skin_app_color"/>
+            app:met_primaryColor="@color/skin_app_color" />
 
         <com.buaa.ct.comment.EmojiView
             android:id="@+id/emoji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

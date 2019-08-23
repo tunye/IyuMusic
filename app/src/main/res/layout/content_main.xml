@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <com.iyuba.music.widget.imageview.TabIndicator
         android:id="@+id/tab_indicator"
@@ -13,14 +13,14 @@
         android:orientation="horizontal"
         app:tab_item_count="5"
         app:tab_normal_color="@color/text_complementary"
-        app:tab_shape="LINE"/>
+        app:tab_shape="LINE" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/play_control"
-        android:layout_below="@+id/tab_indicator"/>
+        android:layout_below="@+id/tab_indicator" />
 
     <RelativeLayout
         android:id="@+id/play_control"
@@ -44,13 +44,13 @@
                 app:cp_circleColor="@color/background"
                 app:cp_circleProgressColor="@color/skin_app_color"
                 app:cp_circleWidth="@dimen/line_default"
-                app:cp_textIsDisplayable="false"/>
+                app:cp_textIsDisplayable="false" />
 
             <com.iyuba.music.widget.view.CircleImageView
                 android:id="@+id/song_image"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true" />
         </RelativeLayout>
 
         <LinearLayout
@@ -70,7 +70,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/big_text"/>
+                android:textSize="@dimen/big_text" />
 
             <TextView
                 android:id="@+id/curarticle_info"
@@ -80,7 +80,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -97,14 +97,14 @@
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/row_space_default"
                 android:paddingEnd="@dimen/row_space_default"
-                android:src="@drawable/formmer"/>
+                android:src="@drawable/formmer" />
 
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/main_play"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/row_space_default"
-                android:paddingEnd="@dimen/row_space_default"/>
+                android:paddingEnd="@dimen/row_space_default" />
 
             <ImageView
                 android:id="@+id/main_latter"
@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/row_space_default"
                 android:paddingEnd="@dimen/row_space_default"
-                android:src="@drawable/latter"/>
+                android:src="@drawable/latter" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

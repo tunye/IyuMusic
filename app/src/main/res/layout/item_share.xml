@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                android:id="@+id/root"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:padding="@dimen/row_space_medium"
-                                                app:mrl_rippleColor="#656565"
-                                                app:mrl_rippleDuration="300">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_medium"
+    app:mrl_rippleColor="#656565"
+    app:mrl_rippleDuration="300">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -17,7 +17,7 @@
             android:id="@+id/item_image"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/item_text"
@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/row_space_medium"
             android:gravity="center"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/medium_text"/>
+            android:textSize="@dimen/medium_text" />
 
     </RelativeLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

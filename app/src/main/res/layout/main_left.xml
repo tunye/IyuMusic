@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/left_drawer"
-                android:layout_width="260dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="@color/background"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/left_drawer"
+    android:layout_width="260dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/login_panel"
@@ -30,7 +30,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/row_space_large"/>
+                    android:layout_margin="@dimen/row_space_large" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/skin_app_color"
-                        android:textSize="@dimen/title_text"/>
+                        android:textSize="@dimen/title_text" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                             android:layout_width="64dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/personal_credit"
@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -79,7 +79,7 @@
                             android:layout_width="64dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/personal_fan"
@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/personal_message"
@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/row_space_large"
                             android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -119,12 +119,12 @@
                     android:gravity="center"
                     android:text="@string/please_login"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/title_text"/>
+                    android:textSize="@dimen/title_text" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_thin"
-                    android:background="@color/background_light"/>
+                    android:background="@color/background_light" />
             </LinearLayout>
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
@@ -148,7 +148,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/row_space_large"
-                    android:src="@drawable/personal_state"/>
+                    android:src="@drawable/personal_state" />
 
                 <TextView
                     android:id="@+id/personal_sign"
@@ -160,7 +160,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text"/>
+                    android:textSize="@dimen/big_text" />
             </RelativeLayout>
 
         </com.iyuba.music.widget.view.MaterialRippleLayout>
@@ -190,7 +190,7 @@
                         android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/row_space_large"
-                        android:src="@drawable/sign_in_icon"/>
+                        android:src="@drawable/sign_in_icon" />
 
                     <TextView
                         android:id="@+id/sign_in_hint"
@@ -203,7 +203,7 @@
                         android:maxLines="1"
                         android:text="当前是临时账号"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text"/>
+                        android:textSize="@dimen/big_text" />
 
                     <com.iyuba.music.widget.roundview.RoundTextView
                         android:id="@+id/sign_in_handle"
@@ -217,13 +217,13 @@
                         android:textColor="#ededed"
                         android:textSize="@dimen/medium_text"
                         app:rv_backgroundColor="@color/skin_app_color"
-                        app:rv_cornerRadius="@dimen/corner_radius_default"/>
+                        app:rv_cornerRadius="@dimen/corner_radius_default" />
                 </RelativeLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_thin"
-                    android:background="@color/background_light"/>
+                    android:background="@color/background_light" />
             </LinearLayout>
         </com.iyuba.music.widget.view.MaterialRippleLayout>
     </RelativeLayout>
@@ -233,7 +233,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/exit_panel"
-        android:layout_below="@+id/login_panel"/>
+        android:layout_below="@+id/login_panel" />
 
     <LinearLayout
         android:id="@+id/exit_panel"
@@ -258,7 +258,7 @@
                 android:gravity="center"
                 android:text="@string/oper_about"
                 android:textColor="@color/skin_color_accent"
-                android:textSize="@dimen/large_text"/>
+                android:textSize="@dimen/large_text" />
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         <ImageView
@@ -266,7 +266,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_medium"
-            android:background="@color/background"/>
+            android:background="@color/background" />
 
         <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/exit"
@@ -283,7 +283,7 @@
                 android:gravity="center"
                 android:text="@string/oper_exit"
                 android:textColor="@color/skin_color_accent"
-                android:textSize="@dimen/large_text"/>
+                android:textSize="@dimen/large_text" />
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     </LinearLayout>

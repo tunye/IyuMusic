@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/skin_app_color"
-                android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/skin_app_color"
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:id="@+id/toolbar_title_layout"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:mm_color="#ededed"
-                app:mm_strokeWidth="2"/>
+                app:mm_strokeWidth="2" />
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="#ededed"
-            android:textSize="@dimen/title_text"/>
+            android:textSize="@dimen/title_text" />
 
         <com.iyuba.music.widget.view.MaterialRippleLayout
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/row_space_default"
                 android:textColor="#ededed"
-                android:textSize="@dimen/large_text"/>
+                android:textSize="@dimen/large_text" />
         </com.iyuba.music.widget.view.MaterialRippleLayout>
     </FrameLayout>
 </FrameLayout>

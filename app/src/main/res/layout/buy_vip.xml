@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper"/>
+        layout="@layout/toolbar_with_oper" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_marginBottom="@dimen/row_space_medium"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/row_space_medium"/>
+            android:layout_marginTop="@dimen/row_space_medium" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,13 +42,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/title_text"/>
+                    android:textSize="@dimen/title_text" />
 
                 <ImageView
                     android:id="@+id/vip_status"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/row_space_medium"/>
+                    android:layout_marginStart="@dimen/row_space_medium" />
             </LinearLayout>
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/row_space_default"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
             <TextView
                 android:id="@+id/vip_deadline"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/row_space_default"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
     </LinearLayout>
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
@@ -102,13 +102,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_month"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light"/>
+        android:background="@color/background_light" />
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_three_month"
@@ -127,13 +127,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_three_month"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light"/>
+        android:background="@color/background_light" />
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_half_year"
@@ -151,13 +151,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_half_year"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light"/>
+        android:background="@color/background_light" />
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_year"
@@ -176,13 +176,13 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_year"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
-        android:background="@color/background_light"/>
+        android:background="@color/background_light" />
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
         android:id="@+id/vip_app"
@@ -201,7 +201,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/vip_app"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/big_text"/>
+            android:textSize="@dimen/big_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     <LinearLayout
@@ -217,7 +217,7 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/vip_buy_default"
             android:textColor="@color/text_complementary"
-            android:textSize="@dimen/medium_text"/>
+            android:textSize="@dimen/medium_text" />
     </LinearLayout>
 
     <com.iyuba.music.widget.view.MaterialRippleLayout
@@ -234,6 +234,6 @@
             android:layout_gravity="center"
             android:text="@string/vip_buy_way"
             android:textColor="@color/skin_color_accent"
-            android:textSize="@dimen/large_text"/>
+            android:textSize="@dimen/large_text" />
     </com.iyuba.music.widget.view.MaterialRippleLayout>
 </LinearLayout>

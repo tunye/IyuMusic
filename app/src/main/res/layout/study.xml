@@ -131,7 +131,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
             <SeekBar
                 android:id="@+id/study_progress"
@@ -142,7 +142,7 @@
                 android:maxHeight="@dimen/line_thick"
                 android:minHeight="@dimen/line_thick"
                 android:progressDrawable="@drawable/audio_progress"
-                android:thumb="@drawable/thumb"/>
+                android:thumb="@drawable/thumb" />
 
             <TextView
                 android:id="@+id/study_duration"
@@ -151,7 +151,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="00:00"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,34 +166,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/interval_none"/>
+                android:src="@drawable/interval_none" />
 
             <ImageView
                 android:id="@+id/formmer"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/formmer"/>
+                android:src="@drawable/formmer" />
 
             <com.iyuba.music.widget.imageview.MorphButton
                 android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/latter"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/latter"/>
+                android:src="@drawable/latter" />
 
             <ImageView
                 android:id="@+id/play_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/single_replay"/>
+                android:src="@drawable/single_replay" />
         </LinearLayout>
     </RelativeLayout>
 

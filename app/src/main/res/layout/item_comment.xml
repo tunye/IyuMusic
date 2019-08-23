@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                android:id="@+id/root"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:padding="@dimen/row_space_medium"
-                                                app:mrl_rippleColor="#656565"
-                                                app:mrl_rippleDuration="300">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/row_space_medium"
+    app:mrl_rippleColor="#656565"
+    app:mrl_rippleDuration="300">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         <com.iyuba.music.widget.imageview.VipPhoto
             android:id="@+id/comment_image"
             android:layout_width="48dp"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/skin_app_color"
-                        android:textSize="@dimen/big_text"/>
+                        android:textSize="@dimen/big_text" />
 
                     <TextView
                         android:id="@+id/comment_time"
@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/row_space_default"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/medium_text"/>
+                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -69,7 +69,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="@dimen/row_space_medium"
-                            android:paddingEnd="@dimen/row_space_medium"/>
+                            android:paddingEnd="@dimen/row_space_medium" />
 
                         <TextView
                             android:id="@+id/comment_agree_text"
@@ -79,7 +79,7 @@
                             android:layout_marginStart="@dimen/row_space_medium"
                             android:gravity="center"
                             android:textColor="@color/text_complementary"
-                            android:textSize="@dimen/big_text"/>
+                            android:textSize="@dimen/big_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -94,7 +94,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
                             android:paddingStart="@dimen/row_space_medium"
-                            android:paddingEnd="@dimen/row_space_medium"/>
+                            android:paddingEnd="@dimen/row_space_medium" />
 
                         <TextView
                             android:id="@+id/comment_against_text"
@@ -104,7 +104,7 @@
                             android:layout_marginStart="@dimen/row_space_medium"
                             android:gravity="center"
                             android:textColor="@color/text_complementary"
-                            android:textSize="@dimen/big_text"/>
+                            android:textSize="@dimen/big_text" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -117,7 +117,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/medium_text"/>
+                android:textSize="@dimen/medium_text" />
 
             <RelativeLayout
                 android:id="@+id/comment_voice"
@@ -129,7 +129,7 @@
                     android:id="@+id/comment_voice_img"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:padding="@dimen/row_space_default"/>
+                    android:padding="@dimen/row_space_default" />
 
                 <TextView
                     android:id="@+id/comment_voice_time"
@@ -138,7 +138,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:textColor="#ededed"
-                    android:textSize="@dimen/medium_text"/>
+                    android:textSize="@dimen/medium_text" />
 
                 <ProgressBar
                     android:id="@+id/comment_voice_loading"
@@ -146,7 +146,7 @@
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="45dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

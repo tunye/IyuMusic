@@ -15,8 +15,7 @@ import com.iyuba.music.activity.BaseActivity;
 
 import java.io.File;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+import com.github.chrisbanes.photoview.PhotoView;
 
 public class LocalPhotoActivity extends BaseActivity {
     private static String EXTRA_IAMGE_URL = "url";
@@ -44,9 +43,9 @@ public class LocalPhotoActivity extends BaseActivity {
     @Override
     protected void setListener() {
         super.setListener();
-        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        photoView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onViewTap(View view, float x, float y) {
+            public void onClick(View v) {
                 finish();
             }
         });
