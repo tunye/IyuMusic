@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/row_space_default"
         android:layout_marginEnd="@dimen/row_space_default"
-        android:layout_toRightOf="@id/hour_pv"
+        android:layout_toEndOf="@id/hour_pv"
         android:text="@string/sleep_hour"
         android:textColor="@color/skin_app_color"
         android:textSize="@dimen/large_text" />
@@ -25,7 +25,7 @@
         android:id="@+id/minute_pv"
         android:layout_width="60dp"
         android:layout_height="120dp"
-        android:layout_toRightOf="@id/hour_tv" />
+        android:layout_toEndOf="@id/hour_tv" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/row_space_default"
         android:layout_marginEnd="@dimen/row_space_default"
-        android:layout_toRightOf="@id/minute_pv"
+        android:layout_toEndOf="@id/minute_pv"
         android:text="@string/sleep_minute"
         android:textColor="@color/skin_app_color"
         android:textSize="@dimen/large_text" />

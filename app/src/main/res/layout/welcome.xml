@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/welcome_escape_ad"
-                android:textColor="#ededed"
+                android:textColor="@color/textcolor_on_appcolor"
                 android:textSize="@dimen/default_text" />
         </FrameLayout>
     </FrameLayout>

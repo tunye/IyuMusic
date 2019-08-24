@@ -21,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@+id/go"
-            android:layout_toRightOf="@+id/friend_photo"
+            android:layout_toStartOf="@+id/go"
+            android:layout_toEndOf="@+id/friend_photo"
             android:orientation="vertical">
 
             <TextView
@@ -50,7 +50,7 @@
             android:id="@+id/go"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"

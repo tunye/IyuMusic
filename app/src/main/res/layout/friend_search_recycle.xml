@@ -26,7 +26,7 @@
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_toLeftOf="@+id/friend_search"
+                android:layout_toStartOf="@+id/friend_search"
                 android:paddingStart="@dimen/row_space_large"
                 app:rv_backgroundColor="#dcdcdc"
                 app:rv_cornerRadius="@dimen/corner_radius_small">
@@ -46,7 +46,7 @@
                 android:id="@+id/friend_search"
                 android:layout_width="60dp"
                 android:layout_height="36dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/row_space_medium"
                 android:padding="@dimen/row_space_default"
@@ -59,7 +59,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/search_do"
-                    android:textColor="#ededed"
+                    android:textColor="@color/textcolor_on_appcolor"
                     android:textSize="@dimen/large_text" />
             </com.iyuba.music.widget.view.MaterialRippleLayout>
         </RelativeLayout>

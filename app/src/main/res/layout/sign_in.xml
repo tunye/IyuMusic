@@ -30,7 +30,7 @@
         android:id="@+id/sign_in_close"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:padding="@dimen/row_space_default"
         android:src="@drawable/ic_action_close_common" />
 

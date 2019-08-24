@@ -52,7 +52,7 @@
                 android:id="@+id/mediabutton_control"
                 android:layout_width="36dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin_big"
                 app:kswThumbColor="@color/white" />

@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/row_space_big"
-            android:layout_toLeftOf="@+id/control_layout"
-            android:layout_toRightOf="@+id/rotate_image_layout"
+            android:layout_toStartOf="@+id/control_layout"
+            android:layout_toEndOf="@+id/rotate_image_layout"
             android:orientation="vertical">
 
             <TextView
@@ -87,7 +87,7 @@
             android:id="@+id/control_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical">
 

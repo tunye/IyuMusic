@@ -89,7 +89,6 @@
         <activity android:name=".file.FileBrowserActivity"/>
         <activity android:name=".file.PasteFileActivity"/>
         <activity android:name=".file.FilePosActivity"/>
-        <activity android:name=".activity.CampaignActivity"/>
         <activity android:name=".activity.discover.SayingActivity"/>
         <activity android:name=".activity.discover.DiscoverActivity"/>
         <activity android:name=".activity.discover.WordListActivity"/>

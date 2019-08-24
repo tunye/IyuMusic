@@ -10,13 +10,13 @@
                    android:layout_height="match_parent" android:scaleType="centerCrop"/>
 
         <ImageView android:layout_width="36dp" android:layout_height="36dp"
-                   android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+                   android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
                    android:padding="@dimen/row_space_medium"
                    android:src="@drawable/ic_launcher_circle"/>
     </RelativeLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="120dp"
-                  android:layout_toRightOf="@+id/notify_pic_layout" android:background="#4c4c4c"
+                  android:layout_toEndOf="@+id/notify_pic_layout" android:background="#4c4c4c"
                   android:gravity="center_vertical" android:orientation="vertical">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="69dp"
@@ -62,7 +62,7 @@
     </LinearLayout>
 
     <ImageView android:id="@+id/notify_close" android:layout_width="32dp"
-               android:layout_height="32dp" android:layout_alignParentRight="true"
+               android:layout_height="32dp" android:layout_alignParentEnd="true"
                android:layout_alignParentTop="true" android:paddingStart="@dimen/row_space_large"
                android:paddingEnd="@dimen/row_space_large"
                android:src="@drawable/ic_action_close_common"/>

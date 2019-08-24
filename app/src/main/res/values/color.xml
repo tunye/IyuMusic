@@ -10,6 +10,7 @@
     <color name="text_complementary">#464646</color>
     <color name="text_gray_color">#808080</color>
     <color name="toolbar_ripple_color">#ffffff</color>
+    <color name="textcolor_on_appcolor">#fdfdfd</color>
     <!-- default-->
     <color name="skin_app_color">#009FE8</color>
     <color name="skin_app_color_light">#2CA6E0</color>

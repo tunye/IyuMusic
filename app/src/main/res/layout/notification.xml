@@ -19,7 +19,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:padding="@dimen/row_space_default"
             android:src="@drawable/ic_launcher_circle" />
     </RelativeLayout>
@@ -27,7 +27,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_toRightOf="@+id/notify_pic_layout"
+        android:layout_toEndOf="@+id/notify_pic_layout"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/row_space_big">
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@+id/control_bar"
+            android:layout_toStartOf="@+id/control_bar"
             android:gravity="center_vertical|left"
             android:orientation="vertical">
 
@@ -61,7 +61,7 @@
             android:id="@+id/control_bar"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/row_space_medium"
             android:gravity="center_vertical"
             android:orientation="horizontal">

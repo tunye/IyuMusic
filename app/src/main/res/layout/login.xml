@@ -5,92 +5,33 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
-        <RelativeLayout
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/skin_app_color">
+        <include layout="@layout/toolbar_with_oper"/>
 
-            <RelativeLayout
-                android:id="@+id/toolbar_title_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/title_padding">
-
-                <com.iyuba.music.widget.view.MaterialRippleLayout
-                    android:id="@+id/back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleColor="@color/toolbar_ripple_color"
-                    app:mrl_rippleDuration="300">
-
-                    <com.balysv.materialmenu.MaterialMenuView
-                        android:id="@+id/back_material"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:mm_color="#ededed"
-                        app:mm_strokeWidth="2" />
-                </com.iyuba.music.widget.view.MaterialRippleLayout>
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ededed"
-                    android:textSize="@dimen/title_text" />
-
-                <com.iyuba.music.widget.view.MaterialRippleLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/row_space_default"
-                    app:mrl_rippleColor="@color/toolbar_ripple_color"
-                    app:mrl_rippleDuration="300">
-
-                    <TextView
-                        android:id="@+id/toolbar_oper"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/row_space_default"
-                        android:textColor="#ededed"
-                        android:textSize="@dimen/large_text" />
-                </com.iyuba.music.widget.view.MaterialRippleLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
+        <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/login_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:padding="@dimen/activity_vertical_margin">
-
-            <com.iyuba.music.widget.view.CircleImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/default_photo" />
-        </RelativeLayout>
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:src="@drawable/default_photo" />
 
         <LinearLayout
             android:id="@+id/login_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_photo"
             android:layout_marginTop="@dimen/row_space_large"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
                 android:id="@+id/username"
-                android:layout_width="250dp"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/username_hint"
                 android:imeOptions="actionNext"
@@ -117,19 +58,17 @@
                 app:met_primaryColor="@color/skin_app_color" />
         </LinearLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/login_oper"
-            android:layout_width="250dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_message"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/row_space_large">
 
             <CheckBox
                 android:id="@+id/auto_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:checked="true"
                 android:text="@string/auto_login"
                 android:textColor="@color/text_color" />
@@ -138,26 +77,24 @@
                 android:id="@+id/forget_pwd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|end"
                 android:text="@string/forget_pwd"
                 android:textColor="@color/text_gray_color"
                 android:textSize="@dimen/medium_text" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/login"
-            android:layout_width="250dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_oper"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_large"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center"
             android:padding="@dimen/row_space_big"
             android:text="@string/login_title"
-            android:textColor="#ededed"
+            android:textColor="@color/textcolor_on_appcolor"
             android:textSize="@dimen/large_text"
             app:rv_backgroundColor="@color/skin_app_color"
             app:rv_cornerRadius="@dimen/corner_radius_big" />
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

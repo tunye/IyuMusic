@@ -29,7 +29,7 @@
             android:id="@+id/word_set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/row_space_medium"
             android:text="@string/word_set"
             android:textColor="@color/skin_app_color"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/row_space_big"
-            android:layout_toLeftOf="@+id/word_set"
+            android:layout_toStartOf="@+id/word_set"
             android:text="@string/word_edit"
             android:textColor="@color/skin_app_color"
             android:textSize="@dimen/large_text" />

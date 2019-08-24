@@ -18,11 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="#77000000"
         android:gravity="center_vertical"
         android:padding="@dimen/line_thin"
         android:text=" 广告 "
-        android:textColor="#ededed"
+        android:textColor="@color/textcolor_on_appcolor"
         android:textSize="12sp" />
 </RelativeLayout>

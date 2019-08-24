@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/row_space_medium"
             android:layout_marginEnd="@dimen/row_space_default"
-            android:layout_toRightOf="@+id/item_delete"
+            android:layout_toEndOf="@+id/item_delete"
             android:orientation="vertical">
 
             <TextView

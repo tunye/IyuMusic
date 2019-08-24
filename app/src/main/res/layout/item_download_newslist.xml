@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/row_space_very_large"
             android:layout_marginEnd="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
-            android:layout_toRightOf="@+id/item_delete">
+            android:layout_toEndOf="@+id/item_delete">
 
             <ImageView
                 android:id="@+id/article_image"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/article_image_layout"
+            android:layout_toEndOf="@+id/article_image_layout"
             android:orientation="vertical">
 
             <TextView
@@ -95,7 +95,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:padding="@dimen/corner_radius_big"
             android:src="@drawable/downloadfile_notexist" />
     </RelativeLayout>

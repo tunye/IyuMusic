@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#ededed"
+                android:textColor="@color/textcolor_on_appcolor"
                 android:textSize="@dimen/title_text" />
 
             <com.iyuba.music.widget.view.MaterialRippleLayout
@@ -88,7 +88,7 @@
                     android:id="@+id/back_material"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:mm_color="#ededed"
+                    app:mm_color="@color/textcolor_on_appcolor"
                     app:mm_strokeWidth="2" />
             </com.iyuba.music.widget.view.MaterialRippleLayout>
 

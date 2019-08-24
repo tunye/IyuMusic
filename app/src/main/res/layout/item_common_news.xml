@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/article_image_layout"
+            android:layout_toEndOf="@+id/article_image_layout"
             android:orientation="vertical">
 
             <TextView
@@ -95,7 +95,7 @@
                         android:id="@+id/article_readcount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/row_space_large"
                         android:gravity="center"
                         android:textColor="@color/text_gray_color"

@@ -29,7 +29,7 @@
                 <com.iyuba.music.widget.imageview.GoImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/row_space_medium"
                     app:go_color="@color/background"

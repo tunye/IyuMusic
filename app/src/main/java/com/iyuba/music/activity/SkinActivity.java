@@ -64,7 +64,6 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
             public void onClick(View view) {
                 if (!initSkin.equals(SkinManager.getInstance().getCurrSkin())) {
                     Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
-                    intent.putExtra(ChangePropertyBroadcast.SOURCE, "SettingActivity.class");
                     sendBroadcast(intent);
                 } else {
                     CustomToast.getInstance().showToast(R.string.app_no_change);
@@ -76,7 +75,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     @Override
     protected void changeUIByPara() {
         super.changeUIByPara();
-        title.setText(R.string.setting_skin);
+        title.setText(R.string.oper_skin);
         toolbarOper.setText(R.string.dialog_save);
         initSkin = SkinManager.getInstance().getCurrSkin();
     }
@@ -113,7 +112,6 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
             @Override
             public void success(Object object) {
                 Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
-                intent.putExtra(ChangePropertyBroadcast.SOURCE, "SettingActivity.class");
                 sendBroadcast(intent);
             }
 

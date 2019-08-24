@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.CampaignActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.main.DownloadSongActivity;
 import com.iyuba.music.activity.main.FavorSongActivity;
@@ -96,12 +95,20 @@ public class MeActivity extends BaseActivity {
                         break;
                     case 3:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            startActivity(new Intent(context, FindFriendActivity.class));
+                            SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                            Intent intent = new Intent(context, FriendCenter.class);
+                            intent.putExtra("type", "2");
+                            intent.putExtra("needPop", true);
+                            startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
-                                    startActivity(new Intent(context, FindFriendActivity.class));
+                                    SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
+                                    Intent intent = new Intent(context, FriendCenter.class);
+                                    intent.putExtra("type", "2");
+                                    intent.putExtra("needPop", true);
+                                    startActivity(intent);
                                 }
                             });
                         }
@@ -117,6 +124,18 @@ public class MeActivity extends BaseActivity {
                         break;
                     case 9:
                         if (AccountManager.getInstance().checkUserLogin()) {
+                            context.startActivity(new Intent(context, VipCenterActivity.class));
+                        } else {
+                            CustomDialog.showLoginDialog(context, false, new IOperationFinish() {
+                                @Override
+                                public void finish() {
+                                    context.startActivity(new Intent(context, VipCenterActivity.class));
+                                }
+                            });
+                        }
+                        break;
+                    case 10:
+                        if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CreditActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -127,7 +146,7 @@ public class MeActivity extends BaseActivity {
                             });
                         }
                         break;
-                    case 10:
+                    case 11:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             launchRank();
                         } else {
@@ -139,7 +158,7 @@ public class MeActivity extends BaseActivity {
                             });
                         }
                         break;
-                    case 11:
+                    case 12:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             launchIStudy();
                         } else {
@@ -151,14 +170,14 @@ public class MeActivity extends BaseActivity {
                             });
                         }
                         break;
-                    case 12:
+                    case 13:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            startActivity(new Intent(context, CampaignActivity.class));
+                            launchCampaign();
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
-                                    startActivity(new Intent(context, CampaignActivity.class));
+                                    launchCampaign();
                                 }
                             });
                         }
@@ -171,6 +190,18 @@ public class MeActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void launchCampaign() {
+        String url = "http://m.iyuba.cn/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
+                + "&appid=" + ConstantManager.appId + "&username="
+                + AccountManager.getInstance().getUserInfo().getUsername() + "&sign=" +
+                MD5.getMD5ofStr("iyuba" + AccountManager.getInstance().getUserId() + "camstory");
+        Intent intent = new Intent();
+        intent.setClass(context, WebViewActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("title", context.getString(R.string.campaign_exchange));
+        startActivity(intent);
     }
 
     private void launchIStudy() {

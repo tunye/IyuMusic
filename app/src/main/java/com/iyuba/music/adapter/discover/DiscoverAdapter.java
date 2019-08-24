@@ -32,20 +32,20 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         Discover blank = new Discover();
         blank.setType(TYPE_BLANK);
 
-        menuIconList.add(R.drawable.ground_icon);
         menuIconList.add(R.drawable.circle_icon);
         menuIconList.add(R.drawable.message_icon);
-        menuIconList.add(R.drawable.friend_icon);
+        menuIconList.add(R.drawable.search_icon);
+        menuIconList.add(R.drawable.official_accounts_icon);
         menuIconList.add(R.drawable.word_search_icon);
         menuIconList.add(R.drawable.word_saying_icon);
         menuIconList.add(R.drawable.word_list_icon);
         menuIconList.add(R.drawable.file_oper_icon);
         menuIconList.add(R.drawable.local_music_icon);
 
-        menuTextList.add(R.string.oper_ground);
         menuTextList.add(R.string.oper_circle);
         menuTextList.add(R.string.oper_message);
-        menuTextList.add(R.string.oper_recommend);
+        menuTextList.add(R.string.oper_friends);
+        menuTextList.add(R.string.oper_wx);
         menuTextList.add(R.string.word_search_title);
         menuTextList.add(R.string.word_saying_title);
         menuTextList.add(R.string.word_list_title);

@@ -1,117 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/left_drawer"
     android:layout_width="260dp"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:background="@color/background_light"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/login_panel"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical">
 
-        <com.iyuba.music.widget.view.MaterialRippleLayout
-            android:id="@+id/personal_login"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="300">
+            android:background="@color/background">
 
-            <RelativeLayout
+            <com.iyuba.music.widget.view.MaterialRippleLayout
+                android:id="@+id/personal_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.iyuba.music.widget.imageview.VipPhoto
-                    android:id="@+id/personal_photo"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/row_space_large" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:mrl_rippleColor="@color/text_complementary"
+                app:mrl_rippleDuration="300">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/personal_photo"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/personal_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/skin_app_color"
-                        android:textSize="@dimen/title_text" />
+                    <com.iyuba.music.widget.imageview.VipPhoto
+                        android:id="@+id/personal_photo"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/row_space_large" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/row_space_default"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/personal_grade"
-                            android:layout_width="64dp"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text" />
-
-                        <TextView
-                            android:id="@+id/personal_credit"
+                            android:id="@+id/personal_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/row_space_large"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text" />
-                    </LinearLayout>
+                            android:singleLine="true"
+                            android:ellipsize="none"
+                            android:textColor="@color/skin_app_color"
+                            android:textSize="@dimen/title_text" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/row_space_default"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/personal_follow"
-                            android:layout_width="64dp"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text" />
-
-                        <TextView
-                            android:id="@+id/personal_fan"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/row_space_large"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text" />
+                            android:layout_marginTop="@dimen/row_space_default"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/personal_message"
+                            <TextView
+                                android:id="@+id/personal_follow"
+                                android:layout_width="64dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/personal_fan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/row_space_large"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/personal_message"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/row_space_large"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/medium_text" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/row_space_large"
-                            android:textColor="@color/text_color"
-                            android:textSize="@dimen/medium_text" />
+                            android:layout_marginTop="@dimen/row_space_default"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/personal_grade"
+                                android:layout_width="64dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/personal_credit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/row_space_large"
+                                android:textColor="@color/text_color"
+                                android:textSize="@dimen/medium_text" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
-            </RelativeLayout>
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
+            </com.iyuba.music.widget.view.MaterialRippleLayout>
 
-        <com.iyuba.music.widget.view.MaterialRippleLayout
-            android:id="@+id/personal_nologin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="300">
-
-            <LinearLayout
+            <com.iyuba.music.widget.view.MaterialRippleLayout
+                android:id="@+id/personal_nologin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                app:mrl_rippleColor="@color/text_complementary"
+                app:mrl_rippleDuration="300">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -120,126 +122,27 @@
                     android:text="@string/please_login"
                     android:textColor="@color/skin_app_color"
                     android:textSize="@dimen/title_text" />
+            </com.iyuba.music.widget.view.MaterialRippleLayout>
+        </FrameLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_thin"
-                    android:background="@color/background_light" />
-            </LinearLayout>
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
-
-        <com.iyuba.music.widget.view.MaterialRippleLayout
-            android:id="@+id/sign_layout"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/personal_login"
-            android:layout_marginTop="-8dp"
-            app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="300">
+            android:layout_height="@dimen/line_thin"
+            android:background="@color/background_complementary" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/row_space_large">
-
-                <ImageView
-                    android:id="@+id/sign_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/row_space_large"
-                    android:src="@drawable/personal_state" />
-
-                <TextView
-                    android:id="@+id/personal_sign"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/row_space_very_large"
-                    android:layout_toRightOf="@+id/sign_icon"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/big_text" />
-            </RelativeLayout>
-
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
-
-        <com.iyuba.music.widget.view.MaterialRippleLayout
-            android:id="@+id/sign_in_layout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/oper_list"
+            android:background="@color/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_layout"
-            android:layout_marginTop="-8dp"
-            app:mrl_rippleColor="@color/text_complementary"
-            app:mrl_rippleDuration="300">
+            android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/row_space_large">
-
-                    <ImageView
-                        android:id="@+id/sign_in_icon"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/row_space_large"
-                        android:src="@drawable/sign_in_icon" />
-
-                    <TextView
-                        android:id="@+id/sign_in_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/row_space_very_large"
-                        android:layout_toRightOf="@+id/sign_in_icon"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="当前是临时账号"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/big_text" />
-
-                    <com.iyuba.music.widget.roundview.RoundTextView
-                        android:id="@+id/sign_in_handle"
-                        android:layout_width="54dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:padding="@dimen/row_space_small"
-                        android:text="签到"
-                        android:textColor="#ededed"
-                        android:textSize="@dimen/medium_text"
-                        app:rv_backgroundColor="@color/skin_app_color"
-                        app:rv_cornerRadius="@dimen/corner_radius_default" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_thin"
-                    android:background="@color/background_light" />
-            </LinearLayout>
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/oper_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/exit_panel"
-        android:layout_below="@+id/login_panel" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/exit_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="@color/background_dark"
         android:orientation="horizontal">
 
@@ -262,11 +165,11 @@
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
         <ImageView
-            android:layout_width="@dimen/line_default"
+            android:layout_width="@dimen/line_thin"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/row_space_medium"
             android:layout_marginTop="@dimen/row_space_medium"
-            android:background="@color/background" />
+            android:layout_marginBottom="@dimen/row_space_medium"
+            android:background="@color/background_complementary" />
 
         <com.iyuba.music.widget.view.MaterialRippleLayout
             android:id="@+id/exit"
@@ -287,4 +190,4 @@
         </com.iyuba.music.widget.view.MaterialRippleLayout>
 
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

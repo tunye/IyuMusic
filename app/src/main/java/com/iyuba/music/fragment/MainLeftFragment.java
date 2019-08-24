@@ -13,65 +13,45 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
-import com.iyuba.music.activity.SettingActivity;
-import com.iyuba.music.activity.SleepActivity;
-import com.iyuba.music.activity.WxOfficialAccountActivity;
-import com.iyuba.music.activity.discover.DiscoverActivity;
 import com.iyuba.music.activity.me.ChangePhotoActivity;
 import com.iyuba.music.activity.me.CreditActivity;
-import com.iyuba.music.activity.me.MeActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
-import com.iyuba.music.activity.me.VipCenterActivity;
-import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.adapter.OperAdapter;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.network.NetWorkState;
-import com.iyuba.music.receiver.ChangePropertyBroadcast;
-import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
-import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 /**
  * Created by 10202 on 2015/12/29.
  */
 public class MainLeftFragment extends BaseFragment {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
     private View root;
     //侧边栏
     private UserInfo userInfo;
-    private MaterialRippleLayout login, noLogin, sign, signIn;
+    private MaterialRippleLayout login, noLogin;
     private RecyclerView menuList;
     private OperAdapter operAdapter;
     private VipPhoto personalPhoto;
     private TextView personalName, personalGrade, personalCredits, personalFollow, personalFan;
-    private TextView personalSign;
-    private TextView signInHint;
-    private RoundTextView signInHandle;
-    private ImageView signInIcon;
-    private SignInDialog signInDialog;
     //底部
     private View about, exit;
 
@@ -91,24 +71,17 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void initWidget() {
-        menuList = (RecyclerView) root.findViewById(R.id.oper_list);
-        login = (MaterialRippleLayout) root.findViewById(R.id.personal_login);
-        noLogin = (MaterialRippleLayout) root.findViewById(R.id.personal_nologin);
-        sign = (MaterialRippleLayout) root.findViewById(R.id.sign_layout);
-        signIn = (MaterialRippleLayout) root.findViewById(R.id.sign_in_layout);
-        personalPhoto = (VipPhoto) root.findViewById(R.id.personal_photo);
-        personalName = (TextView) root.findViewById(R.id.personal_name);
-        personalGrade = (TextView) root.findViewById(R.id.personal_grade);
-        personalCredits = (TextView) root.findViewById(R.id.personal_credit);
-        personalFollow = (TextView) root.findViewById(R.id.personal_follow);
-        personalFan = (TextView) root.findViewById(R.id.personal_fan);
-        personalSign = (TextView) root.findViewById(R.id.personal_sign);
+        menuList = root.findViewById(R.id.oper_list);
+        login = root.findViewById(R.id.personal_login);
+        noLogin = root.findViewById(R.id.personal_nologin);
+        personalPhoto = root.findViewById(R.id.personal_photo);
+        personalName = root.findViewById(R.id.personal_name);
+        personalGrade = root.findViewById(R.id.personal_grade);
+        personalCredits = root.findViewById(R.id.personal_credit);
+        personalFollow = root.findViewById(R.id.personal_follow);
+        personalFan = root.findViewById(R.id.personal_fan);
         about = root.findViewById(R.id.about);
         exit = root.findViewById(R.id.exit);
-        signInIcon = (ImageView) root.findViewById(R.id.sign_in_icon);
-        signInHint = (TextView) root.findViewById(R.id.sign_in_hint);
-        signInHandle = (RoundTextView) root.findViewById(R.id.sign_in_handle);
-        AddRippleEffect.addRippleEffect(signInHandle);
         operAdapter = new OperAdapter();
     }
 
@@ -134,12 +107,6 @@ public class MainLeftFragment extends BaseFragment {
                 startActivity(new Intent(context, ChangePhotoActivity.class));
             }
         });
-        sign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, WriteStateActivity.class));
-            }
-        });
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,26 +119,10 @@ public class MainLeftFragment extends BaseFragment {
                 RuntimeManager.getApplication().exit();
             }
         });
-        signIn.setOnClickListener(new View.OnClickListener() {
+        root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AccountManager.getInstance().checkUserLogin()) {
-                    signInDialog = new SignInDialog(context);
-                    signInDialog.show();
-                } else {
-                    startActivityForResult(new Intent(context, LoginActivity.class), 101);
-                }
-            }
-        });
-        signInHandle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AccountManager.getInstance().checkUserLogin()) {
-                    signInDialog = new SignInDialog(context);
-                    signInDialog.show();
-                } else {
-                    startActivityForResult(new Intent(context, LoginActivity.class), 101);
-                }
+                // 防止误触
             }
         });
         menuList.setAdapter(operAdapter);
@@ -179,58 +130,6 @@ public class MainLeftFragment extends BaseFragment {
         // menuList.getItemAnimator().setChangeDuration(0); 或者采用这个方案
         menuList.setLayoutManager(new LinearLayoutManager(context));
         menuList.addItemDecoration(new DividerItemDecoration());
-        operAdapter.setItemClickListener(new OperAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClicked(View view, int position) {
-                switch (position) {
-                    case 0:
-                        if (AccountManager.getInstance().checkUserLogin()) {
-                            startActivity(new Intent(context, VipCenterActivity.class));
-                        } else {
-                            CustomDialog.showLoginDialog(context, false, new IOperationFinish() {
-                                @Override
-                                public void finish() {
-                                    startActivity(new Intent(context, VipCenterActivity.class));
-                                }
-                            });
-                        }
-                        break;
-//                    case 1:
-//                        HeadlinesRuntimeManager.setApplicationContext(RuntimeManager.getContext());
-//                        String userid = "0";
-//                        if (AccountManager.getInstance().checkUserLogin()) {
-//                            userid = AccountManager.getInstance().getUserId();
-//                        }
-//                        startActivity(MainHeadlinesActivity.getIntent2Me(context, userid, "209", "music", (DownloadService.checkVip() ? "1" : "0")));
-//                        startActivity(new Intent(context, AppGroundActivity.class));
-//                        break;
-                    case 1:
-                        startActivity(new Intent(context, DiscoverActivity.class));
-                        break;
-                    case 2:
-                        startActivity(new Intent(context, MeActivity.class));
-                        break;
-                    case 3:
-                        ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
-                        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
-                        Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
-                        intent.putExtra(ChangePropertyBroadcast.SOURCE, getActivity().getClass().getSimpleName());
-                        context.sendBroadcast(intent);
-                        break;
-                    case 4:
-                        startActivity(new Intent(context, SleepActivity.class));
-                        break;
-                    case 5:
-                        startActivity(new Intent(context, WxOfficialAccountActivity.class));
-                        break;
-                    case 6:
-                        startActivity(new Intent(context, SettingActivity.class));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     private void changeUIResumeByPara() {
@@ -238,26 +137,16 @@ public class MainLeftFragment extends BaseFragment {
         if (AccountManager.getInstance().getUserId().equals("0")) {
             login.setVisibility(View.GONE);
             noLogin.setVisibility(View.VISIBLE);
-            sign.setVisibility(View.GONE);
-            signIn.setVisibility(View.GONE);
         } else {
             login.setVisibility(View.VISIBLE);
             noLogin.setVisibility(View.GONE);
-            sign.setVisibility(View.VISIBLE);
-            signIn.setVisibility(View.VISIBLE);
             if (AccountManager.getInstance().checkUserLogin()) {
-                signInIcon.setImageResource(R.drawable.sign_in_icon);
-                signInHandle.setText(R.string.oper_sign_in_handle);
-                signInHint.setText(R.string.oper_sign_in);
                 personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
                 if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
                     updatePersonalInfoView();
                     getPersonalInfo();
                 }
             } else {
-                signInIcon.setImageResource(R.drawable.temp_account_icon);
-                signInHandle.setText(R.string.oper_visitor_handle);
-                signInHint.setText(R.string.oper_visitor);
                 personalPhoto.setVisitor();
                 String visitorId = AccountManager.getInstance().getUserId();
                 userInfo = new UserInfo();
@@ -271,6 +160,7 @@ public class MainLeftFragment extends BaseFragment {
         if (sleepSecond != 0) {
             handler.sendEmptyMessage(1);
         }
+        handler.sendEmptyMessage(2);
     }
 
     private void autoLogin() {
@@ -339,11 +229,7 @@ public class MainLeftFragment extends BaseFragment {
         personalGrade.setText(context.getString(R.string.personal_grade,
                 UserInfo.getLevelName(context, TextUtils.isEmpty(userInfo.getIcoins()) ? 0 : Integer.parseInt(userInfo.getIcoins()))));
         personalCredits.setText(context.getString(R.string.personal_credits, TextUtils.isEmpty(userInfo.getIcoins()) ? "0" : userInfo.getIcoins()));
-        if (TextUtils.isEmpty(userInfo.getText()) || "null".equals(userInfo.getText())) {
-            personalSign.setText(R.string.personal_nosign);
-        } else {
-            personalSign.setText(userInfo.getText());
-        }
+        handler.sendEmptyMessage(3);
         int follow = TextUtils.isEmpty(userInfo.getFollowing()) ? 0 : Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
@@ -392,20 +278,17 @@ public class MainLeftFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        handler.removeCallbacksAndMessages(null);
-        operAdapter.setItemClickListener(null);
+        handler.removeMessages(1);
         login.setOnClickListener(null);
         noLogin.setOnClickListener(null);
         personalPhoto.setOnClickListener(null);
-        sign.setOnClickListener(null);
         about.setOnClickListener(null);
         exit.setOnClickListener(null);
     }
 
     @Override
     public boolean onBackPressed() {
-        if (signInDialog != null && signInDialog.isShown()) {
-            signInDialog.dismiss();
+        if (operAdapter.onBackPressed()) {
             return true;
         } else {
             return super.onBackPressed();
@@ -425,8 +308,16 @@ public class MainLeftFragment extends BaseFragment {
         public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
             switch (msg.what) {
                 case 1:
-                    fragment.operAdapter.notifyItemChanged(4);
+                    fragment.operAdapter.notifyItemChanged(6);
                     fragment.handler.sendEmptyMessageDelayed(1, 1000);
+                    break;
+                case 2:
+                    fragment.operAdapter.notifyItemChanged(0);
+                    fragment.operAdapter.notifyItemChanged(1);
+                    fragment.operAdapter.notifyItemChanged(7);
+                    break;
+                case 3:
+                    fragment.operAdapter.notifyItemChanged(1);
                     break;
             }
         }

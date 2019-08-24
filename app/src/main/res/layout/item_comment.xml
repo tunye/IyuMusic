@@ -53,7 +53,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/row_space_large"
                     android:orientation="horizontal">
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
-                    android:textColor="#ededed"
+                    android:textColor="@color/textcolor_on_appcolor"
                     android:textSize="@dimen/medium_text" />
 
                 <ProgressBar

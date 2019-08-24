@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.buaa.ct.appskin.SkinManager;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -47,9 +46,9 @@ import java.util.Arrays;
  */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, skin, versionFeature, moreApp;
+    private RoundRelativeLayout feedback, helpUse, wordSet, studySet, share, versionFeature, moreApp;
     private RoundRelativeLayout language, push, clearPic, clearAudio;
-    private TextView currLanguage, picCache, audioCache, currSkin;
+    private TextView currLanguage, picCache, audioCache;
     private SwitchButton currPush;
     private RoundTextView logout;
 
@@ -66,43 +65,39 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initWidget() {
         super.initWidget();
-        share = (RoundRelativeLayout) findViewById(R.id.setting_share);
-        AddRippleEffect.addRippleEffect(share);
-        skin = (RoundRelativeLayout) findViewById(R.id.setting_skin);
-        AddRippleEffect.addRippleEffect(skin);
-        versionFeature = (RoundRelativeLayout) findViewById(R.id.setting_version_feature);
-        AddRippleEffect.addRippleEffect(versionFeature);
-        feedback = (RoundRelativeLayout) findViewById(R.id.setting_feedback);
-        AddRippleEffect.addRippleEffect(feedback);
-        moreApp = (RoundRelativeLayout) findViewById(R.id.setting_more_app);
-        AddRippleEffect.addRippleEffect(moreApp);
-        helpUse = (RoundRelativeLayout) findViewById(R.id.setting_help_use);
-        AddRippleEffect.addRippleEffect(helpUse);
-        wordSet = (RoundRelativeLayout) findViewById(R.id.setting_word_set);
-        AddRippleEffect.addRippleEffect(wordSet);
-        studySet = (RoundRelativeLayout) findViewById(R.id.setting_study_set);
-        AddRippleEffect.addRippleEffect(studySet);
-        language = (RoundRelativeLayout) findViewById(R.id.setting_language);
-        AddRippleEffect.addRippleEffect(language);
-        push = (RoundRelativeLayout) findViewById(R.id.setting_push);
-        AddRippleEffect.addRippleEffect(push);
-        clearPic = (RoundRelativeLayout) findViewById(R.id.setting_pic_clear);
-        AddRippleEffect.addRippleEffect(clearPic);
-        clearAudio = (RoundRelativeLayout) findViewById(R.id.setting_audio_clear);
-        AddRippleEffect.addRippleEffect(clearAudio);
-        picCache = (TextView) findViewById(R.id.setting_pic_cache);
-        audioCache = (TextView) findViewById(R.id.setting_audio_cache);
-        currLanguage = (TextView) findViewById(R.id.setting_curr_language);
-        currSkin = (TextView) findViewById(R.id.setting_curr_skin);
-        currPush = (SwitchButton) findViewById(R.id.setting_curr_push);
-        logout = (RoundTextView) findViewById(R.id.setting_logout);
-        AddRippleEffect.addRippleEffect(logout);
+        share = findViewById(R.id.setting_share);
+        AddRippleEffect.addRippleEffect(share, 300);
+        versionFeature = findViewById(R.id.setting_version_feature);
+        AddRippleEffect.addRippleEffect(versionFeature, 300);
+        feedback = findViewById(R.id.setting_feedback);
+        AddRippleEffect.addRippleEffect(feedback, 300);
+        moreApp = findViewById(R.id.setting_more_app);
+        AddRippleEffect.addRippleEffect(moreApp, 300);
+        helpUse = findViewById(R.id.setting_help_use);
+        AddRippleEffect.addRippleEffect(helpUse, 300);
+        wordSet = findViewById(R.id.setting_word_set);
+        AddRippleEffect.addRippleEffect(wordSet, 300);
+        studySet = findViewById(R.id.setting_study_set);
+        AddRippleEffect.addRippleEffect(studySet, 300);
+        language = findViewById(R.id.setting_language);
+        AddRippleEffect.addRippleEffect(language, 300);
+        push = findViewById(R.id.setting_push);
+        AddRippleEffect.addRippleEffect(push, 300);
+        clearPic = findViewById(R.id.setting_pic_clear);
+        AddRippleEffect.addRippleEffect(clearPic, 300);
+        clearAudio = findViewById(R.id.setting_audio_clear);
+        AddRippleEffect.addRippleEffect(clearAudio, 300);
+        picCache = findViewById(R.id.setting_pic_cache);
+        audioCache = findViewById(R.id.setting_audio_cache);
+        currLanguage = findViewById(R.id.setting_curr_language);
+        currPush = findViewById(R.id.setting_curr_push);
+        logout = findViewById(R.id.setting_logout);
+        AddRippleEffect.addRippleEffect(logout, 200);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        skin.setOnClickListener(this);
         versionFeature.setOnClickListener(this);
         feedback.setOnClickListener(this);
         helpUse.setOnClickListener(this);
@@ -113,7 +108,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         push.setOnClickListener(this);
         clearPic.setOnClickListener(this);
         clearAudio.setOnClickListener(this);
-        currSkin.setOnClickListener(this);
         logout.setOnClickListener(this);
         share.setOnClickListener(this);
         moreApp.setOnClickListener(this);
@@ -148,7 +142,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     protected void changeUIResumeByPara() {
         currLanguage.setText(getLanguage(ConfigManager.getInstance().getLanguage()));
-        currSkin.setText(getSkin(SkinManager.getInstance().getCurrSkin()));
     }
 
     @Override
@@ -171,10 +164,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.setting_version_feature:
                 StartFragment.showVersionFeature(context);
-                break;
-            case R.id.setting_skin:
-            case R.id.setting_curr_skin:
-                startActivity(new Intent(context, SkinActivity.class));
                 break;
             case R.id.setting_share:
                 String text = getResources().getString(R.string.setting_share_content,
@@ -307,12 +296,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private String getLanguage(int language) {
         String[] languages = context.getResources().getStringArray(R.array.language);
         return languages[language];
-    }
-
-    private String getSkin(String skin) {
-        int pos = GetAppColor.getInstance().getSkinFlg(skin);
-        String[] skins = context.getResources().getStringArray(R.array.flavors);
-        return skins[pos];
     }
 
     private void logout() {

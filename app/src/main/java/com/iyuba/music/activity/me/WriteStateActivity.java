@@ -111,6 +111,7 @@ public class WriteStateActivity extends BaseInputActivity {
                     handler.sendEmptyMessage(1);
                     String result = (String) object;
                     if ("351".equals(result)) {
+                        AccountManager.getInstance().getUserInfo().setText(content.getEditableText().toString());
                         handler.sendEmptyMessage(0);
                     } else {
                         CustomToast.getInstance().showToast(R.string.state_modify_fail);

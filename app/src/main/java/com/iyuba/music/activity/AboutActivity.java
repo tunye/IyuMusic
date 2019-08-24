@@ -82,18 +82,18 @@ public class AboutActivity extends BaseActivity {
         super.initWidget();
         root = findViewById(R.id.root);
         icon = findViewById(R.id.icon);
-        praise = (RoundRelativeLayout) findViewById(R.id.praise);
-        AddRippleEffect.addRippleEffect(praise);
-        website = (RoundRelativeLayout) findViewById(R.id.website);
-        AddRippleEffect.addRippleEffect(website);
-        developer = (RoundRelativeLayout) findViewById(R.id.developer);
-        AddRippleEffect.addRippleEffect(developer);
-        appUpdate = (RoundRelativeLayout) findViewById(R.id.update);
-        AddRippleEffect.addRippleEffect(appUpdate);
+        praise = findViewById(R.id.praise);
+        AddRippleEffect.addRippleEffect(praise, 300);
+        website = findViewById(R.id.website);
+        AddRippleEffect.addRippleEffect(website, 300);
+        developer = findViewById(R.id.developer);
+        AddRippleEffect.addRippleEffect(developer, 300);
+        appUpdate = findViewById(R.id.update);
+        AddRippleEffect.addRippleEffect(appUpdate, 300);
         appNewImg = findViewById(R.id.newApp);
-        version = (TextView) findViewById(R.id.version);
-        copyright = (TextView) findViewById(R.id.copyright);
-        progressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar);
+        version = findViewById(R.id.version);
+        copyright = findViewById(R.id.copyright);
+        progressBar = findViewById(R.id.roundProgressBar);
     }
 
     @Override

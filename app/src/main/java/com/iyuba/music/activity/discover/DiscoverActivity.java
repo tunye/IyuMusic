@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
+import com.iyuba.music.activity.me.FindFriendActivity;
 import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
@@ -55,9 +57,6 @@ public class DiscoverActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 switch (position - 1) {
                     case 0:
-                        startActivity(new Intent(context, AppGroundActivity.class));
-                        break;
-                    case 1:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, CircleActivity.class));
                         } else {
@@ -69,7 +68,7 @@ public class DiscoverActivity extends BaseActivity {
                             });
                         }
                         break;
-                    case 2:
+                    case 1:
                         if (AccountManager.getInstance().checkUserLogin()) {
                             startActivity(new Intent(context, MessageActivity.class));
                         } else {
@@ -81,25 +80,20 @@ public class DiscoverActivity extends BaseActivity {
                             });
                         }
                         break;
-                    case 3:
+                    case 2:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
-                            Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "2");
-                            intent.putExtra("needPop", true);
-                            startActivity(intent);
+                            startActivity(new Intent(context, FindFriendActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
-                                    SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
-                                    Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "2");
-                                    intent.putExtra("needPop", true);
-                                    startActivity(intent);
+                                    startActivity(new Intent(context, FindFriendActivity.class));
                                 }
                             });
                         }
+                        break;
+                    case 3:
+                        startActivity(new Intent(context, WxOfficialAccountActivity.class));
                         break;
                     case 5:
                         startActivity(new Intent(context, WordSearchActivity.class));

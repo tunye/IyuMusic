@@ -34,13 +34,13 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     public DividerItemDecoration() {
         this.space = (int) RuntimeManager.getContext().getResources().getDimension(R.dimen.line_thin);
-        this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_light);
+        this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_complementary);
         initPaint();
     }
 
     public DividerItemDecoration(int space) {
         this.space = space;
-        this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_light);
+        this.color = RuntimeManager.getContext().getResources().getColor(R.color.background_complementary);
         initPaint();
     }
 

@@ -78,7 +78,7 @@
                         android:gravity="center"
                         android:padding="@dimen/row_space_medium"
                         android:text="@string/regist_get_code"
-                        android:textColor="#ededed"
+                        android:textColor="@color/textcolor_on_appcolor"
                         android:textSize="@dimen/medium_text"
                         app:rv_backgroundColor="@color/skin_app_color"
                         app:rv_cornerRadius="@dimen/corner_radius_default" />
@@ -177,7 +177,7 @@
                 android:gravity="center"
                 android:padding="@dimen/row_space_big"
                 android:text="@string/regist_title"
-                android:textColor="#ededed"
+                android:textColor="@color/textcolor_on_appcolor"
                 android:textSize="@dimen/large_text"
                 app:rv_backgroundColor="@color/skin_app_color"
                 app:rv_cornerRadius="@dimen/corner_radius_big" />

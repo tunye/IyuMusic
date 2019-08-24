@@ -2,7 +2,6 @@ package com.iyuba.music.widget.view;
 
 import android.view.View;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 
 /**
@@ -11,10 +10,14 @@ import com.iyuba.music.R;
 
 public class AddRippleEffect {
     public static void addRippleEffect(View view) {
+        addRippleEffect(view, 150);
+    }
+
+    public static void addRippleEffect(View view, int duration) {
         MaterialRippleLayout.on(view)
                 .rippleOverlay(true)
                 .rippleAlpha(0.2f)
-                .rippleDuration(150)
+                .rippleDuration(duration)
                 .rippleColor(view.getContext().getResources().getColor(R.color.text_complementary))
                 .rippleHover(true)
                 .create();

@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/word_key"
+                android:layout_toEndOf="@+id/word_key"
                 android:textColor="#4169e1"
                 android:textSize="@dimen/big_text" />
 
@@ -43,7 +43,7 @@
                 android:id="@+id/word_speaker"
                 android:layout_width="33dp"
                 android:layout_height="30dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/speaker" />
         </RelativeLayout>
 

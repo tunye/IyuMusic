@@ -38,7 +38,7 @@
                 android:id="@+id/word_set_group_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
@@ -66,7 +66,7 @@
                 android:id="@+id/word_set_show_def_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white" />
@@ -93,7 +93,7 @@
                 android:id="@+id/word_set_play_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white" />
@@ -123,7 +123,7 @@
                 android:id="@+id/word_set_auto_add_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/row_space_large"
                 app:kswThumbColor="@color/white" />

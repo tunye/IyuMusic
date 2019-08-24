@@ -12,7 +12,7 @@
         android:id="@+id/word_collect"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/toolbar"
         android:layout_marginEnd="@dimen/activity_horizontal_margin_big"
         android:layout_marginTop="@dimen/activity_horizontal_margin_big" />

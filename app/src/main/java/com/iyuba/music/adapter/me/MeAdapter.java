@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.mainpanel.Discover;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -34,10 +34,11 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         menuIconList.add(R.drawable.follow_icon);
         menuIconList.add(R.drawable.fan_icon);
-        menuIconList.add(R.drawable.search_icon);
+        menuIconList.add(R.drawable.friend_icon);
         menuIconList.add(R.drawable.download_icon);
         menuIconList.add(R.drawable.favor_icon);
         menuIconList.add(R.drawable.listen_icon);
+        menuIconList.add(R.drawable.vip_icon);
         menuIconList.add(R.drawable.credits_icon);
         menuIconList.add(R.drawable.rank_icon);
         menuIconList.add(R.drawable.bigdata_icon);
@@ -45,10 +46,11 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         menuTextList.add(R.string.oper_follow);
         menuTextList.add(R.string.oper_fan);
-        menuTextList.add(R.string.oper_friends);
+        menuTextList.add(R.string.oper_recommend);
         menuTextList.add(R.string.oper_download);
         menuTextList.add(R.string.oper_favor);
         menuTextList.add(R.string.oper_listen);
+        menuTextList.add(R.string.oper_vip);
         menuTextList.add(R.string.oper_credits);
         menuTextList.add(R.string.oper_rank);
         menuTextList.add(R.string.oper_bigdata);
@@ -133,9 +135,9 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         DiscoverViewHolder(View view) {
             super(view);
-            rippleView = (MaterialRippleLayout) view.findViewById(R.id.discover_ripple);
-            text = (TextView) view.findViewById(R.id.discover_text);
-            icon = (ImageView) view.findViewById(R.id.discover_icon);
+            rippleView = view.findViewById(R.id.discover_ripple);
+            text = view.findViewById(R.id.discover_text);
+            icon = view.findViewById(R.id.discover_icon);
         }
     }
 

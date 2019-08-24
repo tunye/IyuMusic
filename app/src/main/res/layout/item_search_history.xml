@@ -24,7 +24,7 @@
             android:id="@+id/clear_history"
             android:layout_width="@dimen/activity_horizontal_margin_big"
             android:layout_height="@dimen/activity_horizontal_margin_big"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             app:mm_color="@color/text_color"
             app:mm_strokeWidth="2" />
     </RelativeLayout>
