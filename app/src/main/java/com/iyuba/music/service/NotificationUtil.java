@@ -1,6 +1,7 @@
 package com.iyuba.music.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,15 +27,37 @@ import com.iyuba.music.widget.bitmap.ReadBitmap;
 
 import java.util.LinkedList;
 
+import static android.support.v4.app.NotificationCompat.VISIBILITY_SECRET;
+
 public class NotificationUtil {
     public static final String PAUSE_FLAG = "pause_flag";
     public static final String PLAY_FLAG = "play_flag";
     static final int NOTIFICATION_ID = 209;
     private Notification notification;
+    private NotificationManager notificationManager;
     private int notificationTextColor;
 
     private NotificationUtil() {
         notificationTextColor = isDarkNotificationTheme() ? 0xffcdcdcd : 0xff4c4c4c;
+        notificationManager = (NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(RuntimeManager.getContext().getPackageName(), RuntimeManager.getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            //闪光灯
+            channel.enableLights(true);
+            //锁屏显示通知
+            channel.setLockscreenVisibility(VISIBILITY_SECRET);
+            //闪关灯的灯光颜色
+            channel.setLightColor(Color.GREEN);
+            //桌面launcher的消息角标
+            channel.setShowBadge(true);
+            //是否允许震动
+            channel.enableVibration(true);
+            //设置震动模式
+            channel.setVibrationPattern(new long[]{100, 100, 200});
+            //设置可绕过  请勿打扰模式
+            channel.setBypassDnd(true);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     public static NotificationUtil getInstance() {
@@ -62,8 +85,8 @@ public class NotificationUtil {
     }
 
     Notification initNotification() {
-        notification = new Notification();
         Context context = RuntimeManager.getContext();
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, RuntimeManager.getContext().getPackageName());
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
@@ -76,7 +99,6 @@ public class NotificationUtil {
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
         contentView.setImageViewResource(R.id.notify_play, R.drawable.play);
         setTextViewColor(contentView);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
         notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
@@ -87,8 +109,7 @@ public class NotificationUtil {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setCustomBigContentView(contentView);
         notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
-        notification = notificationBuilder.build();
-        return notification;
+        return notificationBuilder.build();
     }
 
     void updateNotification(String imgUrl) {
@@ -148,7 +169,7 @@ public class NotificationUtil {
                     R.id.notify_img, notification, NOTIFICATION_ID);
             Glide.with(context).load(imgUrl).asBitmap().into(notificationTarget);
         }
-        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     public void updatePlayStateNotification(String cmd) {
@@ -157,11 +178,11 @@ public class NotificationUtil {
         } else if (cmd.equals(PLAY_FLAG)) {
             notification.bigContentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         }
-        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     public void removeNotification() {
-        ((NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NOTIFICATION_ID);
+        notificationManager.cancel(NOTIFICATION_ID);
     }
 
     private PendingIntent receivePauseIntent() {

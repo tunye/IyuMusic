@@ -2,14 +2,14 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="transparent_black">#44000000</color>
-    <color name="background_dark">#fafafa</color>
-    <color name="background">#ededed</color>
-    <color name="background_light">#dcdcdc</color>
+    <color name="background_dark">#fefefe</color>
+    <color name="background">#fbfbfb</color>
+    <color name="background_light">#ededed</color>
     <color name="background_complementary">#ababab</color>
     <color name="text_color">#343434</color>
     <color name="text_complementary">#464646</color>
     <color name="text_gray_color">#808080</color>
-    <color name="toolbar_ripple_color">#fff</color>
+    <color name="toolbar_ripple_color">#ffffff</color>
     <!-- default-->
     <color name="skin_app_color">#009FE8</color>
     <color name="skin_app_color_light">#2CA6E0</color>

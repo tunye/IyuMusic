@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <color name="transparent">#00000000</color>
-    <color name="background_dark">#232323</color>
-    <color name="background">#343434</color>
-    <color name="background_light">#545454</color>
-    <color name="background_complementary">#656565</color>
-    <color name="text_color">#cdcdcd</color>
-    <color name="text_complementary">#bcbcbc</color>
-    <color name="text_gray_color">#808080</color>
-    <color name="toolbar_ripple_color">#fff</color>
+    <color name="background_dark">#343434</color>
+    <color name="background">#545454</color>
+    <color name="background_light">#656565</color>
+    <color name="background_complementary">#7d7d7d</color>
+    <color name="text_color">#bdbdbd</color>
+    <color name="text_complementary">#ababab</color>
+    <color name="text_gray_color">#707070</color>
+    <color name="toolbar_ripple_color">#cdcdcd</color>
     <!-- default-->
-    <color name="skin_app_color">#009FE8</color>
-    <color name="skin_app_color_light">#2CA6E0</color>
-    <color name="skin_color_accent">#feed9c</color>
+    <color name="skin_app_color">#01618E</color>
+    <color name="skin_app_color_light">#157BA5</color>
+    <color name="skin_color_accent">#9C932D</color>
     <!-- RED-->
-    <color name="skin_app_color_red">#dd191d</color>
-    <color name="skin_app_color_light_red">#e51c23</color>
-    <color name="skin_color_accent_red">#41bff9</color>
+    <color name="skin_app_color_red">#BE1719</color>
+    <color name="skin_app_color_light_red">#B82C34</color>
+    <color name="skin_color_accent_red">#37A1D2</color>
     <!--ROSE-->
-    <color name="skin_app_color_rose">#e91e63</color>
-    <color name="skin_app_color_light_rose">#ec407a</color>
-    <color name="skin_color_accent_rose">#5677fc</color>
+    <color name="skin_app_color_rose">#A41543</color>
+    <color name="skin_app_color_light_rose">#BD2357</color>
+    <color name="skin_color_accent_rose">#3047AF</color>
     <!-- PINK-->
-    <color name="skin_app_color_pink">#fd8c88</color>
-    <color name="skin_app_color_light_pink">#fe9a96</color>
-    <color name="skin_color_accent_pink">#91e4fb</color>
+    <color name="skin_app_color_pink">#BA6865</color>
+    <color name="skin_app_color_light_pink">#D97B77</color>
+    <color name="skin_color_accent_pink">#368398</color>
     <!-- PURPLE-->
-    <color name="skin_app_color_purple">#864fa3</color>
-    <color name="skin_app_color_light_purple">#9765b1</color>
-    <color name="skin_color_accent_purple">#467c45</color>
+    <color name="skin_app_color_purple">#78349C</color>
+    <color name="skin_app_color_light_purple">#9753B7</color>
+    <color name="skin_color_accent_purple">#367335</color>
     <!-- INDIGO-->
-    <color name="skin_app_color_indigo">#3949ab</color>
-    <color name="skin_app_color_light_indigo">#3f51b5</color>
-    <color name="skin_color_accent_indigo">#fbc02d</color>
+    <color name="skin_app_color_indigo">#253390</color>
+    <color name="skin_app_color_light_indigo">#3146BF</color>
+    <color name="skin_color_accent_indigo">#AE861F</color>
     <!-- CYAN-->
-    <color name="skin_app_color_cyan">#0491a2</color>
-    <color name="skin_app_color_light_cyan">#00bcd4</color>
-    <color name="skin_color_accent_cyan">#ff9800</color>
+    <color name="skin_app_color_cyan">#08727D</color>
+    <color name="skin_app_color_light_cyan">#0F8594</color>
+    <color name="skin_color_accent_cyan">#BD791A</color>
     <!-- TEAL-->
-    <color name="skin_app_color_teal">#00897b</color>
-    <color name="skin_app_color_light_teal">#009688</color>
-    <color name="skin_color_accent_teal">#ff5722</color>
+    <color name="skin_app_color_teal">#169485</color>
+    <color name="skin_app_color_light_teal">#1F9D8A</color>
+    <color name="skin_color_accent_teal">#992D10</color>
     <!-- LIGHT GREEN-->
     <color name="skin_app_color_lgreen">#40761b</color>
     <color name="skin_app_color_light_lgreen">#7cab5c</color>
     <color name="skin_color_accent_lgreen">#9e9e9e</color>
     <!-- LIME-->
-    <color name="skin_app_color_lime">#cfbd27</color>
-    <color name="skin_app_color_light_lime">#e8dd7f</color>
-    <color name="skin_color_accent_lime">#9e2024</color>
+    <color name="skin_app_color_lime">#948517</color>
+    <color name="skin_app_color_light_lime">#AEA760</color>
+    <color name="skin_color_accent_lime">#99171A</color>
     <!-- ORANGE-->
-    <color name="skin_app_color_orange">#e34614</color>
-    <color name="skin_app_color_light_orange">#ff7043</color>
-    <color name="skin_color_accent_orange">#319bcb</color>
+    <color name="skin_app_color_orange">#B43910</color>
+    <color name="skin_app_color_light_orange">#BE4A2B</color>
+    <color name="skin_color_accent_orange">#1E6C8D</color>
     <!-- GRAY-->
     <color name="skin_app_color_gray">#546e7a</color>
     <color name="skin_app_color_light_gray">#607d8b</color>
-    <color name="skin_color_accent_gray">#cddc39</color>
+    <color name="skin_color_accent_gray">#97A123</color>
 </resources>

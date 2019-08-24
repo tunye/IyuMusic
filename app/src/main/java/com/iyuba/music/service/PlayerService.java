@@ -1,5 +1,8 @@
 package com.iyuba.music.service;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +13,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.iyuba.music.MusicApplication;
+import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
@@ -108,6 +112,13 @@ public class PlayerService extends Service implements OnHeadSetListener {
     public void init() {
         player = new StandardPlayer(RuntimeManager.getContext());
         curArticleId = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) RuntimeManager.getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(RuntimeManager.getContext().getPackageName(), RuntimeManager.getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(mChannel);
+            Notification notification = new Notification.Builder(getApplicationContext(), RuntimeManager.getContext().getPackageName()).build();
+            startForeground(1, notification);
+        }
     }
 
     public void setListener(final IPlayerListener playerListener) {

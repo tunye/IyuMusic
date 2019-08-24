@@ -185,13 +185,17 @@ public class MusicApplication extends Application {
         });
     }
 
-    public void pushActivity(Activity activity) {
+    public void pushActivity(final Activity activity) {
         activityList.add(activity);
         if (playerService == null) {
             baseHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startService(new Intent(getApplicationContext(), PlayerService.class));
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        startForegroundService(new Intent(getApplicationContext(), PlayerService.class));
+                    } else {
+                        startService(new Intent(getApplicationContext(), PlayerService.class));
+                    }
                 }
             }, 600);
         }
