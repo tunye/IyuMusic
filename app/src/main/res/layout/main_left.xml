@@ -49,6 +49,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:ellipsize="none"
+                            android:textStyle="bold"
                             android:textColor="@color/skin_app_color"
                             android:textSize="@dimen/title_text" />
 

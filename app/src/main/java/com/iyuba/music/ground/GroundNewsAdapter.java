@@ -1,6 +1,7 @@
 package com.iyuba.music.ground;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import java.util.Locale;
 public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.MyViewHolder> {
     private Context context;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
-    private ArrayList<Article> mList = new ArrayList<>();
+    private ArrayList<Article> mList;
     private boolean IscanDL = true;
 
     public GroundNewsAdapter(Context context) {
@@ -58,12 +59,12 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_common_news, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -121,11 +122,11 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.article_title);
-            content = (TextView) view.findViewById(R.id.article_content);
-            time = (TextView) view.findViewById(R.id.article_createtime);
-            pic = (ImageView) view.findViewById(R.id.article_image);
-            readCount = (TextView) view.findViewById(R.id.article_readcount);
+            title = view.findViewById(R.id.article_title);
+            content = view.findViewById(R.id.article_content);
+            time = view.findViewById(R.id.article_createtime);
+            pic = view.findViewById(R.id.article_image);
+            readCount = view.findViewById(R.id.article_readcount);
         }
     }
 }

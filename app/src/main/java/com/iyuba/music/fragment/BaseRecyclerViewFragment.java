@@ -34,8 +34,8 @@ public class BaseRecyclerViewFragment extends BaseFragment implements IOnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swipe_recycler_view, null);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        swipeRefreshLayout = (MySwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
+        recyclerView = view.findViewById(R.id.recyclerview);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

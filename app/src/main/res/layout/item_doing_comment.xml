@@ -17,6 +17,7 @@
             android:id="@+id/doing_photo"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/row_space_large" />
 
         <LinearLayout
@@ -54,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/row_space_default"
+                android:minHeight="@dimen/activity_horizontal_margin_large"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -61,8 +63,8 @@
                     android:id="@+id/doing_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/row_space_large"
                     android:textColor="@color/text_complementary"
+                    android:layout_gravity="bottom"
                     android:textSize="@dimen/medium_text" />
             </LinearLayout>
         </LinearLayout>

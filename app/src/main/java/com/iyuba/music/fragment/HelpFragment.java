@@ -1,6 +1,7 @@
 package com.iyuba.music.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,15 +28,15 @@ public class HelpFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if ((savedInstanceState != null)
                 && savedInstanceState.containsKey(KEY_CONTENT)) {
             mContent = savedInstanceState.getInt(KEY_CONTENT);
         }
         View root = inflater.inflate(R.layout.help_fragment, container, false);
-        ImageView iv = (ImageView) root.findViewById(R.id.iv);
-        iv.setImageBitmap(ReadBitmap.readBitmap(getContext(), getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", getContext().getPackageName())));
-        PullDoorView pullDoorView = (PullDoorView) root.findViewById(R.id.root);
+        ImageView iv =  root.findViewById(R.id.iv);
+        iv.setImageBitmap(ReadBitmap.readBitmap(root.getContext(), root.getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", root.getContext().getPackageName())));
+        PullDoorView pullDoorView = root.findViewById(R.id.root);
         if (usePullDown) {
             pullDoorView.setEnable(true);
             pullDoorView.setIOperationFinish(new IOperationResultInt() {
@@ -62,7 +63,7 @@ public class HelpFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CONTENT, mContent);
     }

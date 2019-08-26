@@ -7,11 +7,12 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/article_image_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,14 +24,14 @@
             <ImageView
                 android:id="@+id/article_image"
                 android:layout_width="100dp"
-                android:layout_height="80dp"
+                android:layout_height="72dp"
                 android:scaleType="fitXY" />
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/article_createtime_background"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/article_image"
+                android:layout_gravity="bottom"
                 android:background="#66000000"
                 android:padding="@dimen/row_space_small">
 
@@ -38,17 +39,16 @@
                     android:id="@+id/article_createtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
                     android:textColor="#dcdcdc"
                     android:textSize="@dimen/default_text" />
-            </RelativeLayout>
-        </RelativeLayout>
+            </FrameLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/article_image_layout"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -62,7 +62,7 @@
                 android:textSize="@dimen/big_text" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/row_space_default"
                 android:orientation="vertical">
@@ -76,10 +76,10 @@
                     android:lineSpacingMultiplier="1.2"
                     android:maxLines="2"
                     android:textColor="@color/text_complementary"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/medium_text" />
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_small">
 
@@ -95,13 +95,13 @@
                         android:id="@+id/article_readcount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/row_space_large"
                         android:gravity="center"
                         android:textColor="@color/text_gray_color"
                         android:textSize="13sp" />
-                </RelativeLayout>
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

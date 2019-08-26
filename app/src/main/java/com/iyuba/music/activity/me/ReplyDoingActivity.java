@@ -67,13 +67,13 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     protected void initWidget() {
         super.initWidget();
         noComment = findViewById(R.id.no_comment);
-        doingPhoto = (VipPhoto) findViewById(R.id.doings_photo);
-        doingUserName = (TextView) findViewById(R.id.doings_username);
-        doingMessage = (TextView) findViewById(R.id.doings_message);
-        doingTime = (TextView) findViewById(R.id.doings_time);
-        doingReplyCounts = (TextView) findViewById(R.id.doings_reply_count);
-        RecyclerView doingRecycleView = (RecyclerView) findViewById(R.id.doings_reply_list);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
+        doingPhoto = findViewById(R.id.doings_photo);
+        doingUserName = findViewById(R.id.doings_username);
+        doingMessage = findViewById(R.id.doings_message);
+        doingTime = findViewById(R.id.doings_time);
+        doingReplyCounts = findViewById(R.id.doings_reply_count);
+        RecyclerView doingRecycleView = findViewById(R.id.doings_reply_list);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -95,7 +95,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         doingRecycleView.setAdapter(commentAdapter);
         doingRecycleView.addItemDecoration(new DividerItemDecoration());
         swipeRefreshLayout.setRefreshing(true);
-        commentView = (CommentView) findViewById(R.id.comment_view);
+        commentView = findViewById(R.id.comment_view);
     }
 
     @Override

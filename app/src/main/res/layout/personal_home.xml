@@ -21,7 +21,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/row_space_medium"
-            android:layout_marginTop="@dimen/row_space_medium" />
+            android:layout_marginTop="@dimen/row_space_very_large" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,13 +34,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/title_text" />
 
             <ImageView
                 android:id="@+id/name_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginStart="@dimen/row_space_big" />
         </LinearLayout>
 
@@ -173,7 +173,7 @@
             android:layout_margin="@dimen/row_space_large"
             android:text="@string/person_doings"
             android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/large_text" />
 
         <ImageView
             android:layout_width="match_parent"

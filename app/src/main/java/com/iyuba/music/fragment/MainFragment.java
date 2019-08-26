@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -35,12 +36,11 @@ import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
+import com.iyuba.music.widget.view.CircleImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 
 /**
@@ -69,8 +69,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, null);
-        ArrayList<String> title = new ArrayList<>();
-        title.addAll(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
+        ArrayList<String> title = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
         viewPagerIndicator.setTabItemTitles(title);
@@ -81,7 +80,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(mainFragmentAdapter);
@@ -114,15 +113,15 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initPlayControl(View root) {
-        pic = (CircleImageView) root.findViewById(R.id.song_image);
-        progressBar = (RoundProgressBar) root.findViewById(R.id.progressbar);
+        pic = root.findViewById(R.id.song_image);
+        progressBar = root.findViewById(R.id.progressbar);
         progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
         progressBar.setMax(100);
-        curArticleTitle = (TextView) root.findViewById(R.id.curarticle_title);
-        curArticleInfo = (TextView) root.findViewById(R.id.curarticle_info);
-        ImageView former = (ImageView) root.findViewById(R.id.main_former);
-        ImageView latter = (ImageView) root.findViewById(R.id.main_latter);
-        pause = (MorphButton) root.findViewById(R.id.main_play);
+        curArticleTitle = root.findViewById(R.id.curarticle_title);
+        curArticleInfo = root.findViewById(R.id.curarticle_info);
+        ImageView former = root.findViewById(R.id.main_former);
+        ImageView latter = root.findViewById(R.id.main_latter);
+        pause = root.findViewById(R.id.main_play);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         pause.setOnClickListener(new View.OnClickListener() {
             @Override

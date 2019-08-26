@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -149,7 +150,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
         final int pos = position;
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
