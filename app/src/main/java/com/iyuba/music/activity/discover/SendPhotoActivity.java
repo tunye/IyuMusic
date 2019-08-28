@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.buaa.ct.comment.ContextManager;
 import com.buaa.ct.comment.EmojiView;
@@ -37,6 +36,7 @@ import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -65,7 +65,6 @@ public class SendPhotoActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
         setContentView(R.layout.circle_photo);
-        context = this;
         images = new ArrayList<>();
         initWidget();
         setListener();
@@ -79,11 +78,11 @@ public class SendPhotoActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         photoContent = findViewById(R.id.photo_content);
-        content = (MaterialEditText) findViewById(R.id.feedback_content);
-        photo = (ImageView) findViewById(R.id.state_image);
-        emojiView = (EmojiView) findViewById(R.id.emoji);
+        content = findViewById(R.id.feedback_content);
+        photo = findViewById(R.id.state_image);
+        emojiView = findViewById(R.id.emoji);
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.photo_on_way));
     }
 
@@ -131,7 +130,7 @@ public class SendPhotoActivity extends BaseInputActivity {
             waittingDialog.show();
             if (images.size() == 0) {
                 WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(),
-                        content.getEditableText().toString()), new IProtocolResponse() {
+                        content.getEditableText().toString()), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(msg);
@@ -145,9 +144,8 @@ public class SendPhotoActivity extends BaseInputActivity {
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(String result) {
                         handler.sendEmptyMessage(1);
-                        String result = (String) object;
                         if ("351".equals(result)) {
                             handler.sendEmptyMessage(0);
                             handler.sendEmptyMessage(1);
@@ -254,7 +252,7 @@ public class SendPhotoActivity extends BaseInputActivity {
         public void handleMessageByRef(final SendPhotoActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.photo_success);
@@ -263,16 +261,6 @@ public class SendPhotoActivity extends BaseInputActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
                         }
                     }).playOn(activity.photoContent);
                     break;

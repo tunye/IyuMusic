@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
         <include
@@ -16,11 +17,10 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/activity_horizontal_margin">
@@ -54,7 +54,7 @@
                 </com.iyuba.music.widget.roundview.RoundRelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
@@ -290,7 +290,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/person_detail_other"
@@ -298,7 +298,7 @@
                     android:textSize="@dimen/large_text" />
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_large"
                     android:orientation="vertical">
@@ -436,5 +436,5 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

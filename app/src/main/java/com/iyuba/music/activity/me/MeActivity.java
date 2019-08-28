@@ -31,7 +31,6 @@ public class MeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discover);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -40,7 +39,7 @@ public class MeActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        RecyclerView discover = (RecyclerView) findViewById(R.id.discover_list);
+        RecyclerView discover = findViewById(R.id.discover_list);
         discover.setLayoutManager(new LinearLayoutManager(context));
         meAdapter = new MeAdapter(context);
         discover.setAdapter(meAdapter);

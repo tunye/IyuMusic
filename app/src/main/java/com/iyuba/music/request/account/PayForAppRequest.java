@@ -28,14 +28,14 @@ import java.util.Map;
  * Created by 10202 on 2015/10/8.
  */
 public class PayForAppRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<UserInfo>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
                         UserInfo userInfo = AccountManager.getInstance().getUserInfo();
-                        BaseApiEntity baseApiEntity = new BaseApiEntity();
+                        BaseApiEntity<UserInfo> baseApiEntity = new BaseApiEntity<>();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
@@ -74,10 +74,7 @@ public class PayForAppRequest {
                                     break;
                             }
                         }
-                    } catch (XmlPullParserException e) {
-                        e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
-                    } catch (IOException e) {
+                    } catch (XmlPullParserException | IOException e) {
                         e.printStackTrace();
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
                     }

@@ -1,6 +1,5 @@
 package com.iyuba.music.activity.study;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -20,26 +19,19 @@ import com.iyuba.music.widget.textview.JustifyTextView;
  * Created by 10202 on 2015/12/17.
  */
 public class StudyInfoFragment extends BaseFragment {
-    private Context context;
     private ImageView img;
     private TextView title, singer, announcer;
     private JustifyTextView content;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getActivity();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.study_info, null);
-        img = (ImageView) view.findViewById(R.id.article_img);
-        title = (TextView) view.findViewById(R.id.article_title);
-        announcer = (TextView) view.findViewById(R.id.article_announcer);
-        singer = (TextView) view.findViewById(R.id.article_singer);
-        content = (JustifyTextView) view.findViewById(R.id.article_abstract);
+        img = view.findViewById(R.id.article_img);
+        title = view.findViewById(R.id.article_title);
+        announcer = view.findViewById(R.id.article_announcer);
+        singer = view.findViewById(R.id.article_singer);
+        content = view.findViewById(R.id.article_abstract);
         content.setMovementMethod(ScrollingMovementMethod.getInstance());
         refresh();
         return view;

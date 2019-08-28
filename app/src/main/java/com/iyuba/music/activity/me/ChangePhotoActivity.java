@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -31,11 +32,10 @@ import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.iyuba.music.widget.view.CircleImageView;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2016/2/18.
@@ -58,7 +58,6 @@ public class ChangePhotoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_photo);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -72,8 +71,8 @@ public class ChangePhotoActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
         root = findViewById(R.id.root);
-        photo = (CircleImageView) findViewById(R.id.photo);
-        change = (RoundTextView) findViewById(R.id.change);
+        photo = findViewById(R.id.photo);
+        change = findViewById(R.id.change);
         AddRippleEffect.addRippleEffect(change);
         menu = new ContextMenu(context);
         initContextMunu();
@@ -129,7 +128,7 @@ public class ChangePhotoActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
@@ -169,12 +168,10 @@ public class ChangePhotoActivity extends BaseActivity {
                     ImageCropActivity.startCrop(this, imgPath);
                     break;
                 case ImageSelectorActivity.REQUEST_IMAGE:
-                    if (resultCode == RESULT_OK) {
-                        ArrayList<String> images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
-                        imgPath = images.get(0);
-                        photo.setImageBitmap(getImage());
-                        startUploadThread();
-                    }
+                    ArrayList<String> images = (ArrayList<String>) data.getSerializableExtra(ImageSelectorActivity.REQUEST_OUTPUT);
+                    imgPath = images.get(0);
+                    photo.setImageBitmap(getImage());
+                    startUploadThread();
                     break;
                 case ImageCropActivity.REQUEST_CROP:
                     imgPath = data.getStringExtra(ImageCropActivity.OUTPUT_PATH);

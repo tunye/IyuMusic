@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.addam.library.api.AddamManager;
 import com.buaa.ct.appskin.SkinManager;
+import com.buaa.ct.appskin.callback.ISkinChangedListener;
 import com.buaa.ct.videocache.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
@@ -31,9 +32,12 @@ import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.sqlite.ImportDatabase;
+import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.dialog.IyubaDialog;
+import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -132,6 +136,14 @@ public class MusicApplication extends Application {
     private void initApplication() {
         ConfigManager.getInstance();
         SkinManager.getInstance().init(this, "MusicSkin");
+        SkinManager.getInstance().addChangedListener(new ISkinChangedListener() {
+            @Override
+            public void onSkinChanged() {
+                RuntimeManager.getApplication().setTheme(GetAppColor.getInstance().getAppTheme());
+                IyubaDialog.styleId = GetAppColor.getInstance().getDialogTheme();
+                MyMaterialDialog.styleId = GetAppColor.getInstance().getMaterialDialogTheme();
+            }
+        });
         baseHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

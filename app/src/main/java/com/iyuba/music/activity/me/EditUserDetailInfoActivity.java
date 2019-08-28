@@ -37,13 +37,12 @@ import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.view.CircleImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 public class EditUserDetailInfoActivity extends BaseInputActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
@@ -58,7 +57,6 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_user_info);
-        context = this;
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.person_detail_loading));
         initWidget();
         setListener();
@@ -68,20 +66,20 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        userImage = (CircleImageView) findViewById(R.id.iveditPortrait);
-        gender = (TextView) findViewById(R.id.editGender);
-        birthday = (TextView) findViewById(R.id.editBirthday);
-        location = (MaterialEditText) findViewById(R.id.editResideLocation);
-        zodiac = (TextView) findViewById(R.id.editZodiac);
-        constellation = (TextView) findViewById(R.id.editConstellation);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        userImage = findViewById(R.id.iveditPortrait);
+        gender = findViewById(R.id.editGender);
+        birthday = findViewById(R.id.editBirthday);
+        location = findViewById(R.id.editResideLocation);
+        zodiac = findViewById(R.id.editZodiac);
+        constellation = findViewById(R.id.editConstellation);
         changeImageLayout = findViewById(R.id.editPortrait);
-        school = (MaterialEditText) findViewById(R.id.editSchool);
-        company = (MaterialEditText) findViewById(R.id.editCompany);
-        affectiveStatus = (MaterialEditText) findViewById(R.id.editAffectiveStatus);
-        lookingFor = (MaterialEditText) findViewById(R.id.editLookingFor);
-        bio = (MaterialEditText) findViewById(R.id.editBio);
-        interest = (MaterialEditText) findViewById(R.id.editInterest);
+        school = findViewById(R.id.editSchool);
+        company = findViewById(R.id.editCompany);
+        affectiveStatus = findViewById(R.id.editAffectiveStatus);
+        lookingFor = findViewById(R.id.editLookingFor);
+        bio = findViewById(R.id.editBio);
+        interest = findViewById(R.id.editInterest);
     }
 
     private void setText() {
@@ -193,7 +191,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.getInstance().getUserId(), key, value), new IProtocolResponse() {
+                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.getInstance().getUserId(), key, value), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(msg);
@@ -205,8 +203,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                     }
 
                     @Override
-                    public void response(Object object) {
-                        String result = object.toString();
+                    public void response(String result) {
                         toolbarOper.setClickable(true);
                         if (result.equals("221")) {
                             CustomToast.getInstance().showToast(R.string.person_detail_success);
@@ -234,7 +231,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {
-            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse() {
+            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse<String>() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.getInstance().showToast(msg);
@@ -248,8 +245,8 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
                 }
 
                 @Override
-                public void response(Object object) {
-                    location.setText(object.toString().trim());
+                public void response(String result) {
+                    location.setText(result.trim());
                     getDetaiInfo();
                 }
             });
@@ -257,7 +254,7 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
     }
 
     private void getDetaiInfo() {
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse<MostDetailInfo>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -271,8 +268,8 @@ public class EditUserDetailInfoActivity extends BaseInputActivity {
             }
 
             @Override
-            public void response(Object object) {
-                editUserInfo = (MostDetailInfo) object;
+            public void response(MostDetailInfo result) {
+                editUserInfo = result;
                 handler.sendEmptyMessage(1);
             }
         });

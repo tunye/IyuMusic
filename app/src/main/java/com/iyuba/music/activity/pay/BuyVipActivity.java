@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
@@ -25,11 +24,11 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
+import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -51,7 +50,6 @@ public class BuyVipActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buy_vip);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -67,21 +65,21 @@ public class BuyVipActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        month = (MaterialRippleLayout) findViewById(R.id.vip_month);
-        threeMonth = (MaterialRippleLayout) findViewById(R.id.vip_three_month);
-        halfYear = (MaterialRippleLayout) findViewById(R.id.vip_half_year);
-        year = (MaterialRippleLayout) findViewById(R.id.vip_year);
-        app = (MaterialRippleLayout) findViewById(R.id.vip_app);
-        payWay = (MaterialRippleLayout) findViewById(R.id.vip_buy_way);
+        month = findViewById(R.id.vip_month);
+        threeMonth = findViewById(R.id.vip_three_month);
+        halfYear = findViewById(R.id.vip_half_year);
+        year = findViewById(R.id.vip_year);
+        app = findViewById(R.id.vip_app);
+        payWay = findViewById(R.id.vip_buy_way);
 
-        vipUpdateText = (TextView) findViewById(R.id.vip_update_text);
-        vipIyubi = (TextView) findViewById(R.id.vip_iyubi);
-        vipDeadline = (TextView) findViewById(R.id.vip_deadline);
-        vipName = (TextView) findViewById(R.id.vip_name);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        vipUpdateText = findViewById(R.id.vip_update_text);
+        vipIyubi = findViewById(R.id.vip_iyubi);
+        vipDeadline = findViewById(R.id.vip_deadline);
+        vipName = findViewById(R.id.vip_name);
+        toolbarOper = findViewById(R.id.toolbar_oper);
 
-        vipStatus = (ImageView) findViewById(R.id.vip_status);
-        vipPhoto = (CircleImageView) findViewById(R.id.vip_photo);
+        vipStatus = findViewById(R.id.vip_status);
+        vipPhoto = findViewById(R.id.vip_photo);
     }
 
     @Override
@@ -270,7 +268,7 @@ public class BuyVipActivity extends BaseActivity {
             materialDialog.show();
         } else if (type != 4) {
             PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.getInstance().getUserId(),
-                    String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse() {
+                    String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.getInstance().showToast(msg);
@@ -282,10 +280,9 @@ public class BuyVipActivity extends BaseActivity {
                 }
 
                 @Override
-                public void response(Object object) {
-                    BaseApiEntity apiEntity = (BaseApiEntity) object;
+                public void response(BaseApiEntity<UserInfo> apiEntity) {
                     if (BaseApiEntity.isSuccess(apiEntity)) {
-                        userInfo = (UserInfo) apiEntity.getData();
+                        userInfo = apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
                         AccountManager.getInstance().setUserInfo(userInfo);
                         CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,
@@ -299,7 +296,7 @@ public class BuyVipActivity extends BaseActivity {
             });
         } else {
             PayForAppRequest.exeRequest(PayForAppRequest.generateUrl(new String[]
-                    {AccountManager.getInstance().getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse() {
+                    {AccountManager.getInstance().getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.getInstance().showToast(msg);
@@ -311,10 +308,9 @@ public class BuyVipActivity extends BaseActivity {
                 }
 
                 @Override
-                public void response(Object object) {
-                    BaseApiEntity baseApiEntity = (BaseApiEntity) object;
+                public void response(BaseApiEntity<UserInfo> baseApiEntity) {
                     if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                        userInfo = (UserInfo) baseApiEntity.getData();
+                        userInfo = baseApiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
                         AccountManager.getInstance().setUserInfo(userInfo);
                         CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,

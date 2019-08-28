@@ -36,7 +36,6 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credits);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -45,13 +44,13 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        counts = (RiseNumberTextView) findViewById(R.id.credit_counts);
-        rank = (RiseNumberTextView) findViewById(R.id.credit_rank);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        counts = findViewById(R.id.credit_counts);
+        rank = findViewById(R.id.credit_rank);
         creditDetail = findViewById(R.id.credit_detail);
         creditExchange = findViewById(R.id.credit_exchange);
-        creditDuration = (TextView) findViewById(R.id.credit_duration);
-        swipeRefreshLayout = (CustomSwipeToRefresh) findViewById(R.id.swipe_refresh_widget);
+        creditDuration = findViewById(R.id.credit_duration);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setRefreshing(true);
@@ -135,7 +134,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     private void getData() {
-        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse() {
+        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -147,8 +146,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             }
 
             @Override
-            public void response(Object object) {
-                String result = object.toString();
+            public void response(String result) {
                 String[] para = result.split("@@@");
                 rankPos = para[0];
                 duration = para[1];

@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class DoingCommentRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<DoingComment>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -37,7 +37,7 @@ public class DoingCommentRequest {
                     try {
                         String resultCode = jsonObject.getString("result");
                         if ("311".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
+                            BaseListEntity<ArrayList<DoingComment>> baseListEntity = new BaseListEntity<>();
                             if (jsonObject.getInt("counts") == 0) {
                                 baseListEntity.setIsLastPage(true);
                             } else {

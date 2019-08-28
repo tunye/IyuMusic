@@ -41,7 +41,7 @@ public class DictSynchroRequest {
         return instance;
     }
 
-    public void exeRequest(String url, final IProtocolResponse response) {
+    public void exeRequest(String url, final IProtocolResponse<ArrayList<Word>> response) {
         final String time = DateFormat.formatTime(Calendar.getInstance().getTime());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {

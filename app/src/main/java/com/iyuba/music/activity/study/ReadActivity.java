@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -30,7 +31,6 @@ public class ReadActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read);
-        context = this;
         if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
             needRestart = true;
             sendBroadcast(new Intent("iyumusic.pause"));
@@ -55,8 +55,8 @@ public class ReadActivity extends BaseActivity {
         super.initWidget();
         ArrayList<String> tabTitle = new ArrayList<>();
         tabTitle.addAll(Arrays.asList(context.getResources().getStringArray(R.array.read_tab_title)));
-        ViewPager viewPager = (ViewPager) findViewById(R.id.read_main);
-        TabIndicator viewPagerIndicator = (TabIndicator) findViewById(R.id.tab_indicator);
+        ViewPager viewPager = findViewById(R.id.read_main);
+        TabIndicator viewPagerIndicator = findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new ReadFragmentAdapter(getSupportFragmentManager()));
         viewPagerIndicator.setTabItemTitles(tabTitle);
         viewPagerIndicator.setViewPager(viewPager, 0);
@@ -76,7 +76,7 @@ public class ReadActivity extends BaseActivity {
         }
     }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             final MyMaterialDialog materialDialog = new MyMaterialDialog(context);

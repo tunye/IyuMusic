@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -29,7 +28,6 @@ public class FriendCenter extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_center);
-        context = this;
         startType = getIntent().getStringExtra("type");
         intentType = getIntent().getStringExtra("intenttype");
         needPop = getIntent().getBooleanExtra("needpop", false);
@@ -41,11 +39,11 @@ public class FriendCenter extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         ArrayList<String> tabTitle = new ArrayList<>();
         tabTitle.addAll(Arrays.asList(context.getResources().getStringArray(R.array.friend_tab_title)));
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        TabIndicator viewPagerIndicator = (TabIndicator) findViewById(R.id.tab_indicator);
+        viewPager = findViewById(R.id.viewpager);
+        TabIndicator viewPagerIndicator = findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new FriendFragmentAdapter(getSupportFragmentManager()));
         viewPagerIndicator.setTabItemTitles(tabTitle);
         viewPagerIndicator.setViewPager(viewPager, 0);

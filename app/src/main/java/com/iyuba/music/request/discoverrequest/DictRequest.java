@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/8.
  */
 public class DictRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<Word> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
@@ -77,10 +77,7 @@ public class DictRequest {
                                     break;
                             }
                         }
-                    } catch (XmlPullParserException e) {
-                        e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
-                    } catch (IOException e) {
+                    } catch (XmlPullParserException | IOException e) {
                         e.printStackTrace();
                         response.onServerError(RuntimeManager.getString(R.string.data_error));
                     }

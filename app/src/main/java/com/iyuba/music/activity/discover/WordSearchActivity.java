@@ -16,7 +16,6 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.appskin.BaseSkinActivity;
@@ -43,7 +42,7 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
  */
 public class WordSearchActivity extends BaseSkinActivity {
     protected Context context;
-    protected RelativeLayout searchBarLayout;
+    protected View searchBarLayout;
     private WordSearchAdapter wordSearchAdapter;
     private ArrayList<Word> wordArrayList;
     private MaterialEditText searchContent;
@@ -66,11 +65,11 @@ public class WordSearchActivity extends BaseSkinActivity {
     }
 
     protected void initWidget() {
-        searchBarLayout = (RelativeLayout) findViewById(R.id.search_bar);
-        searchContent = (MaterialEditText) findViewById(R.id.search_content);
+        searchBarLayout = findViewById(R.id.search_bar);
+        searchContent = findViewById(R.id.search_content);
         searchContent.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        search = (TextView) findViewById(R.id.search);
-        RecyclerView wordList = (RecyclerView) findViewById(R.id.word_search_list);
+        search = findViewById(R.id.search);
+        RecyclerView wordList = findViewById(R.id.word_search_list);
         wordList.setLayoutManager(new LinearLayoutManager(this));
         wordSearchAdapter = new WordSearchAdapter(context, wordArrayList);
         wordList.setAdapter(wordSearchAdapter);

@@ -56,7 +56,6 @@ public class WordContentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word);
-        context = this;
         wordSetOp = new WordSetOp();
         appointWord = getIntent().getStringExtra("word");
         source = getIntent().getStringExtra("source");
@@ -70,13 +69,13 @@ public class WordContentActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        key = (TextView) findViewById(R.id.word_key);
-        pron = (TextView) findViewById(R.id.word_pron);
-        def = (TextView) findViewById(R.id.word_def);
-        example = (JustifyTextView) findViewById(R.id.example);
-        speaker = (ImageView) findViewById(R.id.word_speaker);
-        wordCollect = (ImageView) findViewById(R.id.word_collect);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        key = findViewById(R.id.word_key);
+        pron = findViewById(R.id.word_pron);
+        def = findViewById(R.id.word_def);
+        example = findViewById(R.id.example);
+        speaker = findViewById(R.id.word_speaker);
+        wordCollect = findViewById(R.id.word_collect);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.word_searching));
     }
 
@@ -252,7 +251,7 @@ public class WordContentActivity extends BaseActivity {
 
     private void getNetWord(final String wordkey, final IOperationResult finish) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse() {
+            DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse<Word>() {
                 @Override
                 public void onNetError(String msg) {
                     finish.fail(msg);
@@ -264,8 +263,8 @@ public class WordContentActivity extends BaseActivity {
                 }
 
                 @Override
-                public void response(Object object) {
-                    currentWord = (Word) object;
+                public void response(Word result) {
+                    currentWord = result;
                     finish.success(null);
                 }
             });
@@ -284,7 +283,7 @@ public class WordContentActivity extends BaseActivity {
     private void synchroYun(final String type) {
         final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, type, currentWord.getWord()),
-                new IProtocolResponse() {
+                new IProtocolResponse<Integer>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(msg);
@@ -296,7 +295,7 @@ public class WordContentActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(Integer resultCode) {
                         if (type.equals("insert")) {
                             new PersonalWordOp().insertWord(currentWord.getWord(), userid);
                             CustomToast.getInstance().showToast(R.string.word_add);

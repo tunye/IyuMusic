@@ -92,7 +92,7 @@
 
         </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/no_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -103,11 +103,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:text="@string/no_comment"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/medium_text" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <com.buaa.ct.comment.CommentView
             android:id="@+id/comment_view"

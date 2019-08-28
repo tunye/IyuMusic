@@ -2,13 +2,12 @@ package com.iyuba.music.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
 import com.iyuba.music.entity.BaseListEntity;
@@ -17,8 +16,6 @@ import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.ground.VideoPlayerActivity;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -28,11 +25,9 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.FavorSynRequest;
 import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,9 +36,7 @@ import java.util.Iterator;
 /**
  * Created by 10202 on 2016/3/7.
  */
-public class FavorSongActivity extends BaseActivity implements IOnClickListener {
-    private RecyclerView newsRecycleView;
-    private ArrayList<Article> newsList;
+public class FavorSongActivity extends BaseListActivity<Article> {
     private SimpleNewsAdapter newsAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
@@ -55,7 +48,6 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classify_with_opersub);
-        context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.article_fav_synchroing));
@@ -73,29 +65,28 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        MySwipeRefreshLayout swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
+        toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         swipeRefreshLayout.setEnabled(false);
-        newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
-        newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        RecyclerView newsRecycleView = findViewById(R.id.news_recyclerview);
+        setRecyclerViewProperty(newsRecycleView);
         newsAdapter = new SimpleNewsAdapter(context, 1);
         newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String app = newsList.get(position).getApp();
+                String app = datas.get(position).getApp();
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
                     ArrayList<Article> temp = new ArrayList<>();
-                    temp.add(newsList.get(position));
+                    temp.add(datas.get(position));
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(FavorSongActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setCurArticle(datas.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -105,13 +96,11 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             }
         });
         newsRecycleView.setAdapter(newsAdapter);
-        newsRecycleView.addItemDecoration(new DividerItemDecoration());
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolBarOperSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,9 +131,9 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                     newsAdapter.setDelete(false);
                     toolbarOper.setText(R.string.article_edit);
                     toolBarOperSub.setText(R.string.article_synchro);
-                    newsList = newsAdapter.getDataSet();
+                    datas = newsAdapter.getDataSet();
                     Article temp;
-                    for (Iterator<Article> it = newsList.iterator(); it.hasNext(); ) {
+                    for (Iterator<Article> it = datas.iterator(); it.hasNext(); ) {
                         temp = it.next();
                         if (temp.isDelete()) {
                             it.remove();
@@ -152,9 +141,9 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                         }
                     }
                     if (FavorSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(newsList);
+                        StudyManager.getInstance().setSourceArticleList(datas);
                     }
-                    newsAdapter.setDataSet(newsList);
+                    newsAdapter.setDataSet(datas);
                 }
             }
         });
@@ -172,23 +161,18 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
         getData();
     }
 
-    @Override
-    public void onClick(View view, Object message) {
-        newsRecycleView.scrollToPosition(0);
-    }
-
     private void getData() {
-        newsList = new ArrayList<>();
+        datas = new ArrayList<>();
         ArrayList<LocalInfo> temp = localInfoOp.findDataByFavourite();
         Article article;
         for (LocalInfo local : temp) {
             article = articleOp.findById(local.getApp(), local.getId());
             article.setExpireContent(local.getFavTime());
-            newsList.add(article);
+            datas.add(article);
         }
-        newsAdapter.setDataSet(newsList);
+        newsAdapter.setDataSet(datas);
         if (FavorSongActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-            StudyManager.getInstance().setSourceArticleList(newsList);
+            StudyManager.getInstance().setSourceArticleList(datas);
         }
     }
 
@@ -240,7 +224,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
 
     private void getYunFavor() {
         waittingDialog.show();
-        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse() {
+        FavorSynRequest.exeRequest(FavorSynRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -252,9 +236,8 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
+                ArrayList<Article> netData = listEntity.getData();
                 if (netData.size() != 0) {
                     LocalInfo localinfo;
                     for (Article temp : netData) {
@@ -273,7 +256,7 @@ public class FavorSongActivity extends BaseActivity implements IOnClickListener 
                         }
                     }
                     articleOp.saveData(netData);
-                    newsRecycleView.postDelayed(new Runnable() {
+                    toolBarOperSub.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             waittingDialog.dismiss();

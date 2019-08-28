@@ -68,19 +68,19 @@ public class UserDetailInfoActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        tvUserName = (TextView) findViewById(R.id.tvUserName);
-        tvGender = (TextView) findViewById(R.id.tvGender);
-        tvResideLocation = (TextView) findViewById(R.id.tvResideLocation);
-        tvBirthday = (TextView) findViewById(R.id.tvBirthday);
-        tvConstellation = (TextView) findViewById(R.id.tvConstellation);
-        tvZodiac = (TextView) findViewById(R.id.tvZodiac);
-        tvGraduatesSchool = (TextView) findViewById(R.id.tvGraduatesSchool);
-        tvCompany = (TextView) findViewById(R.id.tvCompany);
-        tvAffectivestatus = (TextView) findViewById(R.id.tvAffectivestatus);
-        tvLookingfor = (TextView) findViewById(R.id.tvLookingfor);
-        tvIntro = (TextView) findViewById(R.id.tvBio);
-        tvInterest = (TextView) findViewById(R.id.tvInterest);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        tvUserName = findViewById(R.id.tvUserName);
+        tvGender = findViewById(R.id.tvGender);
+        tvResideLocation = findViewById(R.id.tvResideLocation);
+        tvBirthday = findViewById(R.id.tvBirthday);
+        tvConstellation = findViewById(R.id.tvConstellation);
+        tvZodiac = findViewById(R.id.tvZodiac);
+        tvGraduatesSchool = findViewById(R.id.tvGraduatesSchool);
+        tvCompany = findViewById(R.id.tvCompany);
+        tvAffectivestatus = findViewById(R.id.tvAffectivestatus);
+        tvLookingfor = findViewById(R.id.tvLookingfor);
+        tvIntro = findViewById(R.id.tvBio);
+        tvInterest = findViewById(R.id.tvInterest);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class UserDetailInfoActivity extends BaseActivity {
         if (!AccountManager.getInstance().getUserId().equals(SocialManager.getInstance().getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.getInstance().getFriendId()), new IProtocolResponse() {
+        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.getInstance().getFriendId()), new IProtocolResponse<MostDetailInfo>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -116,8 +116,8 @@ public class UserDetailInfoActivity extends BaseActivity {
             }
 
             @Override
-            public void response(Object object) {
-                userDetailInfo = (MostDetailInfo) object;
+            public void response(MostDetailInfo result) {
+                userDetailInfo = result;
                 userDetailInfo.format(context, userDetailInfo);
                 setText();
             }

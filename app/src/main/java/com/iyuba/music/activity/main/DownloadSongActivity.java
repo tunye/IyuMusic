@@ -58,7 +58,6 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.download_song);
-        context = this;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
         initWidget();
@@ -70,20 +69,20 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     protected void initWidget() {
         super.initWidget();
         getFileMap();
-        downloadScroll = (ScrollView) findViewById(R.id.download_scroll);
-        toolBarOperSub = (TextView) findViewById(R.id.toolbar_oper_sub);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        RecyclerView downloadedRecycleView = (RecyclerView) findViewById(R.id.downloaded_recyclerview);
+        downloadScroll = findViewById(R.id.download_scroll);
+        toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        RecyclerView downloadedRecycleView = findViewById(R.id.downloaded_recyclerview);
         downloadedRecycleView.setLayoutManager(new LinearLayoutManager(context));
         downloadedRecycleView.addItemDecoration(new DividerItemDecoration());
-        downloadedDel = (TextView) findViewById(R.id.downloaded_delete);
-        downloadedStatic = (TextView) findViewById(R.id.downloaded_statistic);
-        final RecyclerView downloadingRecycleView = (RecyclerView) findViewById(R.id.downloading_recyclerview);
+        downloadedDel = findViewById(R.id.downloaded_delete);
+        downloadedStatic = findViewById(R.id.downloaded_statistic);
+        final RecyclerView downloadingRecycleView = findViewById(R.id.downloading_recyclerview);
         downloadingRecycleView.setLayoutManager(new LinearLayoutManager(context));
         downloadingRecycleView.addItemDecoration(new DividerItemDecoration());
-        downloadingStatic = (TextView) findViewById(R.id.downloading_statistic);
-        downloadingDel = (TextView) findViewById(R.id.downloading_delete);
-        downloadingContinue = (TextView) findViewById(R.id.downloading_start);
+        downloadingStatic = findViewById(R.id.downloading_statistic);
+        downloadingDel = findViewById(R.id.downloading_delete);
+        downloadingContinue = findViewById(R.id.downloading_start);
         ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingBar = findViewById(R.id.downloading_bar);
         downloadedAdapter = new DownloadNewsAdapter(context, fileMap);

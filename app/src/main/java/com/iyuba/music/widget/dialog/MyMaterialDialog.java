@@ -31,7 +31,7 @@ import com.iyuba.music.widget.textview.JustifyTextView;
  */
 
 public class MyMaterialDialog {
-
+    public static int styleId = R.style.MyDialogTheme;
     private final static int BUTTON_BOTTOM = 9;
     private final static int BUTTON_TOP = 9;
 
@@ -261,7 +261,7 @@ public class MyMaterialDialog {
 
 
         private Builder() {
-            mAlertDialog = new AlertDialog.Builder(mContext, R.style.MyMaterialDialogTheme).create();
+            mAlertDialog = new AlertDialog.Builder(mContext, styleId).create();
             mAlertDialog.show();
 
             mAlertDialog.getWindow()

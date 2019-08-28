@@ -29,14 +29,14 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class SearchFriendRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<SearchFriend>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseListEntity baseListEntity = new BaseListEntity();
+                        BaseListEntity<ArrayList<SearchFriend>> baseListEntity = new BaseListEntity<>();
                         String resultCode = jsonObject.getString("result");
                         if ("591".equals(resultCode)) {
                             baseListEntity.setState(BaseListEntity.SUCCESS);

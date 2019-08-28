@@ -1,15 +1,12 @@
 package com.iyuba.music.activity.main;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -22,8 +19,6 @@ import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
@@ -33,42 +28,26 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerNewsRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.youdao.sdk.nativeads.RequestParameters;
-import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
-import com.youdao.sdk.nativeads.YouDaoNativeAdRenderer;
 import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 /**
  * Created by 10202 on 2016/1/2.
  */
-public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private RecyclerView newsRecycleView;
-    private ArrayList<Article> newsList;
+public class AnnouncerNewsList extends BaseListActivity<Article> {
     private SimpleNewsAdapter newsAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
-    private int curPage;
-    private boolean isLastPage = false;
     private Announcer announcer;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
-    //有道广告
-    private YouDaoRecyclerAdapter mAdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classify_with_oper);
-        context = this;
         announcer = new AnnouncerOp().findById(getIntent().getStringExtra("announcer"));
-        isLastPage = false;
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
         initWidget();
@@ -79,13 +58,9 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        newsRecycleView = (RecyclerView) findViewById(R.id.news_recyclerview);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        newsRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        RecyclerView newsRecycleView = findViewById(R.id.news_recyclerview);
+        setRecyclerViewProperty(newsRecycleView);
         newsAdapter = new SimpleNewsAdapter(context);
         if (DownloadUtil.checkVip()) {
             newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
@@ -93,9 +68,9 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setCurArticle(newsList.get(position));
+                    StudyManager.getInstance().setCurArticle(datas.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -106,14 +81,15 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
             newsRecycleView.setAdapter(newsAdapter);
         } else {
             mAdAdapter = new YouDaoRecyclerAdapter(this, newsAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
+            setYouDaoMsg();
             newsAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setCurArticle(newsList.get(mAdAdapter.getOriginalPosition(position)));
+                    StudyManager.getInstance().setCurArticle(datas.get(mAdAdapter.getOriginalPosition(position)));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
@@ -121,34 +97,14 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                 public void onItemLongClick(View view, int position) {
                 }
             });
-            // 绑定界面组件与广告参数的映射关系，用于渲染广告
-            final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
-                    new ViewBinder.Builder(R.layout.native_ad_row)
-                            .titleId(R.id.native_title)
-                            .mainImageId(R.id.native_main_image).build());
-            mAdAdapter.registerAdRenderer(adRenderer);
-            final Location location = null;
-            final String keywords = null;
-            // 声明app需要的资源，这样可以提供高质量的广告，也会节省网络带宽
-            final EnumSet<RequestParameters.NativeAdAsset> desiredAssets = EnumSet.of(
-                    RequestParameters.NativeAdAsset.TITLE, RequestParameters.NativeAdAsset.TEXT,
-                    RequestParameters.NativeAdAsset.ICON_IMAGE, RequestParameters.NativeAdAsset.MAIN_IMAGE,
-                    RequestParameters.NativeAdAsset.CALL_TO_ACTION_TEXT);
-            RequestParameters mRequestParameters = new RequestParameters.Builder()
-                    .location(location).keywords(keywords)
-                    .desiredAssets(desiredAssets).build();
             newsRecycleView.setAdapter(mAdAdapter);
-            mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
         }
-        newsRecycleView.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,45 +135,14 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
         title.setText(announcer.getName());
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onRefresh(int index) {
-        curPage = 1;
-        newsList = new ArrayList<>();
-        isLastPage = false;
-        getNewsData();
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (newsList.size() == 0) {
-
-        } else if (!isLastPage) {
-            curPage++;
-            getNewsData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.article_load_all);
-        }
-    }
-
-    private void getNewsData() {
-        AnnouncerNewsRequest.exeRequest(AnnouncerNewsRequest.generateUrl(announcer.getId(), curPage), new IProtocolResponse() {
+    protected void getNetData() {
+        AnnouncerNewsRequest.exeRequest(AnnouncerNewsRequest.generateUrl(announcer.getId(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -227,28 +152,27 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+                ArrayList<Article> netData = listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     CustomToast.getInstance().showToast(R.string.article_load_all);
                 } else {
-                    newsList.addAll(netData);
-                    newsAdapter.setDataSet(newsList);
+                    datas.addAll(netData);
+                    newsAdapter.setDataSet(datas);
                     if (curPage == 1) {
                     } else {
                         CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
                     }
                     if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(newsList);
+                        StudyManager.getInstance().setSourceArticleList((ArrayList<Article>) datas);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
@@ -267,19 +191,6 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
     }
 
     @Override
-    public void onClick(View view, Object message) {
-        newsRecycleView.scrollToPosition(0);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mAdAdapter != null) {
-            mAdAdapter.destroy();
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (!mipush) {
             super.onBackPressed();
@@ -289,7 +200,7 @@ public class AnnouncerNewsList extends BaseActivity implements MySwipeRefreshLay
     }
 
     private void getDbData() {
-        newsList.addAll(articleOp.findDataByAnnouncer(announcer.getId(), newsList.size(), 20));
-        newsAdapter.setDataSet(newsList);
+        datas.addAll(articleOp.findDataByAnnouncer(announcer.getId(), datas.size(), 20));
+        newsAdapter.setDataSet(datas);
     }
 }

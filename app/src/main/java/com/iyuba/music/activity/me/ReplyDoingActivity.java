@@ -1,17 +1,21 @@
 package com.iyuba.music.activity.me;
 
+import android.content.Context;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.buaa.ct.comment.CommentView;
 import com.buaa.ct.comment.ContextManager;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.me.DoingCommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Doing;
@@ -19,14 +23,14 @@ import com.iyuba.music.entity.doings.DoingComment;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.DoingCommentRequest;
 import com.iyuba.music.request.merequest.SendDoingCommentRequest;
 import com.iyuba.music.util.DateFormat;
+import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.imageview.VipPhoto;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,18 +38,14 @@ import java.util.Date;
 /**
  * Created by 10202 on 2016/2/13.
  */
-public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener {
+public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
     public static final String VIP_FLG = "vip_flg";
     private Doing doing;
     private VipPhoto doingPhoto;
     private TextView doingUserName, doingMessage, doingTime, doingReplyCounts;
-    private ArrayList<DoingComment> comments;
     private DoingCommentAdapter commentAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
     private CommentView commentView;
     private View noComment;
-    private int commentPage;
-    private boolean isLastPage = false;
     private DoingComment selectComment;
     private boolean isVip;
 
@@ -54,8 +54,6 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
         setContentView(R.layout.reply_doings);
-        context = this;
-        isLastPage = false;
         isVip = getIntent().getBooleanExtra(VIP_FLG, false);
         initWidget();
         setListener();
@@ -73,16 +71,12 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         doingTime = findViewById(R.id.doings_time);
         doingReplyCounts = findViewById(R.id.doings_reply_count);
         RecyclerView doingRecycleView = findViewById(R.id.doings_reply_list);
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        doingRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        setRecyclerViewProperty(doingRecycleView);
         commentAdapter = new DoingCommentAdapter(context);
         commentAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                selectComment = comments.get(position);
+                selectComment = datas.get(position);
                 commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,
                         selectComment.getUsername()));
                 commentView.getmEtText().setSelection(commentView.getmEtText().length());
@@ -93,8 +87,6 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
             }
         });
         doingRecycleView.setAdapter(commentAdapter);
-        doingRecycleView.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
         commentView = findViewById(R.id.comment_view);
     }
 
@@ -144,6 +136,27 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         SocialManager.getInstance().popDoing();
@@ -157,40 +170,14 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         }
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
     @Override
-    public void onRefresh(int index) {
-        commentPage = 1;
-        comments = new ArrayList<>();
-        isLastPage = false;
-        getCommentData();
+    protected int getToastResource() {
+        return R.string.comment_get_all;
     }
 
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
     @Override
-    public void onLoad(int index) {
-        if (comments.size() == 0) {
-
-        } else if (!isLastPage) {
-            commentPage++;
-            getCommentData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.comment_get_all);
-        }
-    }
-
-
-    private void getCommentData() {
-        DoingCommentRequest.exeRequest(DoingCommentRequest.generateUrl(doing.getDoid(), commentPage), new IProtocolResponse() {
+    protected void getNetData() {
+        DoingCommentRequest.exeRequest(DoingCommentRequest.generateUrl(doing.getDoid(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<DoingComment>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -202,23 +189,22 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
+            public void response(BaseListEntity<ArrayList<DoingComment>> listEntity) {
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    if (commentPage == 1) {
+                    if (curPage == 1) {
                         noComment.setVisibility(View.VISIBLE);
                     } else {
                         CustomToast.getInstance().showToast(R.string.person_doings_load_all);
                     }
                 } else {
                     noComment.setVisibility(View.GONE);
-                    comments.addAll((ArrayList<DoingComment>) listEntity.getData());
-                    commentAdapter.setDoingList(comments);
-                    if (commentPage == 1) {
+                    datas.addAll(listEntity.getData());
+                    commentAdapter.setDoingList(datas);
+                    if (curPage == 1) {
 
                     } else {
-                        CustomToast.getInstance().showToast(commentPage + "/" + (Integer.parseInt(doing.getReplynum()) / 20 + (Integer.parseInt(doing.getReplynum()) % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + (Integer.parseInt(doing.getReplynum()) / 20 + (Integer.parseInt(doing.getReplynum()) % 20 == 0 ? 0 : 1)), 800);
                     }
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -241,7 +227,7 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
         if (TextUtils.isEmpty(selectComment.getGrade())) {
             selectComment.setGrade("1");
         }
-        SendDoingCommentRequest.exeRequest(SendDoingCommentRequest.generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse() {
+        SendDoingCommentRequest.exeRequest(SendDoingCommentRequest.generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -253,8 +239,8 @@ public class ReplyDoingActivity extends BaseInputActivity implements MySwipeRefr
             }
 
             @Override
-            public void response(Object object) {
-                if (object.toString().equals("361")) {
+            public void response(String resultCode) {
+                if (resultCode.equals("361")) {
                     commentAdapter.addData(0, selectComment);
                     if (noComment.isShown()) {
                         noComment.setVisibility(View.GONE);

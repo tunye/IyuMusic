@@ -6,13 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.discover.WordExpandableAdapter;
+import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
@@ -38,7 +37,7 @@ import java.util.Comparator;
  * Created by 10202 on 2015/12/2.
  */
 public class WordListActivity extends BaseActivity implements ExpandableRecyclerAdapter.ExpandCollapseListener, OnExpandableRecycleViewClickListener {
-    private RelativeLayout statusBar;
+    private View statusBar;
     private TextView wordEdit, wordSet, wordStatistic;
     private RecyclerView wordList;
     private WordExpandableAdapter wordExpandableAdapter;
@@ -52,7 +51,6 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
-        context = this;
         wordParents = new ArrayList<>();
         wordArrayList = new ArrayList<>();
         deleteMode = false;
@@ -64,12 +62,12 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     @Override
     protected void initWidget() {
         super.initWidget();
-        statusBar = (RelativeLayout) findViewById(R.id.statusbar);
-        wordList = (RecyclerView) findViewById(R.id.wordlist);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        wordEdit = (TextView) findViewById(R.id.word_edit);
-        wordSet = (TextView) findViewById(R.id.word_set);
-        wordStatistic = (TextView) findViewById(R.id.word_statistic);
+        statusBar = findViewById(R.id.statusbar);
+        wordList = findViewById(R.id.wordlist);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        wordEdit = findViewById(R.id.word_edit);
+        wordSet = findViewById(R.id.word_set);
+        wordStatistic = findViewById(R.id.word_statistic);
         wordList.setLayoutManager(new LinearLayoutManager(this));
         wordList.addItemDecoration(new DividerItemDecoration());
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.word_synchroing));
@@ -243,7 +241,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
         if (wordArrayList.size() == 0) {
             CustomToast.getInstance().showToast(R.string.word_no_collect);
         } else {
-            sortWordList(-1);
+            sortWordList(ConfigManager.getInstance().getWordOrder());
             wordParents = WordParent.generateWordParent(wordArrayList);
         }
     }
@@ -251,7 +249,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void synchroFromNet(final int page) {
         waitingDialog.show();
         DictSynchroRequest.getInstance().exeRequest(DictSynchroRequest.getInstance().generateUrl(
-                AccountManager.getInstance().getUserId(), page), new IProtocolResponse() {
+                AccountManager.getInstance().getUserId(), page), new IProtocolResponse<ArrayList<Word>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -265,9 +263,9 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
             }
 
             @Override
-            public void response(Object object) {
+            public void response(ArrayList<Word> result) {
                 waitingDialog.dismiss();
-                wordArrayList.addAll((ArrayList<Word>) object);
+                wordArrayList.addAll(result);
                 if (DictSynchroRequest.getInstance().getTotalPage() != DictSynchroRequest.getInstance().getCurrentPage()) {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.word_list_title);
@@ -298,7 +296,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void saveData() {
         //去重
         removeRepeated();
-        sortWordList(-1);
+        sortWordList(ConfigManager.getInstance().getWordOrder());
         wordStatistic.setText(context.getString(R.string.word_statistic, wordArrayList.size()));
         wordParents = WordParent.generateWordParent(wordArrayList);
         buildAdapter();
@@ -319,7 +317,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void synchroYun(final String keyword) {
         final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", keyword),
-                new IProtocolResponse() {
+                new IProtocolResponse<Integer>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(msg);
@@ -331,7 +329,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(Integer resultCode) {
                         new PersonalWordOp().deleteWord(userid);
                     }
                 });

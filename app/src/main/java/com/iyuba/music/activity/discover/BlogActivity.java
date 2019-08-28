@@ -38,7 +38,6 @@ public class BlogActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blog);
-        context = this;
         id = getIntent().getIntExtra("blogid", 0);
         initWidget();
         setListener();
@@ -48,15 +47,10 @@ public class BlogActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        blogContent = (TextView) findViewById(R.id.blog_content);
-        blogAuthor = (TextView) findViewById(R.id.blog_author);
-        blogTime = (TextView) findViewById(R.id.blog_time);
-        blogTitle = (TextView) findViewById(R.id.blog_title);
-    }
-
-    @Override
-    protected void setListener() {
-        super.setListener();
+        blogContent = findViewById(R.id.blog_content);
+        blogAuthor = findViewById(R.id.blog_author);
+        blogTime = findViewById(R.id.blog_time);
+        blogTitle = findViewById(R.id.blog_title);
     }
 
     @Override
@@ -66,7 +60,7 @@ public class BlogActivity extends BaseActivity {
     }
 
     private void getData() {
-        BlogRequest.exeRequest(BlogRequest.generateUrl(id), new IProtocolResponse() {
+        BlogRequest.exeRequest(BlogRequest.generateUrl(id), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -78,10 +72,9 @@ public class BlogActivity extends BaseActivity {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity baseApiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> baseApiEntity) {
                 message = baseApiEntity.getMessage();
-                blogTitle.setText(baseApiEntity.getData().toString());
+                blogTitle.setText(baseApiEntity.getData());
                 String temp = baseApiEntity.getValue();
                 String[] contents = temp.split("@@");
                 title.setText(context.getString(R.string.circle_blog) + " - " + contents[0]);
@@ -105,7 +98,6 @@ public class BlogActivity extends BaseActivity {
                                     is.close();
                                     return d;
                                 } catch (Exception e) {
-                                    e.printStackTrace();
                                     return null;
                                 }
                             }

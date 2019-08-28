@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.buaa.ct.comment.ContextManager;
 import com.buaa.ct.comment.EmojiView;
@@ -23,6 +22,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -42,7 +42,6 @@ public class WriteStateActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
         setContentView(R.layout.write_state);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -51,9 +50,9 @@ public class WriteStateActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        content = (MaterialEditText) findViewById(R.id.feedback_content);
-        emojiView = (EmojiView) findViewById(R.id.emoji);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        content = findViewById(R.id.feedback_content);
+        emojiView = findViewById(R.id.emoji);
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.state_on_way));
     }
 
@@ -93,7 +92,7 @@ public class WriteStateActivity extends BaseInputActivity {
             waitingDialog.show();
             String uid = AccountManager.getInstance().getUserId();
             WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.getInstance().getUserInfo().getUsername(),
-                    content.getEditableText().toString()), new IProtocolResponse() {
+                    content.getEditableText().toString()), new IProtocolResponse<String>() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.getInstance().showToast(msg);
@@ -107,9 +106,8 @@ public class WriteStateActivity extends BaseInputActivity {
                 }
 
                 @Override
-                public void response(Object object) {
+                public void response(String result) {
                     handler.sendEmptyMessage(1);
-                    String result = (String) object;
                     if ("351".equals(result)) {
                         AccountManager.getInstance().getUserInfo().setText(content.getEditableText().toString());
                         handler.sendEmptyMessage(0);
@@ -139,7 +137,7 @@ public class WriteStateActivity extends BaseInputActivity {
         public void handleMessageByRef(final WriteStateActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.state_modify_success);
@@ -148,16 +146,6 @@ public class WriteStateActivity extends BaseInputActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
                         }
                     }).playOn(activity.content);
                     break;

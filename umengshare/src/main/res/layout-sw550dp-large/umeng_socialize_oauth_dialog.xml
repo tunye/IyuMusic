@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:padding="5dp">
 
     <RelativeLayout
@@ -54,7 +54,7 @@
 
     <RelativeLayout
         android:id="@+id/umeng_socialize_follow"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="38dp"
         android:layout_alignParentBottom="true"
 
@@ -91,8 +91,8 @@
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/umeng_socialize_follow"
 
         android:layout_below="@id/umeng_socialize_titlebar"
@@ -101,8 +101,8 @@
 
     <RelativeLayout
         android:id="@+id/progress_bar_parent"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/umeng_socialize_follow"
         android:layout_below="@id/umeng_socialize_titlebar"
         android:background="#F2F5F6">
@@ -114,8 +114,8 @@
             android:orientation="horizontal">
 
             <ProgressBar
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"/>
         </LinearLayout>
     </RelativeLayout>

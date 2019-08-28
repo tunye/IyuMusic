@@ -80,12 +80,12 @@ public class PayActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        username = (TextView) findViewById(R.id.pay_detail_user);
-        payDetail = (TextView) findViewById(R.id.pay_detail_buy);
-        payMoney = (TextView) findViewById(R.id.pay_detail_money);
-        wxSelected = (ImageView) findViewById(R.id.pay_detail_wx_checked);
-        baoSelected = (ImageView) findViewById(R.id.pay_detail_bao_checked);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        username = findViewById(R.id.pay_detail_user);
+        payDetail = findViewById(R.id.pay_detail_buy);
+        payMoney = findViewById(R.id.pay_detail_money);
+        wxSelected = findViewById(R.id.pay_detail_wx_checked);
+        baoSelected = findViewById(R.id.pay_detail_bao_checked);
         wxView = findViewById(R.id.pay_detail_wx);
         baoView = findViewById(R.id.pay_detail_bao);
         paySure = findViewById(R.id.pay_detail_sure);
@@ -153,7 +153,7 @@ public class PayActivity extends BaseActivity {
 
     private void wechatPay() {
         waitingDialog.show();
-        WxPay.exeRequest(WxPay.generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse() {
+        WxPay.exeRequest(WxPay.generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse<BaseApiEntity<PayReq>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
@@ -167,11 +167,10 @@ public class PayActivity extends BaseActivity {
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseApiEntity<PayReq> result) {
                 waitingDialog.dismiss();
-                BaseApiEntity result = (BaseApiEntity) object;
                 if (BaseApiEntity.isSuccess(result)) {
-                    PayReq req = (PayReq) result.getData();
+                    PayReq req = result.getData();
                     msgApi.sendReq(req);
                 } else {
                     CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);

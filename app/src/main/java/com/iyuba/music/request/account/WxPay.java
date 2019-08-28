@@ -29,14 +29,14 @@ import java.util.Locale;
  */
 
 public class WxPay {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<PayReq>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseApiEntity apiEntity = new BaseApiEntity();
+                        BaseApiEntity<PayReq> apiEntity = new BaseApiEntity<>();
                         apiEntity.setMessage(jsonObject.getString("retmsg"));
                         if (0 == jsonObject.getInt("retcode")) {
                             apiEntity.setState(BaseApiEntity.SUCCESS);

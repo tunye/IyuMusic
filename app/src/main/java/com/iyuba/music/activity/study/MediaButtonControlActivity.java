@@ -21,7 +21,6 @@ public class MediaButtonControlActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mediabutton_control);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -30,7 +29,7 @@ public class MediaButtonControlActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        switchButton = (SwitchButton) findViewById(R.id.mediabutton_control);
+        switchButton = findViewById(R.id.mediabutton_control);
     }
 
     @Override

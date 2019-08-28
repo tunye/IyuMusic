@@ -28,6 +28,33 @@ public class GetAppColor {
         return RuntimeManager.getContext().getResources().getIdentifier(colorName, "color", RuntimeManager.getApplication().getPackageName());
     }
 
+    public int getAppTheme() {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.style.MyAppTheme;
+        } else {
+            return RuntimeManager.getContext().getResources().getIdentifier("MyAppTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+        }
+    }
+
+    public int getDialogTheme() {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.style.MyDialogTheme;
+        } else {
+            return RuntimeManager.getContext().getResources().getIdentifier("MyDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+        }
+    }
+
+    public int getMaterialDialogTheme() {
+        int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
+        if (skin == 0) {
+            return R.style.MyMaterialDialogTheme;
+        } else {
+            return RuntimeManager.getContext().getResources().getIdentifier("MyMaterialDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+        }
+    }
+
     public int getAppColor() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {

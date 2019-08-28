@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:id="@+id/file_position"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
             android:background="#44000000"

@@ -24,7 +24,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class UserInfoDetailRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<MostDetailInfo> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {

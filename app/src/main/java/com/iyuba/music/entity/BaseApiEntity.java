@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by 10202 on 2016/3/17.
  */
-public class BaseApiEntity {
+public class BaseApiEntity<T> {
     public static final int SUCCESS = 0x01;
     public static final int FAIL = 0x02;
     public static final int ERROR = 0x03;
@@ -16,7 +16,7 @@ public class BaseApiEntity {
     private int state;
     private String message;
     private String value;
-    private Object data;
+    private T data;
 
     public static boolean isSuccess(BaseApiEntity result) {
         return result.getState() == SUCCESS;
@@ -55,11 +55,11 @@ public class BaseApiEntity {
         this.value = value;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

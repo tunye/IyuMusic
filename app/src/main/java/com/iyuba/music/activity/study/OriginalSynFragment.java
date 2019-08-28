@@ -3,6 +3,7 @@ package com.iyuba.music.activity.study;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = initView();
         refresh();
@@ -65,7 +66,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     private View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
         player = RuntimeManager.getApplication().getPlayerService().getPlayer();
-        originalView = (OriginalSynView) view.findViewById(R.id.original);
+        originalView = view.findViewById(R.id.original);
         originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
             @Override
@@ -92,7 +93,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                 handler.sendEmptyMessage(0);
             }
         });
-        wordCard = (WordCard) view.findViewById(R.id.wordcard);
+        wordCard = view.findViewById(R.id.wordcard);
         return view;
     }
 
@@ -204,7 +205,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                 type = 0;
                 break;
         }
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -216,9 +217,8 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                originalList = (ArrayList<Original>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+                originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
                     if (TextUtils.isEmpty(original.getSentence_cn())) {
@@ -237,7 +237,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
     }
 
     private void getWebOriginal(final int id, final IOperationFinish finish) {
-        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
+        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -249,9 +249,8 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                originalList = (ArrayList<Original>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+                originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
                 }

@@ -5,30 +5,31 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/skin_app_color"
             android:fitsSystemWindows="true">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/toolbar_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:padding="@dimen/row_space_big">
 
                 <com.iyuba.music.widget.roundview.RoundLinearLayout
                     android:id="@+id/search_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
-                    android:layout_toStartOf="@+id/search_ripple"
                     android:paddingStart="@dimen/row_space_big"
                     app:rv_backgroundColor="#dcdcdc"
                     app:rv_cornerRadius="@dimen/corner_radius_small">
@@ -49,8 +50,7 @@
                     android:id="@+id/search_ripple"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/row_space_big"
                     android:padding="@dimen/row_space_default"
                     app:mrl_rippleColor="@color/toolbar_ripple_color"
@@ -65,13 +65,12 @@
                         android:textColor="@color/textcolor_on_appcolor"
                         android:textSize="@dimen/large_text" />
                 </com.iyuba.music.widget.view.MaterialRippleLayout>
-            </RelativeLayout>
-        </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/word_search_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/search_bar" />
-    </RelativeLayout>
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

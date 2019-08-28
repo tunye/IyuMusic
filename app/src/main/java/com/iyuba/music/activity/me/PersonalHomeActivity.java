@@ -2,7 +2,6 @@ package com.iyuba.music.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.adapter.me.DoingAdapter;
@@ -28,22 +27,16 @@ import com.iyuba.music.request.merequest.CancelAttentionRequest;
 import com.iyuba.music.request.merequest.DoingRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2016/2/29.
  */
-public class PersonalHomeActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-    private ArrayList<Doing> doings;
+public class PersonalHomeActivity extends BaseListActivity<Doing> implements View.OnClickListener {
     private DoingAdapter doingAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
-    private int doingPage;
-    private boolean isLastPage = false;
     private UserInfo userinfo;
     //上部
     private VipPhoto personPhoto;
@@ -58,8 +51,6 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_home);
-        context = this;
-        isLastPage = false;
         needPop = getIntent().getBooleanExtra("needpop", false);
         initWidget();
         setListener();
@@ -91,16 +82,12 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         personFans = findViewById(R.id.fans_fans);
         personAttention = findViewById(R.id.fans_attention);
         RecyclerView doingRecycleView = findViewById(R.id.personal_doingslist);
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        doingRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        setRecyclerViewProperty(doingRecycleView);
         doingAdapter = new DoingAdapter(context);
         doingAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.getInstance().pushDoing(doings.get(position));
+                SocialManager.getInstance().pushDoing(datas.get(position));
                 Intent intent = new Intent(context, ReplyDoingActivity.class);
                 intent.putExtra(ReplyDoingActivity.VIP_FLG, "1".equals(userinfo.getVipStatus()));
                 startActivity(intent);
@@ -112,8 +99,6 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             }
         });
         doingRecycleView.setAdapter(doingAdapter);
-        doingRecycleView.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -204,37 +189,10 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         }
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
     @Override
-    public void onRefresh(int index) {
-        doingPage = 1;
-        doings = new ArrayList<>();
-        isLastPage = false;
-        getDoingData();
+    protected int getToastResource() {
+        return R.string.person_doings_load_all;
     }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (doings.size() == 0) {
-
-        } else if (!isLastPage) {
-            doingPage++;
-            getDoingData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.person_doings_load_all);
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -321,8 +279,9 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
         }
     }
 
-    private void getDoingData() {
-        DoingRequest.exeRequest(DoingRequest.generateUrl(userinfo.getUid(), doingPage), new IProtocolResponse() {
+    @Override
+    protected void getNetData() {
+        DoingRequest.exeRequest(DoingRequest.generateUrl(userinfo.getUid(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Doing>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -334,19 +293,18 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
+            public void response(BaseListEntity<ArrayList<Doing>> listEntity) {
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
-                    if (doingPage == 1) {
+                    if (curPage == 1) {
                         findViewById(R.id.no_doing).setVisibility(View.VISIBLE);
                     } else {
                         CustomToast.getInstance().showToast(R.string.person_doings_load_all);
                     }
                 } else {
                     findViewById(R.id.no_doing).setVisibility(View.GONE);
-                    doings.addAll((ArrayList<Doing>) listEntity.getData());
-                    doingAdapter.setDoingList(doings);
+                    datas.addAll(listEntity.getData());
+                    doingAdapter.setDoingList(datas);
                     doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
 //                    if (doingPage == 1) {
 //
@@ -398,7 +356,7 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
     }
 
     private void addAttention() {
-        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
 
@@ -410,8 +368,8 @@ public class PersonalHomeActivity extends BaseActivity implements MySwipeRefresh
             }
 
             @Override
-            public void response(Object object) {
-                if (object.toString().equals("500")) {
+            public void response(String resultCode) {
+                if (resultCode.equals("500")) {
                     attent.setText(R.string.person_attention_already);
                     CustomToast.getInstance().showToast(R.string.person_attention_success);
                 } else {

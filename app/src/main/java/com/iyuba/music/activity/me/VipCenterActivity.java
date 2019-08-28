@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.pay.BuyIyubiActivity;
@@ -15,8 +14,8 @@ import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-
 import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 /**
  * Created by 10202 on 2015/12/28.
@@ -32,7 +31,6 @@ public class VipCenterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vip_center);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -48,21 +46,21 @@ public class VipCenterActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        vipSymbol = (MaterialRippleLayout) findViewById(R.id.vip_symbol);
-        vipAllapp = (MaterialRippleLayout) findViewById(R.id.vip_allapp);
-        vipAd = (MaterialRippleLayout) findViewById(R.id.vip_ad);
-        vipHuge = (MaterialRippleLayout) findViewById(R.id.vip_huge);
-        vipHighspeed = (MaterialRippleLayout) findViewById(R.id.vip_highspeed);
-        vipUpdate = (MaterialRippleLayout) findViewById(R.id.vip_update);
+        vipSymbol = findViewById(R.id.vip_symbol);
+        vipAllapp = findViewById(R.id.vip_allapp);
+        vipAd = findViewById(R.id.vip_ad);
+        vipHuge = findViewById(R.id.vip_huge);
+        vipHighspeed = findViewById(R.id.vip_highspeed);
+        vipUpdate = findViewById(R.id.vip_update);
 
-        vipUpdateText = (TextView) findViewById(R.id.vip_update_text);
-        vipIyubi = (TextView) findViewById(R.id.vip_iyubi);
-        vipDeadline = (TextView) findViewById(R.id.vip_deadline);
-        vipName = (TextView) findViewById(R.id.vip_name);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        vipUpdateText = findViewById(R.id.vip_update_text);
+        vipIyubi = findViewById(R.id.vip_iyubi);
+        vipDeadline = findViewById(R.id.vip_deadline);
+        vipName = findViewById(R.id.vip_name);
+        toolbarOper = findViewById(R.id.toolbar_oper);
 
-        vipStatus = (ImageView) findViewById(R.id.vip_status);
-        vipPhoto = (CircleImageView) findViewById(R.id.vip_photo);
+        vipStatus = findViewById(R.id.vip_status);
+        vipPhoto = findViewById(R.id.vip_photo);
     }
 
     @Override

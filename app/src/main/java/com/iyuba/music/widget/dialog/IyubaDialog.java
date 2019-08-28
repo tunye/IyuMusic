@@ -21,7 +21,7 @@ import com.iyuba.music.util.ImmersiveManager;
 
 
 public class IyubaDialog extends AppCompatDialog {
-
+    public static int styleId = R.style.MyDialogTheme;
     private Context context;
     private View contentView;
     private View view;
@@ -51,7 +51,7 @@ public class IyubaDialog extends AppCompatDialog {
     private int marginDimension;
 
     public IyubaDialog(Context context, View v) {
-        super(context, R.style.MyDialogTheme);
+        super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
         cancelOutSide = true;
@@ -59,7 +59,7 @@ public class IyubaDialog extends AppCompatDialog {
     }
 
     public IyubaDialog(Context context, View v, boolean cancle) {
-        super(context, R.style.MyDialogTheme);
+        super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
         this.cancelOutSide = cancle;
@@ -67,7 +67,7 @@ public class IyubaDialog extends AppCompatDialog {
     }
 
     public IyubaDialog(Context context, View v, boolean cancle, int marginDimension) {
-        super(context, R.style.MyDialogTheme);
+        super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
         this.cancelOutSide = cancle;
@@ -75,7 +75,7 @@ public class IyubaDialog extends AppCompatDialog {
     }
 
     public IyubaDialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
-        super(context, R.style.MyDialogTheme);
+        super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
         this.cancelOutSide = cancle;

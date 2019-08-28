@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_with_oper" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/statusbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:background="@color/background_complementary"
         android:gravity="center"
         android:padding="@dimen/row_space_medium">
@@ -25,32 +25,36 @@
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text" />
 
-        <TextView
-            android:id="@+id/word_set"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/row_space_medium"
-            android:text="@string/word_set"
-            android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/large_text" />
+            android:layout_gravity="end"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/word_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/row_space_big"
-            android:layout_toStartOf="@+id/word_set"
-            android:text="@string/word_edit"
-            android:textColor="@color/skin_app_color"
-            android:textSize="@dimen/large_text" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/word_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/row_space_big"
+                android:layout_marginEnd="@dimen/row_space_medium"
+                android:text="@string/word_set"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/large_text" />
+
+            <TextView
+                android:id="@+id/word_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/word_edit"
+                android:textColor="@color/skin_app_color"
+                android:textSize="@dimen/large_text" />
+        </LinearLayout>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wordlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/statusbar">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+</LinearLayout>

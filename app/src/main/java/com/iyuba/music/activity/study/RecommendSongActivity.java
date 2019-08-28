@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -21,6 +20,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.RecommendSongRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -37,7 +37,6 @@ public class RecommendSongActivity extends BaseInputActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recommend_song);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -46,10 +45,10 @@ public class RecommendSongActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         mainContent = findViewById(R.id.recommend_main);
-        recommendTitle = (MaterialEditText) findViewById(R.id.recommend_title);
-        recommendSinger = (MaterialEditText) findViewById(R.id.recommend_singer);
+        recommendTitle = findViewById(R.id.recommend_title);
+        recommendSinger = findViewById(R.id.recommend_singer);
     }
 
     @Override
@@ -92,7 +91,7 @@ public class RecommendSongActivity extends BaseInputActivity {
             CustomToast.getInstance().showToast(R.string.study_recommend_on_way);
             String uid = AccountManager.getInstance().getUserId();
             RecommendSongRequest.exeRequest(RecommendSongRequest.generateUrl(uid, recommendTitle.getEditableText().toString()
-                    , recommendSinger.getEditableText().toString()), new IProtocolResponse() {
+                    , recommendSinger.getEditableText().toString()), new IProtocolResponse<String>() {
                 @Override
                 public void onNetError(String msg) {
                     CustomToast.getInstance().showToast(msg);
@@ -104,8 +103,7 @@ public class RecommendSongActivity extends BaseInputActivity {
                 }
 
                 @Override
-                public void response(Object object) {
-                    String result = (String) object;
+                public void response(String result) {
                     if ("1".equals(result)) {
                         handler.sendEmptyMessage(0);
                     } else {
@@ -121,7 +119,7 @@ public class RecommendSongActivity extends BaseInputActivity {
         public void handleMessageByRef(final RecommendSongActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new Animator.AnimatorListener() {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             CustomToast.getInstance().showToast(R.string.study_recommend_success);
@@ -130,16 +128,6 @@ public class RecommendSongActivity extends BaseInputActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
                         }
                     }).playOn(activity.mainContent);
                     break;

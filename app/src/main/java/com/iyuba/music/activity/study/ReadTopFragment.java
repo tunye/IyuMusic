@@ -1,7 +1,6 @@
 package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.ReadRequest;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
@@ -29,28 +27,19 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
+public class ReadTopFragment extends BaseRecyclerViewFragment<Comment> {
     private CommentAdapter readAdapter;
-    private ArrayList<Comment> readList;
-    private int readPage;
-    private boolean isLastPage;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        swipeRefreshLayout.setOnRefreshListener(this);
         readAdapter = new CommentAdapter(context, false);
         readAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     if (AccountManager.getInstance().getUserId()
-                            .equals(readList.get(position).getUserid())) {//是自己，删除
+                            .equals(datas.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     }
                 } else {
@@ -59,7 +48,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
                         @Override
                         public void finish() {
                             if (AccountManager.getInstance().getUserId()
-                                    .equals(readList.get(pos).getUserid())) {//是自己，删除
+                                    .equals(datas.get(pos).getUserid())) {//是自己，删除
                                 delDialog(pos);
                             }
                         }
@@ -78,46 +67,8 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.setRefreshing(true);
-        onRefresh(0);
-    }
-
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onRefresh(int index) {
-        readPage = 1;
-        readList = new ArrayList<>();
-        isLastPage = false;
-        getReadData();
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (readList.size() == 0) {
-
-        } else if (!isLastPage) {
-            readPage++;
-            getReadData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.read_get_all);
-        }
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        recyclerView.scrollToPosition(0);
+    protected int getToastResource() {
+        return R.string.read_get_all;
     }
 
     @Override
@@ -126,8 +77,9 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
         readAdapter.onDestroy();
     }
 
-    private void getReadData() {
-        ReadRequest.exeRequest(ReadRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId(), readPage, "agree"), new IProtocolResponse() {
+    @Override
+    protected void getNetData() {
+        ReadRequest.exeRequest(ReadRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId(), curPage, "agree"), new IProtocolResponse<BaseListEntity<ArrayList<Comment>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -141,17 +93,16 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Comment>> listEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity listEntity = (BaseListEntity) object;
                 isLastPage = listEntity.isLastPage();
                 if (listEntity.getTotalCount() == 0) {
                     noData.setVisibility(View.VISIBLE);
                     ((TextView) noData.findViewById(R.id.no_data_content)).setText(R.string.no_read);
                 } else {
-                    readList.addAll((ArrayList<Comment>) listEntity.getData());
+                    datas.addAll(listEntity.getData());
                     noData.setVisibility(View.GONE);
-                    readAdapter.setDataSet(readList);
+                    readAdapter.setDataSet(datas);
                     if (listEntity.getCurPage() != 1) {
                         CustomToast.getInstance().showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), 800);
                     }
@@ -167,7 +118,7 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(readList.get(position).getId()), new IProtocolResponse() {
+                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(datas.get(position).getId()), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
 
@@ -179,8 +130,8 @@ public class ReadTopFragment extends BaseRecyclerViewFragment implements MySwipe
                     }
 
                     @Override
-                    public void response(Object object) {
-                        if (object.toString().equals("1")) {
+                    public void response(String resultCode) {
+                        if (resultCode.equals("1")) {
                             readAdapter.removeData(position);
                         } else {
                             CustomToast.getInstance().showToast(R.string.read_del_fail);

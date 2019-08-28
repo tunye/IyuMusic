@@ -3,21 +3,23 @@ package com.iyuba.music.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenu;
 import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.buaa.ct.appskin.BaseSkinActivity;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.NoDoubleClickListener;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
+import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -38,6 +40,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         ChangePropery.setAppConfig(this);
         changeProperty = getIntent().getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
         mipush = getIntent().getBooleanExtra("pushIntent", false);
@@ -69,6 +72,12 @@ public abstract class BaseActivity extends BaseSkinActivity {
 
     protected void changeUIByPara() {
         backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+    }
+
+
+    protected void setRecyclerViewProperty(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.addItemDecoration(new DividerItemDecoration());
     }
 
     @Override

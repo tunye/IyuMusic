@@ -53,12 +53,12 @@
                 android:layout_marginTop="@dimen/row_space_large"
                 android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/text_complementary"
-                android:textSize="@dimen/medium_text" />
+                android:textSize="@dimen/big_text" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior=".behavior.ScrollToTopBehavior">
@@ -66,5 +66,5 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar_with_oper" />
-    </RelativeLayout>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -7,96 +7,99 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_margin="@dimen/row_space_medium"
             android:visibility="gone" />
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/article_image_layout"
             android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="@dimen/row_space_big"
+            android:layout_height="64dp"
             android:layout_marginStart="@dimen/row_space_very_large"
-            android:layout_marginEnd="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
-            android:layout_toEndOf="@+id/item_delete">
+            android:layout_marginEnd="@dimen/row_space_very_large"
+            android:layout_marginBottom="@dimen/row_space_big">
 
             <ImageView
                 android:id="@+id/article_image"
                 android:layout_width="100dp"
-                android:layout_height="80dp"
+                android:layout_height="64dp"
                 android:scaleType="fitXY" />
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/roundProgressBar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 app:cp_circleColor="@color/background_light"
                 app:cp_circleProgressColor="@color/skin_app_color"
                 app:cp_circleWidth="@dimen/line_thick"
                 app:cp_textColor="@color/skin_app_color"
                 app:cp_textSize="@dimen/medium_text" />
-        </RelativeLayout>
+        </FrameLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/article_image_layout"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/article_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/row_space_medium"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/article_singer"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/article_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/row_space_default"
                     android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:maxLines="1"
+                    android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/big_text" />
 
-                <TextView
-                    android:id="@+id/article_announcer"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/row_space_default"
-                    android:layout_marginTop="@dimen/row_space_default"
-                    android:textColor="@color/text_gray_color"
-                    android:textSize="@dimen/medium_text" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/row_space_medium"
+                    android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/file_notexist"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/corner_radius_big"
-            android:src="@drawable/downloadfile_notexist" />
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/article_singer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/row_space_default"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="@color/text_gray_color"
+                        android:textSize="@dimen/medium_text" />
+
+                    <TextView
+                        android:id="@+id/article_announcer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/row_space_default"
+                        android:layout_marginEnd="@dimen/row_space_default"
+                        android:textColor="@color/text_gray_color"
+                        android:textSize="@dimen/medium_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/file_notexist"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="bottom|end"
+                android:padding="@dimen/corner_radius_big"
+                android:src="@drawable/downloadfile_notexist" />
+        </FrameLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

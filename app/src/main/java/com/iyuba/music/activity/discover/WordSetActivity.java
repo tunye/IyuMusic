@@ -42,18 +42,18 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initWidget() {
         super.initWidget();
-        group = (RoundRelativeLayout) findViewById(R.id.word_set_group);
-        AddRippleEffect.addRippleEffect(group);
-        currGroup = (TextView) findViewById(R.id.word_set_group_current);
-        showDef = (RoundRelativeLayout) findViewById(R.id.word_set_show_def);
-        AddRippleEffect.addRippleEffect(showDef);
-        currShowDef = (SwitchButton) findViewById(R.id.word_set_show_def_current);
-        autoAudio = (RoundRelativeLayout) findViewById(R.id.word_set_play);
-        AddRippleEffect.addRippleEffect(autoAudio);
-        currAutoAudio = (SwitchButton) findViewById(R.id.word_set_play_current);
-        autoAdd = (RoundRelativeLayout) findViewById(R.id.word_set_auto_add);
-        AddRippleEffect.addRippleEffect(autoAdd);
-        currAutoAdd = (SwitchButton) findViewById(R.id.word_set_auto_add_current);
+        group = findViewById(R.id.word_set_group);
+        AddRippleEffect.addRippleEffect(group, 200);
+        currGroup = findViewById(R.id.word_set_group_current);
+        showDef = findViewById(R.id.word_set_show_def);
+        AddRippleEffect.addRippleEffect(showDef, 200);
+        currShowDef = findViewById(R.id.word_set_show_def_current);
+        autoAudio = findViewById(R.id.word_set_play);
+        AddRippleEffect.addRippleEffect(autoAudio, 200);
+        currAutoAudio = findViewById(R.id.word_set_play_current);
+        autoAdd = findViewById(R.id.word_set_auto_add);
+        AddRippleEffect.addRippleEffect(autoAdd, 200);
+        currAutoAdd = findViewById(R.id.word_set_auto_add_current);
     }
 
     @Override

@@ -1,39 +1,44 @@
 package com.iyuba.music.activity.study;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buaa.ct.comment.CommentView;
 import com.buaa.ct.comment.ContextManager;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.study.CommentAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.CommentExpressRequest;
 import com.iyuba.music.request.newsrequest.CommentRequest;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -41,7 +46,6 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,26 +53,20 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/2/13.
  */
-public class CommentActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
+public class CommentActivity extends BaseListActivity<Comment> implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private RecyclerView commentRecycleView;
     private Article curArticle;
     private ImageView img;
     private TextView articleTitle, singer, announcer, count;
-    private RecyclerView commentRecycleView;
-    private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
     private CommentView commentView;
-    private int commentPage;
-    private boolean isLastPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
         setContentView(R.layout.comment);
-        context = this;
-        isLastPage = false;
         initWidget();
         setListener();
         changeUIByPara();
@@ -85,28 +83,24 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     @Override
     protected void initWidget() {
         super.initWidget();
-        img = (ImageView) findViewById(R.id.article_img);
-        articleTitle = (TextView) findViewById(R.id.article_title);
-        announcer = (TextView) findViewById(R.id.article_announcer);
-        singer = (TextView) findViewById(R.id.article_singer);
-        count = (TextView) findViewById(R.id.article_comment_count);
-        commentRecycleView = (RecyclerView) findViewById(R.id.comment_recyclerview);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        commentRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        img = findViewById(R.id.article_img);
+        articleTitle = findViewById(R.id.article_title);
+        announcer = findViewById(R.id.article_announcer);
+        singer = findViewById(R.id.article_singer);
+        count = findViewById(R.id.article_comment_count);
+        commentRecycleView = findViewById(R.id.comment_recyclerview);
+        setRecyclerViewProperty(commentRecycleView);
         ((SimpleItemAnimator) commentRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         commentAdapter = new CommentAdapter(context, true);
         commentAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    if (AccountManager.getInstance().getUserId().equals(comments.get(position).getUserid())) {//是自己，删除
+                    if (AccountManager.getInstance().getUserId().equals(datas.get(position).getUserid())) {//是自己，删除
                         delDialog(position);
                     } else {//不是自己  回复
                         commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,
-                                comments.get(position).getUserName()));
+                                datas.get(position).getUserName()));
                         commentView.getmEtText().setSelection(commentView.getmEtText().length());
                     }
                 } else {
@@ -114,11 +108,11 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
-                            if (AccountManager.getInstance().getUserId().equals(comments.get(pos).getUserid())) {//是自己，删除
+                            if (AccountManager.getInstance().getUserId().equals(datas.get(pos).getUserid())) {//是自己，删除
                                 delDialog(pos);
                             } else {//不是自己  回复
                                 commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,
-                                        comments.get(pos).getUserName()));
+                                        datas.get(pos).getUserName()));
                                 commentView.getmEtText().setSelection(commentView.getmEtText().length());
                             }
                         }
@@ -131,15 +125,12 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             }
         });
         commentRecycleView.setAdapter(commentAdapter);
-        commentRecycleView.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
-        commentView = (CommentView) findViewById(R.id.comment_view);
+        commentView = findViewById(R.id.comment_view);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String s) {
@@ -191,7 +182,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     private void sendComment(String s) {
         CommentExpressRequest.exeRequest(CommentExpressRequest.generateUrl(
                 String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
-                AccountManager.getInstance().getUserInfo().getUsername(), s), new IProtocolResponse() {
+                AccountManager.getInstance().getUserInfo().getUsername(), s), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -203,8 +194,8 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             }
 
             @Override
-            public void response(Object object) {
-                if (object.toString().equals("501")) {
+            public void response(String resultCode) {
+                if (resultCode.equals("501")) {
                     commentView.clearText();
                     handler.sendEmptyMessage(2);
                 } else {
@@ -242,6 +233,27 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
@@ -274,40 +286,9 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         }
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
     @Override
-    public void onRefresh(int index) {
-        commentPage = 1;
-        comments = new ArrayList<>();
-        isLastPage = false;
-        getCommentData();
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (comments.size() == 0) {
-
-        } else if (!isLastPage) {
-            commentPage++;
-            getCommentData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.comment_get_all);
-        }
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        commentRecycleView.scrollToPosition(0);
+    protected int getToastResource() {
+        return R.string.comment_get_all;
     }
 
     private void delDialog(final int position) {
@@ -317,7 +298,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         materialDialog.setPositiveButton(R.string.comment_del, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(comments.get(position).getId()), new IProtocolResponse() {
+                CommentDeleteRequest.exeRequest(CommentDeleteRequest.generateUrl(datas.get(position).getId()), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
 
@@ -329,8 +310,8 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
                     }
 
                     @Override
-                    public void response(Object object) {
-                        if (object.toString().equals("1")) {
+                    public void response(String resultCode) {
+                        if (resultCode.equals("1")) {
                             commentAdapter.removeData(position);
                         } else {
                             CustomToast.getInstance().showToast(R.string.comment_del_fail);
@@ -349,8 +330,9 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         materialDialog.show();
     }
 
-    private void getCommentData() {
-        CommentRequest.exeRequest(CommentRequest.generateUrl(curArticle.getId(), commentPage), new IProtocolResponse() {
+    @Override
+    protected void getNetData() {
+        CommentRequest.exeRequest(CommentRequest.generateUrl(curArticle.getId(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Comment>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -364,14 +346,13 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Comment>> listEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity listEntity = (BaseListEntity) object;
                 isLastPage = listEntity.isLastPage();
                 if (listEntity.getTotalCount() == 0) {
                     findViewById(R.id.no_comment).setVisibility(View.VISIBLE);
                 } else {
-                    comments.addAll((ArrayList<Comment>) listEntity.getData());
+                    datas.addAll(listEntity.getData());
                     findViewById(R.id.no_comment).setVisibility(View.GONE);
                     handler.obtainMessage(0, listEntity.getTotalCount()).sendToTarget();
                     if (listEntity.getCurPage() == 1) {
@@ -414,7 +395,7 @@ public class CommentActivity extends BaseInputActivity implements MySwipeRefresh
         public void handleMessageByRef(final CommentActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    activity.commentAdapter.setDataSet(activity.comments);
+                    activity.commentAdapter.setDataSet(activity.datas);
                     activity.count.setText(activity.getString(R.string.article_commentcount, msg.obj.toString()));
                     break;
                 case 1:

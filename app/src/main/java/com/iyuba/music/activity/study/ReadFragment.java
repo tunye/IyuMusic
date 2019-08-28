@@ -39,11 +39,6 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     private IyubaDialog waittingDialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         curArticle = StudyManager.getInstance().getCurArticle();
@@ -98,7 +93,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     }
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 2), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 2), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -110,9 +105,8 @@ public class ReadFragment extends BaseRecyclerViewFragment {
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Original> originalList = (ArrayList<Original>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+                ArrayList<Original> originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
                 }

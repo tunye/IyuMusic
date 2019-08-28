@@ -17,6 +17,7 @@ import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.RandomUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
@@ -35,7 +36,6 @@ public class SayingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.saying);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -44,12 +44,12 @@ public class SayingActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        english = (JustifyTextView) findViewById(R.id.saying_english);
-        chinese = (TextView) findViewById(R.id.saying_chinese);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        english = findViewById(R.id.saying_english);
+        chinese = findViewById(R.id.saying_chinese);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         sayingContent = findViewById(R.id.saying_content);
-        next = (RoundTextView) findViewById(R.id.saying_next);
-        AddRippleEffect.addRippleEffect(next);
+        next = findViewById(R.id.saying_next);
+        AddRippleEffect.addRippleEffect(next, 300);
     }
 
     @Override
@@ -112,25 +112,11 @@ public class SayingActivity extends BaseActivity {
         public void handleMessageByRef(final SayingActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    YoYo.with(Techniques.FadeOutRight).duration(300).interpolate(new AccelerateDecelerateInterpolator()).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-
+                    YoYo.with(Techniques.FadeOutRight).duration(300).interpolate(new AccelerateDecelerateInterpolator()).withListener(new SimpleAnimatorListener() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             activity.handler.sendEmptyMessage(1);
                             YoYo.with(Techniques.FadeInLeft).duration(300).interpolate(new AccelerateDecelerateInterpolator()).playOn(activity.sayingContent);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
                         }
                     }).playOn(activity.sayingContent);
                     break;

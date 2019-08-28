@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2016/3/21.
  */
 public class ReadRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<Comment>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -35,8 +35,8 @@ public class ReadRequest {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         String resultCode = jsonObject.getString("ResultCode");
+                        BaseListEntity<ArrayList<Comment>> baseListEntity = new BaseListEntity<ArrayList<Comment>>();
                         if ("511".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
                             Type listType = new TypeToken<ArrayList<Comment>>() {
                             }.getType();
                             baseListEntity.setTotalCount(jsonObject.getInt("Counts"));
@@ -51,7 +51,6 @@ public class ReadRequest {
                             baseListEntity.setData(list);
                             response.response(baseListEntity);
                         } else {
-                            BaseListEntity baseListEntity = new BaseListEntity();
                             baseListEntity.setTotalCount(0);
                             response.response(baseListEntity);
                         }

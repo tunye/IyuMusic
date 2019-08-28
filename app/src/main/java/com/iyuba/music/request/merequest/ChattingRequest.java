@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class ChattingRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<MessageLetterContent>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -36,8 +36,8 @@ public class ChattingRequest {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         String resultCode = jsonObject.getString("result");
+                        BaseListEntity<ArrayList<MessageLetterContent>> baseListEntity = new BaseListEntity<>();
                         if ("631".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
                             String mid = jsonObject.getString("plid");
                             Type listType = new TypeToken<ArrayList<MessageLetterContent>>() {
                             }.getType();
@@ -51,7 +51,6 @@ public class ChattingRequest {
                             baseListEntity.setTotalCount(list.size());
                             response.response(baseListEntity);
                         } else if ("632".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
                             baseListEntity.setIsLastPage(true);
                             response.response(baseListEntity);
                         }

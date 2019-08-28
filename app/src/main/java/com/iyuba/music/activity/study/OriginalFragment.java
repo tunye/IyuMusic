@@ -3,6 +3,7 @@ package com.iyuba.music.activity.study;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = initView();
         refresh();
@@ -59,7 +60,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
 
     private View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original, null);
-        originalView = (OriginalView) view.findViewById(R.id.original);
+        originalView = view.findViewById(R.id.original);
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
             @Override
             public void onSelectText(String text) {
@@ -73,7 +74,7 @@ public class OriginalFragment extends BaseFragment implements IOnClickListener {
                 }
             }
         });
-        wordCard = (WordCard) view.findViewById(R.id.wordcard);
+        wordCard = view.findViewById(R.id.wordcard);
         return view;
     }
 

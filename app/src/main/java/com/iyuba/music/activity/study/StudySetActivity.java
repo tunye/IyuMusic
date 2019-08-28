@@ -34,7 +34,6 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.study_setting);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -43,28 +42,28 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        playMode = (RoundRelativeLayout) findViewById(R.id.study_set_playmode);
-        AddRippleEffect.addRippleEffect(playMode);
-        nextMode = (RoundRelativeLayout) findViewById(R.id.study_set_nextmode);
-        AddRippleEffect.addRippleEffect(nextMode);
-        autoRound = (RoundRelativeLayout) findViewById(R.id.study_set_auto_round);
-        AddRippleEffect.addRippleEffect(autoRound);
-        downLoad = (RoundRelativeLayout) findViewById(R.id.study_set_download);
-        AddRippleEffect.addRippleEffect(downLoad);
-        headplugPlay = (RoundRelativeLayout) findViewById(R.id.study_set_headplug_play);
-        AddRippleEffect.addRippleEffect(headplugPlay);
-        headplugPause = (RoundRelativeLayout) findViewById(R.id.study_set_headplug_pause);
-        AddRippleEffect.addRippleEffect(headplugPause);
-        originalSize = (RoundRelativeLayout) findViewById(R.id.study_set_original_size);
-        AddRippleEffect.addRippleEffect(originalSize);
-        mediaButton = (RoundRelativeLayout) findViewById(R.id.study_set_media_button);
-        AddRippleEffect.addRippleEffect(mediaButton);
-        currPlayMode = (TextView) findViewById(R.id.study_set_playmode_current);
-        currNextMode = (TextView) findViewById(R.id.study_set_nextmode_current);
-        currDownLoad = (TextView) findViewById(R.id.study_set_download_current);
-        currAutoRound = (SwitchButton) findViewById(R.id.study_set_auto_round_current);
-        currHeadplugPlay = (SwitchButton) findViewById(R.id.study_set_headplug_play_current);
-        currHeadplugPause = (SwitchButton) findViewById(R.id.study_set_headplug_pause_current);
+        playMode = findViewById(R.id.study_set_playmode);
+        AddRippleEffect.addRippleEffect(playMode, 200);
+        nextMode = findViewById(R.id.study_set_nextmode);
+        AddRippleEffect.addRippleEffect(nextMode, 200);
+        autoRound = findViewById(R.id.study_set_auto_round);
+        AddRippleEffect.addRippleEffect(autoRound, 200);
+        downLoad = findViewById(R.id.study_set_download);
+        AddRippleEffect.addRippleEffect(downLoad, 200);
+        headplugPlay = findViewById(R.id.study_set_headplug_play);
+        AddRippleEffect.addRippleEffect(headplugPlay, 200);
+        headplugPause = findViewById(R.id.study_set_headplug_pause);
+        AddRippleEffect.addRippleEffect(headplugPause, 200);
+        originalSize = findViewById(R.id.study_set_original_size);
+        AddRippleEffect.addRippleEffect(originalSize, 200);
+        mediaButton = findViewById(R.id.study_set_media_button);
+        AddRippleEffect.addRippleEffect(mediaButton, 200);
+        currPlayMode = findViewById(R.id.study_set_playmode_current);
+        currNextMode = findViewById(R.id.study_set_nextmode_current);
+        currDownLoad = findViewById(R.id.study_set_download_current);
+        currAutoRound = findViewById(R.id.study_set_auto_round_current);
+        currHeadplugPlay = findViewById(R.id.study_set_headplug_play_current);
+        currHeadplugPause = findViewById(R.id.study_set_headplug_pause_current);
     }
 
     @Override
@@ -148,20 +147,14 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.study_set_playmode:
-                popPlayModeDialog();
-                break;
             case R.id.study_set_playmode_current:
                 popPlayModeDialog();
                 break;
             case R.id.study_set_nextmode:
-                popNextModeDialog();
-                break;
             case R.id.study_set_nextmode_current:
                 popNextModeDialog();
                 break;
             case R.id.study_set_download:
-                popDownloadDialog();
-                break;
             case R.id.study_set_download_current:
                 popDownloadDialog();
                 break;

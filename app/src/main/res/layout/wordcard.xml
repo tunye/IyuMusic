@@ -12,12 +12,12 @@
 
     <LinearLayout
         android:id="@+id/word_content"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
@@ -49,7 +49,7 @@
 
         <com.iyuba.music.widget.textview.JustifyTextView
             android:id="@+id/word_def"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/row_space_big"
             android:ellipsize="end"

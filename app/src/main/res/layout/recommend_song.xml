@@ -5,26 +5,26 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar_with_oper" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/recommend_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar">
+            android:layout_height="wrap_content">
 
             <com.iyuba.music.widget.imageview.RoundImageView xmlns:ri="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/recommend_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:src="@mipmap/ic_launcher2"
                 ri:border_inside_color="@color/skin_app_color"
@@ -33,7 +33,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/recommend_photo"
                 android:layout_marginTop="@dimen/row_space_large"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
@@ -63,6 +62,6 @@
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="@color/skin_app_color" />
             </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

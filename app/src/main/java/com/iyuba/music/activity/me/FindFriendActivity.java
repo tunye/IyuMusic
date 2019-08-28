@@ -2,34 +2,35 @@ package com.iyuba.music.activity.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.friends.SearchFriend;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
+import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.SearchFriendRequest;
+import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -38,14 +39,8 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2016/3/2.
  */
-public class FindFriendActivity extends BaseInputActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private Context context;
-    private RecyclerView recyclerView;
-    private ArrayList<SearchFriend> searchArrayList;
+public class FindFriendActivity extends BaseListActivity<SearchFriend> {
     private FriendAdapter friendAdapter;
-    private MySwipeRefreshLayout swipeRefreshLayout;
-    private int curPage;
-    private boolean isLastPage = false;
 
     private View search;
     private RoundLinearLayout searchLayout;
@@ -56,8 +51,7 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_search_recycle);
-        context = this;
-        searchArrayList = new ArrayList<>();
+        datas = new ArrayList<>();
         initWidget();
         setListener();
         changeUIByPara();
@@ -66,19 +60,14 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        recyclerView = (RecyclerView) findViewById(R.id.friendlist);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        searchArrayList = new ArrayList<>();
+        RecyclerView recyclerView = findViewById(R.id.friendlist);
+        setRecyclerViewProperty(recyclerView);
+        datas = new ArrayList<>();
         friendAdapter = new FriendAdapter(context);
         friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.getInstance().pushFriendId(searchArrayList.get(position).getUid());
+                SocialManager.getInstance().pushFriendId(datas.get(position).getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
@@ -89,11 +78,9 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
             }
         });
         recyclerView.setAdapter(friendAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
         search = findViewById(R.id.friend_search);
-        searchLayout = (RoundLinearLayout) findViewById(R.id.search_layout);
-        searchContent = (MaterialEditText) findViewById(R.id.search_content);
+        searchLayout = findViewById(R.id.search_layout);
+        searchContent = findViewById(R.id.search_content);
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.friend_finding));
     }
 
@@ -139,39 +126,35 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
         title.setText(R.string.friend_find);
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
     @Override
-    public void onRefresh(int index) {
-        curPage = 1;
-        searchArrayList = new ArrayList<>();
-        isLastPage = false;
-        getFriendData(searchContent.getEditableText().toString());
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (searchArrayList.size() == 0) {
-
-        } else if (!isLastPage) {
-            curPage++;
-            getFriendData(searchContent.getEditableText().toString());
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.friend_load_all);
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
         }
     }
 
-    private void getFriendData(String s) {
-        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(AccountManager.getInstance().getUserId(), s, curPage), new IProtocolResponse() {
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+                Rect outRect = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            }
+        }
+    }
+
+    protected @StringRes
+    int getToastResource() {
+        return R.string.friend_load_all;
+    }
+
+    @Override
+    protected void getNetData() {
+        SearchFriendRequest.exeRequest(SearchFriendRequest.generateUrl(AccountManager.getInstance().getUserId(), searchContent.getEditableText().toString(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<SearchFriend>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -185,13 +168,12 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<SearchFriend>> listEntity) {
                 waittingDialog.dismiss();
-                BaseListEntity listEntity = (BaseListEntity) object;
                 if (BaseListEntity.isSuccess(listEntity)) {
                     isLastPage = listEntity.isLastPage();
-                    searchArrayList.addAll((ArrayList<SearchFriend>) listEntity.getData());
-                    friendAdapter.setFriendList(searchArrayList);
+                    datas.addAll(listEntity.getData());
+                    friendAdapter.setFriendList(datas);
                     if (curPage == 1) {
 
                     } else {
@@ -203,10 +185,5 @@ public class FindFriendActivity extends BaseInputActivity implements MySwipeRefr
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    @Override
-    public void onClick(View view, Object message) {
-        recyclerView.scrollToPosition(0);
     }
 }

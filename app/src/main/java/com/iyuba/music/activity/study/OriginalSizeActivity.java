@@ -68,7 +68,6 @@ public class OriginalSizeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.original_size);
-        context = this;
         originalRows = new ArrayList<>();
         for (String lrcLine : example) {
             Original row = Original.createRows(lrcLine);
@@ -82,10 +81,10 @@ public class OriginalSizeActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        original = (OriginalView) findViewById(R.id.original);
-        discreteSlider = (DiscreteSlider) findViewById(R.id.discrete_slider);
-        tickMarkLabels = (LinearLayout) findViewById(R.id.tick_mark_labels);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        original = findViewById(R.id.original);
+        discreteSlider = findViewById(R.id.discrete_slider);
+        tickMarkLabels = findViewById(R.id.tick_mark_labels);
     }
 
     @Override

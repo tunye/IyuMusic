@@ -11,7 +11,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.buaa.ct.comment.CommentView;
 import com.buaa.ct.comment.ContextManager;
@@ -46,7 +45,6 @@ public class ChattingActivity extends BaseInputActivity {
         super.onCreate(savedInstanceState);
         ContextManager.setInstance(this);//评论模块初始化
         setContentView(R.layout.chatting);
-        context = this;
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         needPop = getIntent().getBooleanExtra("needpop", false);
         isLastPage = false;
@@ -84,9 +82,9 @@ public class ChattingActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        chatContent = (ListView) findViewById(R.id.chatting_history);
-        chatView = (CommentView) findViewById(R.id.chat_view);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        chatContent = findViewById(R.id.chatting_history);
+        chatView = findViewById(R.id.chat_view);
         chatContent.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
     }
 
@@ -212,7 +210,9 @@ public class ChattingActivity extends BaseInputActivity {
     }
 
     private void getChattingContent() {
-        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendId(), chattingPage), new IProtocolResponse() {
+        ChattingRequest.exeRequest(ChattingRequest.generateUrl(AccountManager.getInstance().getUserId(),
+                SocialManager.getInstance().getFriendId(), chattingPage),
+                new IProtocolResponse<BaseListEntity<ArrayList<MessageLetterContent>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -224,14 +224,13 @@ public class ChattingActivity extends BaseInputActivity {
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity baseListEntity = (BaseListEntity) object;
+            public void response(BaseListEntity<ArrayList<MessageLetterContent>> baseListEntity) {
                 if (baseListEntity.isLastPage()) {
                     isLastPage = true;
                     CustomToast.getInstance().showToast(R.string.message_load_all);
                 } else {
                     chattingPage++;
-                    ArrayList<MessageLetterContent> contents = (ArrayList<MessageLetterContent>) baseListEntity.getData();
+                    ArrayList<MessageLetterContent> contents = baseListEntity.getData();
                     Collections.reverse(contents);
                     list.addAll(0, contents);
                     adapter.setList(list);

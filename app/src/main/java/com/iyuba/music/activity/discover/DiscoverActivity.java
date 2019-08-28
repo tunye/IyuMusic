@@ -11,17 +11,14 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.activity.me.FindFriendActivity;
-import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.activity.me.MessageActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
-import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.widget.dialog.CustomDialog;
 
 /**
@@ -34,7 +31,6 @@ public class DiscoverActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discover);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -43,7 +39,7 @@ public class DiscoverActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        RecyclerView discover = (RecyclerView) findViewById(R.id.discover_list);
+        RecyclerView discover = findViewById(R.id.discover_list);
         discover.setLayoutManager(new LinearLayoutManager(context));
         discoverAdapter = new DiscoverAdapter(context);
         discover.setAdapter(discoverAdapter);
