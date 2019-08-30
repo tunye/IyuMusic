@@ -22,7 +22,6 @@ public class SleepActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sleep);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -31,7 +30,7 @@ public class SleepActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        RecyclerView listView = (RecyclerView) findViewById(R.id.sleep_list);
+        RecyclerView listView = findViewById(R.id.sleep_list);
         listView.setLayoutManager(new LinearLayoutManager(context));
         listView.addItemDecoration(new DividerItemDecoration());
         ((SimpleItemAnimator) listView.getItemAnimator()).setSupportsChangeAnimations(false);

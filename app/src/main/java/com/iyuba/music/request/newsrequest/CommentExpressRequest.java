@@ -9,7 +9,6 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
@@ -55,9 +54,9 @@ public class CommentExpressRequest {
         para.put("appName", "music");
         para.put("userid", paras[1]);
         para.put("format", "json");
-        para.put("username", TextAttr.encode(TextAttr.encode(paras[2])));
-        para.put("content", TextAttr.encode(TextAttr.encode(paras[3])));
-        para.put("imgsrc", TextAttr.encode("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=" + paras[1] + "&size=big"));
+        para.put("username", ParameterUrl.encode(ParameterUrl.encode(paras[2])));
+        para.put("content", ParameterUrl.encode(ParameterUrl.encode(paras[3])));
+        para.put("imgsrc", ParameterUrl.encode("http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&uid=" + paras[1] + "&size=big"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }
 }

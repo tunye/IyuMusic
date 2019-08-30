@@ -29,7 +29,7 @@ import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -349,7 +349,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             switch (msg.what) {
                 case 0:
                     if (adapter.player.getCurrentPosition() < msg.arg1) {
-                        adapter.curText.setText(Mathematics.formatTime((msg.arg1 - adapter.player.getCurrentPosition()) / 1000));
+                        adapter.curText.setText(DateFormat.formatTime((msg.arg1 - adapter.player.getCurrentPosition()) / 1000));
                         message = new Message();
                         message.what = 0;
                         message.arg1 = msg.arg1;
@@ -367,7 +367,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     adapter.handler.removeMessages(0);
                     break;
                 case 2:
-                    adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
+                    adapter.curText.setText(DateFormat.formatTime(msg.arg1 / 1000));
                     message = new Message();
                     message.what = 2;
                     message.arg1 = msg.arg1 + 1000;
@@ -380,7 +380,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     adapter.notifyItemChanged(adapter.curItem);
                     break;
                 case 4:
-                    adapter.curText.setText(Mathematics.formatTime(msg.arg1 / 1000));
+                    adapter.curText.setText(DateFormat.formatTime(msg.arg1 / 1000));
                     message = new Message();
                     message.what = 4;
                     message.arg1 = msg.arg1 - 1000;

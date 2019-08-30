@@ -34,7 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/19.
  */
-public class LoginActivity extends BaseInputActivity {
+public class LoginActivity extends BaseActivity {
     private static IOperationResult result;
     private MaterialAutoCompleteTextView username, userpwd;
     private TextView forgetPwd;
@@ -66,7 +66,6 @@ public class LoginActivity extends BaseInputActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -77,12 +76,12 @@ public class LoginActivity extends BaseInputActivity {
         super.initWidget();
         photo = findViewById(R.id.login_photo);
         loginMsg = findViewById(R.id.login_message);
-        username = (MaterialAutoCompleteTextView) findViewById(R.id.username);
-        userpwd = (MaterialAutoCompleteTextView) findViewById(R.id.userpwd);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        autoLogin = (CheckBox) findViewById(R.id.auto_login);
-        forgetPwd = (TextView) findViewById(R.id.forget_pwd);
-        login = (RoundTextView) findViewById(R.id.login);
+        username = findViewById(R.id.username);
+        userpwd = findViewById(R.id.userpwd);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        autoLogin = findViewById(R.id.auto_login);
+        forgetPwd = findViewById(R.id.forget_pwd);
+        login = findViewById(R.id.login);
         AddRippleEffect.addRippleEffect(login);
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.login_on_way));
     }

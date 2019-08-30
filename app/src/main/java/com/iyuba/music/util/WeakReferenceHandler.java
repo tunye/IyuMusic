@@ -10,13 +10,13 @@ public class WeakReferenceHandler<T> extends Handler {
     private final WeakReference<T> mWeakReference;
     private final IHandlerMessageByRef<T> mHandlerByRef;
 
-    public WeakReferenceHandler(Looper looper, T t, IHandlerMessageByRef handlerByRef) {
+    public WeakReferenceHandler(Looper looper, T t, IHandlerMessageByRef<T> handlerByRef) {
         super(looper);
         mWeakReference = new WeakReference<>(t);
         mHandlerByRef = handlerByRef;
     }
 
-    public WeakReferenceHandler(T t, IHandlerMessageByRef handlerByRef) {
+    public WeakReferenceHandler(T t, IHandlerMessageByRef<T> handlerByRef) {
         mWeakReference = new WeakReference<>(t);
         mHandlerByRef = handlerByRef;
     }

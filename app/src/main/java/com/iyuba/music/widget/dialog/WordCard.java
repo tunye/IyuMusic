@@ -25,7 +25,7 @@ import com.iyuba.music.request.discoverrequest.DictRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
@@ -151,7 +151,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             key.setText(word.getWord());
             if (!TextUtils.isEmpty(word.getPron())) {
                 if (word.getPron().contains("%")) {
-                    pron.setText("/" + TextAttr.decode(word.getPron()) + "/");
+                    pron.setText("/" + ParameterUrl.decode(word.getPron()) + "/");
                 } else {
                     pron.setText("/" + word.getPron() + "/");
                 }

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 import com.iyuba.music.R;
-import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.util.ParameterUrl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -79,7 +79,7 @@ public class MostDetailInfo {
         String property;
         String wantValue;
         for (Field field : fs) {
-            property = TextAttr.captureName(field.getName());
+            property = ParameterUrl.captureName(field.getName());
             try {
                 getMethod = c.getMethod("get" + property);
                 value = getMethod.invoke(mostDetailInfo);

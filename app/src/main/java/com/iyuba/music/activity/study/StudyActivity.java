@@ -48,9 +48,9 @@ import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.request.newsrequest.StudyAdRequest;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.CustomToast;
@@ -111,7 +111,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
             int i = player.getDuration();
             seekBar.setMax(i);
-            duration.setText(Mathematics.formatTime(i / 1000));
+            duration.setText(DateFormat.formatTime(i / 1000));
             handler.sendEmptyMessage(0);
             playSound.setState(MorphButton.PLAY_STATE);
         }
@@ -579,7 +579,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 if (user) {
                     player.seekTo(progress);
                 }
-                currTime.setText(Mathematics.formatTime(progress / 1000));
+                currTime.setText(DateFormat.formatTime(progress / 1000));
             }
 
             @Override
@@ -611,7 +611,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (((MusicApplication) getApplication()).getPlayerService().getCurArticleId() == StudyManager.getInstance().getCurArticle().getId()) {
             int i = player.getDuration();
             seekBar.setMax(i);
-            duration.setText(Mathematics.formatTime(i / 1000));
+            duration.setText(DateFormat.formatTime(i / 1000));
         } else {
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
         }
@@ -853,7 +853,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 case 0:
                     if (activity.player != null) {
                         int pos = activity.player.getCurrentPosition();
-                        activity.currTime.setText(Mathematics.formatTime(pos / 1000));
+                        activity.currTime.setText(DateFormat.formatTime(pos / 1000));
                         activity.seekBar.setProgress(pos);
                         activity.handler.sendEmptyMessageDelayed(0, 500);
                         if (activity.intervalState == END) {

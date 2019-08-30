@@ -37,6 +37,7 @@ import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
+import com.iyuba.music.widget.view.CircleImageView;
 import com.mob.MobSDK;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -47,12 +48,11 @@ import java.util.regex.Pattern;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
-import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/11/24.
  */
-public class RegistActivity extends BaseInputActivity {
+public class RegistActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
     private TextView protocolText, toolBarSub;
@@ -99,23 +99,23 @@ public class RegistActivity extends BaseInputActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolBarSub = (TextView) findViewById(R.id.toolbar_oper_sub);
-        photo = (CircleImageView) findViewById(R.id.regist_photo);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        regist = (RoundTextView) findViewById(R.id.regist);
+        toolBarSub = findViewById(R.id.toolbar_oper_sub);
+        photo = findViewById(R.id.regist_photo);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        regist = findViewById(R.id.regist);
         AddRippleEffect.addRippleEffect(regist);
-        protocol = (CheckBox) findViewById(R.id.regist_protocol_checkbox);
-        protocolText = (TextView) findViewById(R.id.regist_protocol);
+        protocol = findViewById(R.id.regist_protocol_checkbox);
+        protocolText = findViewById(R.id.regist_protocol);
         registByPhone = findViewById(R.id.regist_by_phone);
         registByEmail = findViewById(R.id.regist_by_email);
-        getMessageCode = (RoundTextView) findViewById(R.id.get_msg_code);
+        getMessageCode = findViewById(R.id.get_msg_code);
         AddRippleEffect.addRippleEffect(getMessageCode);
-        phone = (MaterialEditText) findViewById(R.id.regist_phone);
-        messageCode = (MaterialEditText) findViewById(R.id.regist_msg_code);
-        userName = (MaterialEditText) findViewById(R.id.regist_username);
-        userPwd = (MaterialEditText) findViewById(R.id.regist_pwd);
-        userPwd2 = (MaterialEditText) findViewById(R.id.regist_repwd);
-        email = (MaterialEditText) findViewById(R.id.regist_email);
+        phone = findViewById(R.id.regist_phone);
+        messageCode = findViewById(R.id.regist_msg_code);
+        userName = findViewById(R.id.regist_username);
+        userPwd = findViewById(R.id.regist_pwd);
+        userPwd2 = findViewById(R.id.regist_repwd);
+        email = findViewById(R.id.regist_email);
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.regist_on_way));
     }
 
@@ -463,7 +463,7 @@ public class RegistActivity extends BaseInputActivity {
         } else {
             waittingDialog.show();
             RegistRequest.exeRequest(RegistRequest.generateUrl(new String[]{userName.getText().toString(),
-                    userPwd.getText().toString(), email.getText().toString()}), new IProtocolResponse() {
+                    userPwd.getText().toString(), email.getText().toString()}), new IProtocolResponse<BaseApiEntity<Integer>>() {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();
@@ -477,10 +477,9 @@ public class RegistActivity extends BaseInputActivity {
                 }
 
                 @Override
-                public void response(Object object) {
+                public void response(BaseApiEntity<Integer> baseApiEntity) {
                     waittingDialog.dismiss();
-                    BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                    int result = (int) baseApiEntity.getData();
+                    int result = baseApiEntity.getData();
                     if (result == 111) {
                         CustomToast.getInstance().showToast(R.string.regist_success);
                         Intent intent = new Intent();
@@ -521,7 +520,7 @@ public class RegistActivity extends BaseInputActivity {
         } else {
             waittingDialog.show();
             RegistByPhoneRequest.exeRequest(RegistByPhoneRequest.generateUrl(new String[]{userName.getText()
-                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new IProtocolResponse() {
+                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new IProtocolResponse<Integer>() {
                 @Override
                 public void onNetError(String msg) {
                     waittingDialog.dismiss();
@@ -535,9 +534,8 @@ public class RegistActivity extends BaseInputActivity {
                 }
 
                 @Override
-                public void response(Object object) {
+                public void response(Integer result) {
                     waittingDialog.dismiss();
-                    int result = (int) object;
                     if (result == 111) {
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());

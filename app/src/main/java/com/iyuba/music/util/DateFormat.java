@@ -41,6 +41,17 @@ public class DateFormat {
         return yearFormatThreadLocal.get().format(date);
     }
 
+    public static String formatTime(int time) {
+        int hour = time / 3600;
+        int minute = time / 60 % 60;
+        int second = time % 60;
+        if (hour != 0) {
+            return String.format(Locale.CHINA, "%02d:%02d:%02d", hour, minute, second);
+        } else {
+            return String.format(Locale.CHINA, "%02d:%02d", minute, second);
+        }
+    }
+
     public static String showTime(Context context, Date ctime) {
         long nowtimelong = System.currentTimeMillis();
         long ctimelong = ctime.getTime();

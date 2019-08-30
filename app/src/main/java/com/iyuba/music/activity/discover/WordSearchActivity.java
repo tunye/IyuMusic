@@ -28,7 +28,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -141,18 +141,6 @@ public class WordSearchActivity extends BaseSkinActivity {
     protected void changeUIByPara() {
         wordSetOp = new WordSetOp();
         search.setText(R.string.search_close);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-                Rect outRect = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Mathematics.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
-            }
-        }
     }
 
     @Override

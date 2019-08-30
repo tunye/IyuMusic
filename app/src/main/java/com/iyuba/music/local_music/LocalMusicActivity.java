@@ -33,10 +33,9 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
-import com.iyuba.music.util.CreateAppLnkUtil;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
-import com.iyuba.music.util.RandomUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -151,7 +150,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         createLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateAppLnkUtil.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
+                Utils.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
             }
         });
         toolbarOper.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +170,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             @Override
             public void onClick(View v) {
                 if (musics.size() != 0) {
-                    playSelectItem(RandomUtil.getRandomInt(musics.size()));
+                    playSelectItem(Utils.getRandomInt(musics.size()));
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                 }
@@ -184,7 +183,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                     if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
                     } else {
-                        playSelectItem(RandomUtil.getRandomInt(musics.size()));
+                        playSelectItem(Utils.getRandomInt(musics.size()));
                     }
                 } else {
                     CustomToast.getInstance().showToast(R.string.eggshell_music_no);
@@ -366,7 +365,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             switch (msg.what) {
                 case 0:
                     activity.progressBar.setProgress(activity.player.getCurrentPosition());
-                    activity.currentTime.setText(Mathematics.formatTime(activity.player.getCurrentPosition() / 1000));
+                    activity.currentTime.setText(DateFormat.formatTime(activity.player.getCurrentPosition() / 1000));
                     if (activity.player.isPlaying()) {
                         if (activity.pause.getState() == MorphButton.PAUSE_STATE) {
                             activity.pause.setState(MorphButton.PLAY_STATE);
@@ -407,7 +406,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                         ArrayList<Article> musics = mWeakReference.get().musics;
                         if (musics != null) {
                             if (musics.size() != 0) {
-                                mWeakReference.get().playSelectItem(RandomUtil.getRandomInt(musics.size()));
+                                mWeakReference.get().playSelectItem(Utils.getRandomInt(musics.size()));
                             } else {
                                 CustomToast.getInstance().showToast(R.string.eggshell_music_no);
                             }

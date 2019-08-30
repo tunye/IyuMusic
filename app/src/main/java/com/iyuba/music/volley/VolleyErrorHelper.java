@@ -3,7 +3,6 @@ package com.iyuba.music.volley;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -32,7 +31,7 @@ public class VolleyErrorHelper {
 
 
     private static boolean isNetworkProblem(Object error) {
-        return (error instanceof NetworkError) || (error instanceof NoConnectionError);
+        return (error instanceof NetworkError);
     }
 
     private static boolean isServerProblem(Object error) {

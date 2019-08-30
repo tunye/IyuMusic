@@ -41,8 +41,8 @@ public class HelpUseActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
         usePullDown = getIntent().getBooleanExtra("UsePullDown", false);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        pi = (PageIndicator) findViewById(R.id.pageindicator);
+        viewPager = findViewById(R.id.viewpager);
+        pi = findViewById(R.id.pageindicator);
         pi.setFillColor(0xffededed);
         pi.setStrokeColor(0xffededed);
         viewPager.addOnPageChangeListener(new OnPageChangeListener() {

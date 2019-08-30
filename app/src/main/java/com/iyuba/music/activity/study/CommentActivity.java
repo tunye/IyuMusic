@@ -38,7 +38,6 @@ import com.iyuba.music.request.newsrequest.CommentDeleteRequest;
 import com.iyuba.music.request.newsrequest.CommentExpressRequest;
 import com.iyuba.music.request.newsrequest.CommentRequest;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
@@ -238,18 +237,6 @@ public class CommentActivity extends BaseListActivity<Comment> implements MySwip
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-                Rect outRect = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
-            }
         }
     }
 

@@ -9,7 +9,7 @@ import android.widget.CompoundButton;
 
 import com.google.gson.Gson;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -28,7 +28,7 @@ import java.util.Locale;
 /**
  * Created by 10202 on 2017/6/19.
  */
-public class WeightSetActivity extends BaseInputActivity implements View.OnClickListener {
+public class WeightSetActivity extends BaseActivity implements View.OnClickListener {
     private RoundRelativeLayout initWeight, targetWeight, showTargetLy;
     private SwitchButton showTarget;
 

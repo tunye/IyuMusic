@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
@@ -33,7 +32,6 @@ public class WxOfficialAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wx_official_accounts);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -42,7 +40,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         shareToFriend = findViewById(R.id.share_to_friend);
         shareToCircle = findViewById(R.id.share_to_circle);
         shareToWx = findViewById(R.id.share_to_wx);

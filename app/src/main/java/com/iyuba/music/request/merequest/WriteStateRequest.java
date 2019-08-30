@@ -10,7 +10,6 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
@@ -54,9 +53,9 @@ public class WriteStateRequest {
         para.put("format", "json");
         para.put("protocol", 30006);
         para.put("uid", uid);
-        para.put("username", TextAttr.encode(uname));
+        para.put("username", ParameterUrl.encode(uname));
         para.put("from", "android");
-        para.put("message", TextAttr.encode(TextAttr.encode(content)));
+        para.put("message", ParameterUrl.encode(ParameterUrl.encode(content)));
         para.put("sign", MD5.getMD5ofStr("30006" + uid + uname + content + "iyubaV2"));
         return ParameterUrl.setRequestParameter(originalUrl, para);
     }

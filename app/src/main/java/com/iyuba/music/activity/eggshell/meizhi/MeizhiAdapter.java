@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.util.RandomUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.imageview.RatioImageView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
@@ -89,7 +89,7 @@ public class MeizhiAdapter extends RecyclerView.Adapter<MeizhiAdapter.MyViewHold
             super(view);
             desc = (TextView) view.findViewById(R.id.tv_title);
             pic = (RatioImageView) view.findViewById(R.id.iv_girl);
-            int temp = RandomUtil.getRandomInt(6);
+            int temp = Utils.getRandomInt(6);
             int originalHeight;
             if (temp % 3 == 0) {
                 originalHeight = 50 - temp;

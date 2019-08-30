@@ -28,7 +28,6 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.DoingCommentRequest;
 import com.iyuba.music.request.merequest.SendDoingCommentRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.imageview.VipPhoto;
 
@@ -141,18 +140,6 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-                Rect outRect = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Mathematics.setMargins(toolBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
-            }
         }
     }
 

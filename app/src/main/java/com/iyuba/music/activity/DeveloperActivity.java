@@ -17,7 +17,6 @@ public class DeveloperActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.developer);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();

@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -170,9 +169,9 @@ public class MainActivity extends BaseSkinActivity {
 
     protected void initWidget() {
         root = findViewById(R.id.root);
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        menu = (MaterialMenuView) findViewById(R.id.material_menu);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        menu = findViewById(R.id.material_menu);
+        drawerLayout = findViewById(R.id.drawer_layout);
         MainLeftFragment mainLeftFragment = new MainLeftFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, mainLeftFragment).commitAllowingStateLoss();
         MainFragment mainFragment = new MainFragment();

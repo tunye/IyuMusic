@@ -15,7 +15,7 @@ import android.widget.ListView;
 import com.buaa.ct.comment.CommentView;
 import com.buaa.ct.comment.ContextManager;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.me.ChattingAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.message.MessageLetterContent;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class ChattingActivity extends BaseInputActivity {
+public class ChattingActivity extends BaseActivity {
     private ChattingAdapter adapter;
     private ArrayList<MessageLetterContent> list;
     private ListView chatContent;

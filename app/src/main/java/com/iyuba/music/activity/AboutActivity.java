@@ -41,7 +41,7 @@ import java.util.Calendar;
  * @author chentong
  */
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity implements WeakReferenceHandler.IHandlerMessageByRef<AboutActivity> {
     private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
 
     private TextView version, copyright;
@@ -52,13 +52,12 @@ public class AboutActivity extends BaseActivity {
     private RoundProgressBar progressBar;
     private boolean isCurrent;
     private int cookie;
-    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private Handler handler = new WeakReferenceHandler<>(this, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -324,7 +323,6 @@ public class AboutActivity extends BaseActivity {
         }
     }
 
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<AboutActivity> {
         @Override
         public void handleMessageByRef(AboutActivity activity, Message msg) {
             switch (msg.what) {
@@ -365,6 +363,5 @@ public class AboutActivity extends BaseActivity {
                     }
                     break;
             }
-        }
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.iyuba.music.R;
-import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.Utils;
 
 /**
  * Created by 10202 on 2015/11/18.
@@ -34,7 +34,7 @@ public class UserInfo {
         for (int i = 0; i < scoreLevel.length; i++) {
             if (i == scoreLevel.length - 1) {
                 return scoreLevel.length;
-            } else if (Mathematics.range(scoreLevel[i], scoreLevel[i + 1], score)) {
+            } else if (Utils.range(scoreLevel[i], scoreLevel[i + 1], score)) {
                 return i + 1;
             }
         }

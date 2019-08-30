@@ -13,8 +13,6 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.RandomUtil;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyJsonRequest;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
@@ -26,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by 10202 on 2017/1/9.
@@ -47,7 +46,7 @@ public class AliPay {
                         BaseApiEntity apiEntity = new BaseApiEntity();
                         apiEntity.setMessage(jsonObject.getString("message"));
                         if ("1".equals(jsonObject.getString("result"))) {
-                            apiEntity.setData(TextAttr.decode(jsonObject.getString("orderInfo")));
+                            apiEntity.setData(ParameterUrl.decode(jsonObject.getString("orderInfo")));
                             apiEntity.setValue(jsonObject.getString("sign"));
                             apiEntity.setState(BaseApiEntity.SUCCESS);
                         } else {
@@ -91,7 +90,7 @@ public class AliPay {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();
         String key = format.format(date);
-        key = key + Math.abs(RandomUtil.getInstance().random.nextInt());
+        key = key + Math.abs(new Random().nextInt());
         key = key.substring(0, 15);
         return key;
     }

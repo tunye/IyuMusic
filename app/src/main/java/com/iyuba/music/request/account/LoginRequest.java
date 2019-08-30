@@ -14,7 +14,6 @@ import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.TextAttr;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.VolleyErrorHelper;
 import com.iyuba.music.volley.XMLRequest;
@@ -130,7 +129,7 @@ public class LoginRequest {
         Map<String, Object> para = new ArrayMap<>();
         para.put("protocol", 11001);
         para.put("platform", "android");
-        para.put("username", TextAttr.encode(TextAttr.encode(paras[0])));
+        para.put("username", ParameterUrl.encode(ParameterUrl.encode(paras[0])));
         para.put("password", MD5.getMD5ofStr(paras[1]));
         para.put("x", paras[2]);
         para.put("y", paras[3]);

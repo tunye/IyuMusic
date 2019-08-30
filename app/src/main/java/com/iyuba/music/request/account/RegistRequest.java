@@ -25,14 +25,14 @@ import java.util.Map;
  * Created by 10202 on 2015/11/25.
  */
 public class RegistRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<Integer>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseApiEntity baseApiEntity = new BaseApiEntity();
+                        BaseApiEntity<Integer> baseApiEntity = new BaseApiEntity<>();
                         baseApiEntity.setData(jsonObject.getInt("result"));
                         baseApiEntity.setMessage(jsonObject.getString("message"));
                         response.response(baseApiEntity);

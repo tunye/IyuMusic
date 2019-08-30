@@ -17,7 +17,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
  * Created by 10202 on 2015/11/21.
  */
 public class FeedbackRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<String> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyStringRequest request = new MyStringRequest(url,
                     new Response.Listener<String>() {

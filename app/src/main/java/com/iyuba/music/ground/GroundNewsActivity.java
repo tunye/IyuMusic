@@ -33,7 +33,7 @@ import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
-import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -145,7 +145,7 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
                     StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    StudyManager.getInstance().setLesson(TextAttr.encode(TextAttr.encode(lesson)));
+                    StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
                     StudyManager.getInstance().setCurArticle(newsArrayList.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }

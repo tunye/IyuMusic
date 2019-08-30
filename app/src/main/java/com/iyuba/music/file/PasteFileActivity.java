@@ -13,7 +13,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
@@ -31,7 +31,7 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 /**
  * 文件浏览器相关类
  */
-public class PasteFileActivity extends BaseInputActivity {
+public class PasteFileActivity extends BaseActivity {
     private RoundLinearLayout position;
     private TextView filePath;
     private FileAdapter adapter;

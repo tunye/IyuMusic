@@ -41,8 +41,8 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -203,7 +203,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 setScreen();
                 int i = videoView.getDuration();
                 seekBar.setMax(i);
-                duration.setText(Mathematics.formatTime(i / 1000));
+                duration.setText(DateFormat.formatTime(i / 1000));
                 handler.sendEmptyMessage(0);
                 videoView.start();
                 largePause.setVisibility(View.GONE);
@@ -256,7 +256,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                     currTime.setTextColor(GetAppColor.getInstance().getAppColorLight());
                     duration.setTextColor(GetAppColor.getInstance().getAppColorLight());
                 }
-                currTime.setText(Mathematics.formatTime(progress / 1000));
+                currTime.setText(DateFormat.formatTime(progress / 1000));
             }
 
             @Override
@@ -658,7 +658,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
             switch (msg.what) {
                 case 0:
-                    activity.currTime.setText(Mathematics.formatTime(activity.videoView.getCurrentPosition() / 1000));
+                    activity.currTime.setText(DateFormat.formatTime(activity.videoView.getCurrentPosition() / 1000));
                     activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
                     int current = activity.videoView.getCurrentPosition();
                     if (activity.originalView != null)

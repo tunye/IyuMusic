@@ -1,23 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/skin_app_color"
         android:fitsSystemWindows="true">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/toolbar_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/title_padding">
 
-            <com.balysv.materialmenu.MaterialMenuView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.balysv.materialmenu.MaterialMenuView
                 android:id="@+id/material_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:text="@string/app_name"
                 android:textColor="@color/textcolor_on_appcolor"
                 android:textSize="@dimen/title_text" />
@@ -36,8 +37,7 @@
             <com.iyuba.music.widget.view.MaterialRippleLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|end"
                 android:padding="@dimen/row_space_default"
                 app:mrl_rippleColor="@color/toolbar_ripple_color"
                 app:mrl_rippleDuration="300">
@@ -51,14 +51,13 @@
                     android:textColor="@color/textcolor_on_appcolor"
                     android:textSize="@dimen/large_text" />
             </com.iyuba.music.widget.view.MaterialRippleLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+        </FrameLayout>
+    </FrameLayout>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/content_frame"
@@ -73,4 +72,4 @@
             android:tag="LEFT" />
 
     </android.support.v4.widget.DrawerLayout>
-</RelativeLayout>
+</LinearLayout>

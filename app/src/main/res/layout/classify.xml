@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:text="@string/classify_group_person"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/large_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/person_view"
@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/row_space_very_large"
             android:text="@string/classify_group_system"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/big_text" />
+            android:textSize="@dimen/large_text" />
 
         <com.iyuba.music.widget.recycleview.StationaryGridview
             android:id="@+id/system_view"

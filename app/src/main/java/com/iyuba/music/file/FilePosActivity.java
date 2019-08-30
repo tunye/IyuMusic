@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class FilePosActivity extends BaseInputActivity {
+public class FilePosActivity extends BaseActivity {
     private ArrayList<FileInfo> files;
     private String currentPath;
     private RecyclerView fileListView;

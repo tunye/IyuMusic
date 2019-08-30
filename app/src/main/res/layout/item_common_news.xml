@@ -55,9 +55,10 @@
                 android:id="@+id/article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_medium"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:textStyle="bold"
                 android:textColor="@color/skin_app_color"
                 android:textSize="@dimen/big_text" />
 

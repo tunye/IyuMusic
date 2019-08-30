@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/23.
  */
-public class WebViewActivity extends BaseInputActivity {
+public class WebViewActivity extends BaseActivity {
     private WebView web;
     private String url, titleText;
     private ProgressBar loadProgress;
@@ -44,7 +44,6 @@ public class WebViewActivity extends BaseInputActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();

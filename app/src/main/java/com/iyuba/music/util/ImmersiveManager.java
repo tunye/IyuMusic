@@ -215,19 +215,16 @@ public class ImmersiveManager {
         return colorRes != R.color.skin_app_color_lgreen && colorRes != R.color.skin_app_color_pink;
     }
 
-    @TargetApi(4)
     private boolean isKITKAT() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                 && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     }
 
-    @TargetApi(4)
     private boolean isLOLLIPOP() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                 && Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
     }
 
-    @TargetApi(4)
     private boolean isMARSHMALLOW() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }

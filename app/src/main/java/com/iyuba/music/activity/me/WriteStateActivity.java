@@ -16,7 +16,7 @@ import com.buaa.ct.comment.EmojiView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
@@ -31,7 +31,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 /**
  * Created by 10202 on 2015/11/20.
  */
-public class WriteStateActivity extends BaseInputActivity {
+public class WriteStateActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
     private IyubaDialog waitingDialog;

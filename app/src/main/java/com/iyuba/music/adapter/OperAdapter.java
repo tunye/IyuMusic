@@ -28,8 +28,8 @@ import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
 import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.GoImageView;
 
@@ -123,7 +123,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
             if (sleepSecond == 0) {
                 holder.menuResult.setText(R.string.sleep_no_set);
             } else {
-                holder.menuResult.setText(Mathematics.formatTime(sleepSecond));
+                holder.menuResult.setText(DateFormat.formatTime(sleepSecond));
             }
         }
         if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_skin))) {

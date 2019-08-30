@@ -37,11 +37,8 @@ public abstract class BaseListActivity<T> extends BaseActivity implements MySwip
     @Override
     protected void initWidget() {
         super.initWidget();
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
+        swipeRefreshLayout = findSwipeRefresh();
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.android.volley.VolleyError;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.RandomUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.volley.MyVolley;
 import com.iyuba.music.volley.XMLRequest;
 
@@ -57,7 +57,7 @@ public class ReadCountAddRequest {
         String originalUrl = "http://daxue.iyuba.cn/appApi/UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", 70001);
-        para.put("counts", RandomUtil.getRandomInt(2) + 1);
+        para.put("counts", Utils.getRandomInt(2) + 1);
         para.put("format", "json");
         para.put("appName", app);
         para.put("voaids", voaid);

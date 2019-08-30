@@ -42,7 +42,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -97,17 +97,17 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
 
     protected void initWidget() {
         advice = findViewById(R.id.no_result);
-        historySearch = (ListView) findViewById(R.id.history_search);
+        historySearch = findViewById(R.id.history_search);
         searchHistoryAdapter = new SearchHistoryAdapter(context);
         historySearch.setAdapter(searchHistoryAdapter);
         historySearch.addFooterView(initClearHistory());
         showLayout = findViewById(R.id.search_show_layout);
-        searchBarLayout = (RelativeLayout) findViewById(R.id.search_bar);
-        search = (TextView) findViewById(R.id.search_news);
-        searchContent = (MaterialEditText) findViewById(R.id.search_content);
-        RecyclerView searchNewsRecycleView = (RecyclerView) findViewById(R.id.search_newslist);
+        searchBarLayout = findViewById(R.id.search_bar);
+        search = findViewById(R.id.search_news);
+        searchContent = findViewById(R.id.search_content);
+        RecyclerView searchNewsRecycleView = findViewById(R.id.search_newslist);
         searchNewsRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
         swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
         swipeRefreshLayout.setFirstIndex(0);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -129,9 +129,9 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         });
         searchNewsRecycleView.setAdapter(searchNewsAdapter);
         searchNewsRecycleView.addItemDecoration(new DividerItemDecoration());
-        searchResult = (TextView) findViewById(R.id.search_result);
-        adviceText = (TextView) findViewById(R.id.search_advice);
-        adviceBtn = (RoundTextView) findViewById(R.id.search_advice_button);
+        searchResult = findViewById(R.id.search_result);
+        adviceText = findViewById(R.id.search_advice);
+        adviceBtn = findViewById(R.id.search_advice_button);
     }
 
     protected void setListener() {
@@ -226,7 +226,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
                 Rect outRect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Mathematics.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+                Utils.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
             }
         }
     }

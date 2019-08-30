@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by 10202 on 2015/11/25.
  */
 public class RegistByPhoneRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<Integer> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {

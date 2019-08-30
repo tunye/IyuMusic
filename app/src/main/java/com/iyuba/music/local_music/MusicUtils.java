@@ -9,7 +9,7 @@ import android.provider.MediaStore.MediaColumns;
 import android.text.TextUtils;
 
 import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.util.Mathematics;
+import com.iyuba.music.util.DateFormat;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class MusicUtils {
                 article.setMusicUrl(c.getString(url));
                 article.setApp("101");
                 if (c.getInt(duration) > 1000 * 60) {
-                    article.setBroadcaster(Mathematics.formatTime(c.getInt(duration) / 1000));
+                    article.setBroadcaster(DateFormat.formatTime(c.getInt(duration) / 1000));
                     musics.add(article);
                 }
             }

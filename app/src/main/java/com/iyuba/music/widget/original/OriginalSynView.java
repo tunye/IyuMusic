@@ -15,8 +15,8 @@ import android.widget.ScrollView;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Mathematics;
 
 import java.util.ArrayList;
 
@@ -118,7 +118,7 @@ public class OriginalSynView extends ScrollView implements
                     break;
                 }
             }
-            drawTimeCanvas(canvas, Mathematics.formatTime((int) originalList.get(currParagraph - 1).getStartTime()), y);
+            drawTimeCanvas(canvas, DateFormat.formatTime((int) originalList.get(currParagraph - 1).getStartTime()), y);
             changeHighLight(currParagraph);
         }
     }

@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
-import android.widget.TextView;
 
 import com.buaa.ct.appskin.SkinManager;
 import com.iyuba.music.R;
@@ -30,7 +29,6 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.skin);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -39,8 +37,8 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        RecyclerView recyclerView = findViewById(R.id.recycler);
         FlavorAdapter mAdapter = new FlavorAdapter(this);
         mAdapter.setItemClickListener(this);
         mAdapter.addAll(Arrays.asList(context.getResources().getStringArray(R.array.flavors)), Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)));

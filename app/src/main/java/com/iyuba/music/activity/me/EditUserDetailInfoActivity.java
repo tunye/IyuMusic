@@ -19,7 +19,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseInputActivity;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.user.MostDetailInfo;
 import com.iyuba.music.listener.IProtocolResponse;
@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class EditUserDetailInfoActivity extends BaseInputActivity {
+public class EditUserDetailInfoActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView gender, birthday, zodiac, constellation;
     private MaterialEditText location, school, company, affectiveStatus, lookingFor, bio, interest;

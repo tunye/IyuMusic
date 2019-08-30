@@ -15,7 +15,7 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.word.Saying;
 import com.iyuba.music.entity.word.SayingOp;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.RandomUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.roundview.RoundTextView;
@@ -104,7 +104,7 @@ public class SayingActivity extends BaseActivity {
     }
 
     private int getRandomId() {
-        return RandomUtil.getRandomInt(1000) % 154 + 1;
+        return Utils.getRandomInt(1000) % 154 + 1;
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SayingActivity> {

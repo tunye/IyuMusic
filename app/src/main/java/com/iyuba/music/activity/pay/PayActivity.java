@@ -21,7 +21,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.AliPay;
 import com.iyuba.music.request.account.WxPay;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.TextAttr;
+import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -181,8 +181,8 @@ public class PayActivity extends BaseActivity {
 
     private void aliPay() {
         waitingDialog.show();
-        String subject = TextAttr.encode(payDetail.getText().toString());
-        String body = TextAttr.encode(payMoney.getText().toString());
+        String subject = ParameterUrl.encode(payDetail.getText().toString());
+        String body = ParameterUrl.encode(payMoney.getText().toString());
         AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
             @Override
             public void onNetError(String msg) {
