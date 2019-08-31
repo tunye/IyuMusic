@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.discover;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -50,7 +51,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_circle, parent, false));
     }
 
@@ -143,13 +144,13 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            circleUserName = (TextView) view.findViewById(R.id.circle_username);
-            circleType = (TextView) view.findViewById(R.id.circle_type);
-            circleCounts = (TextView) view.findViewById(R.id.circle_pmnum);
-            circleContent = (JustifyTextView) view.findViewById(R.id.circle_content);
-            circleTime = (TextView) view.findViewById(R.id.circle_dateline);
-            circlePhoto = (VipPhoto) view.findViewById(R.id.circle_photo);
-            circleImg = (ImageView) view.findViewById(R.id.circle_img);
+            circleUserName = view.findViewById(R.id.circle_username);
+            circleType = view.findViewById(R.id.circle_type);
+            circleCounts = view.findViewById(R.id.circle_pmnum);
+            circleContent = view.findViewById(R.id.circle_content);
+            circleTime = view.findViewById(R.id.circle_dateline);
+            circlePhoto = view.findViewById(R.id.circle_photo);
+            circleImg = view.findViewById(R.id.circle_img);
         }
     }
 }

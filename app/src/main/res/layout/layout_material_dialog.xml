@@ -71,7 +71,7 @@
                 android:id="@+id/buttonLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="12dp"
@@ -79,17 +79,27 @@
 
                 <Button
                     android:id="@+id/btn_n"
-                    style="@style/ActionButton"
-                    android:stateListAnimator="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/action_button_height"
+                    android:minWidth="@dimen/action_button_min_width"
+                    android:paddingStart="@dimen/action_button_padding_horizontal"
+                    android:paddingEnd="@dimen/action_button_padding_horizontal"
+                    android:background="@color/background_dark"
+                    android:textSize="@dimen/action_button_text_size"
                     android:textColor="@color/text_color"
                     tools:text="CANCEL" />
 
                 <Button
                     android:id="@+id/btn_p"
-                    style="@style/ActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/action_button_height"
+                    android:minWidth="@dimen/action_button_min_width"
+                    android:paddingStart="@dimen/action_button_padding_horizontal"
+                    android:paddingEnd="@dimen/action_button_padding_horizontal"
+                    android:background="@color/background_dark"
+                    android:textSize="@dimen/action_button_text_size"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="12dp"
-                    android:stateListAnimator="@null"
                     android:textColor="@color/skin_app_color"
                     tools:text="OK" />
             </LinearLayout>

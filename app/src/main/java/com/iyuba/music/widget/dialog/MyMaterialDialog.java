@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.iyuba.music.R;
 import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.textview.JustifyTextView;
+import com.iyuba.music.widget.view.AddRippleEffect;
 
 /**
  * Created by chentong1 on 2017/6/2.
@@ -264,36 +265,38 @@ public class MyMaterialDialog {
             mAlertDialog = new AlertDialog.Builder(mContext, styleId).create();
             mAlertDialog.show();
 
-            mAlertDialog.getWindow()
-                    .clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-            mAlertDialog.getWindow()
-                    .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE);
-
-            mAlertDialogWindow = mAlertDialog.getWindow();
-            mAlertDialogWindow.setBackgroundDrawable(
-                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            mAlertDialogWindow.setGravity(Gravity.CENTER);
-
-            View contentView = LayoutInflater.from(mContext)
-                    .inflate(R.layout.layout_material_dialog, null);
+            View contentView = LayoutInflater.from(mContext).inflate(R.layout.layout_material_dialog, null);
             contentView.setFocusable(true);
             contentView.setFocusableInTouchMode(true);
 
-            mAlertDialogWindow.setBackgroundDrawableResource(R.drawable.material_dialog_window);
+            mAlertDialogWindow =  mAlertDialog.getWindow();
+            if (mAlertDialogWindow!=null) {
+                mAlertDialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                mAlertDialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE);
+                WindowManager.LayoutParams attr = mAlertDialogWindow.getAttributes();
+                if (attr != null) {
+                    attr.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    attr.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    attr.gravity = Gravity.CENTER;//设置dialog 在布局中的位置
+                }
+                mAlertDialogWindow.setBackgroundDrawable(
+                        new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                mAlertDialogWindow.setGravity(Gravity.CENTER);
+                mAlertDialogWindow.setBackgroundDrawableResource(R.drawable.material_dialog_window);
+                mAlertDialogWindow.setContentView(contentView);
+            }
 
-            mAlertDialogWindow.setContentView(contentView);
-
-            mTitleView = (TextView) mAlertDialogWindow.findViewById(R.id.title);
-            mMessageView = (JustifyTextView) mAlertDialogWindow.findViewById(R.id.message);
-            mButtonLayout = (LinearLayout) mAlertDialogWindow.findViewById(R.id.buttonLayout);
-            mPositiveButton = (Button) mButtonLayout.findViewById(R.id.btn_p);
-            mNegativeButton = (Button) mButtonLayout.findViewById(R.id.btn_n);
-            mMessageContentRoot = (ViewGroup) mAlertDialogWindow.findViewById(
-                    R.id.message_content_root);
+            mTitleView =  contentView.findViewById(R.id.title);
+            mMessageView =  contentView.findViewById(R.id.message);
+            mButtonLayout =  contentView.findViewById(R.id.buttonLayout);
+            mPositiveButton =  contentView.findViewById(R.id.btn_p);
+            AddRippleEffect.addRippleEffect(mPositiveButton);
+            mNegativeButton =  contentView.findViewById(R.id.btn_n);
+            AddRippleEffect.addRippleEffect(mNegativeButton);
+            mMessageContentRoot =  contentView.findViewById(R.id.message_content_root);
             if (mView != null) {
-                LinearLayout linearLayout = (LinearLayout) mAlertDialogWindow.findViewById(
-                        R.id.contentView);
+                LinearLayout linearLayout =  contentView.findViewById(R.id.contentView);
                 linearLayout.removeAllViews();
                 linearLayout.addView(mView);
             }
@@ -352,12 +355,12 @@ public class MyMaterialDialog {
                 mNegativeButton.setVisibility(View.GONE);
             }
             if (mBackgroundResId != -1) {
-                LinearLayout linearLayout = (LinearLayout) mAlertDialogWindow.findViewById(
+                LinearLayout linearLayout = mAlertDialogWindow.findViewById(
                         R.id.material_background);
                 linearLayout.setBackgroundResource(mBackgroundResId);
             }
             if (mBackgroundDrawable != null) {
-                LinearLayout linearLayout = (LinearLayout) mAlertDialogWindow.findViewById(
+                LinearLayout linearLayout = mAlertDialogWindow.findViewById(
                         R.id.material_background);
                 linearLayout.setBackground(mBackgroundDrawable);
             }
@@ -449,7 +452,7 @@ public class MyMaterialDialog {
 
 
         public void setView(View view) {
-            LinearLayout l = (LinearLayout) mAlertDialogWindow.findViewById(R.id.contentView);
+            LinearLayout l = mAlertDialogWindow.findViewById(R.id.contentView);
             l.removeAllViews();
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -536,14 +539,14 @@ public class MyMaterialDialog {
 
 
         public void setBackground(Drawable drawable) {
-            LinearLayout linearLayout = (LinearLayout) mAlertDialogWindow.findViewById(
+            LinearLayout linearLayout =  mAlertDialogWindow.findViewById(
                     R.id.material_background);
             linearLayout.setBackground(drawable);
         }
 
 
         public void setBackgroundResource(int resId) {
-            LinearLayout linearLayout = (LinearLayout) mAlertDialogWindow.findViewById(
+            LinearLayout linearLayout = mAlertDialogWindow.findViewById(
                     R.id.material_background);
             linearLayout.setBackgroundResource(resId);
         }

@@ -222,12 +222,10 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
                 Rect outRect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
                 Utils.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
-            }
         }
     }
 

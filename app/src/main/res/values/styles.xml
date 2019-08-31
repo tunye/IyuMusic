@@ -88,6 +88,7 @@
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:configChanges">keyboardHidden|orientation</item>
         <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
         <item name="android:screenOrientation">portrait</item>
@@ -156,6 +157,7 @@
         <item name="colorPrimaryDark">@color/skin_app_color</item>
         <item name="colorAccent">@color/skin_app_color</item>
         <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:configChanges">keyboardHidden|orientation</item>
@@ -218,15 +220,4 @@
         <item name="colorPrimaryDark">@color/skin_app_color_light_gray</item>
         <item name="colorAccent">@color/skin_color_accent_gray</item>
     </style>
-
-    <style name="ActionButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/action_button_height</item>
-        <item name="android:minWidth">@dimen/action_button_min_width</item>
-        <item name="android:paddingStart">@dimen/action_button_padding_horizontal</item>
-        <item name="android:paddingEnd">@dimen/action_button_padding_horizontal</item>
-        <item name="android:background">@drawable/material_dialog_button</item>
-        <item name="android:textSize">@dimen/action_button_text_size</item>
-    </style>
-
 </resources>

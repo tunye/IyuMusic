@@ -1,11 +1,17 @@
 package com.iyuba.music.widget.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Window;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.Utils;
 
 /**
  * 软键盘沉浸式出现无法自适应
@@ -36,5 +42,20 @@ public class ImmersiveInsertFrameLayout extends FrameLayout {
             return super.onApplyWindowInsets(windowInsets.replaceSystemWindowInsets(0, 0, 0, windowInsets.getSystemWindowInsetBottom()));
         }
         return windowInsets;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Window window = null;
+        if (getContext() instanceof Activity) {
+            window = ((Activity) getContext()).getWindow();
+        }
+        boolean softInputModeInvisible = window != null && window.getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+        if (softInputModeInvisible) {
+            Rect outRect = new Rect();
+            window.getDecorView().getWindowVisibleDisplayFrame(outRect);
+            Utils.setMargins(this, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+        }
     }
 }
