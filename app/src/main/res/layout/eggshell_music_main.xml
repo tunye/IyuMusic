@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -9,11 +9,10 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_with_oper" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:background="@color/background_light"
         android:gravity="center"
         android:padding="@dimen/row_space_medium">
@@ -26,41 +25,44 @@
             android:textColor="@color/text_complementary"
             android:textSize="@dimen/large_text" />
 
-        <TextView
-            android:id="@+id/music_link"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/row_space_large"
-            android:layout_toStartOf="@+id/music_random_play"
-            android:text="@string/eggshell_music_link"
-            android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text" />
+            android:layout_gravity="end"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/music_random_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/row_space_medium"
-            android:text="@string/eggshell_random_play"
-            android:textColor="@color/text_complementary"
-            android:textSize="@dimen/large_text" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/music_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/row_space_large"
+                android:text="@string/eggshell_music_link"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/large_text" />
+
+            <TextView
+                android:id="@+id/music_random_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/row_space_medium"
+                android:text="@string/eggshell_random_play"
+                android:textColor="@color/text_complementary"
+                android:textSize="@dimen/large_text" />
+        </LinearLayout>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/music_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/controlBar"
-        android:layout_below="@+id/statusBar"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingStart="@dimen/row_space_small"
         android:paddingEnd="@dimen/row_space_small" />
 
     <RelativeLayout
         android:id="@+id/controlBar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true">
+        android:layout_height="56dp">
 
         <TextView
             android:id="@+id/current_time"
@@ -118,4 +120,4 @@
             android:indeterminate="false"
             android:progressDrawable="@drawable/skin_load_progress" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

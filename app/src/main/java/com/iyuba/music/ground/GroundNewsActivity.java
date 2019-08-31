@@ -11,14 +11,12 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
@@ -26,8 +24,6 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
@@ -35,9 +31,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -54,30 +48,24 @@ import java.util.EnumSet;
  * @version 1.0
  * @para "type"新闻类别（VOA慢速、常速、BBC(3)、美语、视频）
  */
-public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private MySwipeRefreshLayout swipeRefreshLayout;
+public class GroundNewsActivity extends BaseListActivity<Article> {
     private GroundNewsAdapter groundNewsAdapter;
-    private ArrayList<Article> newsArrayList = new ArrayList<>();
     private RecyclerView newsList;
     private String curNewsType;
     private String getTitleUrl;
     private String downloadAppUrl;
     private String lesson;
     private String app;
-    private int curPage;
-    private boolean isLastPage = false;
 
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
     //有道广告
-    private YouDaoRecyclerAdapter mAdAdapter;
     private boolean isVipLastState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classify_with_oper);
-        context = this;
         articleOp = new ArticleOp();
         localInfoOp = new LocalInfoOp();
         curNewsType = this.getIntent().getExtras().getString("type");
@@ -95,23 +83,16 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
+        toolbarOper = findViewById(R.id.toolbar_oper);
         groundNewsAdapter = new GroundNewsAdapter(context);
-        newsList = (RecyclerView) findViewById(R.id.news_recyclerview);
-        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        newsList.setLayoutManager(new LinearLayoutManager(context));
-        newsList.addItemDecoration(new DividerItemDecoration());
-        swipeRefreshLayout.setRefreshing(true);
+        newsList = findViewById(R.id.news_recyclerview);
+        setRecyclerViewProperty(newsList);
         onRefresh(0);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolbarOper.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,14 +120,14 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("pos", position);
-                    intent.putExtra("articleList", newsArrayList);
+                    intent.putExtra("articleList", datas);
                     context.startActivity(intent);
                 } else {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                     StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
-                    StudyManager.getInstance().setCurArticle(newsArrayList.get(position));
+                    StudyManager.getInstance().setCurArticle(datas.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -165,10 +146,6 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         toolbarOper.setText(R.string.download_app);
     }
 
-    @Override
-    public void onClick(View view, Object message) {
-        newsList.scrollToPosition(0);
-    }
 
     private void initVipRecyclerView() {
         newsList.setAdapter(groundNewsAdapter);
@@ -196,37 +173,6 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
     }
 
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onRefresh(int index) {
-        curPage = 1;
-        newsArrayList = new ArrayList<>();
-        isLastPage = false;
-        getData();
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (newsArrayList.size() == 0) {
-
-        } else if (!isLastPage) {
-            curPage++;
-            getData();
-        } else {
-            swipeRefreshLayout.setRefreshing(false);
-            CustomToast.getInstance().showToast(R.string.article_load_all);
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -240,10 +186,8 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
         }
     }
 
-    /**
-     *
-     */
-    private void getData() {
+    @Override
+    public void getNetData() {
         downloadAppUrl = "market://details?id=";
         if (curNewsType.equals(context.getString(R.string.voa_speical))) {
             getTitleUrl = "http://apps.iyuba.cn/voa/titleApi.jsp?maxid=0&pageNum=20&type=json&pages=" + curPage;
@@ -291,20 +235,20 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
             lesson = "TED英语演讲";
             app = "229";
         }
-        GroundNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse() {
+        GroundNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
                 getDbData();
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    if (newsArrayList != null) {
-                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    StudyManager.getInstance().setSourceArticleList(datas);
+                    if (datas != null) {
+                        StudyManager.getInstance().setCurArticle(datas.get(0));
                     }
                     StudyManager.getInstance().setApp(app);
                 } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -315,31 +259,30 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                 getDbData();
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                    if (newsArrayList != null) {
-                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                    StudyManager.getInstance().setSourceArticleList(datas);
+                    if (datas != null) {
+                        StudyManager.getInstance().setCurArticle(datas.get(0));
                     }
                     StudyManager.getInstance().setApp(app);
                 } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                    StudyManager.getInstance().setSourceArticleList(datas);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Article>> baseListEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity baseListEntity = (BaseListEntity) object;
                 if (!baseListEntity.isLastPage()) {
-                    ArrayList<Article> netData = (ArrayList<Article>) baseListEntity.getData();
-                    newsArrayList.addAll(netData);
+                    ArrayList<Article> netData = baseListEntity.getData();
+                    datas.addAll(netData);
                     if (!StudyManager.getInstance().isStartPlaying()) {
                         StudyManager.getInstance().setLesson("music");
-                        StudyManager.getInstance().setSourceArticleList(newsArrayList);
-                        StudyManager.getInstance().setCurArticle(newsArrayList.get(0));
+                        StudyManager.getInstance().setSourceArticleList(datas);
+                        StudyManager.getInstance().setCurArticle(datas.get(0));
                         StudyManager.getInstance().setApp(app);
                     } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(newsArrayList);
+                        StudyManager.getInstance().setSourceArticleList(datas);
                     }
                     LocalInfo localinfo;
                     for (Article temp : netData) {
@@ -352,13 +295,13 @@ public class GroundNewsActivity extends BaseActivity implements MySwipeRefreshLa
                     }
                     articleOp.saveData(netData);
                 }
-                groundNewsAdapter.setData(newsArrayList);
+                groundNewsAdapter.setData(datas);
             }
         });
     }
 
     private void getDbData() {
-        newsArrayList.addAll(articleOp.findDataByAll(app, newsArrayList.size(), 20));
-        groundNewsAdapter.setData(newsArrayList);
+        datas.addAll(articleOp.findDataByAll(app, datas.size(), 20));
+        groundNewsAdapter.setData(datas);
     }
 }

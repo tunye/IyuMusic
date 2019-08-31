@@ -17,13 +17,12 @@ import com.iyuba.music.entity.message.MessageLetterContent;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.widget.view.CircleImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 
 public class ChattingAdapter extends BaseAdapter {
@@ -75,9 +74,9 @@ public class ChattingAdapter extends BaseAdapter {
                 holder.flag = 1;
                 convertView = LayoutInflater.from(context).inflate(R.layout.chatting_item_to, null);
             }
-            holder.text = (TextView) convertView.findViewById(R.id.chatting_content);
-            holder.time = (TextView) convertView.findViewById(R.id.chatting_time);
-            holder.userImageView = (CircleImageView) convertView.findViewById(R.id.chatting_photo);
+            holder.text = convertView.findViewById(R.id.chatting_content);
+            holder.time = convertView.findViewById(R.id.chatting_time);
+            holder.userImageView = convertView.findViewById(R.id.chatting_photo);
             holder.timeLayout = convertView.findViewById(R.id.chatting_time_layout);
             convertView.setTag(holder);
         }

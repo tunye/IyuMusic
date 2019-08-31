@@ -1,13 +1,14 @@
 package com.iyuba.music.entity.user;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.iyuba.music.entity.BaseEntityOp;
 
 /**
  * Created by 10202 on 2015/11/18.
  */
-public class UserInfoOp extends BaseEntityOp {
+public class UserInfoOp extends BaseEntityOp<UserInfo> {
     public static final String TABLE_NAME = "user";
     public static final String USERID = "userid";
     public static final String USERNAME = "username";
@@ -29,11 +30,9 @@ public class UserInfoOp extends BaseEntityOp {
         super();
     }
 
-    /**
-     * 插入数据
-     */
-    public void saveData(UserInfo userInfo) {
-        getDatabase();
+    @Override
+    public void saveItemImpl(UserInfo userInfo) {
+        super.saveItemImpl(userInfo);
         db.execSQL(
                 "insert or replace into " + TABLE_NAME + " (" + USERID
                         + "," + USERNAME + "," + USEREMAIL + "," + GENDER + ","
@@ -48,7 +47,36 @@ public class UserInfoOp extends BaseEntityOp {
                         userInfo.getIyubi(), userInfo.getDeadline(),
                         userInfo.getStudytime(), userInfo.getPosition(),
                         userInfo.getIcoins()});
-        db.close();
+    }
+
+    @Override
+    public String getSearchCondition() {
+        return "select " + USERID + "," + USERNAME + "," + USEREMAIL + "," + GENDER + ","
+                + FANS + "," + ATTENTIONS + "," + NOTIFICATIONS + "," + SEETIMES
+                + "," + STATE + "," + VIP + "," + IYUBI + ","
+                + DEADLINE + "," + STUDYTIME + "," + POSITION + ","
+                + ICOIN + " from " + TABLE_NAME;
+    }
+
+    @Override
+    public UserInfo fillData(@NonNull Cursor cursor) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUid(cursor.getString(0));
+        userInfo.setUsername(cursor.getString(1));
+        userInfo.setUserEmail(cursor.getString(2));
+        userInfo.setGender(cursor.getString(3));
+        userInfo.setFollower(cursor.getString(4));
+        userInfo.setFollowing(cursor.getString(5));
+        userInfo.setNotification(cursor.getString(6));
+        userInfo.setViews(cursor.getString(7));
+        userInfo.setText(cursor.getString(8));
+        userInfo.setVipStatus(cursor.getString(9));
+        userInfo.setIyubi(cursor.getString(10));
+        userInfo.setDeadline(cursor.getString(11));
+        userInfo.setStudytime(cursor.getInt(12));
+        userInfo.setPosition(cursor.getString(13));
+        userInfo.setIcoins(cursor.getString(14));
+        return userInfo;
     }
 
     /**
@@ -56,38 +84,16 @@ public class UserInfoOp extends BaseEntityOp {
      */
     public UserInfo selectData(String userId) {
         getDatabase();
-        Cursor cursor = db.rawQuery(
-                "select " + USERID + "," + USERNAME + "," + USEREMAIL + "," + GENDER + ","
-                        + FANS + "," + ATTENTIONS + "," + NOTIFICATIONS + "," + SEETIMES
-                        + "," + STATE + "," + VIP + "," + IYUBI + ","
-                        + DEADLINE + "," + STUDYTIME + "," + POSITION + ","
-                        + ICOIN + " from " + TABLE_NAME + " where " + USERID
-                        + "=?", new String[]{userId});
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + USERID + "=?", new String[]{userId});
+        UserInfo userInfo = null;
         if (cursor.moveToNext()) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUid(cursor.getString(0));
-            userInfo.setUsername(cursor.getString(1));
-            userInfo.setUserEmail(cursor.getString(2));
-            userInfo.setGender(cursor.getString(3));
-            userInfo.setFollower(cursor.getString(4));
-            userInfo.setFollowing(cursor.getString(5));
-            userInfo.setNotification(cursor.getString(6));
-            userInfo.setViews(cursor.getString(7));
-            userInfo.setText(cursor.getString(8));
-            userInfo.setVipStatus(cursor.getString(9));
-            userInfo.setIyubi(cursor.getString(10));
-            userInfo.setDeadline(cursor.getString(11));
-            userInfo.setStudytime(cursor.getInt(12));
-            userInfo.setPosition(cursor.getString(13));
-            userInfo.setIcoins(cursor.getString(14));
-            cursor.close();
-            db.close();
-            return userInfo;
+            userInfo = fillData(cursor);
         } else {
-            db.close();
-            cursor.close();
-            return null;
+            userInfo = new UserInfo();
         }
+        cursor.close();
+        db.close();
+        return userInfo;
     }
 
     /**
@@ -95,38 +101,17 @@ public class UserInfoOp extends BaseEntityOp {
      */
     public UserInfo selectDataByName(String userName) {
         getDatabase();
-        Cursor cursor = db.rawQuery(
-                "select " + USERID + "," + USERNAME + "," + USEREMAIL + "," + GENDER + ","
-                        + FANS + "," + ATTENTIONS + "," + NOTIFICATIONS + "," + SEETIMES
-                        + "," + STATE + "," + VIP + "," + IYUBI + ","
-                        + DEADLINE + "," + STUDYTIME + "," + POSITION + ","
-                        + ICOIN + " from " + TABLE_NAME + " where " + USERNAME
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + USERNAME
                         + "=?", new String[]{userName});
+        UserInfo userInfo = null;
         if (cursor.moveToNext()) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUid(cursor.getString(0));
-            userInfo.setUsername(cursor.getString(1));
-            userInfo.setUserEmail(cursor.getString(2));
-            userInfo.setGender(cursor.getString(3));
-            userInfo.setFollower(cursor.getString(4));
-            userInfo.setFollowing(cursor.getString(5));
-            userInfo.setNotification(cursor.getString(6));
-            userInfo.setViews(cursor.getString(7));
-            userInfo.setText(cursor.getString(8));
-            userInfo.setVipStatus(cursor.getString(9));
-            userInfo.setIyubi(cursor.getString(10));
-            userInfo.setDeadline(cursor.getString(11));
-            userInfo.setStudytime(cursor.getInt(12));
-            userInfo.setPosition(cursor.getString(13));
-            userInfo.setIcoins(cursor.getString(14));
-            cursor.close();
-            db.close();
-            return userInfo;
+            userInfo = fillData(cursor);
         } else {
-            db.close();
-            cursor.close();
-            return null;
+            userInfo = new UserInfo();
         }
+        cursor.close();
+        db.close();
+        return userInfo;
     }
 
     public int selectStudyTime(String userId) {

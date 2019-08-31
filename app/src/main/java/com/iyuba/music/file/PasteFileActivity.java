@@ -64,10 +64,10 @@ public class PasteFileActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        filePath = (TextView) findViewById(R.id.file_path);
-        position = (RoundLinearLayout) findViewById(R.id.file_parent);
+        filePath = findViewById(R.id.file_path);
+        position = findViewById(R.id.file_parent);
         adapter = new FileAdapter();
-        fileListView = (RecyclerView) findViewById(R.id.file_recyclerview);
+        fileListView = findViewById(R.id.file_recyclerview);
         fileListView.setLayoutManager(new LinearLayoutManager(this));
         fileListView.setAdapter(adapter);
         fileListView.addItemDecoration(new DividerItemDecoration());

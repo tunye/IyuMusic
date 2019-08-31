@@ -7,42 +7,37 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.iyuba.music.widget.view.CircleImageView
             android:id="@+id/announcer_photo"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
             android:layout_marginStart="@dimen/row_space_large"
             android:layout_marginEnd="@dimen/row_space_large" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="@dimen/row_space_large"
-            android:layout_toEndOf="@+id/announcer_photo"
-            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/announcer_username"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/row_space_large"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_weight="1"
                 android:maxLines="1"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/large_text" />
-        </RelativeLayout>
 
         <com.iyuba.music.widget.imageview.GoImageView
-            android:layout_width="24dp"
+            android:layout_width="18dp"
             android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
             app:go_stroke="@dimen/line_default" />
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

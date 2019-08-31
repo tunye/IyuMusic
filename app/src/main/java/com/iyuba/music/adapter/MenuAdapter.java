@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -57,8 +57,8 @@ public class MenuAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate
                     (R.layout.item_context_menu, parent, false);
             holder = new ViewHolder();
-            holder.menuText = (TextView) convertView.findViewById(R.id.menu_text);
-            holder.rippleView = (MaterialRippleLayout) convertView.findViewById(R.id.menu_ripple);
+            holder.menuText = convertView.findViewById(R.id.menu_text);
+            holder.rippleView = convertView.findViewById(R.id.menu_ripple);
             if (onRecycleViewItemClickListener != null) {
                 holder.rippleView.setOnClickListener(new View.OnClickListener() {
                     @Override

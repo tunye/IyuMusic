@@ -50,6 +50,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
         this.itemClickListener = itemClickListener;
     }
 
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_circle, parent, false));
@@ -127,7 +128,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
         String title = circle.getTitle();
         String username = circle.getUsername();
         title = title.replace(username, "");
-        return ParameterUrl.decode(title.substring(1, title.length()));
+        return ParameterUrl.decode(title.substring(1));
     }
 
     private String getSmallImageUrl(String url) {
@@ -142,7 +143,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.MyViewHold
         VipPhoto circlePhoto;
         ImageView circleImg;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             circleUserName = view.findViewById(R.id.circle_username);
             circleType = view.findViewById(R.id.circle_type);

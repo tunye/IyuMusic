@@ -7,9 +7,10 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
         <com.iyuba.music.widget.view.CircleImageView
@@ -24,8 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/article_image"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -61,5 +61,5 @@
                     android:textSize="@dimen/medium_text" />
             </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

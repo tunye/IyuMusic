@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author 作者 <br/>
  *         实现的主要功能。 创建日期 修改者，修改日期，修改内容。
  */
-public class StudyRecordOp extends BaseEntityOp {
+public class StudyRecordOp extends BaseEntityOp<StudyRecord> {
     public static final String TABLE_NAME = "studyrecord";
     public static final String VOAID = "id";
     public static final String STARTTIME = "starttime";
@@ -36,12 +36,18 @@ public class StudyRecordOp extends BaseEntityOp {
      */
     public void saveData(StudyRecord studyRecord) {
         getDatabase();
+
+        db.close();
+    }
+
+    @Override
+    public void saveItemImpl(StudyRecord studyRecord) {
+        super.saveItemImpl(studyRecord);
         String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + VOAID +
                 "," + STARTTIME + "," + ENDTIME + "," + FLAG +
                 "," + LESSON + ") values(?,?,?,?,?)";
         db.execSQL(StringBuilder, new Object[]{studyRecord.getId(), studyRecord.getStartTime(),
                 studyRecord.getEndTime(), studyRecord.getFlag(), studyRecord.getLesson()});
-        db.close();
     }
 
     /**

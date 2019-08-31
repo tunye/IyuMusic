@@ -3,13 +3,10 @@ package com.iyuba.music.local_music;
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -35,6 +32,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.PermissionPool;
 import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomToast;
@@ -50,7 +48,6 @@ import java.util.ArrayList;
  * Created by 10202 on 2016/4/16.
  */
 public class LocalMusicActivity extends BaseActivity implements IOnClickListener {
-    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RecyclerView musicList;
     private ArrayList<Article> musics;
@@ -114,17 +111,17 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     @Override
     protected void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        statistic = (TextView) findViewById(R.id.music_statistic);
-        randomPlay = (TextView) findViewById(R.id.music_random_play);
-        createLink = (TextView) findViewById(R.id.music_link);
-        currentTime = (TextView) findViewById(R.id.current_time);
-        pause = (MorphButton) findViewById(R.id.play);
-        before = (ImageView) findViewById(R.id.formmer);
-        next = (ImageView) findViewById(R.id.latter);
-        playMode = (ImageView) findViewById(R.id.play_mode);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
-        musicList = (RecyclerView) findViewById(R.id.music_recyclerview);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        statistic = findViewById(R.id.music_statistic);
+        randomPlay = findViewById(R.id.music_random_play);
+        createLink = findViewById(R.id.music_link);
+        currentTime = findViewById(R.id.current_time);
+        pause = findViewById(R.id.play);
+        before = findViewById(R.id.formmer);
+        next = findViewById(R.id.latter);
+        playMode = findViewById(R.id.play_mode);
+        progressBar = findViewById(R.id.progress);
+        musicList = findViewById(R.id.music_recyclerview);
         musicList.setLayoutManager(new LinearLayoutManager(context));
         musicList.addItemDecoration(new DividerItemDecoration());
         ((SimpleItemAnimator) musicList.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -156,14 +153,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    //申请WRITE_EXTERNAL_STORAGE权限
-                    ActivityCompat.requestPermissions(LocalMusicActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            WRITE_EXTERNAL_TASK_CODE);
-                } else {
-                    startActivityForResult(new Intent(context, FilePosActivity.class), 101);
-                }
+                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
         randomPlay.setOnClickListener(new View.OnClickListener() {
@@ -337,26 +327,25 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_TASK_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(new Intent(context, FilePosActivity.class), 101);
-            } else {
-                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setTitle(R.string.storage_permission);
-                materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(LocalMusicActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
+    public void onAccreditSucceed(int requestCode) {
+        super.onAccreditSucceed(requestCode);
+        startActivityForResult(new Intent(context, FilePosActivity.class), 101);
+    }
+
+    @Override
+    public void onAccreditFailure(int requestCode) {
+        super.onAccreditFailure(requestCode);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+        materialDialog.setTitle(R.string.storage_permission);
+        materialDialog.setMessage(R.string.storage_permission_content);
+        materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                materialDialog.dismiss();
             }
-        }
+        });
+        materialDialog.show();
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<LocalMusicActivity> {

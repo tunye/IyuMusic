@@ -47,7 +47,7 @@ public class StudyRecordUtil {
 
     public static void sendToNet(final StudyRecord temp, String userid, final boolean mustDel) {
         studyRecordOp.saveData(temp);
-        StudyRecordRequest.exeRequest(StudyRecordRequest.generateUrl(userid, temp), new IProtocolResponse() {
+        StudyRecordRequest.exeRequest(StudyRecordRequest.generateUrl(userid, temp), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
             }
@@ -60,8 +60,7 @@ public class StudyRecordUtil {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> apiEntity) {
                 if (BaseApiEntity.isSuccess(apiEntity)) {
                     studyRecordOp.deleteData(temp);
                     if (apiEntity.getMessage().equals("no")) {
@@ -69,8 +68,6 @@ public class StudyRecordUtil {
                     } else {
                         CustomToast.getInstance().showToast(R.string.study_listen_finish);
                     }
-                } else {
-
                 }
             }
         });

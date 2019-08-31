@@ -1,6 +1,7 @@
 package com.iyuba.music.local_music;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,9 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.CircleImageView;
 
 import java.util.ArrayList;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -33,8 +33,8 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         musicList = new ArrayList<>();
     }
 
-    void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
     void setCurPos(int pos) {
@@ -51,13 +51,14 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_musiclist, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

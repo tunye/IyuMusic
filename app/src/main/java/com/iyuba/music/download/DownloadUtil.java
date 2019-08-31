@@ -73,7 +73,7 @@ public class DownloadUtil {
             iOperationResult.success(null);
             return;
         }
-        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), articleId, 40), new IProtocolResponse() {
+        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), articleId, 40), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
                 iOperationResult.fail(null);
@@ -87,8 +87,7 @@ public class DownloadUtil {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> apiEntity) {
                 if (apiEntity.getState() == BaseApiEntity.SUCCESS) {
                     CustomToast.getInstance().showToast("积分已经扣除" + Math.abs(Integer.parseInt(apiEntity.getMessage()))
                             + "，现在剩余积分为" + apiEntity.getValue());

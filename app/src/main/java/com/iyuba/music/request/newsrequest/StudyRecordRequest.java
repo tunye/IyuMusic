@@ -29,14 +29,14 @@ import java.util.Calendar;
  * Created by 10202 on 2015/10/8.
  */
 public class StudyRecordRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseApiEntity apiEntity = new BaseApiEntity();
+                        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
                         if (jsonObject.getInt("result") == 1) {
                             apiEntity.setState(BaseApiEntity.SUCCESS);
                             if (jsonObject.getInt("jifen") == 0) {

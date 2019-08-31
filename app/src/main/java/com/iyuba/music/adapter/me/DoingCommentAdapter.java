@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,9 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         notifyItemInserted(position);
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_doing_comment, parent, false));
     }
 
@@ -89,12 +91,12 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         JustifyTextView doingContent;
         VipPhoto doingPhoto;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            doingUserName = (TextView) view.findViewById(R.id.doing_username);
-            doingContent = (JustifyTextView) view.findViewById(R.id.doing_content);
-            doingTime = (TextView) view.findViewById(R.id.doing_dateline);
-            doingPhoto = (VipPhoto) view.findViewById(R.id.doing_photo);
+            doingUserName = view.findViewById(R.id.doing_username);
+            doingContent = view.findViewById(R.id.doing_content);
+            doingTime = view.findViewById(R.id.doing_dateline);
+            doingPhoto = view.findViewById(R.id.doing_photo);
         }
     }
 }

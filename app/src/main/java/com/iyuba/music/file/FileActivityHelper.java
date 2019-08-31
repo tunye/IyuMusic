@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class FileActivityHelper {
         dialog.setTitle(R.string.file_create_dialogtitle);
         View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
         dialog.setContentView(contentView);
-        final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
+        final MaterialEditText fileName = contentView.findViewById(R.id.file_name);
         fileName.setHint("请输入文件名:");
         fileName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,7 +112,7 @@ public class FileActivityHelper {
         dialog.setTitle(R.string.file_rename_dialogtitle);
         View contentView = LayoutInflater.from(context).inflate(R.layout.file_create, null);
         dialog.setContentView(contentView);
-        final MaterialEditText fileName = (MaterialEditText) contentView.findViewById(R.id.file_name);
+        final MaterialEditText fileName = contentView.findViewById(R.id.file_name);
         fileName.setHint("请输入修改的文件名:");
         final String oldName = f.getName();
         fileName.setText(oldName);
@@ -195,7 +195,7 @@ public class FileActivityHelper {
         } else {
             layout.findViewById(R.id.file_contents_info).setVisibility(View.GONE);
         }
-        MaterialRippleLayout sure = (MaterialRippleLayout) layout.findViewById(R.id.button_accept);
+        MaterialRippleLayout sure = layout.findViewById(R.id.button_accept);
         final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true, 24);
         iyubaDialog.show();
         sure.setOnClickListener(new View.OnClickListener() {

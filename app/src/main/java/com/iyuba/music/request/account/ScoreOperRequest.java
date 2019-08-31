@@ -31,14 +31,14 @@ import java.util.Locale;
  */
 
 public class ScoreOperRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseApiEntity apiEntity = new BaseApiEntity();
+                        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
                         int result = jsonObject.getInt("result");
                         switch (result) {
                             case 200:
@@ -51,9 +51,6 @@ public class ScoreOperRequest {
                                 }
                                 break;
                             case 201:
-                                apiEntity.setState(BaseApiEntity.FAIL);
-                                apiEntity.setMessage(jsonObject.getString("message"));
-                                break;
                             case 203:
                                 apiEntity.setState(BaseApiEntity.FAIL);
                                 apiEntity.setMessage(jsonObject.getString("message"));

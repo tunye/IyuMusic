@@ -91,7 +91,7 @@
                 android:textSize="@dimen/big_text" />
 
             <com.iyuba.music.widget.imageview.GoImageView
-                android:layout_width="24dp"
+                android:layout_width="18dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -240,7 +240,7 @@
                     android:textSize="@dimen/big_text" />
 
                 <com.iyuba.music.widget.imageview.GoImageView
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"

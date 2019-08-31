@@ -22,7 +22,7 @@ public class ShareAdapter extends BaseAdapter {
     private static final float ITEM_SCALE_END = 1.0F;               // item结束大小
     private static final float ITEM_ALPHA_START = 0.6F;             // item初始透明度
     private static final float ITEM_ALPHA_END = 1.0F;               // item初始透明度
-    private static final int NUM_COLUMNS = 3;                       // 同行子item数量
+    private int columnCount = 3;                                    // 同行子item数量
     private int[] menuImageList;
     private String[] menuList;
     private Context context;
@@ -33,6 +33,13 @@ public class ShareAdapter extends BaseAdapter {
                 R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
                 R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_fav,};
         menuList = context.getResources().getStringArray(R.array.share);
+    }
+
+    public void setDataSet(String[] menuList, int[] menuImageList, int columnCount) {
+        this.menuList = menuList.clone();
+        this.menuImageList = menuImageList.clone();
+        this.columnCount = columnCount;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -60,8 +67,8 @@ public class ShareAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate
                     (R.layout.item_share, parent, false);
             holder = new ViewHolder();
-            holder.menuText = (TextView) convertView.findViewById(R.id.item_text);
-            holder.menuImage = (ImageView) convertView.findViewById(R.id.item_image);
+            holder.menuText = convertView.findViewById(R.id.item_text);
+            holder.menuImage = convertView.findViewById(R.id.item_image);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -76,7 +83,7 @@ public class ShareAdapter extends BaseAdapter {
                 .scaleY(ITEM_SCALE_END)
                 .alpha(ITEM_ALPHA_END)
                 .setDuration(DURATION)
-                .setStartDelay(DIALOG_ANIMATION_DELAY + (position % NUM_COLUMNS) * ITEM_DELAY)
+                .setStartDelay(DIALOG_ANIMATION_DELAY + (position % columnCount) * ITEM_DELAY)
                 .setInterpolator(new OvershootInterpolator()).start();
         return convertView;
     }

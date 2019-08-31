@@ -1,8 +1,7 @@
 package com.iyuba.music.behavior;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.util.AttributeSet;
 import android.view.View;
 
 /**
@@ -11,17 +10,13 @@ import android.view.View;
 public class ScrollToTopBehavior extends CoordinatorLayout.Behavior<View> {
     private int offsetTotal = 0;
 
-    public ScrollToTopBehavior(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
+    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View directTargetChild, @NonNull View target, int nestedScrollAxes) {
         return true;
     }
 
     @Override
-    public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+    public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         offset(child, dyConsumed);
     }
 

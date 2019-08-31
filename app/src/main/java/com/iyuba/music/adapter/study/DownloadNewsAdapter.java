@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,8 +80,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
     public void setDownloadCompleteClickLitener(IOperationFinish iOperationFinish) {
@@ -96,13 +97,14 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_download_newslist, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Article article = newsList.get(position);
         final int pos = position;
         if (onRecycleViewItemClickListener != null) {
@@ -306,15 +308,15 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         CheckBox delete;
 
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.article_title);
-            singer = (TextView) view.findViewById(R.id.article_singer);
-            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
-            download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
-            pic = (ImageView) view.findViewById(R.id.article_image);
-            delete = (CheckBox) view.findViewById(R.id.item_delete);
-            noExist = (ImageView) view.findViewById(R.id.file_notexist);
+            title = view.findViewById(R.id.article_title);
+            singer = view.findViewById(R.id.article_singer);
+            broadcaster = view.findViewById(R.id.article_announcer);
+            download = view.findViewById(R.id.roundProgressBar);
+            pic = view.findViewById(R.id.article_image);
+            delete = view.findViewById(R.id.item_delete);
+            noExist = view.findViewById(R.id.file_notexist);
         }
     }
 }

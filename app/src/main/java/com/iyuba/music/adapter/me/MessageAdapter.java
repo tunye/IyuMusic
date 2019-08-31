@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         notifyItemChanged(position);
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message, parent, false));
     }
 
@@ -102,15 +104,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         ImageView messagePhoto;
         ImageView isNew, vipState;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            messageUserName = (TextView) view.findViewById(R.id.message_username);
-            messageCounts = (TextView) view.findViewById(R.id.message_pmnum);
-            messageLastContent = (JustifyTextView) view.findViewById(R.id.message_lastmessage);
-            messageTime = (TextView) view.findViewById(R.id.message_dateline);
-            messagePhoto = (ImageView) view.findViewById(R.id.message_photo);
-            isNew = (ImageView) view.findViewById(R.id.isNew);
-            vipState = (ImageView) view.findViewById(R.id.vip_photo_status);
+            messageUserName = view.findViewById(R.id.message_username);
+            messageCounts = view.findViewById(R.id.message_pmnum);
+            messageLastContent = view.findViewById(R.id.message_lastmessage);
+            messageTime = view.findViewById(R.id.message_dateline);
+            messagePhoto = view.findViewById(R.id.message_photo);
+            isNew = view.findViewById(R.id.isNew);
+            vipState = view.findViewById(R.id.vip_photo_status);
         }
     }
 }

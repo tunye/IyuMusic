@@ -1,6 +1,7 @@
 package com.iyuba.music.adapter.me;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,8 +80,8 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         this.context = context;
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -97,20 +98,18 @@ public class MeAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         return discoverList.get(position);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            //inflate your layout and pass it to view holder
             return new DiscoverViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, parent, false));
-        } else if (viewType == TYPE_BLANK) {
-            //inflate your layout and pass it to view holder
+        } else {
             return new BlankViewHolder(LayoutInflater.from(context).inflate(R.layout.item_blank, parent, false));
         }
-        return null;
     }
 
     @Override
-    public void onBindViewHolder(final RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecycleViewHolder holder, int position) {
         if (holder instanceof DiscoverViewHolder) {
             final DiscoverViewHolder viewHolder = (DiscoverViewHolder) holder;
             final Discover discover = getItem(position);

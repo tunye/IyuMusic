@@ -20,36 +20,36 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class SearchHistoryAdapter extends BaseAdapter {
-    private ArrayList<SearchHistory> historys;
+    private ArrayList<SearchHistory> histories;
     private Context context;
     private SearchHistoryOp searchHistoryOp;
 
     public SearchHistoryAdapter(Context context) {
         this.context = context;
         searchHistoryOp = new SearchHistoryOp();
-        historys = searchHistoryOp.findDataTop();
+        histories = searchHistoryOp.findDataTop();
     }
 
     public void setList(String s) {
         if (TextUtils.isEmpty(s)) {
-            this.historys = searchHistoryOp.findDataTop();
+            this.histories = searchHistoryOp.findDataTop();
         } else {
-            this.historys = searchHistoryOp.findDataByLike(s);
+            this.histories = searchHistoryOp.findDataByLike(s);
         }
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return historys.size();
+        return histories.size();
     }
 
     @Override
     public SearchHistory getItem(int position) {
         if (position > getCount() - 1) {
-            return historys.get(getCount() - 1);
+            return histories.get(getCount() - 1);
         } else {
-            return historys.get(position);
+            return histories.get(position);
         }
     }
 
@@ -65,8 +65,8 @@ public class SearchHistoryAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_search_history, parent, false);
             holder = new ViewHolder();
-            holder.historyText = (TextView) convertView.findViewById(R.id.history_text);
-            holder.delete = (MaterialMenuView) convertView.findViewById(R.id.clear_history);
+            holder.historyText = convertView.findViewById(R.id.history_text);
+            holder.delete = convertView.findViewById(R.id.clear_history);
             holder.delete.setState(MaterialMenuDrawable.IconState.X);
             convertView.setTag(holder);
         } else {
@@ -75,12 +75,12 @@ public class SearchHistoryAdapter extends BaseAdapter {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchHistoryOp.deleteData(historys.get(position).getId());
-                historys.remove(position);
+                searchHistoryOp.deleteData(histories.get(position).getId());
+                histories.remove(position);
                 notifyDataSetChanged();
             }
         });
-        holder.historyText.setText(historys.get(position).getContent());
+        holder.historyText.setText(histories.get(position).getContent());
         return convertView;
     }
 

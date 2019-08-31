@@ -34,8 +34,8 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         this.historyFilter = new ArrayList<>();
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_autocomplete, parent, false);
             holder = new ViewHolder();
-            holder.historyText = (TextView) convertView.findViewById(R.id.history_text);
+            holder.historyText = convertView.findViewById(R.id.history_text);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +68,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
                     }
                 }
             });
-            holder.delete = (MaterialMenuView) convertView.findViewById(R.id.clear_history);
+            holder.delete = convertView.findViewById(R.id.clear_history);
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

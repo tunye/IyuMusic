@@ -7,8 +7,9 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
         <com.iyuba.music.widget.imageview.VipPhoto
@@ -18,11 +19,10 @@
             android:layout_marginEnd="@dimen/row_space_large" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_toStartOf="@+id/go"
-            android:layout_toEndOf="@+id/friend_photo"
             android:orientation="vertical">
 
             <TextView
@@ -50,11 +50,10 @@
             android:id="@+id/go"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/row_space_medium"
+            android:layout_gravity="center_vertical"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
             app:go_stroke="@dimen/line_default" />
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

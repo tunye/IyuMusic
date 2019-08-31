@@ -3,11 +3,8 @@ package com.iyuba.music.file;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,6 +18,7 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.util.PermissionPool;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
@@ -50,17 +48,7 @@ public class FileBrowserActivity extends BaseActivity {
         context = this;
         files = new ArrayList<>();
         currentPath = ConstantManager.envir;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_EXTERNAL_STORAGE_TASK_CODE);
-        } else {
-            File file = new File(currentPath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-        }
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         initWidget();
         setListener();
         changeUIByPara();
@@ -70,14 +58,14 @@ public class FileBrowserActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        fileListView = (RecyclerView) findViewById(R.id.file_recyclerview);
+        fileListView = findViewById(R.id.file_recyclerview);
         fileListView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FileAdapter();
         adapter.setDataSet(files);
         fileListView.setAdapter(adapter);
         fileListView.addItemDecoration(new DividerItemDecoration());
-        filePath = (TextView) findViewById(R.id.file_path);
-        position = (RoundLinearLayout) findViewById(R.id.file_parent);
+        filePath = findViewById(R.id.file_path);
+        position = findViewById(R.id.file_parent);
         initContextMenu();
     }
 
@@ -255,28 +243,27 @@ public class FileBrowserActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                File file = new File(currentPath);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-            } else {
-                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setTitle(R.string.storage_permission);
-                materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(FileBrowserActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
-            }
+    public void onAccreditSucceed(int requestCode) {
+        super.onAccreditSucceed(requestCode);
+        File file = new File(currentPath);
+        if (!file.exists()) {
+            file.mkdirs();
         }
+    }
+
+    @Override
+    public void onAccreditFailure(int requestCode) {
+        super.onAccreditFailure(requestCode);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+        materialDialog.setTitle(R.string.storage_permission);
+        materialDialog.setMessage(R.string.storage_permission_content);
+        materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.show();
     }
 }

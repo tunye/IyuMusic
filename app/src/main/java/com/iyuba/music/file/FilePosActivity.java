@@ -52,15 +52,15 @@ public class FilePosActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        fileListView = (RecyclerView) findViewById(R.id.file_recyclerview);
+        fileListView = findViewById(R.id.file_recyclerview);
         fileListView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FileAdapter();
         adapter.setDataSet(files);
         fileListView.setAdapter(adapter);
         fileListView.addItemDecoration(new DividerItemDecoration());
-        filePath = (TextView) findViewById(R.id.file_path);
-        position = (RoundLinearLayout) findViewById(R.id.file_parent);
-        sure = (RoundTextView) findViewById(R.id.select_file_finish);
+        filePath = findViewById(R.id.file_path);
+        position = findViewById(R.id.file_parent);
+        sure = findViewById(R.id.select_file_finish);
         AddRippleEffect.addRippleEffect(sure);
         sure.setVisibility(View.VISIBLE);
     }

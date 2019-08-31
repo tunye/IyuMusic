@@ -100,7 +100,7 @@
                             android:textSize="@dimen/large_text" />
 
                         <com.iyuba.music.widget.imageview.GoImageView
-                            android:layout_width="24dp"
+                            android:layout_width="18dp"
                             android:layout_height="24dp"
                             android:layout_gravity="end"
                             app:go_color="@color/background_complementary"
@@ -142,7 +142,7 @@
                             android:textSize="@dimen/large_text" />
 
                         <com.iyuba.music.widget.imageview.GoImageView
-                            android:layout_width="24dp"
+                            android:layout_width="18dp"
                             android:layout_height="24dp"
                             android:layout_gravity="bottom"
                             app:go_color="@color/background_complementary"

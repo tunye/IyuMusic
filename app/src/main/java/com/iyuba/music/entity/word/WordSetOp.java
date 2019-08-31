@@ -1,6 +1,7 @@
 package com.iyuba.music.entity.word;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.iyuba.music.entity.BaseEntityOp;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/2.
  */
-public class WordSetOp extends BaseEntityOp {
+public class WordSetOp extends BaseEntityOp<Word> {
     public static final String TABLE_NAME = "wordset";
     public static final String ID = "id";
     public static final String KEY = "word";
@@ -22,24 +23,27 @@ public class WordSetOp extends BaseEntityOp {
         super();
     }
 
+    @Override
+    public String getSearchCondition() {
+        return "select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + "," + DEF +
+                "," + VIEWCOUNT + " from " + TABLE_NAME;
+    }
+
+    @Override
+    public Word fillData(@NonNull Cursor cursor) {
+        Word data = new Word();
+        data.setWord(cursor.getString(1));
+        data.setPronMP3(cursor.getString(2));
+        data.setPron(cursor.getString(3));
+        data.setDef(cursor.getString(4));
+        return data;
+    }
+
     public ArrayList<Word> findDataByFuzzy(String word) {
         getDatabase();
-        ArrayList<Word> words = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + "," + DEF +
-                "," + VIEWCOUNT + " from " + TABLE_NAME + " WHERE " + KEY + " LIKE '" + word
+        Cursor cursor = db.rawQuery(getSearchCondition() + " WHERE " + KEY + " LIKE '" + word
                 + "%' limit 0,30;", new String[]{});
-        Word temp;
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            temp = new Word();
-            temp.setWord(cursor.getString(1));
-            temp.setPronMP3(cursor.getString(2));
-            temp.setPron(cursor.getString(3));
-            temp.setDef(cursor.getString(4));
-            words.add(temp);
-        }
-        cursor.close();
-        db.close();
-        return words;
+        return fillDatas(cursor);
     }
 
     /**
@@ -47,22 +51,9 @@ public class WordSetOp extends BaseEntityOp {
      */
     public ArrayList<Word> findDataByView() {
         getDatabase();
-        ArrayList<Word> words = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + ","
-                + DEF + "," + VIEWCOUNT + " from " + TABLE_NAME + " WHERE " + VIEWCOUNT
+        Cursor cursor = db.rawQuery(getSearchCondition() + " WHERE " + VIEWCOUNT
                 + " > ? limit 0,30", new String[]{"0"});
-        Word temp;
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            temp = new Word();
-            temp.setWord(cursor.getString(1));
-            temp.setPronMP3(cursor.getString(2));
-            temp.setPron(cursor.getString(3));
-            temp.setDef(cursor.getString(4));
-            words.add(temp);
-        }
-        cursor.close();
-        db.close();
-        return words;
+        return fillDatas(cursor);
     }
 
     public boolean updateWord(String key) {
@@ -75,21 +66,15 @@ public class WordSetOp extends BaseEntityOp {
 
     public Word findDataByKey(String key) {
         getDatabase();
-        Cursor cursor = db.rawQuery("select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + "," + DEF + ","
-                + VIEWCOUNT + " from " + TABLE_NAME + " WHERE " + KEY + " = ?", new String[]{key});
+        Cursor cursor = db.rawQuery(getSearchCondition() + " WHERE " + KEY + " = ?", new String[]{key});
+        Word temp = null;
         if (cursor.moveToFirst()) {
-            Word temp = new Word();
-            temp.setWord(cursor.getString(1));
-            temp.setPronMP3(cursor.getString(2));
-            temp.setPron(cursor.getString(3));
-            temp.setDef(cursor.getString(4));
-            cursor.close();
-            db.close();
-            return temp;
+            temp = fillData(cursor);
         } else {
-            cursor.close();
-            db.close();
-            return null;
+            temp = new Word();
         }
+        cursor.close();
+        db.close();
+        return temp;
     }
 }

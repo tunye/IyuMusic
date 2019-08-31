@@ -2,6 +2,7 @@ package com.iyuba.music.adapter.study;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.main.MusicActivity;
@@ -29,6 +29,7 @@ import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.banner.BannerView;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
     }
 
     private static void getAppointArticle(final Context context, String id) {
-        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
+        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -63,9 +64,8 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
+                ArrayList<Article> netData = listEntity.getData();
                 for (Article temp : netData) {
                     temp.setApp(ConstantManager.appId);
                 }
@@ -114,20 +114,18 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         return newsList.get(position - 1);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            //inflate your layout and pass it to view holder
             return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_songcategory, parent, false));
-        } else if (viewType == TYPE_HEADER) {
-            //inflate your layout and pass it to view holder
+        } else {
             return new AdViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ad, parent, false));
         }
-        return null;
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
         final int pos = position;
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
@@ -159,9 +157,9 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
 
         NewsViewHolder(View view) {
             super(view);
-            text = (TextView) view.findViewById(R.id.songlist_text);
-            pic = (ImageView) view.findViewById(R.id.songlist_image);
-            count = (TextView) view.findViewById(R.id.songlist_count);
+            text = view.findViewById(R.id.songlist_text);
+            pic = view.findViewById(R.id.songlist_image);
+            count = view.findViewById(R.id.songlist_count);
         }
     }
 
@@ -170,7 +168,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
 
         AdViewHolder(View view) {
             super(view);
-            bannerView = (BannerView) view.findViewById(R.id.banner);
+            bannerView = view.findViewById(R.id.banner);
             bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor());
         }
 

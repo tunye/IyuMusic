@@ -3,6 +3,7 @@ package com.iyuba.music.adapter.study;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,9 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.CircleImageView;
 
 import java.util.ArrayList;
-
-import com.iyuba.music.widget.view.CircleImageView;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -46,8 +46,9 @@ public class AnnouncerAdapter extends RecyclerView.Adapter<AnnouncerAdapter.MyVi
         this.itemClickListener = itemClickListener;
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_announcer, parent, false));
     }
 
@@ -97,10 +98,10 @@ public class AnnouncerAdapter extends RecyclerView.Adapter<AnnouncerAdapter.MyVi
         TextView name;
         CircleImageView photo;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.announcer_username);
-            photo = (CircleImageView) view.findViewById(R.id.announcer_photo);
+            name = view.findViewById(R.id.announcer_username);
+            photo = view.findViewById(R.id.announcer_photo);
         }
     }
 }

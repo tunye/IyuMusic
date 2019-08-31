@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -49,8 +50,9 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public FlavorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FlavorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new FlavorViewHolder(LayoutInflater.from(context).inflate(R.layout.item_layout_flavor, parent, false));
     }
 
@@ -112,11 +114,11 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
 
         FlavorViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
-            primary = (ImageView) itemView.findViewById(R.id.primaryColor);
-            dark = (ImageView) itemView.findViewById(R.id.primaryColorDark);
-            accent = (ImageView) itemView.findViewById(R.id.accentColor);
-            indicator = (ImageView) itemView.findViewById(R.id.indicator);
+            title = itemView.findViewById(R.id.title);
+            primary = itemView.findViewById(R.id.primaryColor);
+            dark = itemView.findViewById(R.id.primaryColorDark);
+            accent = itemView.findViewById(R.id.accentColor);
+            indicator = itemView.findViewById(R.id.indicator);
         }
     }
 }

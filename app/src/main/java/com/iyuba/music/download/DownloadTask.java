@@ -288,7 +288,7 @@ public class DownloadTask {
                 type = 0;
                 break;
         }
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse() {
+        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -300,15 +300,14 @@ public class DownloadTask {
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                LrcMaker.getInstance().makeOriginal(id, (ArrayList<Original>) listEntity.getData());
+            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+                LrcMaker.getInstance().makeOriginal(id, listEntity.getData());
             }
         });
     }
 
     private void getWebOriginal(final int id) {
-        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse() {
+        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
             @Override
             public void onNetError(String msg) {
             }
@@ -319,9 +318,8 @@ public class DownloadTask {
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                OriginalMaker.getInstance().makeOriginal(id, (ArrayList<Original>) listEntity.getData());
+            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+                OriginalMaker.getInstance().makeOriginal(id, listEntity.getData());
             }
         });
     }

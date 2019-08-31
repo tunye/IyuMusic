@@ -63,8 +63,8 @@ public class ClassifyAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_classify, parent, false);
             holder = new ViewHolder();
-            holder.classifyText = (TextView) convertView.findViewById(R.id.classify_text);
-            holder.classifyImg = (ImageView) convertView.findViewById(R.id.classify_img);
+            holder.classifyText = convertView.findViewById(R.id.classify_text);
+            holder.classifyImg = convertView.findViewById(R.id.classify_img);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

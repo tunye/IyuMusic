@@ -1,6 +1,7 @@
 package com.iyuba.music.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,14 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
     }
 
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_material_dialog, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final int pos = position;
         if (itemClickListener != null) {
             holder.rippleView.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +89,9 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
 
         public MyViewHolder(View view) {
             super(view);
-            sleepText = (TextView) view.findViewById(R.id.sleep_time);
-            sleepSelector = (RadioButton) view.findViewById(R.id.sleep_selector);
-            rippleView = (MaterialRippleLayout) view.findViewById(R.id.sleep_ripple);
+            sleepText = view.findViewById(R.id.sleep_time);
+            sleepSelector = view.findViewById(R.id.sleep_selector);
+            rippleView = view.findViewById(R.id.sleep_ripple);
         }
     }
 }

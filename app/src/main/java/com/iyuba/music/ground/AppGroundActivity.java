@@ -22,7 +22,6 @@ public class AppGroundActivity extends BaseActivity implements OnItemClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_ground);
-        context = this;
         initWidget();
         setListener();
         changeUIByPara();
@@ -31,7 +30,7 @@ public class AppGroundActivity extends BaseActivity implements OnItemClickListen
     @Override
     protected void initWidget() {
         super.initWidget();
-        gridview = (GridView) findViewById(R.id.app_shelf);
+        gridview = findViewById(R.id.app_shelf);
         initGrid();
     }
 

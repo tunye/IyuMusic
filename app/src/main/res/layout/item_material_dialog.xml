@@ -8,15 +8,15 @@
     app:mrl_rippleColor="#656565"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/sleep_time"
             android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/row_space_large"
             android:textColor="@color/text_color" />
 
@@ -24,7 +24,7 @@
             android:id="@+id/sleep_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="@dimen/row_space_medium" />
-    </RelativeLayout>
+    </FrameLayout>
 </com.iyuba.music.widget.view.MaterialRippleLayout>

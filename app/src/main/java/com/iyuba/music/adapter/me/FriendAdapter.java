@@ -1,6 +1,7 @@
 package com.iyuba.music.adapter.me;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -43,8 +43,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         this.itemClickListener = itemClickListener;
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false));
     }
 
@@ -61,17 +62,17 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         if (item instanceof Fans) {
             Fans fan = (Fans) item;
             holder.userName.setText(fan.getUsername());
-            holder.userState.setText(TextUtils.isEmpty(fan.getDoing()) ? context.getString(R.string.personal_nosign) : fan.getDoing());
+            holder.userState.setText(getDefaultDoing(fan.getDoing()));
             holder.userPhoto.setVipStateVisible(fan.getUid(), fan.getVip() == 1);
         } else if (item instanceof Follows) {
             Follows follow = (Follows) item;
             holder.userName.setText(follow.getUsername());
-            holder.userState.setText(TextUtils.isEmpty(follow.getDoing()) ? context.getString(R.string.personal_nosign) : follow.getDoing());
+            holder.userState.setText(getDefaultDoing(follow.getDoing()));
             holder.userPhoto.setVipStateVisible(follow.getUid(), follow.getVip() == 1);
         } else if (item instanceof RecommendFriend) {
             RecommendFriend recommendFriend = (RecommendFriend) item;
             holder.userName.setText(recommendFriend.getUsername());
-            holder.userState.setText(TextUtils.isEmpty(recommendFriend.getDoing()) ? context.getString(R.string.personal_nosign) : recommendFriend.getDoing());
+            holder.userState.setText(getDefaultDoing(recommendFriend.getDoing()));
             holder.userPhoto.setVipStateVisible(recommendFriend.getUid(), recommendFriend.getVip() == 1);
         } else if (item instanceof SearchFriend) {
             SearchFriend searchFriend = (SearchFriend) item;
@@ -81,10 +82,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         }
     }
 
-    private String formatDistance(String distance) {
-        double metres = Double.valueOf(distance);
-        DecimalFormat df = new DecimalFormat("#.##");
-        return String.valueOf(df.format(metres));
+    private String getDefaultDoing(String doing) {
+        if (TextUtils.isEmpty(doing)) {
+            return context.getString(R.string.personal_nosign);
+        }
+        return doing;
     }
 
     @Override
@@ -98,11 +100,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         JustifyTextView userState;
         VipPhoto userPhoto;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            userName = (TextView) view.findViewById(R.id.friend_username);
-            userState = (JustifyTextView) view.findViewById(R.id.friend_state);
-            userPhoto = (VipPhoto) view.findViewById(R.id.friend_photo);
+            userName = view.findViewById(R.id.friend_username);
+            userState = view.findViewById(R.id.friend_state);
+            userPhoto = view.findViewById(R.id.friend_photo);
         }
     }
 }

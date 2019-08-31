@@ -1,6 +1,7 @@
 package com.iyuba.music.entity.article;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.iyuba.music.entity.BaseEntityOp;
 import com.iyuba.music.util.DateFormat;
@@ -11,7 +12,7 @@ import java.util.Calendar;
 /**
  * Created by 10202 on 2015/12/2.
  */
-public class LocalInfoOp extends BaseEntityOp {
+public class LocalInfoOp extends BaseEntityOp<LocalInfo> {
     public static final String TABLE_NAME = "news_local";
     public static final String ID = "id";
     public static final String FAVOURITE = "favourite";
@@ -27,8 +28,9 @@ public class LocalInfoOp extends BaseEntityOp {
         super();
     }
 
-    public void saveData(LocalInfo localInfo) {
-        getDatabase();
+    @Override
+    public void saveItemImpl(LocalInfo localInfo) {
+        super.saveItemImpl(localInfo);
         String stringBuilder = "insert into " + TABLE_NAME + " (" + ID +
                 "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES +
                 "," + SYNCHRO + "," + APP + "," + FAVTIME + "," +
@@ -36,37 +38,6 @@ public class LocalInfoOp extends BaseEntityOp {
         db.execSQL(stringBuilder, new Object[]{localInfo.getId(), localInfo.getFavourite(),
                 localInfo.getDownload(), localInfo.getTimes(), localInfo.getSynchro(), localInfo.getApp()
                 , localInfo.getFavTime(), localInfo.getDownTime(), localInfo.getSeeTime()});
-        db.close();
-    }
-
-    public void saveData(ArrayList<LocalInfo> localInfos) {
-        getDatabase();
-        if (localInfos != null && localInfos.size() != 0) {
-            int size = localInfos.size();
-            LocalInfo localInfo;
-            StringBuilder StringBuilder;
-            db.beginTransaction();
-            try {
-                for (int i = 0; i < size; i++) {
-                    StringBuilder = new StringBuilder();
-                    localInfo = localInfos.get(i);
-                    StringBuilder.append("insert into ").append(TABLE_NAME).append(" (").append(ID)
-                            .append(",").append(FAVOURITE).append(",").append(DOWNLOAD).append(",").append(TIMES)
-                            .append(",").append(SYNCHRO).append(",").append(APP).append(",").append(FAVTIME).append(",")
-                            .append(DOWNTIME).append(",").append(SEETIME).append(") values(?,?,?,?,?,?,?,?,?)");
-                    db.execSQL(StringBuilder.toString(), new Object[]{localInfo.getId(), localInfo.getFavourite(),
-                            localInfo.getDownload(), localInfo.getTimes(), localInfo.getSynchro(), localInfo.getApp()
-                            , localInfo.getFavTime(), localInfo.getDownTime(), localInfo.getSeeTime()});
-                }
-                db.setTransactionSuccessful();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                // 结束事务
-                db.endTransaction();
-                db.close();
-            }
-        }
     }
 
     public void changeDownloadToStop() {
@@ -76,15 +47,22 @@ public class LocalInfoOp extends BaseEntityOp {
         db.close();
     }
 
+    @Override
+    public String getSearchCondition() {
+        return "select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
+                + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
+                " from " + TABLE_NAME;
+    }
+
     public LocalInfo findDataById(String app, int id) {
         getDatabase();
-        LocalInfo localInfo = new LocalInfo();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where app=? and id = ?",
+        LocalInfo localInfo = null;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where app=? and id = ?",
                 new String[]{app, String.valueOf(id)});
         if (cursor.moveToNext()) {
-            localInfo = makeupLocalinfo(cursor);
+            localInfo = fillData(cursor);
+        } else {
+            localInfo = new LocalInfo();
         }
         cursor.close();
         db.close();
@@ -93,77 +71,32 @@ public class LocalInfoOp extends BaseEntityOp {
 
     public ArrayList<LocalInfo> findDataByFavourite() {
         getDatabase();
-        ArrayList<LocalInfo> localInfos = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where " + FAVOURITE + "=1 order by " + FAVTIME + " desc limit  100",
-                new String[]{});
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            localInfos.add(makeupLocalinfo(cursor));
-        }
-        cursor.close();
-        db.close();
-        return localInfos;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + FAVOURITE + "=1 order by " + FAVTIME + " desc limit  100", new String[]{});
+        return fillDatas(cursor);
     }
 
     public ArrayList<LocalInfo> findDataByDownloaded() {
         getDatabase();
-        ArrayList<LocalInfo> localInfos = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where " + DOWNLOAD + "=1 order by " + DOWNTIME + " desc",
-                new String[]{});
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            localInfos.add(makeupLocalinfo(cursor));
-        }
-        cursor.close();
-        db.close();
-        return localInfos;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + "=1 order by " + DOWNTIME + " desc", new String[]{});
+        return fillDatas(cursor);
     }
 
     public ArrayList<LocalInfo> findDataByDownloading() {
         getDatabase();
-        ArrayList<LocalInfo> localInfos = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where " + DOWNLOAD + ">1 order by " + DOWNTIME + " desc",
-                new String[]{});
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            localInfos.add(makeupLocalinfo(cursor));
-        }
-        cursor.close();
-        db.close();
-        return localInfos;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + ">1 order by " + DOWNTIME + " desc", new String[]{});
+        return fillDatas(cursor);
     }
 
     public ArrayList<LocalInfo> findDataByShouldContinue() {
         getDatabase();
-        ArrayList<LocalInfo> localInfos = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where " + DOWNLOAD + "=3 order by " + DOWNTIME + " desc",
-                new String[]{});
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            localInfos.add(makeupLocalinfo(cursor));
-        }
-        cursor.close();
-        db.close();
-        return localInfos;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + "=3 order by " + DOWNTIME + " desc", new String[]{});
+        return fillDatas(cursor);
     }
 
     public ArrayList<LocalInfo> findDataByListen() {
         getDatabase();
-        ArrayList<LocalInfo> localInfos = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select " + ID + "," + FAVOURITE + "," + DOWNLOAD + "," + TIMES + ","
-                        + SYNCHRO + "," + APP + "," + FAVTIME + "," + DOWNTIME + "," + SEETIME +
-                        " from " + TABLE_NAME + " where " + TIMES + ">0 order by " + SEETIME + " desc limit  100",
-                new String[]{});
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            localInfos.add(makeupLocalinfo(cursor));
-        }
-        cursor.close();
-        db.close();
-        return localInfos;
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + TIMES + ">0 order by " + SEETIME + " desc limit  100", new String[]{});
+        return fillDatas(cursor);
     }
 
     public void updateSee(int id, String app) {
@@ -231,7 +164,8 @@ public class LocalInfoOp extends BaseEntityOp {
         db.close();
     }
 
-    private LocalInfo makeupLocalinfo(Cursor cursor) {
+    @Override
+    public LocalInfo fillData(@NonNull Cursor cursor) {
         LocalInfo localInfo = new LocalInfo();
         localInfo.setId(cursor.getInt(0));
         localInfo.setDownload(cursor.getInt(2));

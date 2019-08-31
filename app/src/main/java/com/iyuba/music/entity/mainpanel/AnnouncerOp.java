@@ -1,6 +1,7 @@
 package com.iyuba.music.entity.mainpanel;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.iyuba.music.entity.BaseEntityOp;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/2.
  */
-public class AnnouncerOp extends BaseEntityOp {
+public class AnnouncerOp extends BaseEntityOp<Announcer> {
     public static final String TABLE_NAME = "announcer";
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -20,73 +21,44 @@ public class AnnouncerOp extends BaseEntityOp {
         super();
     }
 
-    public void saveData(Announcer announcer) {
-        getDatabase();
+    @Override
+    public void saveItemImpl(Announcer announcer) {
+        super.saveItemImpl(announcer);
         String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + ID +
                 "," + NAME + "," + IMG + "," + UID + ") values(?,?,?,?)";
         db.execSQL(StringBuilder, new Object[]{announcer.getId(), announcer.getName()
                 , announcer.getImgUrl(), announcer.getUid()});
-        db.close();
     }
 
-    public void saveData(ArrayList<Announcer> announcers) {
-        getDatabase();
-        if (announcers != null && announcers.size() != 0) {
-            int size = announcers.size();
-            Announcer announcer;
-            StringBuilder StringBuilder;
-            db.beginTransaction();
-            try {
-                for (int i = 0; i < size; i++) {
-                    StringBuilder = new StringBuilder();
-                    announcer = announcers.get(i);
-                    StringBuilder.append("insert or replace into ").append(TABLE_NAME).append(" (").append(ID)
-                            .append(",").append(NAME).append(",").append(IMG).append(",").append(UID).append(") values(?,?,?,?)");
-                    db.execSQL(StringBuilder.toString(), new Object[]{announcer.getId(), announcer.getName()
-                            , announcer.getImgUrl(), announcer.getUid()});
-                }
-                db.setTransactionSuccessful();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                // 结束事务
-                db.endTransaction();
-                db.close();
-            }
-        }
+    @Override
+    public String getSearchCondition() {
+        return "select " + ID + "," + NAME + "," + IMG + "," + UID + " from " + TABLE_NAME;
+    }
+
+    @Override
+    public Announcer fillData(@NonNull Cursor cursor) {
+        Announcer announcer = new Announcer();
+        announcer.setId(cursor.getInt(0));
+        announcer.setName(cursor.getString(1));
+        announcer.setImgUrl(cursor.getString(2));
+        announcer.setUid(cursor.getString(3));
+        return announcer;
     }
 
     public ArrayList<Announcer> findAll() {
         getDatabase();
-        Cursor cursor = db.rawQuery("select " + ID + "," + NAME + "," + IMG + "," + UID
-                + " from " + TABLE_NAME, new String[]{});
-        Announcer announcer;
-        ArrayList<Announcer> announcers = new ArrayList<>();
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            announcer = new Announcer();
-            announcer.setId(cursor.getInt(0));
-            announcer.setName(cursor.getString(1));
-            announcer.setImgUrl(cursor.getString(2));
-            announcer.setUid(cursor.getString(3));
-            announcers.add(announcer);
-        }
-        cursor.close();
-        db.close();
-        return announcers;
+        Cursor cursor = db.rawQuery(getSearchCondition(), new String[]{});
+        return fillDatas(cursor);
     }
 
     public Announcer findByName(String name) {
         getDatabase();
-        Cursor cursor = db.rawQuery("select " + ID + "," + NAME + "," + IMG + "," + UID
-                + " from " + TABLE_NAME + " where " + NAME + " =?", new String[]{name});
-        Announcer announcer = new Announcer();
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + NAME + " =?", new String[]{name});
+        Announcer announcer;
         if (cursor.moveToNext()) {
-            announcer.setId(cursor.getInt(0));
-            announcer.setName(cursor.getString(1));
-            announcer.setImgUrl(cursor.getString(2));
-            announcer.setUid(cursor.getString(3));
+            announcer = fillData(cursor);
         } else {
-
+            announcer = new Announcer();
         }
         cursor.close();
         db.close();
@@ -95,16 +67,12 @@ public class AnnouncerOp extends BaseEntityOp {
 
     public Announcer findById(String id) {
         getDatabase();
-        Cursor cursor = db.rawQuery("select " + ID + "," + NAME + "," + IMG + "," + UID
-                + " from " + TABLE_NAME + " where " + ID + " =?", new String[]{id});
-        Announcer announcer = new Announcer();
+        Cursor cursor = db.rawQuery(getSearchCondition() + " where " + ID + " =?", new String[]{id});
+        Announcer announcer;
         if (cursor.moveToNext()) {
-            announcer.setId(cursor.getInt(0));
-            announcer.setName(cursor.getString(1));
-            announcer.setImgUrl(cursor.getString(2));
-            announcer.setUid(cursor.getString(3));
+            announcer = fillData(cursor);
         } else {
-
+            announcer = new Announcer();
         }
         cursor.close();
         db.close();

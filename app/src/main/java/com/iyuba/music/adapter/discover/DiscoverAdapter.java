@@ -1,6 +1,7 @@
 package com.iyuba.music.adapter.discover;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.mainpanel.Discover;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -100,20 +101,18 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         return discoverList.get(position);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            //inflate your layout and pass it to view holder
             return new DiscoverViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, parent, false));
-        } else if (viewType == TYPE_BLANK) {
-            //inflate your layout and pass it to view holder
+        } else {
             return new BlankViewHolder(LayoutInflater.from(context).inflate(R.layout.item_blank, parent, false));
         }
-        return null;
     }
 
     @Override
-    public void onBindViewHolder(final RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecycleViewHolder holder, int position) {
         if (holder instanceof DiscoverViewHolder) {
             final DiscoverViewHolder viewHolder = (DiscoverViewHolder) holder;
             final Discover discover = getItem(position);
@@ -138,9 +137,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         DiscoverViewHolder(View view) {
             super(view);
-            rippleView = (MaterialRippleLayout) view.findViewById(R.id.discover_ripple);
-            text = (TextView) view.findViewById(R.id.discover_text);
-            icon = (ImageView) view.findViewById(R.id.discover_icon);
+            rippleView = view.findViewById(R.id.discover_ripple);
+            text = view.findViewById(R.id.discover_text);
+            icon = view.findViewById(R.id.discover_icon);
         }
     }
 

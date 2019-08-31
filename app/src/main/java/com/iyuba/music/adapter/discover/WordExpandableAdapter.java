@@ -9,16 +9,16 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
+import com.iyuba.music.R;
 import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
 import com.iyuba.music.adapter.expandable.Model.ParentListItem;
 import com.iyuba.music.adapter.expandable.ViewHolder.ChildViewHolder;
 import com.iyuba.music.adapter.expandable.ViewHolder.ParentViewHolder;
-import com.iyuba.music.R;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,10 +94,10 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
 
         WordChildViewHolder(View itemView) {
             super(itemView);
-            key = (TextView) itemView.findViewById(R.id.word_key);
-            def = (TextView) itemView.findViewById(R.id.word_def);
-            delete = (CheckBox) itemView.findViewById(R.id.item_delete);
-            rippleView = (MaterialRippleLayout) itemView.findViewById(R.id.word_ripple);
+            key = itemView.findViewById(R.id.word_key);
+            def = itemView.findViewById(R.id.word_def);
+            delete = itemView.findViewById(R.id.item_delete);
+            rippleView = itemView.findViewById(R.id.word_ripple);
         }
 
         void bind(final Word word) {
@@ -148,8 +148,8 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
          */
         WordParentViewHolder(View itemView) {
             super(itemView);
-            parentContent = (TextView) itemView.findViewById(R.id.parent_content);
-            expandableStatus = (ImageView) itemView.findViewById(R.id.expandable_status);
+            parentContent = itemView.findViewById(R.id.parent_content);
+            expandableStatus = itemView.findViewById(R.id.expandable_status);
             expandableStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="@dimen/row_space_medium">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/chatting_time_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textcolor_on_appcolor"
             android:textSize="@dimen/medium_text" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

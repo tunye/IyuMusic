@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> implements IOperationResultInt {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ArrayList<Original> originals;
     private Context context;
     private int curItem = -1;
@@ -188,8 +189,9 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         });
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_read, parent, false));
     }
 
@@ -332,13 +334,13 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
 
         public MyViewHolder(View view) {
             super(view);
-            num = (TextView) view.findViewById(R.id.read_num);
-            english = (TextView) view.findViewById(R.id.read_text);
-            chinese = (TextView) view.findViewById(R.id.read_text_zh);
+            num = view.findViewById(R.id.read_num);
+            english = view.findViewById(R.id.read_text);
+            chinese = view.findViewById(R.id.read_text_zh);
             readControl = view.findViewById(R.id.read_control);
-            play = (ImageView) view.findViewById(R.id.read_play);
-            record = (ImageView) view.findViewById(R.id.read_record);
-            recordTime = (TextView) view.findViewById(R.id.record_time);
+            play = view.findViewById(R.id.read_play);
+            record = view.findViewById(R.id.read_record);
+            recordTime = view.findViewById(R.id.record_time);
         }
     }
 

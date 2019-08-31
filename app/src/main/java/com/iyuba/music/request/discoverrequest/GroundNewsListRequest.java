@@ -22,13 +22,13 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class GroundNewsListRequest {
-    public static void exeRequest(String url, final String app, final IProtocolResponse response) {
+    public static void exeRequest(String url, final String app, final IProtocolResponse<BaseListEntity<ArrayList<Article>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    BaseListEntity baseListEntity = new BaseListEntity();
+                    BaseListEntity<ArrayList<Article>> baseListEntity = new BaseListEntity<>();
                     try {
                         baseListEntity.setTotalCount(jsonObject.getInt("total"));
                         ArrayList<Article> list = new ArrayList<>();

@@ -77,6 +77,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         return menuIconList.size();
     }
 
+    @NonNull
     @Override
     public OperAdapter.OperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new OperAdapter.OperViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_operlist, parent, false));

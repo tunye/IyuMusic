@@ -64,7 +64,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     private static void getAppointArticle(final Context context, String id) {
-        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
+        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -76,9 +76,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
+                ArrayList<Article> netData = listEntity.getData();
                 for (Article temp : netData) {
                     temp.setApp(ConstantManager.appId);
                 }
@@ -139,8 +138,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         return newsList.get(position - 1);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_newslist, parent, false));
         } else if (viewType == TYPE_HEADER) {

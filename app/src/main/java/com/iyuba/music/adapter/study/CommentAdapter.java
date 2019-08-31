@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -33,6 +33,7 @@ import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private boolean shouldAutoPlayMainPlayer;
     private ArrayList<Comment> comments;
     private Context context;
@@ -92,15 +93,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         return comments.get(position);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         player = new SimplePlayer(context);
         playingComment = -1;
         return new CommentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_comment, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
         final CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
         final Comment comment = getItem(position);
         final int pos = position;
@@ -179,7 +181,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public void onClick(View v) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61001, comment.getId()), new IProtocolResponse() {
+                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61001, comment.getId()), new IProtocolResponse<String>() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.getInstance().showToast(msg);
@@ -191,13 +193,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         }
 
                         @Override
-                        public void response(Object object) {
-                            if (object.toString().equals("001")) {
+                        public void response(String resultCode) {
+                            if (resultCode.equals("001")) {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "agree");
                                 comment.setAgreeCount(comment.getAgreeCount() + 1);
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.agreeCount);
                                 notifyItemChanged(pos);
-                            } else if (object.toString().equals("000")) {
+                            } else if (resultCode.equals("000")) {
                                 CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
                         }
@@ -211,7 +213,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public void onClick(View v) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61002, comment.getId()), new IProtocolResponse() {
+                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61002, comment.getId()), new IProtocolResponse<String>() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.getInstance().showToast(msg);
@@ -223,14 +225,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                         }
 
                         @Override
-                        public void response(Object object) {
-                            if (object.toString().equals("001")) {
+                        public void response(String resultCode) {
+                            if (resultCode.equals("001")) {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "against");
                                 comment.setAgainstCount(comment.getAgainstCount() + 1);
                                 YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.againstCount);
                                 notifyItemChanged(pos);
-                            } else if (object.toString().equals("000")) {
-                                CustomToast.getInstance().showToast(R.string.comment_agree_fail);
+                            } else if (resultCode.equals("000")) {
+                                CustomToast.getInstance().showToast(R.string.comment_against_fail);
                             }
                         }
                     });
@@ -341,19 +343,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         CommentViewHolder(View view) {
             super(view);
-            root = (MaterialRippleLayout) view.findViewById(R.id.root);
-            name = (TextView) view.findViewById(R.id.comment_name);
-            content = (TextView) view.findViewById(R.id.comment_content);
-            voiceTime = (TextView) view.findViewById(R.id.comment_voice_time);
-            time = (TextView) view.findViewById(R.id.comment_time);
-            agreeCount = (TextView) view.findViewById(R.id.comment_agree_text);
-            againstCount = (TextView) view.findViewById(R.id.comment_against_text);
-            pic = (VipPhoto) view.findViewById(R.id.comment_image);
-            agreeView = (ImageView) view.findViewById(R.id.comment_agree_img);
-            againstView = (ImageView) view.findViewById(R.id.comment_against_img);
+            root = view.findViewById(R.id.root);
+            name = view.findViewById(R.id.comment_name);
+            content = view.findViewById(R.id.comment_content);
+            voiceTime = view.findViewById(R.id.comment_voice_time);
+            time = view.findViewById(R.id.comment_time);
+            agreeCount = view.findViewById(R.id.comment_agree_text);
+            againstCount = view.findViewById(R.id.comment_against_text);
+            pic = view.findViewById(R.id.comment_image);
+            agreeView = view.findViewById(R.id.comment_agree_img);
+            againstView = view.findViewById(R.id.comment_against_img);
             voice = view.findViewById(R.id.comment_voice);
-            voiceImg = (ImageView) view.findViewById(R.id.comment_voice_img);
-            loading = (ProgressBar) view.findViewById(R.id.comment_voice_loading);
+            voiceImg = view.findViewById(R.id.comment_voice_img);
+            loading = view.findViewById(R.id.comment_voice_loading);
         }
     }
 

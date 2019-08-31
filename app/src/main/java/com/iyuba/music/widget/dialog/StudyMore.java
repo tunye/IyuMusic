@@ -14,7 +14,7 @@ import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.study.ReadActivity;
 import com.iyuba.music.activity.study.RecommendSongActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
-import com.iyuba.music.adapter.study.StudyMenuAdapter;
+import com.iyuba.music.adapter.study.ShareAdapter;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
@@ -49,7 +49,7 @@ public class StudyMore {
     private boolean shown;
     private int[] menuDrawable;
     private String[] menuText;
-    private StudyMenuAdapter studyMenuAdapter;
+    private ShareAdapter studyMenuAdapter;
     private IyubaDialog iyubaDialog;
     private String app;
 
@@ -76,7 +76,7 @@ public class StudyMore {
                     R.drawable.download, R.drawable.play_set,};
             menuText = context.getResources().getStringArray(R.array.study_menu_simple);
         }
-        studyMenuAdapter = new StudyMenuAdapter(context);
+        studyMenuAdapter = new ShareAdapter(context);
         final LocalInfoOp localInfoOp = new LocalInfoOp();
         final Article curArticle = StudyManager.getInstance().getCurArticle();
         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
@@ -99,7 +99,7 @@ public class StudyMore {
                 menuDrawable[6] = R.drawable.night;
             }
         }
-        studyMenuAdapter.setDataSet(menuText, menuDrawable);
+        studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
         moreGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -130,7 +130,7 @@ public class StudyMore {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 0);
                                         CustomToast.getInstance().showToast(R.string.article_favor_cancel);
                                         menuDrawable[1] = R.drawable.favor;
-                                        studyMenuAdapter.setDataSet(menuText, menuDrawable);
+                                        studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
                                     }
                                 }
                             });
@@ -152,7 +152,7 @@ public class StudyMore {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 1);
                                         CustomToast.getInstance().showToast(R.string.article_favor);
                                         menuDrawable[1] = R.drawable.favor_true;
-                                        studyMenuAdapter.setDataSet(menuText, menuDrawable);
+                                        studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
                                     }
                                 }
                             });
@@ -170,7 +170,7 @@ public class StudyMore {
                                 public void success(Object object) {
                                     localInfoOp.updateDownload(curArticle.getId(), app, 2);
                                     menuDrawable[2] = R.drawable.downloading;
-                                    studyMenuAdapter.setDataSet(menuText, menuDrawable);
+                                    studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
                                     DownloadFile downloadFile = new DownloadFile();
                                     downloadFile.id = curArticle.getId();
                                     downloadFile.downloadState = "start";

@@ -3,6 +3,7 @@
  */
 package com.iyuba.music.file;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -55,13 +56,14 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         return fileInfos.get(position);
     }
 
+    @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new FileViewHolder(LayoutInflater.from(RuntimeManager.getContext()).inflate(R.layout.item_file, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
         final FileViewHolder fileViewHolder = (FileViewHolder) holder;
         final FileInfo fileInfo = getItem(position);
         final int pos = position;
@@ -100,9 +102,9 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         FileViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.file_name);
-            content = (TextView) view.findViewById(R.id.file_info);
-            icon = (ImageView) view.findViewById(R.id.file_icon);
+            name = view.findViewById(R.id.file_name);
+            content = view.findViewById(R.id.file_info);
+            icon = view.findViewById(R.id.file_icon);
         }
     }
 }

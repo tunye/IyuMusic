@@ -54,10 +54,11 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
+    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
+        onRecycleViewItemClickListener = onItemClickListener;
     }
 
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_common_news, parent, false));

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -104,13 +105,14 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_newslist, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final int pos = position;
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -284,18 +286,18 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         View timeBackground;
         RoundProgressBar download;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.article_title);
-            singer = (TextView) view.findViewById(R.id.article_singer);
-            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
-            time = (TextView) view.findViewById(R.id.article_createtime);
-            pic = (ImageView) view.findViewById(R.id.article_image);
-            downloadFlag = (ImageView) view.findViewById(R.id.article_download);
-            readCount = (TextView) view.findViewById(R.id.article_readcount);
-            delete = (CheckBox) view.findViewById(R.id.item_delete);
+            title = view.findViewById(R.id.article_title);
+            singer = view.findViewById(R.id.article_singer);
+            broadcaster = view.findViewById(R.id.article_announcer);
+            time = view.findViewById(R.id.article_createtime);
+            pic = view.findViewById(R.id.article_image);
+            downloadFlag = view.findViewById(R.id.article_download);
+            readCount = view.findViewById(R.id.article_readcount);
+            delete = view.findViewById(R.id.item_delete);
             timeBackground = view.findViewById(R.id.article_createtime_background);
-            download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
+            download = view.findViewById(R.id.roundProgressBar);
         }
     }
 }

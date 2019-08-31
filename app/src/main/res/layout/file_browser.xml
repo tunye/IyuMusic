@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
         <include
@@ -16,7 +17,6 @@
             android:id="@+id/file_position"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
             android:background="#44000000"
             android:orientation="horizontal">
 
@@ -27,7 +27,7 @@
                 android:padding="6dp">
 
                 <com.iyuba.music.widget.imageview.GoImageView
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
@@ -51,14 +51,13 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/file_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/file_position" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <com.iyuba.music.widget.roundview.RoundTextView
             android:id="@+id/select_file_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/app_accept"
@@ -66,5 +65,5 @@
             android:textSize="20sp"
             android:visibility="invisible"
             app:rv_backgroundColor="#88000000" />
-    </RelativeLayout>
+    </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

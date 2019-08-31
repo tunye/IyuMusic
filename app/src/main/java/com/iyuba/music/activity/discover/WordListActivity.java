@@ -199,6 +199,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void deleteToNormal() {
         deleteMode = false;
+        buildAdapter();
         toolbarOper.setText(R.string.word_synchro);
         statusBar.setVisibility(View.VISIBLE);
     }
