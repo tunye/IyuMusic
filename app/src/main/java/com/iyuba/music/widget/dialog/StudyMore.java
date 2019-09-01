@@ -64,7 +64,7 @@ public class StudyMore {
 
     private void init() {
         app = StudyManager.getInstance().getApp();
-        GridView moreGrid = (GridView) root.findViewById(R.id.study_menu);
+        GridView moreGrid =  root.findViewById(R.id.study_menu);
         if (app.equals("209")) {
             menuDrawable = new int[]{R.drawable.share, R.drawable.favor,
                     R.drawable.download, R.drawable.read,
@@ -113,7 +113,7 @@ public class StudyMore {
                     case 1:
                         dismiss();
                         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new IProtocolResponse<String>() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -125,8 +125,8 @@ public class StudyMore {
                                 }
 
                                 @Override
-                                public void response(Object object) {
-                                    if (object.toString().equals("del")) {
+                                public void response(String result) {
+                                    if (result.equals("del")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 0);
                                         CustomToast.getInstance().showToast(R.string.article_favor_cancel);
                                         menuDrawable[1] = R.drawable.favor;
@@ -135,7 +135,7 @@ public class StudyMore {
                                 }
                             });
                         } else {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "insert"), new IProtocolResponse() {
+                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "insert"), new IProtocolResponse<String>() {
                                 @Override
                                 public void onNetError(String msg) {
 
@@ -147,8 +147,8 @@ public class StudyMore {
                                 }
 
                                 @Override
-                                public void response(Object object) {
-                                    if (object.toString().equals("insert")) {
+                                public void response(String result) {
+                                    if (result.equals("insert")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 1);
                                         CustomToast.getInstance().showToast(R.string.article_favor);
                                         menuDrawable[1] = R.drawable.favor_true;
@@ -266,7 +266,7 @@ public class StudyMore {
     }
 
     private void getAnnounceList() {
-        AnnouncerRequest.exeRequest(new IProtocolResponse() {
+        AnnouncerRequest.exeRequest(new IProtocolResponse<BaseListEntity<ArrayList<Announcer>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -278,8 +278,8 @@ public class StudyMore {
             }
 
             @Override
-            public void response(Object object) {
-                ArrayList<Announcer> announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
+            public void response(BaseListEntity<ArrayList<Announcer>> result) {
+                ArrayList<Announcer> announcerList = result.getData();
                 new AnnouncerOp().saveData(announcerList);
                 final Announcer item = new Announcer();
                 item.setUid("-1");

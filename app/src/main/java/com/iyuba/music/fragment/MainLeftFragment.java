@@ -116,7 +116,7 @@ public class MainLeftFragment extends BaseFragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RuntimeManager.getApplication().exit();
+                RuntimeManager.getInstance().getApplication().exit();
             }
         });
         root.setOnClickListener(new View.OnClickListener() {

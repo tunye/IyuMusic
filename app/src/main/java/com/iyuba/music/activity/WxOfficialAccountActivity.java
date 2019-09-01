@@ -65,7 +65,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 if (!android.os.Build.MANUFACTURER.contains("360")) {
                     brand = android.os.Build.MANUFACTURER;
                 }
-                QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse() {
+                QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse<BaseApiEntity<String>>() {
                     @Override
                     public void onNetError(String msg) {
 
@@ -77,8 +77,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void response(Object object) {
-                        BaseApiEntity result = (BaseApiEntity) object;
+                    public void response(BaseApiEntity<String> result) {
                         ParameterUrl.joinQQGroup(context, result.getValue());
                     }
                 });

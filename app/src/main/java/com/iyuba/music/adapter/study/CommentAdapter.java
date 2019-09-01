@@ -145,7 +145,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                             playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), pos);// 播放
                         }
                     } else {
-                        if (RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                        if (RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                             context.sendBroadcast(new Intent("iyumusic.pause"));
                         }
                         playingComment = comment.getId();
@@ -290,7 +290,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if (!RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                if (!RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 player.reset();
@@ -304,7 +304,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 player.reset();
-                if (!RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                if (!RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 playingComment = -1;
@@ -322,7 +322,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         if (player != null) {
             if (player.isPlaying()) {
                 player.pause();
-                if (!(RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer)) {
+                if (!(RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer)) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
             }

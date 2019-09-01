@@ -16,14 +16,14 @@ import com.iyuba.music.volley.VolleyErrorHelper;
  * Created by 10202 on 2015/11/20.
  */
 public class UpdateRequest {
-    public static void exeRequest(final String url, final IProtocolResponse response) {
+    public static void exeRequest(final String url, final IProtocolResponse<BaseApiEntity<String>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyStringRequest request = new MyStringRequest(url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String message) {
                             String[] content = message.split(",");
-                            BaseApiEntity apiEntity = new BaseApiEntity();
+                            BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
                             if (content[0].equals("NO")) {
                                 apiEntity.setState(BaseApiEntity.SUCCESS);
                                 apiEntity.setValue(content[2].replace("||", "@@@"));
@@ -40,7 +40,7 @@ public class UpdateRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

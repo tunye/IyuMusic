@@ -119,7 +119,7 @@ public class MTVFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     }
 
     private void getData() {
-        MTVRequest.exeRequest(MTVRequest.generateUrl(curPage), new IProtocolResponse() {
+        MTVRequest.exeRequest(MTVRequest.generateUrl(curPage), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
@@ -135,10 +135,9 @@ public class MTVFragment extends BaseRecyclerViewFragment implements MySwipeRefr
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+                ArrayList<Article> netData = listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     CustomToast.getInstance().showToast(R.string.article_load_all);

@@ -26,8 +26,8 @@ public class DiscreteSlider extends FrameLayout {
     private int tickMarkCount;
     private float tickMarkRadius;
     private OnDiscreteSliderChangeListener onDiscreteSliderChangeListener;
-    private int discreteSeekBarLeftPadding = RuntimeManager.dip2px(32);
-    private int discreteSeekBarRightPadding = RuntimeManager.dip2px(32);
+    private int discreteSeekBarLeftPadding = RuntimeManager.getInstance().dip2px(32);
+    private int discreteSeekBarRightPadding = RuntimeManager.getInstance().dip2px(32);
 
     // endregion
 

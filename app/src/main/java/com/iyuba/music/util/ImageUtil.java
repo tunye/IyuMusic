@@ -55,7 +55,7 @@ public class ImageUtil {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             context = imageView.getContext();
         } else {
-            context = RuntimeManager.getContext();
+            context = RuntimeManager.getInstance().getContext();
         }
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
@@ -82,7 +82,7 @@ public class ImageUtil {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             context = imageView.getContext();
         } else {
-            context = RuntimeManager.getContext();
+            context = RuntimeManager.getInstance().getContext();
         }
         DrawableRequestBuilder<String> builder = Glide.with(context)
                 .load(imageUrl)

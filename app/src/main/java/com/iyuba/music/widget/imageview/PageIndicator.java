@@ -59,18 +59,18 @@ public class PageIndicator extends View {
         if (attr == null) {
             strokeColor = Color.WHITE;
             fillColor = Color.WHITE;
-            stroke = RuntimeManager.dip2px(1);
-            circlePadding = RuntimeManager.dip2px(4);
-            radius = RuntimeManager.dip2px(6);
+            stroke = RuntimeManager.getInstance().dip2px(1);
+            circlePadding = RuntimeManager.getInstance().dip2px(4);
+            radius = RuntimeManager.getInstance().dip2px(6);
             circleCount = 1;
         } else {
             TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.PageIndicator);
             strokeColor = typedArray.getColor(R.styleable.PageIndicator_pi_strokecolor, GetAppColor.getInstance().getAppColor());
             fillColor = typedArray.getColor(R.styleable.PageIndicator_pi_fillcolor, GetAppColor.getInstance().getAppColorLight());
-            stroke = typedArray.getDimension(R.styleable.PageIndicator_pi_stroke, RuntimeManager.dip2px(1));
-            radius = typedArray.getDimension(R.styleable.PageIndicator_pi_radius, RuntimeManager.dip2px(6));
+            stroke = typedArray.getDimension(R.styleable.PageIndicator_pi_stroke, RuntimeManager.getInstance().dip2px(1));
+            radius = typedArray.getDimension(R.styleable.PageIndicator_pi_radius, RuntimeManager.getInstance().dip2px(6));
             circleCount = typedArray.getInt(R.styleable.PageIndicator_pi_count, 1);
-            circlePadding = typedArray.getDimension(R.styleable.PageIndicator_pi_circlepadding, RuntimeManager.dip2px(4));
+            circlePadding = typedArray.getDimension(R.styleable.PageIndicator_pi_circlepadding, RuntimeManager.getInstance().dip2px(4));
             typedArray.recycle();
         }
         direction = NONE;

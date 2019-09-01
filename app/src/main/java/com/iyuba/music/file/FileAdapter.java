@@ -59,7 +59,7 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     @NonNull
     @Override
     public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FileViewHolder(LayoutInflater.from(RuntimeManager.getContext()).inflate(R.layout.item_file, parent, false));
+        return new FileViewHolder(LayoutInflater.from(RuntimeManager.getInstance().getContext()).inflate(R.layout.item_file, parent, false));
     }
 
     @Override

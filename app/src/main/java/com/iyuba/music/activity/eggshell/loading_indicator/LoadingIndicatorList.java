@@ -68,7 +68,7 @@ public class LoadingIndicatorList extends BaseActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(context, 4);
         mRecycler.setLayoutManager(layoutManager);
         mRecycler.addItemDecoration(new DividerItemDecoration(
-                (int) RuntimeManager.getContext().getResources().getDimension(R.dimen.line_thin),
+                (int) RuntimeManager.getInstance().getContext().getResources().getDimension(R.dimen.line_thin),
                 context.getResources().getColor(R.color.background_light),
                 DividerItemDecoration.TYPE_WITHOUT_BORDER));
         mRecycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {

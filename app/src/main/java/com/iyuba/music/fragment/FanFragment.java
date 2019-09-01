@@ -109,7 +109,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     }
 
     private void getFriendData() {
-        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse() {
+        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Fans>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -123,8 +123,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
+            public void response(BaseListEntity<ArrayList<Fans>> listEntity) {
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     if (curPage == 1) {

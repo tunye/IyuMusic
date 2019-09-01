@@ -20,7 +20,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.util.ArrayList;
 

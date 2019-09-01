@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.iyuba.music.widget.view.CircleImageView
+        <com.iyuba.music.widget.imageview.CircleImageView
             android:id="@+id/announcer_photo"
             android:layout_width="48dip"
             android:layout_height="48dip"

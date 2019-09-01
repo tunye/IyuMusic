@@ -24,7 +24,7 @@ public class ChangePropery {
     }
 
     public static void updateNightMode(boolean on) {
-        Resources resources = RuntimeManager.getContext().getResources();
+        Resources resources = RuntimeManager.getInstance().getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
         config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
@@ -42,7 +42,7 @@ public class ChangePropery {
     }
 
     public static void updateLanguageMode(int languageType) {
-        Resources resources = RuntimeManager.getContext().getResources();
+        Resources resources = RuntimeManager.getInstance().getContext().getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
         changeLanguage(languageType, config);

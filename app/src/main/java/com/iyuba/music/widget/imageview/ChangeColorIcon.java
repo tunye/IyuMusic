@@ -87,7 +87,7 @@ public class ChangeColorIcon extends View {
                         mText = a.getString(attr);
                         break;
                     case R.styleable.ChangeColorIconView_cci_text_size:
-                        mTextSize = a.getDimensionPixelOffset(attr, RuntimeManager.sp2px(10));
+                        mTextSize = a.getDimensionPixelOffset(attr, RuntimeManager.getInstance().sp2px(10));
                         break;
                     case R.styleable.ChangeColorIconView_cci_text_color:
                         originalColor = a.getColor(attr, 0xff555555);
@@ -100,7 +100,7 @@ public class ChangeColorIcon extends View {
             a.recycle();
         } else {
             originalColor = 0xff555555;
-            mTextSize = RuntimeManager.sp2px(10);
+            mTextSize = RuntimeManager.getInstance().sp2px(10);
             mColor = 0x45C01A;
             mText = "";
             mAlpha = 1f;
@@ -122,8 +122,8 @@ public class ChangeColorIcon extends View {
         if (drawText) {
             bitmapWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
                     - getPaddingRight(), getMeasuredHeight() - getPaddingTop()
-                    - getPaddingBottom() - mTextBound.height() - RuntimeManager.dip2px(5));
-            top = (getMeasuredHeight() - mTextBound.height() - RuntimeManager.dip2px(5)) / 2 - bitmapWidth
+                    - getPaddingBottom() - mTextBound.height() - RuntimeManager.getInstance().dip2px(5));
+            top = (getMeasuredHeight() - mTextBound.height() - RuntimeManager.getInstance().dip2px(5)) / 2 - bitmapWidth
                     / 2;
         } else {
             bitmapWidth = Math.min(getMeasuredWidth() - getPaddingLeft()
@@ -169,7 +169,7 @@ public class ChangeColorIcon extends View {
         mTextPaint.setAlpha(255 - alpha);
         canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2
                         - mTextBound.width() / 2,
-                mIconRect.bottom + RuntimeManager.dip2px(5) + mTextBound.height() / 2, mTextPaint);
+                mIconRect.bottom + RuntimeManager.getInstance().dip2px(5) + mTextBound.height() / 2, mTextPaint);
     }
 
     private void drawTargetText(Canvas canvas, int alpha) {
@@ -178,7 +178,7 @@ public class ChangeColorIcon extends View {
         mTextPaint.setAlpha(alpha);
         canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2
                         - mTextBound.width() / 2,
-                mIconRect.bottom + RuntimeManager.dip2px(5) + mTextBound.height() / 2, mTextPaint);
+                mIconRect.bottom + RuntimeManager.getInstance().dip2px(5) + mTextBound.height() / 2, mTextPaint);
     }
 
     private void invalidateView() {
@@ -261,7 +261,7 @@ public class ChangeColorIcon extends View {
     }
 
     public void setmTextSize(int mTextSize) {
-        this.mTextSize = RuntimeManager.sp2px(mTextSize);
+        this.mTextSize = RuntimeManager.getInstance().sp2px(mTextSize);
         invalidateView();
     }
 }

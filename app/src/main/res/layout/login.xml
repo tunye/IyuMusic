@@ -13,7 +13,7 @@
 
         <include layout="@layout/toolbar_with_oper"/>
 
-        <com.iyuba.music.widget.view.CircleImageView
+        <com.iyuba.music.widget.imageview.CircleImageView
             android:id="@+id/login_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"

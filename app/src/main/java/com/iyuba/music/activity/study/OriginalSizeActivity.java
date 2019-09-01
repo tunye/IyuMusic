@@ -175,7 +175,7 @@ public class OriginalSizeActivity extends BaseActivity {
     private void addTickMarkTextLabels(int initPos) {
         final int tickMarkCount = discreteSlider.getTickMarkCount();
         String[] tickMarkText = context.getResources().getStringArray(R.array.original_size);
-        int tickMarkLabelWidth = RuntimeManager.getWindowWidth() / tickMarkCount;
+        int tickMarkLabelWidth = RuntimeManager.getInstance().getWindowWidth() / tickMarkCount;
         TextView tv;
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 tickMarkLabelWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);

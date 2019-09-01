@@ -23,7 +23,7 @@ import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.bitmap.ReadBitmap;
+import com.iyuba.music.widget.bitmap.BitmapUtils;
 
 import java.util.LinkedList;
 
@@ -39,9 +39,9 @@ public class NotificationUtil {
 
     private NotificationUtil() {
         notificationTextColor = isDarkNotificationTheme() ? 0xffcdcdcd : 0xff4c4c4c;
-        notificationManager = (NotificationManager) RuntimeManager.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) RuntimeManager.getInstance().getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(RuntimeManager.getContext().getPackageName(), RuntimeManager.getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), RuntimeManager.getInstance().getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
             //闪光灯
             channel.enableLights(true);
             //锁屏显示通知
@@ -85,8 +85,8 @@ public class NotificationUtil {
     }
 
     Notification initNotification() {
-        Context context = RuntimeManager.getContext();
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, RuntimeManager.getContext().getPackageName());
+        Context context = RuntimeManager.getInstance().getContext();
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, RuntimeManager.getInstance().getContext().getPackageName());
 
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
         contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
@@ -101,7 +101,7 @@ public class NotificationUtil {
         setTextViewColor(contentView);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
-        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
+        notificationBuilder.setLargeIcon(BitmapUtils.readBitmap(RuntimeManager.getInstance().getContext(), R.drawable.ic_launcher_circle));
         notificationBuilder.setAutoCancel(false);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -113,7 +113,7 @@ public class NotificationUtil {
     }
 
     void updateNotification(String imgUrl) {
-        Context context = RuntimeManager.getContext();
+        Context context = RuntimeManager.getInstance().getContext();
         Article curArticle = StudyManager.getInstance().getCurArticle();
         Intent intent;
         if (StudyManager.getInstance().getApp().equals("101")) {
@@ -157,7 +157,7 @@ public class NotificationUtil {
         notificationBuilder.setPriority(Notification.PRIORITY_MAX);
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
-        notificationBuilder.setLargeIcon(ReadBitmap.readBitmap(RuntimeManager.getContext(), R.drawable.ic_launcher_circle));
+        notificationBuilder.setLargeIcon(BitmapUtils.readBitmap(RuntimeManager.getInstance().getContext(), R.drawable.ic_launcher_circle));
         notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         notificationBuilder.setContentIntent(pendingIntent);
@@ -187,22 +187,22 @@ public class NotificationUtil {
 
     private PendingIntent receivePauseIntent() {
         Intent intent = new Intent("iyumusic.pause");
-        return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(RuntimeManager.getInstance().getContext(), 0, intent, 0);
     }
 
     private PendingIntent receiveNextIntent() {
         Intent intent = new Intent("iyumusic.next");
-        return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(RuntimeManager.getInstance().getContext(), 0, intent, 0);
     }
 
     private PendingIntent receiveBeforeIntent() {
         Intent intent = new Intent("iyumusic.before");
-        return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(RuntimeManager.getInstance().getContext(), 0, intent, 0);
     }
 
     private PendingIntent receiveCloseIntent() {
         Intent intent = new Intent("iyumusic.close");
-        return PendingIntent.getBroadcast(RuntimeManager.getContext(), 0, intent, 0);
+        return PendingIntent.getBroadcast(RuntimeManager.getInstance().getContext(), 0, intent, 0);
     }
 
     private void setTextViewColor(RemoteViews contentView) {
@@ -225,7 +225,7 @@ public class NotificationUtil {
      * @return
      */
     private int getNotificationColor() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(RuntimeManager.getContext());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(RuntimeManager.getInstance().getContext());
         Notification notification = builder.build();
         int layoutId;
         if (notification.contentView != null) {
@@ -233,7 +233,7 @@ public class NotificationUtil {
         } else {
             layoutId = R.layout.notification;
         }
-        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(RuntimeManager.getContext()).inflate(layoutId, null, false);
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(RuntimeManager.getInstance().getContext()).inflate(layoutId, null, false);
         if (viewGroup.findViewById(android.R.id.title) != null) {
             return ((TextView) viewGroup.findViewById(android.R.id.title)).getCurrentTextColor();
         }

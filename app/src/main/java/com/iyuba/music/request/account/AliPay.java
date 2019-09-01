@@ -36,14 +36,14 @@ public class AliPay {
         return MD5.getMD5ofStr(userId + "iyuba" + df.format(System.currentTimeMillis()));
     }
 
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseApiEntity apiEntity = new BaseApiEntity();
+                        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
                         apiEntity.setMessage(jsonObject.getString("message"));
                         if ("1".equals(jsonObject.getString("result"))) {
                             apiEntity.setData(ParameterUrl.decode(jsonObject.getString("orderInfo")));
@@ -54,7 +54,7 @@ public class AliPay {
                         }
                         response.response(apiEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -65,7 +65,7 @@ public class AliPay {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

@@ -24,7 +24,7 @@ import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;

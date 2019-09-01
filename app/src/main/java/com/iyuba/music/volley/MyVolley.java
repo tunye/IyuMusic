@@ -13,7 +13,7 @@ public class MyVolley {
     private RequestQueue mRequestQueue;
 
     private MyVolley() {
-        mRequestQueue = Volley.newRequestQueue(RuntimeManager.getContext());
+        mRequestQueue = Volley.newRequestQueue(RuntimeManager.getInstance().getContext());
     }
 
     public static MyVolley getInstance() {

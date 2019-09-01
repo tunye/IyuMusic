@@ -71,7 +71,7 @@ public class OriginalSynView extends ScrollView implements
             drawTimeLine = false;
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
-            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.getInstance().sp2px(14));
             lineWidth = a.getFloat(R.styleable.originalsynview_ori_linewidth, 4);
             rectMarginBottom = a.getDimension(R.styleable.originalsynview_ori_timeline_margin, 10);
             rectPadding = a.getDimension(R.styleable.originalsynview_ori_timeline_padding, 20);
@@ -90,7 +90,7 @@ public class OriginalSynView extends ScrollView implements
             drawTimeLine = false;
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
-            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.getInstance().sp2px(14));
             lineWidth = a.getInt(R.styleable.originalsynview_ori_linewidth, 4);
             rectMarginBottom = a.getDimension(R.styleable.originalsynview_ori_timeline_margin, 10);
             rectPadding = a.getDimension(R.styleable.originalsynview_ori_timeline_padding, 20);
@@ -135,9 +135,11 @@ public class OriginalSynView extends ScrollView implements
             case MotionEvent.ACTION_MOVE:
                 if (canDrag) {
                     float offset = event.getRawY() - oldXY[1];
-                    scrollBy(getScrollX(), -(int) offset);
-                    oldXY[1] = event.getRawY();
-                    invalidate();
+                    if (offset > 10) {
+                        scrollBy(getScrollX(), -(int) offset);
+                        oldXY[1] = event.getRawY();
+                        invalidate();
+                    }
                 } else {
                     if (Math.abs(event.getRawX() - oldXY[0]) > 8
                             && Math.abs(event.getRawY() - oldXY[1]) > 8) {
@@ -185,7 +187,7 @@ public class OriginalSynView extends ScrollView implements
     private void defaultProperty() {
         showChinese = true;
         drawTimeLine = false;
-        textSize = RuntimeManager.sp2px(14);
+        textSize = RuntimeManager.getInstance().sp2px(14);
         lineWidth = 4;
         rectMarginBottom = 10;
         rectPadding = 20;
@@ -200,7 +202,7 @@ public class OriginalSynView extends ScrollView implements
         //时间线画笔
         mPaintForTimeLine = new Paint();
         mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight());
-        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
+        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.getInstance().sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔
         rectPaint = new Paint();
@@ -217,12 +219,12 @@ public class OriginalSynView extends ScrollView implements
         }
         int size = originalList.size();
         textPage = new TextPage(context);
-        textPage.setHeight(RuntimeManager.getWindowHeight() / 2);
+        textPage.setHeight(RuntimeManager.getInstance().getWindowHeight() / 2);
         subtitleLayout.addView(textPage);
         for (int i = 0; i < size; i++) {
             textPage = new TextPage(context);
             textPage.setTextColor(context.getResources().getColor(R.color.text_color));
-            textPage.setTextSize(RuntimeManager.px2sp(textSize));
+            textPage.setTextSize(RuntimeManager.getInstance().px2sp(textSize));
             if (isShowChinese()) {
                 textPage.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
             } else {
@@ -232,7 +234,7 @@ public class OriginalSynView extends ScrollView implements
             subtitleLayout.addView(textPage);
         }
         textPage = new TextPage(context);
-        textPage.setHeight(RuntimeManager.getWindowHeight() / 2);
+        textPage.setHeight(RuntimeManager.getInstance().getWindowHeight() / 2);
         subtitleLayout.addView(textPage);
         addView(subtitleLayout);
     }
@@ -241,9 +243,9 @@ public class OriginalSynView extends ScrollView implements
         int center = changeHighLight(currParagraph);
         center = center - getHeight() / 2;
         if (center > 0) {
-            smoothScrollTo(0, center + RuntimeManager.getWindowHeight() / 2);
+            smoothScrollTo(0, center + RuntimeManager.getInstance().getWindowHeight() / 2);
         } else {
-            smoothScrollTo(0, RuntimeManager.getWindowHeight() / 2);
+            smoothScrollTo(0, RuntimeManager.getInstance().getWindowHeight() / 2);
         }
     }
 
@@ -290,14 +292,14 @@ public class OriginalSynView extends ScrollView implements
                         + "\n" + originalList.get(current - 1).getSentence_cn());
             }
         }
-        return textPage.getTop() + textPage.getHeight() / 2 - RuntimeManager.getWindowHeight() / 2;
+        return textPage.getTop() + textPage.getHeight() / 2 - RuntimeManager.getInstance().getWindowHeight() / 2;
     }
 
     private void drawTimeCanvas(Canvas canvas, String time, float y) {
         //时间线画笔
         mPaintForTimeLine = new Paint();
         mPaintForTimeLine.setColor(GetAppColor.getInstance().getAppColorLight());
-        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.sp2px(2));
+        mPaintForTimeLine.setTextSize(textSize + RuntimeManager.getInstance().sp2px(2));
         mPaintForTimeLine.setStrokeWidth(lineWidth);
         //半透背景画笔
         rectPaint = new Paint();
@@ -325,7 +327,7 @@ public class OriginalSynView extends ScrollView implements
     }
 
     public void setTextSize(int textSize) {
-        this.textSize = RuntimeManager.sp2px(textSize);
+        this.textSize = RuntimeManager.getInstance().sp2px(textSize);
     }
 
     public ArrayList<Original> getOriginalList() {

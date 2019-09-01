@@ -48,7 +48,7 @@ public class StartFragment {
             e.printStackTrace();
         }
         currentVersion = ConfigManager.getInstance().loadInt("updateVersion", currentVersion);
-        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
+        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
                 result.fail(-1);
@@ -60,8 +60,7 @@ public class StartFragment {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> apiEntity) {
                 if (BaseApiEntity.isFail(apiEntity)) {
                     result.fail(0);
                 } else {
@@ -157,7 +156,7 @@ public class StartFragment {
         if (!android.os.Build.MANUFACTURER.contains("360")) {
             brand = android.os.Build.MANUFACTURER;
         }
-        QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse() {
+        QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -169,8 +168,7 @@ public class StartFragment {
             }
 
             @Override
-            public void response(Object object) {
-                final BaseApiEntity result = (BaseApiEntity) object;
+            public void response(final BaseApiEntity<String> result) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.new_version_features);
                 StringBuilder sb = new StringBuilder();
@@ -180,7 +178,7 @@ public class StartFragment {
                 sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
                         .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
                         .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
-                        .append("群号：").append(result.getData().toString());
+                        .append("群号：").append(result.getData());
                 materialDialog.setMessage(sb.toString());
                 materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
                     @Override

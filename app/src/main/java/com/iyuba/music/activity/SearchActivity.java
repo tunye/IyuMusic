@@ -225,7 +225,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
                 Rect outRect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Utils.setMargins(searchBarLayout, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+                Utils.setMargins(searchBarLayout, 0, RuntimeManager.getInstance().getWindowHeight() - outRect.height(), 0, 0);
         }
     }
 
@@ -277,7 +277,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     private void searchMusic() {
-        SearchRequest.exeRequest(SearchRequest.generateUrl(searchContent.getText().toString(), curPage), new IProtocolResponse() {
+        SearchRequest.exeRequest(SearchRequest.generateUrl(searchContent.getText().toString(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -291,11 +291,10 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
                 showLayout.setVisibility(View.VISIBLE);
                 historySearch.setVisibility(View.GONE);
                 advice.setVisibility(View.VISIBLE);
-                BaseListEntity listEntity = (BaseListEntity) object;
                 swipeRefreshLayout.setRefreshing(false);
                 searchResult.setText(context.getString(R.string.search_result, searchContent.getText().toString(), listEntity.getTotalCount()));
                 if (BaseListEntity.isFail(listEntity)) {

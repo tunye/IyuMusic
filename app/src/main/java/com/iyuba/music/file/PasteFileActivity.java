@@ -114,8 +114,8 @@ public class PasteFileActivity extends BaseActivity {
                     return;
                 }
 
-                progressDialog = ProgressDialog.show(PasteFileActivity.this, RuntimeManager.getString(R.string.file_remove),
-                        RuntimeManager.getString(R.string.file_remove_info), true, false);
+                progressDialog = ProgressDialog.show(PasteFileActivity.this, RuntimeManager.getInstance().getString(R.string.file_remove),
+                        RuntimeManager.getInstance().getString(R.string.file_remove_info), true, false);
 
                 ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override

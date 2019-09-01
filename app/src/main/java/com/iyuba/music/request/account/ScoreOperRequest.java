@@ -57,12 +57,12 @@ public class ScoreOperRequest {
                                 break;
                             default:
                                 apiEntity.setState(BaseApiEntity.ERROR);
-                                apiEntity.setMessage(RuntimeManager.getString(R.string.unknown_error));
+                                apiEntity.setMessage(RuntimeManager.getInstance().getString(R.string.unknown_error));
                                 break;
                         }
                         response.response(apiEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -73,7 +73,7 @@ public class ScoreOperRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

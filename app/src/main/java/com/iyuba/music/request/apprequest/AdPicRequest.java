@@ -26,7 +26,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class AdPicRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<AdEntity> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyStringRequest request = new MyStringRequest(StringRequest.Method.GET,
                     url, new Response.Listener<String>() {
@@ -66,7 +66,7 @@ public class AdPicRequest {
             request.setRetryPolicy(new DefaultRetryPolicy(1000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

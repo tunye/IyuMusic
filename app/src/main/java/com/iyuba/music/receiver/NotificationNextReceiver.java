@@ -25,29 +25,29 @@ public class NotificationNextReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
+        if (RuntimeManager.getInstance().getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
-            if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+            if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
                 Intent i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);
             }
             NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
         } else {
-            RuntimeManager.getApplication().getPlayerService().next(false);
-            RuntimeManager.getApplication().getPlayerService().startPlay(
+            RuntimeManager.getInstance().getApplication().getPlayerService().next(false);
+            RuntimeManager.getInstance().getApplication().getPlayerService().startPlay(
                     StudyManager.getInstance().getCurArticle(), false);
-            RuntimeManager.getApplication().getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
-            RuntimeManager.getApplication().getPlayerService().getPlayer().start();
-            if (RuntimeManager.getApplication().isAppointForeground("StudyActivity")) {
+            RuntimeManager.getInstance().getApplication().getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
+            RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().start();
+            if (RuntimeManager.getInstance().getApplication().isAppointForeground("StudyActivity")) {
                 Intent i = new Intent("com.iyuba.music.study");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);
-            } else if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+            } else if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
                 Intent i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);
-            } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
+            } else if (RuntimeManager.getInstance().getApplication().isAppointForeground("LocalMusicActivity")) {
                 Intent i = new Intent("com.iyuba.music.localmusic");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);

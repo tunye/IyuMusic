@@ -18,13 +18,12 @@ import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.account.LoginRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
+import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.widget.CustomToast;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 /**
@@ -80,7 +79,7 @@ public class AccountManager {
             login.setUserid(Integer.parseInt(userId));
             login.setUserName(userName);
             login.setUserPwd(userPwd);
-            login.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date()));
+            login.setLoginTime(DateFormat.formatTime(new Date()));
             new HistoryLoginOp().saveData(login);
         }
     }
@@ -97,7 +96,7 @@ public class AccountManager {
         String[] paras = new String[]{userName, userPwd, String.valueOf(getLongitude())
                 , String.valueOf(getLatitude())};
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
+            LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
                 @Override
                 public void onNetError(String msg) {
                     if (rc != null) {
@@ -113,13 +112,12 @@ public class AccountManager {
                 }
 
                 @Override
-                public void response(Object object) {
-                    BaseApiEntity apiEntity = (BaseApiEntity) object;
+                public void response(BaseApiEntity<UserInfo> apiEntity) {
                     if (BaseApiEntity.isSuccess(apiEntity)) {
                         loginState = SIGN_IN;
 
                         UserInfoOp userInfoOp = new UserInfoOp();
-                        UserInfo tempResult = (UserInfo) apiEntity.getData();
+                        UserInfo tempResult = apiEntity.getData();
                         userId = tempResult.getUid();
                         if (userInfoOp.selectDataByName(getInstance().userName) == null) {
                             saveUserNameAndPwd();
@@ -133,7 +131,7 @@ public class AccountManager {
 
                         if (RuntimeManager.getInstance().isShowSignInToast()) {
                             RuntimeManager.getInstance().setShowSignInToast(false);
-                            CustomToast.getInstance().showToast(RuntimeManager.getContext().getString(
+                            CustomToast.getInstance().showToast(RuntimeManager.getInstance().getContext().getString(
                                     R.string.login_success, userInfo.getUsername()));
                         }
 
@@ -144,25 +142,25 @@ public class AccountManager {
                         loginState = SIGN_OUT;
                         ConfigManager.getInstance().setAutoLogin(false);
                         if (rc != null) {
-                            rc.fail(RuntimeManager.getString(R.string.login_fail));
+                            rc.fail(RuntimeManager.getInstance().getString(R.string.login_fail));
                         }
                     } else {
                         loginState = SIGN_OUT;
                         if (rc != null) {
-                            rc.fail(RuntimeManager.getString(R.string.login_error));
+                            rc.fail(RuntimeManager.getInstance().getString(R.string.login_error));
                         }
                     }
                 }
             });
         } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            rc.fail(RuntimeManager.getString(R.string.net_speed_slow));
+            rc.fail(RuntimeManager.getInstance().getString(R.string.net_speed_slow));
         } else {
-            rc.fail(RuntimeManager.getString(R.string.no_internet));
+            rc.fail(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 
     public void getPersonalInfo(final IOperationResult result) {
-        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(getUserId(), getUserId()), userInfo, new IProtocolResponse() {
+        PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(getUserId(), getUserId()), userInfo, new IProtocolResponse<BaseApiEntity<UserInfo>>() {
             @Override
             public void onNetError(String msg) {
                 if (result != null) {
@@ -178,10 +176,9 @@ public class AccountManager {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity baseApiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<UserInfo> baseApiEntity) {
                 if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                    userInfo = (UserInfo) baseApiEntity.getData();
+                    userInfo = baseApiEntity.getData();
                     if (result != null) {
                         result.success(null);
                     }
@@ -198,7 +195,7 @@ public class AccountManager {
     public void refreshVipStatus() {
         String[] paras = new String[]{userName, userPwd, String.valueOf(getLongitude())
                 , String.valueOf(getLatitude())};
-        LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse() {
+        LoginRequest.exeRequest(LoginRequest.generateUrl(paras), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -210,10 +207,9 @@ public class AccountManager {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<UserInfo> apiEntity) {
                 if (BaseApiEntity.isSuccess(apiEntity)) {
-                    UserInfo temp = (UserInfo) apiEntity.getData();
+                    UserInfo temp = apiEntity.getData();
                     userInfo.setIyubi(temp.getIyubi());
                     userInfo.setVipStatus(temp.getVipStatus());
                     userInfo.setDeadline(temp.getDeadline());
@@ -247,7 +243,7 @@ public class AccountManager {
     public void getGPS() {
         Location location = null;
         try {
-            LocationManager locationManager = (LocationManager) RuntimeManager.getContext().getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) RuntimeManager.getInstance().getContext().getSystemService(Context.LOCATION_SERVICE);
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

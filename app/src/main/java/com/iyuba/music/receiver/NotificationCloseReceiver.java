@@ -21,6 +21,6 @@ public class NotificationCloseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RuntimeManager.getApplication().exit();
+        RuntimeManager.getInstance().getApplication().exit();
     }
 }

@@ -109,7 +109,7 @@ public class ChattingActivity extends BaseActivity {
             @Override
             public void onSendText(final String s) {
                 SendMessageRequest.exeRequest(SendMessageRequest.generateUrl(
-                        AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendName(), s), new IProtocolResponse() {
+                        AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendName(), s), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(R.string.message_send_fail);
@@ -121,8 +121,8 @@ public class ChattingActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void response(Object object) {
-                        if (object.toString().equals("611")) {
+                    public void response(String result) {
+                        if (result.equals("611")) {
                             chatView.clearText();
                             MessageLetterContent letterContent = new MessageLetterContent();
                             letterContent.setContent(s);

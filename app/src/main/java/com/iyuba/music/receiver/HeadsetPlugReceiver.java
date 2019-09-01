@@ -23,8 +23,8 @@ public class HeadsetPlugReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (RuntimeManager.getApplication().getPlayerService() != null) {
-            StandardPlayer player = RuntimeManager.getApplication().getPlayerService().getPlayer();
+        if (RuntimeManager.getInstance().getApplication().getPlayerService() != null) {
+            StandardPlayer player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
             if (intent.getIntExtra("state", 0) == 1) {
                 boolean isAutoPlay = ConfigManager.getInstance().isAutoPlay();
                 if (isAutoPlay && player.isPrepared() && !player.isPlaying()) {

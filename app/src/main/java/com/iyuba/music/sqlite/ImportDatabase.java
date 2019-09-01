@@ -24,8 +24,8 @@ public class ImportDatabase {
     private int lastVersion, currentVersion;
 
     private ImportDatabase() {
-        mDBHelper = new DBOpenHelper(RuntimeManager.getContext(), DB_NAME, null, 1);
-        dbPath = RuntimeManager.getContext().getDatabasePath(DB_NAME).getAbsolutePath();
+        mDBHelper = new DBOpenHelper(RuntimeManager.getInstance().getContext(), DB_NAME, null, 1);
+        dbPath = RuntimeManager.getInstance().getContext().getDatabasePath(DB_NAME).getAbsolutePath();
     }
 
     public static ImportDatabase getInstance() {
@@ -64,7 +64,7 @@ public class ImportDatabase {
 
     private void loadDataBase() {
         try {
-            BufferedInputStream bis = new BufferedInputStream(RuntimeManager.getContext()
+            BufferedInputStream bis = new BufferedInputStream(RuntimeManager.getInstance().getContext()
                     .getResources().openRawResource(R.raw.music));
             File file = new File(dbPath);
             if (!file.getParentFile().exists()) {

@@ -200,7 +200,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         ThreadPoolUtil.getInstance().execute(new Runnable() {
                             @Override
                             public void run() {
-                                FileUtil.clearFileDir(RuntimeManager.getApplication().getProxy().getCacheFolder());
+                                FileUtil.clearFileDir(RuntimeManager.getInstance().getApplication().getProxy().getCacheFolder());
                             }
                         });
                         handler.sendEmptyMessage(3);
@@ -335,7 +335,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         public void handleMessageByRef(final SettingActivity activity, Message msg) {
             switch (msg.what) {
                 case 1:
-                    activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(RuntimeManager.getApplication().getProxy().getCacheFolder())));
+                    activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(RuntimeManager.getInstance().getApplication().getProxy().getCacheFolder())));
                     long size = 0;
                     size += FileUtil.getGlideCacheSize(activity);
                     size += FileUtil.getFolderSize(new File(ConstantManager.crashFolder));

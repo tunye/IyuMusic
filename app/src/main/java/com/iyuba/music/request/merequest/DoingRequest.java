@@ -56,10 +56,10 @@ public class DoingRequest {
                             }
                             response.response(baseListEntity);
                         } else {
-                            response.onServerError(RuntimeManager.getString(R.string.data_error));
+                            response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                         }
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -70,7 +70,7 @@ public class DoingRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

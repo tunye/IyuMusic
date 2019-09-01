@@ -41,7 +41,7 @@ public class SignInDialog {
     }
 
     public void show() {
-        StudyTimeRequest.exeRequest(StudyTimeRequest.generateUrl(), new IProtocolResponse() {
+        StudyTimeRequest.exeRequest(StudyTimeRequest.generateUrl(), new IProtocolResponse<BaseApiEntity<Integer>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -53,10 +53,8 @@ public class SignInDialog {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity result = (BaseApiEntity) object;
+            public void response(BaseApiEntity<Integer> result) {
                 if (result.getState() == BaseApiEntity.SUCCESS) {
-                    Log.e("aaa", result.getData().toString());
                     if (Integer.parseInt(result.getData().toString()) >= 180) {
                         init();
                     } else {

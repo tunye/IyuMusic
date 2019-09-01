@@ -20,13 +20,13 @@ public class VolleyErrorHelper {
     public static String getMessage(Object error) {
 
         if (error instanceof TimeoutError) {
-            return RuntimeManager.getString(R.string.generic_server_down);
+            return RuntimeManager.getInstance().getString(R.string.generic_server_down);
         } else if (isServerProblem(error)) {
             return handleServerError(error);
         } else if (isNetworkProblem(error)) {
-            return RuntimeManager.getString(R.string.no_internet);
+            return RuntimeManager.getInstance().getString(R.string.no_internet);
         }
-        return RuntimeManager.getString(R.string.generic_error);
+        return RuntimeManager.getInstance().getString(R.string.generic_error);
     }
 
 
@@ -64,9 +64,9 @@ public class VolleyErrorHelper {
                     }
                     return error.getMessage();
                 default:
-                    return RuntimeManager.getString(R.string.generic_server_down);
+                    return RuntimeManager.getInstance().getString(R.string.generic_server_down);
             }
         }
-        return RuntimeManager.getString(R.string.generic_error);
+        return RuntimeManager.getInstance().getString(R.string.generic_error);
     }
 }

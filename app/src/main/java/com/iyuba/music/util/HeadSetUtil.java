@@ -29,19 +29,19 @@ public class HeadSetUtil {
 
     public void open(OnHeadSetListener headSetListener) {
         this.headSetListener = headSetListener;
-        AudioManager audioManager = (AudioManager) RuntimeManager.getContext().getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) RuntimeManager.getInstance().getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         if (ConfigManager.getInstance().isMediaButton()) {
-            ComponentName name = new ComponentName(RuntimeManager.getApplication().getPackageName(), MediaButtonReceiver.class.getName());
+            ComponentName name = new ComponentName(RuntimeManager.getInstance().getApplication().getPackageName(), MediaButtonReceiver.class.getName());
             audioManager.registerMediaButtonEventReceiver(name);
         }
     }
 
     public void close() {
-        AudioManager audioManager = (AudioManager) RuntimeManager.getContext().getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) RuntimeManager.getInstance().getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         if (ConfigManager.getInstance().isMediaButton()) {
-            ComponentName name = new ComponentName(RuntimeManager.getApplication().getPackageName(), MediaButtonReceiver.class.getName());
+            ComponentName name = new ComponentName(RuntimeManager.getInstance().getApplication().getPackageName(), MediaButtonReceiver.class.getName());
             audioManager.unregisterMediaButtonEventReceiver(name);
         }
         this.headSetListener = null;
@@ -64,27 +64,27 @@ public class HeadSetUtil {
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    if (RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying()) {
+                    if (RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying()) {
                         // 因为会长时间失去，所以直接暂停
-                        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.pause"));
+                        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.pause"));
                     }
 //                    mPausedByTransientLossOfFocus = false;
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    if (RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying()) {
+                    if (RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying()) {
                         // 短暂失去焦点，先暂停。同时将标志位置成重新获得焦点后就开始播放
                         changeByAudioListener = true;
-                        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.pause"));
+                        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.pause"));
 //                        mPausedByTransientLossOfFocus = true;
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     // 重新获得焦点，且符合播放条件，开始播放
-                    if (!RuntimeManager.getApplication().getPlayerService().getPlayer().isPlaying() && changeByAudioListener) {
+                    if (!RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && changeByAudioListener) {
 //                        mPausedByTransientLossOfFocus = false;
                         changeByAudioListener = false;
-                        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.pause"));
+                        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.pause"));
                     }
                     break;
             }

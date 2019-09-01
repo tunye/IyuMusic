@@ -27,7 +27,7 @@ public class MyStringRequest extends StringRequest {
     public Map<String, String> getHeaders() {
         // self-defined user agent
         Map<String, String> headerMap = new ArrayMap<>();
-        headerMap.put("user-app", RuntimeManager.getApplication().getPackageName());
+        headerMap.put("user-app", RuntimeManager.getInstance().getApplication().getPackageName());
         return headerMap;
     }
 }

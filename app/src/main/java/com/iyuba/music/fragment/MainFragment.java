@@ -36,7 +36,7 @@ import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -245,10 +245,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setImageState() {
-        if (RuntimeManager.getApplication().getPlayerService() == null) {
+        if (RuntimeManager.getInstance().getApplication().getPlayerService() == null) {
             pause.setState(MorphButton.PAUSE_STATE);
         } else {
-            player = RuntimeManager.getApplication().getPlayerService().getPlayer();
+            player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
             if (player == null) {
                 pause.setState(MorphButton.PAUSE_STATE);
             } else if (player.isPlaying()) {

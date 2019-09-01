@@ -13,7 +13,7 @@ import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.Calendar;

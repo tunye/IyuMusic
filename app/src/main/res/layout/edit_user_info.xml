@@ -42,7 +42,7 @@
                         android:textColor="@color/skin_app_color"
                         android:textSize="@dimen/big_text" />
 
-                    <com.iyuba.music.widget.view.CircleImageView
+                    <com.iyuba.music.widget.imageview.CircleImageView
                         android:id="@+id/iveditPortrait"
                         android:layout_width="60dp"
                         android:layout_height="60dp"

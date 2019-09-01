@@ -65,7 +65,7 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
-        RuntimeManager.initRuntimeManager(this);
+        RuntimeManager.getInstance().initRuntimeManager(this);
         // android n 获取文件必须的权限配置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -139,7 +139,7 @@ public class MusicApplication extends Application {
         SkinManager.getInstance().addChangedListener(new ISkinChangedListener() {
             @Override
             public void onSkinChanged() {
-                RuntimeManager.getApplication().setTheme(GetAppColor.getInstance().getAppTheme());
+                RuntimeManager.getInstance().getApplication().setTheme(GetAppColor.getInstance().getAppTheme());
                 IyubaDialog.styleId = GetAppColor.getInstance().getDialogTheme();
                 MyMaterialDialog.styleId = GetAppColor.getInstance().getMaterialDialogTheme();
             }

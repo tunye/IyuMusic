@@ -89,7 +89,7 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int progress = (int) animation.getAnimatedValue();
-                loadProgress.getLayoutParams().width = (int) (progress / 100f * RuntimeManager.getWindowWidth());
+                loadProgress.getLayoutParams().width = (int) (progress / 100f * RuntimeManager.getInstance().getWindowWidth());
                 loadProgress.requestLayout();
             }
         });

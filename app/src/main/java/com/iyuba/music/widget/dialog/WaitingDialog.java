@@ -19,13 +19,13 @@ public class WaitingDialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.waitting, null);
 
-        TextView animationMessage = (TextView) layout.findViewById(R.id.waitting_text);
+        TextView animationMessage =  layout.findViewById(R.id.waitting_text);
         if (TextUtils.isEmpty(message)) {
             animationMessage.setVisibility(View.GONE);
         } else {
             animationMessage.setText(message);
         }
-        AVLoadingIndicatorView loading = (AVLoadingIndicatorView) layout.findViewById(R.id.waitting_animation);
+        AVLoadingIndicatorView loading =  layout.findViewById(R.id.waitting_animation);
         loading.setIndicatorColor(GetAppColor.getInstance().getAppColor());
         return new IyubaDialog(context, layout, false);
     }

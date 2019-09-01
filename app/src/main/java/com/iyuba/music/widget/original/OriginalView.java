@@ -30,7 +30,7 @@ public class OriginalView extends ScrollView implements
         super(context);
         this.context = context;
         showChinese = true;
-        textSize = RuntimeManager.sp2px(14);
+        textSize = RuntimeManager.getInstance().sp2px(14);
         init();
     }
 
@@ -40,11 +40,11 @@ public class OriginalView extends ScrollView implements
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
-            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.getInstance().sp2px(14));
             a.recycle();
         } else {
             showChinese = true;
-            textSize = RuntimeManager.sp2px(14);
+            textSize = RuntimeManager.getInstance().sp2px(14);
         }
         init();
     }
@@ -55,11 +55,11 @@ public class OriginalView extends ScrollView implements
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.originalsynview);
             showChinese = a.getBoolean(R.styleable.originalsynview_ori_showchinese, true);
-            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.sp2px(14));
+            textSize = a.getDimensionPixelSize(R.styleable.originalsynview_ori_textsize, RuntimeManager.getInstance().sp2px(14));
             a.recycle();
         } else {
             showChinese = true;
-            textSize = RuntimeManager.sp2px(14);
+            textSize = RuntimeManager.getInstance().sp2px(14);
         }
         init();
     }
@@ -78,7 +78,7 @@ public class OriginalView extends ScrollView implements
         for (int i = 0; i < size; i++) {
             tp = new TextPage(context);
             tp.setTextColor(context.getResources().getColor(R.color.text_color));
-            tp.setTextSize(RuntimeManager.px2sp(textSize));
+            tp.setTextSize(RuntimeManager.getInstance().px2sp(textSize));
             if (isShowChinese()) {
                 tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
             } else {
@@ -121,7 +121,7 @@ public class OriginalView extends ScrollView implements
     }
 
     public void setTextSize(int textSize) {
-        this.textSize = RuntimeManager.sp2px(textSize);
+        this.textSize = RuntimeManager.getInstance().sp2px(textSize);
     }
 
     public void setTextSelectCallBack(TextSelectCallBack textSelectCallBack) {

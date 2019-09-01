@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class RecommendRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<RecommendFriend>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -36,7 +36,7 @@ public class RecommendRequest {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         String resultCode = jsonObject.getString("result");
-                        BaseListEntity baseListEntity = new BaseListEntity();
+                        BaseListEntity<ArrayList<RecommendFriend>> baseListEntity = new BaseListEntity<>();
                         if ("591".equals(resultCode)) {
                             Type listType = new TypeToken<ArrayList<RecommendFriend>>() {
                             }.getType();
@@ -49,9 +49,11 @@ public class RecommendRequest {
                             baseListEntity.setIsLastPage(true);
                             baseListEntity.setState(BaseListEntity.SUCCESS);
                             response.response(baseListEntity);
+                        } else {
+                            response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                         }
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -62,7 +64,7 @@ public class RecommendRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

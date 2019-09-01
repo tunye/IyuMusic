@@ -208,7 +208,7 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse() {
+        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(R.string.about_update_fail);
@@ -220,8 +220,7 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> apiEntity) {
                 if (BaseApiEntity.isFail(apiEntity)) {
                     appNewImg.setVisibility(View.INVISIBLE);
                     if (fromUser) {

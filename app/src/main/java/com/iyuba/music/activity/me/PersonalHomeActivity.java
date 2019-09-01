@@ -380,7 +380,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     private void cancelAttention() {
-        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse() {
+        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
 
@@ -392,8 +392,8 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
             }
 
             @Override
-            public void response(Object object) {
-                if (object.toString().equals("510")) {
+            public void response(String result) {
+                if (result.equals("510")) {
                     attent.setText(R.string.person_attention);
                     CustomToast.getInstance().showToast(R.string.person_attention_cancel_success);
                 } else {

@@ -15,7 +15,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.util.ArrayList;
 

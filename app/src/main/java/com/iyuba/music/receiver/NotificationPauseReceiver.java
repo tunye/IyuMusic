@@ -31,7 +31,7 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
         Article curArticle = StudyManager.getInstance().getCurArticle();
         if (curArticle == null)
             return;
-        final PlayerService playerService = RuntimeManager.getApplication().getPlayerService();
+        final PlayerService playerService = RuntimeManager.getInstance().getApplication().getPlayerService();
         playerService.startPlay(curArticle, false);
         playerService.setCurArticleId(curArticle.getId());
         StandardPlayer player = playerService.getPlayer();
@@ -45,21 +45,21 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
+        if (RuntimeManager.getInstance().getApplication().getPlayerService().getCurArticleId() == 0 && !StudyManager.getInstance().getApp().equals("101")) {
             NotificationPauseReceiver.playNewSong();
             Intent i;
-            if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+            if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
                 i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "change");
                 context.sendBroadcast(i);
             }
             NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
-        } else if (RuntimeManager.getApplication().getPlayerService().getCurArticleId() == 0 && StudyManager.getInstance().getApp().equals("101")) {
+        } else if (RuntimeManager.getInstance().getApplication().getPlayerService().getCurArticleId() == 0 && StudyManager.getInstance().getApp().equals("101")) {
             Intent i = new Intent("com.iyuba.music.localmusic");
             i.putExtra("message", "randomPlay");
             context.sendBroadcast(i);
         } else {
-            StandardPlayer player = RuntimeManager.getApplication().getPlayerService().getPlayer();
+            StandardPlayer player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
             if (player.isPlaying()) {
                 player.pause();
                 NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PAUSE_FLAG);
@@ -68,15 +68,15 @@ public class NotificationPauseReceiver extends BroadcastReceiver {
                 NotificationUtil.getInstance().updatePlayStateNotification(NotificationUtil.PLAY_FLAG);
             }
             Intent i;
-            if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+            if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
                 i = new Intent("com.iyuba.music.main");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);
-            } else if (RuntimeManager.getApplication().isAppointForeground("LocalMusicActivity")) {
+            } else if (RuntimeManager.getInstance().getApplication().isAppointForeground("LocalMusicActivity")) {
                 i = new Intent("com.iyuba.music.localmusic");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);
-            } else if (RuntimeManager.getApplication().isAppointForeground("StudyActivity")) {
+            } else if (RuntimeManager.getInstance().getApplication().isAppointForeground("StudyActivity")) {
                 i = new Intent("com.iyuba.music.study");
                 i.putExtra("message", "pause");
                 context.sendBroadcast(i);

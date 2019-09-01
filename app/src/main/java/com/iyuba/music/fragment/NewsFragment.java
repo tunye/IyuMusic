@@ -184,7 +184,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
             if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
-                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse() {
+                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse<BaseListEntity<ArrayList<BannerEntity>>>() {
                     @Override
                     public void onNetError(String msg) {
                         loadLocalBannerData();
@@ -196,9 +196,9 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(BaseListEntity<ArrayList<BannerEntity>> result) {
                         StudyManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
-                        ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
+                        ArrayList<BannerEntity> bannerEntities = result.getData();
                         ConfigManager.getInstance().putString("newsbanner", new Gson().toJson(bannerEntities));
                         newsAdapter.setAdSet(bannerEntities);
                     }
@@ -238,7 +238,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     }
 
     private void loadNetData(final int maxid, final int refreshType) {
-        NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse() {
+        NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
@@ -270,9 +270,8 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
+                ArrayList<Article> netData =listEntity.getData();
                 switch (refreshType) {
                     case MySwipeRefreshLayout.TOP_REFRESH:
                         newsList = netData;

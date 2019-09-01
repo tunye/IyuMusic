@@ -61,7 +61,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.welcome);
         context = this;
         normalStart = getIntent().getBooleanExtra(NORMAL_START, true);
-        if (RuntimeManager.getApplication().getPlayerService() != null && RuntimeManager.getApplication().getPlayerService().isPlaying()) {
+        if (RuntimeManager.getInstance().getApplication().getPlayerService() != null && RuntimeManager.getInstance().getApplication().getPlayerService().isPlaying()) {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         } else {
@@ -130,7 +130,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(adUrl)) {
             handler.sendEmptyMessage(2);
         }
-        AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse() {
+        AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse<AdEntity>() {
             @Override
             public void onNetError(String msg) {
                 header.setImageResource(R.drawable.default_header);
@@ -142,8 +142,8 @@ public class WelcomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void response(Object object) {
-                adUrl = new Gson().toJson(object);
+            public void response(AdEntity result) {
+                adUrl = new Gson().toJson(result);
                 handler.sendEmptyMessage(2);
                 ConfigManager.getInstance().setADUrl(adUrl);
             }
@@ -228,7 +228,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkAvailable() {
-        Context context = RuntimeManager.getApplication();
+        Context context = RuntimeManager.getInstance().getApplication();
         // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {

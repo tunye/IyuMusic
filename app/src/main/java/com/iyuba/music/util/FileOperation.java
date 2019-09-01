@@ -19,7 +19,7 @@ public class FileOperation {
     public static String readRawFile(int rawid, String encode) {
         String res = "";
         try { //得到资源中的Raw数据流
-            InputStream in = RuntimeManager.getContext().getResources().openRawResource(rawid);
+            InputStream in = RuntimeManager.getInstance().getContext().getResources().openRawResource(rawid);
             //得到数据的大小
             int length = in.available();
             byte[] buffer = new byte[length];
@@ -39,7 +39,7 @@ public class FileOperation {
         String res = "";
         try {
             //得到资源中的asset数据流
-            InputStream in = RuntimeManager.getContext().getResources().getAssets().open(fileName);
+            InputStream in = RuntimeManager.getInstance().getContext().getResources().getAssets().open(fileName);
             int length = in.available();
             byte[] buffer = new byte[length];
             in.read(buffer);
@@ -54,7 +54,7 @@ public class FileOperation {
     //写数据
     public static void writeDataFile(String fileName, String writestr) throws IOException {
         try {
-            FileOutputStream fout = RuntimeManager.getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream fout = RuntimeManager.getInstance().getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             byte[] bytes = writestr.getBytes();
             fout.write(bytes);
             fout.close();
@@ -67,7 +67,7 @@ public class FileOperation {
     public static String readDataFile(String fileName, String encode) throws IOException {
         String res = "";
         try {
-            FileInputStream fin = RuntimeManager.getContext().openFileInput(fileName);
+            FileInputStream fin = RuntimeManager.getInstance().getContext().openFileInput(fileName);
             int length = fin.available();
             byte[] buffer = new byte[length];
             fin.read(buffer);

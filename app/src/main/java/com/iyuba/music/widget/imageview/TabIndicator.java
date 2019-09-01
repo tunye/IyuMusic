@@ -342,7 +342,7 @@ public class TabIndicator extends LinearLayout {
      */
     private void initLine() {
         path = new Path();
-        shapeHeight = RuntimeManager.dip2px(2);
+        shapeHeight = RuntimeManager.getInstance().dip2px(2);
         path.moveTo(0, 0);
         path.lineTo(shapeWidth, 0);
         path.lineTo(shapeWidth, -shapeHeight);
@@ -410,7 +410,7 @@ public class TabIndicator extends LinearLayout {
      * @return
      */
     public int getScreenWidth() {
-        return RuntimeManager.getWindowWidth();
+        return RuntimeManager.getInstance().getWindowWidth();
     }
 
     @IntDef({LINE, TRIANGLE})

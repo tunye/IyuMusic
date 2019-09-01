@@ -23,7 +23,7 @@ public class MyPalette {
     private int vibrantColor;//鲜艳色
 
     public void getByResource(int drawableID, final IOperationFinish operationFinish) {
-        Bitmap bm = BitmapFactory.decodeResource(RuntimeManager.getContext().getResources(), drawableID);
+        Bitmap bm = BitmapFactory.decodeResource(RuntimeManager.getInstance().getContext().getResources(), drawableID);
         Palette.from(bm).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette generatePalette) {
@@ -35,7 +35,7 @@ public class MyPalette {
     }
 
     public void getByDrawable(Drawable drawable, final IOperationFinish operationFinish) {
-        Bitmap bm = OperBitmap.drawableToBitmap(drawable);
+        Bitmap bm = BitmapUtils.drawableToBitmap(drawable);
         Palette.from(bm).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette generatePalette) {

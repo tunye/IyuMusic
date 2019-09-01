@@ -56,7 +56,7 @@ public class SearchFriendRequest {
                             response.response(baseListEntity);
                         }
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -71,7 +71,7 @@ public class SearchFriendRequest {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

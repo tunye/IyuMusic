@@ -92,9 +92,9 @@ public class BlogActivity extends BaseActivity {
                                     is = (InputStream) new URL(source).getContent();
                                     Drawable d = Drawable.createFromStream(is, "src");
                                     float ratio = d.getIntrinsicWidth() * 1f / d.getIntrinsicHeight();
-                                    float modiHeight = (RuntimeManager.getWindowWidth() - RuntimeManager.dip2px(32)) / ratio;
-                                    d.setBounds(0, 0, RuntimeManager.getWindowWidth()
-                                            - RuntimeManager.dip2px(32), (int) modiHeight);
+                                    float modiHeight = (RuntimeManager.getInstance().getWindowWidth() - RuntimeManager.getInstance().dip2px(32)) / ratio;
+                                    d.setBounds(0, 0, RuntimeManager.getInstance().getWindowWidth()
+                                            - RuntimeManager.getInstance().dip2px(32), (int) modiHeight);
                                     is.close();
                                     return d;
                                 } catch (Exception e) {

@@ -19,20 +19,20 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class QunRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    BaseApiEntity baseApiEntity = new BaseApiEntity();
+                    BaseApiEntity<String> baseApiEntity = new BaseApiEntity<>();
                     try {
                         baseApiEntity.setData(jsonObject.getString("QQ"));
                         baseApiEntity.setValue(jsonObject.getString("key"));
                         baseApiEntity.setState(BaseApiEntity.SUCCESS);
                         response.response(baseApiEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -43,7 +43,7 @@ public class QunRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

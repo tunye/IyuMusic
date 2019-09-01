@@ -5,6 +5,9 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Created by ct on 2015/8/19.
  */
@@ -54,14 +57,14 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 if (flags) {
-                    setText(Utils.format(",##0.00").format(Double.parseDouble(valueAnimator.getAnimatedValue().toString())));
+                    setText(format(",##0.00").format(Double.parseDouble(valueAnimator.getAnimatedValue().toString())));
                     if (valueAnimator.getAnimatedValue().toString().equalsIgnoreCase(String.valueOf(number))) {
-                        setText(Utils.format(",##0.00").format(number));
+                        setText(format(",##0.00").format(number));
                     }
                 } else {
-                    setText(Utils.format("#.00").format(Double.parseDouble(valueAnimator.getAnimatedValue().toString())));
+                    setText(format("#.00").format(Double.parseDouble(valueAnimator.getAnimatedValue().toString())));
                     if (valueAnimator.getAnimatedValue().toString().equalsIgnoreCase(String.valueOf(number))) {
-                        setText(Utils.format("#.00").format(number));
+                        setText(format("#.00").format(number));
                     }
                 }
                 if (valueAnimator.getAnimatedFraction() >= 1) {
@@ -82,7 +85,7 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 if (flags) {
-                    setText(Utils.format("#,###").format(Integer.parseInt(valueAnimator.getAnimatedValue().toString())));
+                    setText(format("#,###").format(Integer.parseInt(valueAnimator.getAnimatedValue().toString())));
                 } else {
                     setText(valueAnimator.getAnimatedValue().toString());
                 }
@@ -165,5 +168,16 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
 
     public interface EndListener {
         void onEndFinish();
+    }
+
+    private static DecimalFormat dfs = null;
+
+    public static DecimalFormat format(String pattern) {
+        if (dfs == null) {
+            dfs = new DecimalFormat();
+        }
+        dfs.setRoundingMode(RoundingMode.FLOOR);
+        dfs.applyPattern(pattern);
+        return dfs;
     }
 }

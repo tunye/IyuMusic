@@ -26,13 +26,13 @@ import java.io.IOException;
  * Created by 10202 on 2015/10/8.
  */
 public class PersonalInfoRequest {
-    public static void exeRequest(String url, final UserInfo userInfo, final IProtocolResponse response) {
+    public static void exeRequest(String url, final UserInfo userInfo, final IProtocolResponse<BaseApiEntity<UserInfo>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             XMLRequest request = new XMLRequest(url, new Response.Listener<XmlPullParser>() {
                 @Override
                 public void onResponse(XmlPullParser xmlPullParser) {
                     try {
-                        BaseApiEntity apiEntity = new BaseApiEntity();
+                        BaseApiEntity<UserInfo> apiEntity = new BaseApiEntity<>();
                         String nodeName;
                         for (int eventType = xmlPullParser.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xmlPullParser.next()) {
                             switch (eventType) {
@@ -89,10 +89,10 @@ public class PersonalInfoRequest {
                         }
                     } catch (XmlPullParserException e) {
                         e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     } catch (IOException e) {
                         e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -103,7 +103,7 @@ public class PersonalInfoRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

@@ -157,9 +157,9 @@ public class MainActivity extends BaseSkinActivity {
     private void initBroadcast() {
         if (ConfigManager.getInstance().isUpgrade()) {
             if (ConfigManager.getInstance().isPush()) {
-                MiPushClient.enablePush(RuntimeManager.getContext());
+                MiPushClient.enablePush(RuntimeManager.getInstance().getContext());
             } else {
-                MiPushClient.disablePush(RuntimeManager.getContext());
+                MiPushClient.disablePush(RuntimeManager.getInstance().getContext());
             }
         }
         netWorkChange = new NetWorkChangeBroadcastReceiver(this);

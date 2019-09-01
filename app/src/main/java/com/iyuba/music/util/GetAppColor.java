@@ -17,7 +17,7 @@ public class GetAppColor {
     private List<String> flavorsDef;
 
     private GetAppColor() {
-        flavorsDef = Arrays.asList(RuntimeManager.getContext().getResources().getStringArray(R.array.flavors_def));
+        flavorsDef = Arrays.asList(RuntimeManager.getInstance().getContext().getResources().getStringArray(R.array.flavors_def));
     }
 
     public static GetAppColor getInstance() {
@@ -25,7 +25,7 @@ public class GetAppColor {
     }
 
     public static int getResource(String colorName) {
-        return RuntimeManager.getContext().getResources().getIdentifier(colorName, "color", RuntimeManager.getApplication().getPackageName());
+        return RuntimeManager.getInstance().getContext().getResources().getIdentifier(colorName, "color", RuntimeManager.getInstance().getApplication().getPackageName());
     }
 
     public int getAppTheme() {
@@ -33,7 +33,7 @@ public class GetAppColor {
         if (skin == 0) {
             return R.style.MyAppTheme;
         } else {
-            return RuntimeManager.getContext().getResources().getIdentifier("MyAppTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+            return RuntimeManager.getInstance().getContext().getResources().getIdentifier("MyAppTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getInstance().getApplication().getPackageName());
         }
     }
 
@@ -42,7 +42,7 @@ public class GetAppColor {
         if (skin == 0) {
             return R.style.MyDialogTheme;
         } else {
-            return RuntimeManager.getContext().getResources().getIdentifier("MyDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+            return RuntimeManager.getInstance().getContext().getResources().getIdentifier("MyDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getInstance().getApplication().getPackageName());
         }
     }
 
@@ -51,16 +51,16 @@ public class GetAppColor {
         if (skin == 0) {
             return R.style.MyMaterialDialogTheme;
         } else {
-            return RuntimeManager.getContext().getResources().getIdentifier("MyMaterialDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getApplication().getPackageName());
+            return RuntimeManager.getInstance().getContext().getResources().getIdentifier("MyMaterialDialogTheme_" + SkinManager.getInstance().getCurrSkin(), "style", RuntimeManager.getInstance().getApplication().getPackageName());
         }
     }
 
     public int getAppColor() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return RuntimeManager.getContext().getResources().getColor(R.color.skin_app_color);
+            return RuntimeManager.getInstance().getContext().getResources().getColor(R.color.skin_app_color);
         } else {
-            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_" + flavorsDef.get(skin)));
+            return RuntimeManager.getInstance().getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_" + flavorsDef.get(skin)));
         }
     }
 
@@ -76,9 +76,9 @@ public class GetAppColor {
     public int getAppColorLight() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return RuntimeManager.getContext().getResources().getColor(R.color.skin_app_color_light);
+            return RuntimeManager.getInstance().getContext().getResources().getColor(R.color.skin_app_color_light);
         } else {
-            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_light_" + flavorsDef.get(skin)));
+            return RuntimeManager.getInstance().getContext().getResources().getColor(GetAppColor.getResource("skin_app_color_light_" + flavorsDef.get(skin)));
         }
     }
 
@@ -94,9 +94,9 @@ public class GetAppColor {
     public int getAppColorAccent() {
         int skin = getSkinFlg(SkinManager.getInstance().getCurrSkin());
         if (skin == 0) {
-            return RuntimeManager.getContext().getResources().getColor(R.color.skin_color_accent);
+            return RuntimeManager.getInstance().getContext().getResources().getColor(R.color.skin_color_accent);
         } else {
-            return RuntimeManager.getContext().getResources().getColor(GetAppColor.getResource("skin_color_accent_" + flavorsDef.get(skin)));
+            return RuntimeManager.getInstance().getContext().getResources().getColor(GetAppColor.getResource("skin_color_accent_" + flavorsDef.get(skin)));
         }
     }
 

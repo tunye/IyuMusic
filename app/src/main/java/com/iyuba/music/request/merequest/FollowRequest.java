@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class FollowRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<Follows>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -37,7 +37,7 @@ public class FollowRequest {
                     try {
                         String resultCode = jsonObject.getString("result");
                         if ("550".equals(resultCode)) {
-                            BaseListEntity baseListEntity = new BaseListEntity();
+                            BaseListEntity<ArrayList<Follows>> baseListEntity = new BaseListEntity<>();
                             Type listType = new TypeToken<ArrayList<Follows>>() {
                             }.getType();
                             ArrayList<Follows> list = new Gson().fromJson(jsonObject.getString("data"), listType);
@@ -54,9 +54,11 @@ public class FollowRequest {
                                 baseListEntity.setData(list);
                             }
                             response.response(baseListEntity);
+                        } else {
+                            response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                         }
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -67,7 +69,7 @@ public class FollowRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

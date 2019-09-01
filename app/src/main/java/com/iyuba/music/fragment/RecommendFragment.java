@@ -108,7 +108,7 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
     }
 
     private void getFriendData() {
-        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse() {
+        RecommendRequest.exeRequest(RecommendRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<RecommendFriend>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -122,12 +122,11 @@ public class RecommendFragment extends BaseRecyclerViewFragment implements MySwi
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
+            public void response(BaseListEntity<ArrayList<RecommendFriend>> listEntity) {
                 if (BaseListEntity.isSuccess(listEntity)) {
                     isLastPage = listEntity.isLastPage();
                     if (!isLastPage) {
-                        recommendsArrayList.addAll((ArrayList<RecommendFriend>) listEntity.getData());
+                        recommendsArrayList.addAll(listEntity.getData());
                         friendAdapter.setFriendList(recommendsArrayList);
                     } else {
                         CustomToast.getInstance().showToast(R.string.friend_load_all);

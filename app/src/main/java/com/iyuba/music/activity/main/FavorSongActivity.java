@@ -177,7 +177,7 @@ public class FavorSongActivity extends BaseListActivity<Article> {
     }
 
     private void cancelFavor(final Article article) {
-        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), "del"), new IProtocolResponse() {
+        FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), "del"), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
                 if (!article.getApp().equals("209")) {
@@ -193,8 +193,8 @@ public class FavorSongActivity extends BaseListActivity<Article> {
             }
 
             @Override
-            public void response(Object object) {
-                if (object.toString().equals("del")) {
+            public void response(String result) {
+                if (result.equals("del")) {
                     localInfoOp.updateFavor(article.getId(), article.getApp(), 0);
                 }
             }

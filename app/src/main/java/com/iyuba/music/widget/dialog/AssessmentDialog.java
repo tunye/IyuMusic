@@ -37,12 +37,12 @@ public class AssessmentDialog implements View.OnClickListener {
 
     private void init() {
         View cancel = root.findViewById(R.id.assessment_close);
-        scoreView = (RiseNumberTextView) root.findViewById(R.id.assessment_score);
+        scoreView = root.findViewById(R.id.assessment_score);
         View send, listen, retry;
         send = root.findViewById(R.id.assessment_send);
         listen = root.findViewById(R.id.assessment_listen);
         retry = root.findViewById(R.id.assessment_retry);
-        scoreComment = (TextView) root.findViewById(R.id.assessment_comment);
+        scoreComment = root.findViewById(R.id.assessment_comment);
         cancel.setOnClickListener(this);
         send.setOnClickListener(this);
         retry.setOnClickListener(this);

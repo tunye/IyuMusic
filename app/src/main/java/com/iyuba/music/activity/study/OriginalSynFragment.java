@@ -65,7 +65,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
 
     private View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
-        player = RuntimeManager.getApplication().getPlayerService().getPlayer();
+        player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
         originalView = view.findViewById(R.id.original);
         originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {

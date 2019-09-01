@@ -1,16 +1,21 @@
 package com.iyuba.music.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.iyuba.music.activity.WelcomeActivity;
+import com.iyuba.music.manager.RuntimeManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Random;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 public class Utils {
     public static boolean range(int floor, int ceiling, int task) {
@@ -85,5 +90,15 @@ public class Utils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @SuppressLint("MissingPermission")
+    public static String getIMEI() {
+        TelephonyManager TelephonyMgr = (TelephonyManager) RuntimeManager.getInstance().getContext().getSystemService(TELEPHONY_SERVICE);
+        try {
+            return TelephonyMgr.getDeviceId();
+        }catch (Throwable t){
+            return "";
+        }
     }
 }

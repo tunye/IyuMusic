@@ -15,7 +15,7 @@ import android.widget.Scroller;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.widget.bitmap.ReadBitmap;
+import com.iyuba.music.widget.bitmap.BitmapUtils;
 
 /**
  * Created by 10202 on 2016/7/25.
@@ -62,7 +62,7 @@ public class PullDoorView extends RelativeLayout {
         mImgView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
         mImgView.setScaleType(ImageView.ScaleType.FIT_XY);// 填充整个屏幕
-        mImgView.setImageBitmap(ReadBitmap.readBitmap(getContext(), R.raw.help5)); // 默认背景
+        mImgView.setImageBitmap(BitmapUtils.readBitmap(getContext(), R.raw.help5)); // 默认背景
         addView(mImgView);
     }
 
@@ -94,7 +94,7 @@ public class PullDoorView extends RelativeLayout {
                 if (mDelY < 0 && enable) {
                     scrollTo(0, -mDelY);
                 }
-                if (Math.abs(mDelY) > RuntimeManager.getWindowHeight() / 8) {        // 到达一定高度
+                if (Math.abs(mDelY) > RuntimeManager.getInstance().getWindowHeight() / 8) {        // 到达一定高度
                     if (iOperationResultInt != null) {
                         iOperationResultInt.performance(0);
                     }
@@ -103,9 +103,9 @@ public class PullDoorView extends RelativeLayout {
             case MotionEvent.ACTION_UP:
                 mDelY = (int) event.getY() - mLastDownY;
                 if (mDelY < 0 && enable) {
-                    if (Math.abs(mDelY) > RuntimeManager.getWindowHeight() / 2) {
+                    if (Math.abs(mDelY) > RuntimeManager.getInstance().getWindowHeight() / 2) {
                         // 向上滑动超过半个屏幕高的时候 开启向上消失动画
-                        startBounceAnim(this.getScrollY(), RuntimeManager.getWindowHeight(), 450);
+                        startBounceAnim(this.getScrollY(), RuntimeManager.getInstance().getWindowHeight(), 450);
                         if (iOperationResultInt != null) {
                             iOperationResultInt.performance(1);
                         }

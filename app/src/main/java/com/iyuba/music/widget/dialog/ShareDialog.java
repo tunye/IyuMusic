@@ -90,7 +90,7 @@ public class ShareDialog {
     }
 
     private void init() {
-        GridView moreGrid = (GridView) root.findViewById(R.id.study_menu);
+        GridView moreGrid = root.findViewById(R.id.study_menu);
         moreGrid.setNumColumns(3);
         ShareAdapter shareAdapter = new ShareAdapter(context);
         moreGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -168,7 +168,7 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse() {
+        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -180,8 +180,7 @@ public class ShareDialog {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity apiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> apiEntity) {
                 switch (apiEntity.getState()) {
                     case BaseApiEntity.SUCCESS:
                         CustomToast.getInstance().showToast(context.getString(R.string.article_share_success, apiEntity.getMessage(), apiEntity.getValue()));

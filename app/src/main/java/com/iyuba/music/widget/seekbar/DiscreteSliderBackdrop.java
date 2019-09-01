@@ -26,11 +26,11 @@ public class DiscreteSliderBackdrop extends FrameLayout {
     private int backdropStrokeColor = 0;
     private float backdropStrokeWidth = 0.0F;
     // The x-radius of the oval used to round the corners
-    private int xRadius = RuntimeManager.dip2px(8);
+    private int xRadius = RuntimeManager.getInstance().dip2px(8);
     // The y-radius of the oval used to round the corners
-    private int yRadius = RuntimeManager.dip2px(8);
-    private int discreteSliderBackdropLeftMargin = RuntimeManager.dip2px(32);
-    private int discreteSliderBackdropRightMargin = RuntimeManager.dip2px(32);
+    private int yRadius = RuntimeManager.getInstance().dip2px(8);
+    private int discreteSliderBackdropLeftMargin = RuntimeManager.getInstance().dip2px(32);
+    private int discreteSliderBackdropRightMargin = RuntimeManager.getInstance().dip2px(32);
     private RectF rectF = new RectF();
     // endregion
 
@@ -81,9 +81,9 @@ public class DiscreteSliderBackdrop extends FrameLayout {
             canvas.drawCircle(discreteSliderBackdropLeftMargin + (i * interval), height / 2, tickMarkRadius, strokePaint);
         }
         rectF.set(discreteSliderBackdropLeftMargin,
-                (height / 2) - ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1)),
+                (height / 2) - ((horizontalBarThickness / 2) - RuntimeManager.getInstance().dip2px(1)),
                 width - discreteSliderBackdropRightMargin,
-                (height / 2) + ((horizontalBarThickness / 2) - RuntimeManager.dip2px(1)));
+                (height / 2) + ((horizontalBarThickness / 2) - RuntimeManager.getInstance().dip2px(1)));
         canvas.drawRoundRect(rectF, xRadius, yRadius, fillPaint);
     }
 

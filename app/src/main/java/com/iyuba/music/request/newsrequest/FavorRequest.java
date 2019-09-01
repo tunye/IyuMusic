@@ -17,7 +17,7 @@ import com.iyuba.music.volley.VolleyErrorHelper;
  * Created by 10202 on 2015/10/8.
  */
 public class FavorRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<String> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyStringRequest request = new MyStringRequest(url, new Response.Listener<String>() {
                 @Override
@@ -38,7 +38,7 @@ public class FavorRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

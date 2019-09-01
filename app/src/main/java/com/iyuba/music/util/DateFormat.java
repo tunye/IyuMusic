@@ -92,7 +92,7 @@ public class DateFormat {
                 r = hour.format(time);
             } else if (Math.abs(daysMinus(time, compareTime)) == 1) {// 差一天
                 SimpleDateFormat hour = new SimpleDateFormat("HH:mm", Locale.CHINA);
-                r = RuntimeManager.getString(R.string.message_lastday) + hour.format(time);
+                r = RuntimeManager.getInstance().getString(R.string.message_lastday) + hour.format(time);
             } else {
                 SimpleDateFormat hour = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
                 r = hour.format(time);

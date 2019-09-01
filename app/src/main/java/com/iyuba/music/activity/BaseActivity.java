@@ -118,7 +118,7 @@ public abstract class BaseActivity extends BaseSkinActivity {
     }
 
     public void requestMultiPermission(@PermissionPool.PermissionCode final int[] codes, @PermissionPool.PermissionName final String[] permissions) {
-        requestMultiPermission(codes, permissions, RuntimeManager.getString(R.string.storage_permission_content));
+        requestMultiPermission(codes, permissions, RuntimeManager.getInstance().getString(R.string.storage_permission_content));
     }
 
     public void requestMultiPermission(@PermissionPool.PermissionCode final int[] codes, @PermissionPool.PermissionName final String[] permissions, String dialogContent) {

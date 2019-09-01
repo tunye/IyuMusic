@@ -22,7 +22,7 @@ public class ChangePropertyBroadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RuntimeManager.getApplication().clearActivityList();
+        RuntimeManager.getInstance().getApplication().clearActivityList();
         Intent target = new Intent();
         target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         target.putExtra(RESULT_FLAG, true);

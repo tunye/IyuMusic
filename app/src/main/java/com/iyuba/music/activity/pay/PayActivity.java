@@ -183,7 +183,7 @@ public class PayActivity extends BaseActivity {
         waitingDialog.show();
         String subject = ParameterUrl.encode(payDetail.getText().toString());
         String body = ParameterUrl.encode(payMoney.getText().toString());
-        AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse() {
+        AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse<BaseApiEntity<String>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
@@ -197,8 +197,7 @@ public class PayActivity extends BaseActivity {
             }
 
             @Override
-            public void response(Object object) {
-                BaseApiEntity baseApiEntity = (BaseApiEntity) object;
+            public void response(BaseApiEntity<String> baseApiEntity) {
                 waitingDialog.dismiss();
                 if (BaseApiEntity.isSuccess(baseApiEntity)) {
                     final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()

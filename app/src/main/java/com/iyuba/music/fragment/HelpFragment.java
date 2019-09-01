@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.HelpUseActivity;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.widget.bitmap.ReadBitmap;
+import com.iyuba.music.widget.bitmap.BitmapUtils;
 import com.iyuba.music.widget.view.PullDoorView;
 
 
@@ -35,7 +35,7 @@ public class HelpFragment extends BaseFragment {
         }
         View root = inflater.inflate(R.layout.help_fragment, container, false);
         ImageView iv =  root.findViewById(R.id.iv);
-        iv.setImageBitmap(ReadBitmap.readBitmap(root.getContext(), root.getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", root.getContext().getPackageName())));
+        iv.setImageBitmap(BitmapUtils.readBitmap(root.getContext(), root.getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", root.getContext().getPackageName())));
         PullDoorView pullDoorView = root.findViewById(R.id.root);
         if (usePullDown) {
             pullDoorView.setEnable(true);

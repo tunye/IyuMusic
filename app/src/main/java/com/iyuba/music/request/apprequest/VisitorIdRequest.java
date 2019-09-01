@@ -26,7 +26,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class VisitorIdRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<String> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -41,7 +41,7 @@ public class VisitorIdRequest {
                         }
                     } catch (JSONException e) {
                         if (response != null) {
-                            response.onServerError(RuntimeManager.getString(R.string.data_error));
+                            response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                         }
                     }
                 }
@@ -56,7 +56,7 @@ public class VisitorIdRequest {
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
             if (response != null) {
-                response.onNetError(RuntimeManager.getString(R.string.no_internet));
+                response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
             }
         }
     }
@@ -68,8 +68,8 @@ public class VisitorIdRequest {
         param.put("platform", "Android");
         param.put("format", "json");
         param.put("appid", ConstantManager.appId);
-        param.put("deviceId", RuntimeManager.newPhoneDiviceId());
-        param.put("sign", MD5.getMD5ofStr(RuntimeManager.newPhoneDiviceId() + ConstantManager.appId + "Android" +
+        param.put("deviceId", RuntimeManager.getInstance().newPhoneDiviceId());
+        param.put("sign", MD5.getMD5ofStr(RuntimeManager.getInstance().newPhoneDiviceId() + ConstantManager.appId + "Android" +
                 DateFormat.getTimeDate() + "iyubaV2"));
         return ParameterUrl.setRequestParameter(originalUrl, param);
     }

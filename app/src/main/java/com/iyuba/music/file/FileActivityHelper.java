@@ -33,7 +33,7 @@ public class FileActivityHelper {
         File[] files = f.listFiles();
         if (files == null) {
             CustomToast.getInstance().showToast(String.format(
-                    RuntimeManager.getString(R.string.file_cannotopen), path));
+                    RuntimeManager.getInstance().getString(R.string.file_cannotopen), path));
             return null;
         }
         ArrayList<FileInfo> fileList = new ArrayList<>();

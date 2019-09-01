@@ -12,6 +12,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 
 public class MyActivity extends BaseActivity {
 
@@ -39,11 +40,7 @@ public class MyActivity extends BaseActivity {
                 rope = YoYo.with(technique)
                         .duration(1200)
                         .interpolate(new AccelerateDecelerateInterpolator())
-                        .withListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-
-                            }
+                        .withListener(new SimpleAnimatorListener() {
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
@@ -53,11 +50,6 @@ public class MyActivity extends BaseActivity {
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 Toast.makeText(MyActivity.this, "canceled", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
-
                             }
                         })
                         .playOn(mTarget);

@@ -68,7 +68,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     private void registerNotificationBroadcastReceiver() {
-        Context context = RuntimeManager.getContext();
+        Context context = RuntimeManager.getInstance().getContext();
         IntentFilter ifr = new IntentFilter("iyumusic.close");
         close = new NotificationCloseReceiver();
         context.registerReceiver(close, ifr);
@@ -84,7 +84,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     private void unRegisterNotificationBroadcaster() {
-        Context context = RuntimeManager.getContext();
+        Context context = RuntimeManager.getInstance().getContext();
         context.unregisterReceiver(pause);
         context.unregisterReceiver(before);
         context.unregisterReceiver(next);
@@ -110,13 +110,13 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     public void init() {
-        player = new StandardPlayer(RuntimeManager.getContext());
+        player = new StandardPlayer(RuntimeManager.getInstance().getContext());
         curArticleId = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) RuntimeManager.getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel mChannel = new NotificationChannel(RuntimeManager.getContext().getPackageName(), RuntimeManager.getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = (NotificationManager) RuntimeManager.getInstance().getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), RuntimeManager.getInstance().getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(mChannel);
-            Notification notification = new Notification.Builder(getApplicationContext(), RuntimeManager.getContext().getPackageName()).build();
+            Notification notification = new Notification.Builder(getApplicationContext(), RuntimeManager.getInstance().getContext().getPackageName()).build();
             startForeground(1, notification);
         }
     }
@@ -136,7 +136,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
             public void onCompletion(MediaPlayer mp) {
                 if (ConfigManager.getInstance().getStudyPlayMode() != 0) {
                     next(true);
-                    if (RuntimeManager.getApplication().isAppointForeground("MainActivity")) {
+                    if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
                         Intent i = new Intent("com.iyuba.music.main");
                         i.putExtra("message", "change");
                         sendBroadcast(i);
@@ -200,7 +200,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
             String netUrl = getUrl(article);
             String playPath;
             if (netUrl.startsWith("http")) {
-                playPath = RuntimeManager.getProxy().getProxyUrl(netUrl);
+                playPath = RuntimeManager.getInstance().getProxy().getProxyUrl(netUrl);
             } else {
                 playPath = netUrl;
             }
@@ -301,17 +301,17 @@ public class PlayerService extends Service implements OnHeadSetListener {
 
     @Override
     public void onClick() {
-        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.pause"));
+        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.pause"));
     }
 
     @Override
     public void onDoubleClick() {
-        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.next"));
+        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.next"));
     }
 
     @Override
     public void onThreeClick() {
-        RuntimeManager.getContext().sendBroadcast(new Intent("iyumusic.before"));
+        RuntimeManager.getInstance().getContext().sendBroadcast(new Intent("iyumusic.before"));
     }
 
     private boolean checkNetWorkState() {

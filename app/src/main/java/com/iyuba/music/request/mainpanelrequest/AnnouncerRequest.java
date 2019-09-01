@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class AnnouncerRequest {
-    public static void exeRequest(final IProtocolResponse response) {
+    public static void exeRequest(final IProtocolResponse<BaseListEntity<ArrayList<Announcer>>> response) {
         String originalUrl = "http://apps.iyuba.cn/afterclass/getStar.jsp";
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
@@ -32,7 +32,7 @@ public class AnnouncerRequest {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        BaseListEntity baseListEntity = new BaseListEntity();
+                        BaseListEntity<ArrayList<Announcer>> baseListEntity = new BaseListEntity<>();
                         Type listType = new TypeToken<ArrayList<Announcer>>() {
                         }.getType();
                         baseListEntity.setTotalCount(jsonObject.getInt("total"));
@@ -40,7 +40,7 @@ public class AnnouncerRequest {
                         baseListEntity.setData(list);
                         response.response(baseListEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -51,7 +51,7 @@ public class AnnouncerRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 }

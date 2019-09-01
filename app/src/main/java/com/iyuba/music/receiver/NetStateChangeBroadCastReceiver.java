@@ -25,14 +25,7 @@ public class NetStateChangeBroadCastReceiver extends BroadcastReceiver {
                     @Override
                     public void onClick(View v) {
                         mMaterialDialog.dismiss();
-                        Intent intent;
-                        // 先判断当前系统版本
-                        if (android.os.Build.VERSION.SDK_INT > 10) {  // 3.0以上
-                            intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                        } else {
-                            intent = new Intent();
-                            intent.setClassName("com.android.settings", "com.android.settings.WirelessSettings");
-                        }
+                        Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                         context.startActivity(intent);
                     }
                 })

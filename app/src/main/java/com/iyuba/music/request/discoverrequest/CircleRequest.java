@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class CircleRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<Circle>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -37,7 +37,7 @@ public class CircleRequest {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         String resultCode = jsonObject.getString("result");
-                        BaseListEntity baseListEntity = new BaseListEntity();
+                        BaseListEntity<ArrayList<Circle>> baseListEntity = new BaseListEntity<>();
                         if ("391".equals(resultCode)) {
                             baseListEntity.setTotalCount(jsonObject.getInt("cnt"));
                             baseListEntity.setIsLastPage(false);
@@ -50,7 +50,7 @@ public class CircleRequest {
                         }
                         response.response(baseListEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -61,7 +61,7 @@ public class CircleRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

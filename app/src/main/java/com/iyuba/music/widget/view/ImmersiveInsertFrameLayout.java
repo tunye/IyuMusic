@@ -55,7 +55,7 @@ public class ImmersiveInsertFrameLayout extends FrameLayout {
         if (softInputModeInvisible) {
             Rect outRect = new Rect();
             window.getDecorView().getWindowVisibleDisplayFrame(outRect);
-            Utils.setMargins(this, 0, RuntimeManager.getWindowHeight() - outRect.height(), 0, 0);
+            Utils.setMargins(this, 0, RuntimeManager.getInstance().getWindowHeight() - outRect.height(), 0, 0);
         }
     }
 }

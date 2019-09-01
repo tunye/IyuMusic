@@ -27,6 +27,7 @@ import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
@@ -85,13 +86,13 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         wordSetOp = new WordSetOp();
         LayoutInflater inflater = LayoutInflater.from(context);
         root = inflater.inflate(R.layout.wordcard, this);
-        key = (TextView) root.findViewById(R.id.word_key);
-        pron = (TextView) root.findViewById(R.id.word_pron);
-        def = (JustifyTextView) root.findViewById(R.id.word_def);
-        speaker = (ImageView) root.findViewById(R.id.word_speaker);
-        add = (RoundTextView) root.findViewById(R.id.word_add);
-        close = (RoundTextView) root.findViewById(R.id.word_close);
-        loading = (AVLoadingIndicatorView) root.findViewById(R.id.word_loading);
+        key =  root.findViewById(R.id.word_key);
+        pron =  root.findViewById(R.id.word_pron);
+        def = root.findViewById(R.id.word_def);
+        speaker =  root.findViewById(R.id.word_speaker);
+        add =  root.findViewById(R.id.word_add);
+        close =  root.findViewById(R.id.word_close);
+        loading =  root.findViewById(R.id.word_loading);
         loading.setIndicatorColor(GetAppColor.getInstance().getAppColor());
         wordContent = root.findViewById(R.id.word_content);
         wordOperation = root.findViewById(R.id.word_operation);
@@ -121,7 +122,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     private void getNetWord(final String wordkey, final IOperationFinish finish) {
-        DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse() {
+        DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse<Word>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -133,8 +134,8 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             }
 
             @Override
-            public void response(Object object) {
-                word = (Word) object;
+            public void response(Word result) {
+                word = result;
                 finish.finish();
             }
         });
@@ -212,7 +213,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     }
 
     public void show() {
-        YoYo.with(Techniques.FlipInX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new Animator.AnimatorListener() {
+        YoYo.with(Techniques.FlipInX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new SimpleAnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 root.setVisibility(VISIBLE);
@@ -222,47 +223,24 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
             public void onAnimationEnd(Animator animation) {
 
             }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
         }).playOn(root);
     }
 
     public void dismiss() {
-        YoYo.with(Techniques.FlipOutX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
+        YoYo.with(Techniques.FlipOutX).interpolate(new AccelerateDecelerateInterpolator()).duration(500).withListener(new SimpleAnimatorListener() {
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 root.setVisibility(GONE);
             }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
         }).playOn(root);
     }
 
     private void synchroYun() {
         final String userid = AccountManager.getInstance().getUserId();
         DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", keyword),
-                new IProtocolResponse() {
+                new IProtocolResponse<Integer>() {
                     @Override
                     public void onNetError(String msg) {
                         CustomToast.getInstance().showToast(msg);
@@ -274,7 +252,7 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(Integer integer) {
                         personalWordOp.insertWord(keyword, userid);
                         CustomToast.getInstance().showToast(R.string.word_add);
                     }

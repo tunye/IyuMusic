@@ -58,27 +58,27 @@ public class IyubaDialog extends AppCompatDialog {
         marginDimension = 10;
     }
 
-    public IyubaDialog(Context context, View v, boolean cancle) {
+    public IyubaDialog(Context context, View v, boolean cancel) {
         super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
-        this.cancelOutSide = cancle;
+        this.cancelOutSide = cancel;
         marginDimension = 10;
     }
 
-    public IyubaDialog(Context context, View v, boolean cancle, int marginDimension) {
+    public IyubaDialog(Context context, View v, boolean cancel, int marginDimension) {
         super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
-        this.cancelOutSide = cancle;
+        this.cancelOutSide = cancel;
         this.marginDimension = marginDimension;
     }
 
-    public IyubaDialog(Context context, View v, boolean cancle, int marginDimension, OnDismissListener dismissListener) {
+    public IyubaDialog(Context context, View v, boolean cancel, int marginDimension, OnDismissListener dismissListener) {
         super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
-        this.cancelOutSide = cancle;
+        this.cancelOutSide = cancel;
         this.listener = dismissListener;
         this.marginDimension = marginDimension;
     }
@@ -92,7 +92,7 @@ public class IyubaDialog extends AppCompatDialog {
         }
         setContentView(R.layout.dialog);
         view = findViewById(R.id.contentDialog);
-        backView = (LinearLayout) findViewById(R.id.dialog_rootView);
+        backView = findViewById(R.id.dialog_rootView);
         if (cancelOutSide) {
             backView.setOnTouchListener(new OnTouchListener() {
 
@@ -112,7 +112,7 @@ public class IyubaDialog extends AppCompatDialog {
         backView.addView(contentView, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         view = contentView;
-        backView.setPadding(RuntimeManager.dip2px(marginDimension), RuntimeManager.dip2px(marginDimension), RuntimeManager.dip2px(marginDimension), RuntimeManager.dip2px(marginDimension));
+        backView.setPadding(RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension));
         if (listener != null) {
             this.setOnDismissListener(listener);
         }

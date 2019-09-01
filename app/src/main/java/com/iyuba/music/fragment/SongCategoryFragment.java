@@ -106,7 +106,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
             if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
-                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse() {
+                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse<BaseListEntity<ArrayList<BannerEntity>>>() {
                     @Override
                     public void onNetError(String msg) {
                         loadLocalBannerData();
@@ -118,9 +118,9 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(BaseListEntity<ArrayList<BannerEntity>> result) {
                         StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
-                        ArrayList<BannerEntity> bannerEntities = (ArrayList<BannerEntity>) ((BaseListEntity) object).getData();
+                        ArrayList<BannerEntity> bannerEntities = result.getData();
                         BannerEntity bannerEntity = new BannerEntity();
                         bannerEntity.setOwnerid("2");
                         bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
@@ -134,7 +134,7 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                 loadLocalBannerData();
             }
         }
-        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse() {
+        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse<BaseListEntity<ArrayList<SongCategory>>>() {
             @Override
             public void onNetError(String msg) {
                 CustomToast.getInstance().showToast(msg);
@@ -148,9 +148,8 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
             }
 
             @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<SongCategory> netData = (ArrayList<SongCategory>) listEntity.getData();
+            public void response(BaseListEntity<ArrayList<SongCategory>> listEntity) {
+                ArrayList<SongCategory> netData =  listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 switch (refreshType) {
                     case MySwipeRefreshLayout.TOP_REFRESH:

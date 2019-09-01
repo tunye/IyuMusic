@@ -27,13 +27,13 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/9/30.
  */
 public class NewsListRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<BaseListEntity<ArrayList<Article>>> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    BaseListEntity baseListEntity = new BaseListEntity();
+                    BaseListEntity<ArrayList<Article>> baseListEntity = new BaseListEntity<>();
                     Type listType = new TypeToken<ArrayList<Article>>() {
                     }.getType();
                     try {
@@ -42,7 +42,7 @@ public class NewsListRequest {
                         baseListEntity.setData(list);
                         response.response(baseListEntity);
                     } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -53,7 +53,7 @@ public class NewsListRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

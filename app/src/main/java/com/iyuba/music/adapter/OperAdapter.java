@@ -91,7 +91,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 onItemClicked(v.getContext(), holder.getAdapterPosition());
             }
         });
-        holder.menuText.setText(RuntimeManager.getString(menuTextList.get(position)));
+        holder.menuText.setText(RuntimeManager.getInstance().getString(menuTextList.get(position)));
         holder.menuIcon.setImageResource(menuIconList.get(position));
         if (holder.getAdapterPosition() == 0) {
             holder.menuResult.setVisibility(View.VISIBLE);
@@ -112,22 +112,22 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 holder.menuText.setText(state);
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_night))) {
+        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_night))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_sleep))) {
+        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            int sleepSecond = RuntimeManager.getApplication().getSleepSecond();
+            int sleepSecond = RuntimeManager.getInstance().getApplication().getSleepSecond();
             if (sleepSecond == 0) {
                 holder.menuResult.setText(R.string.sleep_no_set);
             } else {
                 holder.menuResult.setText(DateFormat.formatTime(sleepSecond));
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getString(R.string.oper_skin))) {
+        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_skin))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(getSkin(holder.menuResult.getContext(), SkinManager.getInstance().getCurrSkin()));

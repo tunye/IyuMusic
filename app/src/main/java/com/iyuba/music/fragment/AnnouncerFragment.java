@@ -70,7 +70,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
     }
 
     private void getData() {
-        AnnouncerRequest.exeRequest(new IProtocolResponse() {
+        AnnouncerRequest.exeRequest(new IProtocolResponse<BaseListEntity<ArrayList<Announcer>>>() {
             @Override
             public void onNetError(String msg) {
 
@@ -82,9 +82,9 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
             }
 
             @Override
-            public void response(Object object) {
+            public void response(BaseListEntity<ArrayList<Announcer>> result) {
                 StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
-                announcerList = (ArrayList<Announcer>) ((BaseListEntity) object).getData();
+                announcerList = result.getData();
                 announcerOp.saveData(announcerList);
                 anouncerAdapter.setAnnouncerList(announcerList);
             }

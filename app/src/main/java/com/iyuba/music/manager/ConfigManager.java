@@ -46,7 +46,7 @@ public class ConfigManager {
     private String lastADUrl, photoTimestamp;
 
     private ConfigManager() {
-        preferences = RuntimeManager.getContext().getSharedPreferences(CONFIG_NAME, Activity.MODE_PRIVATE);
+        preferences = RuntimeManager.getInstance().getContext().getSharedPreferences(CONFIG_NAME, Activity.MODE_PRIVATE);
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {

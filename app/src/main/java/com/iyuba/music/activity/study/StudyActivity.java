@@ -452,7 +452,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void getAdContent(final IOperationResult iOperationResult) {
-        StudyAdRequest.exeRequest(StudyAdRequest.generateUrl(), new IProtocolResponse() {
+        StudyAdRequest.exeRequest(StudyAdRequest.generateUrl(), new IProtocolResponse<AdEntity>() {
             @Override
             public void onNetError(String msg) {
                 initYouDaoAd();
@@ -464,8 +464,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void response(Object object) {
-                iOperationResult.success(object);
+            public void response(AdEntity adEntity) {
+                iOperationResult.success(adEntity);
             }
         });
     }
@@ -819,7 +819,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void getCommentCount() {
-        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId()), new IProtocolResponse() {
+        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId()), new IProtocolResponse<String>() {
             @Override
             public void onNetError(String msg) {
                 comment.setText("0");
@@ -831,11 +831,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void response(Object object) {
-                if (TextUtils.isEmpty(object.toString())) {
+            public void response(String result) {
+                if (TextUtils.isEmpty(result)) {
                     comment.setText("0");
                 } else {
-                    comment.setText(object.toString());
+                    comment.setText(result);
                 }
             }
         });

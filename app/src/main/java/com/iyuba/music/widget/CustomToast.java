@@ -26,11 +26,11 @@ public class CustomToast {
     }
 
     public void showToast(int resId, int duration) {
-        showToast(RuntimeManager.getString(resId), duration);
+        showToast(RuntimeManager.getInstance().getString(resId), duration);
     }
 
     public void showToast(int resId) {
-        showToast(RuntimeManager.getString(resId), LENGTH_SHORT);
+        showToast(RuntimeManager.getInstance().getString(resId), LENGTH_SHORT);
     }
 
     public void showToast(String text, int duration) {
@@ -38,7 +38,7 @@ public class CustomToast {
             mToast.setText(text);
             mToast.setDuration(duration);
         } else {
-            mToast = Toast.makeText(RuntimeManager.getContext(), text, duration);
+            mToast = Toast.makeText(RuntimeManager.getInstance().getContext(), text, duration);
         }
         mToast.show();
     }

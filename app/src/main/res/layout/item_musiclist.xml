@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
 
-        <com.iyuba.music.widget.view.CircleImageView
+        <com.iyuba.music.widget.imageview.CircleImageView
             android:id="@+id/article_image"
             android:layout_width="60dp"
             android:layout_height="60dp"

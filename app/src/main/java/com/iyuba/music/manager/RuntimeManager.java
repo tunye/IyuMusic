@@ -2,10 +2,12 @@ package com.iyuba.music.manager;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.buaa.ct.videocache.HttpProxyCacheServer;
 import com.iyuba.music.MusicApplication;
+import com.iyuba.music.util.Utils;
 
 public class RuntimeManager {
     private MusicApplication application;
@@ -20,62 +22,66 @@ public class RuntimeManager {
         return InstanceHelper.instance;
     }
 
-    public static void initRuntimeManager(MusicApplication application) {
-        InstanceHelper.instance.application = application;
-        InstanceHelper.instance.context = application.getApplicationContext();
-        InstanceHelper.instance.displayMetrics = application.getResources().getDisplayMetrics();
+    public void initRuntimeManager(MusicApplication application) {
+        this.application = application;
+        context = application.getApplicationContext();
+        displayMetrics = application.getResources().getDisplayMetrics();
     }
 
-    public static MusicApplication getApplication() {
-        return InstanceHelper.instance.application;
+    public MusicApplication getApplication() {
+        return application;
     }
 
-    public static Context getContext() {
-        return InstanceHelper.instance.context;
+    public Context getContext() {
+        return context;
     }
 
-    public static String getString(int resourcesID) {
+    public String getString(int resourcesID) {
         return getContext().getString(resourcesID);
     }
 
-    public static HttpProxyCacheServer getProxy() {
-        return InstanceHelper.instance.application.getProxy();
+    public HttpProxyCacheServer getProxy() {
+        return application.getProxy();
     }
 
-    public static DisplayMetrics getDisplayMetrics() {
-        return InstanceHelper.instance.displayMetrics;
+    public DisplayMetrics getDisplayMetrics() {
+        return displayMetrics;
     }
 
-    public static int getWindowWidth() {
+    public int getWindowWidth() {
         return getDisplayMetrics().widthPixels;
     }
 
-    public static int getWindowHeight() {
+    public int getWindowHeight() {
         return getDisplayMetrics().heightPixels;
     }
 
-    public static int dip2px(float dpValue) {
+    public int dip2px(float dpValue) {
         float scale = getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5F);
     }
 
-    public static int px2dip(float pxValue) {
+    public int px2dip(float pxValue) {
         float scale = getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5F);
     }
 
-    public static int px2sp(float pxValue) {
+    public int px2sp(float pxValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5F);
     }
 
-    public static int sp2px(float spValue) {
+    public int sp2px(float spValue) {
         float fontScale = getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5F);
     }
 
-    public static String newPhoneDiviceId() {
-        return Build.SERIAL;
+    public String newPhoneDiviceId() {
+        String uuid = Build.SERIAL;
+        if (TextUtils.isEmpty(uuid)) {
+            return Utils.getIMEI();
+        }
+        return uuid;
     }
 
     public boolean isShowSignInToast() {

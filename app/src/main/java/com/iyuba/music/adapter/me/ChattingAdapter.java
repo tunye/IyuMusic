@@ -17,7 +17,7 @@ import com.iyuba.music.entity.message.MessageLetterContent;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

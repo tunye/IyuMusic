@@ -19,7 +19,7 @@ public class MyJsonRequest extends JsonObjectRequest {
 //    public Map<String, String> getHeaders() throws AuthFailureError {
 //        // self-defined user agent
 //        Map<String, String> headerMap = new HashMap<>();
-//        headerMap.put("user-agent", RuntimeManager.getApplication().getPackageName());
+//        headerMap.put("user-agent", RuntimeManager.getInstance().getApplication().getPackageName());
 //        return headerMap;
 //    }
 }

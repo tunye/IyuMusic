@@ -24,7 +24,7 @@ public class CustomDialog {
         if (useVisitorMode) {
             if (AccountManager.getInstance().needGetVisitorID()) {
                 CustomToast.getInstance().showToast("正在请求用户信息，请稍等片刻~", CustomToast.LENGTH_LONG);
-                VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse() {
+                VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse<String>() {
                     @Override
                     public void onNetError(String msg) {
                         showLogin(context, finish);
@@ -36,7 +36,7 @@ public class CustomDialog {
                     }
 
                     @Override
-                    public void response(Object object) {
+                    public void response(String object) {
                         finish.finish();
                     }
                 });

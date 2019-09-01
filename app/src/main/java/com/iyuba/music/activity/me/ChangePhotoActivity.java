@@ -32,7 +32,7 @@ import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.io.File;
 import java.util.ArrayList;

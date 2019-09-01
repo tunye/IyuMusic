@@ -21,7 +21,7 @@ import org.json.JSONObject;
  * Created by 10202 on 2015/9/30.
  */
 public class CancelAttentionRequest {
-    public static void exeRequest(String url, final IProtocolResponse response) {
+    public static void exeRequest(String url, final IProtocolResponse<String> response) {
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
             MyJsonRequest request = new MyJsonRequest(
                     url, null, new Response.Listener<JSONObject>() {
@@ -32,7 +32,7 @@ public class CancelAttentionRequest {
                         response.response(jsonObject.getString("result"));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -43,7 +43,7 @@ public class CancelAttentionRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

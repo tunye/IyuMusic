@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,7 +40,7 @@ import java.util.concurrent.TimeUnit;
  * Created by 102 on 2016/10/11.
  */
 
-public class BannerView extends RelativeLayout {
+public class BannerView extends FrameLayout {
     public static final int LEFT = 0x01;
     public static final int CENTER = 0x02;
     public static final int RIGHT = 0x03;

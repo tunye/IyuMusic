@@ -32,7 +32,7 @@ public class GradeRequest {
                         response.response(jsonObject.getString("positionByTime") + "@@@" + jsonObject.getString("totalTime"));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        response.onServerError(RuntimeManager.getString(R.string.data_error));
+                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
                     }
                 }
             }, new Response.ErrorListener() {
@@ -43,7 +43,7 @@ public class GradeRequest {
             });
             MyVolley.getInstance().addToRequestQueue(request);
         } else {
-            response.onNetError(RuntimeManager.getString(R.string.no_internet));
+            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
         }
     }
 

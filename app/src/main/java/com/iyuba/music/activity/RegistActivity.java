@@ -37,7 +37,7 @@ import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.view.AddRippleEffect;
-import com.iyuba.music.widget.view.CircleImageView;
+import com.iyuba.music.widget.imageview.CircleImageView;
 import com.mob.MobSDK;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -148,7 +148,7 @@ public class RegistActivity extends BaseActivity {
                     if (imm != null) {
                         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
                     }
-                    CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse() {
+                    CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse<Integer>() {
                         @Override
                         public void onNetError(String msg) {
                             CustomToast.getInstance().showToast(msg);
@@ -160,8 +160,7 @@ public class RegistActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void response(Object object) {
-                            int result = (int) object;
+                        public void response(Integer result) {
                             if (result == 1) {
                                 SMSSDK.getVerificationCode("86", phone.getText().toString());
                                 handler.obtainMessage(1, 60, 0).sendToTarget();
