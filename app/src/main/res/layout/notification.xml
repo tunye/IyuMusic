@@ -30,7 +30,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/row_space_big"
-        android:paddingEnd="@dimen/row_space_big">
+        android:paddingEnd="@dimen/row_space_very_large">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -88,8 +88,8 @@
 
     <ImageView
         android:id="@+id/notify_close"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_gravity="end"
         android:padding="@dimen/row_space_default"
         android:src="@drawable/ic_action_close_common" />

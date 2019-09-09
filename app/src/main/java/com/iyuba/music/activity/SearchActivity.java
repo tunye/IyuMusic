@@ -220,16 +220,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-            if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-                Rect outRect = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
-                Utils.setMargins(searchBarLayout, 0, RuntimeManager.getInstance().getWindowHeight() - outRect.height(), 0, 0);
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);

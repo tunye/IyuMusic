@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
@@ -18,50 +18,44 @@
         <LinearLayout
             android:id="@+id/recommend_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <com.iyuba.music.widget.imageview.RoundImageView xmlns:ri="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/recommend_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:src="@mipmap/ic_launcher2"
                 ri:border_inside_color="@color/skin_app_color"
                 ri:border_thickness="@dimen/line_default" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/recommend_title"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/row_space_large"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:hint="@string/study_recommend_title_hint"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                app:met_baseColor="@color/text_gray_color"
+                app:met_clearButton="true"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@color/skin_app_color" />
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/recommend_title"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/study_recommend_title_hint"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    app:met_baseColor="@color/text_gray_color"
-                    app:met_clearButton="true"
-                    app:met_floatingLabel="highlight"
-                    app:met_primaryColor="@color/skin_app_color" />
-
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/recommend_singer"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/row_space_default"
-                    android:hint="@string/study_recommend_singer_hint"
-                    android:imeOptions="actionSend"
-                    android:maxLines="1"
-                    app:met_baseColor="@color/text_gray_color"
-                    app:met_clearButton="true"
-                    app:met_floatingLabel="highlight"
-                    app:met_primaryColor="@color/skin_app_color" />
-            </LinearLayout>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/recommend_singer"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_space_default"
+                android:hint="@string/study_recommend_singer_hint"
+                android:imeOptions="actionSend"
+                android:maxLines="1"
+                app:met_baseColor="@color/text_gray_color"
+                app:met_clearButton="true"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@color/skin_app_color" />
         </LinearLayout>
     </LinearLayout>
 </com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>

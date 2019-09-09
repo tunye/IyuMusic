@@ -18,11 +18,6 @@ import android.view.View;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.RuntimeManager;
 
-/**
- * @author wangjun
- * @version 1.0
- * @date 2016/8/25
- */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     public static final int TYPE_WITH_BORDER = 1;
     public static final int TYPE_WITHOUT_BORDER = 0;

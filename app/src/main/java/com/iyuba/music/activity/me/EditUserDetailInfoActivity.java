@@ -231,25 +231,27 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {
-            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse<String>() {
-                @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    waitingDialog.dismiss();
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    waitingDialog.dismiss();
-                }
-
-                @Override
-                public void response(String result) {
-                    location.setText(result.trim());
-                    getDetaiInfo();
-                }
-            });
+            getDetaiInfo();
+            // google定位要求权限，之后再找解决方案吧
+//            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse<String>() {
+//                @Override
+//                public void onNetError(String msg) {
+//                    CustomToast.getInstance().showToast(msg);
+//                    waitingDialog.dismiss();
+//                }
+//
+//                @Override
+//                public void onServerError(String msg) {
+//                    CustomToast.getInstance().showToast(msg);
+//                    waitingDialog.dismiss();
+//                }
+//
+//                @Override
+//                public void response(String result) {
+//                    location.setText(result.trim());
+//                    getDetaiInfo();
+//                }
+//            });
         }
     }
 
