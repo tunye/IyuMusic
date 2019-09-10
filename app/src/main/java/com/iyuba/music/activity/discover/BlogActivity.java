@@ -9,16 +9,19 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.request.discoverrequest.BlogRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -35,17 +38,18 @@ public class BlogActivity extends BaseActivity {
     private int id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.blog);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         id = getIntent().getIntExtra("blogid", 0);
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.blog;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         blogContent = findViewById(R.id.blog_content);
         blogAuthor = findViewById(R.id.blog_author);
@@ -54,25 +58,15 @@ public class BlogActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         getData();
     }
 
     private void getData() {
-        BlogRequest.exeRequest(BlogRequest.generateUrl(id), new IProtocolResponse<BaseApiEntity<String>>() {
+        RequestClient.requestAsync(new BlogRequest(id), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseApiEntity<String> baseApiEntity) {
+            public void onSuccess(BaseApiEntity<String> baseApiEntity) {
                 message = baseApiEntity.getMessage();
                 blogTitle.setText(baseApiEntity.getData());
                 String temp = baseApiEntity.getValue();
@@ -105,6 +99,11 @@ public class BlogActivity extends BaseActivity {
                         handler.sendEmptyMessage(0);
                     }
                 });
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }

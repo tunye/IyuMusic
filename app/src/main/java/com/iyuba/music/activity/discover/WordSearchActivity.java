@@ -2,7 +2,6 @@ package com.iyuba.music.activity.discover;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,28 +11,27 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.buaa.ct.appskin.BaseSkinActivity;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.discover.WordSearchAdapter;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.Utils;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -44,7 +42,7 @@ public class WordSearchActivity extends BaseSkinActivity {
     protected Context context;
     protected View searchBarLayout;
     private WordSearchAdapter wordSearchAdapter;
-    private ArrayList<Word> wordArrayList;
+    private List<Word> wordArrayList;
     private MaterialEditText searchContent;
     private WordSetOp wordSetOp;
     private TextView search;
@@ -61,26 +59,27 @@ public class WordSearchActivity extends BaseSkinActivity {
         wordArrayList = new ArrayList<>();
         initWidget();
         setListener();
-        changeUIByPara();
+        onActivityCreated();
     }
 
-    protected void initWidget() {
+    public void initWidget() {
         searchBarLayout = findViewById(R.id.search_bar);
         searchContent = findViewById(R.id.search_content);
         searchContent.setImeOptions(EditorInfo.IME_ACTION_DONE);
         search = findViewById(R.id.search);
         RecyclerView wordList = findViewById(R.id.word_search_list);
         wordList.setLayoutManager(new LinearLayoutManager(this));
-        wordSearchAdapter = new WordSearchAdapter(context, wordArrayList);
+        wordSearchAdapter = new WordSearchAdapter(context);
         wordList.setAdapter(wordSearchAdapter);
         wordList.addItemDecoration(new DividerItemDecoration());
         wordList.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
     }
 
-    protected void setListener() {
-        search.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        search.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (search.getText().equals(context.getString(R.string.search_do))) {
@@ -125,20 +124,15 @@ public class WordSearchActivity extends BaseSkinActivity {
                 }
             }
         });
-        wordSearchAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        wordSearchAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 searchWord(wordArrayList.get(position).getWord());
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
     }
 
-    protected void changeUIByPara() {
+    public void onActivityCreated() {
         wordSetOp = new WordSetOp();
         search.setText(R.string.search_close);
     }

@@ -1,28 +1,28 @@
 package com.iyuba.music.entity.doings;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
 public class DoingComment {
-    @SerializedName("message")
+    @JSONField(name = "message")
     private String message;
-    @SerializedName("uid")
+    @JSONField(name = "uid")
     private String uid;// 回复人id
-    @SerializedName("id")
+    @JSONField(name = "id")
     private String id;// 回复内容id标识
-    @SerializedName("username")
+    @JSONField(name = "username")
     private String username;// 回复人
-    @SerializedName("upid")
+    @JSONField(name = "upid")
     private String upid;// 上一层回复标识(回复的id)
-    @SerializedName("grade")
+    @JSONField(name = "grade")
     private String grade;// 楼层
-    @SerializedName("dateline")
+    @JSONField(name = "dateline")
     private String dateline;// 回复发布时间，系统秒数
-    @SerializedName("ip")
+    @JSONField(name = "ip")
     private String ip;
-    @SerializedName("vip")
+    @JSONField(name = "vip")
     private int vip;
 
     public String getMessage() {

@@ -1,20 +1,22 @@
 package com.iyuba.music.adapter.study;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -27,19 +29,13 @@ import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.IOnClickListener;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.banner.BannerView;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,37 +43,24 @@ import java.util.List;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
+public class NewsAdapter extends CoreRecyclerViewAdapter<Article, CoreRecyclerViewAdapter.MyViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private ArrayList<Article> newsList;
-    private ArrayList<BannerEntity> adPicUrl;
-    private Context context;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+    private List<BannerEntity> adPicUrl;
     private LocalInfoOp localInfoOp;
 
     public NewsAdapter(Context context) {
-        this.context = context;
-        newsList = new ArrayList<>();
+        super(context);
+        baseEntityOp = new ArticleOp() ;
         adPicUrl = new ArrayList<>();
         localInfoOp = new LocalInfoOp();
     }
 
     private static void getAppointArticle(final Context context, String id) {
-        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new NewsesRequest(id), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
-                ArrayList<Article> netData = listEntity.getData();
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
+                List<Article> netData = listEntity.getData();
                 for (Article temp : netData) {
                     temp.setApp(ConstantManager.appId);
                 }
@@ -89,38 +72,22 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                 StudyManager.getInstance().setCurArticle(netData.get(0));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+            }
         });
     }
 
-    public void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickListener) {
-        onRecycleViewItemClickListener = onItemClickListener;
-    }
-
-    public void setDataSet(ArrayList<Article> newses) {
-        newsList = newses;
-        notifyDataSetChanged();
-    }
-
-    public void setAdSet(ArrayList<BannerEntity> ads) {
+    public void setAdSet(List<BannerEntity> ads) {
         adPicUrl = ads;
         notifyItemChanged(0);
     }
 
-    public void removeData(int position) {
-        newsList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void removeData(int[] position) {
-        for (int i : position) {
-            newsList.remove(i);
-            notifyItemRemoved(i);
-        }
-    }
-
     @Override
     public int getItemCount() {
-        return newsList.size() + 1;
+        return super.getItemCount() + 1;
     }
 
     @Override
@@ -135,12 +102,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     private Article getItem(int position) {
-        return newsList.get(position - 1);
+        return getDatas().get(position - 1);
     }
 
     @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CoreRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_newslist, parent, false));
         } else if (viewType == TYPE_HEADER) {
@@ -150,15 +117,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
-        final int pos = position;
+    public void onBindViewHolder(@NonNull CoreRecyclerViewAdapter.MyViewHolder holder, int position) {
+        final int pos = holder.getAdapterPosition();
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             final Article article = getItem(position);
             if (onRecycleViewItemClickListener != null) {
-                newsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                newsViewHolder.itemView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
+                        super.onClick(view);
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos - 1);
                     }
                 });
@@ -168,15 +136,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             newsViewHolder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
             newsViewHolder.time.setText(article.getTime().split(" ")[0]);
             newsViewHolder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
-            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
+            AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
-            newsViewHolder.downloadFlag.setOnClickListener(new View.OnClickListener() {
+            newsViewHolder.downloadFlag.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     if (DownloadTask.checkFileExists(article)) {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
-                    } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_GRANTED) {
+                    } else {
                         DownloadUtil.checkScore(article.getId(), new IOperationResult() {
                             @Override
                             public void success(Object object) {
@@ -194,9 +162,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
                             }
                         });
-
-                    } else {
-                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
                 }
             });
@@ -270,7 +235,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         }
     }
 
-    private static class NewsViewHolder extends RecycleViewHolder {
+    private static class NewsViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
         TextView title, singer, broadcaster, time, readCount;
         ImageView pic, downloadFlag;
         View timeBackground;
@@ -278,24 +243,24 @@ public class NewsAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
 
         NewsViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.article_title);
-            singer = (TextView) view.findViewById(R.id.article_singer);
-            broadcaster = (TextView) view.findViewById(R.id.article_announcer);
-            time = (TextView) view.findViewById(R.id.article_createtime);
-            pic = (ImageView) view.findViewById(R.id.article_image);
-            downloadFlag = (ImageView) view.findViewById(R.id.article_download);
-            readCount = (TextView) view.findViewById(R.id.article_readcount);
+            title = view.findViewById(R.id.article_title);
+            singer = view.findViewById(R.id.article_singer);
+            broadcaster = view.findViewById(R.id.article_announcer);
+            time = view.findViewById(R.id.article_createtime);
+            pic = view.findViewById(R.id.article_image);
+            downloadFlag = view.findViewById(R.id.article_download);
+            readCount = view.findViewById(R.id.article_readcount);
             timeBackground = view.findViewById(R.id.article_createtime_background);
-            download = (RoundProgressBar) view.findViewById(R.id.roundProgressBar);
+            download = view.findViewById(R.id.roundProgressBar);
         }
     }
 
-    private static class AdViewHolder extends RecycleViewHolder {
+    private static class AdViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
         BannerView bannerView;
 
         AdViewHolder(View view) {
             super(view);
-            bannerView = (BannerView) view.findViewById(R.id.banner);
+            bannerView = view.findViewById(R.id.banner);
             bannerView.setSelectItemColor(GetAppColor.getInstance().getAppColor());
         }
 

@@ -1,20 +1,20 @@
 package com.iyuba.music.entity.ad;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2016/3/9.
  */
 public class BannerEntity {
-    @SerializedName("id")
+    @JSONField(name = "id")
     private String id;
-    @SerializedName("name")
+    @JSONField(name = "name")
     private String name;
-    @SerializedName("pic")
+    @JSONField(name = "pic")
     private String picUrl;
-    @SerializedName("desc1")
+    @JSONField(name = "desc1")
     private String desc;
-    @SerializedName("ownerid")
+    @JSONField(name = "ownerid")
     private String ownerid;
 
     public String getId() {

@@ -1,28 +1,29 @@
 package com.iyuba.music.entity.comment;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
 public class Comment {
-    @SerializedName("id")
+    @JSONField(name = "id")
     private int id;
-    @SerializedName("Userid")
+    @JSONField(name = "Userid")
     private String userid;
-    @SerializedName("UserName")
+    @JSONField(name = "UserName")
     private String userName;
-    @SerializedName("agreeCount")
+    @JSONField(name = "agreeCount")
     private int agreeCount;
-    @SerializedName("againstCount")
+    @JSONField(name = "againstCount")
     private int againstCount;
-    @SerializedName("ShuoShuo")
+    @JSONField(name = "ShuoShuo")
     private String shuoshuo;
-    @SerializedName("ShuoShuoType")
+    @JSONField(name = "ShuoShuoType")
     private int shuoshuoType;
-    @SerializedName("CreateDate")
+    @JSONField(name = "CreateDate")
     private String createDate;
-    @SerializedName("vip")
+    @JSONField(name = "vip")
     private int vip;
 
     public int getId() {

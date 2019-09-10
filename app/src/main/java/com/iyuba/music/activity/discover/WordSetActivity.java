@@ -6,17 +6,18 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.iyuba.music.widget.view.SwitchButton;
 
 import java.util.Arrays;
@@ -30,17 +31,12 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     private TextView currGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.word_setting);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.word_setting;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         group = findViewById(R.id.word_set_group);
         AddRippleEffect.addRippleEffect(group, 200);
@@ -57,7 +53,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         group.setOnClickListener(this);
         showDef.setOnClickListener(this);
@@ -101,8 +97,8 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         currGroup.setText(getWordOrder(ConfigManager.getInstance().getWordOrder()));
         currAutoAudio.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isWordAutoPlay());
         currAutoAdd.setCheckedImmediatelyNoEvent(ConfigManager.getInstance().isWordAutoAdd());
@@ -162,20 +158,16 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
                 }
                 groupDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(ConfigManager.getInstance().getWordOrder());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
-        groupDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 groupDialog.dismiss();
             }
         });

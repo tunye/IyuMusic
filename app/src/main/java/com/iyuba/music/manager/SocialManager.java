@@ -3,14 +3,15 @@ package com.iyuba.music.manager;
 import com.iyuba.music.entity.doings.Doing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/17.
  */
 public class SocialManager {
-    private ArrayList<String> friendId;
-    private ArrayList<String> friendName;
-    private ArrayList<Doing> doing;
+    private List<String> friendId;
+    private List<String> friendName;
+    private List<Doing> doing;
 
     private SocialManager() {
         friendId = new ArrayList<>();

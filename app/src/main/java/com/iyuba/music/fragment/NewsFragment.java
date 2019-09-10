@@ -9,8 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.alibaba.fastjson.JSON;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.NewsAdapter;
@@ -21,15 +27,12 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.newsrequest.NewsListRequest;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.banner.BannerView;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
@@ -37,16 +40,16 @@ import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
 import com.youdao.sdk.nativeads.YouDaoNativeAdRenderer;
 import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 
 /**
  * Created by 10202 on 2015/11/6.
  */
 public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
-    private ArrayList<Article> newsList;
+    private List<Article> newsList;
     private NewsAdapter newsAdapter;
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
@@ -85,10 +88,6 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 StudyManager.getInstance().setCurArticle(newsList.get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
         if (isVipLastState) {
             initVipRecyclerView();
@@ -116,7 +115,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
         newsAdapter.setDataSet(newsList);
         View view = recyclerView.getLayoutManager().getChildAt(0);
         if (view != null) {
-            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
+            BannerView bannerView = view.findViewById(R.id.banner);
             if (bannerView != null && bannerView.hasData())
                 bannerView.startAd();
         }
@@ -184,23 +183,18 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     private void getNewsData(final int maxid, final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
             if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
-                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic"), new IProtocolResponse<BaseListEntity<ArrayList<BannerEntity>>>() {
+                RequestClient.requestAsync(new BannerPicRequest("class.iyumusic"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
                     @Override
-                    public void onNetError(String msg) {
-                        loadLocalBannerData();
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-                        loadLocalBannerData();
-                    }
-
-                    @Override
-                    public void response(BaseListEntity<ArrayList<BannerEntity>> result) {
+                    public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
                         StudyManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
-                        ArrayList<BannerEntity> bannerEntities = result.getData();
-                        ConfigManager.getInstance().putString("newsbanner", new Gson().toJson(bannerEntities));
+                        List<BannerEntity> bannerEntities = result.getData();
+                        SPUtils.putString(ConfigManager.getInstance().getPreferences(), "newsbanner", JSON.toJSONString(bannerEntities));
                         newsAdapter.setAdSet(bannerEntities);
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                        loadLocalBannerData();
                     }
                 });
             } else {
@@ -238,40 +232,10 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
     }
 
     private void loadNetData(final int maxid, final int refreshType) {
-        NewsListRequest.exeRequest(NewsListRequest.generateUrl(maxid), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new NewsListRequest(maxid), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                getDbData(maxid);
-                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setCurArticle(newsList.get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                getDbData(maxid);
-                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                    StudyManager.getInstance().setCurArticle(newsList.get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(newsList);
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
-                ArrayList<Article> netData =listEntity.getData();
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
+                List<Article> netData = listEntity.getData();
                 switch (refreshType) {
                     case MySwipeRefreshLayout.TOP_REFRESH:
                         newsList = netData;
@@ -306,14 +270,27 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
                 }
                 articleOp.saveData(netData);
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                getDbData(maxid);
+                if (!StudyManager.getInstance().isStartPlaying() && newsList.size() != 0) {
+                    StudyManager.getInstance().setLesson("music");
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                    StudyManager.getInstance().setCurArticle(newsList.get(0));
+                    StudyManager.getInstance().setApp("209");
+                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(newsList);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
         });
     }
 
     private void loadLocalBannerData() {
-        Type listType = new TypeToken<ArrayList<BannerEntity>>() {
-        }.getType();
-        String preferenceData = ConfigManager.getInstance().loadString("newsbanner");
-        ArrayList<BannerEntity> bannerEntities;
+        String preferenceData = SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "newsbanner");
+        List<BannerEntity> bannerEntities;
         if (TextUtils.isEmpty(preferenceData)) {
             bannerEntities = new ArrayList<>();
             BannerEntity bannerEntity = new BannerEntity();
@@ -322,7 +299,7 @@ public class NewsFragment extends BaseRecyclerViewFragment implements MySwipeRef
             bannerEntity.setDesc(context.getString(R.string.app_name));
             bannerEntities.add(bannerEntity);
         } else {
-            bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("newsbanner"), listType);
+            bannerEntities = JSON.parseArray(preferenceData, BannerEntity.class);
         }
         newsAdapter.setAdSet(bannerEntities);
     }

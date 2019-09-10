@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,16 +11,20 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.user.UserInfo;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.FeedbackRequest;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -33,7 +35,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
  * Created by 10202 on 2015/11/20.
  */
 public class FeedbackActivity extends BaseActivity {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText contact, content;
     private boolean regex;
     private View mainContent;
@@ -46,11 +47,11 @@ public class FeedbackActivity extends BaseActivity {
         context = this;
         initWidget();
         setListener();
-        changeUIByPara();
+        onActivityCreated();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         mainContent = findViewById(R.id.feedback_main);
@@ -60,11 +61,12 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 submit();
             }
         });
@@ -87,8 +89,8 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         if (AccountManager.getInstance().checkUserLogin()) {
             UserInfo userInfo = AccountManager.getInstance().getUserInfo();
             if (!TextUtils.isEmpty(userInfo.getUserEmail())) {
@@ -146,57 +148,39 @@ public class FeedbackActivity extends BaseActivity {
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-            FeedbackRequest.exeRequest(FeedbackRequest.generateUrl(uid, ParameterUrl.encode(contentString),
-                    contact.getEditableText().toString()), new IProtocolResponse<String>() {
+            RequestClient.requestAsync(new FeedbackRequest(uid, ParameterUrl.encode(contentString),
+                    contact.getEditableText().toString()), new SimpleRequestCallBack<String>() {
                 @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    handler.sendEmptyMessage(1);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    handler.sendEmptyMessage(1);
-                }
-
-                @Override
-                public void response(String result) {
-                    handler.sendEmptyMessage(1);
+                public void onSuccess(String result) {
+                    waitingDialog.dismiss();
                     if ("OK".equals(result)) {
-                        handler.sendEmptyMessage(0);
+                        YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                CustomToast.getInstance().showToast(R.string.feedback_success);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FeedbackActivity.this.finish();
+                                    }
+                                }, 300);
+                            }
+                        }).playOn(mainContent);
                     } else {
                         CustomToast.getInstance().showToast(R.string.feedback_fail);
                     }
                 }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    waitingDialog.dismiss();
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                }
             });
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<FeedbackActivity> {
-        @Override
-        public void handleMessageByRef(final FeedbackActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.getInstance().showToast(R.string.feedback_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-                    }).playOn(activity.mainContent);
-                    break;
-                case 1:
-                    activity.waitingDialog.dismiss();
-                    break;
-                case 2:
-                    activity.finish();
-                    break;
-            }
         }
     }
 }

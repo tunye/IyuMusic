@@ -1,6 +1,5 @@
 package com.iyuba.music.widget.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -8,19 +7,19 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.widget.bitmap.BitmapUtils;
 
 /**
  * Created by 10202 on 2016/7/25.
  */
-public class PullDoorView extends RelativeLayout {
+public class PullDoorView extends FrameLayout {
     private Context mContext;
     private Scroller mScroller;
     private int mLastDownY = 0;
@@ -49,7 +48,6 @@ public class PullDoorView extends RelativeLayout {
         this.enable = enable;
     }
 
-    @SuppressLint("NewApi")
     private void setupView() {
 
         // 这个Interpolator你可以设置别的 我这里选择的是有弹跳效果的Interpolator
@@ -94,11 +92,6 @@ public class PullDoorView extends RelativeLayout {
                 if (mDelY < 0 && enable) {
                     scrollTo(0, -mDelY);
                 }
-                if (Math.abs(mDelY) > RuntimeManager.getInstance().getWindowHeight() / 8) {        // 到达一定高度
-                    if (iOperationResultInt != null) {
-                        iOperationResultInt.performance(0);
-                    }
-                }
                 break;
             case MotionEvent.ACTION_UP:
                 mDelY = (int) event.getY() - mLastDownY;
@@ -129,7 +122,6 @@ public class PullDoorView extends RelativeLayout {
 
         if (mScroller.computeScrollOffset() && enable) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            // 不要忘记更新界面
             postInvalidate();
         } else {
             if (mCloseFlag && enable) {

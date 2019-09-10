@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,14 +49,14 @@
                     android:id="@+id/tv_zimu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:background="#65000000"
-                    android:padding="10dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/white"
-                    android:text="字幕君"
                     android:gravity="center"
                     android:maxLines="3"
-                    android:layout_alignParentBottom="true" />
+                    android:padding="10dp"
+                    android:text="字幕君"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/large_pause"
@@ -72,14 +72,14 @@
                     android:layout_alignParentBottom="true"
                     android:background="#65000000"
                     android:orientation="horizontal"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp">
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
                     <ImageView
                         android:id="@+id/change_zimu"
                         android:layout_width="30dp"
-                        android:layout_marginStart="5dp"
                         android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
                         android:src="@drawable/change_eng_ch" />
 
                     <TextView
@@ -206,9 +206,9 @@
                 android:id="@+id/original"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/row_space_large"
                 android:layout_marginStart="@dimen/row_space_large"
                 android:layout_marginEnd="@dimen/row_space_large"
+                android:layout_marginBottom="@dimen/row_space_large"
                 app:ori_linewidth="3"
                 app:ori_showchinese="true"
                 app:ori_textsize="14sp"
@@ -223,8 +223,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/row_space_large"
             android:layout_marginEnd="@dimen/row_space_large"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <!--<TextView-->
             <!--android:id="@+id/study_current_time"-->

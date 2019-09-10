@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.adapter.study.SimpleNewsAdapter;
@@ -17,13 +23,10 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.MusicRequest;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.util.Utils;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
 import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
@@ -32,6 +35,7 @@ import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/3/4.
@@ -72,9 +76,6 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
-                @Override
-                public void onItemLongClick(View view, int position) {
-                }
             });
             recyclerView.setAdapter(musicAdapter);
         } else {
@@ -90,9 +91,6 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
 
-                @Override
-                public void onItemLongClick(View view, int position) {
-                }
             });
             // 绑定界面组件与广告参数的映射关系，用于渲染广告
             final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
@@ -124,45 +122,11 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
     }
 
     private void getData() {
-        MusicRequest.exeRequest(MusicRequest.generateUrl(curPage), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new MusicRequest(curPage), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    if (musicList.size() != 0) {
-                        StudyManager.getInstance().setCurArticle(musicList.get(0));
-                    }
-                    StudyManager.getInstance().setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                }
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
                 swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                    if (musicList.size() != 0) {
-                        StudyManager.getInstance().setCurArticle(musicList.get(0));
-                    }
-                    StudyManager.getInstance().setApp("209");
-                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(musicList);
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
-                swipeRefreshLayout.setRefreshing(false);
-                ArrayList<Article> netData = listEntity.getData();
+                List<Article> netData = listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     CustomToast.getInstance().showToast(R.string.article_load_all);
@@ -195,6 +159,23 @@ public class MusicFragment extends BaseRecyclerViewFragment implements MySwipeRe
                     }
                     articleOp.saveData(musicList);
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                getDbData();
+                if (!StudyManager.getInstance().isStartPlaying()) {
+                    StudyManager.getInstance().setLesson("music");
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                    if (musicList.size() != 0) {
+                        StudyManager.getInstance().setCurArticle(musicList.get(0));
+                    }
+                    StudyManager.getInstance().setApp("209");
+                } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setSourceArticleList(musicList);
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

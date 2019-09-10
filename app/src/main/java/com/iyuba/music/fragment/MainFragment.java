@@ -20,23 +20,24 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -123,27 +124,31 @@ public class MainFragment extends BaseFragment {
         ImageView latter = root.findViewById(R.id.main_latter);
         pause = root.findViewById(R.id.main_play);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
-        pause.setOnClickListener(new View.OnClickListener() {
+        pause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 pauseClick();
             }
         });
-        former.setOnClickListener(new View.OnClickListener() {
+        former.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 formerClick();
             }
         });
-        latter.setOnClickListener(new View.OnClickListener() {
+        latter.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 latterClick();
             }
         });
-        root.findViewById(R.id.rotate_image_layout).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.rotate_image_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
@@ -151,9 +156,10 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
-        root.findViewById(R.id.song_info_layout).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.song_info_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
@@ -182,12 +188,12 @@ public class MainFragment extends BaseFragment {
                 case "209":
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
-                    ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
                 default:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getTitle_cn());
-                    ImageUtil.loadImage(curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    AppImageUtil.loadImage(curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
             }
         }
@@ -245,10 +251,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void setImageState() {
-        if (RuntimeManager.getInstance().getApplication().getPlayerService() == null) {
+        if (Utils.getMusicApplication().getPlayerService() == null) {
             pause.setState(MorphButton.PAUSE_STATE);
         } else {
-            player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
+            player = Utils.getMusicApplication().getPlayerService().getPlayer();
             if (player == null) {
                 pause.setState(MorphButton.PAUSE_STATE);
             } else if (player.isPlaying()) {

@@ -9,9 +9,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,17 +21,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.ad.BannerEntity;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -57,40 +58,30 @@ public class BannerView extends FrameLayout {
     private int selectItemColor = 0xffffffff, unselectedItemColor = 0xff808080;
     private int shadowColor = 0x66000000;
     private boolean isAutoStart;
-    @Align
-    private int align;
+    private @Align
+    int align;
     private IOnClickListener onClickListener;
 
     public BannerView(Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public BannerView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setAttr(attrs);
+        this(context, attrs, 0);
     }
 
     public BannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setAttr(attrs);
+        setAttr(context, attrs);
     }
 
-    public void setSelectItemColor(int selectItemColor) {
-        this.selectItemColor = selectItemColor;
-    }
-
-    public void setUnselectedItemColor(int unselectedItemColor) {
-        this.unselectedItemColor = unselectedItemColor;
-    }
-
-    private void setAttr(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.bannerview);
-        selectItemColor = a.getColor(R.styleable.bannerview_banner_select_color, selectItemColor);
-        unselectedItemColor = a.getColor(R.styleable.bannerview_banner_unselected_color, unselectedItemColor);
-        shadowColor = a.getColor(R.styleable.bannerview_banner_shadow_color, shadowColor);
-        isAutoStart = a.getBoolean(R.styleable.bannerview_banner_auto_start, true);
-        int alignInt = a.getInt(R.styleable.bannerview_banner_align, 1);
+    private void setAttr(Context context, AttributeSet attrs) {
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BannerView);
+        selectItemColor = a.getColor(R.styleable.BannerView_banner_select_color, selectItemColor);
+        unselectedItemColor = a.getColor(R.styleable.BannerView_banner_unselected_color, unselectedItemColor);
+        shadowColor = a.getColor(R.styleable.BannerView_banner_shadow_color, shadowColor);
+        isAutoStart = a.getBoolean(R.styleable.BannerView_banner_auto_start, true);
+        int alignInt = a.getInt(R.styleable.BannerView_banner_align, 1);
         switch (alignInt) {
             case 0:
                 align = LEFT;
@@ -108,45 +99,43 @@ public class BannerView extends FrameLayout {
 
     private void init() {
         View root = LayoutInflater.from(getContext()).inflate(R.layout.banner, this, true);
-        bannerViewPager = (ViewPager) root.findViewById(R.id.banner_vp);
-        bannerTitle = (TextView) root.findViewById(R.id.banner_title);
+        bannerViewPager = root.findViewById(R.id.banner_vp);
+        bannerTitle = root.findViewById(R.id.banner_title);
         View bannerShadow = root.findViewById(R.id.banner_shadow);
         bannerShadow.setBackgroundColor(shadowColor);
-        dotLayout = (LinearLayout) root.findViewById(R.id.banner_dot);
+        dotLayout = root.findViewById(R.id.banner_dot);
 
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
-        myAdapter = new MyAdapter(this);
+        myAdapter = new MyAdapter();
         bannerViewPager.setAdapter(myAdapter);// 设置填充ViewPager页面的适配器
-        bannerViewPager.addOnPageChangeListener(new MyPageChangeListener(this));
-        bannerViewPager.setPageTransformer(true, new DepthPageTransformer());
+        bannerViewPager.addOnPageChangeListener(new MyPageChangeListener());
+        bannerViewPager.setPageTransformer(false, new DepthPageTransformer());
 
-        RelativeLayout.LayoutParams params;
+        LayoutParams params;
         switch (align) {
             case LEFT:
                 bannerTitle.setVisibility(VISIBLE);
-                params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                params.addRule(RelativeLayout.CENTER_VERTICAL);
+                params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.gravity = (Gravity.START | Gravity.CENTER_VERTICAL);
                 dotLayout.setLayoutParams(params);
-                params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.gravity = (Gravity.END | Gravity.CENTER_VERTICAL);
                 bannerTitle.setLayoutParams(params);
                 break;
             case RIGHT:
                 bannerTitle.setVisibility(VISIBLE);
-                params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                params.addRule(RelativeLayout.CENTER_VERTICAL);
+                params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.gravity = (Gravity.END | Gravity.CENTER_VERTICAL);
                 dotLayout.setLayoutParams(params);
-                params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.gravity = (Gravity.START | Gravity.CENTER_VERTICAL);
                 bannerTitle.setLayoutParams(params);
                 break;
             case CENTER:
                 bannerTitle.setVisibility(GONE);
-                params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.CENTER_IN_PARENT);
+                params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.gravity = Gravity.CENTER;
                 dotLayout.setLayoutParams(params);
                 break;
         }
@@ -158,45 +147,36 @@ public class BannerView extends FrameLayout {
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
         dotLayout.removeAllViews();
-        if (mDatas != null && mDatas.size() != 0) {
+        if (mDatas == null || mDatas.size() == 0) {
+            return;
+        }
+        for (int count = 0; count < mDatas.size(); count++) {
+            // 翻页指示的点
+            ImageView pointView = new ImageView(getContext());
+            pointView.setPadding(8, 0, 8, 0);
+            if (dots.isEmpty())
+                pointView.setImageDrawable(createPoint(selectItemColor));
+            else
+                pointView.setImageDrawable(createPoint(unselectedItemColor));
+            dots.add(pointView);
+            dotLayout.addView(pointView);
             ImageView imageView = new ImageView(getContext());
             loadData(bannerData.get(mDatas.size() - 1), imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            bannerImages.add(0, imageView);
-            if (mDatas.size() > 1) {
-                ImageView pointView;
-                for (int count = 0; count < mDatas.size(); count++) {
-                    // 翻页指示的点
-                    pointView = new ImageView(getContext());
-                    pointView.setPadding(8, 0, 8, 0);
-                    if (dots.isEmpty())
-                        pointView.setImageDrawable(createPoint(selectItemColor));
-                    else
-                        pointView.setImageDrawable(createPoint(unselectedItemColor));
-                    dots.add(pointView);
-                    dotLayout.addView(pointView);
-                    imageView = new ImageView(getContext());
-                    loadData(bannerData.get(count), imageView);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    bannerImages.add(imageView);
-                }
-                imageView = new ImageView(getContext());
-                loadData(bannerData.get(0), imageView);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                bannerImages.add(imageView);
-                bannerTitle.setText(bannerData.get(0).getDesc());
-                myAdapter.notifyDataSetChanged();
-                bannerViewPager.setCurrentItem(1);
-                if (isAutoStart) {
-                    startAd();
-                }
-            } else {
-                ImageView pointView = new ImageView(getContext());
-                pointView.setPadding(8, 0, 8, 0);
-                pointView.setImageDrawable(createPoint(selectItemColor));
-                dotLayout.addView(pointView);
-                myAdapter.notifyDataSetChanged();
-            }
+            bannerImages.add(imageView);
+        }
+        bannerTitle.setText(bannerData.get(0).getDesc());
+        myAdapter.notifyDataSetChanged();
+
+        if (isAutoStart)
+            startAd();
+    }
+
+    private void loadData(BannerEntity data, ImageView imageView) {
+        if (data.getOwnerid().equals("2")) {
+            imageView.setBackgroundResource(Integer.parseInt(data.getPicUrl()));
+        } else {
+            AppImageUtil.loadImage("http://app.iyuba.cn/dev/" + data.getPicUrl(), imageView, R.drawable.default_music);
         }
     }
 
@@ -204,28 +184,23 @@ public class BannerView extends FrameLayout {
         if (!isLooping && bannerData.size() > 1) {
             isLooping = true;
             scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(this), 1500, 1500, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1500, 1500, TimeUnit.MICROSECONDS);
         }
     }
 
     public void stopAd() {
         if (isLooping) {
             isLooping = false;
-            scheduledExecutorService.shutdownNow();
+            scheduledExecutorService.shutdown();
         }
     }
 
-    private void loadData(BannerEntity data, ImageView imageView) {
-        if (data.getOwnerid().equals("2")) {
-            imageView.setBackgroundResource(Integer.parseInt(data.getPicUrl()));
-        } else {
-            imageView.setBackgroundResource(R.drawable.default_music);
-            ImageUtil.loadImage("http://app.iyuba.cn/dev/" + data.getPicUrl(), imageView, R.drawable.default_music);
-        }
+    public void setSelectItemColor(int selectItemColor) {
+        this.selectItemColor = selectItemColor;
     }
 
     private Drawable createPoint(int color) {
-        int size = (int) (getResources().getDisplayMetrics().density * 8 + 0.5f);
+        int size = RuntimeManager.getInstance().dip2px(8);
         Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Drawable drawable = new BitmapDrawable(getResources(), bitmap);
         Canvas canvas = new Canvas(bitmap);
@@ -239,10 +214,6 @@ public class BannerView extends FrameLayout {
         return drawable;
     }
 
-    public boolean hasData() {
-        return bannerData != null && bannerData.size() != 0;
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_UP) {
@@ -253,40 +224,29 @@ public class BannerView extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
-    @IntDef({LEFT, CENTER, RIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Align {
+    public boolean hasData() {
+        return bannerData != null && bannerData.size() != 0;
     }
 
-    private static class ScrollTask implements Runnable {
-        private final WeakReference<BannerView> mWeakReference;
+    @IntDef(flag = true, value = {LEFT, RIGHT, CENTER})
+    @interface Align {
 
-        public ScrollTask(BannerView bannerView) {
-            mWeakReference = new WeakReference<>(bannerView);
-        }
+    }
+
+    private class ScrollTask implements Runnable {
 
         @Override
         public void run() {
-            if (mWeakReference.get() != null && mWeakReference.get().bannerImages.size() > 1) {
-                final BannerView bannerView = mWeakReference.get();
-                bannerView.currentItem = bannerView.currentItem % (bannerView.bannerImages.size() - 2) + 1;
-                bannerView.bannerViewPager.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        bannerView.bannerViewPager.setCurrentItem(bannerView.currentItem, bannerView.currentItem != 0);
-                    }
-                });
-            }
+            ThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    bannerViewPager.setCurrentItem(currentItem + 1, true);
+                }
+            });
         }
     }
 
-    private static class MyPageChangeListener implements ViewPager.OnPageChangeListener {
-        private final WeakReference<BannerView> mWeakReference;
-        private int oldPosition = 0;
-
-        private MyPageChangeListener(BannerView bannerView) {
-            this.mWeakReference = new WeakReference<>(bannerView);
-        }
+    private class MyPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrollStateChanged(int state) {
@@ -294,56 +254,41 @@ public class BannerView extends FrameLayout {
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
+
         }
 
         @Override
         public void onPageSelected(int position) {
-            if (mWeakReference.get() != null && mWeakReference.get().bannerData.size() > 1) {
-                BannerView bannerView = mWeakReference.get();
-                if (position < 1) {
-                    position = bannerView.bannerData.size();
-                    bannerView.bannerViewPager.setCurrentItem(position, false);
-                } else if (position > bannerView.bannerData.size()) {
-                    bannerView.bannerViewPager.setCurrentItem(1, false);
-                    position = 1;
-                }
-                bannerView.currentItem = position - 1 + bannerView.bannerData.size();
-                bannerView.dots.get(oldPosition).setImageDrawable(bannerView.createPoint(bannerView.unselectedItemColor));
-                oldPosition = (bannerView.currentItem) % bannerView.bannerData.size();
-                bannerView.bannerTitle.setText(bannerView.bannerData.get(oldPosition).getDesc());
-                bannerView.dots.get(oldPosition).setImageDrawable(bannerView.createPoint(bannerView.selectItemColor));
-            }
+            int oldRealPosition = currentItem % bannerData.size();
+            currentItem = position;
+            int nowRealPosition = currentItem % bannerData.size();
+            dots.get(oldRealPosition).setImageDrawable(createPoint(unselectedItemColor));
+            bannerTitle.setText(bannerData.get(nowRealPosition).getDesc());
+            dots.get(nowRealPosition).setImageDrawable(createPoint(selectItemColor));
         }
     }
 
-    private static class MyAdapter extends PagerAdapter {
-        private final WeakReference<BannerView> mWeakReference;
-
-        public MyAdapter(BannerView bannerView) {
-            mWeakReference = new WeakReference<>(bannerView);
-        }
+    private class MyAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
-            if (mWeakReference.get() != null) {
-                return mWeakReference.get().bannerImages.size();
-            } else {
-                return 0;
-            }
+            return Integer.MAX_VALUE;
         }
 
+        @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            final BannerView bannerView = mWeakReference.get();
-            ImageView iv = bannerView.bannerImages.get(position);
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            final int realPos = position % bannerImages.size();
+            ImageView iv = bannerImages.get(realPos);
             container.addView(iv);
-            final int pos = position - 1 + bannerView.bannerData.size();
-            iv.setOnClickListener(new OnClickListener() {
+            // 在这个方法里面设置图片的点击事件
+            iv.setOnClickListener(new INoDoubleClick() {
 
                 @Override
                 public void onClick(View v) {
-                    if (bannerView.onClickListener != null) {
-                        bannerView.onClickListener.onClick(v, bannerView.bannerData.get(pos % bannerView.bannerData.size()));
+                    super.onClick(v);
+                    if (onClickListener != null) {
+                        onClickListener.onClick(v, bannerData.get(realPos));
                     }
                 }
             });
@@ -351,15 +296,12 @@ public class BannerView extends FrameLayout {
         }
 
         @Override
-        public void destroyItem(View arg0, int arg1, Object arg2) {
-            if (mWeakReference.get() != null) {
-                mWeakReference.get().bannerImages.get(arg1).setOnClickListener(null);
-                ((ViewPager) arg0).removeView(mWeakReference.get().bannerImages.get(arg1));
-            }
+        public void destroyItem(@NonNull View arg0, int arg1, @NonNull Object arg2) {
+            ((ViewPager) arg0).removeView(bannerImages.get(arg1 % bannerImages.size()));
         }
 
         @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
+        public boolean isViewFromObject(@NonNull View arg0, @NonNull Object arg1) {
             return arg0 == arg1;
         }
 

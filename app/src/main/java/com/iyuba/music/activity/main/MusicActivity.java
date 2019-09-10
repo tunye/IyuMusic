@@ -1,6 +1,5 @@
 package com.iyuba.music.activity.main;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -14,18 +13,12 @@ import com.iyuba.music.fragment.MusicFragment;
 public class MusicActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.music_activity);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.music_activity;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         Fragment fragment = new MusicFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -33,13 +26,13 @@ public class MusicActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.article_song);
     }
 }

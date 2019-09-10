@@ -6,52 +6,45 @@ package com.iyuba.music.activity.eggshell.meizhi;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 
 import java.io.File;
-
-import com.github.chrisbanes.photoview.PhotoView;
 
 public class LocalPhotoActivity extends BaseActivity {
     private static String EXTRA_IAMGE_URL = "url";
     private PhotoView photoView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.local_photo);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
-        File target = new File(getIntent().getStringExtra(LocalPhotoActivity.EXTRA_IAMGE_URL));
-        photoView.setImageURI(Uri.fromFile(target));
+    public int getLayoutId() {
+        return R.layout.local_photo;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        photoView = (PhotoView) findViewById(R.id.iv_girl);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        photoView = findViewById(R.id.iv_girl);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        photoView.setOnClickListener(new View.OnClickListener() {
+        photoView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 finish();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent();
                 setResult(1, intent);
                 LocalPhotoActivity.this.finish();
@@ -60,9 +53,11 @@ public class LocalPhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         toolbarOper.setText(R.string.file_delete);
+        File target = new File(getIntent().getStringExtra(LocalPhotoActivity.EXTRA_IAMGE_URL));
+        photoView.setImageURI(Uri.fromFile(target));
     }
 
     @Override

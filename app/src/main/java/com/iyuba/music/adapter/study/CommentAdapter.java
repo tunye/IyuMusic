@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -21,30 +28,21 @@ import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.entity.comment.CommentAgreeOp;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.newsrequest.CommentAgreeRequest;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.player.SimplePlayer;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
-
-import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
+public class CommentAdapter extends CoreRecyclerViewAdapter<Comment, CommentAdapter.CommentViewHolder> {
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private boolean shouldAutoPlayMainPlayer;
-    private ArrayList<Comment> comments;
-    private Context context;
     private SimplePlayer player;
     private int playingComment;
     private int voiceState;
@@ -53,199 +51,152 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
     private ProgressBar playingVoiceLoading;
     private CommentAgreeOp commentAgreeOp;
     private String uid;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
 
     public CommentAdapter(Context context, boolean autoPlay) {
+        super(context);
         this.shouldAutoPlayMainPlayer = autoPlay;
-        this.context = context;
         commentAgreeOp = new CommentAgreeOp();
         uid = AccountManager.getInstance().getUserId();
-        comments = new ArrayList<>();
-    }
-
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
-    }
-
-    public void setDataSet(ArrayList<Comment> comments) {
-        this.comments = comments;
-        notifyDataSetChanged();
-    }
-
-    public void removeData(int position) {
-        comments.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void removeData(int[] position) {
-        for (int i : position) {
-            comments.remove(i);
-            notifyItemRemoved(i);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return comments.size();
-    }
-
-    private Comment getItem(int position) {
-        return comments.get(position);
     }
 
     @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        player = new SimplePlayer(context);
-        playingComment = -1;
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CommentViewHolder(LayoutInflater.from(context).inflate(R.layout.item_comment, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
-        final CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
-        final Comment comment = getItem(position);
-        final int pos = position;
-        if (onRecycleViewItemClickListener != null) {
-            commentViewHolder.root.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRecycleViewItemClickListener.onItemClick(commentViewHolder.root, pos);
-                }
-            });
-        }
-        commentViewHolder.name.setText(comment.getUserName());
-        commentViewHolder.time.setText(comment.getCreateDate());
-        commentViewHolder.agreeCount.setText(String.valueOf(comment.getAgreeCount()));
-        commentViewHolder.againstCount.setText(String.valueOf(comment.getAgainstCount()));
+    public void onBindViewHolder(@NonNull final CommentViewHolder viewHolder, int position) {
+        super.onBindViewHolder(viewHolder, position);
+        player = new SimplePlayer(context);
+        playingComment = -1;
+        final Comment comment = getDatas().get(viewHolder.getAdapterPosition());
+        viewHolder.name.setText(comment.getUserName());
+        viewHolder.time.setText(comment.getCreateDate());
+        viewHolder.agreeCount.setText(String.valueOf(comment.getAgreeCount()));
+        viewHolder.againstCount.setText(String.valueOf(comment.getAgainstCount()));
         if (comment.getShuoshuoType() == 0) {
-            commentViewHolder.voice.setVisibility(View.GONE);
-            commentViewHolder.content.setVisibility(View.VISIBLE);
-            commentViewHolder.content.setText(comment.getShuoshuo());
+            viewHolder.voice.setVisibility(View.GONE);
+            viewHolder.content.setVisibility(View.VISIBLE);
+            viewHolder.content.setText(comment.getShuoshuo());
         } else {
-            commentViewHolder.content.setVisibility(View.GONE);
-            commentViewHolder.voice.setVisibility(View.VISIBLE);
-            commentViewHolder.voiceImg.setOnClickListener(new View.OnClickListener() {
+            viewHolder.content.setVisibility(View.GONE);
+            viewHolder.voice.setVisibility(View.VISIBLE);
+            viewHolder.voiceImg.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     if (player.isPlaying()) {
                         player.pause();
                         player.reset();
                         handler.removeMessages(0);
                         if (comment.getId() == playingComment) {
                             handler.removeMessages(1);
-                            notifyItemChanged(pos);
+                            notifyItemChanged(viewHolder.getAdapterPosition());
                         } else {
                             playingComment = -1;
                             notifyDataSetChanged();
                             playingComment = comment.getId();
-                            playingVoiceLoading = commentViewHolder.loading;
-                            playingVoiceImg = commentViewHolder.voiceImg;
-                            playingVoiceText = commentViewHolder.voiceTime;
-                            playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), pos);// 播放
+                            playingVoiceLoading = viewHolder.loading;
+                            playingVoiceImg = viewHolder.voiceImg;
+                            playingVoiceText = viewHolder.voiceTime;
+                            playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), viewHolder.getAdapterPosition());// 播放
                         }
                     } else {
-                        if (RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                        if (Utils.getMusicApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                             context.sendBroadcast(new Intent("iyumusic.pause"));
                         }
                         playingComment = comment.getId();
-                        playingVoiceLoading = commentViewHolder.loading;
-                        playingVoiceImg = commentViewHolder.voiceImg;
-                        playingVoiceText = commentViewHolder.voiceTime;
-                        playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), pos);// 播放
+                        playingVoiceLoading = viewHolder.loading;
+                        playingVoiceImg = viewHolder.voiceImg;
+                        playingVoiceText = viewHolder.voiceTime;
+                        playVoice("http://daxue.iyuba.cn/appApi/" + comment.getShuoshuo(), viewHolder.getAdapterPosition());// 播放
                     }
                 }
             });
         }
-        commentViewHolder.pic.setVipStateVisible(comment.getUserid(), comment.getVip() == 1);
+        viewHolder.pic.setVipStateVisible(comment.getUserid(), comment.getVip() == 1);
         int repeat = commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid);
         if (repeat == 0) {
-            commentViewHolder.agreeView.setBackgroundResource(R.drawable.agree);
-            commentViewHolder.againstView.setBackgroundResource(R.drawable.against);
+            viewHolder.agreeView.setBackgroundResource(R.drawable.agree);
+            viewHolder.againstView.setBackgroundResource(R.drawable.against);
         } else if (repeat == 1) {
-            commentViewHolder.agreeView.setBackgroundResource(R.drawable.agree_press);
-            commentViewHolder.againstView.setBackgroundResource(R.drawable.against);
+            viewHolder.agreeView.setBackgroundResource(R.drawable.agree_press);
+            viewHolder.againstView.setBackgroundResource(R.drawable.against);
         } else if (repeat == 2) {
-            commentViewHolder.agreeView.setBackgroundResource(R.drawable.agree);
-            commentViewHolder.againstView.setBackgroundResource(R.drawable.against_press);
+            viewHolder.agreeView.setBackgroundResource(R.drawable.agree);
+            viewHolder.againstView.setBackgroundResource(R.drawable.against_press);
         }
         // 是在播放，显示动画
         if (comment.getId() == playingComment) {
-            playingVoiceImg = commentViewHolder.voiceImg;
-            playingVoiceText = commentViewHolder.voiceTime;
+            playingVoiceImg = viewHolder.voiceImg;
+            playingVoiceText = viewHolder.voiceTime;
         } else if (!player.isPlaying()) {// 否则停止
-            commentViewHolder.voiceTime.setText("");
-            commentViewHolder.voiceImg.setBackgroundResource(R.drawable.comment_voice_p3);
+            viewHolder.voiceTime.setText("");
+            viewHolder.voiceImg.setBackgroundResource(R.drawable.comment_voice_p3);
         }
-        commentViewHolder.agreeView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.agreeView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61001, comment.getId()), new IProtocolResponse<String>() {
+                    RequestClient.requestAsync(new CommentAgreeRequest(61001, comment.getId()), new SimpleRequestCallBack<String>() {
                         @Override
-                        public void onNetError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void onServerError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void response(String resultCode) {
+                        public void onSuccess(String resultCode) {
                             if (resultCode.equals("001")) {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "agree");
                                 comment.setAgreeCount(comment.getAgreeCount() + 1);
-                                YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.agreeCount);
-                                notifyItemChanged(pos);
+                                YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.agreeCount);
+                                notifyItemChanged(viewHolder.getAdapterPosition());
                             } else if (resultCode.equals("000")) {
                                 CustomToast.getInstance().showToast(R.string.comment_agree_fail);
                             }
                         }
+
+                        @Override
+                        public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                            CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                        }
                     });
                 } else {
                     CustomToast.getInstance().showToast(R.string.comment_already);
                 }
             }
         });
-        commentViewHolder.againstView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.againstView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    CommentAgreeRequest.exeRequest(CommentAgreeRequest.generateUrl(61002, comment.getId()), new IProtocolResponse<String>() {
+                    RequestClient.requestAsync(new CommentAgreeRequest(61002, comment.getId()), new SimpleRequestCallBack<String>() {
                         @Override
-                        public void onNetError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void onServerError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void response(String resultCode) {
+                        public void onSuccess(String resultCode) {
                             if (resultCode.equals("001")) {
                                 commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "against");
                                 comment.setAgainstCount(comment.getAgainstCount() + 1);
-                                YoYo.with(Techniques.FadeIn).duration(250).playOn(commentViewHolder.againstCount);
-                                notifyItemChanged(pos);
+                                YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.againstCount);
+                                notifyItemChanged(viewHolder.getAdapterPosition());
                             } else if (resultCode.equals("000")) {
                                 CustomToast.getInstance().showToast(R.string.comment_against_fail);
                             }
                         }
+
+                        @Override
+                        public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                            CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                        }
                     });
                 } else {
                     CustomToast.getInstance().showToast(R.string.comment_already);
                 }
             }
         });
-        commentViewHolder.pic.setOnClickListener(new View.OnClickListener() {
+        viewHolder.pic.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (AccountManager.getInstance().checkUserLogin()) {
-                    SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
+                    SocialManager.getInstance().pushFriendId(comment.getUserid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
                     intent.putExtra("needpop", true);
                     context.startActivity(intent);
@@ -253,7 +204,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
                     CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                         @Override
                         public void finish() {
-                            SocialManager.getInstance().pushFriendId(comments.get(pos).getUserid());
+                            SocialManager.getInstance().pushFriendId(comment.getUserid());
                             Intent intent = new Intent(context, PersonalHomeActivity.class);
                             intent.putExtra("needpop", true);
                             context.startActivity(intent);
@@ -290,7 +241,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if (!RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                if (!Utils.getMusicApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 player.reset();
@@ -304,7 +255,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 player.reset();
-                if (!RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
+                if (!Utils.getMusicApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
                 playingComment = -1;
@@ -322,7 +273,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         if (player != null) {
             if (player.isPlaying()) {
                 player.pause();
-                if (!(RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer)) {
+                if (!(Utils.getMusicApplication().getPlayerService().getPlayer().isPlaying() && shouldAutoPlayMainPlayer)) {
                     context.sendBroadcast(new Intent("iyumusic.pause"));
                 }
             }
@@ -331,7 +282,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         handler.removeCallbacksAndMessages(null);
     }
 
-    private static class CommentViewHolder extends RecycleViewHolder {
+    static class CommentViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView name, time, content, agreeCount, againstCount;
         ImageView voiceImg, agreeView, againstView;

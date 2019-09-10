@@ -13,26 +13,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.buaa.ct.imageselector.view.ImageCropActivity;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
-import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,9 +46,10 @@ public class ChangePhotoActivity extends BaseActivity {
     private CircleImageView photo;
     private RoundTextView change;
     private ContextMenu menu;
-    View.OnClickListener ocl = new View.OnClickListener() {
+    View.OnClickListener ocl = new INoDoubleClick() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
+            super.onClick(view);
             menu.show();
         }
     };
@@ -60,7 +61,7 @@ public class ChangePhotoActivity extends BaseActivity {
         setContentView(R.layout.change_photo);
         initWidget();
         setListener();
-        changeUIByPara();
+        onActivityCreated();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
@@ -68,7 +69,7 @@ public class ChangePhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         root = findViewById(R.id.root);
         photo = findViewById(R.id.photo);
@@ -79,17 +80,17 @@ public class ChangePhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         photo.setOnClickListener(ocl);
         change.setOnClickListener(ocl);
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.changephoto_title);
-        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), photo);
+        AppImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), photo);
     }
 
     private void initContextMunu() {
@@ -110,9 +111,9 @@ public class ChangePhotoActivity extends BaseActivity {
                 } else if (index == 1) {
                     ImageSelectorActivity.start(ChangePhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, false, true, true);
                 } else if (index == 2) {
-                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId());
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
+//                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId());
+//                    context.startActivity(intent);
                 }
             }
         });
@@ -134,9 +135,10 @@ public class ChangePhotoActivity extends BaseActivity {
             final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+            materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             100);
                     materialDialog.dismiss();
@@ -146,9 +148,10 @@ public class ChangePhotoActivity extends BaseActivity {
             final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.storage_permission);
             materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+            materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.CAMERA},
                             101);
                     materialDialog.dismiss();
@@ -224,9 +227,10 @@ public class ChangePhotoActivity extends BaseActivity {
             switch (msg.what) {
                 case 0:
                     CustomToast.getInstance().showToast(R.string.changephoto_success);
-                    CustomSnackBar.make(activity.root, activity.getString(R.string.changephoto_intro)).info(activity.getString(R.string.credit_check), new View.OnClickListener() {
+                    CustomSnackBar.make(activity.root, activity.getString(R.string.changephoto_intro)).info(activity.getString(R.string.credit_check), new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View view) {
+                            super.onClick(view);
                             activity.startActivity(new Intent(activity, CreditActivity.class));
                         }
                     });

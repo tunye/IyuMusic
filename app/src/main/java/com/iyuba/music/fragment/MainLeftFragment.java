@@ -15,6 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
@@ -28,15 +34,11 @@ import com.iyuba.music.entity.user.UserInfoOp;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
-import com.iyuba.music.network.NetWorkState;
-import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.imageview.VipPhoto;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 /**
  * Created by 10202 on 2015/12/29.
@@ -86,42 +88,48 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void setOnClickListener() {
-        login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
                 startActivity(intent);
             }
         });
-        noLogin.setOnClickListener(new View.OnClickListener() {
+        noLogin.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivityForResult(new Intent(context, LoginActivity.class), 101);
             }
         });
-        personalPhoto.setOnClickListener(new View.OnClickListener() {
+        personalPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, ChangePhotoActivity.class));
             }
         });
-        about.setOnClickListener(new View.OnClickListener() {
+        about.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, AboutActivity.class));
             }
         });
-        exit.setOnClickListener(new View.OnClickListener() {
+        exit.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                RuntimeManager.getInstance().getApplication().exit();
+            public void onClick(View view) {
+                super.onClick(view);
+                Utils.getMusicApplication().exit();
             }
         });
-        root.setOnClickListener(new View.OnClickListener() {
+        root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 // 防止误触
             }
         });
@@ -180,9 +188,10 @@ public class MainLeftFragment extends BaseFragment {
                                 public void success(Object message) {
                                     Activity parent = getActivity();
                                     if ("add".equals(message.toString()) && parent != null && !parent.isDestroyed()) {
-                                        CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
+                                        CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                                             @Override
-                                            public void onClick(View v) {
+                                            public void onClick(View view) {
+                                                super.onClick(view);
                                                 startActivity(new Intent(context, CreditActivity.class));
                                             }
                                         });
@@ -193,7 +202,7 @@ public class MainLeftFragment extends BaseFragment {
 
                                 @Override
                                 public void fail(Object message) {
-
+                                    CustomToast.getInstance().showToast(message.toString());
                                 }
                             });
                 }
@@ -252,17 +261,19 @@ public class MainLeftFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {// 登录的返回结果
             getPersonalInfo();
-            CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new View.OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     startActivity(new Intent(context, CreditActivity.class));
                 }
             });
         } else if (requestCode == 101 && resultCode == 2) {// 登录+注册的返回结果
             getPersonalInfo();
-            CustomSnackBar.make(root, context.getString(R.string.personal_change_photo)).info(context.getString(R.string.app_accept), new View.OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.personal_change_photo)).info(context.getString(R.string.app_accept), new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     startActivity(new Intent(context, ChangePhotoActivity.class));
                 }
             });

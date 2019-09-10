@@ -1,38 +1,38 @@
 package com.iyuba.music.entity.friends;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
-public class Follows {
-    @SerializedName("followuid")
-    private String uid;// 我关注的uid
-    @SerializedName("fusername")
-    private String username;// 我关注的用户名
-    @SerializedName("dateline")
+public class Follows extends Friend {
+    @JSONField(name = "dateline")
     private String dateline;// 添加关注的时间，系统秒数
-    @SerializedName("mutual")
+    @JSONField(name = "mutual")
     private String mutual;// 是否互相关注，1为是
-    @SerializedName("doing")
-    private String doing;
-    @SerializedName("vip")
-    private int vip;
 
+    @JSONField(name = "followuid")
+    @Override
     public String getUid() {
-        return uid;
+        return super.getUid();
     }
 
+    @JSONField(name = "followuid")
+    @Override
     public void setUid(String uid) {
-        this.uid = uid;
+        super.setUid(uid);
     }
 
+    @JSONField(name = "fusername")
+    @Override
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
 
+    @JSONField(name = "fusername")
+    @Override
     public void setUsername(String username) {
-        this.username = username;
+        super.setUsername(username);
     }
 
     public String getDateline() {
@@ -49,22 +49,5 @@ public class Follows {
 
     public void setMutual(String mutual) {
         this.mutual = mutual;
-    }
-
-
-    public String getDoing() {
-        return doing;
-    }
-
-    public void setDoing(String doing) {
-        this.doing = doing;
-    }
-
-    public int getVip() {
-        return vip;
-    }
-
-    public void setVip(int vip) {
-        this.vip = vip;
     }
 }

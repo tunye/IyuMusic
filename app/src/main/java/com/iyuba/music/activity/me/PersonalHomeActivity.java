@@ -2,41 +2,42 @@ package com.iyuba.music.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.MainActivity;
-import com.iyuba.music.activity.eggshell.meizhi.MeizhiPhotoActivity;
 import com.iyuba.music.adapter.me.DoingAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Doing;
 import com.iyuba.music.entity.user.UserInfo;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.AddAttentionRequest;
 import com.iyuba.music.request.merequest.CancelAttentionRequest;
 import com.iyuba.music.request.merequest.DoingRequest;
 import com.iyuba.music.request.merequest.PersonalInfoRequest;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.VipPhoto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/2/29.
  */
 public class PersonalHomeActivity extends BaseListActivity<Doing> implements View.OnClickListener {
-    private DoingAdapter doingAdapter;
     private UserInfo userinfo;
     //上部
     private VipPhoto personPhoto;
@@ -47,24 +48,18 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     private boolean needPop;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.personal_home);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         needPop = getIntent().getBooleanExtra("needpop", false);
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
+    public int getLayoutId() {
+        return R.layout.personal_home;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         myControl = findViewById(R.id.my_oper);
         otherControl = findViewById(R.id.other_oper);
@@ -81,41 +76,36 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
         personName = findViewById(R.id.name_text);
         personFans = findViewById(R.id.fans_fans);
         personAttention = findViewById(R.id.fans_attention);
-        RecyclerView doingRecycleView = findViewById(R.id.personal_doingslist);
-        setRecyclerViewProperty(doingRecycleView);
-        doingAdapter = new DoingAdapter(context);
-        doingAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
+        owner = findViewById(R.id.personal_doingslist);
+        ownerAdapter = new DoingAdapter(context);
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.getInstance().pushDoing(datas.get(position));
+                SocialManager.getInstance().pushDoing(getData().get(position));
                 Intent intent = new Intent(context, ReplyDoingActivity.class);
                 intent.putExtra(ReplyDoingActivity.VIP_FLG, "1".equals(userinfo.getVipStatus()));
                 startActivity(intent);
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
-        doingRecycleView.setAdapter(doingAdapter);
+        assembleRecyclerView();
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         toolbarOper.setOnClickListener(this);
         personAttention.setOnClickListener(this);
         personFans.setOnClickListener(this);
-        personPhoto.setOnClickListener(new View.OnClickListener() {
+        personPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
                     startActivity(new Intent(context, ChangePhotoActivity.class));
                 } else {
-                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
+//                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
+//                    context.startActivity(intent);
                 }
             }
         });
@@ -128,13 +118,14 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         toolbarOper.setText(R.string.personal_logout);
         title.setText(R.string.person_title);
     }
 
-    protected void changeUIResumeByPara() {
+    @Override
+    public void onActivityResumed() {
         String tempUid = SocialManager.getInstance().getFriendId();
         if (tempUid.equals(AccountManager.getInstance().getUserId())) {//himself
             myControl.setVisibility(View.VISIBLE);
@@ -152,30 +143,23 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
             toolbarOper.setVisibility(View.GONE);
             userinfo = new UserInfo();
             userinfo.setUid(tempUid);
-            PersonalInfoRequest.exeRequest(PersonalInfoRequest.generateUrl(tempUid, AccountManager.getInstance().getUserId()), userinfo
-                    , new IProtocolResponse() {
-                        @Override
-                        public void onNetError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
+            RequestClient.requestAsync(new PersonalInfoRequest(tempUid, AccountManager.getInstance().getUserId(), userinfo), new SimpleRequestCallBack<BaseApiEntity<UserInfo>>() {
+                @Override
+                public void onSuccess(BaseApiEntity<UserInfo> apiEntity) {
+                    if (BaseApiEntity.isSuccess(apiEntity)) {
+                        userinfo = apiEntity.getData();
+                        ((DoingAdapter) ownerAdapter).setVip("1".equals(userinfo.getVipStatus()));
+                        ownerAdapter.notifyDataSetChanged();
+                        setContent();
+                        setRelationShip();
+                    }
+                }
 
-                        @Override
-                        public void onServerError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void response(Object object) {
-                            BaseApiEntity baseApiEntity = (BaseApiEntity) object;
-                            if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                                userinfo = (UserInfo) baseApiEntity.getData();
-                                doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
-                                doingAdapter.notifyDataSetChanged();
-                                setContent();
-                                setRelationShip();
-                            }
-                        }
-                    });
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                }
+            });
         }
         onRefresh(0);
     }
@@ -190,7 +174,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     @Override
-    protected int getToastResource() {
+    public int getToastResource() {
         return R.string.person_doings_load_all;
     }
 
@@ -201,17 +185,19 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                 final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
                 mMaterialDialog.setTitle(R.string.app_name)
                         .setMessage(R.string.personal_logout_textmore)
-                        .setPositiveButton(R.string.personal_logout_exit, new View.OnClickListener() {
+                        .setPositiveButton(R.string.personal_logout_exit, new INoDoubleClick() {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View view) {
+                                super.onClick(view);
                                 mMaterialDialog.dismiss();
                                 AccountManager.getInstance().loginOut();
                                 finish();
                             }
                         })
-                        .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                        .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View view) {
+                                super.onClick(view);
                                 mMaterialDialog.dismiss();
                             }
                         });
@@ -225,16 +211,18 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                     final MyMaterialDialog cancleAttentionDialog = new MyMaterialDialog(context);
                     cancleAttentionDialog.setTitle(R.string.app_name)
                             .setMessage(R.string.person_attention_cancel_hint)
-                            .setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                            .setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(View view) {
+                                    super.onClick(view);
                                     cancleAttentionDialog.dismiss();
                                     cancelAttention();
                                 }
                             })
-                            .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                            .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(View view) {
+                                    super.onClick(view);
                                     cancleAttentionDialog.dismiss();
                                 }
                             });
@@ -280,20 +268,10 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     @Override
-    protected void getNetData() {
-        DoingRequest.exeRequest(DoingRequest.generateUrl(userinfo.getUid(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Doing>>>() {
+    public void getNetData() {
+        RequestClient.requestAsync(new DoingRequest(userinfo.getUid(), curPage), new SimpleRequestCallBack<BaseListEntity<List<Doing>>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Doing>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Doing>> listEntity) {
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     if (curPage == 1) {
@@ -303,9 +281,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                     }
                 } else {
                     findViewById(R.id.no_doing).setVisibility(View.GONE);
-                    datas.addAll(listEntity.getData());
-                    doingAdapter.setDoingList(datas);
-                    doingAdapter.setVip("1".equals(userinfo.getVipStatus()));
+                    ownerAdapter.addDatas(listEntity.getData());
 //                    if (doingPage == 1) {
 //
 //                    } else {
@@ -313,6 +289,11 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
 //                    }
                 }
                 swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }
@@ -356,19 +337,9 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     private void addAttention() {
-        AddAttentionRequest.exeRequest(AddAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse<String>() {
+        RequestClient.requestAsync(new AddAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<String>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(String resultCode) {
+            public void onSuccess(String resultCode) {
                 if (resultCode.equals("500")) {
                     attent.setText(R.string.person_attention_already);
                     CustomToast.getInstance().showToast(R.string.person_attention_success);
@@ -376,29 +347,29 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                     CustomToast.getInstance().showToast(R.string.person_attention_fail);
                 }
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
     private void cancelAttention() {
-        CancelAttentionRequest.exeRequest(CancelAttentionRequest.generateUrl(AccountManager.getInstance().getUserId(), userinfo.getUid()), new IProtocolResponse<String>() {
+        RequestClient.requestAsync(new CancelAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<String>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(String result) {
-                if (result.equals("510")) {
+            public void onSuccess(String resultCode) {
+                if (resultCode.equals("510")) {
                     attent.setText(R.string.person_attention);
                     CustomToast.getInstance().showToast(R.string.person_attention_cancel_success);
                 } else {
                     CustomToast.getInstance().showToast(R.string.person_attention_cancel_fail);
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }

@@ -46,7 +46,7 @@
                 app:cp_circleWidth="@dimen/line_default"
                 app:cp_textIsDisplayable="false" />
 
-            <com.iyuba.music.widget.imageview.CircleImageView
+            <com.buaa.ct.core.view.image.CircleImageView
                 android:id="@+id/song_image"
                 android:layout_width="46dp"
                 android:layout_height="46dp"

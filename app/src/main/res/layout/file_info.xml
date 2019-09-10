@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@color/background"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/row_space_large"
     android:paddingStart="@dimen/activity_horizontal_margin_big"
+    android:paddingTop="@dimen/activity_horizontal_margin_big"
     android:paddingEnd="@dimen/activity_horizontal_margin_big"
-    android:paddingTop="@dimen/activity_horizontal_margin_big">
+    android:paddingBottom="@dimen/row_space_large">
 
     <TextView
         android:layout_width="match_parent"
@@ -82,7 +82,7 @@
         android:textColor="@color/text_color"
         android:textSize="16sp" />
 
-    <com.iyuba.music.widget.view.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.buaa.ct.core.view.MaterialRippleLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/button_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,5 +98,5 @@
             android:text="@string/app_accept"
             android:textColor="@color/skin_app_color"
             android:textSize="18sp" />
-    </com.iyuba.music.widget.view.MaterialRippleLayout>
+    </com.buaa.ct.core.view.MaterialRippleLayout>
 </LinearLayout>

@@ -28,19 +28,19 @@
 //import com.iyuba.music.entity.BaseListEntity;
 //import com.iyuba.music.entity.doings.Circle;
 //import com.iyuba.music.entity.doings.Doing;
-//import com.iyuba.music.listener.IOnClickListener;
-//import com.iyuba.music.listener.IOnDoubleClick;
+//import com.buaa.ct.core.listener.IOnClickListener;
+//import com.buaa.ct.core.listener.IOnDoubleClick;
 //import com.iyuba.music.listener.IOperationFinish;
 //import com.iyuba.music.listener.IProtocolResponse;
-//import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+//import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 //import com.iyuba.music.manager.AccountManager;
 //import com.iyuba.music.manager.SocialManager;
 //import com.iyuba.music.request.discoverrequest.CircleRequest;
 //import com.iyuba.music.util.ImageUtil;
-//import com.iyuba.music.widget.CustomToast;
-//import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+//import com.buaa.ct.core.view.CustomToast;
+//import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 //import com.iyuba.music.widget.bitmap.MyPalette;
-//import com.iyuba.music.widget.recycleview.DividerItemDecoration;
+//import com.buaa.ct.core.view.image.DividerItemDecoration;
 //import com.umeng.analytics.MobclickAgent;
 //
 //import java.util.ArrayList;
@@ -73,7 +73,7 @@
 //        initToolBar();
 //        initWidget();
 //        setListener();
-//        changeUIByPara();
+//        onActivityCreated();
 //        ((MusicApplication) getApplication()).pushActivity(this);
 //    }
 //
@@ -119,7 +119,7 @@
 //                });
 //    }
 //
-//    protected void initWidget() {
+//    public void initWidget() {
 //        toolbarOper = (TextView) findViewById(R.id.circle_send);
 //        circleRecycleView = (RecyclerView) findViewById(R.id.circle_recyclerview);
 //        swipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
@@ -168,7 +168,7 @@
 //        onRefresh(0);
 //    }
 //
-//    protected void setListener() {
+//    public void setListener() {
 //        findViewById(R.id.toolbar).setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
 //        toolbarOper.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -209,7 +209,7 @@
 //
 //    }
 //
-//    protected void changeUIByPara() {
+//    public void onActivityCreated() {
 //
 //    }
 //

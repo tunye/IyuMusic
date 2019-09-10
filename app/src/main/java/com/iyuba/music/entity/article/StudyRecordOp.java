@@ -1,5 +1,5 @@
 /*
- * 文件名 
+ * 文件名
  * 包含类名列表
  * 版本信息，版本号
  * 创建日期
@@ -9,15 +9,16 @@ package com.iyuba.music.entity.article;
 
 import android.database.Cursor;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类名
  *
  * @author 作者 <br/>
- *         实现的主要功能。 创建日期 修改者，修改日期，修改内容。
+ * 实现的主要功能。 创建日期 修改者，修改日期，修改内容。
  */
 public class StudyRecordOp extends BaseEntityOp<StudyRecord> {
     public static final String TABLE_NAME = "studyrecord";
@@ -69,9 +70,9 @@ public class StudyRecordOp extends BaseEntityOp<StudyRecord> {
         db.close();
     }
 
-    public ArrayList<StudyRecord> selectData() {
+    public List<StudyRecord> selectData() {
         getDatabase();
-        ArrayList<StudyRecord> records = new ArrayList<>();
+        List<StudyRecord> records = new ArrayList<>();
         Cursor cursor = db.rawQuery("select " + VOAID + "," + STARTTIME + "," + ENDTIME + ","
                 + FLAG + "," + LESSON + " from " + TABLE_NAME, new String[]{});
         StudyRecord studyRecord;

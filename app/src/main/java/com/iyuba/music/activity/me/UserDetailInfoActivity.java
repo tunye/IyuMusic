@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.user.MostDetailInfo;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 
 
 public class UserDetailInfoActivity extends BaseActivity {
@@ -23,20 +27,14 @@ public class UserDetailInfoActivity extends BaseActivity {
     private MostDetailInfo userDetailInfo;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.userinfo_detail);
-        context = this;
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         needPop = getIntent().getBooleanExtra("needpop", false);
-        initWidget();
-        setListener();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.userinfo_detail;
     }
 
     private void setText() {
@@ -66,7 +64,7 @@ public class UserDetailInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         tvUserName = findViewById(R.id.tvUserName);
@@ -84,42 +82,37 @@ public class UserDetailInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, EditUserDetailInfoActivity.class));
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.person_detail_title);
         toolbarOper.setText(R.string.person_detail_edit);
         if (!AccountManager.getInstance().getUserId().equals(SocialManager.getInstance().getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(SocialManager.getInstance().getFriendId()), new IProtocolResponse<MostDetailInfo>() {
+        RequestClient.requestAsync(new UserInfoDetailRequest(SocialManager.getInstance().getFriendId()), new SimpleRequestCallBack<MostDetailInfo>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                finish();
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                finish();
-            }
-
-            @Override
-            public void response(MostDetailInfo result) {
-                userDetailInfo = result;
+            public void onSuccess(MostDetailInfo mostDetailInfo) {
+                userDetailInfo = mostDetailInfo;
                 userDetailInfo.format(context, userDetailInfo);
                 setText();
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                finish();
             }
         });
     }

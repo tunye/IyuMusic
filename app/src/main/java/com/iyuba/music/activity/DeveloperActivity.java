@@ -1,6 +1,5 @@
 package com.iyuba.music.activity;
 
-import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
@@ -14,30 +13,21 @@ public class DeveloperActivity extends BaseActivity {
     private TextView blog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.developer);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.developer;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        blog = (TextView) findViewById(R.id.developer_blog);
+        blog = findViewById(R.id.developer_blog);
     }
 
     @Override
-    protected void setListener() {
-        super.setListener();
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        title.setText(R.string.about_developer);
         blog.setAutoLinkMask(Linkify.ALL);
         blog.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        title.setText(R.string.about_developer);
     }
 }

@@ -2,9 +2,10 @@ package com.iyuba.music.manager;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.util.ThreadPoolUtil;
 
 /**
  * Created by 10202 on 2015/11/18.
@@ -50,36 +51,36 @@ public class ConfigManager {
         ThreadPoolUtil.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                push = loadBoolean(PUSH_TAG, true);
-                night = loadBoolean(NIGHT_TAG);
-                language = loadInt(LANGUAGE_TAG);
-                autoLogin = loadBoolean(AUTO_LOGIN_TAG, true);
-                autoPlay = loadBoolean(AUTO_PLAY_TAG);
-                autoStop = loadBoolean(AUTO_STOP_TAG, true);
-                mediaButton = loadBoolean(MEDIA_BUTTON, true);
-                lastADUrl = loadString(AD_TAG);
+                push = SPUtils.loadBoolean(preferences, PUSH_TAG, true);
+                night = SPUtils.loadBoolean(preferences, NIGHT_TAG);
+                language = SPUtils.loadInt(preferences, LANGUAGE_TAG);
+                autoLogin = SPUtils.loadBoolean(preferences, AUTO_LOGIN_TAG, true);
+                autoPlay = SPUtils.loadBoolean(preferences, AUTO_PLAY_TAG);
+                autoStop = SPUtils.loadBoolean(preferences, AUTO_STOP_TAG, true);
+                mediaButton = SPUtils.loadBoolean(preferences, MEDIA_BUTTON, true);
+                lastADUrl = SPUtils.loadString(preferences, AD_TAG);
 
-                sayingMode = loadInt(SAYING_MODE_TAG);
-                wordDefShow = loadBoolean(WORD_DEF_SHOW_TAG, true);
-                wordOrder = loadInt(WORD_ORDER_TAG);
-                wordAutoPlay = loadBoolean(WORD_AUTO_PLAY_TAG, true);
-                wordAutoAdd = loadBoolean(WORD_AUTO_ADD_TAG);
+                sayingMode = SPUtils.loadInt(preferences, SAYING_MODE_TAG);
+                wordDefShow = SPUtils.loadBoolean(preferences, WORD_DEF_SHOW_TAG, true);
+                wordOrder = SPUtils.loadInt(preferences, WORD_ORDER_TAG);
+                wordAutoPlay = SPUtils.loadBoolean(preferences, WORD_AUTO_PLAY_TAG, true);
+                wordAutoAdd = SPUtils.loadBoolean(preferences, WORD_AUTO_ADD_TAG);
 
-                originalSize = loadInt(ORIGINAL_SIZE, 16);
-                studyPlayMode = loadInt(STUDY_PLAY_MODE, 1);
-                studyMode = loadInt(STUDY_MODE, 1);
-                studyTranslate = loadInt(STUDY_TRANSLATE, 1);
+                originalSize = SPUtils.loadInt(preferences, ORIGINAL_SIZE, 16);
+                studyPlayMode = SPUtils.loadInt(preferences, STUDY_PLAY_MODE, 1);
+                studyMode = SPUtils.loadInt(preferences, STUDY_MODE, 1);
+                studyTranslate = SPUtils.loadInt(preferences, STUDY_TRANSLATE, 1);
 
-                eggshell = loadBoolean(EGGSHELL_TAG);
-                upgrade = loadBoolean(UPGRADE_TAG);
-                autoRound = loadBoolean(AUTOROUND, true);
-                photoTimestamp = loadString(PHOTO_TIMESTAMP, "");
-                autoDownload = loadBoolean(DOWNLOADMEANWHILE);
-                download = loadInt(DOWNLOAD, 0);
+                eggshell = SPUtils.loadBoolean(preferences, EGGSHELL_TAG);
+                upgrade = SPUtils.loadBoolean(preferences, UPGRADE_TAG);
+                autoRound = SPUtils.loadBoolean(preferences, AUTOROUND, true);
+                photoTimestamp = SPUtils.loadString(preferences, PHOTO_TIMESTAMP, "");
+                autoDownload = SPUtils.loadBoolean(preferences, DOWNLOADMEANWHILE);
+                download = SPUtils.loadInt(preferences, DOWNLOAD, 0);
 
-                initWeight = loadFloat(INITWEIGHT, 100);
-                targetWeight = loadFloat(TARGETWEIGHT, 80);
-                showWeightTarget = loadBoolean(SHOWTARGET);
+                initWeight = SPUtils.loadFloat(preferences, INITWEIGHT, 100);
+                targetWeight = SPUtils.loadFloat(preferences, TARGETWEIGHT, 80);
+                showWeightTarget = SPUtils.loadBoolean(preferences, SHOWTARGET);
             }
         });
     }
@@ -88,66 +89,9 @@ public class ConfigManager {
         return SingleInstanceHelper.instance;
     }
 
-    /**
-     * 原configmanager迁移，合并settingconfigmanager和configmanager
-     */
-
-    public void putBoolean(String name, boolean value) {
-        preferences.edit().putBoolean(name, value).apply();
+    public SharedPreferences getPreferences() {
+        return preferences;
     }
-
-    public void putInt(String name, int value) {
-        preferences.edit().putInt(name, value).apply();
-    }
-
-    public void putFloat(String name, float value) {
-        preferences.edit().putFloat(name, value).apply();
-    }
-
-    public void putString(String name, String value) {
-        preferences.edit().putString(name, value).apply();
-    }
-
-    public boolean loadBoolean(String key) {
-        return preferences.getBoolean(key, false);
-    }
-
-    public boolean loadBoolean(String key, boolean defaultBool) {
-        return preferences.getBoolean(key, defaultBool);
-    }
-
-    public int loadInt(String key) {
-        return preferences.getInt(key, 0);
-    }
-
-    public int loadInt(String key, int defaultInt) {
-        return preferences.getInt(key, defaultInt);
-    }
-
-    public float loadFloat(String key) {
-        return preferences.getFloat(key, 0);
-    }
-
-    public float loadFloat(String key, float defaultInt) {
-        return preferences.getFloat(key, defaultInt);
-    }
-
-    public String loadString(String key) {
-        return preferences.getString(key, "");
-    }
-
-    public String loadString(String key, @NonNull String defaultString) {
-        return preferences.getString(key, defaultString);
-    }
-
-    public void removeKey(String key) {
-        preferences.edit().remove(key).apply();
-    }
-
-    public void clearKey() {
-        preferences.edit().clear().apply();
-    }
-
 
     public boolean isPush() {
         return push;
@@ -155,7 +99,7 @@ public class ConfigManager {
 
     public void setPush(boolean push) {
         this.push = push;
-        putBoolean(PUSH_TAG, push);
+        SPUtils.putBoolean(preferences, PUSH_TAG, push);
     }
 
     public boolean isNight() {
@@ -164,7 +108,7 @@ public class ConfigManager {
 
     public void setNight(boolean night) {
         this.night = night;
-        putBoolean(NIGHT_TAG, night);
+        SPUtils.putBoolean(preferences, NIGHT_TAG, night);
     }
 
     public int getLanguage() {
@@ -173,7 +117,7 @@ public class ConfigManager {
 
     public void setLanguage(int language) {
         this.language = language;
-        putInt(LANGUAGE_TAG, language);
+        SPUtils.putInt(preferences, LANGUAGE_TAG, language);
     }
 
     public boolean isAutoLogin() {
@@ -182,7 +126,7 @@ public class ConfigManager {
 
     public void setAutoLogin(boolean autoLogin) {
         this.autoLogin = autoLogin;
-        putBoolean(AUTO_LOGIN_TAG, autoLogin);
+        SPUtils.putBoolean(preferences, AUTO_LOGIN_TAG, autoLogin);
     }
 
     public boolean isAutoPlay() {
@@ -191,7 +135,7 @@ public class ConfigManager {
 
     public void setAutoPlay(boolean autoPlay) {
         this.autoPlay = autoPlay;
-        putBoolean(AUTO_PLAY_TAG, autoPlay);
+        SPUtils.putBoolean(preferences, AUTO_PLAY_TAG, autoPlay);
     }
 
     public boolean isAutoStop() {
@@ -200,7 +144,7 @@ public class ConfigManager {
 
     public void setAutoStop(boolean autoStop) {
         this.autoStop = autoStop;
-        putBoolean(AUTO_STOP_TAG, autoStop);
+        SPUtils.putBoolean(preferences, AUTO_STOP_TAG, autoStop);
     }
 
     public boolean isMediaButton() {
@@ -209,7 +153,7 @@ public class ConfigManager {
 
     public void setMediaButton(boolean mediaButton) {
         this.mediaButton = mediaButton;
-        putBoolean(MEDIA_BUTTON, mediaButton);
+        SPUtils.putBoolean(preferences, MEDIA_BUTTON, mediaButton);
     }
 
     public String getADUrl() {
@@ -218,7 +162,7 @@ public class ConfigManager {
 
     public void setADUrl(String url) {
         this.lastADUrl = url;
-        putString(AD_TAG, url);
+        SPUtils.putString(preferences, AD_TAG, url);
     }
 
     public int getSayingMode() {
@@ -227,7 +171,7 @@ public class ConfigManager {
 
     public void setSayingMode(int mode) {
         this.sayingMode = mode;
-        putInt(SAYING_MODE_TAG, mode);
+        SPUtils.putInt(preferences, SAYING_MODE_TAG, mode);
     }
 
     public boolean isWordDefShow() {
@@ -236,7 +180,7 @@ public class ConfigManager {
 
     public void setWordDefShow(boolean show) {
         this.wordDefShow = show;
-        putBoolean(WORD_DEF_SHOW_TAG, show);
+        SPUtils.putBoolean(preferences, WORD_DEF_SHOW_TAG, show);
     }
 
     public int getWordOrder() {
@@ -245,7 +189,7 @@ public class ConfigManager {
 
     public void setWordOrder(int order) {
         this.wordOrder = order;
-        putInt(WORD_ORDER_TAG, order);
+        SPUtils.putInt(preferences, WORD_ORDER_TAG, order);
     }
 
     public boolean isWordAutoPlay() {
@@ -254,7 +198,7 @@ public class ConfigManager {
 
     public void setWordAutoPlay(boolean play) {
         this.wordAutoPlay = play;
-        putBoolean(WORD_AUTO_PLAY_TAG, play);
+        SPUtils.putBoolean(preferences, WORD_AUTO_PLAY_TAG, play);
     }
 
     public boolean isWordAutoAdd() {
@@ -263,7 +207,7 @@ public class ConfigManager {
 
     public void setWordAutoAdd(boolean add) {
         this.wordAutoAdd = add;
-        putBoolean(WORD_AUTO_ADD_TAG, add);
+        SPUtils.putBoolean(preferences, WORD_AUTO_ADD_TAG, add);
     }
 
     public int getStudyMode() {
@@ -272,7 +216,7 @@ public class ConfigManager {
 
     public void setStudyMode(int mode) {
         this.studyMode = mode;
-        putInt(STUDY_MODE, mode);
+        SPUtils.putInt(preferences, STUDY_MODE, mode);
     }
 
     public int getStudyTranslate() {
@@ -281,7 +225,7 @@ public class ConfigManager {
 
     public void setStudyTranslate(int mode) {
         this.studyTranslate = mode;
-        putInt(STUDY_TRANSLATE, mode);
+        SPUtils.putInt(preferences, STUDY_TRANSLATE, mode);
     }
 
     public int getStudyPlayMode() {
@@ -290,7 +234,7 @@ public class ConfigManager {
 
     public void setStudyPlayMode(int mode) {
         this.studyPlayMode = mode;
-        putInt(STUDY_PLAY_MODE, mode);
+        SPUtils.putInt(preferences, STUDY_PLAY_MODE, mode);
     }
 
     public boolean isEggShell() {
@@ -299,7 +243,7 @@ public class ConfigManager {
 
     public void setEggShell(boolean eggShell) {
         this.eggshell = eggShell;
-        putBoolean(EGGSHELL_TAG, eggShell);
+        SPUtils.putBoolean(preferences, EGGSHELL_TAG, eggShell);
     }
 
     public boolean isUpgrade() {
@@ -308,7 +252,7 @@ public class ConfigManager {
 
     public void setUpgrade(boolean upgrade) {
         this.upgrade = upgrade;
-        putBoolean(UPGRADE_TAG, upgrade);
+        SPUtils.putBoolean(preferences, UPGRADE_TAG, upgrade);
     }
 
     public boolean isAutoRound() {
@@ -317,7 +261,7 @@ public class ConfigManager {
 
     public void setAutoRound(boolean round) {
         this.autoRound = round;
-        putBoolean(AUTOROUND, round);
+        SPUtils.putBoolean(preferences, AUTOROUND, round);
     }
 
     public boolean isDownloadMeanwhile() {
@@ -326,7 +270,7 @@ public class ConfigManager {
 
     public void setDownloadMeanwhile(boolean meanwhile) {
         this.autoDownload = meanwhile;
-        putBoolean(DOWNLOADMEANWHILE, meanwhile);
+        SPUtils.putBoolean(preferences, DOWNLOADMEANWHILE, meanwhile);
     }
 
     public int getDownloadMode() {
@@ -335,7 +279,7 @@ public class ConfigManager {
 
     public void setDownloadMode(int mode) {
         this.download = mode;
-        putInt(DOWNLOAD, mode);
+        SPUtils.putInt(preferences, DOWNLOAD, mode);
     }
 
     public int getOriginalSize() {
@@ -344,7 +288,7 @@ public class ConfigManager {
 
     public void setOriginalSize(int size) {
         this.originalSize = size;
-        putInt(ORIGINAL_SIZE, size);
+        SPUtils.putInt(preferences, ORIGINAL_SIZE, size);
     }
 
     public float getInitWeight() {
@@ -353,7 +297,7 @@ public class ConfigManager {
 
     public void setInitWeight(float weight) {
         this.initWeight = weight;
-        putFloat(INITWEIGHT, weight);
+        SPUtils.putFloat(preferences, INITWEIGHT, weight);
     }
 
     public float getTargetWeight() {
@@ -362,7 +306,7 @@ public class ConfigManager {
 
     public void setTargetWeight(float weight) {
         this.targetWeight = weight;
-        putFloat(TARGETWEIGHT, weight);
+        SPUtils.putFloat(preferences, TARGETWEIGHT, weight);
     }
 
     public boolean isShowTarget() {
@@ -371,7 +315,7 @@ public class ConfigManager {
 
     public void setShowTarget(boolean show) {
         this.showWeightTarget = show;
-        putBoolean(SHOWTARGET, show);
+        SPUtils.putBoolean(preferences, SHOWTARGET, show);
     }
 
     public String getUserPhotoTimeStamp() {
@@ -380,7 +324,7 @@ public class ConfigManager {
 
     public void setUserPhotoTimeStamp() {
         this.photoTimestamp = "time=" + System.currentTimeMillis();
-        putString(PHOTO_TIMESTAMP, photoTimestamp);
+        SPUtils.putString(preferences, PHOTO_TIMESTAMP, photoTimestamp);
     }
 
     private static class SingleInstanceHelper {

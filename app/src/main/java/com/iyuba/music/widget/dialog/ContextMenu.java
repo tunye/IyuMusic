@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.MenuAdapter;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class ContextMenu {
                 dismiss();
             }
         });
-        ListView oper = (ListView) root.findViewById(R.id.operList);
+        ListView oper = root.findViewById(R.id.operList);
         MenuAdapter adapter = new MenuAdapter(context, operText);
         adapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
@@ -55,16 +56,12 @@ public class ContextMenu {
                 dismiss();
                 operationResultInt.performance(position);
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         oper.setAdapter(adapter);
-        root.setOnClickListener(new View.OnClickListener() {
+        root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 dismiss();
             }
         });

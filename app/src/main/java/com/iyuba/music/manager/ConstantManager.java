@@ -10,8 +10,6 @@ import java.io.File;
 public class ConstantManager {
     public static final String MIPUSH_APP_ID = "2882303761517139929";
     public static final String MIPUSH_APP_KEY = "5671713914929";
-    public final static String SMSAPPID = "1e93e2e17fe3e";
-    public final static String SMSAPPSECRET = "20a214f48119fbbc88bbf729590618c0";
     public final static String YOUDAOSECRET = "3438bae206978fec8995b280c49dae1e";
     public final static String WXSECRET = "5d5d3eaf4c6b69a278cf16c115014474";
     public final static String WXID = "wx182643cdcfc2b59f";
@@ -22,6 +20,7 @@ public class ConstantManager {
     public static final String appId = "209";
     public static final String appName = "听歌学英语";
     public static final String appEnglishName = "afterclass";
+    public static final int NEWSPIC_CORNER = 6;
     public static String envir;
     public static String updateFolder;
     public static String musicFolder;

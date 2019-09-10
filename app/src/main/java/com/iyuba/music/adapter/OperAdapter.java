@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buaa.ct.appskin.SkinManager;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -25,11 +28,10 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.GoImageView;
 
@@ -42,7 +44,6 @@ import java.util.ArrayList;
 public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder> {
     private static final ArrayList<Integer> menuTextList;
     private static final ArrayList<Integer> menuIconList;
-    private SignInDialog signInDialog;
 
     static {
         menuIconList = new ArrayList<>(12);
@@ -69,6 +70,8 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList.add(R.string.oper_setting);
     }
 
+    private SignInDialog signInDialog;
+
     public OperAdapter() {
     }
 
@@ -85,10 +88,11 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
 
     @Override
     public void onBindViewHolder(final OperViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                onItemClicked(v.getContext(), holder.getAdapterPosition());
+            public void onClick(View view) {
+                super.onClick(view);
+                onItemClicked(view.getContext(), holder.getAdapterPosition());
             }
         });
         holder.menuText.setText(RuntimeManager.getInstance().getString(menuTextList.get(position)));
@@ -120,7 +124,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_sleep))) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            int sleepSecond = RuntimeManager.getInstance().getApplication().getSleepSecond();
+            int sleepSecond = Utils.getMusicApplication().getSleepSecond();
             if (sleepSecond == 0) {
                 holder.menuResult.setText(R.string.sleep_no_set);
             } else {
@@ -203,10 +207,10 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
 
         OperViewHolder(View itemView) {
             super(itemView);
-            menuText = (TextView) itemView.findViewById(R.id.oper_text);
-            menuIcon = (ImageView) itemView.findViewById(R.id.oper_icon);
-            menuResult = (TextView) itemView.findViewById(R.id.oper_result);
-            go = (GoImageView) itemView.findViewById(R.id.oper_go);
+            menuText = itemView.findViewById(R.id.oper_text);
+            menuIcon = itemView.findViewById(R.id.oper_icon);
+            menuResult = itemView.findViewById(R.id.oper_result);
+            go = itemView.findViewById(R.id.oper_go);
         }
     }
 }

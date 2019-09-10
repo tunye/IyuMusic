@@ -8,14 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.original.OriginalView;
 import com.iyuba.music.widget.seekbar.DiscreteSlider;
@@ -65,21 +66,22 @@ public class OriginalSizeActivity extends BaseActivity {
     private int sizePos, initPos;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.original_size);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         originalRows = new ArrayList<>();
         for (String lrcLine : example) {
             Original row = Original.createRows(lrcLine);
             originalRows.add(row);
         }
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.original_size;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         original = findViewById(R.id.original);
@@ -88,13 +90,8 @@ public class OriginalSizeActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+    public void setListener() {
+        super.setListener();
         toolbarOper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,8 +118,8 @@ public class OriginalSizeActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.original_size_title);
         toolbarOper.setText(R.string.dialog_save);
         initPos = sizePos = sizeToPos(ConfigManager.getInstance().getOriginalSize());
@@ -143,6 +140,7 @@ public class OriginalSizeActivity extends BaseActivity {
         switch (size) {
             case 14:
                 return 0;
+            default:
             case 16:
                 return 1;
             case 18:
@@ -152,13 +150,13 @@ public class OriginalSizeActivity extends BaseActivity {
             case 24:
                 return 4;
         }
-        return 1;
     }
 
     private int posToSize(int pos) {
         switch (pos) {
             case 0:
                 return 14;
+            default:
             case 1:
                 return 16;
             case 2:
@@ -167,8 +165,6 @@ public class OriginalSizeActivity extends BaseActivity {
                 return 20;
             case 4:
                 return 24;
-            default:
-                return 16;
         }
     }
 
@@ -190,9 +186,10 @@ public class OriginalSizeActivity extends BaseActivity {
                 tv.setTextColor(getResources().getColor(R.color.text_color));
             }
             final int intervalPos = i;
-            tv.setOnClickListener(new View.OnClickListener() {
+            tv.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     discreteSlider.setSelected(intervalPos);
                 }
             });

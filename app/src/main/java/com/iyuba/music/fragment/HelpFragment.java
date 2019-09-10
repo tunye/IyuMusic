@@ -34,7 +34,7 @@ public class HelpFragment extends BaseFragment {
             mContent = savedInstanceState.getInt(KEY_CONTENT);
         }
         View root = inflater.inflate(R.layout.help_fragment, container, false);
-        ImageView iv =  root.findViewById(R.id.iv);
+        ImageView iv = root.findViewById(R.id.iv);
         iv.setImageBitmap(BitmapUtils.readBitmap(root.getContext(), root.getContext().getResources().getIdentifier("help" + (mContent + 1), "raw", root.getContext().getPackageName())));
         PullDoorView pullDoorView = root.findViewById(R.id.root);
         if (usePullDown) {

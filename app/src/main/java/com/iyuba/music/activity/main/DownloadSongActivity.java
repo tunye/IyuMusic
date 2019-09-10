@@ -3,13 +3,18 @@ package com.iyuba.music.activity.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.listener.IOnDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -24,27 +29,22 @@ import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.ground.VideoPlayerActivity;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.ThreadPoolUtil;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by 10202 on 2016/3/7.
  */
 public class DownloadSongActivity extends BaseActivity implements IOnClickListener {
-    private ArrayList<Article> downloaded, downloading;
+    private List<Article> downloaded, downloading;
     private DownloadNewsAdapter downloadedAdapter, downloadingAdapter;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
@@ -55,38 +55,37 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             downloadedStatic, downloadingStatic;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.download_song);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.download_song;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         getFileMap();
         downloadScroll = findViewById(R.id.download_scroll);
         toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
         toolbarOper = findViewById(R.id.toolbar_oper);
         RecyclerView downloadedRecycleView = findViewById(R.id.downloaded_recyclerview);
-        downloadedRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        downloadedRecycleView.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(downloadedRecycleView);
         downloadedDel = findViewById(R.id.downloaded_delete);
         downloadedStatic = findViewById(R.id.downloaded_statistic);
         final RecyclerView downloadingRecycleView = findViewById(R.id.downloading_recyclerview);
-        downloadingRecycleView.setLayoutManager(new LinearLayoutManager(context));
-        downloadingRecycleView.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(downloadingRecycleView);
+        ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingStatic = findViewById(R.id.downloading_statistic);
         downloadingDel = findViewById(R.id.downloading_delete);
         downloadingContinue = findViewById(R.id.downloading_start);
-        ((SimpleItemAnimator) downloadingRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         downloadingBar = findViewById(R.id.downloading_bar);
         downloadedAdapter = new DownloadNewsAdapter(context, fileMap);
-        downloadedAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        downloadedAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 String app = downloaded.get(position).getApp();
@@ -106,9 +105,6 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 }
             }
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
         downloadedRecycleView.setAdapter(downloadedAdapter);
 
@@ -121,21 +117,17 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 getData();
             }
         });
-        downloadingAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        downloadingAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 CustomToast.getInstance().showToast(R.string.article_downloading);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
             }
         });
         downloadingRecycleView.setAdapter(downloadingAdapter);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         toolBarOperSub.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +163,10 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 }
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     downloadedAdapter.setDelete(true);
                     downloadingAdapter.setDelete(true);
@@ -184,7 +177,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     downloadedAdapter.setDelete(false);
                     toolbarOper.setText(R.string.article_edit);
                     toolBarOperSub.setText(R.string.article_clear);
-                    downloading = downloadingAdapter.getDataSet();
+                    downloading = downloadingAdapter.getDatas();
                     for (Article temp : downloading) {
                         if (temp.isDelete()) {
                             deleteFile(temp.getId(), temp.getApp(), "2");
@@ -192,7 +185,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                         }
                     }
 
-                    downloaded = downloadedAdapter.getDataSet();
+                    downloaded = downloadedAdapter.getDatas();
                     for (Article temp : downloaded) {
                         if (temp.isDelete()) {
                             deleteFile(temp.getId(), temp.getApp(), "1");
@@ -240,7 +233,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         downloadingContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<LocalInfo> downloadingContinue = localInfoOp.findDataByShouldContinue();
+                List<LocalInfo> downloadingContinue = localInfoOp.findDataByShouldContinue();
                 DownloadFile downloadFile;
                 for (LocalInfo localInfo : downloadingContinue) {
                     if (localInfo.getDownload() == 3) {
@@ -263,8 +256,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.classify_local);
         toolbarOper.setText(R.string.article_edit);
         toolBarOperSub.setText(R.string.article_clear);
@@ -284,7 +277,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     private void getData() {
         getDownloadedData();
         downloading = new ArrayList<>();
-        ArrayList<LocalInfo> temp = localInfoOp.findDataByDownloading();
+        List<LocalInfo> temp = localInfoOp.findDataByDownloading();
         if (temp.size() == 0) {
             downloadingBar.setVisibility(View.GONE);
             downloadingAdapter.setDataSet(new ArrayList<Article>());
@@ -307,7 +300,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
 
     private void getDownloadedData() {
         downloaded = new ArrayList<>();
-        ArrayList<LocalInfo> temp = localInfoOp.findDataByDownloaded();
+        List<LocalInfo> temp = localInfoOp.findDataByDownloaded();
         Article article;
         for (LocalInfo local : temp) {
             article = articleOp.findById(local.getApp(), local.getId());

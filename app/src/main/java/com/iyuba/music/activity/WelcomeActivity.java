@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,21 +17,25 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.ImageUtil;
+import com.buaa.ct.core.util.SPUtils;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.ad.AdEntity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.AdPicRequest;
 import com.iyuba.music.sqlite.ImportDatabase;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.youdao.sdk.nativeads.NativeErrorCode;
@@ -61,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.welcome);
         context = this;
         normalStart = getIntent().getBooleanExtra(NORMAL_START, true);
-        if (RuntimeManager.getInstance().getApplication().getPlayerService() != null && RuntimeManager.getInstance().getApplication().getPlayerService().isPlaying()) {
+        if (Utils.getMusicApplication().getPlayerService() != null && Utils.getMusicApplication().getPlayerService().isPlaying()) {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             finish();
         } else {
@@ -69,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
             getBannerPic();
             setListener();
             initialDatabase();
-            RuntimeManager.getInstance().setShowSignInToast(true);
+            Utils.getMusicApplication().setShowSignInToast(true);
             ((MusicApplication) getApplication()).pushActivity(this);
         }
     }
@@ -130,22 +135,17 @@ public class WelcomeActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(adUrl)) {
             handler.sendEmptyMessage(2);
         }
-        AdPicRequest.exeRequest(AdPicRequest.generateUrl(), new IProtocolResponse<AdEntity>() {
+        RequestClient.requestAsync(new AdPicRequest(), new SimpleRequestCallBack<AdEntity>() {
             @Override
-            public void onNetError(String msg) {
-                header.setImageResource(R.drawable.default_header);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                header.setImageResource(R.drawable.default_header);
-            }
-
-            @Override
-            public void response(AdEntity result) {
-                adUrl = new Gson().toJson(result);
-                handler.sendEmptyMessage(2);
+            public void onSuccess(AdEntity adEntity) {
+                adUrl = JSON.toJSONString(adEntity);
+                handler.obtainMessage(2, adEntity).sendToTarget();
                 ConfigManager.getInstance().setADUrl(adUrl);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                header.setImageResource(R.drawable.default_header);
             }
         });
     }
@@ -155,20 +155,21 @@ public class WelcomeActivity extends AppCompatActivity {
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
-                        header.setOnClickListener(new View.OnClickListener() {
+                        header.setOnClickListener(new INoDoubleClick() {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View view) {
+                                super.onClick(view);
                                 nativeResponse.handleClick(header);
                             }
                         });
-                        ImageUtil.loadImage(header, nativeResponse.getMainImageUrl(), 0, new ImageUtil.OnDrawableLoadListener() {
+                        ImageUtil.loadImage(nativeResponse.getMainImageUrl(), header, null, new ImageUtil.OnBitmapLoaded() {
                             @Override
-                            public void onSuccess(GlideDrawable drawable) {
+                            public void onImageLoaded(Bitmap bitmap) {
                                 nativeResponse.recordImpression(header);
                             }
 
                             @Override
-                            public void onFail(Exception e) {
+                            public void onImageLoadFailed() {
 
                             }
                         });
@@ -190,7 +191,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initialDatabase() {
-        int lastVersion = ConfigManager.getInstance().loadInt("version");
+        int lastVersion = SPUtils.loadInt(ConfigManager.getInstance().getPreferences(), "version");
         int currentVersion = 0;
         PackageInfo info;
         try {
@@ -221,14 +222,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void appUpgrade(int currentVersion) {
         showGuide = true;
-        ConfigManager.getInstance().putInt("version", currentVersion);
+        SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "version", currentVersion);
         ConfigManager.getInstance().setUpgrade(true);
         escapeAd.setVisibility(View.GONE);
         welcomeAdProgressbar.setVisibility(View.GONE);
     }
 
     private boolean isNetworkAvailable() {
-        Context context = RuntimeManager.getInstance().getApplication();
+        Context context = Utils.getMusicApplication();
         // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
@@ -269,9 +270,9 @@ public class WelcomeActivity extends AppCompatActivity {
                         activity.header.setImageResource(R.drawable.default_header);
                     } else if (!activity.isDestroyed() && adUrl.contains("@@@")) {
                         String[] adUrls = adUrl.split("@@@");
-                        ImageUtil.loadImage(adUrls[0], activity.header);
+                        AppImageUtil.loadImage(adUrls[0], activity.header);
                     } else if (!activity.isDestroyed()) {
-                        activity.adEntity = new Gson().fromJson(adUrl, AdEntity.class);
+                        activity.adEntity = (AdEntity) msg.obj;
                         switch (activity.adEntity.getType()) {
                             default:
                             case "youdao":
@@ -283,7 +284,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 break;
                             case "web":
                                 if (activity.isNetworkAvailable()) {
-                                    ImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header, R.drawable.default_header);
+                                    AppImageUtil.loadImage(activity.adEntity.getPicUrl(), activity.header, R.drawable.default_header);
                                 } else {
                                     activity.header.setImageResource(R.drawable.default_header);
                                 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.iyuba.music.widget.CustomToast;
+import com.buaa.ct.core.view.CustomToast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

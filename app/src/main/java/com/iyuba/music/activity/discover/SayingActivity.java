@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.AddRippleEffect;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -20,7 +22,6 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.iyuba.music.widget.textview.JustifyTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -33,16 +34,12 @@ public class SayingActivity extends BaseActivity {
     private View sayingContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.saying);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.saying;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         english = findViewById(R.id.saying_english);
         chinese = findViewById(R.id.saying_chinese);
@@ -53,34 +50,36 @@ public class SayingActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (ConfigManager.getInstance().getSayingMode() == 1) {
                     ConfigManager.getInstance().setSayingMode(0);
                 } else {
                     ConfigManager.getInstance().setSayingMode(1);
                 }
-                changeUIResumeByPara();
+                onActivityResumed();
             }
         });
-        next.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 handler.sendEmptyMessage(0);
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.word_saying_title);
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         if (ConfigManager.getInstance().getSayingMode() == 1) {
             toolbarOper.setText(R.string.word_saying_manualchange);
             next.setVisibility(View.INVISIBLE);
@@ -89,12 +88,6 @@ public class SayingActivity extends BaseActivity {
             next.setVisibility(View.VISIBLE);
         }
         handler.sendEmptyMessage(1);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
     }
 
     @Override

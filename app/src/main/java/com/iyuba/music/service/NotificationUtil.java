@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.iyuba.music.R;
@@ -20,9 +22,7 @@ import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.bitmap.BitmapUtils;
 
 import java.util.LinkedList;
@@ -165,9 +165,8 @@ public class NotificationUtil {
         notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
         notification = notificationBuilder.build();
         if (!StudyManager.getInstance().getApp().equals("101")) {
-            NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
-                    R.id.notify_img, notification, NOTIFICATION_ID);
-            Glide.with(context).load(imgUrl).asBitmap().into(notificationTarget);
+            NotificationTarget notificationTarget = new NotificationTarget(context, R.id.notify_img, contentView, notification, NOTIFICATION_ID);
+            Glide.with(context).asBitmap().load(imgUrl).into(notificationTarget);
         }
         notificationManager.notify(NOTIFICATION_ID, notification);
     }

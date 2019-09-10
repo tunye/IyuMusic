@@ -32,8 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="23dp"
-                    android:layout_marginEnd="24dp"
                     android:layout_marginTop="23dp"
+                    android:layout_marginEnd="24dp"
                     android:textColor="@color/text_color"
                     android:textSize="20sp"
                     tools:text="Material title" />
@@ -74,33 +74,33 @@
                 android:layout_gravity="end"
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical"
-                android:paddingBottom="12dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp">
 
                 <Button
                     android:id="@+id/btn_n"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/action_button_height"
+                    android:background="@color/background_dark"
                     android:minWidth="@dimen/action_button_min_width"
                     android:paddingStart="@dimen/action_button_padding_horizontal"
                     android:paddingEnd="@dimen/action_button_padding_horizontal"
-                    android:background="@color/background_dark"
-                    android:textSize="@dimen/action_button_text_size"
                     android:textColor="@color/text_color"
+                    android:textSize="@dimen/action_button_text_size"
                     tools:text="CANCEL" />
 
                 <Button
                     android:id="@+id/btn_p"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/action_button_height"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@color/background_dark"
                     android:minWidth="@dimen/action_button_min_width"
                     android:paddingStart="@dimen/action_button_padding_horizontal"
                     android:paddingEnd="@dimen/action_button_padding_horizontal"
-                    android:background="@color/background_dark"
-                    android:textSize="@dimen/action_button_text_size"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="12dp"
                     android:textColor="@color/skin_app_color"
+                    android:textSize="@dimen/action_button_text_size"
                     tools:text="OK" />
             </LinearLayout>
         </LinearLayout>

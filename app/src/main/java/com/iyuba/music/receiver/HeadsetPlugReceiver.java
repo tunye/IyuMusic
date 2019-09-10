@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 public class HeadsetPlugReceiver extends BroadcastReceiver {
@@ -23,8 +23,8 @@ public class HeadsetPlugReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (RuntimeManager.getInstance().getApplication().getPlayerService() != null) {
-            StandardPlayer player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
+        if (Utils.getMusicApplication().getPlayerService() != null) {
+            StandardPlayer player = Utils.getMusicApplication().getPlayerService().getPlayer();
             if (intent.getIntExtra("state", 0) == 1) {
                 boolean isAutoPlay = ConfigManager.getInstance().isAutoPlay();
                 if (isAutoPlay && player.isPrepared() && !player.isPlaying()) {

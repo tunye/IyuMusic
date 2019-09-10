@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +20,13 @@ import android.widget.TextView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.appskin.BaseSkinActivity;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.network.NetWorkType;
+import com.buaa.ct.core.network.PingIPThread;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.LocalInfoOp;
@@ -31,14 +36,8 @@ import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
-import com.iyuba.music.network.NetWorkType;
-import com.iyuba.music.network.PingIPThread;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -57,7 +56,6 @@ public class MainActivity extends BaseSkinActivity {
     private MaterialMenuView menu;
     private NetWorkChangeBroadcastReceiver netWorkChange;
     private boolean isExit = false;// 是否点过退出
-    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,7 @@ public class MainActivity extends BaseSkinActivity {
         initWidget();
         setListener();
         if (ConfigManager.getInstance().isUpgrade()) {
-            handler.postDelayed(new Runnable() {
+            ThreadUtils.postOnUiThreadDelay(new Runnable() {
                 @Override
                 public void run() {
                     showWhatsNew();
@@ -83,18 +81,14 @@ public class MainActivity extends BaseSkinActivity {
             }
             StartFragment.checkTmpFile();
             if (getIntent().getBooleanExtra("pushIntent", false)) {
-                handler.postDelayed(new Runnable() {
+                ThreadUtils.postOnUiThreadDelay(new Runnable() {
                     @Override
                     public void run() {
                         ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
                     }
                 }, 200);
             }
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    checkForUpdate();
-                }
-            }, 1000);
+            checkForUpdate();
         }
         ((MusicApplication) getApplication()).pushActivity(this);
     }
@@ -103,7 +97,7 @@ public class MainActivity extends BaseSkinActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra("pushIntent", false)) {
-            handler.postDelayed(new Runnable() {
+            ThreadUtils.postOnUiThreadDelay(new Runnable() {
                 @Override
                 public void run() {
                     ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
@@ -116,33 +110,6 @@ public class MainActivity extends BaseSkinActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switch (NetWorkState.getInstance().getNetWorkState()) {
-                    case NetWorkState.WIFI_NONET:
-                        PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
-                            @Override
-                            public void success(Object object) {
-                                NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI);
-                            }
-
-                            @Override
-                            public void fail(Object object) {
-                                checkWifiSignIn();
-                            }
-                        });
-                        pingIPThread.start();
-                        break;
-                    case NetWorkState.NO_NET:
-                        setNetwork(context);
-                        break;
-                    case NetWorkState.TWOG:
-                        setBetterNetwork(context);
-                        break;
-                }
-            }
-        }, 500);
     }
 
     @Override
@@ -167,7 +134,7 @@ public class MainActivity extends BaseSkinActivity {
         registerReceiver(netWorkChange, intentFilter);
     }
 
-    protected void initWidget() {
+    public void initWidget() {
         root = findViewById(R.id.root);
         toolbarOper = findViewById(R.id.toolbar_oper);
         menu = findViewById(R.id.material_menu);
@@ -179,10 +146,11 @@ public class MainActivity extends BaseSkinActivity {
         drawView = findViewById(R.id.left_drawer);
     }
 
-    protected void setListener() {
-        menu.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        menu.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (menu.getDrawable().getIconState().equals(MaterialMenuDrawable.IconState.BURGER)) {
                     drawerLayout.openDrawer(drawView);
                     menu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
@@ -192,9 +160,10 @@ public class MainActivity extends BaseSkinActivity {
                 }
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, SearchActivity.class));
             }
         });
@@ -246,7 +215,6 @@ public class MainActivity extends BaseSkinActivity {
     public void finish() {
         super.finish();
         unRegistBroadcast();
-        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -263,9 +231,10 @@ public class MainActivity extends BaseSkinActivity {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.storage_permission);
                 materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
+                        super.onClick(view);
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                 WRITE_EXTERNAL_TASK_CODE);
                         materialDialog.dismiss();
@@ -301,7 +270,7 @@ public class MainActivity extends BaseSkinActivity {
 
     private void doExitInOneSecond() {
         isExit = true;
-        handler.postDelayed(new Runnable() {
+        ThreadUtils.postOnUiThreadDelay(new Runnable() {
             @Override
             public void run() {
                 isExit = false;
@@ -316,9 +285,10 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     private void checkWifiSignIn() {
-        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).danger(context.getString(R.string.net_sign_in), new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).danger(context.getString(R.string.net_sign_in), new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 try {
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
@@ -333,9 +303,10 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     private void setNetwork(Context context) {
-        CustomSnackBar.make(root, context.getString(R.string.net_no_net)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_no_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }
@@ -343,9 +314,10 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     private void setBetterNetwork(Context context) {
-        CustomSnackBar.make(root, context.getString(R.string.net_better_net)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+        CustomSnackBar.make(root, context.getString(R.string.net_better_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }
@@ -404,13 +376,14 @@ public class MainActivity extends BaseSkinActivity {
                     } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
                         CustomSnackBar.make(mWeakReference.get().root, context.getString(R.string.net_cut_wifi)).warning();
                     } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
-                        PingIPThread pingIPThread = new PingIPThread(new IOperationResult() {
+                        PingIPThread pingIPThread = new PingIPThread(new PingIPThread.PingResult() {
                             @Override
-                            public void success(Object object) {
+                            public void success() {
+
                             }
 
                             @Override
-                            public void fail(Object object) {
+                            public void fail() {
                                 NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
                                 mWeakReference.get().checkWifiSignIn();
                             }
@@ -419,13 +392,6 @@ public class MainActivity extends BaseSkinActivity {
                     }
                 }
             }
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainActivity> {
-        @Override
-        public void handleMessageByRef(MainActivity mainActivity, Message msg) {
-
         }
     }
 }

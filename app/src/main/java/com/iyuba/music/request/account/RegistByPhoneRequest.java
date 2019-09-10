@@ -2,55 +2,20 @@ package com.iyuba.music.request.account;
 
 import android.support.v4.util.ArrayMap;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.iyuba.music.R;
-import com.iyuba.music.listener.IProtocolResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.request.Request;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.volley.MyJsonRequest;
-import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Map;
 
 /**
  * Created by 10202 on 2015/11/25.
  */
-public class RegistByPhoneRequest {
-    public static void exeRequest(String url, final IProtocolResponse<Integer> response) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            MyJsonRequest request = new MyJsonRequest(
-                    url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        response.response(jsonObject.getInt("result"));
-                    } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
-                }
-            });
-            MyVolley.getInstance().addToRequestQueue(request);
-        } else if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.net_speed_slow));
-        } else {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
-        }
-    }
+public class RegistByPhoneRequest extends Request<Integer> {
 
-    public static String generateUrl(String[] paras) {
+    public RegistByPhoneRequest(String[] paras) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         Map<String, Object> para = new ArrayMap<>();
         para.put("protocol", 11002);
@@ -62,6 +27,11 @@ public class RegistByPhoneRequest {
         para.put("format", "json");
         para.put("sign", MD5.getMD5ofStr("11002" + paras[0]
                 + MD5.getMD5ofStr(paras[1]) + "iyubaV2"));
-        return ParameterUrl.setRequestParameter(originalUrl, para);
+        url = ParameterUrl.setRequestParameter(originalUrl, para);
+    }
+
+    @Override
+    public Integer parseJsonImpl(JSONObject jsonObject) {
+        return jsonObject.getInteger("result");
     }
 }

@@ -5,34 +5,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.PermissionPool;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.util.PermissionPool;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class FileBrowserActivity extends BaseActivity {
-    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
-
-    private ArrayList<FileInfo> files;
     private String currentPath;
     private RecyclerView fileListView;
     private FileAdapter adapter;
@@ -42,28 +39,35 @@ public class FileBrowserActivity extends BaseActivity {
     private File currentFile;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.file_browser);
-        context = this;
-        files = new ArrayList<>();
-        currentPath = ConstantManager.envir;
-        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        initWidget();
-        setListener();
-        changeUIByPara();
-        viewFiles();
+    public int getLayoutId() {
+        return R.layout.file_browser;
     }
 
     @Override
-    protected void initWidget() {
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        currentPath = ConstantManager.envir;
+    }
+
+    @Override
+    public void afterSetLayout() {
+        super.afterSetLayout();
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         fileListView = findViewById(R.id.file_recyclerview);
-        fileListView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FileAdapter();
-        adapter.setDataSet(files);
+        adapter = new FileAdapter(this, new FileAdapter.OnItemLongClickListener() {
+            @Override
+            public void onClick(int pos) {
+                currentFile = new File(adapter.getDatas().get(pos).getPath());
+                contextMenu.show();
+            }
+        });
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(fileListView);
         filePath = findViewById(R.id.file_path);
         position = findViewById(R.id.file_parent);
         initContextMenu();
@@ -83,23 +87,25 @@ public class FileBrowserActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 finish();
             }
         });
-        position.setOnClickListener(new View.OnClickListener() {
+        position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 backToParent();
             }
         });
-        adapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FileInfo f = files.get(position);
+                FileInfo f = adapter.getDatas().get(position);
                 if (f.isDirectory()) {
                     currentPath = f.getPath();
                     viewFiles();
@@ -107,22 +113,18 @@ public class FileBrowserActivity extends BaseActivity {
                     openFile(f.getPath());
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-                currentFile = new File(files.get(position).getPath());
-                contextMenu.show();
-            }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
+    public void onActivityCreated() {
         backIcon.setState(MaterialMenuDrawable.IconState.X);
         title.setText(R.string.file_title);
+        viewFiles();
     }
 
-    protected void changeUIResumeByPara() {
+    @Override
+    public void onActivityResumed() {
         filePath.setText(currentPath);
     }
 
@@ -140,12 +142,6 @@ public class FileBrowserActivity extends BaseActivity {
                 viewFiles();
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
     }
 
     private void operCurrentFile(int index) {
@@ -178,25 +174,21 @@ public class FileBrowserActivity extends BaseActivity {
     }
 
     private void viewFiles() {//点进
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
             filePath.setText(currentPath);
         }
     }
 
     private boolean viewFiles(String filePath, String lastFilePath) {//退出
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
             currentPath = filePath;
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
             this.filePath.setText(currentPath);
-            for (int i = 0; i < files.size(); i++) {
-                if (files.get(i).getPath().equals(lastFilePath)) {
+            for (int i = 0; i < tmp.size(); i++) {
+                if (tmp.get(i).getPath().equals(lastFilePath)) {
                     fileListView.scrollToPosition(i + 5);
                     break;
                 }
@@ -257,9 +249,10 @@ public class FileBrowserActivity extends BaseActivity {
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.storage_permission);
         materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
+        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 materialDialog.dismiss();
             }

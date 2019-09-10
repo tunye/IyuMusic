@@ -12,7 +12,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
 /**
@@ -40,11 +40,11 @@ public class StudyInfoFragment extends BaseFragment {
     public void refresh() {
         Article curArticle = StudyManager.getInstance().getCurArticle();
         if (StudyManager.getInstance().getApp().equals("209")) {
-            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
+            AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), img, R.drawable.default_music);
             announcer.setText(context.getString(R.string.article_announcer, curArticle.getBroadcaster()));
             singer.setText(context.getString(R.string.article_singer, curArticle.getSinger()));
         } else {
-            ImageUtil.loadImage(curArticle.getPicUrl(), img, R.drawable.default_music);
+            AppImageUtil.loadImage(curArticle.getPicUrl(), img, R.drawable.default_music);
             singer.setText(curArticle.getTitle_cn());
         }
         title.setText(curArticle.getTitle());

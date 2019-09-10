@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Helper for {@link ExpandableRecyclerAdapter}
- *
+ * <p>
  * Created by Ryan Brooks on 6/11/15.
  */
 public class ExpandableRecyclerAdapterHelper {

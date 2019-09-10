@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/left_drawer"
     android:layout_width="260dp"
-    android:background="@color/background_light"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/background">
 
-            <com.iyuba.music.widget.view.MaterialRippleLayout
+            <com.buaa.ct.core.view.MaterialRippleLayout
                 android:id="@+id/personal_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,11 +47,11 @@
                             android:id="@+id/personal_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
                             android:ellipsize="none"
-                            android:textStyle="bold"
+                            android:singleLine="true"
                             android:textColor="@color/skin_app_color"
-                            android:textSize="@dimen/title_text" />
+                            android:textSize="@dimen/title_text"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -107,9 +107,9 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </com.iyuba.music.widget.view.MaterialRippleLayout>
+            </com.buaa.ct.core.view.MaterialRippleLayout>
 
-            <com.iyuba.music.widget.view.MaterialRippleLayout
+            <com.buaa.ct.core.view.MaterialRippleLayout
                 android:id="@+id/personal_nologin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                     android:text="@string/please_login"
                     android:textColor="@color/skin_app_color"
                     android:textSize="@dimen/title_text" />
-            </com.iyuba.music.widget.view.MaterialRippleLayout>
+            </com.buaa.ct.core.view.MaterialRippleLayout>
         </FrameLayout>
 
         <ImageView
@@ -133,9 +133,9 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/oper_list"
-            android:background="@color/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/background" />
 
     </LinearLayout>
 
@@ -147,7 +147,7 @@
         android:background="@color/background_dark"
         android:orientation="horizontal">
 
-        <com.iyuba.music.widget.view.MaterialRippleLayout
+        <com.buaa.ct.core.view.MaterialRippleLayout
             android:id="@+id/about"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -163,7 +163,7 @@
                 android:text="@string/oper_about"
                 android:textColor="@color/skin_color_accent"
                 android:textSize="@dimen/large_text" />
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
+        </com.buaa.ct.core.view.MaterialRippleLayout>
 
         <ImageView
             android:layout_width="@dimen/line_thin"
@@ -172,7 +172,7 @@
             android:layout_marginBottom="@dimen/row_space_medium"
             android:background="@color/background_complementary" />
 
-        <com.iyuba.music.widget.view.MaterialRippleLayout
+        <com.buaa.ct.core.view.MaterialRippleLayout
             android:id="@+id/exit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -188,7 +188,7 @@
                 android:text="@string/oper_exit"
                 android:textColor="@color/skin_color_accent"
                 android:textSize="@dimen/large_text" />
-        </com.iyuba.music.widget.view.MaterialRippleLayout>
+        </com.buaa.ct.core.view.MaterialRippleLayout>
 
     </LinearLayout>
 </FrameLayout>

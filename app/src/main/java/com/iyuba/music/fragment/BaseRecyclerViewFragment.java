@@ -11,12 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.listener.IOnDoubleClick;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -26,11 +26,11 @@ import java.util.ArrayList;
 
 public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
     public RecyclerView recyclerView;
+    public MySwipeRefreshLayout swipeRefreshLayout;
+    public View noData;
     protected int curPage;
     protected boolean isLastPage = false;
     protected ArrayList<T> datas;
-    public MySwipeRefreshLayout swipeRefreshLayout;
-    public View noData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {

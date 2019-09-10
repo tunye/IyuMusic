@@ -2,62 +2,48 @@ package com.iyuba.music.activity.eggshell;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.eggshell.loading_indicator.LoadingIndicatorList;
 import com.iyuba.music.activity.eggshell.material_edittext.MaterialEdittextMainActivity;
 import com.iyuba.music.activity.eggshell.meizhi.MeizhiActivity;
-import com.iyuba.music.activity.eggshell.view_animations.MyActivity;
-import com.iyuba.music.activity.eggshell.weight_monitor.WeightMonitorActivity;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.activity.eggshell.view_animations.AnimationShowActivity;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 /**
  * Created by 10202 on 2015/12/2.
  */
-public class EggShellActivity extends BaseActivity {
-    private EggShellAdapter eggShellAdapter;
-
+public class EggShellActivity extends BaseListActivity<String> {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.egg_shell);
-        context = this;
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         ConfigManager.getInstance().setEggShell(true);
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-
-        RecyclerView eggShellList = (RecyclerView) findViewById(R.id.eggshell_list);
-        eggShellList.setLayoutManager(new LinearLayoutManager(this));
-        eggShellAdapter = new EggShellAdapter(context);
-        eggShellList.setAdapter(eggShellAdapter);
-        eggShellList.addItemDecoration(new DividerItemDecoration());
-        eggShellList.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
+        owner = findViewById(R.id.recyclerview_widget);
+        ownerAdapter = new EggShellAdapter(context);
+        assembleRecyclerView();
+        owner.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        eggShellAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(context, MyActivity.class));
+                        startActivity(new Intent(context, AnimationShowActivity.class));
                         break;
                     case 1:
                         startActivity(new Intent(context, MaterialEdittextMainActivity.class));
@@ -66,24 +52,17 @@ public class EggShellActivity extends BaseActivity {
                         startActivity(new Intent(context, LoadingIndicatorList.class));
                         break;
                     case 3:
-                        startActivity(new Intent(context, WeightMonitorActivity.class));
-                        break;
-                    case 4:
                         startActivity(new Intent(context, MeizhiActivity.class));
                         break;
                 }
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_eggshell);
+        swipeRefreshLayout.setEnabled(false);
     }
 }

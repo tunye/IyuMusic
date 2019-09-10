@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.iyuba.music.util.GetAppColor;
+import com.buaa.ct.core.util.GetAppColor;
 
 /**
  * Created by 10202 on 2017/3/7.

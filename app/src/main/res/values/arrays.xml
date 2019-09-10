@@ -97,34 +97,6 @@
         <item>QQ空间</item>
         <item>微信收藏</item>
     </string-array>
-    <string-array name="flavors">
-        <item>系统默认</item>
-        <item>火热红</item>
-        <item>玫瑰红</item>
-        <item>樱花粉</item>
-        <item>诱惑紫</item>
-        <item>皇家蓝</item>
-        <item>四季青</item>
-        <item>鸭翅绿</item>
-        <item>青草绿</item>
-        <item>柠檬黄</item>
-        <item>阳光橙</item>
-        <item>典雅灰</item>
-    </string-array>
-    <string-array name="flavors_def">
-        <item>default</item>
-        <item>red</item>
-        <item>rose</item>
-        <item>pink</item>
-        <item>purple</item>
-        <item>indigo</item>
-        <item>cyan</item>
-        <item>teal</item>
-        <item>lgreen</item>
-        <item>lime</item>
-        <item>orange</item>
-        <item>gray</item>
-    </string-array>
     <string-array name="original_size">
         <item>小</item>
         <item>标准</item>

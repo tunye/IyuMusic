@@ -2,13 +2,17 @@ package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.ReadAdapter;
 import com.iyuba.music.entity.BaseListEntity;
@@ -18,22 +22,19 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.fragment.BaseRecyclerViewFragment;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
-import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/17.
  */
 public class ReadFragment extends BaseRecyclerViewFragment {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ReadAdapter readAdapter;
     private Article curArticle;
     private IyubaDialog waittingDialog;
@@ -70,8 +71,13 @@ public class ReadFragment extends BaseRecyclerViewFragment {
                 public void run() {
                     LrcParser.getInstance().getOriginal(curArticle.getId(), new IOperationResult() {
                         @Override
-                        public void success(Object object) {
-                            handler.obtainMessage(0, object).sendToTarget();
+                        public void success(final Object object) {
+                            ThreadUtils.postOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    readAdapter.setDataSet((ArrayList<Original>) object);
+                                }
+                            });
                         }
 
                         @Override
@@ -93,37 +99,21 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     }
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 2), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
+        RequestClient.requestAsync(new LrcRequest(id, 2), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
-                ArrayList<Original> originalList = listEntity.getData();
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
+                List<Original> originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
                 }
                 readAdapter.setDataSet(originalList);
                 finish.finish();
             }
-        });
-    }
 
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<ReadFragment> {
-        @Override
-        public void handleMessageByRef(final ReadFragment fragment, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    fragment.readAdapter.setDataSet((ArrayList<Original>) msg.obj);
-                    break;
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
-        }
+        });
     }
 }

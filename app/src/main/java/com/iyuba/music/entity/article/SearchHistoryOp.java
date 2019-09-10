@@ -3,11 +3,11 @@ package com.iyuba.music.entity.article;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 import com.iyuba.music.util.DateFormat;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -49,13 +49,13 @@ public class SearchHistoryOp extends BaseEntityOp<SearchHistory> {
         return searchHistory;
     }
 
-    public ArrayList<SearchHistory> findDataTop() {
+    public List<SearchHistory> findDataTop() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " order by time desc limit 0, 10", new String[]{});
         return fillDatas(cursor);
     }
 
-    public ArrayList<SearchHistory> findDataByLike(String content) {
+    public List<SearchHistory> findDataByLike(String content) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + CONTENT + " like ? order by time desc limit 0, 10", new String[]{content + "%"});
         return fillDatas(cursor);

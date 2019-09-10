@@ -3,50 +3,30 @@ package com.iyuba.music.adapter.me;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.doings.DoingComment;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.widget.imageview.VipPhoto;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapter.MyViewHolder> {
-    private ArrayList<DoingComment> doings;
-    private Context context;
-    private OnRecycleViewItemClickListener itemClickListener;
+public class DoingCommentAdapter extends CoreRecyclerViewAdapter<DoingComment, DoingCommentAdapter.MyViewHolder> {
 
     public DoingCommentAdapter(Context context) {
-        this.context = context;
-        doings = new ArrayList<>();
-    }
-
-    public void setDoingList(ArrayList<DoingComment> doings) {
-        this.doings = doings;
-        notifyDataSetChanged();
-    }
-
-    public void setItemClickListener(OnRecycleViewItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public void addData(int position, DoingComment comment) {
-        doings.add(position, comment);
-        notifyItemInserted(position);
+        super(context);
     }
 
     @NonNull
@@ -56,22 +36,17 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final int pos = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(holder.itemView, pos);
-            }
-        });
-        final DoingComment doing = doings.get(position);
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        final DoingComment doing = getDatas().get(position);
         holder.doingUserName.setText(doing.getUsername());
         holder.doingContent.setText(doing.getMessage());
         holder.doingTime.setText(DateFormat.showTime(context, new Date(Long.parseLong(doing.getDateline()) * 1000)));
         holder.doingPhoto.setVipStateVisible(doing.getUid(), doing.getVip() == 1);
-        holder.doingPhoto.setOnClickListener(new View.OnClickListener() {
+        holder.doingPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 SocialManager.getInstance().pushFriendId(doing.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
@@ -80,12 +55,7 @@ public class DoingCommentAdapter extends RecyclerView.Adapter<DoingCommentAdapte
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return doings.size();
-    }
-
-    static class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView doingUserName, doingTime;
         JustifyTextView doingContent;

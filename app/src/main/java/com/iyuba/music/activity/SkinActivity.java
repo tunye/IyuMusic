@@ -9,15 +9,16 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 
 import com.buaa.ct.appskin.SkinManager;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImmersiveManager;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.Arrays;
 
@@ -26,16 +27,12 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     private String initSkin;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.skin);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.skin;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         RecyclerView recyclerView = findViewById(R.id.recycler);
@@ -50,16 +47,18 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 onBackPressed();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
             public void onClick(View view) {
+                super.onClick(view);
                 if (!initSkin.equals(SkinManager.getInstance().getCurrSkin())) {
                     Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                     sendBroadcast(intent);
@@ -71,8 +70,8 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_skin);
         toolbarOper.setText(R.string.dialog_save);
         initSkin = SkinManager.getInstance().getCurrSkin();

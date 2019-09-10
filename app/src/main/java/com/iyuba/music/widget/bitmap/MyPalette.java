@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.manager.RuntimeManager;
 
 
 /**

@@ -3,6 +3,6 @@
     <gradient
         android:angle="90"
         android:endColor="@color/skin_app_color_light_lime"
-        android:startColor="@color/skin_app_color_lime"/>
+        android:startColor="@color/skin_app_color_lime" />
 </shape>
 

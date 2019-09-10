@@ -2,7 +2,7 @@ package com.iyuba.music.entity.word;
 
 import android.database.Cursor;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 
 /**
  * Created by 10202 on 2015/12/2.

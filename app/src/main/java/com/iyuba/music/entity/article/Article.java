@@ -1,6 +1,7 @@
 package com.iyuba.music.entity.article;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 
@@ -8,38 +9,38 @@ import java.io.Serializable;
  * Created by 10202 on 2015/10/10.
  */
 public class Article implements Serializable {
-    @SerializedName("Singer")
+    @JSONField(name = "Singer")
     public String singer;
-    @SerializedName("Announcer")
+    @JSONField(name = "Announcer")
     public String broadcaster;
-    @SerializedName("ReadCount")
+    @JSONField(name = "ReadCount")
     public String readCount;
-    @SerializedName("SongId")
+    @JSONField(name = "SongId")
     private int id;
-    @SerializedName("Title")
+    @JSONField(name = "Title")
     private String title;
     private String title_cn;
-    @SerializedName("DescCn")
+    @JSONField(name = "DescCn")
     private String content;
-    @SerializedName("PublishTime")
+    @JSONField(name = "PublishTime")
     private String time;
-    @SerializedName("Pic")
+    @JSONField(name = "Pic")
     private String picUrl;
-    @SerializedName("Songmp3")
+    @JSONField(name = "Songmp3")
     private String musicUrl;
-    @SerializedName("Sound")
+    @JSONField(name = "Sound")
     private String soundUrl;
-    @SerializedName("Style")
+    @JSONField(name = "Style")
     private String category;
     private String app;
-    @SerializedName("Star")
+    @JSONField(name = "Star")
     private String star;
-    @SerializedName("titleFind")
+    @JSONField(name = "titleFind")
     private String titleFind;
-    @SerializedName("textFind")
+    @JSONField(name = "textFind")
     private String textFind;
     private boolean delete;
-    @SerializedName("Simpleflg")
+    @JSONField(name = "Simpleflg")
     private int simple;
 
     private String expireContent;

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,50 +14,46 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.MyViewHolder> {
-    private ArrayList<Article> newsList;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
-    private Context context;
+public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNewsAdapter.MyViewHolder> {
     private int type;
     private boolean delete;
     private LocalInfoOp localInfoOp;
     private boolean deleteAll;
 
     public SimpleNewsAdapter(Context context) {
-        this.context = context;
-        newsList = new ArrayList<>();
+        super(context);
         type = 0;
+        baseEntityOp = new ArticleOp();
         this.delete = false;
         localInfoOp = new LocalInfoOp();
     }
 
-
     public SimpleNewsAdapter(Context context, int type) {
-        this.context = context;
-        newsList = new ArrayList<>();
+        super(context);
         this.type = type;
+        baseEntityOp = new ArticleOp();
         this.delete = false;
         localInfoOp = new LocalInfoOp();
     }
@@ -74,34 +69,16 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
 
     public void setDeleteAll() {
         if (deleteAll) {
-            for (Article article : newsList) {
+            for (Article article : getDatas()) {
                 article.setDelete(false);
             }
             deleteAll = false;
         } else {
-            for (Article article : newsList) {
+            for (Article article : getDatas()) {
                 article.setDelete(true);
             }
             deleteAll = true;
         }
-        notifyDataSetChanged();
-    }
-
-    public void setOnItemClickListener(OnRecycleViewItemClickListener onItemClickListener) {
-        onRecycleViewItemClickListener = onItemClickListener;
-    }
-
-    public void removeData(int pos) {
-        newsList.remove(pos);
-        notifyItemChanged(pos);
-    }
-
-    public ArrayList<Article> getDataSet() {
-        return newsList;
-    }
-
-    public void setDataSet(ArrayList<Article> newses) {
-        newsList = newses;
         notifyDataSetChanged();
     }
 
@@ -113,29 +90,23 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        final int pos = position;
-        if (onRecycleViewItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (delete) {
-                        holder.delete.setChecked(!holder.delete.isChecked());
-                        newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
-                    } else {
+        final int pos = holder.getAdapterPosition();
+        holder.itemView.setOnClickListener(new INoDoubleClick() {
+            @Override
+            public void onClick(View view) {
+                super.onClick(view);
+                if (delete) {
+                    holder.delete.setChecked(!holder.delete.isChecked());
+                    getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
+                } else {
+                    if (onRecycleViewItemClickListener != null) {
                         onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                     }
                 }
-            });
+            }
+        });
 
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onRecycleViewItemClickListener.onItemLongClick(holder.itemView, pos);
-                    return false;
-                }
-            });
-        }
-        final Article article = newsList.get(position);
+        final Article article = getDatas().get(position);
         holder.title.setText(article.getTitle());
         if ("209".equals(article.getApp()) && !"401".equals(article.getCategory())) {
             holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
@@ -224,16 +195,18 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         } else {
             holder.delete.setVisibility(View.GONE);
         }
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+        holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
+            public void onClick(View view) {
+                super.onClick(view);
+                getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
             }
         });
         holder.delete.setChecked(article.isDelete());
-        holder.downloadFlag.setOnClickListener(new View.OnClickListener() {
+        holder.downloadFlag.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (DownloadTask.checkFileExists(article)) {
                     onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                 } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -262,9 +235,9 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
             }
         });
         if (article.getApp().equals("209") && !"401".equals(article.getCategory())) {
-            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
+            AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(), holder.pic, R.drawable.default_music);
         } else {
-            ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
+            AppImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
         }
         if (DownloadTask.checkFileExists(article)) {
             holder.downloadFlag.setImageResource(R.drawable.article_downloaded);
@@ -273,12 +246,8 @@ public class SimpleNewsAdapter extends RecyclerView.Adapter<SimpleNewsAdapter.My
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return newsList.size();
-    }
 
-    static class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, singer, broadcaster, time, readCount;
         ImageView pic, downloadFlag;

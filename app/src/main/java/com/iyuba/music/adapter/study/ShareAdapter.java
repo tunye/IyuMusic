@@ -29,7 +29,7 @@ public class ShareAdapter extends BaseAdapter {
 
     public ShareAdapter(Context context) {
         this.context = context;
-        menuImageList = new int[]{R.drawable.umeng_socialize_wxcircle,R.drawable.umeng_socialize_wechat,
+        menuImageList = new int[]{R.drawable.umeng_socialize_wxcircle, R.drawable.umeng_socialize_wechat,
                 R.drawable.umeng_socialize_sina, R.drawable.umeng_socialize_qq,
                 R.drawable.umeng_socialize_qzone, R.drawable.umeng_socialize_fav,};
         menuList = context.getResources().getStringArray(R.array.share);

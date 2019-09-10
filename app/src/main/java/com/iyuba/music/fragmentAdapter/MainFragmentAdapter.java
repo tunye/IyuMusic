@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.network.NetWorkState;
 import com.iyuba.music.fragment.AnnouncerFragment;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.fragment.ClassifyFragment;
@@ -12,7 +13,6 @@ import com.iyuba.music.fragment.MTVFragment;
 import com.iyuba.music.fragment.MusicFragment;
 import com.iyuba.music.fragment.NewsFragment;
 import com.iyuba.music.fragment.SongCategoryFragment;
-import com.iyuba.music.network.NetWorkState;
 
 import java.util.ArrayList;
 

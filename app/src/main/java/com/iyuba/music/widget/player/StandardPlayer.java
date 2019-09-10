@@ -31,13 +31,13 @@ import java.io.IOException;
  * 视频框架
  *
  * @author chentong
- *         <p/>
- *         <p/>
- *         Displays a video file. The VideoView class can load images from
- *         various sources (such as resources or content providers), takes care
- *         of computing its measurement from the video so that it can be used in
- *         any layout manager, and provides various display options such as
- *         scaling and tinting.
+ * <p/>
+ * <p/>
+ * Displays a video file. The VideoView class can load images from
+ * various sources (such as resources or content providers), takes care
+ * of computing its measurement from the video so that it can be used in
+ * any layout manager, and provides various display options such as
+ * scaling and tinting.
  */
 public class StandardPlayer implements MediaController.MediaPlayerControl {
     private Context mContext;

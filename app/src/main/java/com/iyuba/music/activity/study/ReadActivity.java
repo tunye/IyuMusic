@@ -2,14 +2,12 @@ package com.iyuba.music.activity.study;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.PermissionPool;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -20,6 +18,7 @@ import com.iyuba.music.widget.imageview.TabIndicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/3/21.
@@ -28,33 +27,31 @@ public class ReadActivity extends BaseActivity {
     private boolean needRestart;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.read);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         if (((MusicApplication) getApplication()).getPlayerService().getPlayer().isPlaying()) {
             needRestart = true;
             sendBroadcast(new Intent("iyumusic.pause"));
         } else {
             needRestart = false;
         }
-        initWidget();
-        setListener();
-        changeUIByPara();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 100);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
-        }
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.read;
+    }
+
+    @Override
+    public void afterSetLayout() {
+        super.afterSetLayout();
+        requestMultiPermission(new int[]{PermissionPool.RECORD_AUDIO, PermissionPool.WRITE_EXTERNAL_STORAGE}, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
-        ArrayList<String> tabTitle = new ArrayList<>();
-        tabTitle.addAll(Arrays.asList(context.getResources().getStringArray(R.array.read_tab_title)));
+        List<String> tabTitle = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.read_tab_title)));
         ViewPager viewPager = findViewById(R.id.read_main);
         TabIndicator viewPagerIndicator = findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new ReadFragmentAdapter(getSupportFragmentManager()));
@@ -63,8 +60,8 @@ public class ReadActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(StudyManager.getInstance().getCurArticle().getTitle());
     }
 
@@ -76,35 +73,20 @@ public class ReadActivity extends BaseActivity {
         }
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-            materialDialog.setTitle(R.string.storage_permission);
-            materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityCompat.requestPermissions(ReadActivity.this, new String[]{Manifest.permission.RECORD_AUDIO},
-                            100);
-                    materialDialog.dismiss();
-                }
-            });
-            materialDialog.show();
-        }
-        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-            materialDialog.setTitle(R.string.storage_permission);
-            materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityCompat.requestPermissions(ReadActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            101);
-                    materialDialog.dismiss();
-                }
-            });
-            materialDialog.show();
-        }
+    @Override
+    public void onAccreditFailure(final int requestCode) {
+        super.onAccreditFailure(requestCode);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+        materialDialog.setTitle(R.string.storage_permission);
+        materialDialog.setMessage(R.string.storage_permission_content);
+        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
+            @Override
+            public void onClick(View view) {
+                super.onClick(view);
+                permissionDispose(requestCode, requestCode == PermissionPool.RECORD_AUDIO ? Manifest.permission.RECORD_AUDIO : Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.show();
     }
 }

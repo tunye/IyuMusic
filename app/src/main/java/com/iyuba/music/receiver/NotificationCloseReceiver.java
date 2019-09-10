@@ -1,5 +1,5 @@
 /*
- * 文件名 
+ * 文件名
  * 包含类名列表
  * 版本信息，版本号
  * 创建日期
@@ -11,16 +11,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.Utils;
 
 /**
  * @author ct <br/>
- *         退出程序
+ * 退出程序
  */
 public class NotificationCloseReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RuntimeManager.getInstance().getApplication().exit();
+        Utils.getMusicApplication().exit();
     }
 }

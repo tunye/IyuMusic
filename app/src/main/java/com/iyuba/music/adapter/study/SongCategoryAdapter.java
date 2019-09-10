@@ -3,13 +3,21 @@ package com.iyuba.music.adapter.study;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.main.MusicActivity;
@@ -19,17 +27,11 @@ import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.mainpanel.SongCategory;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.banner.BannerView;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,35 +39,21 @@ import java.util.List;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
+public class SongCategoryAdapter extends CoreRecyclerViewAdapter<SongCategory, CoreRecyclerViewAdapter.MyViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private ArrayList<SongCategory> newsList;
-    private ArrayList<BannerEntity> adPicUrl;
-    private Context context;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+    private List<BannerEntity> adPicUrl;
 
     public SongCategoryAdapter(Context context) {
-        this.context = context;
-        newsList = new ArrayList<>();
+        super(context);
         adPicUrl = new ArrayList<>();
     }
 
     private static void getAppointArticle(final Context context, String id) {
-        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new NewsesRequest(id), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
-                ArrayList<Article> netData = listEntity.getData();
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
+                List<Article> netData = listEntity.getData();
                 for (Article temp : netData) {
                     temp.setApp(ConstantManager.appId);
                 }
@@ -77,6 +65,11 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
                 StudyManager.getInstance().setCurArticle(netData.get(0));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+            }
         });
     }
 
@@ -84,19 +77,14 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         onRecycleViewItemClickListener = onItemClickLitener;
     }
 
-    public void setDataSet(ArrayList<SongCategory> newses) {
-        newsList = newses;
-        notifyDataSetChanged();
-    }
-
-    public void setAdSet(ArrayList<BannerEntity> ads) {
+    public void setAdSet(List<BannerEntity> ads) {
         adPicUrl = ads;
         notifyItemChanged(0);
     }
 
     @Override
     public int getItemCount() {
-        return newsList.size() + 1;
+        return super.getItemCount() + 1;
     }
 
     @Override
@@ -111,12 +99,12 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
     }
 
     public SongCategory getItem(int position) {
-        return newsList.get(position - 1);
+        return getDatas().get(position - 1);
     }
 
     @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CoreRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_songcategory, parent, false));
         } else {
@@ -125,23 +113,24 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CoreRecyclerViewAdapter.MyViewHolder holder, int position) {
         final int pos = position;
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             final SongCategory songCategory = getItem(position);
             if (onRecycleViewItemClickListener != null) {
                 MaterialRippleLayout rippleView = (MaterialRippleLayout) newsViewHolder.itemView;
-                rippleView.setOnClickListener(new View.OnClickListener() {
+                rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
+                        super.onClick(view);
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     }
                 });
             }
             newsViewHolder.text.setText(songCategory.getText());
             newsViewHolder.count.setText(context.getString(R.string.article_list_count, songCategory.getCount()));
-            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + songCategory.getImgUrl(),
+            AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + songCategory.getImgUrl(),
                     newsViewHolder.pic, R.drawable.default_music);
         } else if (holder instanceof AdViewHolder) {
             AdViewHolder headerViewHolder = (AdViewHolder) holder;
@@ -149,7 +138,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         }
     }
 
-    private static class NewsViewHolder extends RecycleViewHolder {
+    private static class NewsViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView text, count;
         ImageView pic;
@@ -163,7 +152,7 @@ public class SongCategoryAdapter extends RecyclerView.Adapter<RecycleViewHolder>
         }
     }
 
-    private static class AdViewHolder extends RecycleViewHolder {
+    private static class AdViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
         BannerView bannerView;
 
         AdViewHolder(View view) {

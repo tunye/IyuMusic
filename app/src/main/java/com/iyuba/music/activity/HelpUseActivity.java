@@ -9,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
 import com.iyuba.music.fragmentAdapter.HelpFragmentAdapter;
 import com.iyuba.music.manager.AccountManager;
@@ -36,7 +40,7 @@ public class HelpUseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setNavigationBarColor(0xff009FE8);
+            window.setNavigationBarColor(GetAppColor.getInstance().getAppColor());
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.help_use);
@@ -98,7 +102,17 @@ public class HelpUseActivity extends AppCompatActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         if (AccountManager.getInstance().needGetVisitorID()) {
-            VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), null);
+            RequestClient.requestAsync(new VisitorIdRequest(), new SimpleRequestCallBack<String>() {
+                @Override
+                public void onSuccess(String s) {
+
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+                }
+            });
         }
     }
 

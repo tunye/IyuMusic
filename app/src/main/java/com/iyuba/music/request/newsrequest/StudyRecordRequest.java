@@ -2,69 +2,24 @@ package com.iyuba.music.request.newsrequest;
 
 import android.support.v4.util.ArrayMap;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.iyuba.music.R;
+import com.alibaba.fastjson.JSONObject;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.article.StudyRecord;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.request.Request;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.MD5;
 import com.iyuba.music.util.ParameterUrl;
 import com.iyuba.music.util.Utils;
-import com.iyuba.music.volley.MyJsonRequest;
-import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Calendar;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
-public class StudyRecordRequest {
-    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            MyJsonRequest request = new MyJsonRequest(
-                    url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
-                        if (jsonObject.getInt("result") == 1) {
-                            apiEntity.setState(BaseApiEntity.SUCCESS);
-                            if (jsonObject.getInt("jifen") == 0) {
-                                apiEntity.setMessage("no");
-                            } else {
-                                apiEntity.setMessage("add");
-                            }
-                        } else {
-                            apiEntity.setState(BaseApiEntity.FAIL);
-                        }
-                        response.response(apiEntity);
-                    } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
-                }
-            });
-            MyVolley.getInstance().addToRequestQueue(request);
-        } else {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
-        }
-    }
-
-    public static String generateUrl(String uid, StudyRecord studyRecord) {
+public class StudyRecordRequest extends Request<BaseApiEntity<String>> {
+    public StudyRecordRequest(String uid, StudyRecord studyRecord) {
         String originalUrl = "http://daxue.iyuba.cn/ecollege/updateStudyRecordNew.jsp";
         String device = android.os.Build.BRAND + android.os.Build.MODEL
                 + android.os.Build.DEVICE;
@@ -81,6 +36,22 @@ public class StudyRecordRequest {
         para.put("TestNumber", ConfigManager.getInstance().getStudyMode());
         para.put("platform", "android");
         para.put("sign", MD5.getMD5ofStr(uid + studyRecord.getStartTime() + DateFormat.formatYear(Calendar.getInstance().getTime())));
-        return ParameterUrl.setRequestParameter(originalUrl, para);
+        url = ParameterUrl.setRequestParameter(originalUrl, para);
+    }
+
+    @Override
+    public BaseApiEntity<String> parseJsonImpl(JSONObject jsonObject) {
+        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
+        if (jsonObject.getIntValue("result") == 1) {
+            apiEntity.setState(BaseApiEntity.SUCCESS);
+            if (jsonObject.getIntValue("jifen") == 0) {
+                apiEntity.setMessage("no");
+            } else {
+                apiEntity.setMessage("add");
+            }
+        } else {
+            apiEntity.setState(BaseApiEntity.FAIL);
+        }
+        return apiEntity;
     }
 }

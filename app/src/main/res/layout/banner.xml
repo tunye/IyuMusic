@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/banner_vp"
         android:layout_width="match_parent"
-        android:layout_height="175dp" />
+        android:layout_height="200dp" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/banner_shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/banner_vp"
-        android:paddingBottom="6dp"
+        android:layout_gravity="bottom"
         android:paddingStart="16dp"
+        android:paddingTop="6dp"
         android:paddingEnd="16dp"
-        android:paddingTop="6dp">
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/banner_title"
@@ -30,5 +31,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />
-    </RelativeLayout>
-</RelativeLayout>
+    </FrameLayout>
+</FrameLayout>

@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -60,10 +61,11 @@ public class MenuAdapter extends BaseAdapter {
             holder.menuText = convertView.findViewById(R.id.menu_text);
             holder.rippleView = convertView.findViewById(R.id.menu_ripple);
             if (onRecycleViewItemClickListener != null) {
-                holder.rippleView.setOnClickListener(new View.OnClickListener() {
+                holder.rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
-                        onRecycleViewItemClickListener.onItemClick(v, position);
+                    public void onClick(View view) {
+                        super.onClick(view);
+                        onRecycleViewItemClickListener.onItemClick(view, position);
                     }
                 });
             }

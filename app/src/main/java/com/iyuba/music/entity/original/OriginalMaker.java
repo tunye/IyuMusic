@@ -6,7 +6,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.FileOperation;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 默认的歌词解析器
@@ -33,7 +33,7 @@ public class OriginalMaker {
     /***
      * 将歌词文件里面的字符串 解析成一个List<LrcRow>
      */
-    public void makeOriginal(int para, ArrayList<Original> original) {
+    public void makeOriginal(int para, List<Original> original) {
         String fileUrl;
         if (StudyManager.getInstance().getApp().equals("209")) {
             fileUrl = ConstantManager.originalFolder + File.separator + para + ".lrc";

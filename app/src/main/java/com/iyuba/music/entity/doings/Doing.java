@@ -1,21 +1,21 @@
 package com.iyuba.music.entity.doings;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
 public class Doing {
-    @SerializedName("doid")
+    @JSONField(name = "doid")
     private String doid;// 心情状态id
-    @SerializedName("dateline")
+    @JSONField(name = "dateline")
     private String dateline;// 发表时间，为系统秒数
-    @SerializedName("message")
+    @JSONField(name = "message")
     private String message;// (内层) 心情内容
-    @SerializedName("ip")
+    @JSONField(name = "ip")
     private String ip;// 发布时的ip
-    @SerializedName("replynum")
-    private String replynum;// 回复数
+    @JSONField(name = "replynum")
+    private int replynum;// 回复数
     private String username;
     private String uid;
 
@@ -51,11 +51,11 @@ public class Doing {
         this.ip = ip;
     }
 
-    public String getReplynum() {
+    public int getReplynum() {
         return replynum;
     }
 
-    public void setReplynum(String replynum) {
+    public void setReplynum(int replynum) {
         this.replynum = replynum;
     }
 

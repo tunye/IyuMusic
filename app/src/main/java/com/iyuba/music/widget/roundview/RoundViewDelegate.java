@@ -12,8 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
-import com.iyuba.music.util.GetAppColor;
 
 public class RoundViewDelegate {
     private View view;

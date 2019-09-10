@@ -3,9 +3,9 @@ package com.iyuba.music.entity.mainpanel;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -45,7 +45,7 @@ public class AnnouncerOp extends BaseEntityOp<Announcer> {
         return announcer;
     }
 
-    public ArrayList<Announcer> findAll() {
+    public List<Announcer> findAll() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition(), new String[]{});
         return fillDatas(cursor);

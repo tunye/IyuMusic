@@ -10,13 +10,13 @@ import java.util.List;
  * Created by 10202 on 2015/12/3.
  */
 public class WordParent implements ParentListItem {
-    private ArrayList<Word> wordArrayList;
+    private List<Word> wordArrayList;
     private String parentContent;
     private int parentIndex;
     private boolean initiallyExpanded;
 
-    public static ArrayList<WordParent> generateWordParent(ArrayList<Word> wordArrayList) {
-        ArrayList<WordParent> wordParents = new ArrayList<>();
+    public static List<WordParent> generateWordParent(List<Word> wordArrayList) {
+        List<WordParent> wordParents = new ArrayList<>();
         int j = 0;
         WordParent wordParent = new WordParent();
         wordParent.setParentContent(getContentByPara(ConfigManager.getInstance().getWordOrder(), wordArrayList.get(0)));
@@ -74,11 +74,11 @@ public class WordParent implements ParentListItem {
         }
     }
 
-    public ArrayList<Word> getWordArrayList() {
+    public List<Word> getWordArrayList() {
         return wordArrayList;
     }
 
-    public void setWordArrayList(ArrayList<Word> wordArrayList) {
+    public void setWordArrayList(List<Word> wordArrayList) {
         this.wordArrayList = wordArrayList;
     }
 

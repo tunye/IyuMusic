@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <com.iyuba.music.widget.imageview.TabIndicator
         android:id="@+id/tab_indicator"

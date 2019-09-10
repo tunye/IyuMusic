@@ -11,6 +11,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudySetActivity;
 import com.iyuba.music.download.DownloadFile;
@@ -18,14 +24,10 @@ import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -33,11 +35,8 @@ import java.util.Map;
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapter.MyViewHolder> {
-    private ArrayList<Article> newsList;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,DownloadNewsAdapter.MyViewHolder> {
     private IOperationFinish finish;
-    private Context context;
     private LocalInfoOp localInfoOp;
     private boolean delete;
     private boolean deleteAll;
@@ -45,9 +44,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
     private Map<String, Integer> fileMap;
 
     public DownloadNewsAdapter(Context context, Map<String, Integer> fileMap) {
-        this.context = context;
+        super(context);
         this.delete = false;
-        newsList = new ArrayList<>();
         localInfoOp = new LocalInfoOp();
         this.fileMap = fileMap;
     }
@@ -67,12 +65,12 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     public void setDeleteAll() {
         if (deleteAll) {
-            for (Article article : newsList) {
+            for (Article article : getDatas()) {
                 article.setDelete(false);
             }
             deleteAll = false;
         } else {
-            for (Article article : newsList) {
+            for (Article article : getDatas()) {
                 article.setDelete(true);
             }
             deleteAll = true;
@@ -80,21 +78,8 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
-        onRecycleViewItemClickListener = onItemClickListener;
-    }
-
     public void setDownloadCompleteClickLitener(IOperationFinish iOperationFinish) {
         finish = iOperationFinish;
-    }
-
-    public ArrayList<Article> getDataSet() {
-        return newsList;
-    }
-
-    public void setDataSet(ArrayList<Article> newses) {
-        newsList = newses;
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -105,12 +90,13 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        final Article article = newsList.get(position);
-        final int pos = position;
+        super.onBindViewHolder(holder,position);
+        final Article article = getDatas().get(position);
         if (onRecycleViewItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     if (delete) {
                         holder.delete.setChecked(!holder.delete.isChecked());
                         article.setDelete(holder.delete.isChecked());
@@ -124,7 +110,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                                 @Override
                                 public void onClick(View view) {
                                     localInfoOp.updateDownload(article.getId(), article.getApp(), 0);
-                                    notifyItemChanged(pos);
+                                    notifyItemChanged(holder.getAdapterPosition());
                                     materialDialog.dismiss();
                                 }
                             });
@@ -142,21 +128,13 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
                             @Override
                             public void onClick(View view) {
                                 materialDialog.dismiss();
-                                onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                                onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                             }
                         });
                         materialDialog.show();
                     } else {
-                        onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                        onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                     }
-                }
-            });
-
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onRecycleViewItemClickListener.onItemLongClick(holder.itemView, pos);
-                    return true;
                 }
             });
         }
@@ -211,7 +189,7 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
             Runnable refreshItem = new Runnable() {
                 @Override
                 public void run() {
-                    notifyItemChanged(pos);
+                    notifyItemChanged(holder.getAdapterPosition());
                 }
             };
             for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
@@ -280,27 +258,23 @@ public class DownloadNewsAdapter extends RecyclerView.Adapter<DownloadNewsAdapte
         } else {
             holder.delete.setVisibility(View.GONE);
         }
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+        holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                newsList.get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
+            public void onClick(View view) {
+                super.onClick(view);
+                getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
             }
         });
         holder.delete.setChecked(article.isDelete());
         if (article.getApp().equals("209")) {
-            ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
+            AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + article.getPicUrl(),
                     holder.pic, R.drawable.default_music);
         } else {
-            ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
+            AppImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return newsList.size();
-    }
-
-    static class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, singer, broadcaster;
         ImageView pic, noExist;

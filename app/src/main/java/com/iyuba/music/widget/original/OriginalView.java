@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.original.Original;
-import com.iyuba.music.manager.RuntimeManager;
 
 import java.util.ArrayList;
 

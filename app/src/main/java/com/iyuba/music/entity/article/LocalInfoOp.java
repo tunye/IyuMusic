@@ -3,11 +3,11 @@ package com.iyuba.music.entity.article;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 import com.iyuba.music.util.DateFormat;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -69,31 +69,31 @@ public class LocalInfoOp extends BaseEntityOp<LocalInfo> {
         return localInfo;
     }
 
-    public ArrayList<LocalInfo> findDataByFavourite() {
+    public List<LocalInfo> findDataByFavourite() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + FAVOURITE + "=1 order by " + FAVTIME + " desc limit  100", new String[]{});
         return fillDatas(cursor);
     }
 
-    public ArrayList<LocalInfo> findDataByDownloaded() {
+    public List<LocalInfo> findDataByDownloaded() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + "=1 order by " + DOWNTIME + " desc", new String[]{});
         return fillDatas(cursor);
     }
 
-    public ArrayList<LocalInfo> findDataByDownloading() {
+    public List<LocalInfo> findDataByDownloading() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + ">1 order by " + DOWNTIME + " desc", new String[]{});
         return fillDatas(cursor);
     }
 
-    public ArrayList<LocalInfo> findDataByShouldContinue() {
+    public List<LocalInfo> findDataByShouldContinue() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + DOWNLOAD + "=3 order by " + DOWNTIME + " desc", new String[]{});
         return fillDatas(cursor);
     }
 
-    public ArrayList<LocalInfo> findDataByListen() {
+    public List<LocalInfo> findDataByListen() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + TIMES + ">0 order by " + SEETIME + " desc limit  100", new String[]{});
         return fillDatas(cursor);

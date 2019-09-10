@@ -6,6 +6,7 @@ import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,8 +14,8 @@ import java.util.Map;
  */
 public class StudyManager {
     private Article curArticle;
-    private ArrayList<Article> sourceArticleList;
-    private ArrayList<Article> curArticleList;
+    private List<Article> sourceArticleList;
+    private List<Article> curArticleList;
     private String app;
     private String listFragmentPos;
     private String lesson;
@@ -46,12 +47,12 @@ public class StudyManager {
         app = curArticle.getApp();
     }
 
-    public void setSourceArticleList(ArrayList<Article> sourceArticleList) {
+    public void setSourceArticleList(List<Article> sourceArticleList) {
         this.sourceArticleList = sourceArticleList;
         generateArticleList();
     }
 
-    public ArrayList<Article> getCurArticleList() {
+    public List<Article> getCurArticleList() {
         return curArticleList;
     }
 

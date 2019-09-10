@@ -22,20 +22,19 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.util.AddRippleEffect;
 import com.iyuba.music.R;
-import com.iyuba.music.util.ImmersiveManager;
 import com.iyuba.music.widget.textview.JustifyTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 
 /**
  * Created by chentong1 on 2017/6/2.
  */
 
 public class MyMaterialDialog {
-    public static int styleId = R.style.MyDialogTheme;
     private final static int BUTTON_BOTTOM = 9;
     private final static int BUTTON_TOP = 9;
-
+    public static int styleId = R.style.MyDialogTheme;
     private boolean mCancel;
     private Context mContext;
     private AlertDialog mAlertDialog;
@@ -269,8 +268,8 @@ public class MyMaterialDialog {
             contentView.setFocusable(true);
             contentView.setFocusableInTouchMode(true);
 
-            mAlertDialogWindow =  mAlertDialog.getWindow();
-            if (mAlertDialogWindow!=null) {
+            mAlertDialogWindow = mAlertDialog.getWindow();
+            if (mAlertDialogWindow != null) {
                 mAlertDialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                         WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 mAlertDialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE);
@@ -287,16 +286,16 @@ public class MyMaterialDialog {
                 mAlertDialogWindow.setContentView(contentView);
             }
 
-            mTitleView =  contentView.findViewById(R.id.title);
-            mMessageView =  contentView.findViewById(R.id.message);
-            mButtonLayout =  contentView.findViewById(R.id.buttonLayout);
-            mPositiveButton =  contentView.findViewById(R.id.btn_p);
+            mTitleView = contentView.findViewById(R.id.title);
+            mMessageView = contentView.findViewById(R.id.message);
+            mButtonLayout = contentView.findViewById(R.id.buttonLayout);
+            mPositiveButton = contentView.findViewById(R.id.btn_p);
             AddRippleEffect.addRippleEffect(mPositiveButton);
-            mNegativeButton =  contentView.findViewById(R.id.btn_n);
+            mNegativeButton = contentView.findViewById(R.id.btn_n);
             AddRippleEffect.addRippleEffect(mNegativeButton);
-            mMessageContentRoot =  contentView.findViewById(R.id.message_content_root);
+            mMessageContentRoot = contentView.findViewById(R.id.message_content_root);
             if (mView != null) {
-                LinearLayout linearLayout =  contentView.findViewById(R.id.contentView);
+                LinearLayout linearLayout = contentView.findViewById(R.id.contentView);
                 linearLayout.removeAllViews();
                 linearLayout.addView(mView);
             }
@@ -539,7 +538,7 @@ public class MyMaterialDialog {
 
 
         public void setBackground(Drawable drawable) {
-            LinearLayout linearLayout =  mAlertDialogWindow.findViewById(
+            LinearLayout linearLayout = mAlertDialogWindow.findViewById(
                     R.id.material_background);
             linearLayout.setBackground(drawable);
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_oper" />
+            layout="@layout/toolbar" />
 
         <ListView
             android:id="@+id/chatting_history"
@@ -32,4 +32,4 @@
             android:layout_alignParentBottom="true"
             app:showVoice="false" />
     </RelativeLayout>
-</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>
+</com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout>

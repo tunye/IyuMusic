@@ -22,7 +22,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.mob.sdk:MobSDK-Impl:2019.0910.2023'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

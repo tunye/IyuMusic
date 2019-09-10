@@ -349,7 +349,7 @@
     <string name="study_listen_finish">Study an article already, credits added 10 percents.</string>
     <!--评论-->
     <string name="comment_title">Comment</string>
-    <string name="article_commentcount">%1$s comments</string>
+    <string name="article_commentcount">%1$d comments</string>
     <string name="comment_agree_success">Upvote success</string>
     <string name="comment_agree_fail">Upvote failed</string>
     <string name="comment_already">You have made comment already</string>
@@ -459,7 +459,7 @@
     <string name="person_doings">Update situation</string>
     <string name="person_doings_load_all">Situation loading is completed</string>
     <string name="person_view">%1$s persons visited my home page</string>
-    <string name="person_reply_num">Comments: %1$s</string>
+    <string name="person_reply_num">Comments: %1$d</string>
     <string name="person_attention_fail">Paying attention failed</string>
     <string name="person_attention_cancel_fail">Concel attention failed</string>
     <string name="person_attention_success">Paying attention success</string>
@@ -552,6 +552,8 @@
     <string name="eggshell_random_play">Random play</string>
     <string name="eggshell_music_link">Create link</string>
     <string name="eggshell_music_scan">Scan</string>
+    <string name="eggshell_meizhi">Meizhi</string>
+    <string name="eggshell_meizhi_loadall">Load all Meizhi~</string>
     <!--ground-->
     <string name="voa_speical">VOA Speical English</string>
     <string name="voa_cs">VOA English</string>

@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
-import com.iyuba.music.util.GetAppColor;
 import com.wang.avi.AVLoadingIndicatorView;
 
 /**
@@ -19,13 +19,13 @@ public class WaitingDialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.waitting, null);
 
-        TextView animationMessage =  layout.findViewById(R.id.waitting_text);
+        TextView animationMessage = layout.findViewById(R.id.waitting_text);
         if (TextUtils.isEmpty(message)) {
             animationMessage.setVisibility(View.GONE);
         } else {
             animationMessage.setText(message);
         }
-        AVLoadingIndicatorView loading =  layout.findViewById(R.id.waitting_animation);
+        AVLoadingIndicatorView loading = layout.findViewById(R.id.waitting_animation);
         loading.setIndicatorColor(GetAppColor.getInstance().getAppColor());
         return new IyubaDialog(context, layout, false);
     }

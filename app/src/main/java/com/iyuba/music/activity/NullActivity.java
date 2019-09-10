@@ -7,25 +7,29 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.activity.main.AnnouncerNewsList;
-import com.iyuba.music.activity.main.ClassifySongList;
+import com.iyuba.music.activity.main.ClassifyNewsList;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.ground.AppGroundActivity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.service.PlayerService;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2017/3/3.
@@ -67,15 +71,15 @@ public class NullActivity {
                     }
                     break;
                 case "dailyNew":                                          // 每日最新欧美单曲
-                    intent.setClass(context, ClassifySongList.class);
+                    intent.setClass(context, ClassifyNewsList.class);
                     intent.putExtra("classify", 100);
                     intent.putExtra("classifyName", "每日最新欧美单曲");
                     context.startActivity(intent);
                     break;
                 case "song":                                              // 进入某首歌曲
                     Article tempArticle = new ArticleOp().findById(ConstantManager.appId, Integer.parseInt(path.substring(1)));
-                    if (RuntimeManager.getInstance().getApplication().getPlayerService() == null) {
-                        RuntimeManager.getInstance().getApplication().startService(new Intent(RuntimeManager.getInstance().getContext(), PlayerService.class));
+                    if (Utils.getMusicApplication().getPlayerService() == null) {
+                        Utils.getMusicApplication().startService(new Intent(RuntimeManager.getInstance().getContext(), PlayerService.class));
                     }
                     if (tempArticle.getId() == 0) {
                         getAppointArticle(context, path.substring(1));
@@ -135,21 +139,10 @@ public class NullActivity {
     }
 
     private static void getAppointArticle(final Context context, String id) {
-        NewsesRequest.exeRequest(NewsesRequest.generateUrl(id), new IProtocolResponse() {
+        RequestClient.requestAsync(new NewsesRequest(id), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
-                ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
+                List<Article> netData = listEntity.getData();
                 for (Article temp : netData) {
                     temp.setApp(ConstantManager.appId);
                 }
@@ -163,6 +156,11 @@ public class NullActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("pushIntent", true);
                 context.startActivity(intent);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }

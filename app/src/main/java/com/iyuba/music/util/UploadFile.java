@@ -1,10 +1,8 @@
 package com.iyuba.music.util;
 
-import android.text.TextUtils;
-
+import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.listener.IOperationResult;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
@@ -21,9 +19,8 @@ import java.net.URL;
  * @author 陈彤
  */
 public class UploadFile {
-    private static String success;
 
-    public static void postImg(String actionUrl, File img, IOperationResult result) {
+    public static void postImg(String actionUrl, File img, final IOperationResult result) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -72,10 +69,32 @@ public class UploadFile {
                 b.append((char) ch);
             }
             ds.close();
-            success = b.toString().trim();
+            String returnContent = b.toString().trim();
+            JSONObject jsonObject = new JSONObject(returnContent.substring(
+                    returnContent.indexOf("{"), returnContent.lastIndexOf("}") + 1));
+            if (jsonObject.getString("status").equals("0")) {
+                final String imgUrl = jsonObject.getString("bigUrl");
+                ThreadUtils.postOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        result.success(imgUrl);
+                    }
+                });
+            } else {
+                ThreadUtils.postOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        result.fail(null);
+                    }
+                });
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            result.fail(null);
+            ThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    result.fail(null);
+                }
+            });
         } finally {
             if (fStream != null) {
                 try {
@@ -85,23 +104,9 @@ public class UploadFile {
                 }
             }
         }
-        if (!TextUtils.isEmpty(success)) {
-            try {
-                JSONObject jsonObject = new JSONObject(success.substring(
-                        success.indexOf("{"), success.lastIndexOf("}") + 1));
-                if (jsonObject.getString("status").equals("0")) {
-                    result.success(jsonObject.getString("bigUrl"));
-                } else {
-                    result.fail(null);
-                }
-                success = "";
-            } catch (JSONException e) {
-                result.fail(null);
-            }
-        }
     }
 
-    public static void postSound(String actionUrl, File sound, IOperationResult result) {
+    public static void postSound(String actionUrl, File sound, final IOperationResult result) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -150,10 +155,25 @@ public class UploadFile {
                 b.append((char) ch);
             }
             ds.close();
-            success = b.toString().trim();
+            JSONObject jsonObjectRoot = new JSONObject(b.toString().trim());
+            final int resultCode = jsonObjectRoot.getInt("ResultCode");
+            ThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (resultCode == 1) {
+                        result.success(null);
+                    } else {
+                        result.fail(null);
+                    }
+                }
+            });
         } catch (Exception e) {
-            e.printStackTrace();
-            result.fail(null);
+            ThreadUtils.postOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    result.fail(null);
+                }
+            });
         } finally {
             if (fStream != null) {
                 try {
@@ -161,19 +181,6 @@ public class UploadFile {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        }
-        if (!TextUtils.isEmpty(success)) {
-            try {
-                JSONObject jsonObjectRoot = new JSONObject(success);
-                if (jsonObjectRoot.getInt("ResultCode") == 1) {
-                    result.success(null);
-                } else {
-                    result.fail(null);
-                }
-                success = "";
-            } catch (JSONException e) {
-                result.fail(null);
             }
         }
     }

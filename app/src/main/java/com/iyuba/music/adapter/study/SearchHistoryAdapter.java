@@ -10,17 +10,19 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.SearchHistory;
 import com.iyuba.music.entity.article.SearchHistoryOp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
 public class SearchHistoryAdapter extends BaseAdapter {
-    private ArrayList<SearchHistory> histories;
+    private List<SearchHistory> histories;
     private Context context;
     private SearchHistoryOp searchHistoryOp;
 
@@ -72,9 +74,10 @@ public class SearchHistoryAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+        holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 searchHistoryOp.deleteData(histories.get(position).getId());
                 histories.remove(position);
                 notifyDataSetChanged();

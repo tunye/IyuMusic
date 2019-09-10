@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
+    <com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
-    </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
+    </com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/no_data"

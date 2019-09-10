@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/toolbar"
@@ -34,7 +34,7 @@
                 android:textColor="@color/textcolor_on_appcolor"
                 android:textSize="@dimen/title_text" />
 
-            <com.iyuba.music.widget.view.MaterialRippleLayout
+            <com.buaa.ct.core.view.MaterialRippleLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
@@ -50,7 +50,7 @@
                     android:text="@string/search_word_do"
                     android:textColor="@color/textcolor_on_appcolor"
                     android:textSize="@dimen/large_text" />
-            </com.iyuba.music.widget.view.MaterialRippleLayout>
+            </com.buaa.ct.core.view.MaterialRippleLayout>
         </FrameLayout>
     </FrameLayout>
 

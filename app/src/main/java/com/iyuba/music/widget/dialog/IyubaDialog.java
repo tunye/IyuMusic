@@ -1,7 +1,6 @@
 package com.iyuba.music.widget.dialog;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
 import android.view.MotionEvent;
@@ -15,9 +14,9 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
+import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.ImmersiveManager;
 
 
 public class IyubaDialog extends AppCompatDialog {
@@ -87,7 +86,7 @@ public class IyubaDialog extends AppCompatDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        if (window!=null) {
+        if (window != null) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(R.layout.dialog);

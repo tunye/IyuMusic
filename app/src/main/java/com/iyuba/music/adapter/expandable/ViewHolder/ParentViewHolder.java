@@ -22,27 +22,6 @@ public class ParentViewHolder extends RecyclerView.ViewHolder implements View.On
     private boolean mExpanded;
 
     /**
-     * Empowers {@link ExpandableRecyclerAdapter}
-     * implementations to be notified of expand/collapse state change events.
-     */
-    public interface ParentListItemExpandCollapseListener {
-
-        /**
-         * Called when a list item is expanded.
-         *
-         * @param position The index of the item in the list being expanded
-         */
-        void onParentListItemExpanded(int position);
-
-        /**
-         * Called when a list item is collapsed.
-         *
-         * @param position The index of the item in the list being collapsed
-         */
-        void onParentListItemCollapsed(int position);
-    }
-
-    /**
      * Default constructor.
      *
      * @param itemView The {@link View} being hosted in this ViewHolder
@@ -166,5 +145,26 @@ public class ParentViewHolder extends RecyclerView.ViewHolder implements View.On
         if (mParentListItemExpandCollapseListener != null) {
             mParentListItemExpandCollapseListener.onParentListItemCollapsed(getAdapterPosition());
         }
+    }
+
+    /**
+     * Empowers {@link ExpandableRecyclerAdapter}
+     * implementations to be notified of expand/collapse state change events.
+     */
+    public interface ParentListItemExpandCollapseListener {
+
+        /**
+         * Called when a list item is expanded.
+         *
+         * @param position The index of the item in the list being expanded
+         */
+        void onParentListItemExpanded(int position);
+
+        /**
+         * Called when a list item is collapsed.
+         *
+         * @param position The index of the item in the list being collapsed
+         */
+        void onParentListItemCollapsed(int position);
     }
 }

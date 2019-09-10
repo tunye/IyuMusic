@@ -8,13 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 
-public class MyActivity extends BaseActivity {
+public class AnimationShowActivity extends BaseActivity {
 
     private ListView mListView;
     private EffectAdapter mAdapter;
@@ -22,17 +24,31 @@ public class MyActivity extends BaseActivity {
     private YoYo.YoYoString rope;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.eggshell_animation_activity_my);
-        initWidget();
-        setListener();
-        changeUIByPara();
-        mListView = (ListView) findViewById(R.id.list_items);
-        mTarget = findViewById(R.id.hello_world);
-        mAdapter = new EffectAdapter(this);
+    public int getLayoutId() {
+        return R.layout.eggshell_animation_activity_my;
+    }
+
+    @Override
+    public void initWidget() {
+        super.initWidget();
+        mListView = findViewById(R.id.animation_list);
+        mTarget = findViewById(R.id.animation_example);
+        EffectAdapter mAdapter = new EffectAdapter(this);
         mListView.setAdapter(mAdapter);
-        rope = YoYo.with(Techniques.FadeIn).duration(1000).playOn(mTarget);// after start,just click mTarget view, rope is not init 
+    }
+
+    @Override
+    public void setListener() {
+        super.setListener();
+        mTarget.setOnClickListener(new INoDoubleClick() {
+            @Override
+            public void onClick(View view) {
+                super.onClick(view);
+                if (rope != null) {
+                    rope.stop(true);
+                }
+            }
+        });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -49,25 +65,18 @@ public class MyActivity extends BaseActivity {
 
                             @Override
                             public void onAnimationCancel(Animator animation) {
-                                Toast.makeText(MyActivity.this, "canceled", Toast.LENGTH_SHORT).show();
+                                CustomToast.getInstance().showToast("last yoyo canceled");
                             }
                         })
                         .playOn(mTarget);
             }
         });
-        findViewById(R.id.hello_world).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rope != null) {
-                    rope.stop(true);
-                }
-            }
-        });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText("Android Animation");
+        rope = YoYo.with(Techniques.FadeIn).duration(1000).playOn(mTarget);
     }
 }

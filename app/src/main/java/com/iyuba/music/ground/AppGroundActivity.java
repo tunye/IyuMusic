@@ -1,7 +1,6 @@
 package com.iyuba.music.ground;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,34 +13,32 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AppGroundActivity extends BaseActivity implements OnItemClickListener {
     private GridView gridview;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_ground);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    @Override
+    public int getLayoutId() {
+        return R.layout.app_ground;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         gridview = findViewById(R.id.app_shelf);
         initGrid();
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_ground);
     }
 
@@ -58,7 +55,7 @@ public class AppGroundActivity extends BaseActivity implements OnItemClickListen
      * 根据类别初始化 后续可添加新内容
      */
     private void initGrid() {
-        ArrayList<ArrayMap<String, Object>> lstImageItem = new ArrayList<>();
+        List<ArrayMap<String, Object>> lstImageItem = new ArrayList<>();
         int[] text = new int[]{R.string.voa_speical, R.string.voa_bbc6,
                 R.string.voa_video, R.string.voa_cs, R.string.voa_bbc,
                 R.string.voa_ae, R.string.voa_word, R.string.voa_bbcnews, R.string.voa_ted};

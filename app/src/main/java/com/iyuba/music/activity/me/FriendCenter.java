@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.fragmentAdapter.FriendFragmentAdapter;
@@ -14,6 +15,7 @@ import com.iyuba.music.widget.imageview.TabIndicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/3/1.
@@ -24,24 +26,22 @@ public class FriendCenter extends BaseActivity {
     private boolean needPop;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_center);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         startType = getIntent().getStringExtra("type");
         intentType = getIntent().getStringExtra("intenttype");
         needPop = getIntent().getBooleanExtra("needpop", false);
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.friend_center;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = findViewById(R.id.toolbar_oper);
-        ArrayList<String> tabTitle = new ArrayList<>();
-        tabTitle.addAll(Arrays.asList(context.getResources().getStringArray(R.array.friend_tab_title)));
+        List<String> tabTitle = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.friend_tab_title)));
         viewPager = findViewById(R.id.viewpager);
         TabIndicator viewPagerIndicator = findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new FriendFragmentAdapter(getSupportFragmentManager()));
@@ -50,19 +50,20 @@ public class FriendCenter extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, FindFriendActivity.class));
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         toolbarOper.setText(R.string.friend_search);
         title.setText(R.string.friend_title);
         if (TextUtils.isEmpty(startType)) {

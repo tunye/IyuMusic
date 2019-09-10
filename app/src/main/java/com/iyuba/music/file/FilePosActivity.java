@@ -3,20 +3,19 @@ package com.iyuba.music.file;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,10 +24,10 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class FilePosActivity extends BaseActivity {
-    private ArrayList<FileInfo> files;
     private String currentPath;
     private RecyclerView fileListView;
     private FileAdapter adapter;
@@ -37,27 +36,24 @@ public class FilePosActivity extends BaseActivity {
     private RoundTextView sure;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.file_browser);
-        context = this;
-        files = new ArrayList<>();
-        currentPath = "/";
-        initWidget();
-        setListener();
-        changeUIByPara();
-        getStartPos();
+    public int getLayoutId() {
+        return R.layout.file_browser;
     }
 
     @Override
-    protected void initWidget() {
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        context = this;
+        currentPath = "/";
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         fileListView = findViewById(R.id.file_recyclerview);
-        fileListView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FileAdapter();
-        adapter.setDataSet(files);
+        adapter = new FileAdapter(this, null);
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(fileListView);
         filePath = findViewById(R.id.file_path);
         position = findViewById(R.id.file_parent);
         sure = findViewById(R.id.select_file_finish);
@@ -65,22 +61,25 @@ public class FilePosActivity extends BaseActivity {
         sure.setVisibility(View.VISIBLE);
     }
 
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 finish();
             }
         });
-        position.setOnClickListener(new View.OnClickListener() {
+        position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 backToParent();
             }
         });
-        sure.setOnClickListener(new View.OnClickListener() {
+        sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent();
                 if (currentPath.equals(getPath2())) {
                     intent.putExtra("path", currentPath.substring(currentPath.lastIndexOf(File.separator) + 1, currentPath.length()));
@@ -91,42 +90,33 @@ public class FilePosActivity extends BaseActivity {
                 FilePosActivity.this.finish();
             }
         });
-        adapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FileInfo f = files.get(position);
+                FileInfo f = adapter.getDatas().get(position);
                 if (f.isDirectory()) {
                     currentPath = f.getPath();
                     viewFiles();
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         backIcon.setState(MaterialMenuDrawable.IconState.X);
         title.setText(R.string.file_pos_title);
+        getStartPos();
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         filePath.setText(currentPath);
     }
 
     @Override
     public void onBackPressed() {
         backToParent();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
     }
 
     private void getStartPos() {
@@ -141,32 +131,26 @@ public class FilePosActivity extends BaseActivity {
             tmp.add(fileInfo);
         }
         tmp.add(FileUtil.getFileInfo(Environment.getExternalStorageDirectory()));
-        files.clear();
-        files.addAll(tmp);
-        adapter.setDataSet(files);
+        adapter.setDataSet(tmp);
         filePath.setText(currentPath);
     }
 
     private void viewFiles() {//点进
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
             filePath.setText(currentPath);
         }
     }
 
     private void viewFiles(String filePath, String lastFilePath) {//退出
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
             currentPath = filePath;
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
             this.filePath.setText(currentPath);
-            for (int i = 0; i < files.size(); i++) {
-                if (files.get(i).getPath().equals(lastFilePath)) {
+            for (int i = 0; i < tmp.size(); i++) {
+                if (tmp.get(i).getPath().equals(lastFilePath)) {
                     fileListView.scrollToPosition(i + 5);
                     break;
                 }

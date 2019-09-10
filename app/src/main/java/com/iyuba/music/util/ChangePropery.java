@@ -7,8 +7,9 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.util.DisplayMetrics;
 
+import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 
 import java.util.Locale;
 

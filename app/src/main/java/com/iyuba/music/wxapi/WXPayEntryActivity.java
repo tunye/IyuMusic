@@ -1,11 +1,11 @@
 package com.iyuba.music.wxapi;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
+import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.R;
+import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -17,17 +17,24 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
     private IWXAPI api;
-    private View root;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_result);
-        root = findViewById(R.id.pay_result_root);
+    public int getLayoutId() {
+        return R.layout.pay_result;
+    }
+
+    @Override
+    public void onActivityCreated() {
+        super.onActivityCreated();
         api = WXAPIFactory.createWXAPI(this, ConstantManager.WXID, false);
         api.handleIntent(getIntent(), this);
+    }
+
+    @Override
+    public void setListener() {
+        // no back btn
     }
 
     @Override
@@ -70,7 +77,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
-        root.postDelayed(new Runnable() {
+        ThreadUtils.postOnUiThreadDelay(new Runnable() {
             @Override
             public void run() {
                 finish();
@@ -80,6 +87,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onBackPressed() {
-        finish();
+        // do nothing
     }
 }

@@ -1,25 +1,25 @@
 package com.iyuba.music.activity.discover;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import com.buaa.ct.comment.ContextManager;
 import com.buaa.ct.comment.EmojiView;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -27,15 +27,12 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.eggshell.meizhi.LocalPhotoActivity;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -46,37 +43,33 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by 10202 on 2015/11/20.
  */
 public class SendPhotoActivity extends BaseActivity {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
     private IyubaDialog waittingDialog;
-    private ArrayList<String> images;
+    private List<String> images;
     private EmojiView emojiView;
     private ImageView photo;
     private View photoContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ContextManager.setInstance(this);//评论模块初始化
-        setContentView(R.layout.circle_photo);
-        images = new ArrayList<>();
-        initWidget();
-        setListener();
-        changeUIByPara();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-        }
+    public int getLayoutId() {
+        return R.layout.circle_photo;
     }
 
     @Override
-    protected void initWidget() {
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        images = new ArrayList<>();
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         photoContent = findViewById(R.id.photo_content);
@@ -87,17 +80,19 @@ public class SendPhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 submit();
             }
         });
-        photo.setOnClickListener(new View.OnClickListener() {
+        photo.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 if (images.size() == 0) {
                     ImageSelectorActivity.start(SendPhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, true, true, false);
                 } else {
@@ -110,8 +105,8 @@ public class SendPhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         toolbarOper.setText(R.string.state_send);
         title.setText(R.string.photo_title);
         emojiView.setmEtText(content);
@@ -129,29 +124,22 @@ public class SendPhotoActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waittingDialog.show();
             if (images.size() == 0) {
-                WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(),
-                        content.getEditableText().toString()), new IProtocolResponse<String>() {
+                RequestClient.requestAsync(new WriteStateRequest(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(),
+                        content.getEditableText().toString()), new SimpleRequestCallBack<String>() {
                     @Override
-                    public void onNetError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                        handler.sendEmptyMessage(1);
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                        handler.sendEmptyMessage(1);
-                    }
-
-                    @Override
-                    public void response(String result) {
-                        handler.sendEmptyMessage(1);
-                        if ("351".equals(result)) {
-                            handler.sendEmptyMessage(0);
-                            handler.sendEmptyMessage(1);
+                    public void onSuccess(String s) {
+                        waittingDialog.dismiss();
+                        if ("351".equals(s)) {
+                            sendFriendCircleSuccess();
                         } else {
                             CustomToast.getInstance().showToast(R.string.photo_fail);
                         }
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                        waittingDialog.dismiss();
+                        CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                     }
                 });
             } else {
@@ -163,14 +151,14 @@ public class SendPhotoActivity extends BaseActivity {
                                 new File(images.get(0)), new IOperationResult() {
                                     @Override
                                     public void success(Object object) {
-                                        handler.sendEmptyMessage(0);
-                                        handler.sendEmptyMessage(1);
+                                        waittingDialog.dismiss();
+                                        sendFriendCircleSuccess();
                                     }
 
                                     @Override
                                     public void fail(Object object) {
-                                        handler.sendEmptyMessage(1);
-                                        handler.sendEmptyMessage(3);
+                                        waittingDialog.dismiss();
+                                        CustomToast.getInstance().showToast(R.string.photo_fail);
                                     }
                                 });
                     }
@@ -222,60 +210,47 @@ public class SendPhotoActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.photo_title);
-        materialDialog.setMessage(R.string.photo_exit);
-        materialDialog.setPositiveButton(R.string.photo_exit_sure, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                materialDialog.dismiss();
-                SendPhotoActivity.this.finish();
-            }
-        });
-        materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ContextManager.destory();
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SendPhotoActivity> {
-        @Override
-        public void handleMessageByRef(final SendPhotoActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.getInstance().showToast(R.string.photo_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-                    }).playOn(activity.photoContent);
-                    break;
-                case 1:
-                    activity.waittingDialog.dismiss();
-                    break;
-                case 2:
-                    Intent intent = new Intent();
-                    activity.setResult(1, intent);
-                    activity.finish();
-                    break;
-                case 3:
-                    CustomToast.getInstance().showToast(R.string.photo_fail);
-                    break;
-            }
+        if (emojiView.onBackPressed()) {
+            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+            materialDialog.setTitle(R.string.photo_title);
+            materialDialog.setMessage(R.string.photo_exit);
+            materialDialog.setPositiveButton(R.string.photo_exit_sure, new INoDoubleClick() {
+                @Override
+                public void onClick(View view) {
+                    super.onClick(view);
+                    materialDialog.dismiss();
+                    SendPhotoActivity.this.finish();
+                }
+            });
+            materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
+                @Override
+                public void onClick(View view) {
+                    super.onClick(view);
+                    materialDialog.dismiss();
+                }
+            });
+            materialDialog.show();
         }
+    }
+
+    private void sendFriendCircleSuccess() {
+        YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                CustomToast.getInstance().showToast(R.string.photo_success);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        SendPhotoActivity.this.setResult(1, intent);
+                        SendPhotoActivity.this.finish();
+                    }
+                }, 300);
+            }
+        }).playOn(photoContent);
     }
 }

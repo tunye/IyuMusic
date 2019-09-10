@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.entity.user.HistoryLoginOp;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -60,20 +62,22 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_autocomplete, parent, false);
             holder = new ViewHolder();
             holder.historyText = convertView.findViewById(R.id.history_text);
-            convertView.setOnClickListener(new View.OnClickListener() {
+            convertView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     if (onRecycleViewItemClickListener != null) {
-                        onRecycleViewItemClickListener.onItemClick(v, position);
+                        onRecycleViewItemClickListener.onItemClick(view, position);
                     }
                 }
             });
             holder.delete = convertView.findViewById(R.id.clear_history);
-            holder.delete.setOnClickListener(new View.OnClickListener() {
+            holder.delete.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     if (onRecycleViewItemClickListener != null) {
-                        onRecycleViewItemClickListener.onItemLongClick(v, position);
+                        new HistoryLoginOp().deleteData(getItem(position).toString());
                     }
                     historyFilter.remove(position);
                     notifyDataSetChanged();

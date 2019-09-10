@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.PickerView;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,15 +69,16 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         materialDialog.setContentView(pickerView);
         materialDialog.setTitle(sleepTextList.get(sleepTextList.size() - 1));
         final String customText = sleepTextList.get(sleepTextList.size() - 1);
-        materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+        materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 materialDialog.dismiss();
                 String hour = hour_pv.getSelected();
                 String second = minute_pv.getSelected();
                 minute = Integer.parseInt(hour) * 60 + Integer.parseInt(second);
                 if (minute != 0) {
-                    itemClickListener.onItemClick(v, selected);
+                    itemClickListener.onItemClick(view, selected);
                     sleepTextList.set(sleepTextList.size() - 1, customText + "-" + context.getString(R.string.sleep_custom, hour, second));
                     CustomToast.getInstance().showToast(context.getString(R.string.sleep_hint, minute));
                     notifyItemChanged(selected);
@@ -85,6 +87,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         });
     }
 
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_sleep, parent, false));
@@ -94,15 +97,17 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final int pos = position;
         if (itemClickListener != null) {
-            holder.rippleView.setOnClickListener(new View.OnClickListener() {
+            holder.rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     onItemClick(holder.rippleView, pos);
                 }
             });
-            holder.sleepSelector.setOnClickListener(new View.OnClickListener() {
+            holder.sleepSelector.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     onItemClick(holder.rippleView, pos);
                 }
             });
@@ -149,7 +154,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         MaterialRippleLayout rippleView;
 
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             sleepText = view.findViewById(R.id.sleep_time);
             sleepSelector = view.findViewById(R.id.sleep_selector);

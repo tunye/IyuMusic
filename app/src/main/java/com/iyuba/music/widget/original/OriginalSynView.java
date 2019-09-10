@@ -12,13 +12,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.original.Original;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/16.
@@ -41,7 +42,7 @@ public class OriginalSynView extends ScrollView implements
     //线性布局，添加每一句话
     private LinearLayout subtitleLayout;
     //原文列表
-    private ArrayList<Original> originalList;
+    private List<Original> originalList;
     //拖拽使用变量
     private float[] oldXY;
     //当前段，上一段落
@@ -330,11 +331,11 @@ public class OriginalSynView extends ScrollView implements
         this.textSize = RuntimeManager.getInstance().sp2px(textSize);
     }
 
-    public ArrayList<Original> getOriginalList() {
+    public List<Original> getOriginalList() {
         return originalList;
     }
 
-    public void setOriginalList(ArrayList<Original> originalList) {
+    public void setOriginalList(List<Original> originalList) {
         this.originalList = originalList;
         initData();
     }

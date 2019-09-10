@@ -1,16 +1,16 @@
 package com.iyuba.music.entity.ad;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/11/16.
  */
 public class AdEntity {
-    @SerializedName("startuppic")
+    @JSONField(name = "startuppic")
     private String picUrl;
-    @SerializedName("startuppic_Url")
+    @JSONField(name = "startuppic_Url")
     private String loadUrl;
-    @SerializedName("type")
+    @JSONField(name = "type")
     private String type;
 
     public String getPicUrl() {

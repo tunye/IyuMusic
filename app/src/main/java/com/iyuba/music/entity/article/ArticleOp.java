@@ -4,9 +4,9 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -97,14 +97,14 @@ public class ArticleOp extends BaseEntityOp<Article> {
         return article;
     }
 
-    public ArrayList<Article> findDataByAll(String app, int count, int offset) {
+    public List<Article> findDataByAll(String app, int count, int offset) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where app=? and " + SOUND + "!=? ORDER BY "
                 + CREATETIME + " DESC  Limit ?,?", new String[]{app, "", String.valueOf(count), String.valueOf(offset)});
         return fillDatas(cursor);
     }
 
-    public ArrayList<Article> findDataByCategory(String app, int category, int count, int offset) {
+    public List<Article> findDataByCategory(String app, int category, int count, int offset) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where app=? and category=? and " + SOUND + "!=? ORDER BY "
                 + CREATETIME + " DESC  Limit ?,?", new String[]{app, String.valueOf(category), "",
@@ -112,7 +112,7 @@ public class ArticleOp extends BaseEntityOp<Article> {
         return fillDatas(cursor);
     }
 
-    public ArrayList<Article> findDataByAnnouncer(int announcer, int count, int offset) {
+    public List<Article> findDataByAnnouncer(int announcer, int count, int offset) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where app=? and announcer=? and " + SOUND + "!=? ORDER BY "
                 + CREATETIME + " DESC  Limit ?,?", new String[]{"209", String.valueOf(announcer), "",
@@ -120,7 +120,7 @@ public class ArticleOp extends BaseEntityOp<Article> {
         return fillDatas(cursor);
     }
 
-    public ArrayList<Article> findDataByMusic(int count, int offset) {
+    public List<Article> findDataByMusic(int count, int offset) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where app=? and " + SOUND + "=? ORDER BY "
                 + CREATETIME + " DESC  Limit ?,?", new String[]{"209", "",

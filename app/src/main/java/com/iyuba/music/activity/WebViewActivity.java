@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -19,10 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 
 import java.util.ArrayList;
@@ -41,12 +41,8 @@ public class WebViewActivity extends BaseActivity {
     private View progressLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.webview);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.webview;
     }
 
     @Override
@@ -74,15 +70,15 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        web = (WebView) findViewById(R.id.webview);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        web = findViewById(R.id.webview);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // [bug:86726] android 5.0增强安全机制，不允许https http混合，加此配置解决
             web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
-        loadProgress = (ProgressBar) findViewById(R.id.load_progress);
+        loadProgress = findViewById(R.id.load_progress);
         progressLayout = findViewById(R.id.load_progress_layout);
         progressBarAnimator = new ValueAnimator().setDuration(300);
         progressBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -121,13 +117,8 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    public void setListener() {
+        super.setListener();
         web.setWebChromeClient(
                 new WebChromeClient() {
                     @Override
@@ -175,15 +166,16 @@ public class WebViewActivity extends BaseActivity {
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setDisplayZoomControls(false);
         web.getSettings().setDomStorageEnabled(true);
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 menu.show();
             }
         });
     }
 
-    protected void changeUIByPara() {
+    public void onActivityCreated() {
         backIcon.setState(MaterialMenuDrawable.IconState.X);
         url = getIntent().getStringExtra("url");
         titleText = getIntent().getStringExtra("title");

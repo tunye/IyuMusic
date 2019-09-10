@@ -1,20 +1,20 @@
 package com.iyuba.music.entity.mainpanel;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2016/5/16.
  */
 public class SongCategory {
-    @SerializedName("Id")
+    @JSONField(name = "Id")
     private int id;
-    @SerializedName("Name")
+    @JSONField(name = "Name")
     private String text;
-    @SerializedName("Pic")
+    @JSONField(name = "Pic")
     private String imgUrl;
-    @SerializedName("SongCount")
+    @JSONField(name = "SongCount")
     private String count;
-    @SerializedName("Father")
+    @JSONField(name = "Father")
     private int father;
 
     public int getId() {

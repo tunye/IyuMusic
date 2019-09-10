@@ -6,9 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.fragment.FanFragment;
-import com.iyuba.music.fragment.FollowFragment;
-import com.iyuba.music.fragment.RecommendFragment;
+import com.iyuba.music.fragment.FriendFragment;
+import com.iyuba.music.request.merequest.FriendRequest;
 
 import java.util.ArrayList;
 
@@ -23,9 +22,15 @@ public class FriendFragmentAdapter extends FragmentPagerAdapter {
         super(fm);
         this.fm = fm;
         this.list = new ArrayList<>(3);
-        list.add(new FollowFragment());
-        list.add(new FanFragment());
-        list.add(new RecommendFragment());
+        FriendFragment follow = new FriendFragment();
+        follow.setFriendProtocol(FriendRequest.FOLLOW_REQUEST_CODE);
+        FriendFragment fan = new FriendFragment();
+        fan.setFriendProtocol(FriendRequest.FAN_REQUEST_CODE);
+        FriendFragment recommend = new FriendFragment();
+        recommend.setFriendProtocol(FriendRequest.RECOMMEND_REQUEST_CODE);
+        list.add(follow);
+        list.add(fan);
+        list.add(recommend);
     }
 
     @Override

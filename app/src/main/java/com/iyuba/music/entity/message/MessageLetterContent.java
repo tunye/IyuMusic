@@ -1,19 +1,19 @@
 package com.iyuba.music.entity.message;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
 public class MessageLetterContent {
     private String messageid;// 私信id，设置未读私信为已读需要的参数
-    @SerializedName("pmid")
+    @JSONField(name = "pmid")
     private String messageContentid;// 私信内容id，当删除私信的时候需要的参数
-    @SerializedName("authorid")
+    @JSONField(name = "authorid")
     private String authorid;// 若与url的id相同则为发送，否则为接收
-    @SerializedName("dateline")
+    @JSONField(name = "dateline")
     private String date;// 1362915420
-    @SerializedName("message")
+    @JSONField(name = "message")
     private String content;
     private int direction;
 

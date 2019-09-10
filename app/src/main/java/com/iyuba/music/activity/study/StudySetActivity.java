@@ -1,23 +1,23 @@
 package com.iyuba.music.activity.study;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.iyuba.music.widget.view.SwitchButton;
 
 import java.util.Arrays;
@@ -31,16 +31,12 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     private TextView currPlayMode, currNextMode, currDownLoad;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.study_setting);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.study_setting;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         playMode = findViewById(R.id.study_set_playmode);
         AddRippleEffect.addRippleEffect(playMode, 200);
@@ -67,7 +63,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         playMode.setOnClickListener(this);
         nextMode.setOnClickListener(this);
@@ -117,8 +113,8 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         currPlayMode.setText(getPlayMode(ConfigManager.getInstance().getStudyMode()));
         currNextMode.setText(getNextMode(ConfigManager.getInstance().getStudyPlayMode()));
         currDownLoad.setText(getDownload(ConfigManager.getInstance().getDownloadMode()));
@@ -194,20 +190,16 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 }
                 groupDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(ConfigManager.getInstance().getStudyMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
-        groupDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 groupDialog.dismiss();
             }
         });
@@ -229,20 +221,16 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 }
                 groupDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(ConfigManager.getInstance().getStudyPlayMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
-        groupDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 groupDialog.dismiss();
             }
         });
@@ -265,20 +253,16 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
                 }
                 groupDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(ConfigManager.getInstance().getDownloadMode());
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageList.setAdapter(adapter);
         groupDialog.setContentView(root);
-        groupDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 groupDialog.dismiss();
             }
         });

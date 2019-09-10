@@ -2,8 +2,7 @@ package com.iyuba.music.entity.comment;
 
 import android.database.Cursor;
 
-import com.iyuba.music.entity.BaseEntityOp;
-
+import com.buaa.ct.core.bean.BaseEntityOp;
 
 public class CommentAgreeOp extends BaseEntityOp {
 

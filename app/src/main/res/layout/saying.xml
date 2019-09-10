@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/saying_content"

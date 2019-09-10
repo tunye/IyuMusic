@@ -1,48 +1,42 @@
 package com.iyuba.music.activity.me;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.swiperefresh.CustomSwipeToRefresh;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WebViewActivity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.merequest.GradeRequest;
 import com.iyuba.music.util.MD5;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.boundnumber.RiseNumberTextView;
 
 /**
  * Created by 10202 on 2016/3/31.
  */
 public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RiseNumberTextView counts, rank;
     private View creditDetail, creditExchange;
     private CustomSwipeToRefresh swipeRefreshLayout;
-    private String rankPos, duration;
     private TextView creditDuration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.credits);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.credits;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         counts = findViewById(R.id.credit_counts);
@@ -57,11 +51,12 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/mall/ruleOfintegral.jsp");
@@ -69,9 +64,10 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
                 startActivity(intent);
             }
         });
-        creditDetail.setOnClickListener(new View.OnClickListener() {
+        creditDetail.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://api.iyuba.cn/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.getInstance().getUserId());
@@ -79,9 +75,10 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
                 startActivity(intent);
             }
         });
-        creditExchange.setOnClickListener(new View.OnClickListener() {
+        creditExchange.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
@@ -95,8 +92,8 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.credits_title);
         toolbarOper.setText(R.string.credits_helper);
         title.postDelayed(new Runnable() {
@@ -134,24 +131,21 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     }
 
     private void getData() {
-        GradeRequest.exeRequest(GradeRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse<String>() {
+        RequestClient.requestAsync(new GradeRequest(AccountManager.getInstance().getUserId()), new SimpleRequestCallBack<String>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(String result) {
-                String[] para = result.split("@@@");
-                rankPos = para[0];
-                duration = para[1];
+            public void onSuccess(String result) {
+                final String[] para = result.split("@@@");
+                if (AccountManager.getInstance().getUserInfo().getIcoins() != null) {
+                    counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
+                }
+                rank.withNumber(Integer.parseInt(para[0])).start();
+                creditDuration.setText(getString(R.string.credits_study_time, exeStudyTime(Integer.parseInt(para[1]))));
                 swipeRefreshLayout.setRefreshing(false);
-                handler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }
@@ -172,21 +166,6 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
             return sb.toString();
         } else {
             return "0:" + sb.toString();
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<CreditActivity> {
-        @Override
-        public void handleMessageByRef(final CreditActivity activity, Message msg) {
-            switch (msg.what) {
-                case 1:
-                    if (AccountManager.getInstance().getUserInfo().getIcoins() != null) {
-                        activity.counts.withNumber(Integer.parseInt(AccountManager.getInstance().getUserInfo().getIcoins())).start();
-                    }
-                    activity.rank.withNumber(Integer.parseInt(activity.rankPos)).start();
-                    activity.creditDuration.setText(activity.getString(R.string.credits_study_time, activity.exeStudyTime(Integer.parseInt(activity.duration))));
-                    break;
-            }
         }
     }
 }

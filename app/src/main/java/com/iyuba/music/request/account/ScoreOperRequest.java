@@ -3,22 +3,14 @@ package com.iyuba.music.request.account;
 import android.support.v4.util.ArrayMap;
 import android.util.Base64;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.request.Request;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.volley.MyJsonRequest;
-import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -30,54 +22,8 @@ import java.util.Locale;
  * Created by 10202 on 2016/3/12.
  */
 
-public class ScoreOperRequest {
-    public static void exeRequest(String url, final IProtocolResponse<BaseApiEntity<String>> response) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            MyJsonRequest request = new MyJsonRequest(
-                    url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
-                        int result = jsonObject.getInt("result");
-                        switch (result) {
-                            case 200:
-                                apiEntity.setState(BaseApiEntity.SUCCESS);
-                                apiEntity.setValue(jsonObject.getString("totalcredit"));
-                                apiEntity.setMessage(jsonObject.getString("addcredit"));
-                                UserInfo userInfo = AccountManager.getInstance().getUserInfo();
-                                if (userInfo != null) {
-                                    userInfo.setIcoins(apiEntity.getValue());
-                                }
-                                break;
-                            case 201:
-                            case 203:
-                                apiEntity.setState(BaseApiEntity.FAIL);
-                                apiEntity.setMessage(jsonObject.getString("message"));
-                                break;
-                            default:
-                                apiEntity.setState(BaseApiEntity.ERROR);
-                                apiEntity.setMessage(RuntimeManager.getInstance().getString(R.string.unknown_error));
-                                break;
-                        }
-                        response.response(apiEntity);
-                    } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
-                }
-            });
-            MyVolley.getInstance().addToRequestQueue(request);
-        } else {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
-        }
-    }
-
-    public static String generateUrl(String uid, int id, int type) {
+public class ScoreOperRequest extends Request<BaseApiEntity<String>> {
+    public ScoreOperRequest(String uid, int id, int type) {
         String originalUrl = "http://api.iyuba.cn/credits/updateScore.jsp";
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("srid", type);
@@ -95,7 +41,34 @@ public class ScoreOperRequest {
         } else {
             paras.put("flag", "1234567890" + df.format(new Date()));
         }
-        return ParameterUrl.setRequestParameter(originalUrl, paras);
+        url = ParameterUrl.setRequestParameter(originalUrl, paras);
+    }
+
+    @Override
+    public BaseApiEntity<String> parseJsonImpl(JSONObject jsonObject) {
+        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
+        int result = jsonObject.getIntValue("result");
+        switch (result) {
+            case 200:
+                apiEntity.setState(BaseApiEntity.SUCCESS);
+                apiEntity.setValue(jsonObject.getString("totalcredit"));
+                apiEntity.setMessage(jsonObject.getString("addcredit"));
+                UserInfo userInfo = AccountManager.getInstance().getUserInfo();
+                if (userInfo != null) {
+                    userInfo.setIcoins(apiEntity.getValue());
+                }
+                break;
+            case 201:
+            case 203:
+                apiEntity.setState(BaseApiEntity.FAIL);
+                apiEntity.setMessage(jsonObject.getString("message"));
+                break;
+            default:
+                apiEntity.setState(BaseApiEntity.ERROR);
+                apiEntity.setMessage(RuntimeManager.getInstance().getString(R.string.unknown_error));
+                break;
+        }
+        return apiEntity;
     }
 }
 

@@ -3,7 +3,7 @@ package com.iyuba.music.entity.user;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
 
 /**
  * Created by 10202 on 2015/11/18.
@@ -102,7 +102,7 @@ public class UserInfoOp extends BaseEntityOp<UserInfo> {
     public UserInfo selectDataByName(String userName) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where " + USERNAME
-                        + "=?", new String[]{userName});
+                + "=?", new String[]{userName});
         UserInfo userInfo = null;
         if (cursor.moveToNext()) {
             userInfo = fillData(cursor);

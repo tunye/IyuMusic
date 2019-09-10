@@ -4,16 +4,18 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.request.apprequest.QunRequest;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -29,16 +31,12 @@ public class WxOfficialAccountActivity extends BaseActivity {
     View shareToFriend, shareToCircle, shareToWx;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.wx_official_accounts);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.wx_official_accounts;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         shareToFriend = findViewById(R.id.share_to_friend);
@@ -47,7 +45,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         title.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,27 +56,23 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 CustomToast.getInstance().showToast("regid已经复制，get新技巧");
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 String brand = "iyu360";
                 if (!android.os.Build.MANUFACTURER.contains("360")) {
                     brand = android.os.Build.MANUFACTURER;
                 }
-                QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse<BaseApiEntity<String>>() {
+                RequestClient.requestAsync(new QunRequest(brand), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onNetError(String msg) {
-
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-
-                    }
-
-                    @Override
-                    public void response(BaseApiEntity<String> result) {
+                    public void onSuccess(BaseApiEntity<String> result) {
                         ParameterUrl.joinQQGroup(context, result.getValue());
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
                     }
                 });
             }
@@ -114,8 +108,8 @@ public class WxOfficialAccountActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_wx);
         toolbarOper.setText(R.string.app_qun);
         AddRippleEffect.addRippleEffect(shareToCircle);

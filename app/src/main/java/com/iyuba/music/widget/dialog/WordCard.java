@@ -12,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -19,14 +24,12 @@ import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.discoverrequest.DictRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.player.SimplePlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
@@ -86,13 +89,13 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         wordSetOp = new WordSetOp();
         LayoutInflater inflater = LayoutInflater.from(context);
         root = inflater.inflate(R.layout.wordcard, this);
-        key =  root.findViewById(R.id.word_key);
-        pron =  root.findViewById(R.id.word_pron);
+        key = root.findViewById(R.id.word_key);
+        pron = root.findViewById(R.id.word_pron);
         def = root.findViewById(R.id.word_def);
-        speaker =  root.findViewById(R.id.word_speaker);
-        add =  root.findViewById(R.id.word_add);
-        close =  root.findViewById(R.id.word_close);
-        loading =  root.findViewById(R.id.word_loading);
+        speaker = root.findViewById(R.id.word_speaker);
+        add = root.findViewById(R.id.word_add);
+        close = root.findViewById(R.id.word_close);
+        loading = root.findViewById(R.id.word_loading);
         loading.setIndicatorColor(GetAppColor.getInstance().getAppColor());
         wordContent = root.findViewById(R.id.word_content);
         wordOperation = root.findViewById(R.id.word_operation);
@@ -121,22 +124,17 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         });
     }
 
-    private void getNetWord(final String wordkey, final IOperationFinish finish) {
-        DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse<Word>() {
+    private void getNetWord(String wordkey, final IOperationFinish finish) {
+        RequestClient.requestAsync(new DictRequest(wordkey), new SimpleRequestCallBack<Word>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(Word result) {
+            public void onSuccess(Word result) {
                 word = result;
                 finish.finish();
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfo) {
+                CustomToast.getInstance().showToast(errorInfo.errorMsg);
             }
         });
     }
@@ -239,24 +237,18 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
 
     private void synchroYun() {
         final String userid = AccountManager.getInstance().getUserId();
-        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", keyword),
-                new IProtocolResponse<Integer>() {
-                    @Override
-                    public void onNetError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
+        RequestClient.requestAsync(new DictUpdateRequest(userid, "insert", keyword), new SimpleRequestCallBack<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                personalWordOp.insertWord(keyword, userid);
+                CustomToast.getInstance().showToast(R.string.word_add);
+            }
 
-                    @Override
-                    public void onServerError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
-
-                    @Override
-                    public void response(Integer integer) {
-                        personalWordOp.insertWord(keyword, userid);
-                        CustomToast.getInstance().showToast(R.string.word_add);
-                    }
-                });
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
+        });
     }
 
     public void destroy() {

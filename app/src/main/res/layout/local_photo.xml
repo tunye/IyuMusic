@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/iv_girl"

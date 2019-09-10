@@ -2,7 +2,6 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -22,6 +20,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.appskin.BaseSkinActivity;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.RecommendSongActivity;
@@ -34,24 +41,18 @@ import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.article.SearchHistoryOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.SearchRequest;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.Utils;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundTextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -91,11 +92,11 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         articleOp = new ArticleOp();
         initWidget();
         setListener();
-        changeUIByPara();
+        onActivityCreated();
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
-    protected void initWidget() {
+    public void initWidget() {
         advice = findViewById(R.id.no_result);
         historySearch = findViewById(R.id.history_search);
         searchHistoryAdapter = new SearchHistoryAdapter(context);
@@ -123,9 +124,6 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
         searchNewsRecycleView.setAdapter(searchNewsAdapter);
         searchNewsRecycleView.addItemDecoration(new DividerItemDecoration());
@@ -134,10 +132,11 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         adviceBtn = findViewById(R.id.search_advice_button);
     }
 
-    protected void setListener() {
-        adviceBtn.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        adviceBtn.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 startActivity(new Intent(context, RecommendSongActivity.class));
             }
         });
@@ -178,9 +177,10 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 }
             }
         });
-        search.setOnClickListener(new View.OnClickListener() {
+        search.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (searchContent.getEditableText().toString().startsWith("iyumusic://")) {
@@ -212,7 +212,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         });
     }
 
-    protected void changeUIByPara() {
+    public void onActivityCreated() {
         search.setText(R.string.search_close);
         showLayout.setVisibility(View.GONE);
         advice.setVisibility(View.GONE);
@@ -267,21 +267,9 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     }
 
     private void searchMusic() {
-        SearchRequest.exeRequest(SearchRequest.generateUrl(searchContent.getText().toString(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new SearchRequest(searchContent.getText().toString(), curPage), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-                swipeRefreshLayout.setRefreshing(false);
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                swipeRefreshLayout.setRefreshing(false);
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Article>> listEntity) {
                 showLayout.setVisibility(View.VISIBLE);
                 historySearch.setVisibility(View.GONE);
                 advice.setVisibility(View.VISIBLE);
@@ -321,6 +309,12 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                     }
                 }
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                swipeRefreshLayout.setRefreshing(false);
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
@@ -333,9 +327,10 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         textView.setPadding(0, 60, 0, 60);
         footerParent.setGravity(Gravity.CENTER_HORIZONTAL);
         footerParent.addView(textView);
-        footerParent.setOnClickListener(new View.OnClickListener() {
+        footerParent.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                super.onClick(view);
                 clearAll();
             }
         });
@@ -347,17 +342,19 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
         mMaterialDialog.setTitle(R.string.search_word_do);
         mMaterialDialog.setMessage(R.string.article_search_clear_hint)
-                .setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
+                .setPositiveButton(R.string.article_search_clear_sure, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
+                        super.onClick(view);
                         mMaterialDialog.dismiss();
                         new SearchHistoryOp().deleteAll();
                         searchHistoryAdapter.setList("");
                     }
                 })
-                .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
+                        super.onClick(view);
                         mMaterialDialog.dismiss();
                     }
                 });

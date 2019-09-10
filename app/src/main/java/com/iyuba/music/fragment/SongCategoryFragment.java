@@ -7,33 +7,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.alibaba.fastjson.JSON;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.main.ClassifySongList;
+import com.iyuba.music.activity.main.ClassifyNewsList;
 import com.iyuba.music.adapter.study.SongCategoryAdapter;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.mainpanel.SongCategory;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.banner.BannerView;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by 10202 on 2015/11/6.
  */
 public class SongCategoryFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
-    private ArrayList<SongCategory> newsList;
+    private List<SongCategory> newsList;
     private SongCategoryAdapter newsAdapter;
     private int curPage;
     private boolean isLastPage = false;
@@ -52,15 +55,12 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
         newsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(context, ClassifySongList.class);
+                Intent intent = new Intent(context, ClassifyNewsList.class);
                 intent.putExtra("classify", newsAdapter.getItem(position).getId());
                 intent.putExtra("classifyName", newsAdapter.getItem(position).getText());
                 startActivity(intent);
             }
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
         recyclerView.setAdapter(newsAdapter);
         setUserVisibleHint(true);
@@ -106,50 +106,33 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
     private void getNewsData(final int refreshType) {
         if (refreshType == MySwipeRefreshLayout.TOP_REFRESH) {
             if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
-                BannerPicRequest.exeRequest(BannerPicRequest.generateUrl("class.iyumusic.yuan"), new IProtocolResponse<BaseListEntity<ArrayList<BannerEntity>>>() {
+                RequestClient.requestAsync(new BannerPicRequest("class.iyumusic.yuan"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
                     @Override
-                    public void onNetError(String msg) {
-                        loadLocalBannerData();
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-                        loadLocalBannerData();
-                    }
-
-                    @Override
-                    public void response(BaseListEntity<ArrayList<BannerEntity>> result) {
+                    public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
                         StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
-                        ArrayList<BannerEntity> bannerEntities = result.getData();
+                        List<BannerEntity> bannerEntities = result.getData();
                         BannerEntity bannerEntity = new BannerEntity();
                         bannerEntity.setOwnerid("2");
                         bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
                         bannerEntity.setDesc("全部原声歌曲列表");
                         bannerEntities.add(bannerEntity);
-                        ConfigManager.getInstance().putString("songbanner", new Gson().toJson(bannerEntities));
+                        SPUtils.putString(ConfigManager.getInstance().getPreferences(), "songbanner", JSON.toJSONString(bannerEntities));
                         newsAdapter.setAdSet(bannerEntities);
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
                     }
                 });
             } else {
                 loadLocalBannerData();
             }
         }
-        SongCategoryRequest.exeRequest(SongCategoryRequest.generateUrl(curPage), new IProtocolResponse<BaseListEntity<ArrayList<SongCategory>>>() {
+        RequestClient.requestAsync(new SongCategoryRequest(curPage), new SimpleRequestCallBack<BaseListEntity<List<SongCategory>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<SongCategory>> listEntity) {
-                ArrayList<SongCategory> netData =  listEntity.getData();
+            public void onSuccess(BaseListEntity<List<SongCategory>> listEntity) {
+                List<SongCategory> netData = listEntity.getData();
                 isLastPage = listEntity.isLastPage();
                 switch (refreshType) {
                     case MySwipeRefreshLayout.TOP_REFRESH:
@@ -166,14 +149,17 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment implements My
                 swipeRefreshLayout.setRefreshing(false);
                 newsAdapter.setDataSet(newsList);
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                swipeRefreshLayout.setRefreshing(false);
+            }
         });
     }
 
     private void loadLocalBannerData() {
-        Type listType = new TypeToken<ArrayList<BannerEntity>>() {
-        }.getType();
-        ArrayList<BannerEntity> bannerEntities = new Gson().fromJson(ConfigManager.getInstance().loadString("songbanner"), listType);
-        newsAdapter.setAdSet(bannerEntities);
+        newsAdapter.setAdSet(JSON.parseArray(SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "songbanner"), BannerEntity.class));
     }
 
     @Override

@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,6 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
         this.itemClickListener = itemClickListener;
     }
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,15 +47,17 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final int pos = position;
         if (itemClickListener != null) {
-            holder.rippleView.setOnClickListener(new View.OnClickListener() {
+            holder.rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     onItemClick(holder.rippleView, pos);
                 }
             });
-            holder.sleepSelector.setOnClickListener(new View.OnClickListener() {
+            holder.sleepSelector.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    super.onClick(view);
                     onItemClick(holder.rippleView, pos);
                 }
             });
@@ -87,7 +89,7 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
         MaterialRippleLayout rippleView;
 
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             sleepText = view.findViewById(R.id.sleep_time);
             sleepSelector = view.findViewById(R.id.sleep_selector);

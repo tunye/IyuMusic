@@ -2,36 +2,40 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.ChattingActivity;
 import com.iyuba.music.activity.me.FriendCenter;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.adapter.me.FriendAdapter;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.entity.friends.Fans;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
+import com.iyuba.music.entity.friends.Friend;
 import com.iyuba.music.manager.SocialManager;
-import com.iyuba.music.request.merequest.FanRequest;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
+import com.iyuba.music.request.merequest.FriendRequest;
+import com.iyuba.music.util.Utils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by 10202 on 2015/11/6.
  */
-public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
-    private ArrayList<Fans> fansArrayList;
+public class FriendFragment extends BaseRecyclerViewFragment implements MySwipeRefreshLayout.OnRefreshListener {
     private FriendAdapter friendAdapter;
     private int curPage;
     private boolean isLastPage = false;
+    private String friendProtocol;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,18 +43,21 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
         context = getActivity();
     }
 
+    public void setFriendProtocol(String friendProtocol) {
+        this.friendProtocol = friendProtocol;
+    }
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(this);
-        fansArrayList = new ArrayList<>();
         friendAdapter = new FriendAdapter(context);
-        friendAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
+        friendAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SocialManager.getInstance().pushFriendId(fansArrayList.get(position).getUid());
+                SocialManager.getInstance().pushFriendId(friendAdapter.getDatas().get(position).getUid());
                 if ("chat".equals(((FriendCenter) getActivity()).getIntentMessage())) {
-                    SocialManager.getInstance().pushFriendName(fansArrayList.get(position).getUsername());
+                    SocialManager.getInstance().pushFriendName(friendAdapter.getDatas().get(position).getUsername());
                     Intent intent = new Intent(context, ChattingActivity.class);
                     intent.putExtra("needpop", true);
                     startActivity(intent);
@@ -60,10 +67,6 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
                     startActivity(intent);
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
         recyclerView.setAdapter(friendAdapter);
         setUserVisibleHint(true);
@@ -71,7 +74,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout.setRefreshing(true);
         onRefresh(0);
@@ -85,7 +88,6 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     @Override
     public void onRefresh(int index) {
         curPage = 1;
-        fansArrayList = new ArrayList<>();
         isLastPage = false;
         getFriendData();
     }
@@ -97,7 +99,7 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
      */
     @Override
     public void onLoad(int index) {
-        if (fansArrayList.size() == 0) {
+        if (friendAdapter.getDatas().size() == 0) {
 
         } else if (!isLastPage) {
             curPage++;
@@ -109,35 +111,32 @@ public class FanFragment extends BaseRecyclerViewFragment implements MySwipeRefr
     }
 
     private void getFriendData() {
-        FanRequest.exeRequest(FanRequest.generateUrl(SocialManager.getInstance().getFriendId(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<Fans>>>() {
+        RequestClient.requestAsync(new FriendRequest(SocialManager.getInstance().getFriendId(), friendProtocol, null, curPage), new SimpleRequestCallBack<BaseListEntity<List<Friend>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Fans>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Friend>> listEntity) {
                 isLastPage = listEntity.isLastPage();
                 if (isLastPage) {
                     if (curPage == 1) {
-                        CustomToast.getInstance().showToast(R.string.no_friend);
+                        if (friendProtocol.equals(FriendRequest.RECOMMEND_REQUEST_CODE)) {
+                            CustomToast.getInstance().showToast(R.string.friend_no_data);
+                        } else {
+                            CustomToast.getInstance().showToast(R.string.no_friend);
+                        }
                     } else {
                         CustomToast.getInstance().showToast(R.string.friend_load_all);
                     }
                 } else {
-                    fansArrayList.addAll((ArrayList<Fans>) listEntity.getData());
-                    friendAdapter.setFriendList(fansArrayList);
-                    if (curPage != 1) {
+                    friendAdapter.addDatas(listEntity.getData());
+                    if (curPage != 1 && !friendProtocol.equals(FriendRequest.RECOMMEND_REQUEST_CODE)) {
                         CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), 800);
                     }
                 }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

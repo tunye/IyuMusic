@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/row_space_medium"
-    android:layout_marginEnd="@dimen/row_space_medium"
     android:layout_marginTop="@dimen/row_space_small"
+    android:layout_marginEnd="@dimen/row_space_medium"
     android:background="@drawable/bg_card"
     android:orientation="vertical">
 
@@ -22,10 +22,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
         android:paddingStart="10dp"
+        android:paddingTop="10dp"
         android:paddingEnd="10dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/tv_title"

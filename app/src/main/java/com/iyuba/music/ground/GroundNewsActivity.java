@@ -1,5 +1,5 @@
 /*
- * 文件名 
+ * 文件名
  * 包含类名列表
  * 版本信息，版本号
  * 创建日期
@@ -8,13 +8,16 @@
 package com.iyuba.music.ground;
 
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -24,22 +27,14 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfo;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.discoverrequest.GroundNewsListRequest;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.youdao.sdk.nativeads.RequestParameters;
-import com.youdao.sdk.nativeads.ViewBinder;
-import com.youdao.sdk.nativeads.YouDaoNativeAdPositioning;
-import com.youdao.sdk.nativeads.YouDaoNativeAdRenderer;
-import com.youdao.sdk.nativeads.YouDaoRecyclerAdapter;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.List;
 
 /**
  * 简版新闻列表界面
@@ -49,8 +44,6 @@ import java.util.EnumSet;
  * @para "type"新闻类别（VOA慢速、常速、BBC(3)、美语、视频）
  */
 public class GroundNewsActivity extends BaseListActivity<Article> {
-    private GroundNewsAdapter groundNewsAdapter;
-    private RecyclerView newsList;
     private String curNewsType;
     private String getTitleUrl;
     private String downloadAppUrl;
@@ -63,35 +56,25 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
     private boolean isVipLastState;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.classify_with_oper);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         articleOp = new ArticleOp();
         localInfoOp = new LocalInfoOp();
         curNewsType = this.getIntent().getExtras().getString("type");
-        initWidget();
-        setListener();
-        changeUIByPara();
         isVipLastState = DownloadUtil.checkVip();
-        if (isVipLastState) {
-            initVipRecyclerView();
-        } else {
-            initUnVipRecyclerView();
-        }
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = findViewById(R.id.toolbar_oper);
-        groundNewsAdapter = new GroundNewsAdapter(context);
-        newsList = findViewById(R.id.news_recyclerview);
-        setRecyclerViewProperty(newsList);
+        ownerAdapter = new GroundNewsAdapter(context);
+        owner = findViewById(R.id.recyclerview_widget);
+        assembleRecyclerView();
         onRefresh(0);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         toolbarOper.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,75 +97,40 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
                 }
             }
         });
-        groundNewsAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (app.equals("229") || app.equals("217") || app.equals("213")) {
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("pos", position);
-                    intent.putExtra("articleList", datas);
+                    intent.putExtra("articleList", (ArrayList) ownerAdapter.getDatas());
                     context.startActivity(intent);
                 } else {
                     StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(datas);
+                    StudyManager.getInstance().setSourceArticleList(ownerAdapter.getDatas());
                     StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
-                    StudyManager.getInstance().setCurArticle(datas.get(position));
+                    StudyManager.getInstance().setCurArticle(ownerAdapter.getDatas().get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(curNewsType);
         toolbarOper.setText(R.string.download_app);
     }
 
 
-    private void initVipRecyclerView() {
-        newsList.setAdapter(groundNewsAdapter);
-    }
-
-    private void initUnVipRecyclerView() {
-        mAdAdapter = new YouDaoRecyclerAdapter(GroundNewsActivity.this, groundNewsAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
-        // 绑定界面组件与广告参数的映射关系，用于渲染广告
-        final YouDaoNativeAdRenderer adRenderer = new YouDaoNativeAdRenderer(
-                new ViewBinder.Builder(R.layout.native_ad_row)
-                        .titleId(R.id.native_title)
-                        .mainImageId(R.id.native_main_image).build());
-        mAdAdapter.registerAdRenderer(adRenderer);
-        final Location location = null;
-        final String keywords = null;
-        // 声明app需要的资源，这样可以提供高质量的广告，也会节省网络带宽
-        final EnumSet<RequestParameters.NativeAdAsset> desiredAssets = EnumSet.of(
-                RequestParameters.NativeAdAsset.TITLE, RequestParameters.NativeAdAsset.TEXT,
-                RequestParameters.NativeAdAsset.ICON_IMAGE, RequestParameters.NativeAdAsset.MAIN_IMAGE,
-                RequestParameters.NativeAdAsset.CALL_TO_ACTION_TEXT);
-        RequestParameters mRequestParameters = new RequestParameters.Builder()
-                .location(location).keywords(keywords)
-                .desiredAssets(desiredAssets).build();
-        newsList.setAdapter(mAdAdapter);
-        mAdAdapter.loadAds(ConstantManager.YOUDAOSECRET, mRequestParameters);
-    }
-
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityResumed() {
+        super.onActivityResumed();
         if (isVipLastState != DownloadUtil.checkVip()) {
             isVipLastState = DownloadUtil.checkVip();
-            if (isVipLastState) {
-                initVipRecyclerView();
-            } else {
-                initUnVipRecyclerView();
-            }
+            assembleRecyclerView();
         }
     }
 
@@ -235,73 +183,55 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
             lesson = "TED英语演讲";
             app = "229";
         }
-        GroundNewsListRequest.exeRequest(getTitleUrl, app, new IProtocolResponse<BaseListEntity<ArrayList<Article>>>() {
+        RequestClient.requestAsync(new GroundNewsListRequest(getTitleUrl, app), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
-                getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(datas);
-                    if (datas != null) {
-                        StudyManager.getInstance().setCurArticle(datas.get(0));
-                    }
-                    StudyManager.getInstance().setApp(app);
-                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(datas);
-                }
-                swipeRefreshLayout.setRefreshing(false);
+            public void onSuccess(BaseListEntity<List<Article>> baseListEntity) {
+                isLastPage = baseListEntity.isLastPage();
+                onNetDataReturnSuccess(baseListEntity.getData());
             }
 
             @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg + context.getString(R.string.article_local));
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                swipeRefreshLayout.setRefreshing(false);
+                CustomToast.getInstance().showToast(context.getString(Utils.getRequestErrorMeg(errorInfoWrapper)) + context.getString(R.string.article_local));
                 getDbData();
+
                 if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(datas);
-                    if (datas != null) {
-                        StudyManager.getInstance().setCurArticle(datas.get(0));
+                    StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
+                    StudyManager.getInstance().setSourceArticleList(getData());
+                    if (!getData().isEmpty()) {
+                        StudyManager.getInstance().setCurArticle(getData().get(0));
                     }
                     StudyManager.getInstance().setApp(app);
                 } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(datas);
+                    StudyManager.getInstance().setSourceArticleList(getData());
                 }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Article>> baseListEntity) {
-                swipeRefreshLayout.setRefreshing(false);
-                if (!baseListEntity.isLastPage()) {
-                    ArrayList<Article> netData = baseListEntity.getData();
-                    datas.addAll(netData);
-                    if (!StudyManager.getInstance().isStartPlaying()) {
-                        StudyManager.getInstance().setLesson("music");
-                        StudyManager.getInstance().setSourceArticleList(datas);
-                        StudyManager.getInstance().setCurArticle(datas.get(0));
-                        StudyManager.getInstance().setApp(app);
-                    } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                        StudyManager.getInstance().setSourceArticleList(datas);
-                    }
-                    LocalInfo localinfo;
-                    for (Article temp : netData) {
-                        localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
-                        if (localinfo.getId() == 0) {
-                            localinfo.setApp(temp.getApp());
-                            localinfo.setId(temp.getId());
-                            localInfoOp.saveData(localinfo);
-                        }
-                    }
-                    articleOp.saveData(netData);
-                }
-                groundNewsAdapter.setData(datas);
             }
         });
     }
 
+    @Override
+    public void handleAfterAddAdapter(List<Article> netData) {
+        if (!StudyManager.getInstance().isStartPlaying()) {
+            StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
+            StudyManager.getInstance().setSourceArticleList(getData());
+            StudyManager.getInstance().setCurArticle(getData().get(0));
+            StudyManager.getInstance().setApp(app);
+        } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+            StudyManager.getInstance().setSourceArticleList(getData());
+        }
+        LocalInfo localinfo;
+        for (Article temp : netData) {
+            localinfo = localInfoOp.findDataById(temp.getApp(), temp.getId());
+            if (localinfo.getId() == 0) {
+                localinfo.setApp(temp.getApp());
+                localinfo.setId(temp.getId());
+                localInfoOp.saveData(localinfo);
+            }
+        }
+    }
+
     private void getDbData() {
-        datas.addAll(articleOp.findDataByAll(app, datas.size(), 20));
-        groundNewsAdapter.setData(datas);
+        ownerAdapter.addDatas(articleOp.findDataByAll(app, ownerAdapter.getItemCount(), 20));
     }
 }

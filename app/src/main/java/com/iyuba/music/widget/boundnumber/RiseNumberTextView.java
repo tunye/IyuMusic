@@ -16,21 +16,16 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
     private static final int STOPPED = 0;
 
     private static final int RUNNING = 1;
-
+    private static DecimalFormat dfs = null;
     private int mPlayingState = STOPPED;
-
     private float number;
-
     private float fromNumber;
-
     private long duration = 800;
     /**
      * 1.int 2.float
      */
     private int numberType = 2;
-
     private boolean flags = true;
-
     private EndListener mEndListener = null;
 
     public RiseNumberTextView(Context context) {
@@ -43,6 +38,15 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
 
     public RiseNumberTextView(Context context, AttributeSet attr, int defStyle) {
         super(context, attr, defStyle);
+    }
+
+    public static DecimalFormat format(String pattern) {
+        if (dfs == null) {
+            dfs = new DecimalFormat();
+        }
+        dfs.setRoundingMode(RoundingMode.FLOOR);
+        dfs.applyPattern(pattern);
+        return dfs;
     }
 
     public boolean isRunning() {
@@ -168,16 +172,5 @@ public class RiseNumberTextView extends AppCompatTextView implements RiseNumberB
 
     public interface EndListener {
         void onEndFinish();
-    }
-
-    private static DecimalFormat dfs = null;
-
-    public static DecimalFormat format(String pattern) {
-        if (dfs == null) {
-            dfs = new DecimalFormat();
-        }
-        dfs.setRoundingMode(RoundingMode.FLOOR);
-        dfs.applyPattern(pattern);
-        return dfs;
     }
 }

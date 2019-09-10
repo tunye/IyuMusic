@@ -2,11 +2,11 @@
 <paths>
     <external-path
         name="iyumusic_path"
-        path="/iyuba/music/image"/>
+        path="/iyuba/music/image" />
     <external-cache-path
         name="addam_apk_download"
-        path="addam_download"/>
+        path="addam_download" />
     <root-path
         name="root_path"
-        path="."/>
+        path="." />
 </paths>
