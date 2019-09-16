@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.util.AddRippleEffect;
@@ -64,22 +63,19 @@ public class FilePosActivity extends BaseActivity {
     public void setListener() {
         back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 finish();
             }
         });
         position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 backToParent();
             }
         });
         sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 if (currentPath.equals(getPath2())) {
                     intent.putExtra("path", currentPath.substring(currentPath.lastIndexOf(File.separator) + 1, currentPath.length()));
@@ -105,7 +101,7 @@ public class FilePosActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        backIcon.setState(MaterialMenuDrawable.IconState.X);
+        backIcon.setBackgroundResource(R.drawable.close);
         title.setText(R.string.file_pos_title);
         getStartPos();
     }

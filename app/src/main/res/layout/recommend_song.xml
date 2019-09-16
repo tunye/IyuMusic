@@ -22,7 +22,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <com.buaa.ct.core.view.image.RoundImageView xmlns:ri="http://schemas.android.com/apk/res-auto"
+            <com.buaa.ct.core.view.image.CircleImageView xmlns:ri="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/recommend_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

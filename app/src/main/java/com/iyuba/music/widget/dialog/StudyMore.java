@@ -225,8 +225,7 @@ public class StudyMore {
         moreGrid.setAdapter(studyMenuAdapter);
         root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dismiss();
             }
         });

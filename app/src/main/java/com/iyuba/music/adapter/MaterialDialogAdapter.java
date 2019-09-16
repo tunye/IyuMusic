@@ -49,15 +49,13 @@ public class MaterialDialogAdapter extends RecyclerView.Adapter<MaterialDialogAd
         if (itemClickListener != null) {
             holder.rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     onItemClick(holder.rippleView, pos);
                 }
             });
             holder.sleepSelector.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     onItemClick(holder.rippleView, pos);
                 }
             });

@@ -24,8 +24,7 @@ public class NetStateChangeBroadCastReceiver extends BroadcastReceiver {
                 .setMessage(message)
                 .setPositiveButton("设置", new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                         Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                         context.startActivity(intent);
@@ -33,8 +32,7 @@ public class NetStateChangeBroadCastReceiver extends BroadcastReceiver {
                 })
                 .setNegativeButton("关闭", new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                     }
                 });

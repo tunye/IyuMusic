@@ -48,8 +48,8 @@
 
             <com.buaa.ct.core.view.image.CircleImageView
                 android:id="@+id/song_image"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
                 android:layout_centerInParent="true" />
         </RelativeLayout>
 

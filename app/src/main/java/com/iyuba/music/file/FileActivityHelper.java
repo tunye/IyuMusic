@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.ThreadUtils;
 import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
@@ -73,8 +74,7 @@ public class FileActivityHelper {
         });
         dialog.setPositiveButton(R.string.file_create, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dialog.dismiss();
                 String newName = fileName.getText().toString();
                 if (TextUtils.isEmpty(newName)) {
@@ -96,8 +96,7 @@ public class FileActivityHelper {
         });
         dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -143,8 +142,7 @@ public class FileActivityHelper {
 
         dialog.setPositiveButton(R.string.file_rename, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -173,9 +171,8 @@ public class FileActivityHelper {
         });
         dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                new Handler().postDelayed(new Runnable() {
+            public void activeClick(View view) {
+                ThreadUtils.postOnUiThreadDelay(new Runnable() {
                     @Override
                     public void run() {
                         dialog.dismiss();
@@ -206,8 +203,7 @@ public class FileActivityHelper {
         iyubaDialog.show();
         sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 iyubaDialog.dismiss();
             }
         });

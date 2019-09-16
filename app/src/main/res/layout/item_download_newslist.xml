@@ -23,17 +23,18 @@
         <FrameLayout
             android:id="@+id/article_image_layout"
             android:layout_width="100dp"
-            android:layout_height="64dp"
+            android:layout_height="72dp"
             android:layout_marginStart="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
             android:layout_marginEnd="@dimen/row_space_very_large"
             android:layout_marginBottom="@dimen/row_space_big">
 
-            <ImageView
+            <com.buaa.ct.core.view.image.RoundedImageView
                 android:id="@+id/article_image"
                 android:layout_width="100dp"
-                android:layout_height="64dp"
-                android:scaleType="fitXY" />
+                android:layout_height="72dp"
+                android:scaleType="centerCrop"
+                app:corner_radius="@dimen/corner_radius_default" />
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/roundProgressBar"
@@ -61,15 +62,17 @@
                     android:id="@+id/article_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/large_text" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/row_space_medium"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:orientation="vertical">
 
                     <TextView
@@ -78,7 +81,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/row_space_default"
                         android:ellipsize="end"
-                        android:maxLines="2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="3"
                         android:textColor="@color/text_gray_color"
                         android:textSize="@dimen/medium_text" />
 

@@ -6,18 +6,19 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.RoundedImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -41,6 +42,7 @@ public class GroundNewsAdapter extends CoreRecyclerViewAdapter<Article, GroundNe
     public GroundNewsAdapter(Context context, boolean IscanDL) {
         super(context);
         this.IscanDL = IscanDL;
+        baseEntityOp = new ArticleOp();
     }
 
     @NonNull
@@ -51,6 +53,7 @@ public class GroundNewsAdapter extends CoreRecyclerViewAdapter<Article, GroundNe
 
     @Override
     public void onBindViewHolder(@NonNull final NewsViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         final Article article = getDatas().get(position);
         if (ConfigManager.getInstance().getLanguage() == 2 ||
                 (ConfigManager.getInstance().getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
@@ -69,8 +72,7 @@ public class GroundNewsAdapter extends CoreRecyclerViewAdapter<Article, GroundNe
         if (IscanDL) {
             holder.pic.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (DownloadTask.checkFileExists(article)) {
                         holder.itemView.performClick();
                     } else {
@@ -91,7 +93,7 @@ public class GroundNewsAdapter extends CoreRecyclerViewAdapter<Article, GroundNe
     static class NewsViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, content, time, readCount;
-        ImageView pic;
+        RoundedImageView pic;
 
         NewsViewHolder(View view) {
             super(view);

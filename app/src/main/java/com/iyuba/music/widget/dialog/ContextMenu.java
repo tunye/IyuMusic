@@ -13,14 +13,14 @@ import com.iyuba.music.R;
 import com.iyuba.music.adapter.MenuAdapter;
 import com.iyuba.music.listener.IOperationResultInt;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/28.
  */
 public class ContextMenu {
     private View root;
-    private ArrayList<String> operText;
+    private List<String> operText;
     private Context context;
     private IOperationResultInt operationResultInt;
     private IyubaDialog iyubaDialog;
@@ -32,7 +32,7 @@ public class ContextMenu {
         root = vi.inflate(R.layout.context_menu, null);
     }
 
-    public void setInfo(ArrayList<String> list, IOperationResultInt menuResultListener) {
+    public void setInfo(List<String> list, IOperationResultInt menuResultListener) {
         operText = list;
         operationResultInt = menuResultListener;
         init();
@@ -40,11 +40,10 @@ public class ContextMenu {
 
     private void init() {
         View cancel = root.findViewById(R.id.cancel);
-        AddRippleEffect.addRippleEffect(cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-
+        AddRippleEffect.addRippleEffect(cancel, 300);
+        cancel.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View arg0) {
+            public void activeClick(View view) {
                 dismiss();
             }
         });
@@ -60,8 +59,7 @@ public class ContextMenu {
         oper.setAdapter(adapter);
         root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dismiss();
             }
         });

@@ -18,7 +18,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.util.DateFormat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

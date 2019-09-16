@@ -47,9 +47,9 @@ public class WxOfficialAccountActivity extends BaseActivity {
     @Override
     public void setListener() {
         super.setListener();
-        title.setOnClickListener(new View.OnClickListener() {
+        title.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("mipush regid", MiPushClient.getRegId(context));
                 clipboard.setPrimaryClip(clip);
@@ -58,8 +58,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 String brand = "iyu360";
                 if (!android.os.Build.MANUFACTURER.contains("360")) {
                     brand = android.os.Build.MANUFACTURER;
@@ -77,21 +76,21 @@ public class WxOfficialAccountActivity extends BaseActivity {
                 });
             }
         });
-        shareToCircle.setOnClickListener(new View.OnClickListener() {
+        shareToCircle.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 share(true);
             }
         });
-        shareToFriend.setOnClickListener(new View.OnClickListener() {
+        shareToFriend.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 share(false);
             }
         });
-        shareToWx.setOnClickListener(new View.OnClickListener() {
+        shareToWx.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("wx official accounts", "iyubasong");
                 clipboard.setPrimaryClip(clip);
@@ -111,7 +110,7 @@ public class WxOfficialAccountActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.oper_wx);
-        toolbarOper.setText(R.string.app_qun);
+        enableToolbarOper(R.string.app_qun);
         AddRippleEffect.addRippleEffect(shareToCircle);
         AddRippleEffect.addRippleEffect(shareToWx);
         AddRippleEffect.addRippleEffect(shareToFriend);

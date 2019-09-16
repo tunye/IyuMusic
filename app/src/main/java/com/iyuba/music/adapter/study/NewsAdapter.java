@@ -17,6 +17,7 @@ import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.RoundedImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -51,7 +52,7 @@ public class NewsAdapter extends CoreRecyclerViewAdapter<Article, CoreRecyclerVi
 
     public NewsAdapter(Context context) {
         super(context);
-        baseEntityOp = new ArticleOp() ;
+        baseEntityOp = new ArticleOp();
         adPicUrl = new ArrayList<>();
         localInfoOp = new LocalInfoOp();
     }
@@ -125,8 +126,7 @@ public class NewsAdapter extends CoreRecyclerViewAdapter<Article, CoreRecyclerVi
             if (onRecycleViewItemClickListener != null) {
                 newsViewHolder.itemView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos - 1);
                     }
                 });
@@ -140,8 +140,7 @@ public class NewsAdapter extends CoreRecyclerViewAdapter<Article, CoreRecyclerVi
                     newsViewHolder.pic, R.drawable.default_music);
             newsViewHolder.downloadFlag.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (DownloadTask.checkFileExists(article)) {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     } else {
@@ -237,7 +236,8 @@ public class NewsAdapter extends CoreRecyclerViewAdapter<Article, CoreRecyclerVi
 
     private static class NewsViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
         TextView title, singer, broadcaster, time, readCount;
-        ImageView pic, downloadFlag;
+        RoundedImageView pic;
+        ImageView downloadFlag;
         View timeBackground;
         RoundProgressBar download;
 

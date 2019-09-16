@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.widget.boundnumber.RiseNumberTextView;
@@ -97,6 +98,9 @@ public class AssessmentDialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.assessment_send:
                 operationResultInt.performance(0);

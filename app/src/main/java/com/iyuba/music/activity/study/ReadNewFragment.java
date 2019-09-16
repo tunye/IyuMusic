@@ -1,10 +1,11 @@
 package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
@@ -33,7 +34,6 @@ import java.util.List;
  * Created by 10202 on 2015/12/17.
  */
 public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
-    private CommentAdapter readAdapter;
     private String dataType;
 
     public void setDataType(String dataType) {
@@ -43,8 +43,8 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        readAdapter = new CommentAdapter(context, false);
-        readAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
+        ownerAdapter = new CommentAdapter(context, false);
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (AccountManager.getInstance().checkUserLogin()) {
@@ -60,17 +60,24 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
                 }
             }
         });
-        recyclerView.setAdapter(readAdapter);
+        assembleRecyclerView();
+        listRequestAllState.setEmptyShowContent(R.string.no_read);
         setUserVisibleHint(true);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        onRefresh(0);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     private void delReadItem(int position) {
         if (position == -1) {
             position = 0;
         }
-        if (AccountManager.getInstance().getUserId()
-                .equals(datas.get(position).getUserid())) {//是自己，删除
+        if (AccountManager.getInstance().getUserId().equals(getData().get(position).getUserid())) {//是自己，删除
             delDialog(position);
         }
     }
@@ -83,30 +90,20 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        readAdapter.onDestroy();
+        ((CommentAdapter) ownerAdapter).onDestroy();
     }
 
     @Override
-    protected void getNetData() {
+    public void getNetData() {
         RequestClient.requestAsync(new ReadRequest(StudyManager.getInstance().getCurArticle().getId(),
                 curPage, dataType), new SimpleRequestCallBack<BaseListEntity<List<Comment>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Comment>> listEntity) {
-                swipeRefreshLayout.setRefreshing(false);
                 isLastPage = listEntity.isLastPage();
-                if (listEntity.getTotalCount() == 0) {
-                    noData.setVisibility(View.VISIBLE);
-                    ((TextView) noData.findViewById(R.id.no_data_content)).setText(R.string.no_read);
-                } else {
-                    datas.addAll(listEntity.getData());
-                    noData.setVisibility(View.GONE);
-                    readAdapter.setDataSet(datas);
-                    if (listEntity.getCurPage() == 1) {
-
-                    } else {
-                        CustomToast.getInstance().showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), Toast.LENGTH_SHORT);
-                    }
+                if (!isLastPage && listEntity.getCurPage() != 1) {
+                    CustomToast.getInstance().showToast(listEntity.getCurPage() + "/" + listEntity.getTotalPage(), Toast.LENGTH_SHORT);
                 }
+                onNetDataReturnSuccess(listEntity.getData());
             }
 
             @Override
@@ -123,13 +120,12 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
         materialDialog.setMessage(R.string.read_del_msg);
         materialDialog.setPositiveButton(R.string.comment_del, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                RequestClient.requestAsync(new CommentDeleteRequest(datas.get(position).getId()), new SimpleRequestCallBack<String>() {
+            public void activeClick(View view) {
+                RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<String>() {
                     @Override
                     public void onSuccess(String resultCode) {
                         if (resultCode.equals("1")) {
-                            readAdapter.removeData(position);
+                            ownerAdapter.removeData(position);
                         } else {
                             CustomToast.getInstance().showToast(R.string.read_del_fail);
                         }
@@ -145,8 +141,7 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
         });
         materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });

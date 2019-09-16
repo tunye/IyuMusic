@@ -17,7 +17,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.view.CustomToast;
@@ -168,21 +167,20 @@ public class WebViewActivity extends BaseActivity {
         web.getSettings().setDomStorageEnabled(true);
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 menu.show();
             }
         });
     }
 
     public void onActivityCreated() {
-        backIcon.setState(MaterialMenuDrawable.IconState.X);
+        backIcon.setBackgroundResource(R.drawable.close);
         url = getIntent().getStringExtra("url");
         titleText = getIntent().getStringExtra("title");
         source.setText(context.getString(R.string.webview_source, hideMessage(url)));
         web.loadUrl(url);
         title.setText(titleText);
-        toolbarOper.setText(R.string.app_more);
+        enableToolbarOper(R.string.app_more);
         loadProgress.setMax(100);
         loadProgress.setProgress(0);
     }

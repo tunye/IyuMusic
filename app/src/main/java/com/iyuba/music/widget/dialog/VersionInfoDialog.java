@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.BuildConfig;
 import com.iyuba.music.R;
@@ -34,9 +35,9 @@ public class VersionInfoDialog {
         buildTime = root.findViewById(R.id.version_build_time);
         builder = root.findViewById(R.id.version_builder);
         sure = root.findViewById(R.id.version_know);
-        sure.setOnClickListener(new View.OnClickListener() {
+        sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 iyubaDialog.dismiss();
             }
         });

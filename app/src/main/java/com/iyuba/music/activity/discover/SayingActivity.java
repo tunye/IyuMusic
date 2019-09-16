@@ -1,7 +1,6 @@
 package com.iyuba.music.activity.discover;
 
 import android.animation.Animator;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -54,8 +53,7 @@ public class SayingActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (ConfigManager.getInstance().getSayingMode() == 1) {
                     ConfigManager.getInstance().setSayingMode(0);
                 } else {
@@ -66,8 +64,7 @@ public class SayingActivity extends BaseActivity {
         });
         next.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 handler.sendEmptyMessage(0);
             }
         });
@@ -81,10 +78,10 @@ public class SayingActivity extends BaseActivity {
 
     public void onActivityResumed() {
         if (ConfigManager.getInstance().getSayingMode() == 1) {
-            toolbarOper.setText(R.string.word_saying_manualchange);
+            enableToolbarOper(R.string.word_saying_manualchange);
             next.setVisibility(View.INVISIBLE);
         } else {
-            toolbarOper.setText(R.string.word_saying_autochange);
+            enableToolbarOper(R.string.word_saying_autochange);
             next.setVisibility(View.VISIBLE);
         }
         handler.sendEmptyMessage(1);

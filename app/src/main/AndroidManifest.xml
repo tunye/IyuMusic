@@ -130,21 +130,18 @@
             android:launchMode="singleTop" />
         <activity android:name=".activity.me.ReplyDoingActivity" />
         <activity android:name=".activity.me.FriendCenter" />
-        <activity android:name=".activity.me.FindFriendActivity" />
+        <activity android:name=".activity.me.SearchFriendActivity" />
         <activity android:name=".activity.me.UserDetailInfoActivity" />
         <activity android:name=".activity.me.EditUserDetailInfoActivity" />
         <activity android:name=".activity.me.CreditActivity" />
         <activity android:name=".activity.main.AnnouncerNewsList" />
         <activity android:name=".activity.main.ClassifyNewsList" />
-        <activity android:name=".activity.main.ClassifySongList" />
         <activity android:name=".activity.main.ListenSongActivity" />
         <activity android:name=".activity.main.FavorSongActivity" />
         <activity android:name=".activity.main.DownloadSongActivity" />
         <activity android:name=".activity.main.MusicActivity" />
         <!--eggshell-->
         <activity android:name=".activity.eggshell.EggShellActivity" />
-        <activity android:name=".activity.eggshell.weight_monitor.WeightMonitorActivity" />
-        <activity android:name=".activity.eggshell.weight_monitor.WeightSetActivity" />
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator" />
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList" />
         <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity" />
@@ -155,7 +152,6 @@
             android:name=".local_music.LocalMusicActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.eggshell.meizhi.MeizhiPhotoActivity" />
         <!--分享-->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -288,10 +284,5 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <meta-data
-            android:name="com.bumptech.glide.integration.volley.VolleyGlideModule"
-            android:value="GlideModule" />
     </application>
-
 </manifest>

@@ -174,16 +174,14 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 ShareDialog shareDialog = new ShareDialog(VideoPlayerActivity.this, article);
                 shareDialog.show();
             }
         });
         subtitlteimg.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 int musicTranslate = ConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
                 ConfigManager.getInstance().setStudyTranslate(musicTranslate);
@@ -230,15 +228,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         });
         largePause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pause();
             }
         });
         findViewById(R.id.video_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 isshowcontrol = !isshowcontrol;
                 if (isshowcontrol) {
                     ll_play_state_info.setVisibility(View.VISIBLE);
@@ -324,7 +320,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.study_share);
+        enableToolbarOper(R.string.study_share);
         refresh();
     }
 
@@ -474,6 +470,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.play_mode:
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
@@ -589,8 +588,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }

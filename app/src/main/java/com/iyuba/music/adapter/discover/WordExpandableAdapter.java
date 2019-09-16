@@ -107,8 +107,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             delete.setChecked(tryTodeleteList.contains(word));
             delete.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     deleteWord(word, delete, delete.isChecked());
                 }
             });
@@ -124,8 +123,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             }
             rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (deleteMode) {
                         deleteWord(word, delete, !delete.isChecked());
                     } else {
@@ -155,8 +153,7 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             expandableStatus = itemView.findViewById(R.id.expandable_status);
             expandableStatus.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (isExpanded()) {
                         collapseView();
                     } else {

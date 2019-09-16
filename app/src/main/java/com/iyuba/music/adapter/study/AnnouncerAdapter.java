@@ -1,6 +1,5 @@
 package com.iyuba.music.adapter.study;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.mainpanel.Announcer;
+import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
@@ -26,6 +27,7 @@ import com.iyuba.music.widget.dialog.CustomDialog;
 public class AnnouncerAdapter extends CoreRecyclerViewAdapter<Announcer, AnnouncerAdapter.MyViewHolder> {
     public AnnouncerAdapter(Context context) {
         super(context);
+        baseEntityOp = new AnnouncerOp();
     }
 
     @NonNull
@@ -40,10 +42,9 @@ public class AnnouncerAdapter extends CoreRecyclerViewAdapter<Announcer, Announc
         final Announcer announcer = getDatas().get(position);
         holder.name.setText(announcer.getName());
         AppImageUtil.loadAvatar(announcer.getUid(), holder.photo);
-        holder.photo.setOnClickListener(new View.OnClickListener() {
+        holder.photo.setOnClickListener(new INoDoubleClick() {
             @Override
-            @TargetApi(21)
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     SocialManager.getInstance().pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);

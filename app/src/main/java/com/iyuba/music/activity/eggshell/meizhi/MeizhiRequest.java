@@ -13,6 +13,10 @@ import java.util.List;
 public class MeizhiRequest extends Request<BaseListEntity<List<Meizhi>>> {
     private static final String originalUrl = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/";
 
+    public MeizhiRequest(int page) {
+        url = originalUrl + page;
+    }
+
     @Override
     public BaseListEntity<List<Meizhi>> parseJsonImpl(JSONObject jsonObject) {
         BaseListEntity<List<Meizhi>> baseListEntity = new BaseListEntity<>();
@@ -23,9 +27,5 @@ public class MeizhiRequest extends Request<BaseListEntity<List<Meizhi>>> {
             baseListEntity.setIsLastPage(false);
         }
         return baseListEntity;
-    }
-
-    public MeizhiRequest(int page) {
-        url = originalUrl + page;
     }
 }

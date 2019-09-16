@@ -18,8 +18,6 @@ import com.iyuba.music.entity.friends.SearchFriend;
 import com.iyuba.music.widget.imageview.VipPhoto;
 import com.iyuba.music.widget.textview.JustifyTextView;
 
-import java.util.List;
-
 /**
  * Created by 10202 on 2015/10/10.
  */

@@ -122,8 +122,7 @@ public class SongCategoryAdapter extends CoreRecyclerViewAdapter<SongCategory, C
                 MaterialRippleLayout rippleView = (MaterialRippleLayout) newsViewHolder.itemView;
                 rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         onRecycleViewItemClickListener.onItemClick(newsViewHolder.itemView, pos);
                     }
                 });

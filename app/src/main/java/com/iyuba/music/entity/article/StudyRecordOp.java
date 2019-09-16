@@ -10,6 +10,7 @@ package com.iyuba.music.entity.article;
 import android.database.Cursor;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,11 @@ public class StudyRecordOp extends BaseEntityOp<StudyRecord> {
 
     public StudyRecordOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     /**

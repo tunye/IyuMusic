@@ -1,9 +1,8 @@
 package com.iyuba.music.activity.study;
 
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
-import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 
@@ -34,8 +32,7 @@ import java.util.List;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class ReadFragment extends BaseRecyclerViewFragment {
-    private ReadAdapter readAdapter;
+public class ReadFragment extends BaseRecyclerViewFragment<Original> {
     private Article curArticle;
     private IyubaDialog waittingDialog;
 
@@ -44,15 +41,15 @@ public class ReadFragment extends BaseRecyclerViewFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         curArticle = StudyManager.getInstance().getCurArticle();
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_loading));
-        readAdapter = new ReadAdapter(context);
-        recyclerView.setAdapter(readAdapter);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ownerAdapter = new ReadAdapter(context);
+        swipeRefreshLayout.setEnabled(false);
+        assembleRecyclerView();
         setUserVisibleHint(true);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         disableSwipeLayout();
         getOriginal();
@@ -61,7 +58,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        readAdapter.onDestroy();
+        ((ReadAdapter) ownerAdapter).onDestroy();
     }
 
     private void getOriginal() {
@@ -75,7 +72,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
                             ThreadUtils.postOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    readAdapter.setDataSet((ArrayList<Original>) object);
+                                    ownerAdapter.setDataSet((ArrayList<Original>) object);
                                 }
                             });
                         }
@@ -106,7 +103,7 @@ public class ReadFragment extends BaseRecyclerViewFragment {
                 for (Original original : originalList) {
                     original.setArticleID(id);
                 }
-                readAdapter.setDataSet(originalList);
+                ownerAdapter.setDataSet(originalList);
                 finish.finish();
             }
 

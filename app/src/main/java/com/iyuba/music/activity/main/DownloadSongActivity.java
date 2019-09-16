@@ -51,7 +51,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     private View downloadingBar;
     private ScrollView downloadScroll;
     private Map<String, Integer> fileMap;
-    private TextView toolBarOperSub, downloadingDel, downloadingContinue, downloadedDel,
+    private TextView downloadingDel, downloadingContinue, downloadedDel,
             downloadedStatic, downloadingStatic;
 
     @Override
@@ -71,8 +71,6 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         super.initWidget();
         getFileMap();
         downloadScroll = findViewById(R.id.download_scroll);
-        toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
-        toolbarOper = findViewById(R.id.toolbar_oper);
         RecyclerView downloadedRecycleView = findViewById(R.id.downloaded_recyclerview);
         setRecyclerViewProperty(downloadedRecycleView);
         downloadedDel = findViewById(R.id.downloaded_delete);
@@ -130,10 +128,10 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     public void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        toolBarOperSub.setOnClickListener(new View.OnClickListener() {
+        toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                if (toolBarOperSub.getText().equals(getString(R.string.select_all))) {
+            public void activeClick(View view) {
+                if (toolbarOperSub.getText().equals(getString(R.string.select_all))) {
                     downloadingAdapter.setDeleteAll();
                     downloadedAdapter.setDeleteAll();
                 } else {
@@ -165,18 +163,17 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     downloadedAdapter.setDelete(true);
                     downloadingAdapter.setDelete(true);
-                    toolBarOperSub.setText(R.string.article_select_all);
-                    toolbarOper.setText(R.string.app_del);
+                    toolbarOperSub.setText(R.string.article_select_all);
+                    enableToolbarOper(R.string.app_del);
                 } else {
                     downloadingAdapter.setDelete(false);
                     downloadedAdapter.setDelete(false);
-                    toolbarOper.setText(R.string.article_edit);
-                    toolBarOperSub.setText(R.string.article_clear);
+                    enableToolbarOper(R.string.article_edit);
+                    toolbarOperSub.setText(R.string.article_clear);
                     downloading = downloadingAdapter.getDatas();
                     for (Article temp : downloading) {
                         if (temp.isDelete()) {
@@ -199,9 +196,9 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 }
             }
         });
-        downloadedDel.setOnClickListener(new View.OnClickListener() {
+        downloadedDel.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 CustomDialog.clearDownload(context, R.string.article_clear_download_hint, new IOperationResult() {
                     @Override
                     public void success(Object object) {
@@ -220,9 +217,9 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 });
             }
         });
-        downloadingDel.setOnClickListener(new View.OnClickListener() {
+        downloadingDel.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 DownloadManager.getInstance().fileList.clear();
                 StartFragment.checkTmpFile();
                 localInfoOp.clearDownloading();
@@ -230,9 +227,9 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                 downloadingAdapter.setDataSet(new ArrayList<Article>());
             }
         });
-        downloadingContinue.setOnClickListener(new View.OnClickListener() {
+        downloadingContinue.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 List<LocalInfo> downloadingContinue = localInfoOp.findDataByShouldContinue();
                 DownloadFile downloadFile;
                 for (LocalInfo localInfo : downloadingContinue) {
@@ -259,8 +256,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.classify_local);
-        toolbarOper.setText(R.string.article_edit);
-        toolBarOperSub.setText(R.string.article_clear);
+        enableToolbarOper(R.string.article_edit);
+        enableToolbarOperSub(R.string.article_clear);
     }
 
     @Override
@@ -355,8 +352,8 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         if (downloadedAdapter.isDelete() || downloadingAdapter.isDelete()) {
             downloadedAdapter.setDelete(false);
             downloadingAdapter.setDelete(false);
-            toolbarOper.setText(R.string.article_edit);
-            toolBarOperSub.setText(R.string.article_clear);
+            enableToolbarOper(R.string.article_edit);
+            enableToolbarOperSub(R.string.article_clear);
         } else {
             super.onBackPressed();
         }

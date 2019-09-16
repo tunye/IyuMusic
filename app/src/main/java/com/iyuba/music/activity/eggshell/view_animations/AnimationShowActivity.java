@@ -1,12 +1,10 @@
 package com.iyuba.music.activity.eggshell.view_animations;
 
 import android.animation.Animator;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.view.CustomToast;
@@ -42,8 +40,7 @@ public class AnimationShowActivity extends BaseActivity {
         super.setListener();
         mTarget.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (rope != null) {
                     rope.stop(true);
                 }

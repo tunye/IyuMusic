@@ -1,6 +1,5 @@
 package com.iyuba.music.activity.discover;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -123,6 +122,9 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.word_set_group:
             case R.id.word_set_group_current:
@@ -166,8 +168,7 @@ public class WordSetActivity extends BaseActivity implements View.OnClickListene
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 groupDialog.dismiss();
             }
         });

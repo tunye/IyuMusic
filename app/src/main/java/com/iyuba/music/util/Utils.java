@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.annotation.StringRes;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -120,14 +119,13 @@ public class Utils {
         return (MusicApplication) RuntimeManager.getInstance().getApplication();
     }
 
-    public static @StringRes
-    int getRequestErrorMeg(ErrorInfoWrapper errorInfoWrapper) {
+    public static String getRequestErrorMeg(ErrorInfoWrapper errorInfoWrapper) {
         if (errorInfoWrapper.type == ErrorInfoWrapper.DATA_ERROR) {
-            return R.string.generic_error;
+            return RuntimeManager.getInstance().getString(R.string.generic_error);
         } else if (errorInfoWrapper.type == ErrorInfoWrapper.NET_ERROR) {
-            return R.string.net_no_net;
+            return RuntimeManager.getInstance().getString(R.string.net_no_net);
         } else {
-            return R.string.data_error;
+            return TextUtils.isEmpty(errorInfoWrapper.errorMsg) ? RuntimeManager.getInstance().getString(R.string.data_error) : errorInfoWrapper.errorMsg;
         }
     }
 }

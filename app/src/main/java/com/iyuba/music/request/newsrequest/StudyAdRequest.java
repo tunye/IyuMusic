@@ -27,35 +27,39 @@ public class StudyAdRequest extends Request<AdEntity> {
 
     @Override
     public AdEntity parseStringImpl(String response) {
-        JSONObject jsonObject = JSON.parseArray(response.trim()).getJSONObject(0);
-        String type = jsonObject.getJSONObject("data").getString("type");
-        AdEntity adEntity = new AdEntity();
-        switch (type) {
-            case "addam":
-                adEntity.setType(type);
-                break;
-            case "web":
-                adEntity = JSON.parseObject(jsonObject.getString("data"), AdEntity.class);
-                if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
-                    adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
-                    String url = adEntity.getLoadUrl();
-                    String userId = AccountManager.getInstance().getUserId();
-                    if (url.contains("?")) {
-                        url += "&uid=" + userId;
-                    } else {
-                        url += "?uid=" + userId;
-                    }
-                    adEntity.setLoadUrl(url);
+        try {
+            JSONObject jsonObject = JSON.parseArray(response.trim()).getJSONObject(0);
+            String type = jsonObject.getJSONObject("data").getString("type");
+            AdEntity adEntity = new AdEntity();
+            switch (type) {
+                case "addam":
                     adEntity.setType(type);
-                } else {
+                    break;
+                case "web":
+                    adEntity = JSON.parseObject(jsonObject.getString("data"), AdEntity.class);
+                    if (!TextUtils.isEmpty(adEntity.getPicUrl())) {
+                        adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
+                        String url = adEntity.getLoadUrl();
+                        String userId = AccountManager.getInstance().getUserId();
+                        if (url.contains("?")) {
+                            url += "&uid=" + userId;
+                        } else {
+                            url += "?uid=" + userId;
+                        }
+                        adEntity.setLoadUrl(url);
+                        adEntity.setType(type);
+                    } else {
+                        adEntity.setType("youdao");
+                    }
+                    break;
+                case "youdao":
+                default:
                     adEntity.setType("youdao");
-                }
-                break;
-            case "youdao":
-            default:
-                adEntity.setType("youdao");
-                break;
+                    break;
+            }
+            return adEntity;
+        } catch (Exception e) {
+            return null;
         }
-        return adEntity;
     }
 }

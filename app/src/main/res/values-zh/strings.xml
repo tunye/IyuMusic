@@ -6,6 +6,7 @@
     <string name="app_know">朕已阅</string>
     <string name="app_qun">加群</string>
     <string name="app_more">更多</string>
+    <string name="app_reload">重新加载</string>
     <string name="app_accept">确定</string>
     <string name="app_sure">允许</string>
     <string name="app_cancel">取消</string>
@@ -493,6 +494,7 @@
     <string name="friend_load_all">好友全部加载完成</string>
     <string name="friend_no_data">没有找到合适好友</string>
     <string name="friend_find">搜索好友</string>
+    <string name="friend_find_empty_string">请填写好友昵称</string>
     <string name="friend_find_error">搜索好友异常</string>
     <string name="friend_finding">搜索好友中…</string>
     <string name="no_friend">还没有好友</string>

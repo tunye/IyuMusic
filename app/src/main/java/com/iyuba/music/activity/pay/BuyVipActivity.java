@@ -84,50 +84,43 @@ public class BuyVipActivity extends BaseActivity {
         super.setListener();
         month.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(0);
             }
         });
         threeMonth.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(1);
             }
         });
         halfYear.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(2);
             }
         });
         year.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(3);
             }
         });
         app.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(4);
             }
         });
         payWay.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 payWayDialog();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
@@ -181,15 +174,13 @@ public class BuyVipActivity extends BaseActivity {
         materialDialog.setTitle(R.string.vip_title).setMessage(context.getString(R.string.vip_buy_alert, PAY_GOODS[pos]));
         materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });
         materialDialog.setPositiveButton(R.string.app_buy, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 buy(pos);
             }
@@ -220,8 +211,7 @@ public class BuyVipActivity extends BaseActivity {
         materialDialog.setContentView(root);
         materialDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });
@@ -232,7 +222,7 @@ public class BuyVipActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.vip_title);
-        toolbarOper.setText(R.string.vip_recharge);
+        enableToolbarOper(R.string.vip_recharge);
     }
 
     @Override
@@ -258,16 +248,14 @@ public class BuyVipActivity extends BaseActivity {
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
             materialDialog.setPositiveButton(R.string.app_buy, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     context.startActivity(new Intent(context, BuyIyubiActivity.class));
                     materialDialog.dismiss();
                 }
             });
             materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     materialDialog.dismiss();
                 }
             });

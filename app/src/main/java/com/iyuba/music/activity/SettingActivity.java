@@ -150,6 +150,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.setting_version_feature:
                 StartFragment.showVersionFeature(context);
@@ -262,8 +265,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         languageDialog.setContentView(root);
         languageDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 languageDialog.dismiss();
             }
         });
@@ -290,8 +292,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mMaterialDialog.setMessage(R.string.personal_logout_textmore)
                     .setPositiveButton(R.string.personal_logout_exit, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                             AccountManager.getInstance().loginOut();
                             finish();
@@ -299,8 +300,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     })
                     .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                         }
                     });
@@ -309,8 +309,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mMaterialDialog.setMessage(R.string.personal_no_login)
                     .setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                         }
                     });

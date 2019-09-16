@@ -2,6 +2,8 @@ package com.iyuba.music.request.account;
 
 import android.support.v4.util.ArrayMap;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -49,10 +51,15 @@ public class WxPay extends Request<BaseApiEntity<PayReq>> {
             req.packageValue = "Sign=WXPay";
             req.sign = buildWeixinSign(req, jsonObject.getString("mch_key"));
             apiEntity.setData(req);
+            return apiEntity;
         } else {
-            apiEntity.setState(BaseApiEntity.FAIL);
+            return null;
         }
-        return apiEntity;
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        return RuntimeManager.getInstance().getString(R.string.pay_detail_generate_failed);
     }
 
     private String generateSign(String appid, String uid, String money, String amount) {

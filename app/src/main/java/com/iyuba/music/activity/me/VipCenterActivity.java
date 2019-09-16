@@ -57,13 +57,11 @@ public class VipCenterActivity extends BaseActivity {
         super.setListener();
         vipSymbol.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -73,13 +71,11 @@ public class VipCenterActivity extends BaseActivity {
         });
         vipAllapp.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -89,13 +85,11 @@ public class VipCenterActivity extends BaseActivity {
         });
         vipAd.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -105,13 +99,11 @@ public class VipCenterActivity extends BaseActivity {
         });
         vipHuge.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -121,13 +113,11 @@ public class VipCenterActivity extends BaseActivity {
         });
         vipHighspeed.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -137,15 +127,13 @@ public class VipCenterActivity extends BaseActivity {
         });
         vipUpdate.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyVipActivity.class));
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
@@ -154,7 +142,7 @@ public class VipCenterActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.vip_recharge);
+        enableToolbarOper(R.string.vip_recharge);
         title.setText(R.string.vip_title);
     }
 

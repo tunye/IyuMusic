@@ -54,9 +54,8 @@ public class FriendCenter extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                startActivity(new Intent(context, FindFriendActivity.class));
+            public void activeClick(View view) {
+                startActivity(new Intent(context, SearchFriendActivity.class));
             }
         });
     }
@@ -64,7 +63,7 @@ public class FriendCenter extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.friend_search);
+        enableToolbarOper(R.string.friend_search);
         title.setText(R.string.friend_title);
         if (TextUtils.isEmpty(startType)) {
             viewPager.setCurrentItem(0);

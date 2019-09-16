@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.util.ThreadPoolUtil;
 import com.buaa.ct.core.view.CustomToast;
-import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechError;
@@ -45,12 +43,11 @@ import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.player.SimplePlayer;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class ReadAdapter extends CoreRecyclerViewAdapter<Original,ReadAdapter.MyViewHolder> implements IOperationResultInt {
+public class ReadAdapter extends CoreRecyclerViewAdapter<Original, ReadAdapter.MyViewHolder> implements IOperationResultInt {
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private int curItem = -1;
     private SimplePlayer player, simplePlayer;
@@ -117,7 +114,7 @@ public class ReadAdapter extends CoreRecyclerViewAdapter<Original,ReadAdapter.My
         player.setVideoPath(getPath());
         assessmentDialog.setListener(this);
     }
-    
+
     @Override
     public void performance(int index) {
         switch (index) {
@@ -191,12 +188,11 @@ public class ReadAdapter extends CoreRecyclerViewAdapter<Original,ReadAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        super.onBindViewHolder(holder,position);
+        super.onBindViewHolder(holder, position);
         final Original original = getDatas().get(position);
         holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (curItem != holder.getAdapterPosition()) {
                     int oldPos = curItem;
                     curItem = holder.getAdapterPosition();
@@ -242,8 +238,7 @@ public class ReadAdapter extends CoreRecyclerViewAdapter<Original,ReadAdapter.My
         }
         holder.play.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 resetFunction();
                 if (!player.isPlaying()) {
                     player.seekTo((int) (original.getStartTime() * 1000));
@@ -260,8 +255,7 @@ public class ReadAdapter extends CoreRecyclerViewAdapter<Original,ReadAdapter.My
         });
         holder.record.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (isRecord) {
                     IseManager.getInstance(context).stopEvaluate();
                     handler.sendEmptyMessage(3);

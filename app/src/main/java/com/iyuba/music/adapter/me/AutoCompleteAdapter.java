@@ -64,8 +64,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             holder.historyText = convertView.findViewById(R.id.history_text);
             convertView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (onRecycleViewItemClickListener != null) {
                         onRecycleViewItemClickListener.onItemClick(view, position);
                     }
@@ -74,8 +73,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             holder.delete = convertView.findViewById(R.id.clear_history);
             holder.delete.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (onRecycleViewItemClickListener != null) {
                         new HistoryLoginOp().deleteData(getItem(position).toString());
                     }

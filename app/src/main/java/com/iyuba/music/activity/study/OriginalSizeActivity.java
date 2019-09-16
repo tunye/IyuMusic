@@ -92,9 +92,9 @@ public class OriginalSizeActivity extends BaseActivity {
     @Override
     public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 if (initPos != sizePos) {
                     ConfigManager.getInstance().setOriginalSize(posToSize(sizePos));
                     finish();
@@ -121,7 +121,7 @@ public class OriginalSizeActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.original_size_title);
-        toolbarOper.setText(R.string.dialog_save);
+        enableToolbarOper(R.string.dialog_save);
         initPos = sizePos = sizeToPos(ConfigManager.getInstance().getOriginalSize());
         original.setTextSize(ConfigManager.getInstance().getOriginalSize());
         original.setOriginalList(originalRows);
@@ -188,8 +188,7 @@ public class OriginalSizeActivity extends BaseActivity {
             final int intervalPos = i;
             tv.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     discreteSlider.setSelected(intervalPos);
                 }
             });

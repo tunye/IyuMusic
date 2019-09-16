@@ -84,8 +84,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (deleteMode) {
                     deleteList = wordExpandableAdapter.getTryTodeleteList();
                     PersonalWordOp personalWordOp = new PersonalWordOp();
@@ -118,16 +117,14 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
         });
         wordEdit.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 normalToDelete();
                 buildDeleteAdapter();
             }
         });
         wordSet.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, WordSetActivity.class));
             }
         });
@@ -137,7 +134,7 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     public void onActivityCreated() {
         super.onActivityCreated();
         wordStatistic.setText(context.getString(R.string.word_statistic, wordArrayList.size()));
-        toolbarOper.setText(R.string.word_synchro);
+        enableToolbarOper(R.string.word_synchro);
         title.setText(R.string.word_list_title);
     }
 
@@ -203,13 +200,13 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void deleteToNormal() {
         deleteMode = false;
         buildAdapter();
-        toolbarOper.setText(R.string.word_synchro);
+        enableToolbarOper(R.string.word_synchro);
         statusBar.setVisibility(View.VISIBLE);
     }
 
     private void normalToDelete() {
         deleteMode = true;
-        toolbarOper.setText(R.string.app_del);
+        enableToolbarOper(R.string.app_del);
         statusBar.setVisibility(View.GONE);
     }
 
@@ -263,16 +260,14 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     dialog.setMessage(context.getString(R.string.word_synchro_finish, wordArrayList.size(), baseListEntity.getTotalCount() - wordArrayList.size()));
                     dialog.setPositiveButton(R.string.word_synchro_continue, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             synchroFromNet(baseListEntity.getCurPage() + 1);
                             dialog.dismiss();
                         }
                     });
                     dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             saveData();
                             dialog.dismiss();
                         }

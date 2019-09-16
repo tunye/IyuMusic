@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
@@ -57,7 +56,7 @@ import cn.smssdk.SMSSDK;
 public class RegistActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
-    private TextView protocolText, toolBarSub;
+    private TextView protocolText;
     private RoundTextView regist, getMessageCode;
     private CheckBox protocol;
     private View registByPhone, registByEmail;
@@ -101,9 +100,7 @@ public class RegistActivity extends BaseActivity {
     @Override
     public void initWidget() {
         super.initWidget();
-        toolBarSub = findViewById(R.id.toolbar_oper_sub);
         photo = findViewById(R.id.regist_photo);
-        toolbarOper = findViewById(R.id.toolbar_oper);
         regist = findViewById(R.id.regist);
         AddRippleEffect.addRippleEffect(regist);
         protocol = findViewById(R.id.regist_protocol_checkbox);
@@ -126,16 +123,15 @@ public class RegistActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (toolbarOper.getText().equals(context.getString(R.string.regist_by_phone))) {
-                    toolbarOper.setText(context.getString(R.string.regist_by_email));
+                    enableToolbarOper(context.getString(R.string.regist_by_email));
                     photo.setVisibility(View.VISIBLE);
                     registByPhone.setVisibility(View.VISIBLE);
                     registByEmail.setVisibility(View.GONE);
                 } else {
                     photo.setVisibility(View.GONE);
-                    toolbarOper.setText(context.getString(R.string.regist_by_phone));
+                    enableToolbarOper(context.getString(R.string.regist_by_phone));
                     registByPhone.setVisibility(View.GONE);
                     registByEmail.setVisibility(View.VISIBLE);
                 }
@@ -143,8 +139,7 @@ public class RegistActivity extends BaseActivity {
         });
         getMessageCode.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (!phone.isCharactersCountValid() || !regexPhone()) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(phone);
                 } else {
@@ -152,10 +147,10 @@ public class RegistActivity extends BaseActivity {
                     if (imm != null) {
                         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
                     }
-                    RequestClient.requestAsync(new CheckPhoneRegisted(phone.getText().toString()), new SimpleRequestCallBack<Integer>() {
+                    RequestClient.requestAsync(new CheckPhoneRegisted(phone.getText().toString()), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
                         @Override
-                        public void onSuccess(Integer result) {
-                            if (result == 1) {
+                        public void onSuccess(BaseApiEntity<Integer> result) {
+                            if (BaseApiEntity.isSuccess(result)) {
                                 SMSSDK.getVerificationCode("86", phone.getText().toString());
                                 handler.obtainMessage(1, 60, 0).sendToTarget();
                             } else {
@@ -174,8 +169,7 @@ public class RegistActivity extends BaseActivity {
         });
         regist.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (registByEmail.isShown()) {
                     if (email.isShown()) {
                         registByEmail();
@@ -237,18 +231,16 @@ public class RegistActivity extends BaseActivity {
         });
         protocolText.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://app.iyuba.cn/ios/protocol.html");
                 intent.putExtra("title", context.getString(R.string.regist_protocol));
                 startActivity(intent);
             }
         });
-        toolBarSub.setOnClickListener(new INoDoubleClick() {
+        toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhone.jsp");
                 intent.putExtra("title", context.getString(R.string.regist_title));
@@ -264,11 +256,9 @@ public class RegistActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         protocolText.setText(R.string.regist_protocol);
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
         registByPhone.setVisibility(View.VISIBLE);
         registByEmail.setVisibility(View.GONE);
         title.setText(R.string.regist_title);
-        toolBarSub.setText(R.string.regist_oper_sub);
     }
 
     public void onActivityResumed() {
@@ -276,27 +266,28 @@ public class RegistActivity extends BaseActivity {
             photo.setVisibility(View.GONE);
             if (email.getVisibility() == View.VISIBLE) {
                 regist.setText(context.getString(R.string.regist_title));
-                toolbarOper.setText(context.getString(R.string.regist_by_phone));
+                enableToolbarOper(context.getString(R.string.regist_by_phone));
                 userPwd2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                 title.setText(R.string.regist_title);
             } else {
                 regist.setText(context.getString(R.string.regist_phone_part_two));
-                toolbarOper.setText(context.getString(R.string.regist_by_email));
+                enableToolbarOper(context.getString(R.string.regist_by_email));
                 userPwd2.setImeOptions(EditorInfo.IME_ACTION_SEND);
                 title.setText(R.string.regist_phone_part_two);
             }
         } else if (registByPhone.getVisibility() == View.VISIBLE) {
-            toolbarOper.setText(context.getString(R.string.regist_by_email));
+            enableToolbarOper(context.getString(R.string.regist_by_email));
             regist.setText(context.getString(R.string.regist_title));
             photo.setVisibility(View.VISIBLE);
             title.setText(R.string.regist_title);
         }
+        enableToolbarOperSub(R.string.regist_oper_sub);
     }
 
     @Override
     public void onBackPressed() {
         if (registByEmail.getVisibility() == View.VISIBLE) {
-            toolbarOper.setText(context.getString(R.string.regist_by_email));
+            enableToolbarOper(context.getString(R.string.regist_by_email));
             registByPhone.setVisibility(View.VISIBLE);
             registByEmail.setVisibility(View.GONE);
             photo.setVisibility(View.VISIBLE);
@@ -460,20 +451,16 @@ public class RegistActivity extends BaseActivity {
                 @Override
                 public void onSuccess(BaseApiEntity<Integer> baseApiEntity) {
                     waittingDialog.dismiss();
-                    int result = baseApiEntity.getData();
-                    if (result == 111) {
+                    if (BaseApiEntity.isSuccess(baseApiEntity)) {
                         CustomToast.getInstance().showToast(R.string.regist_success);
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());
                         setResult(1, intent);
                         RegistActivity.this.finish();
-                    } else if (result == 112) {
-                        CustomToast.getInstance().showToast(R.string.regist_userid_same);
-                        userName.setError(context.getString(R.string.regist_userid_same));
-                    } else if (result == 113) {
-                        CustomToast.getInstance().showToast(R.string.regist_email_same);
-                        email.setError(context.getString(R.string.regist_email_same));
+                    } else if (BaseApiEntity.isFail(baseApiEntity)) {
+                        CustomToast.getInstance().showToast(baseApiEntity.getMessage());
+                        userName.setError(baseApiEntity.getMessage());
                     } else {
                         CustomToast.getInstance().showToast(context.getString(R.string.regist_fail) + " " + baseApiEntity.getMessage());
                         email.setError(context.getString(R.string.regist_fail));
@@ -507,17 +494,17 @@ public class RegistActivity extends BaseActivity {
         } else {
             waittingDialog.show();
             RequestClient.requestAsync(new RegistByPhoneRequest(new String[]{userName.getText()
-                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new SimpleRequestCallBack<Integer>() {
+                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
                 @Override
-                public void onSuccess(Integer result) {
+                public void onSuccess(BaseApiEntity<Integer> result) {
                     waittingDialog.dismiss();
-                    if (result == 111) {
+                    if (BaseApiEntity.isSuccess(result)) {
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());
                         setResult(1, intent);
                         RegistActivity.this.finish();
-                    } else if (result == 112) {
+                    } else if (BaseApiEntity.isFail(result)) {
                         CustomToast.getInstance().showToast(R.string.regist_userid_same);
                         userName.setError(context.getString(R.string.regist_userid_same));
                     } else {

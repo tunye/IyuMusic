@@ -141,22 +141,19 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
         createLink.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Utils.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
         randomPlay.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (musics.size() != 0) {
                     playSelectItem(Utils.getRandomInt(musics.size()));
                 } else {
@@ -166,8 +163,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         });
         pause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (musics.size() != 0) {
                     if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
@@ -181,8 +177,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         });
         next.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 ((MusicApplication) getApplication()).getPlayerService().next(false);
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
@@ -190,8 +185,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         });
         before.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 ((MusicApplication) getApplication()).getPlayerService().before();
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
@@ -199,8 +193,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         });
         playMode.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
                 ConfigManager.getInstance().setStudyPlayMode(nextMusicType);
@@ -214,7 +207,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.oper_local_music);
-        toolbarOper.setText(R.string.eggshell_music_scan);
+        enableToolbarOper(R.string.eggshell_music_scan);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
         if (TextUtils.isEmpty(SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "localMusicPath"))) {
@@ -341,8 +334,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 materialDialog.dismiss();
             }

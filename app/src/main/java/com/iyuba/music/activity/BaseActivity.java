@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.CoreBaseActivity;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.MusicApplication;
@@ -20,8 +18,6 @@ import com.umeng.analytics.MobclickAgent;
  * Created by 10202 on 2015/10/23.
  */
 public abstract class BaseActivity extends CoreBaseActivity {
-    protected MaterialMenu backIcon;
-
     protected boolean changeProperty;
     protected boolean mipush;
 
@@ -34,24 +30,11 @@ public abstract class BaseActivity extends CoreBaseActivity {
         ((MusicApplication) getApplication()).pushActivity(this);
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         changeProperty = intent.getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
         mipush = intent.getBooleanExtra("pushIntent", false);
-    }
-
-    @Override
-    public void initWidget() {
-        super.initWidget();
-        backIcon = findViewById(R.id.back_material);
-    }
-
-    @Override
-    public void onActivityCreated() {
-        super.onActivityCreated();
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
     }
 
     @Override
@@ -66,7 +49,6 @@ public abstract class BaseActivity extends CoreBaseActivity {
         MobclickAgent.onPause(this);
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -80,8 +62,7 @@ public abstract class BaseActivity extends CoreBaseActivity {
         materialDialog.setMessage(dialogContent);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 for (int i = 0; i < codes.length; i++) {
                     permissionDispose(codes[i], permissions[i]);

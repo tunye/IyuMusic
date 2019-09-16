@@ -87,22 +87,19 @@ public class WordContentActivity extends BaseActivity {
         super.setListener();
         speaker.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 playSound();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, WordSetActivity.class));
             }
         });
         wordCollect.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     synchroCollect();
                 } else {
@@ -138,7 +135,7 @@ public class WordContentActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.word_title);
-        toolbarOper.setText(R.string.word_set);
+        enableToolbarOper(R.string.word_set);
         currentWord = wordSetOp.findDataByKey(appointWord);
         if (currentWord != null) {
             currentWord.setSentences(new ExampleSentenceOp().findData(appointWord));

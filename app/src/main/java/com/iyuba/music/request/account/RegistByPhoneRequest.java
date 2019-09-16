@@ -3,6 +3,7 @@ package com.iyuba.music.request.account;
 import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.Request;
 import com.iyuba.music.util.MD5;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Created by 10202 on 2015/11/25.
  */
-public class RegistByPhoneRequest extends Request<Integer> {
+public class RegistByPhoneRequest extends Request<BaseApiEntity<Integer>> {
 
     public RegistByPhoneRequest(String[] paras) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
@@ -31,7 +32,16 @@ public class RegistByPhoneRequest extends Request<Integer> {
     }
 
     @Override
-    public Integer parseJsonImpl(JSONObject jsonObject) {
-        return jsonObject.getInteger("result");
+    public BaseApiEntity<Integer> parseJsonImpl(JSONObject jsonObject) {
+        BaseApiEntity<Integer> baseApiEntity = new BaseApiEntity<>();
+        baseApiEntity.setData(jsonObject.getInteger("result"));
+        if (baseApiEntity.getData() == 111) {
+            baseApiEntity.setState(BaseApiEntity.SUCCESS);
+        } else if (baseApiEntity.getData() == 112) {
+            baseApiEntity.setState(BaseApiEntity.FAIL);
+        } else {
+            baseApiEntity.setState(BaseApiEntity.ERROR);
+        }
+        return baseApiEntity;
     }
 }

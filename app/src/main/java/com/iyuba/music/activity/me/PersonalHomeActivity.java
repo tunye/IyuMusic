@@ -14,6 +14,7 @@ import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.imageselector.view.OnlyPreviewActivity;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -96,19 +97,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
         toolbarOper.setOnClickListener(this);
         personAttention.setOnClickListener(this);
         personFans.setOnClickListener(this);
-        personPhoto.setOnClickListener(new INoDoubleClick() {
-            @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
-                    startActivity(new Intent(context, ChangePhotoActivity.class));
-                } else {
-//                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-//                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
-//                    context.startActivity(intent);
-                }
-            }
-        });
+        personPhoto.setOnClickListener(this);
         detail.setOnClickListener(this);
         message.setOnClickListener(this);
         attent.setOnClickListener(this);
@@ -120,7 +109,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.personal_logout);
+        enableToolbarOper(R.string.personal_logout);
         title.setText(R.string.person_title);
     }
 
@@ -180,6 +169,9 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.toolbar_oper:
                 final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
@@ -187,8 +179,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                         .setMessage(R.string.personal_logout_textmore)
                         .setPositiveButton(R.string.personal_logout_exit, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
-                                super.onClick(view);
+                            public void activeClick(View view) {
                                 mMaterialDialog.dismiss();
                                 AccountManager.getInstance().loginOut();
                                 finish();
@@ -196,12 +187,18 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                         })
                         .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
-                                super.onClick(view);
+                            public void activeClick(View view) {
                                 mMaterialDialog.dismiss();
                             }
                         });
                 mMaterialDialog.show();
+                break;
+            case R.id.personal_img:
+                if (SocialManager.getInstance().getFriendId().equals(AccountManager.getInstance().getUserId())) {
+                    startActivity(new Intent(context, ChangePhotoActivity.class));
+                } else {
+                    OnlyPreviewActivity.startPreview(context, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + SocialManager.getInstance().getFriendId());
+                }
                 break;
             case R.id.personal_attent:
                 String state = attent.getText().toString();
@@ -213,16 +210,14 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
                             .setMessage(R.string.person_attention_cancel_hint)
                             .setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View view) {
-                                    super.onClick(view);
+                                public void activeClick(View view) {
                                     cancleAttentionDialog.dismiss();
                                     cancelAttention();
                                 }
                             })
                             .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View view) {
-                                    super.onClick(view);
+                                public void activeClick(View view) {
                                     cancleAttentionDialog.dismiss();
                                 }
                             });
@@ -337,15 +332,11 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     private void addAttention() {
-        RequestClient.requestAsync(new AddAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<String>() {
+        RequestClient.requestAsync(new AddAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onSuccess(String resultCode) {
-                if (resultCode.equals("500")) {
-                    attent.setText(R.string.person_attention_already);
-                    CustomToast.getInstance().showToast(R.string.person_attention_success);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.person_attention_fail);
-                }
+            public void onSuccess(BaseApiEntity<String> resultCode) {
+                attent.setText(R.string.person_attention_already);
+                CustomToast.getInstance().showToast(R.string.person_attention_success);
             }
 
             @Override
@@ -356,15 +347,11 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     }
 
     private void cancelAttention() {
-        RequestClient.requestAsync(new CancelAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<String>() {
+        RequestClient.requestAsync(new CancelAttentionRequest(AccountManager.getInstance().getUserId(), userinfo.getUid()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onSuccess(String resultCode) {
-                if (resultCode.equals("510")) {
-                    attent.setText(R.string.person_attention);
-                    CustomToast.getInstance().showToast(R.string.person_attention_cancel_success);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.person_attention_cancel_fail);
-                }
+            public void onSuccess(BaseApiEntity<String> resultCode) {
+                attent.setText(R.string.person_attention);
+                CustomToast.getInstance().showToast(R.string.person_attention_cancel_success);
             }
 
             @Override

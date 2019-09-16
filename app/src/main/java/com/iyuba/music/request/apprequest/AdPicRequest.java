@@ -21,7 +21,7 @@ public class AdPicRequest extends Request<AdEntity> {
         ArrayMap<String, Object> paras = new ArrayMap<>();
         paras.put("appId", ConstantManager.appId);
         paras.put("flag", 1);
-        paras.put("uid", SPUtils.loadString(ConfigManager.getInstance().getPreferences(),"userId", "0"));
+        paras.put("uid", SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "userId", "0"));
         url = ParameterUrl.setRequestParameter(originalUrl, paras);
         returnDataType = Request.STRING_DATA;
     }
@@ -29,20 +29,24 @@ public class AdPicRequest extends Request<AdEntity> {
     @Override
     public AdEntity parseStringImpl(String response) {
         response = response.trim();
-        JSONObject jsonObject = JSON.parseArray(response).getJSONObject(0);
-        String type = jsonObject.getJSONObject("data").getString("type");
-        AdEntity adEntity = new AdEntity();
-        switch (type) {
-            default:
-            case "youdao":
-                adEntity.setType("youdao");
-                break;
-            case "web":
-                adEntity = JSON.parseObject(jsonObject.getString("data"), AdEntity.class);
-                adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
-                adEntity.setType("web");
-                break;
+        try {
+            JSONObject jsonObject = JSON.parseArray(response).getJSONObject(0);
+            String type = jsonObject.getJSONObject("data").getString("type");
+            AdEntity adEntity = new AdEntity();
+            switch (type) {
+                default:
+                case "youdao":
+                    adEntity.setType("youdao");
+                    break;
+                case "web":
+                    adEntity = JSON.parseObject(jsonObject.getString("data"), AdEntity.class);
+                    adEntity.setPicUrl("http://app.iyuba.cn/dev/" + adEntity.getPicUrl());
+                    adEntity.setType("web");
+                    break;
+            }
+            return adEntity;
+        } catch (Exception e) {
+            return null;
         }
-        return adEntity;
     }
 }

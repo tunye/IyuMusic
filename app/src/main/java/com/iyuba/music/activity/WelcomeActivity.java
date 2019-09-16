@@ -100,9 +100,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        header.setOnClickListener(new View.OnClickListener() {
+        header.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 if (adEntity != null) {
                     showAd = true;
                     int nextActivity = normalStart ? 0 : 1;
@@ -113,9 +113,9 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
-        escapeAd.setOnClickListener(new View.OnClickListener() {
+        escapeAd.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 handler.removeMessages(1);
                 handler.removeMessages(3);
                 handler.sendEmptyMessage(1);
@@ -157,8 +157,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     public void onNativeLoad(final NativeResponse nativeResponse) {
                         header.setOnClickListener(new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
-                                super.onClick(view);
+                            public void activeClick(View view) {
                                 nativeResponse.handleClick(header);
                             }
                         });

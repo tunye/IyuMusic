@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
@@ -166,6 +167,9 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         if (view.equals(speaker)) {
             player.setVideoPath(word.getPronMP3());
             player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

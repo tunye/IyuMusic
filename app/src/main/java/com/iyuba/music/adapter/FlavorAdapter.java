@@ -62,8 +62,7 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
         final String item = defItems.get(position);
         holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 setCurrentFlavor(holder.getAdapterPosition());
                 if (mItemClickListener != null) {
                     mItemClickListener.onItemClicked(view, item, holder.getAdapterPosition());

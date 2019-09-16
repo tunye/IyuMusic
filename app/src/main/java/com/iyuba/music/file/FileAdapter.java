@@ -58,6 +58,10 @@ public class FileAdapter extends CoreRecyclerViewAdapter<FileInfo, FileAdapter.F
         fileViewHolder.icon.setBackgroundResource(fileInfo.getIconResourceId());
     }
 
+    public interface OnItemLongClickListener {
+        void onClick(int pos);
+    }
+
     static class FileViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView name;
@@ -70,9 +74,5 @@ public class FileAdapter extends CoreRecyclerViewAdapter<FileInfo, FileAdapter.F
             content = view.findViewById(R.id.file_info);
             icon = view.findViewById(R.id.file_icon);
         }
-    }
-
-    public interface OnItemLongClickListener {
-        void onClick(int pos);
     }
 }

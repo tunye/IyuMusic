@@ -7,9 +7,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
@@ -82,15 +82,15 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
     @Override
     public void setListener() {
         super.setListener();
-        icon.setOnClickListener(new OnClickListener() {
+        icon.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 new VersionInfoDialog(context);
             }
         });
-        praise.setOnClickListener(new OnClickListener() {
+        praise.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 try {
                     Uri uri = Uri.parse("market://details?id=" + getPackageName());
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -99,9 +99,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
                 } catch (Exception e) {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.about_praise).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.app_accept, new OnClickListener() {
+                            setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View v) {
+                                public void activeClick(View view) {
                                     dialog.dismiss();
                                 }
                             });
@@ -110,25 +110,23 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             }
         });
 
-        version.setOnClickListener(new OnClickListener() {
+        version.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 openCookie();
             }
         });
 
-        developer.setOnClickListener(new OnClickListener() {
-
+        developer.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, DeveloperActivity.class));
             }
         });
 
-        website.setOnClickListener(new OnClickListener() {
-
+        website.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://www.iyuba.cn/");
@@ -137,10 +135,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             }
         });
 
-        appUpdate.setOnClickListener(new OnClickListener() {
-
+        appUpdate.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (appNewImg.isShown()) {
                     acceptForUpdate();
                 } else {
@@ -231,15 +228,15 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.about_update).
                 setMessage(context.getString(R.string.about_update_message, newVersionCode))
-                .setPositiveButton(R.string.about_update_accept, new OnClickListener() {
+                .setPositiveButton(R.string.about_update_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         requestMultiPermission(new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE}, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
                         dialog.dismiss();
                     }
-                }).setNegativeButton(R.string.app_cancel, new OnClickListener() {
+                }).setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -276,9 +273,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             new VersionInfoDialog(context);
         } else if (cookie == 0) {
             ConfigManager.getInstance().setEggShell(true);
-            CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     startActivity(new Intent(context, EggShellActivity.class));
                 }
             });

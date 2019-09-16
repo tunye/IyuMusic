@@ -141,6 +141,9 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.study_set_playmode:
             case R.id.study_set_playmode_current:
@@ -198,8 +201,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 groupDialog.dismiss();
             }
         });
@@ -229,8 +231,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 groupDialog.dismiss();
             }
         });
@@ -261,8 +262,7 @@ public class StudySetActivity extends BaseActivity implements View.OnClickListen
         groupDialog.setContentView(root);
         groupDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 groupDialog.dismiss();
             }
         });

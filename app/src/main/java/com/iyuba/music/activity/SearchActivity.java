@@ -135,8 +135,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
     public void setListener() {
         adviceBtn.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, RecommendSongActivity.class));
             }
         });
@@ -179,8 +178,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         });
         search.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (searchContent.getEditableText().toString().startsWith("iyumusic://")) {
@@ -329,8 +327,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         footerParent.addView(textView);
         footerParent.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 clearAll();
             }
         });
@@ -344,8 +341,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
         mMaterialDialog.setMessage(R.string.article_search_clear_hint)
                 .setPositiveButton(R.string.article_search_clear_sure, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                         new SearchHistoryOp().deleteAll();
                         searchHistoryAdapter.setList("");
@@ -353,8 +349,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
                 })
                 .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                     }
                 });

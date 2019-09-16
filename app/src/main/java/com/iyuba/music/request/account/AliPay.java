@@ -3,6 +3,8 @@ package com.iyuba.music.request.account;
 import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -51,10 +53,15 @@ public class AliPay extends Request<BaseApiEntity<String>> {
             apiEntity.setData(ParameterUrl.decode(jsonObject.getString("orderInfo")));
             apiEntity.setValue(jsonObject.getString("sign"));
             apiEntity.setState(BaseApiEntity.SUCCESS);
+            return apiEntity;
         } else {
-            apiEntity.setState(BaseApiEntity.FAIL);
+            return null;
         }
-        return apiEntity;
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        return RuntimeManager.getInstance().getString(R.string.pay_detail_generate_failed);
     }
 
     private String getOutTradeNo() {

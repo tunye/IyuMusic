@@ -126,29 +126,25 @@ public class MainFragment extends BaseFragment {
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         pause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pauseClick();
             }
         });
         former.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 formerClick();
             }
         });
         latter.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 latterClick();
             }
         });
         root.findViewById(R.id.rotate_image_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
@@ -158,8 +154,7 @@ public class MainFragment extends BaseFragment {
         });
         root.findViewById(R.id.song_info_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if ("101".equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {

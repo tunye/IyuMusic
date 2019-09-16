@@ -10,6 +10,7 @@ import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.imageselector.view.OnlyPreviewActivity;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.me.ReplyDoingActivity;
@@ -54,9 +55,7 @@ public class CircleActivity extends BaseListActivity<Circle> {
                         startActivity(new Intent(context, ReplyDoingActivity.class));
                         break;
                     case "picid":
-//                        intent = new Intent(context, MeizhiPhotoActivity.class);
-//                        intent.putExtra("url", "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
-//                        context.startActivity(intent);
+                        OnlyPreviewActivity.startPreview(context, "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
                         break;
                     case "blogid":
                         intent = new Intent();
@@ -75,8 +74,7 @@ public class CircleActivity extends BaseListActivity<Circle> {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivityForResult(new Intent(context, SendPhotoActivity.class), 101);
             }
         });
@@ -92,7 +90,7 @@ public class CircleActivity extends BaseListActivity<Circle> {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.circle_send);
+        enableToolbarOper(R.string.circle_send);
         title.setText(R.string.circle_title);
     }
 

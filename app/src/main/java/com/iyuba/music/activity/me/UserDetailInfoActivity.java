@@ -86,8 +86,7 @@ public class UserDetailInfoActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, EditUserDetailInfoActivity.class));
             }
         });
@@ -97,7 +96,7 @@ public class UserDetailInfoActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.person_detail_title);
-        toolbarOper.setText(R.string.person_detail_edit);
+        enableToolbarOper(R.string.person_detail_edit);
         if (!AccountManager.getInstance().getUserId().equals(SocialManager.getInstance().getFriendId())) {
             toolbarOper.setVisibility(View.GONE);
         }

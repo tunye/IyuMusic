@@ -17,6 +17,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.RecommendSongRequest;
@@ -52,8 +53,7 @@ public class RecommendSongActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     submit();
                 } else {
@@ -71,7 +71,7 @@ public class RecommendSongActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.app_submit);
+        enableToolbarOper(R.string.app_submit);
         title.setText(R.string.study_recommend_title);
     }
 
@@ -87,29 +87,26 @@ public class RecommendSongActivity extends BaseActivity {
             }
             CustomToast.getInstance().showToast(R.string.study_recommend_on_way);
             String uid = AccountManager.getInstance().getUserId();
-            RequestClient.requestAsync(new RecommendSongRequest(uid, recommendTitle.getEditableText().toString(), recommendSinger.getEditableText().toString()), new SimpleRequestCallBack<String>() {
+            RequestClient.requestAsync(new RecommendSongRequest(uid, recommendTitle.getEditableText().toString(),
+                    recommendSinger.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                 @Override
-                public void onSuccess(String s) {
-                    if ("1".equals(s)) {
-                        YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                CustomToast.getInstance().showToast(R.string.study_recommend_success);
-                            }
+                public void onSuccess(BaseApiEntity<String> s) {
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            CustomToast.getInstance().showToast(R.string.study_recommend_success);
+                        }
 
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ThreadUtils.postOnUiThreadDelay(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        RecommendSongActivity.this.finish();
-                                    }
-                                }, 300);
-                            }
-                        }).playOn(mainContent);
-                    } else {
-                        CustomToast.getInstance().showToast(R.string.study_recommend_fail);
-                    }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                                @Override
+                                public void run() {
+                                    RecommendSongActivity.this.finish();
+                                }
+                            }, 300);
+                        }
+                    }).playOn(mainContent);
                 }
 
                 @Override

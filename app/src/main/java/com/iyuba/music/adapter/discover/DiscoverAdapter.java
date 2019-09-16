@@ -120,8 +120,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             if (onRecycleViewItemClickListener != null) {
                 viewHolder.rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         onRecycleViewItemClickListener.onItemClick(viewHolder.rippleView, holder.getAdapterPosition());
                     }
                 });

@@ -3,7 +3,6 @@ package com.iyuba.music.activity.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
@@ -28,7 +27,6 @@ import java.util.List;
 public class ListenSongActivity extends BaseListActivity<Article> {
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
-    private TextView toolBarOperSub;
 
     @Override
     public int getLayoutId() {
@@ -45,7 +43,6 @@ public class ListenSongActivity extends BaseListActivity<Article> {
     @Override
     public void initWidget() {
         super.initWidget();
-        toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
         swipeRefreshLayout.setEnabled(false);
         owner = findViewById(R.id.recyclerview_widget);
         ownerAdapter = new SimpleNewsAdapter(context, 1);
@@ -66,10 +63,10 @@ public class ListenSongActivity extends BaseListActivity<Article> {
     @Override
     public void setListener() {
         super.setListener();
-        toolBarOperSub.setOnClickListener(new View.OnClickListener() {
+        toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                if (toolBarOperSub.getText().equals(getString(R.string.select_all))) {
+            public void activeClick(View view) {
+                if (toolbarOperSub.getText().equals(getString(R.string.select_all))) {
                     ((SimpleNewsAdapter) ownerAdapter).setDeleteAll();
                 } else {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
@@ -77,8 +74,7 @@ public class ListenSongActivity extends BaseListActivity<Article> {
                     dialog.setMessage(R.string.article_clear_hint);
                     dialog.setPositiveButton(R.string.article_search_clear_sure, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             ownerAdapter.setDataSet(new ArrayList<Article>());
                             localInfoOp.clearSee();
                             dialog.dismiss();
@@ -86,8 +82,7 @@ public class ListenSongActivity extends BaseListActivity<Article> {
                     });
                     dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             dialog.dismiss();
                         }
                     });
@@ -95,17 +90,17 @@ public class ListenSongActivity extends BaseListActivity<Article> {
                 }
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     ((SimpleNewsAdapter) ownerAdapter).setDelete(true);
-                    toolBarOperSub.setText(R.string.article_select_all);
-                    toolbarOper.setText(R.string.app_del);
+                    toolbarOperSub.setText(R.string.article_select_all);
+                    enableToolbarOper(R.string.app_del);
                 } else {
                     ((SimpleNewsAdapter) ownerAdapter).setDelete(false);
-                    toolbarOper.setText(R.string.article_edit);
-                    toolBarOperSub.setText(R.string.article_clear);
+                    enableToolbarOper(R.string.article_edit);
+                    toolbarOperSub.setText(R.string.article_clear);
                     List<Article> datas = new ArrayList<>(getData());
                     Article temp;
                     for (Iterator<Article> it = datas.iterator(); it.hasNext(); ) {
@@ -128,8 +123,8 @@ public class ListenSongActivity extends BaseListActivity<Article> {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.classify_history);
-        toolbarOper.setText(R.string.article_edit);
-        toolBarOperSub.setText(R.string.article_clear);
+        enableToolbarOper(R.string.article_edit);
+        enableToolbarOperSub(R.string.article_clear);
         loadDataFromDb();
     }
 
@@ -152,8 +147,8 @@ public class ListenSongActivity extends BaseListActivity<Article> {
     public void onBackPressed() {
         if (((SimpleNewsAdapter) ownerAdapter).isDelete()) {
             ((SimpleNewsAdapter) ownerAdapter).setDelete(false);
-            toolbarOper.setText(R.string.article_edit);
-            toolBarOperSub.setText(R.string.article_clear);
+            enableToolbarOper(R.string.article_edit);
+            enableToolbarOperSub(R.string.article_clear);
         } else {
             super.onBackPressed();
         }

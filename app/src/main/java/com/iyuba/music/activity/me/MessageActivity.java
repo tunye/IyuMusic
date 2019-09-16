@@ -5,7 +5,6 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.Toast;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
@@ -29,8 +28,6 @@ import java.util.List;
  * Created by 10202 on 2016/1/2.
  */
 public class MessageActivity extends BaseListActivity<MessageLetter> {
-    private MessageAdapter messageAdapter;
-
     @Override
     public int getLayoutId() {
         return R.layout.message;
@@ -42,7 +39,7 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
         owner = findViewById(R.id.message_recyclerview);
         ((SimpleItemAnimator) owner.getItemAnimator()).setSupportsChangeAnimations(false);
         ownerAdapter = new MessageAdapter(context);
-        messageAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 MessageLetter messageLetter = getData().get(position);
@@ -62,7 +59,7 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
 
                     }
                 });
-                messageAdapter.setReaded(position);
+                ((MessageAdapter) ownerAdapter).setReaded(position);
             }
         });
         assembleRecyclerView();
@@ -73,8 +70,7 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, FriendCenter.class);
                 intent.putExtra("type", "0");
@@ -85,14 +81,8 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
     }
 
     public void onActivityCreated() {
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
-        toolbarOper.setText(R.string.message_oper);
+        enableToolbarOper(R.string.message_oper);
         title.setText(R.string.message_title);
-    }
-
-    @Override
-    public void onActivityResumed() {
-        onRefresh(0);
     }
 
     @Override

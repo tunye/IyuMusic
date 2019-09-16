@@ -162,15 +162,13 @@ public class StartFragment {
                 materialDialog.setMessage(sb.toString());
                 materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
                 materialDialog.setPositiveButton(R.string.app_qun, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         ParameterUrl.joinQQGroup(context, apiEntity.getValue());
                         materialDialog.dismiss();
                     }

@@ -81,8 +81,7 @@ public class LoadingIndicatorList extends BaseActivity {
                 holder.indicatorView.setIndicatorColor(GetAppColor.getInstance().getAppColor());
                 holder.itemView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         Intent intent = new Intent(LoadingIndicatorList.this, LoadingIndicator.class);
                         intent.putExtra("indicator", INDICATORS[holder.getAdapterPosition()]);
                         startActivity(intent);

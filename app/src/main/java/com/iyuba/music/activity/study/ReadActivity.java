@@ -81,8 +81,7 @@ public class ReadActivity extends BaseActivity {
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 permissionDispose(requestCode, requestCode == PermissionPool.RECORD_AUDIO ? Manifest.permission.RECORD_AUDIO : Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 materialDialog.dismiss();
             }

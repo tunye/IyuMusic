@@ -3,6 +3,7 @@ package com.iyuba.music.entity.word;
 import android.database.Cursor;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,11 @@ public class ExampleSentenceOp extends BaseEntityOp {
 
     public ExampleSentenceOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     public ArrayList<ExampleSentence> findData(String word) {

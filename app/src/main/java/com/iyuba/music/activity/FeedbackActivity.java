@@ -20,6 +20,7 @@ import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.FeedbackRequest;
@@ -65,8 +66,7 @@ public class FeedbackActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 submit();
             }
         });
@@ -97,7 +97,7 @@ public class FeedbackActivity extends BaseActivity {
                 contact.setText(userInfo.getUserEmail());
             }
         }
-        toolbarOper.setText(R.string.app_submit);
+        enableToolbarOper(R.string.app_submit);
         title.setText(R.string.feedback_title);
         regex = regexContact(contact.getEditableText().toString());
     }
@@ -149,30 +149,26 @@ public class FeedbackActivity extends BaseActivity {
                 e.printStackTrace();
             }
             RequestClient.requestAsync(new FeedbackRequest(uid, ParameterUrl.encode(contentString),
-                    contact.getEditableText().toString()), new SimpleRequestCallBack<String>() {
+                    contact.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                 @Override
-                public void onSuccess(String result) {
+                public void onSuccess(BaseApiEntity<String> result) {
                     waitingDialog.dismiss();
-                    if ("OK".equals(result)) {
-                        YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                CustomToast.getInstance().showToast(R.string.feedback_success);
-                            }
+                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            CustomToast.getInstance().showToast(R.string.feedback_success);
+                        }
 
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                ThreadUtils.postOnUiThreadDelay(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        FeedbackActivity.this.finish();
-                                    }
-                                }, 300);
-                            }
-                        }).playOn(mainContent);
-                    } else {
-                        CustomToast.getInstance().showToast(R.string.feedback_fail);
-                    }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                                @Override
+                                public void run() {
+                                    FeedbackActivity.this.finish();
+                                }
+                            }, 300);
+                        }
+                    }).playOn(mainContent);
                 }
 
                 @Override

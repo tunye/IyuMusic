@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
@@ -110,10 +110,9 @@ public class ChattingAdapter extends BaseAdapter {
             holder.time.setText(contentShowTime);
         }
         AppImageUtil.loadAvatar(message.getAuthorid(), holder.userImageView);
-        holder.userImageView.setOnClickListener(new OnClickListener() {
-
+        holder.userImageView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(message.getAuthorid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);

@@ -70,8 +70,7 @@ public class SignInDialog {
         final View cancel = root.findViewById(R.id.sign_in_close);
         cancel.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dismiss();
             }
         });

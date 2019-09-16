@@ -90,8 +90,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
     public void onBindViewHolder(final OperViewHolder holder, int position) {
         holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 onItemClicked(view.getContext(), holder.getAdapterPosition());
             }
         });

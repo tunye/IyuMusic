@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
@@ -295,9 +296,9 @@ public class TabIndicator extends LinearLayout {
         for (int i = 0; i < cCount; i++) {
             final int j = i;
             View view = getChildAt(i);
-            view.setOnClickListener(new OnClickListener() {
+            view.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     viewPager.setCurrentItem(j);
                 }
             });

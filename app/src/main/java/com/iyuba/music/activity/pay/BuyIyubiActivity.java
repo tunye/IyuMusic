@@ -1,7 +1,6 @@
 package com.iyuba.music.activity.pay;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -69,43 +68,37 @@ public class BuyIyubiActivity extends BaseActivity {
         super.setListener();
         iyubi2h.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(0);
             }
         });
         iyubi6h.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(1);
             }
         });
         iyubi1k.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(2);
             }
         });
         iyubi6k.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(3);
             }
         });
         iyubi1w.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 pay(4);
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 recharge();
             }
         });
@@ -141,7 +134,7 @@ public class BuyIyubiActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.vip_iyubi_title);
-        toolbarOper.setText(R.string.vip_iyubi_web);
+        enableToolbarOper(R.string.vip_iyubi_web);
         copyright.setText(context.getString(R.string.about_company,
                 Calendar.getInstance().get(Calendar.YEAR)));
     }

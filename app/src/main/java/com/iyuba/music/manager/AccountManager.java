@@ -102,49 +102,38 @@ public class AccountManager {
         RequestClient.requestAsync(new LoginRequest(paras), new SimpleRequestCallBack<BaseApiEntity<UserInfo>>() {
             @Override
             public void onSuccess(BaseApiEntity<UserInfo> apiEntity) {
-                if (BaseApiEntity.isSuccess(apiEntity)) {
-                    loginState = SIGN_IN;
+                loginState = SIGN_IN;
 
-                    UserInfoOp userInfoOp = new UserInfoOp();
-                    UserInfo tempResult = apiEntity.getData();
-                    userId = tempResult.getUid();
-                    if (userInfoOp.selectDataByName(getInstance().userName) == null) {
-                        saveUserNameAndPwd();
-                    }
-                    if (userInfo == null) {
-                        userInfo = tempResult;
-                    } else {
-                        userInfo.update(tempResult);
-                    }
-                    userInfoOp.saveData(userInfo);
-
-                    if (Utils.getMusicApplication().isShowSignInToast()) {
-                        Utils.getMusicApplication().setShowSignInToast(false);
-                        CustomToast.getInstance().showToast(RuntimeManager.getInstance().getContext().getString(
-                                R.string.login_success, userInfo.getUsername()));
-                    }
-
-                    if (rc != null) {
-                        rc.success(apiEntity.getMessage());
-                    }
-                } else if (BaseApiEntity.isFail(apiEntity)) {
-                    loginState = SIGN_OUT;
-                    ConfigManager.getInstance().setAutoLogin(false);
-                    if (rc != null) {
-                        rc.fail(RuntimeManager.getInstance().getString(R.string.login_fail));
-                    }
+                UserInfoOp userInfoOp = new UserInfoOp();
+                UserInfo tempResult = apiEntity.getData();
+                userId = tempResult.getUid();
+                if (userInfoOp.selectDataByName(getInstance().userName) == null) {
+                    saveUserNameAndPwd();
+                }
+                if (userInfo == null) {
+                    userInfo = tempResult;
                 } else {
-                    loginState = SIGN_OUT;
-                    if (rc != null) {
-                        rc.fail(RuntimeManager.getInstance().getString(R.string.login_error));
-                    }
+                    userInfo.update(tempResult);
+                }
+                userInfoOp.saveData(userInfo);
+
+                if (Utils.getMusicApplication().isShowSignInToast()) {
+                    Utils.getMusicApplication().setShowSignInToast(false);
+                    CustomToast.getInstance().showToast(RuntimeManager.getInstance().getContext().getString(
+                            R.string.login_success, userInfo.getUsername()));
+                }
+
+                if (rc != null) {
+                    rc.success(apiEntity.getMessage());
                 }
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                loginState = SIGN_OUT;
+                ConfigManager.getInstance().setAutoLogin(false);
                 if (rc != null) {
-                    rc.fail(RuntimeManager.getInstance().getString(Utils.getRequestErrorMeg(errorInfoWrapper)));
+                    rc.fail(Utils.getRequestErrorMeg(errorInfoWrapper));
                 }
             }
         });
@@ -182,13 +171,11 @@ public class AccountManager {
         RequestClient.requestAsync(new LoginRequest(paras), new SimpleRequestCallBack<BaseApiEntity<UserInfo>>() {
             @Override
             public void onSuccess(BaseApiEntity<UserInfo> apiEntity) {
-                if (BaseApiEntity.isSuccess(apiEntity)) {
-                    UserInfo temp = apiEntity.getData();
-                    userInfo.setIyubi(temp.getIyubi());
-                    userInfo.setVipStatus(temp.getVipStatus());
-                    userInfo.setDeadline(temp.getDeadline());
-                    new UserInfoOp().saveData(userInfo);
-                }
+                UserInfo temp = apiEntity.getData();
+                userInfo.setIyubi(temp.getIyubi());
+                userInfo.setVipStatus(temp.getVipStatus());
+                userInfo.setDeadline(temp.getDeadline());
+                new UserInfoOp().saveData(userInfo);
             }
 
             @Override

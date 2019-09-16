@@ -6,6 +6,7 @@
     <string name="app_know">Known</string>
     <string name="app_qun">Qun</string>
     <string name="app_more">More</string>
+    <string name="app_reload">Reload</string>
     <string name="app_accept">OK</string>
     <string name="app_sure">Sure</string>
     <string name="app_del">Del</string>
@@ -473,6 +474,7 @@
     <string name="friend_load_all">Friends loading is completed</string>
     <string name="friend_no_data">No data for this condition</string>
     <string name="friend_find">Find a friend</string>
+    <string name="friend_find_empty_string">Please write something about your friend</string>
     <string name="friend_find_error">Find friend error</string>
     <string name="friend_finding">Searching…</string>
     <string name="no_friend">No friend yet</string>

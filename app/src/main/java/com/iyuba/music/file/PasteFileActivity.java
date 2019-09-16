@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -18,14 +17,12 @@ import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.ThreadPoolUtil;
 import com.buaa.ct.core.util.ThreadUtils;
 import com.buaa.ct.core.view.CustomToast;
-import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
@@ -74,22 +71,19 @@ public class PasteFileActivity extends BaseActivity {
     public void setListener() {
         back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 finish();
             }
         });
         position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 backToParent();
             }
         });
         findViewById(R.id.file_createdir).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 FileActivityHelper.createDir(PasteFileActivity.this, currentPath, new IOperationFinish() {
                     @Override
                     public void finish() {
@@ -100,8 +94,7 @@ public class PasteFileActivity extends BaseActivity {
         });
         findViewById(R.id.paste).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 final File src = new File(currentPasteFilePath);
                 if (!src.exists()) {
                     CustomToast.getInstance().showToast(R.string.file_noexists);
@@ -145,8 +138,7 @@ public class PasteFileActivity extends BaseActivity {
         });
         findViewById(R.id.cancel).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }

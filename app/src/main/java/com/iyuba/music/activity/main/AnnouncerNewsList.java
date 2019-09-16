@@ -76,8 +76,7 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     SocialManager.getInstance().pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
@@ -101,7 +100,7 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.article_announcer_home);
+        enableToolbarOper(R.string.article_announcer_home);
         title.setText(announcer.getName());
     }
 

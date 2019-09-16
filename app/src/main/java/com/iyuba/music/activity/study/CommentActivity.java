@@ -18,6 +18,7 @@ import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.study.CommentAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.comment.Comment;
@@ -152,16 +153,13 @@ public class CommentActivity extends BaseListActivity<Comment> {
     }
 
     private void sendComment(String s) {
-        RequestClient.requestAsync(new CommentExpressRequest(String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(), s), new SimpleRequestCallBack<String>() {
+        RequestClient.requestAsync(new CommentExpressRequest(String.valueOf(curArticle.getId()), AccountManager.getInstance().getUserId(),
+                AccountManager.getInstance().getUserInfo().getUsername(), s), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onSuccess(String resultCode) {
-                if (resultCode.equals("501")) {
-                    commentView.clearText();
-                    onRefresh(0);
-                    owner.scrollToPosition(0);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.comment_send_fail);
-                }
+            public void onSuccess(BaseApiEntity<String> resultCode) {
+                commentView.clearText();
+                onRefresh(0);
+                owner.scrollToPosition(0);
             }
 
             @Override
@@ -205,8 +203,7 @@ public class CommentActivity extends BaseListActivity<Comment> {
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (requestCode == PermissionPool.RECORD_AUDIO) {
                     permissionDispose(PermissionPool.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO);
                 } else {
@@ -230,16 +227,11 @@ public class CommentActivity extends BaseListActivity<Comment> {
         materialDialog.setMessage(R.string.comment_del_msg);
         materialDialog.setPositiveButton(R.string.comment_del, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<String>() {
+            public void activeClick(View view) {
+                RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(String s) {
-                        if (s.equals("1")) {
-                            ownerAdapter.removeData(position);
-                        } else {
-                            CustomToast.getInstance().showToast(R.string.comment_del_fail);
-                        }
+                    public void onSuccess(BaseApiEntity<String> s) {
+                        ownerAdapter.removeData(position);
                     }
 
                     @Override
@@ -252,8 +244,7 @@ public class CommentActivity extends BaseListActivity<Comment> {
         });
         materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });

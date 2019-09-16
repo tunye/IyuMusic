@@ -147,7 +147,7 @@ public class BannerView extends FrameLayout {
         dots = new ArrayList<>();
         bannerImages = new ArrayList<>();
         dotLayout.removeAllViews();
-        if (mDatas == null || mDatas.size() == 0) {
+        if (mDatas == null || mDatas.isEmpty()) {
             return;
         }
         for (int count = 0; count < mDatas.size(); count++) {
@@ -161,7 +161,7 @@ public class BannerView extends FrameLayout {
             dots.add(pointView);
             dotLayout.addView(pointView);
             ImageView imageView = new ImageView(getContext());
-            loadData(bannerData.get(mDatas.size() - 1), imageView);
+            loadData(bannerData.get(count), imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             bannerImages.add(imageView);
         }
@@ -181,10 +181,10 @@ public class BannerView extends FrameLayout {
     }
 
     public void startAd() {
-        if (!isLooping && bannerData.size() > 1) {
+        if (!isLooping && hasData()) {
             isLooping = true;
             scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1500, 1500, TimeUnit.MICROSECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 3500, 3500, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -259,6 +259,9 @@ public class BannerView extends FrameLayout {
 
         @Override
         public void onPageSelected(int position) {
+            if (bannerData.isEmpty()) {
+                return;
+            }
             int oldRealPosition = currentItem % bannerData.size();
             currentItem = position;
             int nowRealPosition = currentItem % bannerData.size();
@@ -272,7 +275,11 @@ public class BannerView extends FrameLayout {
 
         @Override
         public int getCount() {
-            return Integer.MAX_VALUE;
+            if (!hasData()) {
+                return 0;
+            } else {
+                return Integer.MAX_VALUE;
+            }
         }
 
         @NonNull
@@ -283,10 +290,8 @@ public class BannerView extends FrameLayout {
             container.addView(iv);
             // 在这个方法里面设置图片的点击事件
             iv.setOnClickListener(new INoDoubleClick() {
-
                 @Override
-                public void onClick(View v) {
-                    super.onClick(v);
+                public void activeClick(View v) {
                     if (onClickListener != null) {
                         onClickListener.onClick(v, bannerData.get(realPos));
                     }

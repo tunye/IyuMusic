@@ -55,8 +55,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/mall/ruleOfintegral.jsp");
@@ -66,8 +65,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         });
         creditDetail.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://api.iyuba.cn/credits/useractionrecordmobileList1.jsp?uid=" + AccountManager.getInstance().getUserId());
@@ -77,8 +75,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
         });
         creditExchange.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/mall/index.jsp?uid=" + AccountManager.getInstance().getUserId()
@@ -95,7 +92,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.credits_title);
-        toolbarOper.setText(R.string.credits_helper);
+        enableToolbarOper(R.string.credits_helper);
         title.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -21,6 +21,7 @@ import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.me.ChattingAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.message.MessageLetterContent;
 import com.iyuba.music.manager.AccountManager;
@@ -87,8 +88,7 @@ public class ChattingActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
@@ -98,26 +98,22 @@ public class ChattingActivity extends BaseActivity {
         chatView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(final String s) {
-                RequestClient.requestAsync(new SendMessageRequest(AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendName(), s), new SimpleRequestCallBack<String>() {
+                RequestClient.requestAsync(new SendMessageRequest(AccountManager.getInstance().getUserId(), SocialManager.getInstance().getFriendName(), s), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(String result) {
-                        if (result.equals("611")) {
-                            chatView.clearText();
-                            MessageLetterContent letterContent = new MessageLetterContent();
-                            letterContent.setContent(s);
-                            letterContent.setDirection(1);
-                            letterContent.setAuthorid(AccountManager.getInstance().getUserId());
-                            letterContent.setDate(String.valueOf(System.currentTimeMillis() / 1000));
-                            list.add(letterContent);
-                            adapter.setList(list);
-                        } else {
-                            CustomToast.getInstance().showToast(R.string.message_send_fail);
-                        }
+                    public void onSuccess(BaseApiEntity<String> result) {
+                        chatView.clearText();
+                        MessageLetterContent letterContent = new MessageLetterContent();
+                        letterContent.setContent(s);
+                        letterContent.setDirection(1);
+                        letterContent.setAuthorid(AccountManager.getInstance().getUserId());
+                        letterContent.setDate(String.valueOf(System.currentTimeMillis() / 1000));
+                        list.add(letterContent);
+                        adapter.setList(list);
                     }
 
                     @Override
                     public void onError(ErrorInfoWrapper errorInfoWrapper) {
-                        CustomToast.getInstance().showToast(R.string.message_send_fail);
+                        CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                     }
                 });
             }
@@ -143,7 +139,7 @@ public class ChattingActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(SocialManager.getInstance().getFriendName());
-        toolbarOper.setText(R.string.message_home);
+        enableToolbarOper(R.string.message_home);
         initMessages();
     }
 

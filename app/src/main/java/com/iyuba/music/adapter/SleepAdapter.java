@@ -71,8 +71,7 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         final String customText = sleepTextList.get(sleepTextList.size() - 1);
         materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 String hour = hour_pv.getSelected();
                 String second = minute_pv.getSelected();
@@ -99,15 +98,13 @@ public class SleepAdapter extends RecyclerView.Adapter<SleepAdapter.MyViewHolder
         if (itemClickListener != null) {
             holder.rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     onItemClick(holder.rippleView, pos);
                 }
             });
             holder.sleepSelector.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     onItemClick(holder.rippleView, pos);
                 }
             });

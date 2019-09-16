@@ -149,8 +149,7 @@ public class MainActivity extends BaseSkinActivity {
     public void setListener() {
         menu.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (menu.getDrawable().getIconState().equals(MaterialMenuDrawable.IconState.BURGER)) {
                     drawerLayout.openDrawer(drawView);
                     menu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
@@ -162,8 +161,7 @@ public class MainActivity extends BaseSkinActivity {
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, SearchActivity.class));
             }
         });
@@ -233,8 +231,7 @@ public class MainActivity extends BaseSkinActivity {
                 materialDialog.setMessage(R.string.storage_permission_content);
                 materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                 WRITE_EXTERNAL_TASK_CODE);
                         materialDialog.dismiss();
@@ -287,8 +284,7 @@ public class MainActivity extends BaseSkinActivity {
     private void checkWifiSignIn() {
         CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).danger(context.getString(R.string.net_sign_in), new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 try {
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
@@ -305,8 +301,7 @@ public class MainActivity extends BaseSkinActivity {
     private void setNetwork(Context context) {
         CustomSnackBar.make(root, context.getString(R.string.net_no_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }
@@ -316,8 +311,7 @@ public class MainActivity extends BaseSkinActivity {
     private void setBetterNetwork(Context context) {
         CustomSnackBar.make(root, context.getString(R.string.net_better_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }

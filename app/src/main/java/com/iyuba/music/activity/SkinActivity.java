@@ -2,8 +2,6 @@ package com.iyuba.music.activity;
 
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
@@ -13,7 +11,6 @@ import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.ImmersiveManager;
 import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
-import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.FlavorAdapter;
 import com.iyuba.music.listener.IOperationResult;
@@ -41,8 +38,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         mAdapter.addAll(Arrays.asList(context.getResources().getStringArray(R.array.flavors)), Arrays.asList(context.getResources().getStringArray(R.array.flavors_def)));
         mAdapter.setCurrentFlavor(GetAppColor.getInstance().getSkinFlg(SkinManager.getInstance().getCurrSkin()));
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(recyclerView);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 
@@ -50,15 +46,13 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     public void setListener() {
         back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 onBackPressed();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (!initSkin.equals(SkinManager.getInstance().getCurrSkin())) {
                     Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
                     sendBroadcast(intent);
@@ -73,7 +67,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.oper_skin);
-        toolbarOper.setText(R.string.dialog_save);
+        enableToolbarOper(R.string.dialog_save);
         initSkin = SkinManager.getInstance().getCurrSkin();
     }
 
@@ -83,6 +77,7 @@ public class SkinActivity extends BaseActivity implements FlavorAdapter.OnItemCl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (position == 0) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.skin_app_color));
+                toolBarLayout.setBackgroundColor(getResources().getColor(R.color.skin_app_color));
                 ImmersiveManager.getInstance().updateImmersiveStatus(this, true);
             } else {
                 getWindow().setStatusBarColor(getResources().getColor(getResource("skin_app_color_" + item)));

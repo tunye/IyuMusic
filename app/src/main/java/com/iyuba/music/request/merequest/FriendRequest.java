@@ -4,6 +4,8 @@ import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.friends.Fans;
 import com.iyuba.music.entity.friends.Follows;
@@ -22,16 +24,13 @@ import java.util.List;
  */
 public class FriendRequest extends Request<BaseListEntity<List<Friend>>> {
     public static final String FAN_REQUEST_CODE = "51002";
-    private static final String FAN_SUCCESS_CODE = "560";
-
     public static final String FOLLOW_REQUEST_CODE = "51001";
-    private static final String FOLLOW_SUCCESS_CODE = "550";
-
     public static final String RECOMMEND_REQUEST_CODE = "52003";
+    public static final String SEARCH_REQUEST_CODE = "52001";
+    private static final String FAN_SUCCESS_CODE = "560";
+    private static final String FOLLOW_SUCCESS_CODE = "550";
     private static final String RECOMMEND_SUCCESS_CODE = "591";
     private static final String RECOMMEND_ALL_DATA_CODE = "592";
-
-    public static final String SEARCH_REQUEST_CODE = "52001";
     private static final String SEARCH_SUCCESS_CODE = "591";
 
     private String protocol;
@@ -80,6 +79,11 @@ public class FriendRequest extends Request<BaseListEntity<List<Friend>>> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        return RuntimeManager.getInstance().getString(R.string.friend_find_error);
     }
 
     public String getSuccessCode() {

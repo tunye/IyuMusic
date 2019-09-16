@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.util.PermissionPool;
@@ -90,15 +89,13 @@ public class FileBrowserActivity extends BaseActivity {
     public void setListener() {
         back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 finish();
             }
         });
         position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 backToParent();
             }
         });
@@ -118,7 +115,7 @@ public class FileBrowserActivity extends BaseActivity {
 
     @Override
     public void onActivityCreated() {
-        backIcon.setState(MaterialMenuDrawable.IconState.X);
+        backIcon.setBackgroundResource(R.drawable.close);
         title.setText(R.string.file_title);
         viewFiles();
     }
@@ -251,8 +248,7 @@ public class FileBrowserActivity extends BaseActivity {
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 materialDialog.dismiss();
             }

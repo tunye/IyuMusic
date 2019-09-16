@@ -21,9 +21,13 @@ public class BannerPicRequest extends Request<BaseListEntity<List<BannerEntity>>
 
     @Override
     public BaseListEntity<List<BannerEntity>> parseJsonImpl(JSONObject jsonObject) {
-        BaseListEntity<List<BannerEntity>> baseListEntity = new BaseListEntity<>();
-        baseListEntity.setTotalCount(2);
-        baseListEntity.setData(JSON.parseArray(jsonObject.getString("data"), BannerEntity.class));
-        return baseListEntity;
+        try {
+            BaseListEntity<List<BannerEntity>> baseListEntity = new BaseListEntity<>();
+            baseListEntity.setTotalCount(2);
+            baseListEntity.setData(JSON.parseArray(jsonObject.getString("data"), BannerEntity.class));
+            return baseListEntity;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

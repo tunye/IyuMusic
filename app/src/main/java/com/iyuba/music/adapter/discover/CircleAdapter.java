@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.imageselector.view.OnlyPreviewActivity;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.doings.Circle;
@@ -58,11 +59,8 @@ public class CircleAdapter extends CoreRecyclerViewAdapter<Circle, CircleAdapter
                         , holder.circleImg, R.drawable.default_music);
                 holder.circleImg.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
-//                        Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-//                        intent.putExtra("url", "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
-//                        context.startActivity(intent);
+                    public void activeClick(View view) {
+                        OnlyPreviewActivity.startPreview(context, "http://static1.iyuba.cn/data/attachment/album/" + circle.getImage());
                     }
                 });
                 if (!TextUtils.isEmpty(circle.getBody())) {
@@ -75,11 +73,8 @@ public class CircleAdapter extends CoreRecyclerViewAdapter<Circle, CircleAdapter
                 AppImageUtil.loadImage(circle.getImage(), holder.circleImg, R.drawable.default_music);
                 holder.circleImg.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
-//                        Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-//                        intent.putExtra("url", circle.getImage());
-//                        context.startActivity(intent);
+                    public void activeClick(View view) {
+                        OnlyPreviewActivity.startPreview(context, circle.getImage());
                     }
                 });
                 holder.circleContent.setText(Html.fromHtml(circle.getBody()));
@@ -89,8 +84,7 @@ public class CircleAdapter extends CoreRecyclerViewAdapter<Circle, CircleAdapter
         holder.circlePhoto.setVipStateVisible(circle.getUid(), circle.getVip() == 1);
         holder.circlePhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(circle.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);

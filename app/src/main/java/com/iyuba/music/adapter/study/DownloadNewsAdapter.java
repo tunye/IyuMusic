@@ -3,7 +3,6 @@ package com.iyuba.music.adapter.study;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import android.widget.TextView;
 
 import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.buaa.ct.core.listener.INoDoubleClick;
-import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
-import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
+import com.buaa.ct.core.view.image.RoundedImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudySetActivity;
 import com.iyuba.music.download.DownloadFile;
@@ -29,13 +27,12 @@ import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,DownloadNewsAdapter.MyViewHolder> {
+public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article, DownloadNewsAdapter.MyViewHolder> {
     private IOperationFinish finish;
     private LocalInfoOp localInfoOp;
     private boolean delete;
@@ -90,13 +87,12 @@ public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,Downloa
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        super.onBindViewHolder(holder,position);
+        super.onBindViewHolder(holder, position);
         final Article article = getDatas().get(position);
         if (onRecycleViewItemClickListener != null) {
             holder.itemView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (delete) {
                         holder.delete.setChecked(!holder.delete.isChecked());
                         article.setDelete(holder.delete.isChecked());
@@ -106,27 +102,27 @@ public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,Downloa
                         int messageStringId = Integer.parseInt(article.getTextFind());
                         materialDialog.setMessage(context.getString(messageStringId));
                         if (messageStringId == R.string.article_download_file_dismiss) {
-                            materialDialog.setPositiveButton(context.getString(R.string.app_del), new View.OnClickListener() {
+                            materialDialog.setPositiveButton(context.getString(R.string.app_del), new INoDoubleClick() {
                                 @Override
-                                public void onClick(View view) {
+                                public void activeClick(View view) {
                                     localInfoOp.updateDownload(article.getId(), article.getApp(), 0);
                                     notifyItemChanged(holder.getAdapterPosition());
                                     materialDialog.dismiss();
                                 }
                             });
                         } else {
-                            materialDialog.setPositiveButton(context.getString(R.string.article_download_set), new View.OnClickListener() {
+                            materialDialog.setPositiveButton(context.getString(R.string.article_download_set), new INoDoubleClick() {
                                 @Override
-                                public void onClick(View view) {
+                                public void activeClick(View view) {
                                     context.startActivity(new Intent(context, StudySetActivity.class));
                                     materialDialog.dismiss();
                                 }
                             });
                         }
 
-                        materialDialog.setNegativeButton(context.getString(R.string.article_download_open_still), new View.OnClickListener() {
+                        materialDialog.setNegativeButton(context.getString(R.string.article_download_open_still), new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 materialDialog.dismiss();
                                 onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                             }
@@ -260,8 +256,7 @@ public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,Downloa
         }
         holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
             }
         });
@@ -277,7 +272,8 @@ public class DownloadNewsAdapter extends CoreRecyclerViewAdapter<Article,Downloa
     static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, singer, broadcaster;
-        ImageView pic, noExist;
+        RoundedImageView pic;
+        ImageView noExist;
         RoundProgressBar download;
         CheckBox delete;
 

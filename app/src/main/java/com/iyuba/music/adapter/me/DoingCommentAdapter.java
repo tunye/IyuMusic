@@ -45,8 +45,7 @@ public class DoingCommentAdapter extends CoreRecyclerViewAdapter<DoingComment, D
         holder.doingPhoto.setVipStateVisible(doing.getUid(), doing.getVip() == 1);
         holder.doingPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(doing.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);

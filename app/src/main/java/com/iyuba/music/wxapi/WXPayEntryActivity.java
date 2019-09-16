@@ -3,6 +3,7 @@ package com.iyuba.music.wxapi;
 import android.content.Intent;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -68,9 +69,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     dialog.setMessage("未知错误");
                     break;
             }
-            dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+            dialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
+                public void activeClick(View view) {
                     finish();
                 }
             });

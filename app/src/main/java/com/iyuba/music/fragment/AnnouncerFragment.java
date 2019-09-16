@@ -20,15 +20,12 @@ import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by 10202 on 2016/3/4.
  */
-public class AnnouncerFragment extends BaseRecyclerViewFragment {
-    private List<Announcer> announcerList;
-    private AnnouncerAdapter anouncerAdapter;
+public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
     private AnnouncerOp announcerOp;
 
     @Override
@@ -40,17 +37,17 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        announcerList = new ArrayList<>();
-        anouncerAdapter = new AnnouncerAdapter(context);
-        anouncerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
+        ownerAdapter = new AnnouncerAdapter(context);
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(context, AnnouncerNewsList.class);
-                intent.putExtra("announcer", String.valueOf(announcerList.get(position).getId()));
+                intent.putExtra("announcer", String.valueOf(getData().get(position).getId()));
                 context.startActivity(intent);
             }
         });
-        recyclerView.setAdapter(anouncerAdapter);
+        assembleRecyclerView();
+        swipeRefreshLayout.setEnabled(false);
         setUserVisibleHint(true);
         return view;
     }
@@ -60,24 +57,22 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment {
         super.onViewCreated(view, savedInstanceState);
         disableSwipeLayout();
         if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
-            getData();
+            getNetData();
         }
     }
 
-    private void getData() {
+    @Override
+    public void getNetData() {
         RequestClient.requestAsync(new AnnouncerRequest(), new SimpleRequestCallBack<BaseListEntity<List<Announcer>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Announcer>> result) {
                 StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
-                announcerList = result.getData();
-                announcerOp.saveData(announcerList);
-                anouncerAdapter.setDataSet(announcerList);
+                ownerAdapter.setDataSet(result.getData());
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
-                announcerList = announcerOp.findAll();
-                anouncerAdapter.setDataSet(announcerList);
+                ownerAdapter.setDataSet(announcerOp.findAll());
             }
         });
     }

@@ -88,8 +88,7 @@ public class LoginActivity extends BaseActivity {
         super.setListener();
         login.setOnClickListener(new INoDoubleClick() {
                                      @Override
-                                     public void onClick(View view) {
-                                         super.onClick(view);
+                                     public void activeClick(View view) {
                                          login();
                                      }
                                  }
@@ -112,8 +111,7 @@ public class LoginActivity extends BaseActivity {
         });
         forgetPwd.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhonefp.jsp");
                 intent.putExtra("title", forgetPwd.getText());
@@ -122,8 +120,7 @@ public class LoginActivity extends BaseActivity {
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivityForResult(new Intent(context, RegistActivity.class), 101);
             }
         });
@@ -134,7 +131,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.regist_oper);
+        enableToolbarOper(R.string.regist_oper);
         title.setText(R.string.login_title);
         photo.setAlpha(0);
         loginMsg.setAlpha(0);

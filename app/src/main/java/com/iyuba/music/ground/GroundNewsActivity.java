@@ -11,8 +11,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
@@ -76,9 +76,9 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
     @Override
     public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 try {
                     Uri uri = Uri.parse(downloadAppUrl);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -87,9 +87,9 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
                 } catch (Exception e) {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.app_name).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.app_accept, new OnClickListener() {
+                            setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View v) {
+                                public void activeClick(View view) {
                                     dialog.dismiss();
                                 }
                             });
@@ -121,7 +121,7 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(curNewsType);
-        toolbarOper.setText(R.string.download_app);
+        enableToolbarOper(R.string.download_app);
     }
 
 

@@ -15,7 +15,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.entity.article.SearchHistory;
 import com.iyuba.music.entity.article.SearchHistoryOp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,8 +75,7 @@ public class SearchHistoryAdapter extends BaseAdapter {
         }
         holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 searchHistoryOp.deleteData(histories.get(position).getId());
                 histories.remove(position);
                 notifyDataSetChanged();

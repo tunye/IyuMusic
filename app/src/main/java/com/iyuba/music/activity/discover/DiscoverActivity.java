@@ -10,8 +10,8 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
-import com.iyuba.music.activity.me.FindFriendActivity;
 import com.iyuba.music.activity.me.MessageActivity;
+import com.iyuba.music.activity.me.SearchFriendActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
 import com.iyuba.music.listener.IOperationFinish;
@@ -73,12 +73,12 @@ public class DiscoverActivity extends BaseActivity {
                         break;
                     case 2:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            startActivity(new Intent(context, FindFriendActivity.class));
+                            startActivity(new Intent(context, SearchFriendActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
-                                    startActivity(new Intent(context, FindFriendActivity.class));
+                                    startActivity(new Intent(context, SearchFriendActivity.class));
                                 }
                             });
                         }

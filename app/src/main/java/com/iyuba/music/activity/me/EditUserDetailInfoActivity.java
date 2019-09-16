@@ -26,6 +26,7 @@ import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.MostDetailInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.EditUserInfoRequest;
@@ -113,8 +114,7 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         super.setListener();
         changeImageLayout.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
 
                 Intent intent = new Intent(context, ChangePhotoActivity.class);
                 startActivity(intent);
@@ -123,22 +123,19 @@ public class EditUserDetailInfoActivity extends BaseActivity {
 
         gender.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 popGenderDialog();
             }
         });
         birthday.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 popBirthDialog();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 toolbarOper.setClickable(false);
                 String city = location.getText().toString();
                 city = city.trim();
@@ -186,20 +183,17 @@ public class EditUserDetailInfoActivity extends BaseActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                RequestClient.requestAsync(new EditUserInfoRequest(AccountManager.getInstance().getUserId(), key, value), new SimpleRequestCallBack<String>() {
+                RequestClient.requestAsync(new EditUserInfoRequest(AccountManager.getInstance().getUserId(), key, value), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(String result) {
+                    public void onSuccess(BaseApiEntity<String> result) {
                         toolbarOper.setClickable(true);
-                        if (result.equals("221")) {
-                            CustomToast.getInstance().showToast(R.string.person_detail_success);
-                            EditUserDetailInfoActivity.this.finish();
-                        } else {
-                            CustomToast.getInstance().showToast(R.string.person_detail_fail);
-                        }
+                        CustomToast.getInstance().showToast(R.string.person_detail_success);
+                        EditUserDetailInfoActivity.this.finish();
                     }
 
                     @Override
                     public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                        toolbarOper.setClickable(true);
                         CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                     }
                 });
@@ -211,7 +205,7 @@ public class EditUserDetailInfoActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.person_detail_title);
-        toolbarOper.setText(R.string.person_detail_submit);
+        enableToolbarOper(R.string.person_detail_submit);
         waitingDialog.show();
         getAddr();
     }
@@ -289,8 +283,7 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         genderDialog.setContentView(root);
         genderDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 genderDialog.dismiss();
             }
         });

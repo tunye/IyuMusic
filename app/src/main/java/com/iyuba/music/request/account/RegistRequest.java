@@ -3,6 +3,8 @@ package com.iyuba.music.request.account;
 import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.Request;
@@ -35,6 +37,17 @@ public class RegistRequest extends Request<BaseApiEntity<Integer>> {
         BaseApiEntity<Integer> baseApiEntity = new BaseApiEntity<>();
         baseApiEntity.setData(jsonObject.getInteger("result"));
         baseApiEntity.setMessage(jsonObject.getString("message"));
+        if (baseApiEntity.getData() == 111) {
+            baseApiEntity.setState(BaseApiEntity.SUCCESS);
+        } else if (baseApiEntity.getData() == 112) {
+            baseApiEntity.setState(BaseApiEntity.FAIL);
+            baseApiEntity.setMessage(RuntimeManager.getInstance().getString(R.string.regist_userid_same));
+        } else if (baseApiEntity.getData() == 113) {
+            baseApiEntity.setState(BaseApiEntity.FAIL);
+            baseApiEntity.setMessage(RuntimeManager.getInstance().getString(R.string.regist_email_same));
+        } else {
+            baseApiEntity.setState(BaseApiEntity.ERROR);
+        }
         return baseApiEntity;
     }
 }

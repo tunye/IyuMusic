@@ -17,6 +17,7 @@ import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.me.DoingCommentAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Doing;
 import com.iyuba.music.entity.doings.DoingComment;
@@ -197,18 +198,14 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
         if (TextUtils.isEmpty(selectComment.getGrade())) {
             selectComment.setGrade("1");
         }
-        RequestClient.requestAsync(new SendDoingCommentRequest(selectComment, doing, fromUid, fromMessage), new SimpleRequestCallBack<String>() {
+        RequestClient.requestAsync(new SendDoingCommentRequest(selectComment, doing, fromUid, fromMessage), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onSuccess(String resultCode) {
-                if (resultCode.equals("361")) {
-                    ownerAdapter.addData(0, selectComment);
-                    if (noComment.isShown()) {
-                        noComment.setVisibility(View.GONE);
-                    }
-                    commentView.clearText();
-                } else {
-                    CustomToast.getInstance().showToast(R.string.message_send_fail);
+            public void onSuccess(BaseApiEntity<String> resultCode) {
+                ownerAdapter.addData(0, selectComment);
+                if (noComment.isShown()) {
+                    noComment.setVisibility(View.GONE);
                 }
+                commentView.clearText();
             }
 
             @Override

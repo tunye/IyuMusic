@@ -18,6 +18,7 @@ import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.RoundedImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
@@ -93,8 +94,7 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
         final int pos = holder.getAdapterPosition();
         holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (delete) {
                     holder.delete.setChecked(!holder.delete.isChecked());
                     getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
@@ -110,9 +110,13 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
         holder.title.setText(article.getTitle());
         if ("209".equals(article.getApp()) && !"401".equals(article.getCategory())) {
             holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
+            holder.singer.setMaxLines(1);
+            holder.broadcaster.setVisibility(View.VISIBLE);
             holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         } else {
             holder.singer.setText(article.getContent());
+            holder.singer.setMaxLines(2);
+            holder.broadcaster.setVisibility(View.GONE);
         }
         holder.time.setText(article.getTime().split(" ")[0]);
         switch (type) {
@@ -121,10 +125,11 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
                 break;
             case 1:
                 try {
-                    holder.readCount.setText(DateFormat.showTime(context, DateFormat.parseTime(article.getExpireContent())));
+                    holder.time.setText(DateFormat.showTime(context, DateFormat.parseTime(article.getExpireContent())));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                holder.readCount.setVisibility(View.GONE);
                 break;
             case 2:
                 holder.broadcaster.setVisibility(View.GONE);
@@ -197,16 +202,14 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
         }
         holder.delete.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 getDatas().get(holder.getAdapterPosition()).setDelete(holder.delete.isChecked());
             }
         });
         holder.delete.setChecked(article.isDelete());
         holder.downloadFlag.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (DownloadTask.checkFileExists(article)) {
                     onRecycleViewItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
                 } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -250,7 +253,8 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
     static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, singer, broadcaster, time, readCount;
-        ImageView pic, downloadFlag;
+        RoundedImageView pic;
+        ImageView downloadFlag;
         CheckBox delete;
         View timeBackground;
         RoundProgressBar download;

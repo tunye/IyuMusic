@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 import java.util.List;
 
@@ -29,6 +30,11 @@ public class ArticleOp extends BaseEntityOp<Article> {
 
     public ArticleOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     public void saveItemImpl(Article article) {

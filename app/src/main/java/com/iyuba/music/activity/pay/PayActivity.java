@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
@@ -26,6 +27,7 @@ import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.AliPay;
 import com.iyuba.music.request.account.WxPay;
 import com.iyuba.music.util.ParameterUrl;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -94,21 +96,21 @@ public class PayActivity extends BaseActivity {
     @Override
     public void setListener() {
         super.setListener();
-        wxView.setOnClickListener(new View.OnClickListener() {
+        wxView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 showWxSelect();
             }
         });
-        baoView.setOnClickListener(new View.OnClickListener() {
+        baoView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 showBaoSelect();
             }
         });
-        View.OnClickListener payListener = new View.OnClickListener() {
+        View.OnClickListener payListener = new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 pay();
             }
         };
@@ -144,7 +146,7 @@ public class PayActivity extends BaseActivity {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.pay_detail_title);
-        toolbarOper.setText(R.string.pay_detail_oper);
+        enableToolbarOper(R.string.pay_detail_oper);
         username.setText(AccountManager.getInstance().getUserInfo().getUsername());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
@@ -159,17 +161,12 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onSuccess(BaseApiEntity<PayReq> payReqBaseApiEntity) {
                 waitingDialog.dismiss();
-                if (BaseApiEntity.isSuccess(payReqBaseApiEntity)) {
-                    PayReq req = payReqBaseApiEntity.getData();
-                    msgApi.sendReq(req);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
-                }
+                msgApi.sendReq(payReqBaseApiEntity.getData());
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 waitingDialog.dismiss();
             }
         });
@@ -183,29 +180,25 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onSuccess(BaseApiEntity<String> baseApiEntity) {
                 waitingDialog.dismiss();
-                if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                    final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()
-                            + "\"&" + "sign_type=\"RSA\"";
-                    Runnable payRunnable = new Runnable() {
+                final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()
+                        + "\"&" + "sign_type=\"RSA\"";
+                Runnable payRunnable = new Runnable() {
 
-                        @Override
-                        public void run() {
-                            // 构造PayTask 对象
-                            PayTask alipay = new PayTask(PayActivity.this);
-                            // 调用支付接口，获取支付结果
-                            String result = alipay.pay(payInfo, true);
-                            handler.obtainMessage(0, result).sendToTarget();
-                        }
-                    };
-                    ThreadPoolUtil.getInstance().execute(payRunnable);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
-                }
+                    @Override
+                    public void run() {
+                        // 构造PayTask 对象
+                        PayTask alipay = new PayTask(PayActivity.this);
+                        // 调用支付接口，获取支付结果
+                        String result = alipay.pay(payInfo, true);
+                        handler.obtainMessage(0, result).sendToTarget();
+                    }
+                };
+                ThreadPoolUtil.getInstance().execute(payRunnable);
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfo) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfo));
                 waitingDialog.dismiss();
             }
         });
@@ -226,9 +219,9 @@ public class PayActivity extends BaseActivity {
                         AccountManager.getInstance().setUserInfo(userInfo);
                         final MyMaterialDialog dialog = new MyMaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
-                        dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                        dialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 dialog.dismiss();
                                 activity.setResult(RESULT_OK);
                                 activity.finish();

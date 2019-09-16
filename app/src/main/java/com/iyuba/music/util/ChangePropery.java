@@ -1,10 +1,10 @@
 package com.iyuba.music.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 
 import com.buaa.ct.core.manager.ImmersiveManager;
@@ -18,8 +18,8 @@ import java.util.Locale;
  */
 public class ChangePropery {
     public static void setAppConfig(Activity activity) {
-        ChangePropery.updateNightMode(activity, ConfigManager.getInstance().isNight());
-        ChangePropery.updateLanguageMode(activity, ConfigManager.getInstance().getLanguage());
+        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
         activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         ImmersiveManager.getInstance().updateImmersiveStatus(activity);
     }
@@ -28,15 +28,11 @@ public class ChangePropery {
         Resources resources = RuntimeManager.getInstance().getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
-        config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
-        config.uiMode |= on ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO;
-        resources.updateConfiguration(config, dm);
-    }
-
-    public static void updateNightMode(Context context, boolean on) {
-        Resources resources = context.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        Configuration config = resources.getConfiguration();
+        if (on) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
         config.uiMode |= on ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO;
         resources.updateConfiguration(config, dm);
@@ -44,14 +40,6 @@ public class ChangePropery {
 
     public static void updateLanguageMode(int languageType) {
         Resources resources = RuntimeManager.getInstance().getContext().getResources();
-        Configuration config = resources.getConfiguration();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        changeLanguage(languageType, config);
-        resources.updateConfiguration(config, dm);
-    }
-
-    public static void updateLanguageMode(Context context, int languageType) {
-        Resources resources = context.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
         changeLanguage(languageType, config);

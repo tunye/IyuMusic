@@ -19,6 +19,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
 import com.iyuba.music.util.Utils;
@@ -53,15 +54,13 @@ public class WriteStateActivity extends BaseActivity {
     public void setListener() {
         back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 finish();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 submit();
             }
         });
@@ -70,7 +69,7 @@ public class WriteStateActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.state_send);
+        enableToolbarOper(R.string.state_send);
         title.setText(R.string.state_title);
         emojiView.setmEtText(content);
     }
@@ -86,11 +85,11 @@ public class WriteStateActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waitingDialog.show();
             String uid = AccountManager.getInstance().getUserId();
-            RequestClient.requestAsync(new WriteStateRequest(uid, AccountManager.getInstance().getUserInfo().getUsername(), content.getEditableText().toString()), new SimpleRequestCallBack<String>() {
+            RequestClient.requestAsync(new WriteStateRequest(uid, AccountManager.getInstance().getUserInfo().getUsername(), content.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                 @Override
-                public void onSuccess(String result) {
+                public void onSuccess(BaseApiEntity<String> result) {
                     waitingDialog.dismiss();
-                    if ("351".equals(result)) {
+                    if (BaseApiEntity.isSuccess(result)) {
                         AccountManager.getInstance().getUserInfo().setText(content.getEditableText().toString());
                         YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
                             @Override

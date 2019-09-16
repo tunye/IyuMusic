@@ -35,8 +35,7 @@ public class MaterialEdittextMainActivity extends BaseActivity {
         final Button enableBt = findViewById(R.id.enableBt);
         enableBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 basicEt.setEnabled(!basicEt.isEnabled());
                 enableBt.setText(basicEt.isEnabled() ? "DISABLE" : "ENABLE");
             }
@@ -53,24 +52,21 @@ public class MaterialEdittextMainActivity extends BaseActivity {
         final Button setErrorBt = findViewById(R.id.setErrorBt);
         setErrorBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 bottomTextEt.setError("1-line Error!");
             }
         });
         final Button setError2Bt = findViewById(R.id.setError2Bt);
         setError2Bt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 bottomTextEt.setError("2-line\nError!");
             }
         });
         final Button setError3Bt = findViewById(R.id.setError3Bt);
         setError3Bt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 bottomTextEt.setError("So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors!");
             }
         });
@@ -82,8 +78,7 @@ public class MaterialEdittextMainActivity extends BaseActivity {
         final Button validateBt = findViewById(R.id.validateBt);
         validateBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 // validate
                 validationEt.validate();
             }

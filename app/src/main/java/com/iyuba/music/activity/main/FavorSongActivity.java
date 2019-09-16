@@ -3,7 +3,6 @@ package com.iyuba.music.activity.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
@@ -43,7 +42,6 @@ import java.util.List;
 public class FavorSongActivity extends BaseListActivity<Article> {
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
-    private TextView toolBarOperSub;
     private IyubaDialog waittingDialog;
 
     @Override
@@ -62,7 +60,6 @@ public class FavorSongActivity extends BaseListActivity<Article> {
     public void initWidget() {
         super.initWidget();
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.article_fav_synchroing));
-        toolBarOperSub = findViewById(R.id.toolbar_oper_sub);
         swipeRefreshLayout.setEnabled(false);
         owner = findViewById(R.id.recyclerview_widget);
         ownerAdapter = new SimpleNewsAdapter(context, 1);
@@ -87,17 +84,16 @@ public class FavorSongActivity extends BaseListActivity<Article> {
             }
 
         });
-       assembleRecyclerView();
+        assembleRecyclerView();
     }
 
     @Override
     public void setListener() {
         super.setListener();
-        toolBarOperSub.setOnClickListener(new INoDoubleClick() {
+        toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                if (toolBarOperSub.getText().equals(getString(R.string.article_synchro))) {
+            public void activeClick(View view) {
+                if (toolbarOperSub.getText().equals(getString(R.string.article_synchro))) {
                     if (AccountManager.getInstance().checkUserLogin()) {
                         getYunFavor();
                     } else {
@@ -115,16 +111,15 @@ public class FavorSongActivity extends BaseListActivity<Article> {
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (toolbarOper.getText().equals(context.getString(R.string.article_edit))) {
                     ((SimpleNewsAdapter) ownerAdapter).setDelete(true);
-                    toolbarOper.setText(R.string.app_del);
-                    toolBarOperSub.setText(R.string.article_select_all);
+                    enableToolbarOper(R.string.app_del);
+                    toolbarOperSub.setText(R.string.article_select_all);
                 } else {
                     ((SimpleNewsAdapter) ownerAdapter).setDelete(false);
-                    toolbarOper.setText(R.string.article_edit);
-                    toolBarOperSub.setText(R.string.article_synchro);
+                    enableToolbarOper(R.string.article_edit);
+                    toolbarOperSub.setText(R.string.article_synchro);
                     List<Article> datas = new ArrayList<>(getData());
                     Article temp;
                     for (Iterator<Article> it = datas.iterator(); it.hasNext(); ) {
@@ -147,8 +142,8 @@ public class FavorSongActivity extends BaseListActivity<Article> {
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.classify_favor);
-        toolBarOperSub.setText(R.string.article_synchro);
-        toolbarOper.setText(R.string.article_edit);
+        enableToolbarOper(R.string.article_edit);
+        enableToolbarOperSub(R.string.article_synchro);
     }
 
     public void onActivityResumed() {
@@ -192,8 +187,8 @@ public class FavorSongActivity extends BaseListActivity<Article> {
     public void onBackPressed() {
         if (((SimpleNewsAdapter) ownerAdapter).isDelete()) {
             ((SimpleNewsAdapter) ownerAdapter).setDelete(false);
-            toolbarOper.setText(R.string.article_edit);
-            toolBarOperSub.setText(R.string.article_synchro);
+            enableToolbarOper(R.string.article_edit);
+            toolbarOperSub.setText(R.string.article_synchro);
         } else {
             super.onBackPressed();
         }

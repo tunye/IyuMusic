@@ -78,8 +78,7 @@ public class WordSearchActivity extends BaseSkinActivity {
     public void setListener() {
         search.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
                 if (search.getText().equals(context.getString(R.string.search_do))) {

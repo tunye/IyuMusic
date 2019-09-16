@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.AddRippleEffect;
 import com.iyuba.music.R;
 import com.iyuba.music.widget.textview.JustifyTextView;
@@ -126,11 +127,6 @@ public class MyMaterialDialog {
         mAlertDialog.dismiss();
     }
 
-    private int dip2px(float dpValue) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
     public MyMaterialDialog setTitle(int resId) {
         mTitleResId = resId;
         if (mBuilder != null) {
@@ -138,7 +134,6 @@ public class MyMaterialDialog {
         }
         return this;
     }
-
 
     public MyMaterialDialog setTitle(CharSequence title) {
         mTitle = title;
@@ -416,7 +411,7 @@ public class MyMaterialDialog {
             button.setText(text);
             button.setGravity(Gravity.CENTER);
             button.setTextSize(14);
-            button.setPadding(dip2px(12), 0, dip2px(32), dip2px(BUTTON_BOTTOM));
+            button.setPadding(RuntimeManager.getInstance().dip2px(12), 0, RuntimeManager.getInstance().dip2px(32), RuntimeManager.getInstance().dip2px(BUTTON_BOTTOM));
             button.setOnClickListener(listener);
             mButtonLayout.addView(button);
         }
@@ -437,10 +432,10 @@ public class MyMaterialDialog {
             button.setTextColor(Color.argb(222, 0, 0, 0));
             button.setTextSize(14);
             button.setGravity(Gravity.CENTER);
-            button.setPadding(0, 0, 0, dip2px(8));
+            button.setPadding(0, 0, 0, RuntimeManager.getInstance().dip2px(8));
             button.setOnClickListener(listener);
             if (mButtonLayout.getChildCount() > 0) {
-                params.setMargins(20, 0, 10, dip2px(BUTTON_BOTTOM));
+                params.setMargins(20, 0, 10, RuntimeManager.getInstance().dip2px(BUTTON_BOTTOM));
                 button.setLayoutParams(params);
                 mButtonLayout.addView(button, 1);
             } else {

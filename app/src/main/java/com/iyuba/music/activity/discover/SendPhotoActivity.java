@@ -26,6 +26,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.eggshell.meizhi.LocalPhotoActivity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -84,15 +85,13 @@ public class SendPhotoActivity extends BaseActivity {
         super.setListener();
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 submit();
             }
         });
         photo.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (images.size() == 0) {
                     ImageSelectorActivity.start(SendPhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, true, true, false);
                 } else {
@@ -107,7 +106,7 @@ public class SendPhotoActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.state_send);
+        enableToolbarOper(R.string.state_send);
         title.setText(R.string.photo_title);
         emojiView.setmEtText(content);
         photo.setImageResource(R.drawable.circle_photo_add);
@@ -125,11 +124,11 @@ public class SendPhotoActivity extends BaseActivity {
             waittingDialog.show();
             if (images.size() == 0) {
                 RequestClient.requestAsync(new WriteStateRequest(AccountManager.getInstance().getUserId(), AccountManager.getInstance().getUserInfo().getUsername(),
-                        content.getEditableText().toString()), new SimpleRequestCallBack<String>() {
+                        content.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(String s) {
+                    public void onSuccess(BaseApiEntity<String> result) {
                         waittingDialog.dismiss();
-                        if ("351".equals(s)) {
+                        if (BaseApiEntity.isSuccess(result)) {
                             sendFriendCircleSuccess();
                         } else {
                             CustomToast.getInstance().showToast(R.string.photo_fail);
@@ -216,16 +215,14 @@ public class SendPhotoActivity extends BaseActivity {
             materialDialog.setMessage(R.string.photo_exit);
             materialDialog.setPositiveButton(R.string.photo_exit_sure, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     materialDialog.dismiss();
                     SendPhotoActivity.this.finish();
                 }
             });
             materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     materialDialog.dismiss();
                 }
             });

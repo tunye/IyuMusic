@@ -20,6 +20,7 @@ import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.core.view.image.CircleImageView;
 import com.buaa.ct.imageselector.view.ImageCropActivity;
 import com.buaa.ct.imageselector.view.ImageSelectorActivity;
+import com.buaa.ct.imageselector.view.OnlyPreviewActivity;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationResult;
@@ -48,8 +49,7 @@ public class ChangePhotoActivity extends BaseActivity {
     private ContextMenu menu;
     View.OnClickListener ocl = new INoDoubleClick() {
         @Override
-        public void onClick(View view) {
-            super.onClick(view);
+        public void activeClick(View view) {
             menu.show();
         }
     };
@@ -111,9 +111,7 @@ public class ChangePhotoActivity extends BaseActivity {
                 } else if (index == 1) {
                     ImageSelectorActivity.start(ChangePhotoActivity.this, 1, ImageSelectorActivity.MODE_SINGLE, false, true, true);
                 } else if (index == 2) {
-//                    Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-//                    intent.putExtra("url", "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId());
-//                    context.startActivity(intent);
+                    OnlyPreviewActivity.startPreview(context, "http://api.iyuba.com.cn/v2/api.iyuba?protocol=10005&size=big&uid=" + AccountManager.getInstance().getUserId());
                 }
             }
         });
@@ -137,8 +135,7 @@ public class ChangePhotoActivity extends BaseActivity {
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             100);
                     materialDialog.dismiss();
@@ -150,8 +147,7 @@ public class ChangePhotoActivity extends BaseActivity {
             materialDialog.setMessage(R.string.storage_permission_content);
             materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     ActivityCompat.requestPermissions(ChangePhotoActivity.this, new String[]{Manifest.permission.CAMERA},
                             101);
                     materialDialog.dismiss();
@@ -229,8 +225,7 @@ public class ChangePhotoActivity extends BaseActivity {
                     CustomToast.getInstance().showToast(R.string.changephoto_success);
                     CustomSnackBar.make(activity.root, activity.getString(R.string.changephoto_intro)).info(activity.getString(R.string.credit_check), new INoDoubleClick() {
                         @Override
-                        public void onClick(View view) {
-                            super.onClick(view);
+                        public void activeClick(View view) {
                             activity.startActivity(new Intent(activity, CreditActivity.class));
                         }
                     });

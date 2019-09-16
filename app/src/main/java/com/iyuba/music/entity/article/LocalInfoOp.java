@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.DateFormat;
 
 import java.util.Calendar;
@@ -26,6 +27,11 @@ public class LocalInfoOp extends BaseEntityOp<LocalInfo> {
 
     public LocalInfoOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class HistoryLoginOp extends BaseEntityOp<HistoryLogin> {
         super();
     }
 
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
+    }
 
     @Override
     public void saveItemImpl(HistoryLogin historyLogin) {

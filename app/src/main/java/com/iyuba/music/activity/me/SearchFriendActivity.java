@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
@@ -26,8 +27,7 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.FriendRequest;
 import com.iyuba.music.util.Utils;
-import com.iyuba.music.widget.dialog.IyubaDialog;
-import com.iyuba.music.widget.dialog.WaitingDialog;
+import com.iyuba.music.widget.recycleview.ListRequestAllState;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -36,11 +36,11 @@ import java.util.List;
 /**
  * Created by 10202 on 2016/3/2.
  */
-public class FindFriendActivity extends BaseListActivity<Friend> {
+public class SearchFriendActivity extends BaseListActivity<Friend> {
     private View search;
     private RoundLinearLayout searchLayout;
     private MaterialEditText searchContent;
-    private IyubaDialog waittingDialog;
+    private ListRequestAllState requestAllState;
 
     @Override
     public int getLayoutId() {
@@ -65,7 +65,8 @@ public class FindFriendActivity extends BaseListActivity<Friend> {
         search = findViewById(R.id.friend_search);
         searchLayout = findViewById(R.id.search_layout);
         searchContent = findViewById(R.id.search_content);
-        waittingDialog = WaitingDialog.create(context, context.getString(R.string.friend_finding));
+        requestAllState = findViewById(R.id.list_request_all_state);
+        requestAllState.setLoadingShowContent(R.string.friend_finding);
     }
 
     @Override
@@ -73,51 +74,36 @@ public class FindFriendActivity extends BaseListActivity<Friend> {
         super.setListener();
         search.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
-                if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
-                    YoYo.with(Techniques.Shake).duration(500).playOn(searchLayout);
-                    CustomToast.getInstance().showToast(R.string.search_word_null);
-                } else {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-                    onRefresh(0);
-                    waittingDialog.show();
-                }
+            public void activeClick(View view) {
+                doSearch();
             }
         });
         searchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
-                    YoYo.with(Techniques.Shake).duration(500).playOn(searchLayout);
-                    CustomToast.getInstance().showToast(R.string.search_word_null);
-                } else {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
-                    onRefresh(0);
-                    waittingDialog.show();
-                }
+                doSearch();
                 return true;
             }
         });
+    }
+
+    public void doSearch() {
+        if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
+            YoYo.with(Techniques.Shake).duration(500).playOn(searchLayout);
+            CustomToast.getInstance().showToast(R.string.friend_find_empty_string);
+        } else {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchContent.getWindowToken(), 0);
+            onRefresh(0);
+            requestAllState.startLoad();
+        }
     }
 
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
         title.setText(R.string.friend_find);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), 0);
-        }
     }
 
     public @StringRes
@@ -130,20 +116,26 @@ public class FindFriendActivity extends BaseListActivity<Friend> {
         RequestClient.requestAsync(new FriendRequest(AccountManager.getInstance().getUserId(), FriendRequest.SEARCH_REQUEST_CODE, searchContent.getEditableText().toString(), curPage), new SimpleRequestCallBack<BaseListEntity<List<Friend>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Friend>> listEntity) {
+                requestAllState.loadSuccess();
+                onNetDataReturnSuccess(listEntity.getData());
                 isLastPage = listEntity.isLastPage();
                 if (!isLastPage && curPage != 1) {
-                    CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), 800);
-                }
-                if (!BaseListEntity.isSuccess(listEntity)) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    CustomToast.getInstance().showToast(R.string.friend_find_error);
-                } else {
-                    onNetDataReturnSuccess(listEntity.getData());
+                    CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), Toast.LENGTH_SHORT);
+                } else if (isLastPage && curPage == 1) {
+                    requestAllState.show(new ErrorInfoWrapper(ErrorInfoWrapper.EMPTY_ERROR), null);
                 }
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                if (curPage == 1) {
+                    requestAllState.show(errorInfoWrapper, new ListRequestAllState.ListRequestListener() {
+                        @Override
+                        public void retryClick() {
+                            getNetData();
+                        }
+                    });
+                }
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 swipeRefreshLayout.setRefreshing(false);
             }

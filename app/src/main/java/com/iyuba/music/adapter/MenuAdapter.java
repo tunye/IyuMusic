@@ -13,16 +13,17 @@ import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
 public class MenuAdapter extends BaseAdapter {
-    private ArrayList<String> menuList;
+    private List<String> menuList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;
 
-    public MenuAdapter(Context context, ArrayList<String> menuList) {
+    public MenuAdapter(Context context, List<String> menuList) {
         this.context = context;
         this.menuList = menuList;
     }
@@ -63,8 +64,7 @@ public class MenuAdapter extends BaseAdapter {
             if (onRecycleViewItemClickListener != null) {
                 holder.rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
-                        super.onClick(view);
+                    public void activeClick(View view) {
                         onRecycleViewItemClickListener.onItemClick(view, position);
                     }
                 });

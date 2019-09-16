@@ -3,6 +3,8 @@ package com.iyuba.music.request.account;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.ConstantManager;
@@ -57,7 +59,7 @@ public class LoginRequest extends Request<BaseApiEntity<UserInfo>> {
                             if (result.equals("101")) {
                                 apiEntity.setState(BaseApiEntity.SUCCESS);
                             } else {
-                                apiEntity.setState(BaseApiEntity.FAIL);
+                                return null;
                             }
                         }
                         if ("uid".equals(nodeName)) {
@@ -106,10 +108,10 @@ public class LoginRequest extends Request<BaseApiEntity<UserInfo>> {
                         if ("response".equals(nodeName)) {
                             if (!TextUtils.isEmpty(userInfo.getUid())) {
                                 apiEntity.setData(userInfo);
-                            } else if (apiEntity.getState() == BaseApiEntity.SUCCESS) {
-                                apiEntity.setState(BaseApiEntity.ERROR);
+                                return apiEntity;
+                            } else {
+                                return null;
                             }
-                            return apiEntity;
                         }
                         break;
                 }
@@ -118,5 +120,10 @@ public class LoginRequest extends Request<BaseApiEntity<UserInfo>> {
             // do nothing
         }
         return null;
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        return RuntimeManager.getInstance().getString(R.string.login_fail);
     }
 }

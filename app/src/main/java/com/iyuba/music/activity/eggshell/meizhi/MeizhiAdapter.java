@@ -1,6 +1,7 @@
 package com.iyuba.music.activity.eggshell.meizhi;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,15 @@ public class MeizhiAdapter extends CoreRecyclerViewAdapter<Meizhi, MeizhiAdapter
         super(context);
     }
 
+    @NonNull
     @Override
-    public MeizhiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MeizhiViewHolder(LayoutInflater.from(context).inflate(R.layout.item_meizhi,
-                parent, false));
+    public MeizhiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MeizhiViewHolder(LayoutInflater.from(context).inflate(R.layout.item_meizhi, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MeizhiViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MeizhiViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -41,9 +43,9 @@ public class MeizhiAdapter extends CoreRecyclerViewAdapter<Meizhi, MeizhiAdapter
 
     static class MeizhiViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
+        static final float[] ratio = {16f / 9, 17f / 9, 15f / 9};
         TextView desc;
         RatioImageView pic;
-        static final float[] ratio = {16f / 9, 18f / 9, 14f / 9};
 
         MeizhiViewHolder(View view) {
             super(view);

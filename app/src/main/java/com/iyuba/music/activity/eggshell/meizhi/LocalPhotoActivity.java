@@ -36,15 +36,13 @@ public class LocalPhotoActivity extends BaseActivity {
         super.setListener();
         photoView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 finish();
             }
         });
         toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 setResult(1, intent);
                 LocalPhotoActivity.this.finish();
@@ -55,7 +53,7 @@ public class LocalPhotoActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        toolbarOper.setText(R.string.file_delete);
+        enableToolbarOper(R.string.file_delete);
         File target = new File(getIntent().getStringExtra(LocalPhotoActivity.EXTRA_IAMGE_URL));
         photoView.setImageURI(Uri.fromFile(target));
     }

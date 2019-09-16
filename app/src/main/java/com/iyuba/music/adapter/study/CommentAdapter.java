@@ -20,11 +20,11 @@ import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.core.view.MaterialRippleLayout;
-import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.entity.comment.CommentAgreeOp;
 import com.iyuba.music.listener.IOperationFinish;
@@ -84,8 +84,7 @@ public class CommentAdapter extends CoreRecyclerViewAdapter<Comment, CommentAdap
             viewHolder.voice.setVisibility(View.VISIBLE);
             viewHolder.voiceImg.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     if (player.isPlaying()) {
                         player.pause();
                         player.reset();
@@ -137,20 +136,16 @@ public class CommentAdapter extends CoreRecyclerViewAdapter<Comment, CommentAdap
         }
         viewHolder.agreeView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    RequestClient.requestAsync(new CommentAgreeRequest(61001, comment.getId()), new SimpleRequestCallBack<String>() {
+                    RequestClient.requestAsync(new CommentAgreeRequest(CommentAgreeRequest.AGREE_PROTOCOL,
+                            comment.getId()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                         @Override
-                        public void onSuccess(String resultCode) {
-                            if (resultCode.equals("001")) {
-                                commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "agree");
-                                comment.setAgreeCount(comment.getAgreeCount() + 1);
-                                YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.agreeCount);
-                                notifyItemChanged(viewHolder.getAdapterPosition());
-                            } else if (resultCode.equals("000")) {
-                                CustomToast.getInstance().showToast(R.string.comment_agree_fail);
-                            }
+                        public void onSuccess(BaseApiEntity<String> resultCode) {
+                            commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "agree");
+                            comment.setAgreeCount(comment.getAgreeCount() + 1);
+                            YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.agreeCount);
+                            notifyItemChanged(viewHolder.getAdapterPosition());
                         }
 
                         @Override
@@ -165,20 +160,16 @@ public class CommentAdapter extends CoreRecyclerViewAdapter<Comment, CommentAdap
         });
         viewHolder.againstView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (commentAgreeOp.findDataByAll(String.valueOf(comment.getId()), uid) == 0) {
-                    RequestClient.requestAsync(new CommentAgreeRequest(61002, comment.getId()), new SimpleRequestCallBack<String>() {
+                    RequestClient.requestAsync(new CommentAgreeRequest(CommentAgreeRequest.DISAGREE_PROTOCOL
+                            , comment.getId()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                         @Override
-                        public void onSuccess(String resultCode) {
-                            if (resultCode.equals("001")) {
-                                commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "against");
-                                comment.setAgainstCount(comment.getAgainstCount() + 1);
-                                YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.againstCount);
-                                notifyItemChanged(viewHolder.getAdapterPosition());
-                            } else if (resultCode.equals("000")) {
-                                CustomToast.getInstance().showToast(R.string.comment_against_fail);
-                            }
+                        public void onSuccess(BaseApiEntity<String> resultCode) {
+                            commentAgreeOp.saveData(String.valueOf(comment.getId()), uid, "against");
+                            comment.setAgainstCount(comment.getAgainstCount() + 1);
+                            YoYo.with(Techniques.FadeIn).duration(250).playOn(viewHolder.againstCount);
+                            notifyItemChanged(viewHolder.getAdapterPosition());
                         }
 
                         @Override
@@ -193,8 +184,7 @@ public class CommentAdapter extends CoreRecyclerViewAdapter<Comment, CommentAdap
         });
         viewHolder.pic.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     SocialManager.getInstance().pushFriendId(comment.getUserid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);

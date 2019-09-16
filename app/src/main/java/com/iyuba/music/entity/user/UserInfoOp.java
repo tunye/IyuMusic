@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 /**
  * Created by 10202 on 2015/11/18.
@@ -28,6 +29,11 @@ public class UserInfoOp extends BaseEntityOp<UserInfo> {
 
     public UserInfoOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     @Override

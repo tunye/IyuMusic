@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 import com.iyuba.music.util.DateFormat;
 
 import java.util.Calendar;
@@ -20,6 +21,11 @@ public class SearchHistoryOp extends BaseEntityOp<SearchHistory> {
 
     public SearchHistoryOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     public void saveData(String content) {

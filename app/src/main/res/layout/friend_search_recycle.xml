@@ -5,29 +5,30 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
             android:background="#8e8e8e"
             android:padding="@dimen/row_space_medium">
 
-            <com.iyuba.music.widget.roundview.RoundLinearLayout
+            <com.iyuba.music.widget.roundview.RoundFrameLayout
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_toStartOf="@+id/friend_search"
+                android:layout_marginEnd="60dp"
                 android:paddingStart="@dimen/row_space_large"
+                android:paddingEnd="@dimen/row_space_default"
                 app:rv_backgroundColor="#dcdcdc"
                 app:rv_cornerRadius="@dimen/corner_radius_small">
 
@@ -35,20 +36,18 @@
                     android:id="@+id/search_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="bottom"
                     android:hint="@string/search_word_hint"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
                     app:met_primaryColor="@color/skin_app_color" />
-            </com.iyuba.music.widget.roundview.RoundLinearLayout>
+            </com.iyuba.music.widget.roundview.RoundFrameLayout>
 
             <com.buaa.ct.core.view.MaterialRippleLayout
                 android:id="@+id/friend_search"
                 android:layout_width="60dp"
                 android:layout_height="36dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/row_space_medium"
+                android:layout_gravity="end|center_vertical"
                 android:padding="@dimen/row_space_default"
                 app:mrl_rippleColor="@color/toolbar_ripple_color"
                 app:mrl_rippleDuration="300">
@@ -62,21 +61,30 @@
                     android:textColor="@color/textcolor_on_appcolor"
                     android:textSize="@dimen/large_text" />
             </com.buaa.ct.core.view.MaterialRippleLayout>
-        </RelativeLayout>
+        </FrameLayout>
 
-        <com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/swipe_refresh_widget"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/search_bar"
-            myswipe:direction="both">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/friendlist"
+            <com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/swipe_refresh_widget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                myswipe:direction="both">
 
-            </android.support.v7.widget.RecyclerView>
-        </com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout>
-    </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/friendlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout>
+
+            <com.iyuba.music.widget.recycleview.ListRequestAllState
+                android:id="@+id/list_request_all_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </LinearLayout>
 </com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout>

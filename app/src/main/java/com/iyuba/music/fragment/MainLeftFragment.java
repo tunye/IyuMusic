@@ -90,8 +90,7 @@ public class MainLeftFragment extends BaseFragment {
     private void setOnClickListener() {
         login.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
                 intent.putExtra("needpop", true);
@@ -100,36 +99,31 @@ public class MainLeftFragment extends BaseFragment {
         });
         noLogin.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivityForResult(new Intent(context, LoginActivity.class), 101);
             }
         });
         personalPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, ChangePhotoActivity.class));
             }
         });
         about.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 startActivity(new Intent(context, AboutActivity.class));
             }
         });
         exit.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 Utils.getMusicApplication().exit();
             }
         });
         root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 // 防止误触
             }
         });
@@ -190,8 +184,7 @@ public class MainLeftFragment extends BaseFragment {
                                     if ("add".equals(message.toString()) && parent != null && !parent.isDestroyed()) {
                                         CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                                             @Override
-                                            public void onClick(View view) {
-                                                super.onClick(view);
+                                            public void activeClick(View view) {
                                                 startActivity(new Intent(context, CreditActivity.class));
                                             }
                                         });
@@ -263,8 +256,7 @@ public class MainLeftFragment extends BaseFragment {
             getPersonalInfo();
             CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     startActivity(new Intent(context, CreditActivity.class));
                 }
             });
@@ -272,8 +264,7 @@ public class MainLeftFragment extends BaseFragment {
             getPersonalInfo();
             CustomSnackBar.make(root, context.getString(R.string.personal_change_photo)).info(context.getString(R.string.app_accept), new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     startActivity(new Intent(context, ChangePhotoActivity.class));
                 }
             });

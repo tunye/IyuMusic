@@ -44,7 +44,8 @@ public class EggShellAdapter extends CoreRecyclerViewAdapter<String, EggShellAda
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         holder.menuText.setText(getDatas().get(position));
         holder.menuIcon.setImageResource(menuIconList.get(position));
     }

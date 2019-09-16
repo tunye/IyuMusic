@@ -3,6 +3,9 @@ package com.iyuba.music.request.merequest;
 import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.iyuba.music.R;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.doings.Doing;
 import com.iyuba.music.entity.doings.DoingComment;
 import com.iyuba.music.request.Request;
@@ -13,7 +16,7 @@ import com.iyuba.music.util.ParameterUrl;
 /**
  * Created by 10202 on 2015/9/30.
  */
-public class SendDoingCommentRequest extends Request<String> {
+public class SendDoingCommentRequest extends Request<BaseApiEntity<String>> {
     public SendDoingCommentRequest(DoingComment doingComment, Doing doing, String fromUid, String fromMessage) {
         String originalUrl = "http://api.iyuba.com.cn/v2/api.iyuba";
         ArrayMap<String, Object> para = new ArrayMap<>();
@@ -34,7 +37,19 @@ public class SendDoingCommentRequest extends Request<String> {
     }
 
     @Override
-    public String parseJsonImpl(JSONObject jsonObject) {
-        return jsonObject.getString("result");
+    public BaseApiEntity<String> parseJsonImpl(JSONObject jsonObject) {
+        BaseApiEntity<String> baseApiEntity = new BaseApiEntity<>();
+        baseApiEntity.setData(jsonObject.getString("result"));
+        if (baseApiEntity.getData().equals("361")) {
+            baseApiEntity.setState(BaseApiEntity.SUCCESS);
+            return baseApiEntity;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        return RuntimeManager.getInstance().getString(R.string.message_send_fail);
     }
 }

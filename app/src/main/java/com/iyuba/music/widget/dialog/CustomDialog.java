@@ -53,8 +53,7 @@ public class CustomDialog {
         dialog.setMessage(R.string.personal_no_login);
         dialog.setPositiveButton(R.string.login_login, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 LoginActivity.launch(context, new IOperationResult() {
                     @Override
                     public void success(Object object) {
@@ -70,8 +69,7 @@ public class CustomDialog {
         });
         dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -84,16 +82,14 @@ public class CustomDialog {
         dialog.setMessage(R.string.dialog_save_change);
         dialog.setPositiveButton(R.string.dialog_save, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 iOperationResult.success(null);
                 dialog.dismiss();
             }
         });
         dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 iOperationResult.fail(null);
                 dialog.dismiss();
             }
@@ -108,8 +104,7 @@ public class CustomDialog {
         dialog.setMessage(context.getString(R.string.about_update_message, para[0]));
         dialog.setPositiveButton(R.string.about_update_accept, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dialog.dismiss();
                 SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "updateVersion", Integer.parseInt(para[1]));
                 Intent intent = new Intent(context, AboutActivity.class);
@@ -121,8 +116,7 @@ public class CustomDialog {
         });
         dialog.setNegativeButton(R.string.about_update_deny, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 dialog.dismiss();
                 SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "updateVersion", Integer.parseInt(para[1]));
             }
@@ -136,16 +130,14 @@ public class CustomDialog {
         dialog.setMessage(hintCode);
         dialog.setPositiveButton(R.string.article_search_clear_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 result.success(null);
                 dialog.dismiss();
             }
         });
         dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 result.fail(null);
                 dialog.dismiss();
             }

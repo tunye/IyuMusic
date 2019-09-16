@@ -217,6 +217,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.play_mode:
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
@@ -282,9 +285,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 showNoNetDialog();
                 return false;
             } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-                CustomSnackBar.make(root, context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+                CustomSnackBar.make(root, context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         Intent intent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(intent);
                     }
@@ -309,16 +312,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 viewPager.setCurrentItem(2);
                                 materialDialog.dismiss();
                             }
                         });
-                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                        materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 finish();
                             }
                         });
@@ -328,9 +331,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
             if (!findFileFlg) {
-                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         finish();
                     }
                 });
@@ -340,16 +343,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 viewPager.setCurrentItem(2);
                                 materialDialog.dismiss();
                             }
                         });
-                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                        materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 finish();
                             }
                         });
@@ -359,9 +362,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
             if (!findFileFlg) {
-                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         finish();
                     }
                 });
@@ -486,8 +489,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         if (!isDestroyed()) {
             adView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View view) {
-                    super.onClick(view);
+                public void activeClick(View view) {
                     WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
                             "http://app.iyuba.cn/android/" : adEntity.getLoadUrl(), -1);
                 }
@@ -503,8 +505,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                     public void onNativeLoad(final NativeResponse nativeResponse) {
                         adView.setOnClickListener(new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
-                                super.onClick(view);
+                            public void activeClick(View view) {
                                 nativeResponse.handleClick(adView);
                             }
                         });
@@ -645,8 +646,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         materialDialog.setMessage(R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 materialDialog.dismiss();
             }

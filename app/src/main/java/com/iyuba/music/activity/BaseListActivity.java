@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.view.View;
 
-import com.balysv.materialmenu.MaterialMenu;
-import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.buaa.ct.core.activity.CoreBaseListActivity;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.MusicApplication;
@@ -34,23 +32,18 @@ import java.util.List;
  */
 public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
     protected YouDaoRecyclerAdapter mAdAdapter;
-    protected MaterialMenu backIcon;
     protected boolean changeProperty;
     protected boolean mipush;
     protected boolean useYouDaoAd;
-    //有道广告
-    private boolean isVipLastState;
 
     @Override
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
         changeProperty = getIntent().getBooleanExtra(ChangePropertyBroadcast.RESULT_FLAG, false);
         mipush = getIntent().getBooleanExtra("pushIntent", false);
-        isVipLastState = DownloadUtil.checkVip();
         ChangePropery.setAppConfig(this);
         ((MusicApplication) getApplication()).pushActivity(this);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -60,19 +53,8 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
     }
 
     @Override
-    public void initWidget() {
-        super.initWidget();
-    }
-
-    @Override
-    public void onActivityCreated() {
-        super.onActivityCreated();
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
-    }
-
-    @Override
     public void assembleRecyclerView() {
-        if (!isVipLastState && useYouDaoAd) {
+        if (!DownloadUtil.checkVip() && useYouDaoAd) {
             mAdAdapter = new YouDaoRecyclerAdapter(this, ownerAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
             setYouDaoMsg();
             setRecyclerViewProperty(owner);
@@ -144,8 +126,7 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
         materialDialog.setMessage(dialogContent);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
-                super.onClick(view);
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 for (int i = 0; i < codes.length; i++) {
                     permissionDispose(codes[i], permissions[i]);
