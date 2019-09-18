@@ -5,4 +5,8 @@
     android:layout_height="match_parent"
     android:background="#44000000">
 
+    <FrameLayout
+        android:id="@+id/dialog_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </FrameLayout>

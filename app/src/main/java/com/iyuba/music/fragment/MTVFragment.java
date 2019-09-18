@@ -2,8 +2,6 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +44,6 @@ public class MTVFragment extends BaseRecyclerViewFragment<Article> {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        swipeRefreshLayout.setOnRefreshListener(this);
         ownerAdapter = new GroundNewsAdapter(context, false);
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
@@ -59,13 +56,6 @@ public class MTVFragment extends BaseRecyclerViewFragment<Article> {
         });
         assembleRecyclerView();
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.setRefreshing(true);
-        onRefresh(0);
     }
 
     @Override
@@ -83,7 +73,11 @@ public class MTVFragment extends BaseRecyclerViewFragment<Article> {
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = getData().size();
                 getDbData();
+                if (getData().size() != lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

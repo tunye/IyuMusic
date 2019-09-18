@@ -2,6 +2,7 @@ package com.iyuba.music.widget.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class AssessmentDialog implements View.OnClickListener {
         send.setOnClickListener(this);
         retry.setOnClickListener(this);
         listen.setOnClickListener(this);
-        iyubaDialog = new IyubaDialog(context, root, false, 36, new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, false, Gravity.CENTER, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;
@@ -71,6 +72,7 @@ public class AssessmentDialog implements View.OnClickListener {
             case 1:
                 comment = context.getString(R.string.read_grade_d);
                 break;
+            default:
             case 2:
                 comment = context.getString(R.string.read_grade_c);
                 break;
@@ -79,9 +81,6 @@ public class AssessmentDialog implements View.OnClickListener {
                 break;
             case 4:
                 comment = context.getString(R.string.read_grade_a);
-                break;
-            default:
-                comment = context.getString(R.string.read_grade_c);
                 break;
         }
         scoreComment.setText(comment);

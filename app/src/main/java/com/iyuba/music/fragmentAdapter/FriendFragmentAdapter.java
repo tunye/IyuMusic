@@ -22,15 +22,9 @@ public class FriendFragmentAdapter extends FragmentPagerAdapter {
         super(fm);
         this.fm = fm;
         this.list = new ArrayList<>(3);
-        FriendFragment follow = new FriendFragment();
-        follow.setFriendProtocol(FriendRequest.FOLLOW_REQUEST_CODE);
-        FriendFragment fan = new FriendFragment();
-        fan.setFriendProtocol(FriendRequest.FAN_REQUEST_CODE);
-        FriendFragment recommend = new FriendFragment();
-        recommend.setFriendProtocol(FriendRequest.RECOMMEND_REQUEST_CODE);
-        list.add(follow);
-        list.add(fan);
-        list.add(recommend);
+        list.add(FriendFragment.newInstance(FriendRequest.FOLLOW_REQUEST_CODE));
+        list.add(FriendFragment.newInstance(FriendRequest.FAN_REQUEST_CODE));
+        list.add(FriendFragment.newInstance(FriendRequest.RECOMMEND_REQUEST_CODE));
     }
 
     @Override

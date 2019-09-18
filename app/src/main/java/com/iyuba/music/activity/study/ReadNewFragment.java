@@ -16,6 +16,7 @@ import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.CommentAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.comment.Comment;
 import com.iyuba.music.fragment.BaseRecyclerViewFragment;
@@ -121,10 +122,10 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
         materialDialog.setPositiveButton(R.string.comment_del, new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<String>() {
+                RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(String resultCode) {
-                        if (resultCode.equals("1")) {
+                    public void onSuccess(BaseApiEntity<String> resultCode) {
+                        if (BaseApiEntity.isSuccess(resultCode)) {
                             ownerAdapter.removeData(position);
                         } else {
                             CustomToast.getInstance().showToast(R.string.read_del_fail);

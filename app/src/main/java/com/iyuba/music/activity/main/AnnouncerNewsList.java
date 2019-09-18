@@ -38,6 +38,7 @@ import java.util.List;
  * Created by 10202 on 2016/1/2.
  */
 public class AnnouncerNewsList extends BaseListActivity<Article> {
+    public static final String ANNOUNCER = "announcer";
     private Announcer announcer;
     private LocalInfoOp localInfoOp;
     private ArticleOp articleOp;
@@ -45,7 +46,7 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
     @Override
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
-        announcer = new AnnouncerOp().findById(getIntent().getStringExtra("announcer"));
+        announcer = new AnnouncerOp().findById(getIntent().getStringExtra(ANNOUNCER));
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
         useYouDaoAd = true;
@@ -59,11 +60,9 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos(AnnouncerNewsList.this.getClass().getName());
-                StudyManager.getInstance().setSourceArticleList(getData());
-                StudyManager.getInstance().setLesson("music");
+                setStudyList();
                 StudyManager.getInstance().setCurArticle(getData().get(position));
+                StudyManager.getInstance().setStartPlaying(true);
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
         });
@@ -80,7 +79,6 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     SocialManager.getInstance().pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
-                    intent.putExtra("needpop", true);
                     startActivity(intent);
                 } else {
                     CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -88,7 +86,6 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
                         public void finish() {
                             SocialManager.getInstance().pushFriendId(announcer.getUid());
                             Intent intent = new Intent(context, PersonalHomeActivity.class);
-                            intent.putExtra("needpop", true);
                             startActivity(intent);
                         }
                     });
@@ -119,7 +116,11 @@ public class AnnouncerNewsList extends BaseListActivity<Article> {
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = ownerAdapter.getDatas().size();
                 getDbData();
+                if (getData().size() > lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
                 if (AnnouncerNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }

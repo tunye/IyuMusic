@@ -28,6 +28,7 @@ import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.FriendRequest;
 import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.recycleview.ListRequestAllState;
+import com.iyuba.music.widget.roundview.RoundFrameLayout;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -38,7 +39,7 @@ import java.util.List;
  */
 public class SearchFriendActivity extends BaseListActivity<Friend> {
     private View search;
-    private RoundLinearLayout searchLayout;
+    private RoundFrameLayout searchLayout;
     private MaterialEditText searchContent;
     private ListRequestAllState requestAllState;
 
@@ -57,7 +58,6 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
             public void onItemClick(View view, int position) {
                 SocialManager.getInstance().pushFriendId(getData().get(position).getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 startActivity(intent);
             }
         });
@@ -67,6 +67,7 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
         searchContent = findViewById(R.id.search_content);
         requestAllState = findViewById(R.id.list_request_all_state);
         requestAllState.setLoadingShowContent(R.string.friend_finding);
+        requestAllState.setList(owner);
     }
 
     @Override

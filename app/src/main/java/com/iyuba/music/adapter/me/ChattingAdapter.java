@@ -115,7 +115,6 @@ public class ChattingAdapter extends BaseAdapter {
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(message.getAuthorid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         });

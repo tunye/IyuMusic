@@ -229,7 +229,7 @@ public class StudyMore {
                 dismiss();
             }
         });
-        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog = new IyubaDialog(context, root, true);
         iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -247,13 +247,11 @@ public class StudyMore {
             } else {
                 SocialManager.getInstance().pushFriendId(announcer.getUid());
                 intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         } else {
             SocialManager.getInstance().pushFriendId("928");
             intent = new Intent(context, PersonalHomeActivity.class);
-            intent.putExtra("needpop", true);
             context.startActivity(intent);
         }
     }
@@ -276,7 +274,6 @@ public class StudyMore {
                     if (AccountManager.getInstance().checkUserLogin()) {
                         SocialManager.getInstance().pushFriendId(item.getUid());
                         Intent intent = new Intent(context, PersonalHomeActivity.class);
-                        intent.putExtra("needpop", true);
                         context.startActivity(intent);
                     } else {
                         CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -284,7 +281,6 @@ public class StudyMore {
                             public void finish() {
                                 SocialManager.getInstance().pushFriendId(item.getUid());
                                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                                intent.putExtra("needpop", true);
                                 context.startActivity(intent);
                             }
                         });

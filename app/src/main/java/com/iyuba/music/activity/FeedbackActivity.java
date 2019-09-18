@@ -42,13 +42,8 @@ public class FeedbackActivity extends BaseActivity {
     private IyubaDialog waitingDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.feedback);
-        context = this;
-        initWidget();
-        setListener();
-        onActivityCreated();
+    public int getLayoutId() {
+        return R.layout.feedback;
     }
 
     @Override

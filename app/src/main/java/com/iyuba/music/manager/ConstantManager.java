@@ -18,8 +18,10 @@ public class ConstantManager {
     public static final String oldSoundUrl = "http://static2.iyuba.cn/go/musichigh/";
     public static final String oldSoundVipUrl = "http://staticvip2.iyuba.cn/go/musichigh/";
     public static final String appId = "209";
+    public static final String localMusicAppId = "101";
     public static final String appName = "听歌学英语";
     public static final String appEnglishName = "afterclass";
+    public static final String appEnglishNameSimple = "music";
     public static final int NEWSPIC_CORNER = 6;
     public static String envir;
     public static String updateFolder;

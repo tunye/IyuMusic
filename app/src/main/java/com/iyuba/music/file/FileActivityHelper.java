@@ -199,7 +199,7 @@ public class FileActivityHelper {
             layout.findViewById(R.id.file_contents_info).setVisibility(View.GONE);
         }
         MaterialRippleLayout sure = layout.findViewById(R.id.button_accept);
-        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true, 24);
+        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true);
         iyubaDialog.show();
         sure.setOnClickListener(new INoDoubleClick() {
             @Override

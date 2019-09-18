@@ -29,14 +29,9 @@ public class CommentDeleteRequest extends Request<BaseApiEntity<String>> {
         result.setData(jsonObject.getString("result"));
         if (result.getData().equals("1")) {
             result.setState(BaseApiEntity.SUCCESS);
-            return result;
         } else {
-            return null;
+            result.setState(BaseApiEntity.FAIL);
         }
-    }
-
-    @Override
-    public String getDataErrorMsg() {
-        return RuntimeManager.getInstance().getString(R.string.comment_del_fail);
+        return result;
     }
 }

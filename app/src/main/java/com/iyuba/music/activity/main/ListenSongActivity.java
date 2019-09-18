@@ -49,11 +49,9 @@ public class ListenSongActivity extends BaseListActivity<Article> {
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos(ListenSongActivity.this.getClass().getName());
-                StudyManager.getInstance().setSourceArticleList(getData());
-                StudyManager.getInstance().setLesson("music");
+                setStudyList();
                 StudyManager.getInstance().setCurArticle(getData().get(position));
+                StudyManager.getInstance().setStartPlaying(true);
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
         });

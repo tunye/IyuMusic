@@ -11,8 +11,10 @@ import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadUtil;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -91,6 +93,7 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
     @Override
     public void onResume() {
         super.onResume();
+        checkVipState();
         MobclickAgent.onResume(this);
     }
 
@@ -120,6 +123,13 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
     }
 
     @Override
+    public void handleAfterAddAdapter(List<T> netData) {
+        if (curPage != 1) {
+            owner.scrollToPosition(getYouAdPos(ownerAdapter.getDatas().size() - netData.size()));
+        }
+    }
+
+    @Override
     public void onRequestPermissionDenied(String dialogContent, final int[] codes, final String[] permissions) {
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.storage_permission);
@@ -134,5 +144,37 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
             }
         });
         materialDialog.show();
+    }
+
+    public void checkVipState() {
+        if (!useYouDaoAd) {
+            return;
+        }
+        if (DownloadUtil.checkVip() && owner.getAdapter() instanceof YouDaoRecyclerAdapter
+                || !DownloadUtil.checkVip() && !(owner.getAdapter() instanceof YouDaoRecyclerAdapter)) {
+            assembleRecyclerView();
+        }
+    }
+
+    public int getYouAdPos(int pos) {
+        if (owner.getAdapter() instanceof YouDaoRecyclerAdapter) {
+            return mAdAdapter.getAdjustedPosition(pos);
+        } else {
+            return pos;
+        }
+    }
+
+    public String getClassName() {
+        return getClass().getSimpleName();
+    }
+
+    public void setStudyList() {
+        if (!getData().isEmpty() && getData().get(0) instanceof Article) {
+            StudyManager.getInstance().setListFragmentPos(getClassName());
+            StudyManager.getInstance().setLesson(ConstantManager.appEnglishNameSimple);
+            StudyManager.getInstance().setSourceArticleList((List<Article>) getData());
+            StudyManager.getInstance().setCurArticle((Article) getData().get(0));
+            StudyManager.getInstance().setApp(ConstantManager.appId);
+        }
     }
 }

@@ -39,6 +39,7 @@ import java.util.List;
  * Created by 10202 on 2016/2/29.
  */
 public class PersonalHomeActivity extends BaseListActivity<Doing> implements View.OnClickListener {
+    public static final String NEED_POP = "need_pop";
     private UserInfo userinfo;
     //上部
     private VipPhoto personPhoto;
@@ -51,7 +52,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
     @Override
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
-        needPop = getIntent().getBooleanExtra("needpop", false);
+        needPop = getIntent().getBooleanExtra(NEED_POP, true);
     }
 
     @Override
@@ -227,22 +228,20 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
             case R.id.fans_attention:
                 SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 Intent intent = new Intent(context, FriendCenter.class);
-                intent.putExtra("type", "0");
-                intent.putExtra("needPop", true);
+                intent.putExtra(FriendCenter.NEED_POP, true);
                 startActivity(intent);
                 break;
             case R.id.fans_fans:
                 SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 intent = new Intent(context, FriendCenter.class);
-                intent.putExtra("type", "1");
-                intent.putExtra("needPop", true);
+                intent.putExtra(FriendCenter.START_POS, 1);
+                intent.putExtra(FriendCenter.NEED_POP, true);
                 startActivity(intent);
                 break;
             case R.id.personal_message:
                 SocialManager.getInstance().pushFriendId(userinfo.getUid());
                 SocialManager.getInstance().pushFriendName(userinfo.getUsername());
                 intent = new Intent(context, ChattingActivity.class);
-                intent.putExtra("needpop", true);
                 startActivity(intent);
                 break;
             case R.id.personal_other_detail:

@@ -98,6 +98,7 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
                     StudyManager.getInstance().setListFragmentPos(DownloadSongActivity.this.getClass().getName());
                     StudyManager.getInstance().setSourceArticleList(downloaded);
                     StudyManager.getInstance().setLesson("music");
+                    StudyManager.getInstance().setApp(ConstantManager.appId);
                     StudyManager.getInstance().setCurArticle(downloaded.get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }

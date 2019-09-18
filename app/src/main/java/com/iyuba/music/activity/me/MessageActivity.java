@@ -46,7 +46,6 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
                 SocialManager.getInstance().pushFriendId(messageLetter.getFriendid());
                 SocialManager.getInstance().pushFriendName(messageLetter.getFriendName());
                 Intent intent = new Intent(context, ChattingActivity.class);
-                intent.putExtra("needpop", true);
                 startActivity(intent);
                 RequestClient.requestAsync(new SetMessageReadRequest(AccountManager.getInstance().getUserId(), messageLetter.getMessageid()), new SimpleRequestCallBack<String>() {
                     @Override
@@ -73,8 +72,7 @@ public class MessageActivity extends BaseListActivity<MessageLetter> {
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, FriendCenter.class);
-                intent.putExtra("type", "0");
-                intent.putExtra("intenttype", "chat");
+                intent.putExtra(FriendCenter.INTENT_TYPE, FriendCenter.INTENT_TYPE_CHAT);
                 startActivity(intent);
             }
         });

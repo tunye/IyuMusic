@@ -87,7 +87,6 @@ public class CircleAdapter extends CoreRecyclerViewAdapter<Circle, CircleAdapter
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(circle.getUid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         });

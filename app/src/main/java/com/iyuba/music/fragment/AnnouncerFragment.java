@@ -42,7 +42,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(context, AnnouncerNewsList.class);
-                intent.putExtra("announcer", String.valueOf(getData().get(position).getId()));
+                intent.putExtra(AnnouncerNewsList.ANNOUNCER, String.valueOf(getData().get(position).getId()));
                 context.startActivity(intent);
             }
         });
@@ -54,9 +54,8 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         disableSwipeLayout();
-        if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+        if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
             getNetData();
         }
     }
@@ -66,7 +65,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
         RequestClient.requestAsync(new AnnouncerRequest(), new SimpleRequestCallBack<BaseListEntity<List<Announcer>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Announcer>> result) {
-                StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
                 ownerAdapter.setDataSet(result.getData());
             }
 

@@ -74,10 +74,8 @@ public class FavorSongActivity extends BaseListActivity<Article> {
                     intent.putExtra("articleList", temp);
                     context.startActivity(intent);
                 } else {
+                    setStudyList();
                     StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setListFragmentPos(FavorSongActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(getData());
-                    StudyManager.getInstance().setLesson("music");
                     StudyManager.getInstance().setCurArticle(getData().get(position));
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }

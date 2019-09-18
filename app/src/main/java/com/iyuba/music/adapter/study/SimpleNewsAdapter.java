@@ -28,6 +28,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.widget.RoundProgressBar;
@@ -108,15 +109,15 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
 
         final Article article = getDatas().get(position);
         holder.title.setText(article.getTitle());
-        if ("209".equals(article.getApp()) && !"401".equals(article.getCategory())) {
+        if (ConstantManager.appId.equals(article.getApp()) && !"401".equals(article.getCategory())) {
             holder.singer.setText(context.getString(R.string.article_singer, article.getSinger()));
             holder.singer.setMaxLines(1);
-            holder.broadcaster.setVisibility(View.VISIBLE);
+            holder.descMoreLayout.setVisibility(View.VISIBLE);
             holder.broadcaster.setText(context.getString(R.string.article_announcer, article.getBroadcaster()));
         } else {
             holder.singer.setText(article.getContent());
             holder.singer.setMaxLines(2);
-            holder.broadcaster.setVisibility(View.GONE);
+            holder.descMoreLayout.setVisibility(View.GONE);
         }
         holder.time.setText(article.getTime().split(" ")[0]);
         switch (type) {
@@ -258,6 +259,7 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
         CheckBox delete;
         View timeBackground;
         RoundProgressBar download;
+        View descLayout, descMoreLayout;
 
         MyViewHolder(View view) {
             super(view);
@@ -271,6 +273,8 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
             delete = view.findViewById(R.id.item_delete);
             timeBackground = view.findViewById(R.id.article_createtime_background);
             download = view.findViewById(R.id.roundProgressBar);
+            descLayout = view.findViewById(R.id.article_desc_ly);
+            descMoreLayout = view.findViewById(R.id.article_desc_more_ly);
         }
     }
 }

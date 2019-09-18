@@ -65,42 +65,14 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.getInstance().setListFragmentPos(NewsFragment.this.getClass().getName());
+                setStudyList();
                 StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setLesson("music");
-                StudyManager.getInstance().setSourceArticleList(getData());
                 StudyManager.getInstance().setCurArticle(getData().get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
         });
         assembleRecyclerView();
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        assembleRecyclerView();
-        if (getData().size() == 0) {
-            getDbData(0);
-        }
-        View view = owner.getLayoutManager().getChildAt(0);
-        if (view != null) {
-            BannerView bannerView = view.findViewById(R.id.banner);
-            if (bannerView != null && bannerView.hasData())
-                bannerView.startAd();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        View view = owner.getLayoutManager().getChildAt(0);
-        if (view != null) {
-            BannerView bannerView = view.findViewById(R.id.banner);
-            if (bannerView != null && bannerView.hasData())
-                bannerView.stopAd();
-        }
     }
 
     @Override
@@ -117,11 +89,11 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
 
     private void getNewsData(final int maxid) {
         if (maxid == 0) {
-            if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey("newsBanner")) {
+            if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName() + "-Banner")) {
                 RequestClient.requestAsync(new BannerPicRequest("class.iyumusic"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
                     @Override
                     public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
-                        StudyManager.getInstance().getSingleInstanceRequest().put("newsBanner", "qier");
+                        StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName() + "-Banner", "qier");
                         List<BannerEntity> bannerEntities = result.getData();
                         SPUtils.putString(ConfigManager.getInstance().getPreferences(), "newsbanner", JSON.toJSONString(bannerEntities));
                         ((NewsAdapter) ownerAdapter).setAdSet(bannerEntities);
@@ -137,19 +109,16 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
             }
         }
         if (maxid == 0) {
-            if (StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+            if (StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
                 getDbData(maxid);
                 if (!StudyManager.getInstance().isStartPlaying() && getData().size() != 0) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(getData());
-                    StudyManager.getInstance().setCurArticle(getData().get(0));
-                    StudyManager.getInstance().setApp("209");
+                    setStudyList();
                 } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }
                 swipeRefreshLayout.setRefreshing(false);
             } else {
-                StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
                 loadNetData(maxid);
             }
         } else {
@@ -173,20 +142,18 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
                 List<Article> netData = listEntity.getData();
                 if (maxid == 0) {
                     ownerAdapter.setDataSet(netData);
+                    owner.scrollToPosition(0);
                 } else {
                     if (netData.size() == 0) {
                         CustomToast.getInstance().showToast(R.string.article_load_all);
                     } else {
                         ownerAdapter.addDatas(netData);
-                        owner.scrollToPosition(ownerAdapter.getItemCount() - 1 - netData.size());
+                        owner.scrollToPosition(getYouAdPos(getData().size() + 1 - netData.size()));
                     }
                 }
                 if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(getData());
-                    StudyManager.getInstance().setCurArticle(getData().get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    setStudyList();
+                } else if (getClassName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }
                 LocalInfo localinfo;
@@ -204,13 +171,14 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = ownerAdapter.getDatas().size() + 1;
                 getDbData(maxid);
-                if (!StudyManager.getInstance().isStartPlaying() && getData().size() != 0) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(getData());
-                    StudyManager.getInstance().setCurArticle(getData().get(0));
-                    StudyManager.getInstance().setApp("209");
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                if (getData().size() > lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
+                if (!StudyManager.getInstance().isStartPlaying() && !getData().isEmpty()) {
+                    setStudyList();
+                } else if (getClassName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -224,7 +192,7 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
         if (TextUtils.isEmpty(preferenceData)) {
             bannerEntities = new ArrayList<>();
             BannerEntity bannerEntity = new BannerEntity();
-            bannerEntity.setOwnerid("2");
+            bannerEntity.setOwnerid(BannerEntity.OWNER_EMPTY);
             bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
             bannerEntity.setDesc(context.getString(R.string.app_name));
             bannerEntities.add(bannerEntity);
@@ -235,13 +203,39 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.startAd();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.stopAd();
+        }
+    }
+
+    @Override
     public void onDestroy() {
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    private BannerView findBannerView() {
         View view = owner.getLayoutManager().getChildAt(0);
         if (view != null) {
             BannerView bannerView = view.findViewById(R.id.banner);
             if (bannerView != null && bannerView.hasData())
-                bannerView.initData(null, null);
+                return bannerView;
         }
-        super.onDestroy();
+        return null;
     }
 }

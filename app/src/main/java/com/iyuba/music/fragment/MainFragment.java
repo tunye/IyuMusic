@@ -29,6 +29,7 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.AppImageUtil;
@@ -48,7 +49,8 @@ import java.util.Arrays;
  * Created by 10202 on 2015/11/6.
  */
 public class MainFragment extends BaseFragment {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private static final int HANDLER_REFRESH_PROGRESS = 0;
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ViewPager viewPager;
     private Context context;
     private StandardPlayer player;
@@ -70,10 +72,9 @@ public class MainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, null);
-        ArrayList<String> title = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
-        viewPagerIndicator.setTabItemTitles(title);
+        viewPager = view.findViewById(R.id.viewpager);
+        viewPagerIndicator = view.findViewById(R.id.tab_indicator);
+        viewPagerIndicator.setTabItemTitles(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title))));
         viewPagerIndicator.setViewPager(viewPager, 0);
         viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor());
         initPlayControl(view);
@@ -95,14 +96,14 @@ public class MainFragment extends BaseFragment {
         super.onResume();
         setContent();
         setImageState();
-        handler.sendEmptyMessage(0);
+        handler.sendEmptyMessage(HANDLER_REFRESH_PROGRESS);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         pauseAnimation();
-        handler.removeCallbacksAndMessages(null);
+        handler.removeMessages(HANDLER_REFRESH_PROGRESS);
     }
 
     @Override
@@ -110,7 +111,6 @@ public class MainFragment extends BaseFragment {
         super.onDestroyView();
         context.unregisterReceiver(broadCast);
         pause.setOnClickListener(null);
-//        mainFragmentAdapter.destroy();
     }
 
     private void initPlayControl(View root) {
@@ -145,7 +145,7 @@ public class MainFragment extends BaseFragment {
         root.findViewById(R.id.rotate_image_layout).setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                if ("101".equals(StudyManager.getInstance().getApp())) {
+                if (ConstantManager.localMusicAppId.equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -155,7 +155,7 @@ public class MainFragment extends BaseFragment {
         root.findViewById(R.id.song_info_layout).setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                if ("101".equals(StudyManager.getInstance().getApp())) {
+                if (ConstantManager.localMusicAppId.equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -175,12 +175,12 @@ public class MainFragment extends BaseFragment {
             pic.setImageResource(R.mipmap.ic_launcher);
         } else {
             switch (StudyManager.getInstance().getApp()) {
-                case "101":
+                case ConstantManager.localMusicAppId:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
                     pic.setImageResource(R.mipmap.ic_launcher);
                     break;
-                case "209":
+                case ConstantManager.appId:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
                     AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
@@ -226,7 +226,7 @@ public class MainFragment extends BaseFragment {
             public void run() {
                 setContent();
             }
-        }, 500);
+        }, 200);
         if (!player.isPlaying()) {
             context.sendBroadcast(new Intent("iyumusic.pause"));
         }
@@ -239,7 +239,7 @@ public class MainFragment extends BaseFragment {
             public void run() {
                 setContent();
             }
-        }, 500);
+        }, 200);
         if (!player.isPlaying()) {
             context.sendBroadcast(new Intent("iyumusic.pause"));
         }
@@ -267,29 +267,25 @@ public class MainFragment extends BaseFragment {
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainFragment> {
         @Override
         public void handleMessageByRef(final MainFragment fragment, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (fragment.player != null) {
-                        fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
-                        if (fragment.player.isPlaying()) {
-                            if (fragment.pic.getAnimation() == null) {
-                                fragment.startAnimation();
-                            }
-                            if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
-                                fragment.pause.setState(MorphButton.PLAY_STATE);
-                            }
-                        } else if (!fragment.player.isPlaying()) {
-                            if (fragment.pic.getAnimation() != null) {
-                                fragment.pauseAnimation();
-                            }
-                            if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
-                                fragment.pause.setState(MorphButton.PAUSE_STATE);
-                            }
-                        }
+            if (fragment.player != null) {
+                fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
+                if (fragment.player.isPlaying()) {
+                    if (fragment.pic.getAnimation() == null) {
+                        fragment.startAnimation();
                     }
-                    fragment.handler.sendEmptyMessageDelayed(0, 500);
-                    break;
+                    if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
+                        fragment.pause.setState(MorphButton.PLAY_STATE);
+                    }
+                } else if (!fragment.player.isPlaying()) {
+                    if (fragment.pic.getAnimation() != null) {
+                        fragment.pauseAnimation();
+                    }
+                    if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
+                        fragment.pause.setState(MorphButton.PAUSE_STATE);
+                    }
+                }
             }
+            fragment.handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, 200);
         }
     }
 

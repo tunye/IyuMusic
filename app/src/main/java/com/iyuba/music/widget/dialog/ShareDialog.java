@@ -152,7 +152,7 @@ public class ShareDialog {
                 dismiss();
             }
         });
-        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog = new IyubaDialog(context, root, true);
         iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

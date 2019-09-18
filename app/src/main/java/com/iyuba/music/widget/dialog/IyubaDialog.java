@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -23,7 +22,7 @@ public class IyubaDialog extends AppCompatDialog {
     public static int styleId = R.style.MyDialogTheme;
     private Context context;
     private View contentView;
-    private FrameLayout backView;
+    private FrameLayout backView, containerView;
     private AnimationListener animationListener = new AnimationListener() {
 
         @Override
@@ -79,6 +78,7 @@ public class IyubaDialog extends AppCompatDialog {
         }
         setContentView(R.layout.dialog);
         backView = findViewById(R.id.dialog_rootView);
+        containerView = findViewById(R.id.dialog_content);
         if (cancelOutSide) {
             backView.setOnTouchListener(new OnTouchListener() {
 
@@ -94,10 +94,10 @@ public class IyubaDialog extends AppCompatDialog {
                 }
             });
         }
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        containerView.addView(contentView);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) containerView.getLayoutParams();
         layoutParams.gravity = gravity;
-        backView.addView(contentView, layoutParams);
+        containerView.setLayoutParams(layoutParams);
         if (listener != null) {
             this.setOnDismissListener(listener);
         }

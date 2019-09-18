@@ -36,6 +36,7 @@ import java.util.List;
 
 
 public class ChattingActivity extends BaseActivity {
+    public static final String NEED_POP = "need_pop";
     private ChattingAdapter adapter;
     private List<MessageLetterContent> list;
     private ListView chatContent;
@@ -49,7 +50,7 @@ public class ChattingActivity extends BaseActivity {
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        needPop = getIntent().getBooleanExtra("needpop", false);
+        needPop = getIntent().getBooleanExtra(NEED_POP, true);
         chattingPage = 1;
         list = new ArrayList<>();
     }
@@ -91,7 +92,6 @@ public class ChattingActivity extends BaseActivity {
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(SocialManager.getInstance().getFriendId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 startActivity(intent);
             }
         });

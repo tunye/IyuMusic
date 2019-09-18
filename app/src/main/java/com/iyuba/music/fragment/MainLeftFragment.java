@@ -21,7 +21,6 @@ import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.buaa.ct.core.view.image.DividerItemDecoration;
-import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
@@ -44,6 +43,7 @@ import com.iyuba.music.widget.imageview.VipPhoto;
  * Created by 10202 on 2015/12/29.
  */
 public class MainLeftFragment extends BaseFragment {
+    private static final int HANDLE_SLEEP_TIME = 0;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
     private View root;
@@ -93,7 +93,6 @@ public class MainLeftFragment extends BaseFragment {
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 startActivity(intent);
             }
         });
@@ -135,7 +134,7 @@ public class MainLeftFragment extends BaseFragment {
     }
 
     private void changeUIResumeByPara() {
-        handler.removeCallbacksAndMessages(null);
+        handler.removeCallbacksAndMessages(HANDLE_SLEEP_TIME);
         if (AccountManager.getInstance().getUserId().equals("0")) {
             login.setVisibility(View.GONE);
             noLogin.setVisibility(View.VISIBLE);
@@ -158,11 +157,11 @@ public class MainLeftFragment extends BaseFragment {
                 getPersonalInfo();
             }
         }
-        int sleepSecond = ((MusicApplication) getActivity().getApplication()).getSleepSecond();
+        operAdapter.notifyDataSetChanged();
+        int sleepSecond = Utils.getMusicApplication().getSleepSecond();
         if (sleepSecond != 0) {
-            handler.sendEmptyMessage(1);
+            handler.sendEmptyMessage(HANDLE_SLEEP_TIME);
         }
-        handler.sendEmptyMessage(2);
     }
 
     private void autoLogin() {
@@ -231,7 +230,7 @@ public class MainLeftFragment extends BaseFragment {
         personalGrade.setText(context.getString(R.string.personal_grade,
                 UserInfo.getLevelName(context, TextUtils.isEmpty(userInfo.getIcoins()) ? 0 : Integer.parseInt(userInfo.getIcoins()))));
         personalCredits.setText(context.getString(R.string.personal_credits, TextUtils.isEmpty(userInfo.getIcoins()) ? "0" : userInfo.getIcoins()));
-        handler.sendEmptyMessage(3);
+        operAdapter.notifyItemChanged(1);
         int follow = TextUtils.isEmpty(userInfo.getFollowing()) ? 0 : Integer.parseInt(userInfo.getFollowing());
         if (follow > 1000) {
             personalFollow.setText(context.getString(R.string.personal_follow, follow / 1000 + "k"));
@@ -280,7 +279,7 @@ public class MainLeftFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        handler.removeMessages(1);
+        handler.removeMessages(HANDLE_SLEEP_TIME);
         login.setOnClickListener(null);
         noLogin.setOnClickListener(null);
         personalPhoto.setOnClickListener(null);
@@ -308,20 +307,8 @@ public class MainLeftFragment extends BaseFragment {
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {
         @Override
         public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
-            switch (msg.what) {
-                case 1:
-                    fragment.operAdapter.notifyItemChanged(6);
-                    fragment.handler.sendEmptyMessageDelayed(1, 1000);
-                    break;
-                case 2:
-                    fragment.operAdapter.notifyItemChanged(0);
-                    fragment.operAdapter.notifyItemChanged(1);
-                    fragment.operAdapter.notifyItemChanged(7);
-                    break;
-                case 3:
-                    fragment.operAdapter.notifyItemChanged(1);
-                    break;
-            }
+            fragment.operAdapter.notifyItemChanged(OperAdapter.SLEEP_POS);
+            fragment.handler.sendEmptyMessageDelayed(HANDLE_SLEEP_TIME, 1000);
         }
     }
 }

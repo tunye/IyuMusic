@@ -2,8 +2,6 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +35,6 @@ import java.util.List;
 public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory> {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ownerAdapter = new SongCategoryAdapter(context);
@@ -61,23 +54,16 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        onRefresh(0);
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
     public void getNetData() {
         if (getData().size() == 0) {
-            if (!StudyManager.getInstance().getSingleInstanceRequest().containsKey(this.getClass().getSimpleName())) {
+            if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
                 RequestClient.requestAsync(new BannerPicRequest("class.iyumusic.yuan"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
                     @Override
                     public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
-                        StudyManager.getInstance().getSingleInstanceRequest().put(this.getClass().getSimpleName(), "qier");
+                        StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
                         List<BannerEntity> bannerEntities = result.getData();
                         BannerEntity bannerEntity = new BannerEntity();
-                        bannerEntity.setOwnerid("2");
+                        bannerEntity.setOwnerid(BannerEntity.OWNER_EMPTY);
                         bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
                         bannerEntity.setDesc("全部原声歌曲列表");
                         bannerEntities.add(bannerEntity);
@@ -98,7 +84,17 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
             @Override
             public void onSuccess(BaseListEntity<List<SongCategory>> listEntity) {
                 isLastPage = listEntity.isLastPage();
-                onNetDataReturnSuccess(listEntity.getData());
+                swipeRefreshLayout.setRefreshing(false);
+                if (isLastPage) {
+                    CustomToast.getInstance().showToast(getToastResource());
+                } else {
+                    ownerAdapter.addDatas(listEntity.getData());
+                    if (curPage != 1) {
+                        owner.scrollToPosition(getYouAdPos(getData().size() + 1 - listEntity.getData().size()));
+                    } else {
+                        owner.scrollToPosition(0);
+                    }
+                }
             }
 
             @Override
@@ -116,33 +112,37 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
     @Override
     public void onResume() {
         super.onResume();
-        View view = owner.getLayoutManager().getChildAt(0);
-        if (view != null) {
-            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
-            if (bannerView != null && bannerView.hasData())
-                bannerView.startAd();
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.startAd();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        View view = owner.getLayoutManager().getChildAt(0);
-        if (view != null) {
-            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
-            if (bannerView != null && bannerView.hasData())
-                bannerView.stopAd();
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.stopAd();
         }
     }
 
     @Override
     public void onDestroy() {
-        View view = owner.getLayoutManager().getChildAt(0);
-        if (view != null) {
-            BannerView bannerView = (BannerView) view.findViewById(R.id.banner);
-            if (bannerView != null && bannerView.hasData())
-                bannerView.initData(null, null);
+        BannerView bannerView = findBannerView();
+        if (bannerView != null) {
+            bannerView.destroy();
         }
         super.onDestroy();
+    }
+
+    private BannerView findBannerView() {
+        View view = owner.getLayoutManager().getChildAt(0);
+        if (view != null) {
+            BannerView bannerView = view.findViewById(R.id.banner);
+            if (bannerView != null && bannerView.hasData())
+                return bannerView;
+        }
+        return null;
     }
 }

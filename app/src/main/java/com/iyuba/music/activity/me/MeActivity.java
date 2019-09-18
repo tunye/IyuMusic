@@ -51,8 +51,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "0");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -60,8 +59,7 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "0");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });
@@ -71,8 +69,8 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "1");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.START_POS, 1);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -80,8 +78,8 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "1");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.START_POS, 1);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });
@@ -91,8 +89,8 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "2");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.START_POS, 2);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -100,8 +98,8 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "2");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.START_POS, 2);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });

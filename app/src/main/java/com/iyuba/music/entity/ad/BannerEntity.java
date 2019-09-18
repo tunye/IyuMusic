@@ -6,6 +6,9 @@ import com.alibaba.fastjson.annotation.JSONField;
  * Created by 10202 on 2016/3/9.
  */
 public class BannerEntity {
+    public static final String OWNER_WEB = "0";
+    public static final String OWNER_ARTICLE = "1";
+    public static final String OWNER_EMPTY = "2";
     @JSONField(name = "id")
     private String id;
     @JSONField(name = "name")

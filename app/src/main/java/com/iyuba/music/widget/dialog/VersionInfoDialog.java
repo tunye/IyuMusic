@@ -63,7 +63,7 @@ public class VersionInfoDialog {
         builder.setText("ct");
         buildTime.setText(releaseTime);
         versionType.setText(buildType);
-        iyubaDialog = new IyubaDialog(context, root, true, 24);
+        iyubaDialog = new IyubaDialog(context, root, true);
         iyubaDialog.show();
     }
 }

@@ -1,103 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    app:rv_backgroundColor="@color/background_dark"
-    app:rv_cornerRadius="@dimen/corner_radius_big">
+    android:layout_margin="@dimen/activity_horizontal_margin_large">
 
-    <com.iyuba.music.widget.roundview.RoundRelativeLayout
+    <com.iyuba.music.widget.roundview.RoundLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rv_backgroundColor="@color/skin_app_color"
-        app:rv_cornerRadius_TL="@dimen/corner_radius_big"
-        app:rv_cornerRadius_TR="@dimen/corner_radius_big">
+        android:orientation="vertical"
+        app:rv_backgroundColor="@color/background_dark"
+        app:rv_cornerRadius="@dimen/corner_radius_big">
+
+        <com.iyuba.music.widget.roundview.RoundFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:rv_backgroundColor="@color/skin_app_color"
+            app:rv_cornerRadius_TL="@dimen/corner_radius_big"
+            app:rv_cornerRadius_TR="@dimen/corner_radius_big">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="跟唱评测"
+                android:textColor="@color/background"
+                android:textSize="@dimen/title_text" />
+
+            <ImageView
+                android:id="@+id/assessment_close"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:padding="@dimen/row_space_big"
+                android:src="@drawable/ic_action_close_common" />
+        </com.iyuba.music.widget.roundview.RoundFrameLayout>
+
+        <com.iyuba.music.widget.boundnumber.RiseNumberTextView
+            android:id="@+id/assessment_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_large"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_large"
+            android:textColor="@color/skin_app_color"
+            android:textSize="48sp" />
 
         <TextView
+            android:id="@+id/assessment_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="跟唱评测"
-            android:textColor="@color/background"
-            android:textSize="@dimen/title_text" />
-
-        <ImageView
-            android:id="@+id/assessment_close"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/row_space_big"
-            android:src="@drawable/ic_action_close_common" />
-    </com.iyuba.music.widget.roundview.RoundRelativeLayout>
-
-    <com.iyuba.music.widget.boundnumber.RiseNumberTextView
-        android:id="@+id/assessment_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_large"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin_large"
-        android:textColor="@color/skin_app_color"
-        android:textSize="48sp" />
-
-    <TextView
-        android:id="@+id/assessment_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:text="@string/read_grade_a"
-        android:textColor="@color/skin_app_color"
-        android:textSize="@dimen/large_text" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin_big"
-        android:orientation="horizontal">
-
-        <com.iyuba.music.widget.roundview.RoundTextView
-            android:id="@+id/assessment_retry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="@dimen/row_space_medium"
-            android:text="重录"
-            android:textColor="@color/background"
-            android:textSize="@dimen/big_text"
-            app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_cornerRadius="@dimen/corner_radius_default" />
-
-        <com.iyuba.music.widget.roundview.RoundTextView
-            android:id="@+id/assessment_send"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:padding="@dimen/row_space_medium"
-            android:text="发送"
-            android:textColor="@color/background"
-            android:textSize="@dimen/big_text"
-            app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_cornerRadius="@dimen/corner_radius_default" />
+            android:text="@string/read_grade_a"
+            android:textColor="@color/skin_app_color"
+            android:textSize="@dimen/large_text" />
 
-        <com.iyuba.music.widget.roundview.RoundTextView
-            android:id="@+id/assessment_listen"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="@dimen/row_space_medium"
-            android:text="试听"
-            android:textColor="@color/background"
-            android:textSize="@dimen/big_text"
-            app:rv_backgroundColor="@color/skin_app_color"
-            app:rv_cornerRadius="@dimen/corner_radius_default" />
-    </LinearLayout>
+            android:layout_margin="@dimen/activity_horizontal_margin_big"
+            android:orientation="horizontal">
+
+            <com.iyuba.music.widget.roundview.RoundTextView
+                android:id="@+id/assessment_retry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/row_space_medium"
+                android:text="重录"
+                android:textColor="@color/background"
+                android:textSize="@dimen/big_text"
+                app:rv_backgroundColor="@color/skin_app_color"
+                app:rv_cornerRadius="@dimen/corner_radius_default" />
+
+            <com.iyuba.music.widget.roundview.RoundTextView
+                android:id="@+id/assessment_send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/row_space_medium"
+                android:text="发送"
+                android:textColor="@color/background"
+                android:textSize="@dimen/big_text"
+                app:rv_backgroundColor="@color/skin_app_color"
+                app:rv_cornerRadius="@dimen/corner_radius_default" />
+
+            <com.iyuba.music.widget.roundview.RoundTextView
+                android:id="@+id/assessment_listen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/row_space_medium"
+                android:text="试听"
+                android:textColor="@color/background"
+                android:textSize="@dimen/big_text"
+                app:rv_backgroundColor="@color/skin_app_color"
+                app:rv_cornerRadius="@dimen/corner_radius_default" />
+        </LinearLayout>
 </com.iyuba.music.widget.roundview.RoundLinearLayout>
+</FrameLayout>

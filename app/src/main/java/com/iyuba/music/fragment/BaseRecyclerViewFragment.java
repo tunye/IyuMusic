@@ -20,8 +20,10 @@ import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadUtil;
+import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.widget.recycleview.ListRequestAllState;
 import com.youdao.sdk.nativeads.RequestParameters;
 import com.youdao.sdk.nativeads.ViewBinder;
@@ -124,6 +126,12 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        checkVipState();
+    }
+
+    @Override
     public void onDestroy() {
         if (mAdAdapter != null) {
             mAdAdapter.destroy();
@@ -172,23 +180,56 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
     }
 
     public void onNetDataReturnSuccess(List<T> netData) {
-        this.swipeRefreshLayout.setRefreshing(false);
-        if (this.isLastPage) {
-            if (this.getToastResource() != -1) {
-                CustomToast.getInstance().showToast(this.getToastResource());
+        swipeRefreshLayout.setRefreshing(false);
+        if (isLastPage) {
+            if (getToastResource() != -1) {
+                CustomToast.getInstance().showToast(getToastResource());
             }
         } else {
-            this.handleBeforeAddAdapter(netData);
-            this.ownerAdapter.addDatas(netData);
-            this.owner.scrollToPosition(this.ownerAdapter.getItemCount() - netData.size());
-            this.handleAfterAddAdapter(netData);
+            handleBeforeAddAdapter(netData);
+            ownerAdapter.addDatas(netData);
+            if (curPage != 1) {
+                owner.scrollToPosition(getYouAdPos(ownerAdapter.getDatas().size() - netData.size()));
+            }
+            handleAfterAddAdapter(netData);
         }
-
     }
 
     public void handleBeforeAddAdapter(List<T> netData) {
     }
 
     public void handleAfterAddAdapter(List<T> netData) {
+    }
+
+    public int getYouAdPos(int pos) {
+        if (owner.getAdapter() instanceof YouDaoRecyclerAdapter) {
+            return mAdAdapter.getAdjustedPosition(pos);
+        } else {
+            return pos;
+        }
+    }
+
+    public void checkVipState() {
+        if (!useYouDaoAd) {
+            return;
+        }
+        if (DownloadUtil.checkVip() && owner.getAdapter() instanceof YouDaoRecyclerAdapter
+                || !DownloadUtil.checkVip() && !(owner.getAdapter() instanceof YouDaoRecyclerAdapter)) {
+            assembleRecyclerView();
+        }
+    }
+
+    public String getClassName() {
+        return this.getClass().getSimpleName();
+    }
+
+    public void setStudyList() {
+        if (!getData().isEmpty() && getData().get(0) instanceof Article) {
+            StudyManager.getInstance().setListFragmentPos(getClassName());
+            StudyManager.getInstance().setLesson(ConstantManager.appEnglishNameSimple);
+            StudyManager.getInstance().setSourceArticleList((List<Article>) getData());
+            StudyManager.getInstance().setCurArticle((Article) getData().get(0));
+            StudyManager.getInstance().setApp(ConstantManager.appId);
+        }
     }
 }

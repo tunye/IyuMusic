@@ -55,7 +55,6 @@ public class MessageAdapter extends CoreRecyclerViewAdapter<MessageLetter, Messa
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(messageLetter.getFriendid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         });

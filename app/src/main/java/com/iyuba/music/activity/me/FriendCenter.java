@@ -3,7 +3,6 @@ package com.iyuba.music.activity.me;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
@@ -21,16 +20,22 @@ import java.util.List;
  * Created by 10202 on 2016/3/1.
  */
 public class FriendCenter extends BaseActivity {
+    public static final String INTENT_TYPE = "intent_type";
+    public static final String INTENT_TYPE_CHAT = "chat";
+    public static final String INTENT_TYPE_HOME = "home";
+    public static final String START_POS = "start_pos";
+    public static final String NEED_POP = "start_pos";
     private ViewPager viewPager;
-    private String startType, intentType;
+    private int startType;
+    private String intentType;
     private boolean needPop;
 
     @Override
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
-        startType = getIntent().getStringExtra("type");
-        intentType = getIntent().getStringExtra("intenttype");
-        needPop = getIntent().getBooleanExtra("needpop", false);
+        startType = getIntent().getIntExtra(START_POS, 0);
+        intentType = getIntent().getStringExtra(INTENT_TYPE);
+        needPop = getIntent().getBooleanExtra(NEED_POP, false);
     }
 
     @Override
@@ -65,11 +70,7 @@ public class FriendCenter extends BaseActivity {
         super.onActivityCreated();
         enableToolbarOper(R.string.friend_search);
         title.setText(R.string.friend_title);
-        if (TextUtils.isEmpty(startType)) {
-            viewPager.setCurrentItem(0);
-        } else {
-            viewPager.setCurrentItem(Integer.parseInt(startType));
-        }
+        viewPager.setCurrentItem(startType);
     }
 
     public String getIntentMessage() {

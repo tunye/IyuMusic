@@ -230,8 +230,12 @@ public class CommentActivity extends BaseListActivity<Comment> {
             public void activeClick(View view) {
                 RequestClient.requestAsync(new CommentDeleteRequest(getData().get(position).getId()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onSuccess(BaseApiEntity<String> s) {
-                        ownerAdapter.removeData(position);
+                    public void onSuccess(BaseApiEntity<String> result) {
+                        if (BaseApiEntity.isSuccess(result)) {
+                            ownerAdapter.removeData(position);
+                        } else {
+                            CustomToast.getInstance().showToast(R.string.comment_del_fail);
+                        }
                     }
 
                     @Override

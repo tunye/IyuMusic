@@ -21,7 +21,6 @@ import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
@@ -52,8 +51,6 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
 
     private ArticleOp articleOp;
     private LocalInfoOp localInfoOp;
-    //有道广告
-    private boolean isVipLastState;
 
     @Override
     public void beforeSetLayout(Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
         articleOp = new ArticleOp();
         localInfoOp = new LocalInfoOp();
         curNewsType = this.getIntent().getExtras().getString("type");
-        isVipLastState = DownloadUtil.checkVip();
+        useYouDaoAd = true;
     }
 
     @Override
@@ -106,11 +103,11 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
                     intent.putExtra("articleList", (ArrayList) ownerAdapter.getDatas());
                     context.startActivity(intent);
                 } else {
-                    StudyManager.getInstance().setStartPlaying(true);
-                    StudyManager.getInstance().setListFragmentPos(GroundNewsActivity.this.getClass().getName());
-                    StudyManager.getInstance().setSourceArticleList(ownerAdapter.getDatas());
                     StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
+                    StudyManager.getInstance().setStartPlaying(true);
                     StudyManager.getInstance().setCurArticle(ownerAdapter.getDatas().get(position));
+                    StudyManager.getInstance().setListFragmentPos(getClassName());
+                    StudyManager.getInstance().setSourceArticleList(ownerAdapter.getDatas());
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
@@ -122,16 +119,6 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
         super.onActivityCreated();
         title.setText(curNewsType);
         enableToolbarOper(R.string.download_app);
-    }
-
-
-    @Override
-    public void onActivityResumed() {
-        super.onActivityResumed();
-        if (isVipLastState != DownloadUtil.checkVip()) {
-            isVipLastState = DownloadUtil.checkVip();
-            assembleRecyclerView();
-        }
     }
 
     @Override
@@ -193,9 +180,12 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 swipeRefreshLayout.setRefreshing(false);
-                CustomToast.getInstance().showToast(context.getString(Utils.getRequestErrorMeg(errorInfoWrapper)) + context.getString(R.string.article_local));
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = getData().size();
                 getDbData();
-
+                if (getData().size() != lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
                 if (!StudyManager.getInstance().isStartPlaying()) {
                     StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
                     StudyManager.getInstance().setSourceArticleList(getData());
@@ -203,7 +193,8 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
                         StudyManager.getInstance().setCurArticle(getData().get(0));
                     }
                     StudyManager.getInstance().setApp(app);
-                } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
+                    StudyManager.getInstance().setListFragmentPos(getClassName());
+                } else if (getClassName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }
             }
@@ -212,11 +203,11 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
 
     @Override
     public void handleAfterAddAdapter(List<Article> netData) {
+        super.handleAfterAddAdapter(netData);
         if (!StudyManager.getInstance().isStartPlaying()) {
-            StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
-            StudyManager.getInstance().setSourceArticleList(getData());
-            StudyManager.getInstance().setCurArticle(getData().get(0));
             StudyManager.getInstance().setApp(app);
+            StudyManager.getInstance().setLesson(ParameterUrl.encode(ParameterUrl.encode(lesson)));
+            setStudyList();
         } else if (GroundNewsActivity.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
             StudyManager.getInstance().setSourceArticleList(getData());
         }

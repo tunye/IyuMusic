@@ -21,12 +21,12 @@ public class StudyManager {
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
-    private Map<String, String> singleInstanceRequest;
+    private Map<String, String> dailyLoadOnceMap;
 
     private StudyManager() {
         app = ConstantManager.appId;
         sourceArticleList = new ArrayList<>();
-        singleInstanceRequest = new ArrayMap<>();
+        dailyLoadOnceMap = new ArrayMap<>();
     }
 
     public static StudyManager getInstance() {
@@ -119,9 +119,6 @@ public class StudyManager {
         curArticleList = new ArrayList<>();
         switch (ConfigManager.getInstance().getStudyPlayMode()) {
             case 0:
-//                curArticleList.add(curArticle);
-                curArticleList.addAll(sourceArticleList);
-                break;
             case 1:
                 curArticleList.addAll(sourceArticleList);
                 break;
@@ -134,8 +131,8 @@ public class StudyManager {
         }
     }
 
-    public Map<String, String> getSingleInstanceRequest() {
-        return singleInstanceRequest;
+    public Map<String, String> getDailyLoadOnceMap() {
+        return dailyLoadOnceMap;
     }
 
     private static class SingleInstanceHelper {

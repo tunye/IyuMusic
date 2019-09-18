@@ -71,7 +71,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/row_space_medium"
+                    android:layout_marginTop="@dimen/row_space_big"
                     android:layout_marginEnd="@dimen/row_space_large"
                     android:orientation="vertical">
 
@@ -81,19 +81,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/row_space_default"
                         android:ellipsize="end"
-                        android:lineSpacingMultiplier="1.2"
-                        android:maxLines="3"
+                        android:lineSpacingMultiplier="1.3"
+                        android:maxLines="2"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="13dp" />
 
                     <TextView
                         android:id="@+id/article_announcer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/row_space_default"
-                        android:layout_marginEnd="@dimen/row_space_default"
+                        android:layout_marginTop="@dimen/row_space_medium"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="13dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -102,7 +101,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="bottom|end"
-                android:padding="@dimen/corner_radius_big"
+                android:padding="@dimen/row_space_large"
                 android:src="@drawable/downloadfile_notexist" />
         </FrameLayout>
     </LinearLayout>

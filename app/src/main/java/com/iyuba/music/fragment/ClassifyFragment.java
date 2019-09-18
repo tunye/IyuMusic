@@ -20,14 +20,6 @@ import com.iyuba.music.widget.recycleview.StationaryGridview;
  * Created by 10202 on 2016/3/4.
  */
 public class ClassifyFragment extends BaseFragment {
-    private Context context;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getActivity();
-    }
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.classify, null);

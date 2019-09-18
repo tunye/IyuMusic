@@ -42,6 +42,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder> {
+    public static final int SLEEP_POS = 6;
     private static final ArrayList<Integer> menuTextList;
     private static final ArrayList<Integer> menuIconList;
 
@@ -96,6 +97,8 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         });
         holder.menuText.setText(RuntimeManager.getInstance().getString(menuTextList.get(position)));
         holder.menuIcon.setImageResource(menuIconList.get(position));
+        holder.go.setVisibility(View.VISIBLE);
+        holder.menuResult.setVisibility(View.GONE);
         if (holder.getAdapterPosition() == 0) {
             holder.menuResult.setVisibility(View.VISIBLE);
             if (!AccountManager.getInstance().checkUserLogin()) {
@@ -115,12 +118,12 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 holder.menuText.setText(state);
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_night))) {
+        if (holder.getAdapterPosition() == 5) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_sleep))) {
+        if (holder.getAdapterPosition() == SLEEP_POS) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             int sleepSecond = Utils.getMusicApplication().getSleepSecond();
@@ -130,7 +133,7 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 holder.menuResult.setText(DateFormat.formatTime(sleepSecond));
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_skin))) {
+        if (holder.getAdapterPosition() == 7) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(getSkin(holder.menuResult.getContext(), SkinManager.getInstance().getCurrSkin()));

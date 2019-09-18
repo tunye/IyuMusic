@@ -19,6 +19,7 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
+import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConstantManager;
@@ -59,13 +60,12 @@ public class NullActivity {
                             String broadcaster = path.substring(3);
                             SocialManager.getInstance().pushFriendId(broadcaster);
                             intent.setClass(context, PersonalHomeActivity.class);
-                            intent.putExtra("needpop", true);
                             context.startActivity(intent);
                             break;
                         case '3':                                         // 进入某主播歌单
                             broadcaster = path.substring(3);
                             intent.setClass(context, AnnouncerNewsList.class);
-                            intent.putExtra("announcer", broadcaster);
+                            intent.putExtra(AnnouncerNewsList.ANNOUNCER, broadcaster);
                             context.startActivity(intent);
                             break;
                     }
@@ -85,7 +85,7 @@ public class NullActivity {
                         getAppointArticle(context, path.substring(1));
                     } else {
                         StudyManager.getInstance().setStartPlaying(true);
-                        StudyManager.getInstance().setListFragmentPos("NullActivity.class");
+                        StudyManager.getInstance().setListFragmentPos("NullActivity");
                         StudyManager.getInstance().setLesson("music");
                         ArrayList<Article> articles = new ArrayList<>();
                         articles.add(tempArticle);
@@ -148,7 +148,7 @@ public class NullActivity {
                 }
                 new ArticleOp().saveData(netData);
                 StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos("NullActivity.class");
+                StudyManager.getInstance().setListFragmentPos("NullActivity");
                 StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setSourceArticleList(netData);
                 StudyManager.getInstance().setCurArticle(netData.get(0));

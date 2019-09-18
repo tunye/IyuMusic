@@ -48,7 +48,6 @@ public class AnnouncerAdapter extends CoreRecyclerViewAdapter<Announcer, Announc
                 if (AccountManager.getInstance().checkUserLogin()) {
                     SocialManager.getInstance().pushFriendId(announcer.getUid());
                     Intent intent = new Intent(context, PersonalHomeActivity.class);
-                    intent.putExtra("needpop", true);
                     context.startActivity(intent);
                 } else {
                     CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -56,7 +55,6 @@ public class AnnouncerAdapter extends CoreRecyclerViewAdapter<Announcer, Announc
                         public void finish() {
                             SocialManager.getInstance().pushFriendId(announcer.getUid());
                             Intent intent = new Intent(context, PersonalHomeActivity.class);
-                            intent.putExtra("needpop", true);
                             context.startActivity(intent);
                         }
                     });

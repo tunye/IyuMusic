@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -75,7 +76,7 @@ public class SignInDialog {
             }
         });
         loading = root.findViewById(R.id.sign_in_loading_animation);
-        iyubaDialog = new IyubaDialog(context, root, false, 20, new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, false, Gravity.CENTER, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;

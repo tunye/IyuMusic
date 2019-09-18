@@ -53,10 +53,8 @@ public class ClassifyNewsList extends BaseListActivity<Article> {
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                setStudyList();
                 StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos(ClassifyNewsList.this.getClass().getName());
-                StudyManager.getInstance().setSourceArticleList(getData());
-                StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setCurArticle(getData().get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
@@ -90,7 +88,11 @@ public class ClassifyNewsList extends BaseListActivity<Article> {
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = ownerAdapter.getDatas().size();
                 getDbData();
+                if (getData().size() > lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
                 if (ClassifyNewsList.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }

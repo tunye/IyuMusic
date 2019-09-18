@@ -117,7 +117,7 @@ public class SearchActivity extends BaseSkinActivity implements MySwipeRefreshLa
             @Override
             public void onItemClick(View view, int position) {
                 StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setListFragmentPos(SearchActivity.this.getClass().getName());
+                StudyManager.getInstance().setListFragmentPos(SearchActivity.this.getClass().getSimpleName());
                 StudyManager.getInstance().setSourceArticleList(searchArrayList);
                 StudyManager.getInstance().setLesson("music");
                 StudyManager.getInstance().setCurArticle(searchArrayList.get(position));

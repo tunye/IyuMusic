@@ -195,6 +195,15 @@ public class BannerView extends FrameLayout {
         }
     }
 
+    public void destroy() {
+        stopAd();
+        this.onClickListener = null;
+        bannerData = null;
+        dots = new ArrayList<>();
+        bannerImages = new ArrayList<>();
+        dotLayout.removeAllViews();
+    }
+
     public void setSelectItemColor(int selectItemColor) {
         this.selectItemColor = selectItemColor;
     }

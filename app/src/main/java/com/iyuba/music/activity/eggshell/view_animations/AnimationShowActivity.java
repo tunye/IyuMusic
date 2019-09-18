@@ -1,12 +1,12 @@
 package com.iyuba.music.activity.eggshell.view_animations;
 
 import android.animation.Animator;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -15,11 +15,9 @@ import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 
 public class AnimationShowActivity extends BaseActivity {
-
-    private ListView mListView;
-    private EffectAdapter mAdapter;
     private View mTarget;
     private YoYo.YoYoString rope;
+    private EffectAdapter ownerAdapter;
 
     @Override
     public int getLayoutId() {
@@ -29,10 +27,11 @@ public class AnimationShowActivity extends BaseActivity {
     @Override
     public void initWidget() {
         super.initWidget();
-        mListView = findViewById(R.id.animation_list);
+        RecyclerView owner = findViewById(R.id.animation_list);
         mTarget = findViewById(R.id.animation_example);
-        EffectAdapter mAdapter = new EffectAdapter(this);
-        mListView.setAdapter(mAdapter);
+        ownerAdapter = new EffectAdapter(this);
+        setRecyclerViewProperty(owner);
+        owner.setAdapter(ownerAdapter);
     }
 
     @Override
@@ -46,10 +45,10 @@ public class AnimationShowActivity extends BaseActivity {
                 }
             }
         });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Techniques technique = (Techniques) view.getTag();
+            public void onItemClick(View view, int i) {
+                Techniques technique = Techniques.values()[i];
                 rope = YoYo.with(technique)
                         .duration(1200)
                         .interpolate(new AccelerateDecelerateInterpolator())

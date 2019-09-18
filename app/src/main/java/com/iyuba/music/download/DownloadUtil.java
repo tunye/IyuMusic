@@ -15,7 +15,7 @@ import com.iyuba.music.request.account.ScoreOperRequest;
  */
 public class DownloadUtil {
     public static boolean checkVip() {
-        return AccountManager.getInstance().checkUserLogin() && (AccountManager.getInstance().getUserId().equals("46738") || "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
+        return AccountManager.getInstance().checkUserLogin() && ( "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
     }
 
     public static String getAnnouncerUrl(int id, String sound) {

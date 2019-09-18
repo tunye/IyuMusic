@@ -86,8 +86,6 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
         Word word = null;
         if (cursor.moveToFirst()) {
             word = fillData(cursor);
-        } else {
-            word = new Word();
         }
         cursor.close();
         db.close();

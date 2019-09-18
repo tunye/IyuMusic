@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -87,9 +87,8 @@
         <com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
             android:id="@+id/swipe_refresh_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/comment_view"
-            android:layout_below="@+id/doing_layout"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             myswipe:direction="both">
 
             <android.support.v7.widget.RecyclerView
@@ -101,9 +100,8 @@
         <FrameLayout
             android:id="@+id/no_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/comment_view"
-            android:layout_below="@+id/doing_layout"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:visibility="gone">
 
             <TextView
@@ -119,7 +117,6 @@
             android:id="@+id/comment_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             app:showVoice="false" />
-    </RelativeLayout>
+    </LinearLayout>
 </com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout>

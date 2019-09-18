@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
     <include
@@ -12,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
@@ -129,4 +129,4 @@
                 app:kswThumbColor="@color/white" />
         </com.iyuba.music.widget.roundview.RoundRelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

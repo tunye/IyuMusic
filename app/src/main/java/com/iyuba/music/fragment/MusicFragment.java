@@ -2,8 +2,6 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +48,8 @@ public class MusicFragment extends BaseRecyclerViewFragment<Article> {
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                StudyManager.getInstance().setListFragmentPos(MusicFragment.this.getClass().getName());
+                setStudyList();
                 StudyManager.getInstance().setStartPlaying(true);
-                StudyManager.getInstance().setLesson("music");
-                StudyManager.getInstance().setSourceArticleList(getData());
                 StudyManager.getInstance().setCurArticle(getData().get(position));
                 context.startActivity(new Intent(context, StudyActivity.class));
             }
@@ -61,13 +57,6 @@ public class MusicFragment extends BaseRecyclerViewFragment<Article> {
         });
         assembleRecyclerView();
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.setRefreshing(true);
-        onRefresh(0);
     }
 
     @Override
@@ -80,19 +69,19 @@ public class MusicFragment extends BaseRecyclerViewFragment<Article> {
                 if (!isLastPage && curPage != 1) {
                     CustomToast.getInstance().showToast(curPage + "/" + (listEntity.getTotalCount() / 20 + (listEntity.getTotalCount() % 20 == 0 ? 0 : 1)), 800);
                 }
+                setStudyList();
             }
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper) + context.getString(R.string.article_local));
+                int lastPos = getData().size();
                 getDbData();
-                if (!StudyManager.getInstance().isStartPlaying()) {
-                    StudyManager.getInstance().setLesson("music");
-                    StudyManager.getInstance().setSourceArticleList(getData());
-                    if (getData().size() != 0) {
-                        StudyManager.getInstance().setCurArticle(getData().get(0));
-                    }
-                    StudyManager.getInstance().setApp("209");
+                if (getData().size() != lastPos) {
+                    owner.scrollToPosition(getYouAdPos(lastPos));
+                }
+                if (!StudyManager.getInstance().isStartPlaying() && !getData().isEmpty()) {
+                    setStudyList();
                 } else if (MusicFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
                     StudyManager.getInstance().setSourceArticleList(getData());
                 }
