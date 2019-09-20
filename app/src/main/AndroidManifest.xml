@@ -143,15 +143,53 @@
         <!--eggshell-->
         <activity android:name=".activity.eggshell.EggShellActivity" />
         <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicator" />
-        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList" />
-        <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity" />
-        <activity android:name=".activity.eggshell.view_animations.AnimationShowActivity" />
-        <activity android:name=".activity.eggshell.meizhi.MeizhiActivity" />
+        <activity android:name=".activity.eggshell.loading_indicator.LoadingIndicatorList">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <!--表示该页面可以被隐式调用，必须加上该项-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="eggshell"
+                    android:path="/indicator"
+                    android:scheme="iyumusic" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.eggshell.material_edittext.MaterialEdittextMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="eggshell"
+                    android:path="/material_edittext"
+                    android:scheme="iyumusic" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.eggshell.view_animations.AnimationShowActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="eggshell"
+                    android:path="/animation"
+                    android:scheme="iyumusic" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.eggshell.meizhi.MeizhiActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="eggshell"
+                    android:path="/meizhi"
+                    android:scheme="iyumusic" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.eggshell.meizhi.LocalPhotoActivity" />
         <activity
             android:name=".local_music.LocalMusicActivity"
             android:exported="true"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop">
+        </activity>
         <!--分享-->
         <activity
             android:name=".wxapi.WXEntryActivity"

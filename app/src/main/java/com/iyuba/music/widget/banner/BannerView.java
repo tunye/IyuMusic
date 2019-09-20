@@ -195,13 +195,27 @@ public class BannerView extends FrameLayout {
         }
     }
 
-    public void destroy() {
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        if (visibility == View.VISIBLE) {
+            startAd();
+        } else {
+            stopAd();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
         stopAd();
-        this.onClickListener = null;
-        bannerData = null;
-        dots = new ArrayList<>();
-        bannerImages = new ArrayList<>();
-        dotLayout.removeAllViews();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isAutoStart)
+            startAd();
     }
 
     public void setSelectItemColor(int selectItemColor) {

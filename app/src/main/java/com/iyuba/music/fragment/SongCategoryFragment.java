@@ -2,6 +2,7 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,16 +128,10 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
         }
     }
 
-    @Override
-    public void onDestroy() {
-        BannerView bannerView = findBannerView();
-        if (bannerView != null) {
-            bannerView.destroy();
-        }
-        super.onDestroy();
-    }
-
     private BannerView findBannerView() {
+        if (((LinearLayoutManager) (owner.getLayoutManager())).findFirstVisibleItemPosition() != 0) {
+            return null;
+        }
         View view = owner.getLayoutManager().getChildAt(0);
         if (view != null) {
             BannerView bannerView = view.findViewById(R.id.banner);

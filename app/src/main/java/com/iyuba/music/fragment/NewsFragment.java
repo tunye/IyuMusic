@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -220,16 +221,10 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        BannerView bannerView = findBannerView();
-        if (bannerView != null) {
-            bannerView.destroy();
-        }
-        super.onDestroy();
-    }
-
     private BannerView findBannerView() {
+        if (((LinearLayoutManager) (owner.getLayoutManager())).findFirstVisibleItemPosition() != 0) {
+            return null;
+        }
         View view = owner.getLayoutManager().getChildAt(0);
         if (view != null) {
             BannerView bannerView = view.findViewById(R.id.banner);
