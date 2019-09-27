@@ -37,6 +37,8 @@ import java.util.List;
  */
 
 public class NullActivity {
+    public static final String appScheme="iyumusic";
+    public static final String webScheme="http";
     public static void exePushData(Context context, String url) {
         Uri uri;
         if (TextUtils.isEmpty(url)) {
@@ -47,7 +49,7 @@ public class NullActivity {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("pushIntent", true);
-        if (uri.getScheme().equals("iyumusic")) {
+        if (appScheme.equals(uri.getScheme())) {
             String path = uri.getPath();
             switch (uri.getHost()) {
                 case "zhubo":
@@ -129,6 +131,11 @@ public class NullActivity {
                             }
                         }
                     }
+                    break;
+                default:
+                    CustomToast.getInstance().showToast("无法解析的scheme");
+                    intent.setClass(context, WelcomeActivity.class);
+                    context.startActivity(intent);
                     break;
             }
         } else {

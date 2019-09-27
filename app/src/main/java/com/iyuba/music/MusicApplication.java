@@ -21,10 +21,13 @@ import com.buaa.ct.core.util.GetAppColor;
 import com.buaa.ct.core.util.ThreadPoolUtil;
 import com.buaa.ct.core.util.ThreadUtils;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.swipe.SmartSwipeBack;
 import com.buaa.ct.videocache.httpproxy.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.iyuba.music.activity.MainActivity;
+import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
@@ -33,6 +36,7 @@ import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.sqlite.ImportDatabase;
+import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.Utils;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -60,6 +64,8 @@ public class MusicApplication extends Application {
     public void onCreate() {
         super.onCreate();//必须调用父类方法
         RuntimeManager.getInstance().initRuntimeManager(this);
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
+        SmartSwipeBack.activityBezierBack(this, activitySwipeBackFilter);
         // android n 获取文件必须的权限配置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -204,8 +210,7 @@ public class MusicApplication extends Application {
         if (changeProperty != null) {
             unregisterReceiver(changeProperty);
         }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
+        clearActivityList();
     }
 
     public int getSleepSecond() {
@@ -237,6 +242,13 @@ public class MusicApplication extends Application {
         timer.start();
     }
 
+    public Activity getForeground() {
+        if (activityList != null && activityList.size() > 0) {
+            return activityList.get(activityList.size() - 1);
+        }
+        return null;
+    }
+
     public boolean isAppointForeground(String appoint) {
         if (activityList != null && activityList.size() > 0) {
             Activity activity = activityList.get(activityList.size() - 1);
@@ -264,7 +276,6 @@ public class MusicApplication extends Application {
         }
     }
 
-
     public boolean isShowSignInToast() {
         return showSignInToast;
     }
@@ -284,4 +295,11 @@ public class MusicApplication extends Application {
     public HttpProxyCacheServer getProxy() {
         return proxy == null ? (proxy = new HttpProxyCacheServer(this)) : proxy;
     }
+
+    private SmartSwipeBack.ActivitySwipeBackFilter activitySwipeBackFilter = new SmartSwipeBack.ActivitySwipeBackFilter() {
+        @Override
+        public boolean onFilter(Activity activity) {
+            return !(activity instanceof MainActivity) && !(activity instanceof WelcomeActivity);
+        }
+    };
 }

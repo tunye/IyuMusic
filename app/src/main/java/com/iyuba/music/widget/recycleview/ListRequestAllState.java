@@ -62,6 +62,7 @@ public class ListRequestAllState extends FrameLayout {
             @Override
             public void run() {
                 list.setVisibility(INVISIBLE);
+                errContainer.setVisibility(INVISIBLE);
                 loading.setVisibility(VISIBLE);
             }
         }, 100);
@@ -94,7 +95,9 @@ public class ListRequestAllState extends FrameLayout {
                 });
                 break;
             case ErrorInfoWrapper.EMPTY_ERROR:
-                errorContent.setText(emptyShowContent);
+                if (emptyShowContent != 0) {
+                    errorContent.setText(emptyShowContent);
+                }
                 errorImg.setImageResource(R.drawable.request_empty_data);
                 retry.setVisibility(GONE);
                 break;

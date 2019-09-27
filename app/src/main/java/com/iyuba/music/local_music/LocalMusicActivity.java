@@ -37,7 +37,6 @@ import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.player.StandardPlayer;
 
@@ -94,6 +93,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.beforeSetLayout(savedInstanceState);
         player = Utils.getMusicApplication().getPlayerService().getPlayer();
         Utils.getMusicApplication().getPlayerService().setListener(iPlayerListener);
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -329,17 +329,9 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     @Override
     public void onAccreditFailure(int requestCode) {
         super.onAccreditFailure(requestCode);
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
+        onRequestPermissionDenied(context.getString(R.string.storage_permission_content),
+                new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<LocalMusicActivity> {

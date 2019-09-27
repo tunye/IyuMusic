@@ -19,7 +19,6 @@ import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.widget.dialog.ContextMenu;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
@@ -243,16 +242,8 @@ public class FileBrowserActivity extends BaseActivity {
     @Override
     public void onAccreditFailure(int requestCode) {
         super.onAccreditFailure(requestCode);
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
+        onRequestPermissionDenied(context.getString(R.string.storage_permission_content),
+                new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 }

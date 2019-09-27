@@ -27,7 +27,7 @@
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:layout_marginEnd="60dp"
+                android:layout_marginEnd="66dp"
                 android:layout_marginStart="@dimen/row_space_large"
                 app:rv_backgroundColor="#dcdcdc"
                 app:rv_cornerRadius="@dimen/corner_radius_small">
@@ -38,10 +38,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:hint="@string/search_word_hint"
+                    android:imeOptions="actionSearch"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
-                    android:paddingStart="@dimen/row_space_medium"
-                    android:paddingEnd="@dimen/row_space_medium"
+                    android:layout_marginStart="@dimen/row_space_medium"
+                    android:layout_marginEnd="@dimen/row_space_medium"
                     android:layout_marginBottom="-4dp"
                     app:met_primaryColor="@color/skin_app_color" />
             </com.iyuba.music.widget.roundview.RoundFrameLayout>

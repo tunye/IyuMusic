@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
 import android.view.View;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
@@ -25,7 +24,6 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.UploadFile;
-import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
 import com.iyuba.music.widget.dialog.ContextMenu;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
@@ -117,7 +115,6 @@ public class ChangePhotoActivity extends BaseActivity {
 
     @Override
     public void onAccreditSucceed(int requestCode) {
-        super.onAccreditSucceed(requestCode);
         if (requestCode == PermissionPool.CAMERA) {
             imgPath = ImageSelectorActivity.startCameraDirect(context);
         }
@@ -128,7 +125,7 @@ public class ChangePhotoActivity extends BaseActivity {
         super.onAccreditFailure(requestCode);
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
+        materialDialog.setMessage(requestCode == PermissionPool.CAMERA ? R.string.camera_permission_content : R.string.storage_permission_content);
         materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
             @Override
             public void activeClick(View view) {

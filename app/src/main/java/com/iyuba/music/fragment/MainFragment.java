@@ -27,6 +27,7 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -50,6 +51,7 @@ import java.util.Arrays;
  */
 public class MainFragment extends BaseFragment {
     private static final int HANDLER_REFRESH_PROGRESS = 0;
+    private IOperationResultInt iOperationResultInt;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ViewPager viewPager;
     private Context context;
@@ -62,6 +64,10 @@ public class MainFragment extends BaseFragment {
     private MorphButton pause;
     private Animation operatingAnim;
     private MainChangeUIBroadCast broadCast;
+
+    public void setiOperationResultInt(IOperationResultInt iOperationResultInt) {
+        this.iOperationResultInt = iOperationResultInt;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,24 @@ public class MainFragment extends BaseFragment {
         viewPagerIndicator.setTabItemTitles(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title))));
         viewPagerIndicator.setViewPager(viewPager, 0);
         viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor());
+        viewPagerIndicator.setOnPageChangeListener(new TabIndicator.PageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (iOperationResultInt != null) {
+                    iOperationResultInt.performance(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         initPlayControl(view);
         return view;
     }

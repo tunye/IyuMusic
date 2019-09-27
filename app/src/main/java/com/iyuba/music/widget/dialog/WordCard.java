@@ -59,19 +59,11 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
     private SimplePlayer player;
 
     public WordCard(Context context) {
-        super(context);
-        this.context = context;
-        init();
+        this(context, null);
     }
 
     public WordCard(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        this.context = context;
-        init();
-    }
-
-    public WordCard(Context context, AttributeSet attributeSet, int defStyle) {
-        super(context, attributeSet, defStyle);
         this.context = context;
         init();
     }
@@ -103,6 +95,12 @@ public class WordCard extends LinearLayout implements View.OnClickListener {
         speaker.setOnClickListener(this);
         add.setOnClickListener(this);
         close.setOnClickListener(this);
+        root.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // do nothing
+            }
+        });
         root.setVisibility(GONE);
     }
 

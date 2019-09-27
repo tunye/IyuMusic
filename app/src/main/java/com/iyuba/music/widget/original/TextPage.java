@@ -9,11 +9,15 @@ import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+
+import com.buaa.ct.core.manager.RuntimeManager;
 
 public class TextPage extends AppCompatEditText {
     private TextSelectCallBack textSelectCallBack;
-    private boolean isCanSelect = false;
-    private float[] oldXY;
+    private float initX, initY;
+
+    private int minTouchSlop = ViewConfiguration.get(RuntimeManager.getInstance().getContext()).getScaledTouchSlop();
 
     public TextPage(Context context) {
         super(context);
@@ -54,17 +58,12 @@ public class TextPage extends AppCompatEditText {
         int off;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                oldXY = new float[]{event.getX(), event.getY()};
-                isCanSelect = true;
-                break;
+                initX = event.getX();
+                initY = event.getY();
+                return true;
             case MotionEvent.ACTION_MOVE:
-                if (Math.abs(event.getX() - oldXY[0]) > 5
-                        && Math.abs(event.getY() - oldXY[1]) > 5) {
-                    isCanSelect = false;
-                }
-                break;
+                return !(Math.abs(event.getX() - initX) > minTouchSlop) && !(Math.abs(event.getY() - initY) > minTouchSlop);
             case MotionEvent.ACTION_UP:
-                if (isCanSelect) {
                     line = layout.getLineForVertical(getScrollY() + (int) event.getY());
                     off = layout.getOffsetForHorizontal(line, (int) event.getX());
                     String selectText = getSelectText(off);
@@ -80,10 +79,9 @@ public class TextPage extends AppCompatEditText {
                             textSelectCallBack.onSelectText("");
                         }
                     }
-                }
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
 
     private String getSelectText(int currOff) {
@@ -93,10 +91,6 @@ public class TextPage extends AppCompatEditText {
             return null;
         }
         int leftOff = currOff, rightOff = currOff;
-        letter = String.valueOf(original.charAt(leftOff));
-        if (!letter.matches("[a-zA-Z'-]")) {
-            return null;
-        }
         while (true) {
             leftOff--;
             if (leftOff < 0) {
@@ -120,8 +114,7 @@ public class TextPage extends AppCompatEditText {
                 break;
             }
         }
-        String endString = original.subSequence(leftOff, rightOff).toString()
-                .trim();
+        String endString = original.subSequence(leftOff, rightOff).toString().trim();
         if (!TextUtils.isEmpty(endString)) {
             Selection.setSelection(getEditableText(), leftOff, rightOff);
         } else {

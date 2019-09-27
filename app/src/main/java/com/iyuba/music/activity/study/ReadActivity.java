@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.PermissionPool;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
@@ -75,17 +76,9 @@ public class ReadActivity extends BaseActivity {
 
     @Override
     public void onAccreditFailure(final int requestCode) {
-        super.onAccreditFailure(requestCode);
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                permissionDispose(requestCode, requestCode == PermissionPool.RECORD_AUDIO ? Manifest.permission.RECORD_AUDIO : Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
+        boolean hasStoragePermission = hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        onRequestPermissionDenied(RuntimeManager.getInstance().getString(hasStoragePermission ? R.string.audio_permission_content : R.string.storage_permission_content),
+                new int[]{PermissionPool.RECORD_AUDIO, PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 }

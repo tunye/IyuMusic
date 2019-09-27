@@ -80,8 +80,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/large_text"
-                android:textStyle="bold" />
+                android:textSize="@dimen/large_text" />
 
             <LinearLayout
                 android:id="@+id/article_desc_ly"

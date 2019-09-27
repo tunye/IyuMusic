@@ -88,7 +88,7 @@ public class WebViewActivity extends BaseActivity {
                 loadProgress.requestLayout();
             }
         });
-        source = (TextView) findViewById(R.id.source);
+        source = findViewById(R.id.source);
         initContextMenu();
     }
 
@@ -117,7 +117,12 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-        super.setListener();
+        back.setOnClickListener(new INoDoubleClick() {
+            @Override
+            public void activeClick(View v) {
+                finish();
+            }
+        });
         web.setWebChromeClient(
                 new WebChromeClient() {
                     @Override
@@ -130,7 +135,7 @@ public class WebViewActivity extends BaseActivity {
                     public void onReceivedTitle(WebView view, String titleContent) {
                         super.onReceivedTitle(view, titleContent);
                         if (TextUtils.isEmpty(titleText))
-                            title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                            title.setText(titleContent.length() > 15 ? titleContent.substring(0, 14) + "..." : titleContent);
                     }
                 }
         );
@@ -177,7 +182,7 @@ public class WebViewActivity extends BaseActivity {
         backIcon.setBackgroundResource(R.drawable.close);
         url = getIntent().getStringExtra("url");
         titleText = getIntent().getStringExtra("title");
-        source.setText(context.getString(R.string.webview_source, hideMessage(url)));
+        source.setText(context.getString(R.string.webview_source, Uri.parse(url).getHost()));
         web.loadUrl(url);
         title.setText(titleText);
         enableToolbarOper(R.string.app_more);
@@ -189,14 +194,6 @@ public class WebViewActivity extends BaseActivity {
     public void onDestroy() {
         web.destroy();
         super.onDestroy();
-    }
-
-    private String hideMessage(String url) {
-        if (url.contains("?")) {
-            return url.substring(url.indexOf("://") + 3, url.indexOf("?"));
-        } else {
-            return url.substring(url.indexOf("://") + 3);
-        }
     }
 
     private void startProgressBarAnim(int newProgress) {

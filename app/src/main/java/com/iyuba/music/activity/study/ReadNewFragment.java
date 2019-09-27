@@ -67,13 +67,6 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        onRefresh(0);
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
     private void delReadItem(int position) {
         if (position == -1) {
             position = 0;

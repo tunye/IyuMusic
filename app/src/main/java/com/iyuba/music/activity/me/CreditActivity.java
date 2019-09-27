@@ -102,7 +102,6 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
                     counts.setText("0");
                 }
                 rank.setText(R.string.credits_loading);
-                onRefresh(0);
             }
         }, 700);
     }

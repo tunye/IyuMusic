@@ -79,6 +79,7 @@ public class OriginalView extends ScrollView implements
             tp = new TextPage(context);
             tp.setTextColor(context.getResources().getColor(R.color.text_color));
             tp.setTextSize(RuntimeManager.getInstance().px2sp(textSize));
+            tp.setLineSpacing(0, 1.2f);
             if (isShowChinese()) {
                 tp.setText(originalList.get(i).getSentence() + "\n" + originalList.get(i).getSentence_cn());
             } else {

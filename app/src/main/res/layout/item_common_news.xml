@@ -14,8 +14,8 @@
 
         <FrameLayout
             android:id="@+id/article_image_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="72dp"
             android:layout_marginStart="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
             android:layout_marginEnd="@dimen/row_space_very_large"
@@ -64,8 +64,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/skin_app_color"
-                android:textSize="@dimen/big_text"
-                android:textStyle="bold" />
+                android:textSize="@dimen/big_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"

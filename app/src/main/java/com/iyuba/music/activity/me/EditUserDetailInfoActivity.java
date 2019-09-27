@@ -9,8 +9,11 @@ package com.iyuba.music.activity.me;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.LocationUtil;
 import com.buaa.ct.core.view.CustomToast;
 import com.buaa.ct.core.view.image.CircleImageView;
 import com.buaa.ct.core.view.image.DividerItemDecoration;
@@ -216,27 +220,15 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {
-            getDetaiInfo();
-            // google定位要求权限，之后再找解决方案吧
-//            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse<String>() {
-//                @Override
-//                public void onNetError(String msg) {
-//                    CustomToast.getInstance().showToast(msg);
-//                    waitingDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void onServerError(String msg) {
-//                    CustomToast.getInstance().showToast(msg);
-//                    waitingDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void response(String result) {
-//                    location.setText(result.trim());
-//                    getDetaiInfo();
-//                }
-//            });
+            LocationUtil.getCurLocation(new LocationUtil.OnLocationListener() {
+                @Override
+                public void getlocation(Location result) {
+                    Address curAddress = LocationUtil.getCurRegion(result);
+                    Log.e("ccc",curAddress.toString());
+                    location.setText(curAddress.getAdminArea() + " " + curAddress.getSubAdminArea() + " " + curAddress.getLocality());
+                    getDetaiInfo();
+                }
+            });
         }
     }
 

@@ -262,7 +262,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         int para = 0;
         if (originalList != null && originalList.size() != 0) {
             for (Original original : originalList) {
-                if (time < original.getStartTime()) {
+                if (time <= original.getStartTime()) {
                     break;
                 } else {
                     para++;

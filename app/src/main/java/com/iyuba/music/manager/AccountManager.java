@@ -1,8 +1,6 @@
 package com.iyuba.music.manager;
 
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -11,6 +9,7 @@ import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.LocationUtil;
 import com.buaa.ct.core.util.SPUtils;
 import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
@@ -207,21 +206,12 @@ public class AccountManager {
     }
 
     public void getGPS() {
-        Location location = null;
-        try {
-            LocationManager locationManager = (LocationManager) RuntimeManager.getInstance().getContext().getSystemService(Context.LOCATION_SERVICE);
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        LocationUtil.getCurLocation(new LocationUtil.OnLocationListener() {
+            @Override
+            public void getlocation(Location location) {
+                setLocation(location);
             }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            setLocation(location);
-        }
+        });
     }
 
     private void setLocation(@Nullable Location location) {

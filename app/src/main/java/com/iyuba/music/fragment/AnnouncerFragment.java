@@ -55,9 +55,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         disableSwipeLayout();
-        if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
-            getNetData();
-        }
+        getNetData();
     }
 
     @Override
@@ -65,7 +63,6 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
         RequestClient.requestAsync(new AnnouncerRequest(), new SimpleRequestCallBack<BaseListEntity<List<Announcer>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Announcer>> result) {
-                StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
                 ownerAdapter.setDataSet(result.getData());
             }
 

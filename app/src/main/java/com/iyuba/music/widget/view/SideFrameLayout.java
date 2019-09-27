@@ -1,18 +1,18 @@
-package com.iyuba.music.fragment;
+package com.iyuba.music.widget.view;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
@@ -42,7 +42,7 @@ import com.iyuba.music.widget.imageview.VipPhoto;
 /**
  * Created by 10202 on 2015/12/29.
  */
-public class MainLeftFragment extends BaseFragment {
+public class SideFrameLayout extends FrameLayout {
     private static final int HANDLE_SLEEP_TIME = 0;
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private Context context;
@@ -57,19 +57,13 @@ public class MainLeftFragment extends BaseFragment {
     //底部
     private View about, exit;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getActivity();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.main_left, null);
+    public SideFrameLayout(@NonNull Context context) {
+        super(context);
+        this.context = context;
+        root = LayoutInflater.from(context).inflate(R.layout.main_left, this);
         initWidget();
         setOnClickListener();
         autoLogin();
-        return root;
     }
 
     private void initWidget() {
@@ -93,25 +87,25 @@ public class MainLeftFragment extends BaseFragment {
             public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                startActivity(intent);
+                context.startActivity(intent);
             }
         });
         noLogin.setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                startActivityForResult(new Intent(context, LoginActivity.class), 101);
+                ((Activity) context).startActivityForResult(new Intent(context, LoginActivity.class), 101);
             }
         });
         personalPhoto.setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                startActivity(new Intent(context, ChangePhotoActivity.class));
+                context.startActivity(new Intent(context, ChangePhotoActivity.class));
             }
         });
         about.setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
-                startActivity(new Intent(context, AboutActivity.class));
+                context.startActivity(new Intent(context, AboutActivity.class));
             }
         });
         exit.setOnClickListener(new INoDoubleClick() {
@@ -133,7 +127,7 @@ public class MainLeftFragment extends BaseFragment {
         menuList.addItemDecoration(new DividerItemDecoration());
     }
 
-    private void changeUIResumeByPara() {
+    public void refresh() {
         handler.removeCallbacksAndMessages(HANDLE_SLEEP_TIME);
         if (AccountManager.getInstance().getUserId().equals("0")) {
             login.setVisibility(View.GONE);
@@ -143,7 +137,7 @@ public class MainLeftFragment extends BaseFragment {
             noLogin.setVisibility(View.GONE);
             if (AccountManager.getInstance().checkUserLogin()) {
                 personalPhoto.setVipStateVisible(AccountManager.getInstance().getUserInfo().getUid(), "1".equals(AccountManager.getInstance().getUserInfo().getVipStatus()));
-                if (userInfo != null && !userInfo.getUid().equals(AccountManager.getInstance().getUserId())) {
+                if (userInfo != null && (TextUtils.isEmpty(userInfo.getFollower()) || !userInfo.getUid().equals(AccountManager.getInstance().getUserId()))) {
                     updatePersonalInfoView();
                     getPersonalInfo();
                 }
@@ -179,12 +173,12 @@ public class MainLeftFragment extends BaseFragment {
                             new IOperationResult() {
                                 @Override
                                 public void success(Object message) {
-                                    Activity parent = getActivity();
+                                    Activity parent = (Activity) context;
                                     if ("add".equals(message.toString()) && parent != null && !parent.isDestroyed()) {
                                         CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                                             @Override
                                             public void activeClick(View view) {
-                                                startActivity(new Intent(context, CreditActivity.class));
+                                                context.startActivity(new Intent(context, CreditActivity.class));
                                             }
                                         });
                                     }
@@ -247,16 +241,13 @@ public class MainLeftFragment extends BaseFragment {
         }
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {// 登录的返回结果
             getPersonalInfo();
             CustomSnackBar.make(root, context.getString(R.string.personal_daily_login)).info(context.getString(R.string.credit_check), new INoDoubleClick() {
                 @Override
                 public void activeClick(View view) {
-                    startActivity(new Intent(context, CreditActivity.class));
+                    context.startActivity(new Intent(context, CreditActivity.class));
                 }
             });
         } else if (requestCode == 101 && resultCode == 2) {// 登录+注册的返回结果
@@ -264,49 +255,27 @@ public class MainLeftFragment extends BaseFragment {
             CustomSnackBar.make(root, context.getString(R.string.personal_change_photo)).info(context.getString(R.string.app_accept), new INoDoubleClick() {
                 @Override
                 public void activeClick(View view) {
-                    startActivity(new Intent(context, ChangePhotoActivity.class));
+                    context.startActivity(new Intent(context, ChangePhotoActivity.class));
                 }
             });
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void destroy() {
         handler.removeMessages(HANDLE_SLEEP_TIME);
-        login.setOnClickListener(null);
-        noLogin.setOnClickListener(null);
-        personalPhoto.setOnClickListener(null);
-        about.setOnClickListener(null);
-        exit.setOnClickListener(null);
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (operAdapter.onBackPressed()) {
-            return true;
-        } else {
-            return super.onBackPressed();
-        }
     }
 
     private void updatePersonalInfoView() {
-        Activity parent = getActivity();
+        Activity parent = (Activity) context;
         if (parent != null && !parent.isDestroyed()) {
             personalPhoto.setVipStateVisible(userInfo.getUid(), "1".equals(userInfo.getVipStatus()));
             setPersonalInfoContent();
         }
     }
 
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainLeftFragment> {
+    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<SideFrameLayout> {
         @Override
-        public void handleMessageByRef(final MainLeftFragment fragment, Message msg) {
+        public void handleMessageByRef(final SideFrameLayout fragment, Message msg) {
             fragment.operAdapter.notifyItemChanged(OperAdapter.SLEEP_POS);
             fragment.handler.sendEmptyMessageDelayed(HANDLE_SLEEP_TIME, 1000);
         }

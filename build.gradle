@@ -20,6 +20,11 @@ buildscript {
             url 'https://jitpack.io'
             name 'photoview'
         }
+
+        maven {
+            url "https://raw.githubusercontent.com/tunye/aar/master"
+            name 'ct-core'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
@@ -47,6 +52,11 @@ allprojects {
         maven {
             url 'https://jitpack.io'
             name 'photoview'
+        }
+
+        maven {
+            url "https://raw.githubusercontent.com/tunye/aar/master"
+            name 'ct-core'
         }
     }
 }

@@ -310,6 +310,9 @@ public class BannerView extends FrameLayout {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             final int realPos = position % bannerImages.size();
             ImageView iv = bannerImages.get(realPos);
+            if (container == iv.getParent()) {
+                container.removeView(iv);
+            }
             container.addView(iv);
             // 在这个方法里面设置图片的点击事件
             iv.setOnClickListener(new INoDoubleClick() {

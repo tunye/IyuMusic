@@ -57,29 +57,24 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
     @Override
     public void getNetData() {
         if (getData().size() == 0) {
-            if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
-                RequestClient.requestAsync(new BannerPicRequest("class.iyumusic.yuan"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
-                    @Override
-                    public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
-                        StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
-                        List<BannerEntity> bannerEntities = result.getData();
-                        BannerEntity bannerEntity = new BannerEntity();
-                        bannerEntity.setOwnerid(BannerEntity.OWNER_EMPTY);
-                        bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
-                        bannerEntity.setDesc("全部原声歌曲列表");
-                        bannerEntities.add(bannerEntity);
-                        SPUtils.putString(ConfigManager.getInstance().getPreferences(), "songbanner", JSON.toJSONString(bannerEntities));
-                        ((SongCategoryAdapter) ownerAdapter).setAdSet(bannerEntities);
-                    }
+            RequestClient.requestAsync(new BannerPicRequest("class.iyumusic.yuan"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
+                @Override
+                public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
+                    List<BannerEntity> bannerEntities = result.getData();
+                    BannerEntity bannerEntity = new BannerEntity();
+                    bannerEntity.setOwnerid(BannerEntity.OWNER_EMPTY);
+                    bannerEntity.setPicUrl(String.valueOf(R.drawable.default_ad));
+                    bannerEntity.setDesc("全部原声歌曲列表");
+                    bannerEntities.add(bannerEntity);
+                    SPUtils.putString(ConfigManager.getInstance().getPreferences(), "songbanner", JSON.toJSONString(bannerEntities));
+                    ((SongCategoryAdapter) ownerAdapter).setAdSet(bannerEntities);
+                }
 
-                    @Override
-                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
-                        loadLocalBannerData();
-                    }
-                });
-            } else {
-                loadLocalBannerData();
-            }
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    loadLocalBannerData();
+                }
+            });
         }
         RequestClient.requestAsync(new SongCategoryRequest(curPage), new SimpleRequestCallBack<BaseListEntity<List<SongCategory>>>() {
             @Override

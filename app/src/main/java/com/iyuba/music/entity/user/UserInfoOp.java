@@ -112,8 +112,6 @@ public class UserInfoOp extends BaseEntityOp<UserInfo> {
         UserInfo userInfo = null;
         if (cursor.moveToNext()) {
             userInfo = fillData(cursor);
-        } else {
-            userInfo = new UserInfo();
         }
         cursor.close();
         db.close();

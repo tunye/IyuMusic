@@ -6,6 +6,7 @@ import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ import com.iyuba.music.request.merequest.FriendRequest;
 import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.recycleview.ListRequestAllState;
 import com.iyuba.music.widget.roundview.RoundFrameLayout;
-import com.iyuba.music.widget.roundview.RoundLinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.List;
@@ -68,6 +68,7 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
         requestAllState = findViewById(R.id.list_request_all_state);
         requestAllState.setLoadingShowContent(R.string.friend_finding);
         requestAllState.setList(owner);
+        requestAllState.setEmptyShowContent(R.string.friend_no_data);
     }
 
     @Override
@@ -83,8 +84,11 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                doSearch();
-                return true;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    doSearch();
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -114,6 +118,9 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
 
     @Override
     public void getNetData() {
+        if (TextUtils.isEmpty(searchContent.getEditableText().toString())) {
+            return;
+        }
         RequestClient.requestAsync(new FriendRequest(AccountManager.getInstance().getUserId(), FriendRequest.SEARCH_REQUEST_CODE, searchContent.getEditableText().toString(), curPage), new SimpleRequestCallBack<BaseListEntity<List<Friend>>>() {
             @Override
             public void onSuccess(BaseListEntity<List<Friend>> listEntity) {
@@ -122,7 +129,7 @@ public class SearchFriendActivity extends BaseListActivity<Friend> {
                 isLastPage = listEntity.isLastPage();
                 if (!isLastPage && curPage != 1) {
                     CustomToast.getInstance().showToast(curPage + "/" + listEntity.getTotalPage(), Toast.LENGTH_SHORT);
-                } else if (isLastPage && curPage == 1) {
+                } else if (listEntity.getData().isEmpty() && curPage == 1) {
                     requestAllState.show(new ErrorInfoWrapper(ErrorInfoWrapper.EMPTY_ERROR), null);
                 }
             }

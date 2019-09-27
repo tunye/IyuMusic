@@ -22,9 +22,8 @@ import java.util.List;
 public class FriendCenter extends BaseActivity {
     public static final String INTENT_TYPE = "intent_type";
     public static final String INTENT_TYPE_CHAT = "chat";
-    public static final String INTENT_TYPE_HOME = "home";
     public static final String START_POS = "start_pos";
-    public static final String NEED_POP = "start_pos";
+    public static final String NEED_POP = "need_pop";
     private ViewPager viewPager;
     private int startType;
     private String intentType;
@@ -52,6 +51,22 @@ public class FriendCenter extends BaseActivity {
         viewPager.setAdapter(new FriendFragmentAdapter(getSupportFragmentManager()));
         viewPagerIndicator.setTabItemTitles(tabTitle);
         viewPagerIndicator.setViewPager(viewPager, 0);
+        viewPagerIndicator.setOnPageChangeListener(new TabIndicator.PageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

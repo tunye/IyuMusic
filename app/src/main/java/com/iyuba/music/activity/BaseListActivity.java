@@ -138,9 +138,7 @@ public abstract class BaseListActivity<T> extends CoreBaseListActivity<T> {
             @Override
             public void activeClick(View view) {
                 materialDialog.dismiss();
-                for (int i = 0; i < codes.length; i++) {
-                    permissionDispose(codes[i], permissions[i]);
-                }
+                requestMultiPermission(codes, permissions);
             }
         });
         materialDialog.show();

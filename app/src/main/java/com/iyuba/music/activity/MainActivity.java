@@ -1,20 +1,19 @@
 package com.iyuba.music.activity;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -22,37 +21,41 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.buaa.ct.appskin.BaseSkinActivity;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
-import com.buaa.ct.core.network.NetWorkState;
-import com.buaa.ct.core.network.NetWorkType;
-import com.buaa.ct.core.network.PingIPThread;
+import com.buaa.ct.core.util.PermissionPool;
 import com.buaa.ct.core.util.ThreadUtils;
 import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.qrcode.QRCode;
+import com.buaa.ct.qrcode.sample.CustomQRCodeTestActivity;
+import com.buaa.ct.swipe.SmartSwipe;
+import com.buaa.ct.swipe.SmartSwipeWrapper;
+import com.buaa.ct.swipe.SwipeConsumer;
+import com.buaa.ct.swipe.consumer.SlidingConsumer;
+import com.buaa.ct.swipe.consumer.StretchConsumer;
+import com.buaa.ct.swipe.listener.SimpleSwipeListener;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.fragment.MainFragment;
-import com.iyuba.music.fragment.MainLeftFragment;
 import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.IOperationResult;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
+import com.iyuba.music.receiver.NetWorkChangeBroadcastReceiver;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.widget.CustomSnackBar;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.CustomDialog;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
+import com.iyuba.music.widget.view.SideFrameLayout;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
-import java.lang.ref.WeakReference;
-
 public class MainActivity extends BaseSkinActivity {
-    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
-    private static final int WRITE_EXTERNAL_TASK_NO_EXE_CODE = 2;
-    private static final int ACCESS_COARSE_LOCATION_TASK_CODE = 3;
+    public static final int REQUEST_SCAN = 701;
     private Context context;
-    private DrawerLayout drawerLayout;
-    private View drawView, root;
-    private TextView toolbarOper;
+    private TextView search, scan;
+    private View mainMask;
+    private SideFrameLayout sideFrameLayout;
+    private SlidingConsumer slidingConsumer;
     private MaterialMenuView menu;
     private NetWorkChangeBroadcastReceiver netWorkChange;
     private boolean isExit = false;// 是否点过退出
@@ -61,9 +64,11 @@ public class MainActivity extends BaseSkinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ChangePropery.setAppConfig(this);
+        if (hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            AccountManager.getInstance().getGPS();
+        }
         setContentView(R.layout.main);
         context = this;
-        requestLocation();
         initBroadcast();
         initWidget();
         setListener();
@@ -75,18 +80,9 @@ public class MainActivity extends BaseSkinActivity {
                 }
             }, 500);
         } else {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_NO_EXE_CODE);
-            }
             StartFragment.checkTmpFile();
             if (getIntent().getBooleanExtra("pushIntent", false)) {
-                ThreadUtils.postOnUiThreadDelay(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
-                    }
-                }, 200);
+                directToFragment(2);
             }
             checkForUpdate();
         }
@@ -97,12 +93,7 @@ public class MainActivity extends BaseSkinActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra("pushIntent", false)) {
-            ThreadUtils.postOnUiThreadDelay(new Runnable() {
-                @Override
-                public void run() {
-                    ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(2);
-                }
-            }, 200);
+            directToFragment(2);
         }
     }
 
@@ -110,12 +101,13 @@ public class MainActivity extends BaseSkinActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        sideFrameLayout.refresh();
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.START)) {
-            drawerLayout.closeDrawer(Gravity.START);
+        if (slidingConsumer.isOpened()) {
+            slidingConsumer.smoothClose();
         } else {
             pressAgainExit();
         }
@@ -129,21 +121,61 @@ public class MainActivity extends BaseSkinActivity {
                 MiPushClient.disablePush(RuntimeManager.getInstance().getContext());
             }
         }
-        netWorkChange = new NetWorkChangeBroadcastReceiver(this);
+        netWorkChange = new NetWorkChangeBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(netWorkChange, intentFilter);
     }
 
     public void initWidget() {
-        root = findViewById(R.id.root);
-        toolbarOper = findViewById(R.id.toolbar_oper);
+        View toolBar = findViewById(R.id.toolbar);
+        toolBar.setPadding(0, RuntimeManager.getInstance().getTopNavBarHeight(), 0, 0);
+        search = findViewById(R.id.main_search);
+        scan = findViewById(R.id.main_qrcode);
         menu = findViewById(R.id.material_menu);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        MainLeftFragment mainLeftFragment = new MainLeftFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_drawer, mainLeftFragment).commitAllowingStateLoss();
+        mainMask = findViewById(R.id.main_mask);
+
         MainFragment mainFragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commitAllowingStateLoss();
-        drawView = findViewById(R.id.left_drawer);
+        mainFragment.setiOperationResultInt(new IOperationResultInt() {
+            @Override
+            public void performance(int index) {
+                if (index == 0) {
+                    slidingConsumer.setEdgeSize((int) (0.75f * RuntimeManager.getInstance().getScreenWidth()));
+                } else {
+                    slidingConsumer.setEdgeSize(-1);
+                }
+            }
+        });
+        sideFrameLayout = new SideFrameLayout(context);
+        sideFrameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        SmartSwipeWrapper horizontalMenuWrapper = SmartSwipe.wrap(sideFrameLayout).addConsumer(new StretchConsumer()).enableVertical().getWrapper();
+        slidingConsumer = new SlidingConsumer()
+                .setDrawerExpandable(true)
+                .setLeftDrawerView(horizontalMenuWrapper)
+                .showScrimAndShadowOutsideContentView()
+                .setScrimColor(0x44000000)
+                .setShadowSize(RuntimeManager.getInstance().dip2px(3))
+                .setShadowColor(0x80000000)
+                .addListener(new SimpleSwipeListener() {
+                    @Override
+                    public void onSwipeProcess(SmartSwipeWrapper wrapper, SwipeConsumer consumer, int direction, boolean settling, float progress) {
+                        super.onSwipeProcess(wrapper, consumer, direction, settling, progress);
+                        menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - progress);
+                        if (direction == SwipeConsumer.DIRECTION_LEFT) {
+                            mainMask.setAlpha(progress);
+                            if (progress == 0) {
+                                mainMask.setVisibility(View.GONE);
+                            } else {
+                                mainMask.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                })
+                .setEdgeSize((int) (0.75f * RuntimeManager.getInstance().getScreenWidth()))
+                .as(SlidingConsumer.class);
+        slidingConsumer.setRelativeMoveFactor(0.5F);
+        SmartSwipe.wrap(this).addConsumer(slidingConsumer);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
     }
 
     public void setListener() {
@@ -151,42 +183,60 @@ public class MainActivity extends BaseSkinActivity {
             @Override
             public void activeClick(View view) {
                 if (menu.getDrawable().getIconState().equals(MaterialMenuDrawable.IconState.BURGER)) {
-                    drawerLayout.openDrawer(drawView);
+                    slidingConsumer.smoothLeftOpen();
                     menu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
                 } else {
-                    drawerLayout.closeDrawer(drawView);
+                    slidingConsumer.smoothClose();
                     menu.animatePressedState(MaterialMenuDrawable.IconState.ARROW);
                 }
             }
         });
-        toolbarOper.setOnClickListener(new INoDoubleClick() {
+        search.setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
                 startActivity(new Intent(context, SearchActivity.class));
             }
         });
-        drawerLayout.addDrawerListener(new DrawerLayoutStateListener(this));
-    }
-
-    private void requestLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_TASK_CODE);
-        } else {
-            AccountManager.getInstance().getGPS();
-        }
+        scan.setOnClickListener(new INoDoubleClick() {
+            @Override
+            public void activeClick(View v) {
+                if (!hasPermission(Manifest.permission.CAMERA)) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, PermissionPool.CAMERA);
+                } else {
+                    CustomQRCodeTestActivity.start(MainActivity.this, REQUEST_SCAN, com.buaa.ct.qrcode.R.style.QRCodeTheme_Custom);
+                }
+            }
+        });
+        mainMask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // do nothing
+            }
+        });
     }
 
     private void showWhatsNew() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
-        } else {
+        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             StartFragment.resetDownLoadData();
         }
         ConfigManager.getInstance().setUpgrade(false);
         StartFragment.showVersionFeature(context);
+    }
+
+    private boolean hasPermission(String permission){
+        return ContextCompat.checkSelfPermission(this,permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void directToFragment(final int pos){
+        ThreadUtils.postOnUiThreadDelay(new Runnable() {
+            @Override
+            public void run() {
+                ((MainFragment) (getSupportFragmentManager().findFragmentById(R.id.content_frame))).setShowItem(pos);
+                if (pos != 0) {
+                    slidingConsumer.setEdgeSize((int) (0.75f * RuntimeManager.getInstance().getScreenWidth()));
+                }
+            }
+        }, 100);
     }
 
     private void checkForUpdate() {
@@ -210,50 +260,55 @@ public class MainActivity extends BaseSkinActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sideFrameLayout.destroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions.length == 1 && permissions[0].equalsIgnoreCase(Manifest.permission.CAMERA)) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                CustomQRCodeTestActivity.start(this, REQUEST_SCAN, com.buaa.ct.qrcode.R.style.QRCodeTheme_Custom);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SCAN && resultCode == Activity.RESULT_OK && data.getExtras() != null) {
+            String result = data.getExtras().getString(QRCode.RESULT_DATA);
+            if (TextUtils.isEmpty(result)) {
+                CustomToast.getInstance().showToast("未发现二维码");
+            } else if (result.startsWith(NullActivity.appScheme)) {
+                NullActivity.exePushData(context, result);
+            } else if (result.startsWith(NullActivity.webScheme)) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", result);
+                context.startActivity(intent);
+            } else {
+                CustomToast.getInstance().showToast("无法识别该二维码");
+            }
+        } else {
+            sideFrameLayout.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void finish() {
         super.finish();
         unRegistBroadcast();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == ACCESS_COARSE_LOCATION_TASK_CODE && grantResults.length != 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                AccountManager.getInstance().getGPS();
-            }
-        } else if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults.length != 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                StartFragment.resetDownLoadData();
-            } else {
-                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setTitle(R.string.storage_permission);
-                materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
-                    @Override
-                    public void activeClick(View view) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
-            }
-        }
-    }
-
     private void pressAgainExit() {
         if (isExit) {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {   // 后台播放
-//                直接返回桌面
-//                Intent i = new Intent(Intent.ACTION_MAIN);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                i.addCategory(Intent.CATEGORY_HOME);
-//                startActivity(i);
                 ((MusicApplication) getApplication()).clearActivityList();
             } else {
                 new LocalInfoOp().changeDownloadToStop();
-                ((MusicApplication) getApplication()).exit();
+                Utils.getMusicApplication().exit();
             }
         } else {
             if (((MusicApplication) getApplication()).getPlayerService().isPlaying()) {//后台播放
@@ -278,114 +333,6 @@ public class MainActivity extends BaseSkinActivity {
     private void unRegistBroadcast() {
         if (netWorkChange != null) {
             unregisterReceiver(netWorkChange);
-        }
-    }
-
-    private void checkWifiSignIn() {
-        CustomSnackBar.make(root, context.getString(R.string.net_wifi_sign_in)).danger(context.getString(R.string.net_sign_in), new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse("http://m.baidu.com");
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void setNetwork(Context context) {
-        CustomSnackBar.make(root, context.getString(R.string.net_no_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void setBetterNetwork(Context context) {
-        CustomSnackBar.make(root, context.getString(R.string.net_better_net)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private static class DrawerLayoutStateListener extends
-            DrawerLayout.SimpleDrawerListener {
-        private final WeakReference<MainActivity> mWeakReference;
-
-        public DrawerLayoutStateListener(MainActivity activity) {
-            mWeakReference = new WeakReference<>(activity);
-        }
-
-        /**
-         * 当导航菜单滑动的时候被执行
-         */
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-            if (mWeakReference.get() != null) {
-                mWeakReference.get().menu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
-            }
-        }
-
-        /**
-         * 当导航菜单打开时执行
-         */
-        @Override
-        public void onDrawerOpened(View drawerView) {
-        }
-
-        /**
-         * 当导航菜单关闭时执行
-         */
-        @Override
-        public void onDrawerClosed(View drawerView) {
-        }
-    }
-
-    static class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
-        private final WeakReference<MainActivity> mWeakReference;
-
-        public NetWorkChangeBroadcastReceiver(MainActivity activity) {
-            mWeakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (mWeakReference.get() != null) {
-                String oldState = NetWorkState.getInstance().getNetWorkState();
-                String netWorkState = NetWorkType.getNetworkType(context);
-                NetWorkState.getInstance().setNetWorkState(netWorkState);
-                if (!netWorkState.equals(oldState)) {
-                    if (TextUtils.equals(netWorkState, NetWorkState.NO_NET)) {
-                        mWeakReference.get().setNetwork(context);
-                    } else if (TextUtils.equals(oldState, NetWorkState.WIFI)) {
-                        CustomSnackBar.make(mWeakReference.get().root, context.getString(R.string.net_cut_wifi)).warning();
-                    } else if (TextUtils.equals(netWorkState, NetWorkState.WIFI)) {
-                        PingIPThread pingIPThread = new PingIPThread(new PingIPThread.PingResult() {
-                            @Override
-                            public void success() {
-
-                            }
-
-                            @Override
-                            public void fail() {
-                                NetWorkState.getInstance().setNetWorkState(NetWorkState.WIFI_NONET);
-                                mWeakReference.get().checkWifiSignIn();
-                            }
-                        });
-                        pingIPThread.start();
-                    }
-                }
-            }
         }
     }
 }

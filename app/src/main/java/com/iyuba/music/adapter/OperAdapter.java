@@ -111,11 +111,15 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         }
         if (holder.getAdapterPosition() == 1) {
             holder.go.setVisibility(View.GONE);
-            String state = AccountManager.getInstance().getUserInfo().getText();
-            if (TextUtils.isEmpty(state) || "null".equals(state)) {
+            if (AccountManager.getInstance().getUserInfo() == null) {
                 holder.menuText.setText(R.string.personal_nosign);
             } else {
-                holder.menuText.setText(state);
+                String state = AccountManager.getInstance().getUserInfo().getText();
+                if (TextUtils.isEmpty(state) || "null".equals(state)) {
+                    holder.menuText.setText(R.string.personal_nosign);
+                } else {
+                    holder.menuText.setText(state);
+                }
             }
         }
         if (holder.getAdapterPosition() == 5) {

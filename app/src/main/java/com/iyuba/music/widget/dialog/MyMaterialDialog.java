@@ -35,7 +35,7 @@ import com.iyuba.music.widget.textview.JustifyTextView;
 public class MyMaterialDialog {
     private final static int BUTTON_BOTTOM = 9;
     private final static int BUTTON_TOP = 9;
-    public static int styleId = R.style.MyDialogTheme;
+    public static int styleId = R.style.MyMaterialDialogTheme;
     private boolean mCancel;
     private Context mContext;
     private AlertDialog mAlertDialog;

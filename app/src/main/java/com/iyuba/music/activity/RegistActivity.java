@@ -389,7 +389,7 @@ public class RegistActivity extends BaseActivity {
     }
 
     private boolean regexPhone() {
-        String regex = "[1][3578]\\d{9}";
+        String regex = "[1][356789]\\d{9}";
         if (phone.getEditableText().toString().matches(regex)) {
             return true;
         } else {

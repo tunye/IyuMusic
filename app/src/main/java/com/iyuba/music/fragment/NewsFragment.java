@@ -90,41 +90,21 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
 
     private void getNewsData(final int maxid) {
         if (maxid == 0) {
-            if (!StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName() + "-Banner")) {
-                RequestClient.requestAsync(new BannerPicRequest("class.iyumusic"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
-                    @Override
-                    public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
-                        StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName() + "-Banner", "qier");
-                        List<BannerEntity> bannerEntities = result.getData();
-                        SPUtils.putString(ConfigManager.getInstance().getPreferences(), "newsbanner", JSON.toJSONString(bannerEntities));
-                        ((NewsAdapter) ownerAdapter).setAdSet(bannerEntities);
-                    }
-
-                    @Override
-                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
-                        loadLocalBannerData();
-                    }
-                });
-            } else {
-                loadLocalBannerData();
-            }
-        }
-        if (maxid == 0) {
-            if (StudyManager.getInstance().getDailyLoadOnceMap().containsKey(getClassName())) {
-                getDbData(maxid);
-                if (!StudyManager.getInstance().isStartPlaying() && getData().size() != 0) {
-                    setStudyList();
-                } else if (NewsFragment.this.getClass().getName().equals(StudyManager.getInstance().getListFragmentPos())) {
-                    StudyManager.getInstance().setSourceArticleList(getData());
+            RequestClient.requestAsync(new BannerPicRequest("class.iyumusic"), new SimpleRequestCallBack<BaseListEntity<List<BannerEntity>>>() {
+                @Override
+                public void onSuccess(BaseListEntity<List<BannerEntity>> result) {
+                    List<BannerEntity> bannerEntities = result.getData();
+                    SPUtils.putString(ConfigManager.getInstance().getPreferences(), "newsbanner", JSON.toJSONString(bannerEntities));
+                    ((NewsAdapter) ownerAdapter).setAdSet(bannerEntities);
                 }
-                swipeRefreshLayout.setRefreshing(false);
-            } else {
-                StudyManager.getInstance().getDailyLoadOnceMap().put(getClassName(), "qier");
-                loadNetData(maxid);
-            }
-        } else {
-            loadNetData(maxid);
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    loadLocalBannerData();
+                }
+            });
         }
+        loadNetData(maxid);
     }
 
     private void getDbData(int maxId) {

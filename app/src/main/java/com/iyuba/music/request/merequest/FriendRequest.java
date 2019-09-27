@@ -47,7 +47,7 @@ public class FriendRequest extends Request<BaseListEntity<List<Friend>>> {
         para.put("format", "json");
         para.put("pageNumber", page);
         para.put("pageCounts", 20);
-        para.put("sign", MD5.getMD5ofStr(51002 + uid + "iyubaV2"));
+        para.put("sign", MD5.getMD5ofStr(protocol + uid + "iyubaV2"));
         url = ParameterUrl.setRequestParameter(originalUrl, para);
     }
 
@@ -57,23 +57,25 @@ public class FriendRequest extends Request<BaseListEntity<List<Friend>>> {
         if (getSuccessCode().equals(resultCode)) {
             BaseListEntity<List<Friend>> baseListEntity = new BaseListEntity<>();
             List<? extends Friend> list = JSON.parseArray(jsonObject.getString("data"), getDataClass());
-            baseListEntity.setTotalCount(jsonObject.getInteger("num"));
-            baseListEntity.setTotalPage(baseListEntity.getTotalCount() / 20 + (baseListEntity.getTotalCount() % 20 == 0 ? 0 : 1));
-            if (list.size() == 0) {
+            if (list.size() < 20) {
                 baseListEntity.setIsLastPage(true);
             } else {
                 baseListEntity.setIsLastPage(false);
-                for (Friend friend : list) {
-                    friend.setDoing(ParameterUrl.decode(friend.getDoing()));
-                }
-                baseListEntity.setData(new ArrayList<>(list));
+            }
+            for (Friend friend : list) {
+                friend.setDoing(ParameterUrl.decode(friend.getDoing()));
+            }
+            baseListEntity.setData(new ArrayList<>(list));
+            if (protocol.equalsIgnoreCase(FAN_REQUEST_CODE) || protocol.equalsIgnoreCase(FOLLOW_REQUEST_CODE)) {
+                baseListEntity.setTotalCount(jsonObject.getInteger("num"));
+                baseListEntity.setTotalPage(baseListEntity.getTotalCount() / 20 + (baseListEntity.getTotalCount() % 20 == 0 ? 0 : 1));
             }
             if (protocol.equals(RECOMMEND_REQUEST_CODE) && resultCode.equals(RECOMMEND_ALL_DATA_CODE)) {
                 baseListEntity.setIsLastPage(true);
             }
             if (protocol.equals(SEARCH_REQUEST_CODE)) {
                 baseListEntity.setTotalPage(jsonObject.getInteger("lastPage"));
-                baseListEntity.setIsLastPage(jsonObject.getIntValue("nextPage") != jsonObject.getIntValue("lastPage"));
+                baseListEntity.setIsLastPage(jsonObject.getIntValue("nextPage") == jsonObject.getIntValue("lastPage"));
             }
             return baseListEntity;
         } else {

@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/row_space_medium"
+                android:layout_marginTop="@dimen/row_space_large"
                 android:orientation="vertical">
 
                 <TextView
@@ -63,7 +63,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/row_space_default">
+                    android:layout_marginTop="@dimen/row_space_medium">
 
                     <TextView
                         android:id="@+id/article_announcer"
@@ -72,7 +72,7 @@
                         android:gravity="center"
                         android:text="@string/app_intro"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/big_text" />
+                        android:textSize="@dimen/medium_text" />
 
                     <TextView
                         android:id="@+id/article_readcount"

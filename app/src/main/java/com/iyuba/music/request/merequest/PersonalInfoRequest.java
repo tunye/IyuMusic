@@ -85,10 +85,8 @@ public class PersonalInfoRequest extends Request<BaseApiEntity<UserInfo>> {
                         if ("response".equals(nodeName)) {
                             apiEntity.setState(BaseApiEntity.SUCCESS);
                             apiEntity.setData(userInfo);
-                        } else {
-                            apiEntity.setState(BaseApiEntity.FAIL);
+                            return apiEntity;
                         }
-                        return apiEntity;
                 }
             }
         } catch (XmlPullParserException | IOException e) {

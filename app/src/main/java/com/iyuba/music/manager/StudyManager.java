@@ -21,12 +21,10 @@ public class StudyManager {
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
-    private Map<String, String> dailyLoadOnceMap;
 
     private StudyManager() {
         app = ConstantManager.appId;
         sourceArticleList = new ArrayList<>();
-        dailyLoadOnceMap = new ArrayMap<>();
     }
 
     public static StudyManager getInstance() {
@@ -129,10 +127,6 @@ public class StudyManager {
                 curArticleList.addAll(temp);
                 break;
         }
-    }
-
-    public Map<String, String> getDailyLoadOnceMap() {
-        return dailyLoadOnceMap;
     }
 
     private static class SingleInstanceHelper {

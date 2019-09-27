@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
-import com.github.chrisbanes.photoview.PhotoView;
+import com.buaa.ct.imageselector.photo.PhotoView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 

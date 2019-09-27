@@ -285,8 +285,6 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
             for (LocalInfo local : temp) {
                 article = articleOp.findById(local.getApp(), local.getId());
                 article.setExpireContent(local.getSeeTime());
-                article.setId(local.getId());
-                article.setApp(local.getApp());
                 downloading.add(article);
             }
             downloadingAdapter.setDataSet(downloading);
@@ -303,8 +301,6 @@ public class DownloadSongActivity extends BaseActivity implements IOnClickListen
         for (LocalInfo local : temp) {
             article = articleOp.findById(local.getApp(), local.getId());
             article.setExpireContent(local.getSeeTime());
-            article.setId(local.getId());
-            article.setApp(local.getApp());
             downloaded.add(article);
         }
         downloadedAdapter.setDataSet(downloaded);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.buaa.ct.comment.CommentView;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
@@ -197,23 +198,10 @@ public class CommentActivity extends BaseListActivity<Comment> {
 
     @Override
     public void onAccreditFailure(final int requestCode) {
-        super.onAccreditFailure(requestCode);
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                if (requestCode == PermissionPool.RECORD_AUDIO) {
-                    permissionDispose(PermissionPool.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO);
-                } else {
-                    permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
-
+        boolean hasStoragePermission = hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        onRequestPermissionDenied(RuntimeManager.getInstance().getString(hasStoragePermission ? R.string.audio_permission_content : R.string.storage_permission_content),
+                new int[]{PermissionPool.RECORD_AUDIO, PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     @Override

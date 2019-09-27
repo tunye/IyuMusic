@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,37 +17,53 @@ import com.iyuba.music.fragmentAdapter.HelpFragmentAdapter;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.VisitorIdRequest;
 import com.iyuba.music.widget.imageview.PageIndicator;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * 使用说明Activity
  *
  * @author chentong
  */
-public class HelpUseActivity extends AppCompatActivity {
+public class HelpUseActivity extends BaseActivity {
     public PageIndicator pi;
     private ViewPager viewPager;
     private float lastChange = 0;
     private boolean lastFlag;
     private boolean usePullDown;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setNavigationBarColor(GetAppColor.getInstance().getAppColor());
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.help_use);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            getWindow().setAttributes(lp);
+        }
         usePullDown = getIntent().getBooleanExtra("UsePullDown", false);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.help_use;
+    }
+
+    @Override
+    public void initWidget() {
+        super.initWidget();
         viewPager = findViewById(R.id.viewpager);
+        viewPager.setAdapter(new HelpFragmentAdapter(getSupportFragmentManager(), usePullDown));
         pi = findViewById(R.id.pageindicator);
         pi.setFillColor(0xffededed);
         pi.setStrokeColor(0xffededed);
+        pi.setCircleCount(viewPager.getAdapter().getCount());
+    }
+
+    @Override
+    public void setListener() {
         viewPager.addOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
@@ -93,14 +108,11 @@ public class HelpUseActivity extends AppCompatActivity {
                 }
             }
         });
-        viewPager.setAdapter(new HelpFragmentAdapter(getSupportFragmentManager(), usePullDown));
-        pi.setCircleCount(viewPager.getAdapter().getCount());
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
+    public void onActivityResumed() {
+        super.onActivityResumed();
         if (AccountManager.getInstance().needGetVisitorID()) {
             RequestClient.requestAsync(new VisitorIdRequest(), new SimpleRequestCallBack<String>() {
                 @Override
@@ -114,12 +126,6 @@ public class HelpUseActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 
     @Override
