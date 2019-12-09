@@ -143,8 +143,7 @@
     <string name="regist_by_email">邮箱</string>
     <string name="regist_get_code">获取验证码</string>
     <string name="regist_refresh_code">重新获取%1$ds</string>
-    <string name="regist_protocol_checkbox">同意</string>
-    <string name="regist_protocol"><u>使用条款和隐私政策</u></string>
+    <string name="regist_protocol_checkbox">同意<a href="http://app.iyuba.cn/ios/protocol.html">使用条款和隐私政策</a></string>
     <string name="regist_on_way">注册中，请稍候</string>
     <string name="regist_userid_same">该用户名已使用，请使用其他用户名注册</string>
     <string name="regist_email_same">该邮箱已使用，请使用其他邮箱注册</string>

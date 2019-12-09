@@ -12,7 +12,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
@@ -40,6 +47,7 @@ import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
+import com.iyuba.music.widget.textview.CustomUrlSpan;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -56,7 +64,6 @@ import cn.smssdk.SMSSDK;
 public class RegistActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
-    private TextView protocolText;
     private RoundTextView regist, getMessageCode;
     private CheckBox protocol;
     private View registByPhone, registByEmail;
@@ -104,7 +111,6 @@ public class RegistActivity extends BaseActivity {
         regist = findViewById(R.id.regist);
         AddRippleEffect.addRippleEffect(regist);
         protocol = findViewById(R.id.regist_protocol_checkbox);
-        protocolText = findViewById(R.id.regist_protocol);
         registByPhone = findViewById(R.id.regist_by_phone);
         registByEmail = findViewById(R.id.regist_by_email);
         getMessageCode = findViewById(R.id.get_msg_code);
@@ -229,15 +235,6 @@ public class RegistActivity extends BaseActivity {
                 regexEmail();
             }
         });
-        protocolText.setOnClickListener(new INoDoubleClick() {
-            @Override
-            public void activeClick(View view) {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://app.iyuba.cn/ios/protocol.html");
-                intent.putExtra("title", context.getString(R.string.regist_protocol));
-                startActivity(intent);
-            }
-        });
         toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
             public void activeClick(View view) {
@@ -255,7 +252,7 @@ public class RegistActivity extends BaseActivity {
     @Override
     public void onActivityCreated() {
         super.onActivityCreated();
-        protocolText.setText(R.string.regist_protocol);
+        interceptHyperLink(protocol);
         registByPhone.setVisibility(View.VISIBLE);
         registByEmail.setVisibility(View.GONE);
         title.setText(R.string.regist_title);
@@ -301,6 +298,33 @@ public class RegistActivity extends BaseActivity {
         super.onDestroy();
         if (smsReady) {
             SMSSDK.unregisterAllEventHandler();
+        }
+    }
+
+    private void interceptHyperLink(TextView tv) {
+        //        tv.setAutoLinkMask(Linkify.WEB_URLS);
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        CharSequence text = tv.getText();
+        if (text instanceof Spannable) {
+            int end = text.length();
+            Spannable spannable = (Spannable) tv.getText();
+            URLSpan[] urlSpans = spannable.getSpans(0, end, URLSpan.class);
+            if (urlSpans.length == 0) {
+                return;
+            }
+
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
+            // 循环遍历并拦截 所有http://开头的链接
+            for (URLSpan uri : urlSpans) {
+                String url = uri.getURL();
+                if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
+                    CustomUrlSpan customUrlSpan = new CustomUrlSpan(this, url);
+                    spannableStringBuilder.setSpan(customUrlSpan, spannable.getSpanStart(uri),
+                            spannable.getSpanEnd(uri), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    spannableStringBuilder.removeSpan(uri);
+                }
+            }
+            tv.setText(spannableStringBuilder);
         }
     }
 
