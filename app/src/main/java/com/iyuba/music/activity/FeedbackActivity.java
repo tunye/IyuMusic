@@ -3,7 +3,6 @@ package com.iyuba.music.activity;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;

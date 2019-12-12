@@ -47,15 +47,7 @@ public class AnnouncerFragment extends BaseRecyclerViewFragment<Announcer> {
             }
         });
         assembleRecyclerView();
-        swipeRefreshLayout.setEnabled(false);
-        setUserVisibleHint(true);
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        disableSwipeLayout();
-        getNetData();
     }
 
     @Override

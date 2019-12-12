@@ -63,7 +63,6 @@ public class ReadNewFragment extends BaseRecyclerViewFragment<Comment> {
         });
         assembleRecyclerView();
         listRequestAllState.setEmptyShowContent(R.string.no_read);
-        setUserVisibleHint(true);
         return view;
     }
 

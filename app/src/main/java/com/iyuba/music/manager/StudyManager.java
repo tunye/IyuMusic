@@ -1,13 +1,10 @@
 package com.iyuba.music.manager;
 
-import android.support.v4.util.ArrayMap;
-
 import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 10202 on 2015/12/17.

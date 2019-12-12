@@ -50,7 +50,6 @@ public class SongCategoryFragment extends BaseRecyclerViewFragment<SongCategory>
 
         });
         assembleRecyclerView();
-        setUserVisibleHint(true);
         return view;
     }
 

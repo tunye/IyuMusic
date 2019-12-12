@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.eggshell.loading_indicator.LoadingIndicatorList;
@@ -24,6 +25,13 @@ public class EggShellActivity extends BaseListActivity<String> {
     public void beforeSetLayout(Bundle savedInstanceState) {
         super.beforeSetLayout(savedInstanceState);
         ConfigManager.getInstance().setEggShell(true);
+    }
+
+    @Override
+    public MySwipeRefreshLayout findSwipeRefresh() {
+        MySwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
+        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
+        return swipeRefreshLayout;
     }
 
     @Override

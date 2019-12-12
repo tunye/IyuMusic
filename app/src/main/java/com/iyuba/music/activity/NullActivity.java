@@ -19,7 +19,6 @@ import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.ArticleOp;
-import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConstantManager;

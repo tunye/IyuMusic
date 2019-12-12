@@ -46,6 +46,7 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
     protected int curPage;
     protected boolean isLastPage = false;
     protected boolean useYouDaoAd = false;
+    protected boolean enableSwipeWidget = true;
 
     //有道广告
     private YouDaoRecyclerAdapter mAdAdapter;
@@ -58,14 +59,18 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
         ((SimpleItemAnimator) owner.getItemAnimator()).setSupportsChangeAnimations(false);
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
+    public void decorateSwipeWidget() {
+        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
+        swipeRefreshLayout.setFirstIndex(0);
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
     public void assembleRecyclerView() {
-        if (!DownloadUtil.checkVip() && useYouDaoAd) {
+        if (!DownloadUtil.checkVip() && useYouDaoAd && getActivity() != null) {
             mAdAdapter = new YouDaoRecyclerAdapter(getActivity(), ownerAdapter, YouDaoNativeAdPositioning.clientPositioning().addFixedPosition(4).enableRepeatingPositions(5));
             setYouDaoMsg();
             owner.setAdapter(mAdAdapter);
@@ -120,8 +125,11 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.setRefreshing(true);
-        onRefresh(0);
+        if (enableSwipeWidget) {
+            decorateSwipeWidget();
+        } else {
+            swipeRefreshLayout.setEnabled(false);
+        }
     }
 
     @Override
@@ -136,10 +144,6 @@ public class BaseRecyclerViewFragment<T> extends BaseFragment implements MySwipe
             mAdAdapter.destroy();
         }
         super.onDestroy();
-    }
-
-    public void disableSwipeLayout() {
-        swipeRefreshLayout.setEnabled(false);
     }
 
     /**

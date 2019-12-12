@@ -71,19 +71,6 @@ public class FriendFragment extends BaseRecyclerViewFragment<Friend> {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && getActivity() != null) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // do nothing
-    }
-
-    @Override
     protected int getToastResource() {
         return R.string.friend_load_all;
     }

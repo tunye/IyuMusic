@@ -178,6 +178,7 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                swipeRefreshLayout.setRefreshing(false);
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });

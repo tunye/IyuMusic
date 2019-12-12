@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.IOnDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
@@ -39,19 +40,17 @@ public class ReadFragment extends BaseRecyclerViewFragment<Original> {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+        enableSwipeWidget = false;
         curArticle = StudyManager.getInstance().getCurArticle();
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_loading));
         ownerAdapter = new ReadAdapter(context);
-        swipeRefreshLayout.setEnabled(false);
         assembleRecyclerView();
-        setUserVisibleHint(true);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        disableSwipeLayout();
         getOriginal();
     }
 

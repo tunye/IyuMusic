@@ -17,8 +17,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;

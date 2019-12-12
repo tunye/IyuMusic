@@ -287,6 +287,7 @@ public class PersonalHomeActivity extends BaseListActivity<Doing> implements Vie
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                swipeRefreshLayout.setRefreshing(false);
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });

@@ -265,7 +265,7 @@ public class CommentActivity extends BaseListActivity<Comment> {
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
-
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

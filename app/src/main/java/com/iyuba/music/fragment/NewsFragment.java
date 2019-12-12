@@ -53,12 +53,6 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
         localInfoOp = new LocalInfoOp();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        setUserVisibleHint(true);
-        return view;
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

@@ -10,6 +10,7 @@ import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -54,6 +55,13 @@ public class FavorSongActivity extends BaseListActivity<Article> {
         super.beforeSetLayout(savedInstanceState);
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
+    }
+
+    @Override
+    public MySwipeRefreshLayout findSwipeRefresh() {
+        MySwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
+        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
+        return swipeRefreshLayout;
     }
 
     @Override

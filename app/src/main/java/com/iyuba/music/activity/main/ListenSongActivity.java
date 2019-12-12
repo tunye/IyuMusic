@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.activity.study.StudyActivity;
@@ -38,6 +39,13 @@ public class ListenSongActivity extends BaseListActivity<Article> {
         super.beforeSetLayout(savedInstanceState);
         localInfoOp = new LocalInfoOp();
         articleOp = new ArticleOp();
+    }
+
+    @Override
+    public MySwipeRefreshLayout findSwipeRefresh() {
+        MySwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_widget);
+        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
+        return swipeRefreshLayout;
     }
 
     @Override

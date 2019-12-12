@@ -141,6 +141,7 @@ public class CreditActivity extends BaseActivity implements MySwipeRefreshLayout
 
             @Override
             public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                swipeRefreshLayout.setRefreshing(false);
                 CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
