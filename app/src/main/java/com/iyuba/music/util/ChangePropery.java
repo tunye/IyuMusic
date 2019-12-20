@@ -30,6 +30,9 @@ public class ChangePropery {
         Resources resources = RuntimeManager.getInstance().getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
+        if (isSystemDark()) {
+            on = true;
+        }
         if (on) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -38,6 +41,11 @@ public class ChangePropery {
         config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
         config.uiMode |= on ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO;
         resources.updateConfiguration(config, dm);
+    }
+
+    public static boolean isSystemDark() {
+        Configuration config = Resources.getSystem().getConfiguration();
+        return  (config.uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void updateLanguageMode(int languageType) {

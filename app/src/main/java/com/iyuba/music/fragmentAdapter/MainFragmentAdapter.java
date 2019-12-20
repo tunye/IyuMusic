@@ -3,6 +3,7 @@ package com.iyuba.music.fragmentAdapter;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import com.buaa.ct.core.network.NetWorkState;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/11/9.
  */
-public class MainFragmentAdapter extends FragmentPagerAdapter {
+public class MainFragmentAdapter extends FragmentStatePagerAdapter {
     public FragmentManager fm;
     public ArrayList<BaseFragment> list;
 

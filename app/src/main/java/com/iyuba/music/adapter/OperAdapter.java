@@ -16,6 +16,7 @@ import com.buaa.ct.appskin.SkinManager;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -125,7 +126,11 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         if (holder.getAdapterPosition() == 5) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            if (ChangePropery.isSystemDark()) {
+                holder.menuResult.setText(R.string.oper_night_on);
+            } else {
+                holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            }
         }
         if (holder.getAdapterPosition() == SLEEP_POS) {
             holder.go.setVisibility(View.GONE);
@@ -171,6 +176,10 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 context.startActivity(new Intent(context, MeActivity.class));
                 break;
             case 5:
+                if (ChangePropery.isSystemDark()) {
+                    CustomToast.getInstance().showToast("当前系统设定为全局暗黑模式。解除全局设置后，可以设定应用内夜间模式");
+                    return;
+                }
                 ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
                 ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
                 Intent intent = new Intent(ChangePropertyBroadcast.FLAG);

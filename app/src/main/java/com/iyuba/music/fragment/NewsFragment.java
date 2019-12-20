@@ -2,8 +2,6 @@ package com.iyuba.music.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -53,9 +51,9 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
         localInfoOp = new LocalInfoOp();
     }
 
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         ownerAdapter = new NewsAdapter(context);
         ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
@@ -67,7 +65,7 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
             }
         });
         assembleRecyclerView();
-        super.onViewCreated(view, savedInstanceState);
+        return view;
     }
 
     @Override
@@ -79,6 +77,8 @@ public class NewsFragment extends BaseRecyclerViewFragment<Article> {
     public void onLoad(int index) {
         if (getData().size() != 0) {
             getNewsData(getData().get(getData().size() - 1).getId());
+        } else {
+            getNewsData(0);
         }
     }
 

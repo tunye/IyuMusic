@@ -49,6 +49,8 @@ import com.youdao.sdk.nativeads.YouDaoNative;
  */
 public class WelcomeActivity extends BaseActivity {
     public static final int HANDLER_REFRESH_PROGRESS = 0;
+    public static final int WAITTING_DURATION = 4000;
+    public static final int WAITTING_STEP = 500;
     public static final String NORMAL_START = "normalStart";
     private View escapeAd;
     private ImageView header;
@@ -138,9 +140,9 @@ public class WelcomeActivity extends BaseActivity {
 
     private void initWelcomeAdProgress() {
         welcomeAdProgressbar.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
-        welcomeAdProgressbar.setProgress(150);                  // 为progress设置一个初始值
-        welcomeAdProgressbar.setMax(4000);                      // 总计等待4s
-        handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, 500); // 半秒刷新进度
+        welcomeAdProgressbar.setProgress(150);                               // 为progress设置一个初始值
+        welcomeAdProgressbar.setMax(WAITTING_DURATION);                      // 总计等待4s
+        handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, WAITTING_STEP); // 半秒刷新进度
     }
 
     private void getBannerPic() {
@@ -307,10 +309,10 @@ public class WelcomeActivity extends BaseActivity {
         @Override
         public void handleMessageByRef(WelcomeActivity activity, Message msg) {
             int progress = activity.welcomeAdProgressbar.getProgress();
-            if (progress < 4000) {
-                progress = progress < 500 ? 500 : progress + 500;
+            if (progress < WAITTING_DURATION) {
+                progress = progress < WAITTING_STEP ? WAITTING_STEP : progress + WAITTING_STEP;
                 activity.welcomeAdProgressbar.setProgress(progress);
-                activity.handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, 500);
+                activity.handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, WAITTING_STEP);
             } else {
                 activity.welcomeAdProgressbar.setVisibility(View.INVISIBLE);
                 activity.startNexActivity();

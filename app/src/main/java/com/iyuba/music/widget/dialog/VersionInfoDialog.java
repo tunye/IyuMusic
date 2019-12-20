@@ -47,8 +47,7 @@ public class VersionInfoDialog {
             versionNameString = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
             versionCodeString = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
             flavors = BuildConfig.FLAVOR;
-//            releaseTime = BuildConfig.RELEASE_TIME;
-            // TODO: 2019-09-12 remeber here
+            releaseTime = BuildConfig.RELEASE_TIME;
             releaseTime = BuildConfig.APPLICATION_ID;
             buildType = "渠道名称：" + flavors + " " + ((context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? "debug版" : "release版");
         } catch (PackageManager.NameNotFoundException e) {

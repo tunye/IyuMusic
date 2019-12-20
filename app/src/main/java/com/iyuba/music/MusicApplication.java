@@ -11,7 +11,6 @@ import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.addam.library.api.AddamManager;
 import com.buaa.ct.appskin.SkinManager;
 import com.buaa.ct.appskin.callback.ISkinChangedListener;
 import com.buaa.ct.core.manager.RuntimeManager;
@@ -157,13 +156,6 @@ public class MusicApplication extends Application {
         if (ConfigManager.getInstance().isPush()) {
             MiPushClient.registerPush(this, ConstantManager.MIPUSH_APP_ID, ConstantManager.MIPUSH_APP_KEY);
         }
-        // 初始化addam
-        AddamManager.start(this, "iyuba@sina.com", "a01c1754adf58704df15e929dc63b4ce", "addam_market");
-        AddamManager.initialize(new AddamManager.Callback() {
-            @Override
-            public void initialized(boolean success) {
-            }
-        });
     }
 
     public void pushActivity(final Activity activity) {

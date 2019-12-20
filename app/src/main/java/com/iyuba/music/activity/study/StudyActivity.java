@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.addam.library.api.AddamBanner;
 import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.network.NetWorkState;
 import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
@@ -62,8 +61,6 @@ import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.miaoze.sdk.AdSize;
-import com.miaoze.sdk.AdView;
 import com.umeng.socialize.UMShareAPI;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
@@ -137,8 +134,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private Timer timer;
     private TimerTask timerTask;
     private YouDaoNative youdaoNative;
-    private AddamBanner addamBanner;
-    private AdView sspAd;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
@@ -180,12 +175,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onDestroy() {
         if (youdaoNative != null) {
             youdaoNative.destroy();
-        }
-        if (addamBanner != null) {
-            addamBanner.unLoad();
-        }
-        if (sspAd != null) {
-            sspAd.CloseBannerCarousel();
         }
         if (timer != null) {
             timerTask.cancel();
@@ -410,42 +399,22 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void setAdType(AdEntity adEntity) {
         adRoot.removeAllViews();
-        if (addamBanner != null) {
-            addamBanner.unLoad();
-            addamBanner = null;
-        }
         if (youdaoNative != null) {
             youdaoNative.destroy();
             youdaoNative = null;
         }
-        if (sspAd != null) {
-            sspAd.CloseBannerCarousel();
-        }
         switch (adEntity.getType()) {
-            case "addam":
-                adView = LayoutInflater.from(context).inflate(R.layout.addam_ad_layout, null);
-                adRoot.addView(adView);
-                addamBanner = (AddamBanner) adView.findViewById(R.id.addam_ad_banner);
-                addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
-                addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
-                addamBanner.load(); // 开始加载
-                break;
-            case "ssp":
-                AdView.preLoad(this);
-                AdView sspAd = new AdView(this, AdSize.Banner, "sb6458f4");
-                adRoot.addView(sspAd, new RelativeLayout.LayoutParams(-1, -2));
-                break;
             default:
             case "youdao":
                 adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
                 adRoot.addView(adView);
-                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                photoImage = adView.findViewById(R.id.photoImage);
                 initYouDaoAd();
                 break;
             case "web":
                 adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
                 adRoot.addView(adView);
-                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                photoImage = adView.findViewById(R.id.photoImage);
                 refreshNativeAd(adEntity);
                 break;
         }
