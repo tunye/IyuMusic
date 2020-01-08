@@ -96,9 +96,9 @@ public class PullDoorView extends FrameLayout {
             case MotionEvent.ACTION_UP:
                 mDelY = (int) event.getY() - mLastDownY;
                 if (mDelY < 0 && enable) {
-                    if (Math.abs(mDelY) > RuntimeManager.getInstance().getWindowHeight() / 2) {
+                    if (Math.abs(mDelY) > RuntimeManager.getInstance().getScreenHeight() / 2) {
                         // 向上滑动超过半个屏幕高的时候 开启向上消失动画
-                        startBounceAnim(this.getScrollY(), RuntimeManager.getInstance().getWindowHeight(), 450);
+                        startBounceAnim(this.getScrollY(), RuntimeManager.getInstance().getScreenHeight(), 450);
                         if (iOperationResultInt != null) {
                             iOperationResultInt.performance(1);
                         }

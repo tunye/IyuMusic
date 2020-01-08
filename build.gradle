@@ -2,28 +2,19 @@
 
 buildscript {
     repositories {
+        google()
         jcenter()
-        maven {
-            url "http://mvn.mob.com/android"
-            name 'MobSDK'
-        }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         maven {
             url 'https://dl.bintray.com/umsdk/release'
             name 'uMeng'
         }
-
-        maven {
-            url 'https://jitpack.io'
-            name 'photoview'
-        }
-
         maven {
             url "https://raw.githubusercontent.com/tunye/aar/master"
             name 'ct-core'
+        }
+        maven {
+            url "http://mvn.mob.com/android"
+            name 'MobSDK'
         }
     }
     dependencies {
@@ -36,27 +27,19 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        maven {
-            url "http://mvn.mob.com/android"
-            name 'MobSDK'
-        }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         maven {
             url 'https://dl.bintray.com/umsdk/release'
             name 'uMeng'
         }
         maven {
-            url 'https://jitpack.io'
-            name 'photoview'
-        }
-
-        maven {
             url "https://raw.githubusercontent.com/tunye/aar/master"
             name 'ct-core'
+        }
+        maven {
+            url "http://mvn.mob.com/android"
+            name 'MobSDK'
         }
     }
 }

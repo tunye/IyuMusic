@@ -33,6 +33,20 @@ android {
         manifestPlaceholders = [qqappid: "1150062634"]
     }
     buildTypes {
+        release {
+            buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    //这里修改文件名
+                    outputFileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release.apk"
+                }
+            }
+            signingConfig signingConfigs.releaseConfig
+            shrinkResources true
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         debug {
             buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
             applicationVariants.all { variant ->
@@ -42,32 +56,6 @@ android {
                 }
             }
         }
-        release {
-            buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
-            signingConfig signingConfigs.releaseConfig
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    //这里修改文件名
-                    outputFileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release.apk"
-                }
-            }
-            shrinkResources true
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    packagingOptions {// 删除不必要的信息
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-    }
-    dexOptions {
-        jumboMode = true
-        maxProcessCount 4
-        javaMaxHeapSize "2g"
     }
 
     productFlavors {
@@ -115,7 +103,6 @@ dependencies {
 
     implementation project(path: ':assessment')
 
-    api 'com.buaa.ct:core:1.1.2'
     implementation 'com.buaa.ct:videocache:1.0.0'
     implementation 'com.buaa.ct:image-selector:1.1.4'
     implementation 'com.buaa.ct:pudding:1.0.5'
