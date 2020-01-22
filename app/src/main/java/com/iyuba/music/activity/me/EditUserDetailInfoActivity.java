@@ -224,7 +224,6 @@ public class EditUserDetailInfoActivity extends BaseActivity {
                 @Override
                 public void getlocation(Location result) {
                     Address curAddress = LocationUtil.getCurRegion(result);
-                    Log.e("ccc",curAddress.toString());
                     location.setText(curAddress.getAdminArea() + " " + curAddress.getSubAdminArea() + " " + curAddress.getLocality());
                     getDetaiInfo();
                 }

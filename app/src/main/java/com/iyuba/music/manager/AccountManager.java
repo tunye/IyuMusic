@@ -227,16 +227,10 @@ public class AccountManager {
     }
 
     public double getLatitude() {
-        if (!isGetPosition) {
-            getGPS();
-        }
         return latitude;
     }
 
     public double getLongitude() {
-        if (!isGetPosition) {
-            getGPS();
-        }
         return longitude;
     }
 

@@ -1,8 +1,5 @@
 package com.iyuba.music.service;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -96,12 +93,6 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(NotificationUtil.NOTIFICATION_ID, NotificationUtil.getInstance().initNotification());
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unRegisterNotificationBroadcaster();
@@ -116,13 +107,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     public void init() {
         player = new StandardPlayer(RuntimeManager.getInstance().getContext());
         curArticleId = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) Utils.getMusicApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel mChannel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), RuntimeManager.getInstance().getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(mChannel);
-            Notification notification = new Notification.Builder(getApplicationContext(), RuntimeManager.getInstance().getContext().getPackageName()).build();
-            startForeground(1, notification);
-        }
+        startForeground(NotificationUtil.NOTIFICATION_ID,  NotificationUtil.getInstance().initNotification());
     }
 
     public void setListener(final IPlayerListener playerListener) {
