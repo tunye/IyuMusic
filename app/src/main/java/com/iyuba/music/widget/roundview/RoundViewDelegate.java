@@ -43,21 +43,21 @@ public class RoundViewDelegate {
     }
 
     private void obtainAttributes(Context context, AttributeSet attrs) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.RoundTextView);
-        backgroundColor = ta.getColor(R.styleable.RoundTextView_rv_backgroundColor, Color.TRANSPARENT);
-        backgroundPressColor = ta.getColor(R.styleable.RoundTextView_rv_backgroundPressColor, Integer.MAX_VALUE);
-        cornerRadius = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius, 0);
-        strokeWidth = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_strokeWidth, 0);
-        strokeColor = ta.getColor(R.styleable.RoundTextView_rv_strokeColor, Color.TRANSPARENT);
-        strokePressColor = ta.getColor(R.styleable.RoundTextView_rv_strokePressColor, Integer.MAX_VALUE);
-        textPressColor = ta.getColor(R.styleable.RoundTextView_rv_textPressColor, Integer.MAX_VALUE);
-        isRadiusHalfHeight = ta.getBoolean(R.styleable.RoundTextView_rv_isRadiusHalfHeight, false);
-        isWidthHeightEqual = ta.getBoolean(R.styleable.RoundTextView_rv_isWidthHeightEqual, false);
-        cornerRadius_TL = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TL, 0);
-        cornerRadius_TR = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TR, 0);
-        cornerRadius_BL = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BL, 0);
-        cornerRadius_BR = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BR, 0);
-        isRippleEnable = ta.getBoolean(R.styleable.RoundTextView_rv_isRippleEnable, true);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.RoundView);
+        backgroundColor = ta.getColor(R.styleable.RoundView_rv_backgroundColor, Color.TRANSPARENT);
+        backgroundPressColor = ta.getColor(R.styleable.RoundView_rv_backgroundPressColor, Integer.MAX_VALUE);
+        cornerRadius = ta.getDimensionPixelSize(R.styleable.RoundView_rv_cornerRadius, 0);
+        strokeWidth = ta.getDimensionPixelSize(R.styleable.RoundView_rv_strokeWidth, 0);
+        strokeColor = ta.getColor(R.styleable.RoundView_rv_strokeColor, Color.TRANSPARENT);
+        strokePressColor = ta.getColor(R.styleable.RoundView_rv_strokePressColor, Integer.MAX_VALUE);
+        textPressColor = ta.getColor(R.styleable.RoundView_rv_textPressColor, Integer.MAX_VALUE);
+        isRadiusHalfHeight = ta.getBoolean(R.styleable.RoundView_rv_isRadiusHalfHeight, false);
+        isWidthHeightEqual = ta.getBoolean(R.styleable.RoundView_rv_isWidthHeightEqual, false);
+        cornerRadius_TL = ta.getDimensionPixelSize(R.styleable.RoundView_rv_cornerRadius_TL, 0);
+        cornerRadius_TR = ta.getDimensionPixelSize(R.styleable.RoundView_rv_cornerRadius_TR, 0);
+        cornerRadius_BL = ta.getDimensionPixelSize(R.styleable.RoundView_rv_cornerRadius_BL, 0);
+        cornerRadius_BR = ta.getDimensionPixelSize(R.styleable.RoundView_rv_cornerRadius_BR, 0);
+        isRippleEnable = ta.getBoolean(R.styleable.RoundView_rv_isRippleEnable, true);
 
         ta.recycle();
         if (backgroundColor == context.getResources().getColor(R.color.skin_app_color)) {
