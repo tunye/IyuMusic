@@ -362,7 +362,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     private void setScreen() {
         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            int width = RuntimeManager.getInstance().getWindowWidth() - RuntimeManager.getInstance().dip2px(20);
+            int width = RuntimeManager.getInstance().getScreenWidth() - RuntimeManager.getInstance().dip2px(20);
             int height = width * videoView.getVideoHeight() / videoView.getVideoWidth();
             videoView.setVideoScale(width, height);
         }

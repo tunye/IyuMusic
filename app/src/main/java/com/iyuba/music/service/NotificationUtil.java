@@ -41,7 +41,7 @@ public class NotificationUtil {
         notificationTextColor = isDarkNotificationTheme() ? 0xffcdcdcd : 0xff4c4c4c;
         notificationManager = (NotificationManager) RuntimeManager.getInstance().getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("play service foreground notification", "播放通知", NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel channel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), "播放通知", NotificationManager.IMPORTANCE_MIN);
             //闪光灯
             channel.enableLights(true);
             //锁屏显示通知

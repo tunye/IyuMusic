@@ -410,7 +410,7 @@ public class TabIndicator extends LinearLayout {
      * @return
      */
     public int getScreenWidth() {
-        return RuntimeManager.getInstance().getWindowWidth();
+        return RuntimeManager.getInstance().getScreenWidth();
     }
 
     @IntDef({LINE, TRIANGLE})
