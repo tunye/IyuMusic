@@ -1,21 +1,21 @@
 package com.iyuba.music.activity.me;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.pay.BuyIyubiActivity;
 import com.iyuba.music.activity.pay.BuyVipActivity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.imageview.CircleImageView;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 /**
  * Created by 10202 on 2015/12/28.
@@ -28,23 +28,12 @@ public class VipCenterActivity extends BaseActivity {
     private CircleImageView vipPhoto;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.vip_center);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.vip_center;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        userInfo = AccountManager.getInstance().getUserInfo();
-        changeUIResumeByPara();
-    }
-
-    @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         vipSymbol = findViewById(R.id.vip_symbol);
         vipAllapp = findViewById(R.id.vip_allapp);
@@ -64,15 +53,15 @@ public class VipCenterActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        vipSymbol.setOnClickListener(new View.OnClickListener() {
+        vipSymbol.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -80,13 +69,13 @@ public class VipCenterActivity extends BaseActivity {
                 materialDialog.show();
             }
         });
-        vipAllapp.setOnClickListener(new View.OnClickListener() {
+        vipAllapp.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -94,13 +83,13 @@ public class VipCenterActivity extends BaseActivity {
                 materialDialog.show();
             }
         });
-        vipAd.setOnClickListener(new View.OnClickListener() {
+        vipAd.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -108,13 +97,13 @@ public class VipCenterActivity extends BaseActivity {
                 materialDialog.show();
             }
         });
-        vipHuge.setOnClickListener(new View.OnClickListener() {
+        vipHuge.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -122,13 +111,13 @@ public class VipCenterActivity extends BaseActivity {
                 materialDialog.show();
             }
         });
-        vipHighspeed.setOnClickListener(new View.OnClickListener() {
+        vipHighspeed.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
@@ -136,28 +125,30 @@ public class VipCenterActivity extends BaseActivity {
                 materialDialog.show();
             }
         });
-        vipUpdate.setOnClickListener(new View.OnClickListener() {
+        vipUpdate.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyVipActivity.class));
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.vip_recharge);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.vip_recharge);
         title.setText(R.string.vip_title);
     }
 
-    private void changeUIResumeByPara() {
+    @Override
+    public void onActivityResumed() {
+        userInfo = AccountManager.getInstance().getUserInfo();
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageResource(R.drawable.vip);
             vipUpdateText.setText(R.string.vip_update);
@@ -167,7 +158,7 @@ public class VipCenterActivity extends BaseActivity {
             vipUpdateText.setText(R.string.vip_buy);
             vipDeadline.setText(context.getString(R.string.vip_undeadline));
         }
-        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
+        AppImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
         vipName.setText(userInfo.getUsername());
         vipIyubi.setText(context.getString(R.string.vip_iyubi, userInfo.getIyubi()));
     }

@@ -4,33 +4,35 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.PermissionPool;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
 import com.iyuba.music.download.AppUpdateThread;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.apprequest.UpdateRequest;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.VersionInfoDialog;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
-import com.iyuba.music.widget.view.AddRippleEffect;
 
 import java.io.File;
 import java.util.Calendar;
@@ -42,7 +44,7 @@ import java.util.Calendar;
  */
 
 public class AboutActivity extends BaseActivity implements WeakReferenceHandler.IHandlerMessageByRef<AboutActivity> {
-    private static final int WRITE_EXTERNAL_STORAGE_TASK_CODE = 1;
+    private static final int HANDLER_REFRESH_CODE = 0;
 
     private TextView version, copyright;
     private RoundRelativeLayout appUpdate, praise, developer, website;
@@ -55,29 +57,12 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
     private Handler handler = new WeakReferenceHandler<>(this, this);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.about);
-        initWidget();
-        setListener();
-        changeUIByPara();
-        boolean update = getIntent().getBooleanExtra("update", false);
-        if (update) {
-            this.appUpdateUrl = getIntent().getStringExtra("url");
-            this.newVersionCode = getIntent().getStringExtra("version");
-            appNewImg.setVisibility(View.VISIBLE);
-            handler.sendEmptyMessage(0);
-        }
+    public int getLayoutId() {
+        return R.layout.about;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
-    }
-
-    @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         root = findViewById(R.id.root);
         icon = findViewById(R.id.icon);
@@ -96,17 +81,17 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        icon.setOnClickListener(new OnClickListener() {
+        icon.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 new VersionInfoDialog(context);
             }
         });
-        praise.setOnClickListener(new OnClickListener() {
+        praise.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 try {
                     Uri uri = Uri.parse("market://details?id=" + getPackageName());
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -115,9 +100,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
                 } catch (Exception e) {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.about_praise).setMessage(R.string.about_market_error).
-                            setPositiveButton(R.string.app_accept, new OnClickListener() {
+                            setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                                 @Override
-                                public void onClick(View v) {
+                                public void activeClick(View view) {
                                     dialog.dismiss();
                                 }
                             });
@@ -126,25 +111,23 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             }
         });
 
-        version.setOnClickListener(new OnClickListener() {
+        version.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 openCookie();
             }
         });
 
-        developer.setOnClickListener(new OnClickListener() {
-
+        developer.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, DeveloperActivity.class));
             }
         });
 
-        website.setOnClickListener(new OnClickListener() {
-
+        website.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(context, WebViewActivity.class);
                 intent.putExtra("url", "http://www.iyuba.cn/");
@@ -153,10 +136,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             }
         });
 
-        appUpdate.setOnClickListener(new OnClickListener() {
-
+        appUpdate.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (appNewImg.isShown()) {
                     acceptForUpdate();
                 } else {
@@ -171,8 +153,8 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         String versionCode;
         try {
             versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
@@ -183,16 +165,26 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         version.setText(context.getString(R.string.about_version, versionCode));
         copyright.setText(context.getString(R.string.about_company,
                 Calendar.getInstance().get(Calendar.YEAR)));
+
+        boolean update = getIntent().getBooleanExtra("update", false);
+        if (update) {
+            this.appUpdateUrl = getIntent().getStringExtra("url");
+            this.newVersionCode = getIntent().getStringExtra("version");
+            appNewImg.setVisibility(View.VISIBLE);
+            requestMultiPermission(new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE}, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+        }
     }
 
-    protected void changeUIResumeByPara() {
+    @Override
+    public void onActivityResumed() {
+        super.onActivityResumed();
         isCurrent = false;
         cookie = 5;
         DownloadFile file;
         for (int i = 0; i < DownloadManager.getInstance().fileList.size(); i++) {
             file = DownloadManager.getInstance().fileList.get(i);
             if (file.id == -1) {
-                handler.obtainMessage(2, file).sendToTarget();
+                handler.obtainMessage(HANDLER_REFRESH_CODE, file).sendToTarget();
                 progressBar.setVisibility(View.VISIBLE);
             }
         }
@@ -208,19 +200,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse<BaseApiEntity<String>>() {
+        RequestClient.requestAsync(new UpdateRequest(currentVersion), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(R.string.about_update_fail);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(R.string.about_update_fail);
-            }
-
-            @Override
-            public void response(BaseApiEntity<String> apiEntity) {
+            public void onSuccess(BaseApiEntity<String> apiEntity) {
                 if (BaseApiEntity.isFail(apiEntity)) {
                     appNewImg.setVisibility(View.INVISIBLE);
                     if (fromUser) {
@@ -235,6 +217,11 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
                     acceptForUpdate();
                 }
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(R.string.about_update_fail);
+            }
         });
     }
 
@@ -242,15 +229,15 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.about_update).
                 setMessage(context.getString(R.string.about_update_message, newVersionCode))
-                .setPositiveButton(R.string.about_update_accept, new OnClickListener() {
+                .setPositiveButton(R.string.about_update_accept, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
-                        handler.sendEmptyMessage(0);
+                    public void activeClick(View view) {
+                        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         dialog.dismiss();
                     }
-                }).setNegativeButton(R.string.app_cancel, new OnClickListener() {
+                }).setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -279,7 +266,7 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
         DownloadManager.getInstance().fileList.add(downloadFile);
         AppUpdateThread appUpdateThread = new AppUpdateThread();
         appUpdateThread.start();
-        handler.obtainMessage(2, downloadFile).sendToTarget();
+        handler.obtainMessage(HANDLER_REFRESH_CODE, downloadFile).sendToTarget();
     }
 
     private void openCookie() {
@@ -287,9 +274,9 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
             new VersionInfoDialog(context);
         } else if (cookie == 0) {
             ConfigManager.getInstance().setEggShell(true);
-            CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new OnClickListener() {
+            CustomSnackBar.make(root, context.getString(R.string.about_eggshell_open)).info(context.getString(R.string.about_go_eggshell), new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     startActivity(new Intent(context, EggShellActivity.class));
                 }
             });
@@ -300,67 +287,37 @@ public class AboutActivity extends BaseActivity implements WeakReferenceHandler.
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_STORAGE_TASK_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startDownLoad();
-            } else {
-                final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-                materialDialog.setTitle(R.string.storage_permission);
-                materialDialog.setMessage(R.string.storage_permission_content);
-                materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityCompat.requestPermissions(AboutActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
-                        materialDialog.dismiss();
-                    }
-                });
-                materialDialog.show();
-            }
-        }
+    public void onAccreditSucceed(int requestCode) {
+        startDownLoad();
     }
 
-        @Override
-        public void handleMessageByRef(AboutActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        //申请WRITE_EXTERNAL_STORAGE权限
-                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                WRITE_EXTERNAL_STORAGE_TASK_CODE);
-                    } else {
-                        activity.startDownLoad();
-                    }
-                    break;
-                case 1:
-                    activity.progressBar.setVisibility(View.GONE);
-                    activity.appNewImg.setVisibility(View.INVISIBLE);
-                    break;
-                case 2:
-                    DownloadFile file = (DownloadFile) msg.obj;
-                    if (file.downloadState.equals("start")) {
-                        activity.progressBar.setCricleProgressColor(0xff87c973);
-                        activity.progressBar.setMax(file.fileSize);
-                        activity.progressBar.setProgress(file.downloadSize);
-                        Message message = new Message();
-                        message.what = 2;
-                        message.obj = file;
-                        activity.handler.sendMessageDelayed(message, 1500);
-                    } else if (file.downloadState.equals("finish")) {
-                        activity.handler.sendEmptyMessage(1);
-                        activity.handler.removeMessages(2);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        DownloadFile downloadFile = (DownloadFile) msg.obj;
-                        String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
-                        File appFile = new File(path);
-                        intent.setDataAndType(Uri.fromFile(appFile), "application/vnd.android.package-archive");
-                        activity.startActivity(intent);
-                    }
-                    break;
-            }
+    @Override
+    public void onAccreditFailure(int requestCode) {
+        onRequestPermissionDenied(RuntimeManager.getInstance().getString(R.string.storage_permission_content),
+                new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE}, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+    }
+
+    @Override
+    public void handleMessageByRef(AboutActivity activity, Message msg) {
+        DownloadFile file = (DownloadFile) msg.obj;
+        if (file.downloadState.equals("start")) {
+            activity.progressBar.setCricleProgressColor(GetAppColor.getInstance().getAppColor());
+            activity.progressBar.setMax(file.fileSize);
+            activity.progressBar.setProgress(file.downloadSize);
+            Message message = new Message();
+            message.what = HANDLER_REFRESH_CODE;
+            message.obj = file;
+            activity.handler.sendMessageDelayed(message, 1500);
+        } else if (file.downloadState.equals("finish")) {
+            activity.handler.removeMessages(HANDLER_REFRESH_CODE);
+            activity.progressBar.setVisibility(View.GONE);
+            activity.appNewImg.setVisibility(View.INVISIBLE);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            DownloadFile downloadFile = (DownloadFile) msg.obj;
+            String path = downloadFile.filePath + downloadFile.fileName + downloadFile.fileAppend;
+            intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
+            activity.startActivity(intent);
+        }
     }
 }

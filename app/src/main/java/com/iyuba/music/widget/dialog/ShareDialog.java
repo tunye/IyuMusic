@@ -8,15 +8,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.study.ShareAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.article.Article;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.account.ScoreOperRequest;
-import com.iyuba.music.widget.CustomToast;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -143,13 +146,13 @@ public class ShareDialog {
             }
         });
         moreGrid.setAdapter(shareAdapter);
-        root.setOnClickListener(new View.OnClickListener() {
+        root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dismiss();
             }
         });
-        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog = new IyubaDialog(context, root, true);
         iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -168,19 +171,9 @@ public class ShareDialog {
     }
 
     private void getScore(int type) {
-        ScoreOperRequest.exeRequest(ScoreOperRequest.generateUrl(AccountManager.getInstance().getUserId(), article.getId(), type), new IProtocolResponse<BaseApiEntity<String>>() {
+        RequestClient.requestAsync(new ScoreOperRequest(AccountManager.getInstance().getUserId(), article.getId(), type), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(BaseApiEntity<String> apiEntity) {
+            public void onSuccess(BaseApiEntity<String> apiEntity) {
                 switch (apiEntity.getState()) {
                     case BaseApiEntity.SUCCESS:
                         CustomToast.getInstance().showToast(context.getString(R.string.article_share_success, apiEntity.getMessage(), apiEntity.getValue()));
@@ -191,6 +184,11 @@ public class ShareDialog {
                     case BaseApiEntity.ERROR:
                         break;
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }

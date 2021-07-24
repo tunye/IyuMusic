@@ -7,15 +7,16 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
-import com.iyuba.music.util.GetAppColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +60,12 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
     @Override
     public void onBindViewHolder(final FlavorViewHolder holder, int position) {
         final String item = defItems.get(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 setCurrentFlavor(holder.getAdapterPosition());
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClicked(v, item, holder.getAdapterPosition());
+                    mItemClickListener.onItemClicked(view, item, holder.getAdapterPosition());
                 }
             }
         });
@@ -79,9 +80,9 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
             primaryDark = context.getResources().getColor(GetAppColor.getResource("skin_app_color_light_" + item));
             accent = context.getResources().getColor(GetAppColor.getResource("skin_color_accent_" + item));
         }
-        holder.primary.setBackgroundDrawable(generateDrawable(primary));
-        holder.dark.setBackgroundDrawable(generateDrawable(primaryDark));
-        holder.accent.setBackgroundDrawable(generateDrawable(accent));
+        holder.primary.setBackground(generateDrawable(primary));
+        holder.dark.setBackground(generateDrawable(primaryDark));
+        holder.accent.setBackground(generateDrawable(accent));
         holder.indicator.setVisibility(position == currFlavor ? View.VISIBLE : View.GONE);
     }
 
@@ -92,14 +93,10 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
 
     private ShapeDrawable generateDrawable(@ColorInt int color) {
         ShapeDrawable d = new ShapeDrawable(new OvalShape());
-        d.setIntrinsicWidth(dipToPx(context, 24));
-        d.setIntrinsicHeight(dipToPx(context, 24));
+        d.setIntrinsicWidth(RuntimeManager.getInstance().dip2px(24));
+        d.setIntrinsicHeight(RuntimeManager.getInstance().dip2px(24));
         d.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         return d;
-    }
-
-    private int dipToPx(Context ctx, float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ctx.getResources().getDisplayMetrics());
     }
 
     public interface OnItemClickListener {

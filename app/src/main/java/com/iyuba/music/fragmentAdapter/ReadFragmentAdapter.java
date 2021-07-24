@@ -2,12 +2,11 @@ package com.iyuba.music.fragmentAdapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import com.iyuba.music.activity.study.ReadFragment;
 import com.iyuba.music.activity.study.ReadNewFragment;
-import com.iyuba.music.activity.study.ReadTopFragment;
 import com.iyuba.music.fragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by 10202 on 2015/12/17.
  */
-public class ReadFragmentAdapter extends FragmentPagerAdapter {
+public class ReadFragmentAdapter extends FragmentStatePagerAdapter {
     public FragmentManager fm;
     public ArrayList<BaseFragment> list;
 
@@ -24,8 +23,12 @@ public class ReadFragmentAdapter extends FragmentPagerAdapter {
         this.fm = fm;
         this.list = new ArrayList<>(3);
         list.add(new ReadFragment());
-        list.add(new ReadTopFragment());
-        list.add(new ReadNewFragment());
+        ReadNewFragment topFragment = new ReadNewFragment();
+        topFragment.setDataType("agree");
+        list.add(topFragment);
+        ReadNewFragment newFragment = new ReadNewFragment();
+        newFragment.setDataType("no");
+        list.add(newFragment);
     }
 
     @Override

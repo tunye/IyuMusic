@@ -1,12 +1,10 @@
 package com.iyuba.music.activity.eggshell.material_edittext;
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -18,30 +16,26 @@ import com.rengwuxian.materialedittext.validation.RegexpValidator;
 public class MaterialEdittextMainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.eggshell_material_main);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.eggshell_material_main;
+    }
+
+    @Override
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        title.setText("Material EditText");
         initEnableBt();
         initSingleLineEllipsisEt();
         initSetErrorEt();
         initValidationEt();
     }
 
-    @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        title.setText("Material EditText");
-    }
-
     private void initEnableBt() {
-        final EditText basicEt = (EditText) findViewById(R.id.basicEt);
-        final Button enableBt = (Button) findViewById(R.id.enableBt);
-        enableBt.setOnClickListener(new View.OnClickListener() {
+        final EditText basicEt = findViewById(R.id.basicEt);
+        final Button enableBt = findViewById(R.id.enableBt);
+        enableBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 basicEt.setEnabled(!basicEt.isEnabled());
                 enableBt.setText(basicEt.isEnabled() ? "DISABLE" : "ENABLE");
             }
@@ -49,60 +43,45 @@ public class MaterialEdittextMainActivity extends BaseActivity {
     }
 
     private void initSingleLineEllipsisEt() {
-        EditText singleLineEllipsisEt = (EditText) findViewById(R.id.singleLineEllipsisEt);
+        EditText singleLineEllipsisEt = findViewById(R.id.singleLineEllipsisEt);
         singleLineEllipsisEt.setSelection(singleLineEllipsisEt.getText().length());
     }
 
     private void initSetErrorEt() {
-        final EditText bottomTextEt = (EditText) findViewById(R.id.bottomTextEt);
-        final Button setErrorBt = (Button) findViewById(R.id.setErrorBt);
-        setErrorBt.setOnClickListener(new View.OnClickListener() {
+        final EditText bottomTextEt = findViewById(R.id.bottomTextEt);
+        final Button setErrorBt = findViewById(R.id.setErrorBt);
+        setErrorBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 bottomTextEt.setError("1-line Error!");
             }
         });
-        final Button setError2Bt = (Button) findViewById(R.id.setError2Bt);
-        setError2Bt.setOnClickListener(new View.OnClickListener() {
+        final Button setError2Bt = findViewById(R.id.setError2Bt);
+        setError2Bt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 bottomTextEt.setError("2-line\nError!");
             }
         });
-        final Button setError3Bt = (Button) findViewById(R.id.setError3Bt);
-        setError3Bt.setOnClickListener(new View.OnClickListener() {
+        final Button setError3Bt = findViewById(R.id.setError3Bt);
+        setError3Bt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 bottomTextEt.setError("So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors! So Many Errors!");
             }
         });
     }
 
     private void initValidationEt() {
-        final MaterialEditText validationEt = (MaterialEditText) findViewById(R.id.validationEt);
+        final MaterialEditText validationEt = findViewById(R.id.validationEt);
         validationEt.addValidator(new RegexpValidator("Only Integer Valid!", "\\d+"));
-        final Button validateBt = (Button) findViewById(R.id.validateBt);
-        validateBt.setOnClickListener(new View.OnClickListener() {
+        final Button validateBt = findViewById(R.id.validateBt);
+        validateBt.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 // validate
                 validationEt.validate();
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_circle, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(item);
     }
 }

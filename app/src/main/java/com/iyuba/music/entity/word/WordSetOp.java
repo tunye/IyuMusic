@@ -3,9 +3,10 @@ package com.iyuba.music.entity.word;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -24,6 +25,11 @@ public class WordSetOp extends BaseEntityOp<Word> {
     }
 
     @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
+    }
+
+    @Override
     public String getSearchCondition() {
         return "select " + ID + "," + KEY + "," + AUDIOURL + "," + PRON + "," + DEF +
                 "," + VIEWCOUNT + " from " + TABLE_NAME;
@@ -39,7 +45,7 @@ public class WordSetOp extends BaseEntityOp<Word> {
         return data;
     }
 
-    public ArrayList<Word> findDataByFuzzy(String word) {
+    public List<Word> findDataByFuzzy(String word) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " WHERE " + KEY + " LIKE '" + word
                 + "%' limit 0,30;", new String[]{});
@@ -49,7 +55,7 @@ public class WordSetOp extends BaseEntityOp<Word> {
     /**
      * @return
      */
-    public ArrayList<Word> findDataByView() {
+    public List<Word> findDataByView() {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " WHERE " + VIEWCOUNT
                 + " > ? limit 0,30", new String[]{"0"});

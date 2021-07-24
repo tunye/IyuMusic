@@ -1,17 +1,18 @@
 package com.iyuba.music.activity.eggshell.loading_indicator;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.wang.avi.AVLoadingIndicatorView;
 
 
@@ -52,19 +53,14 @@ public class LoadingIndicatorList extends BaseActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_indicator_list);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.loading_indicator_list;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        RecyclerView mRecycler = (RecyclerView) findViewById(R.id.recycler);
+        RecyclerView mRecycler = findViewById(R.id.recycler);
         GridLayoutManager layoutManager = new GridLayoutManager(context, 4);
         mRecycler.setLayoutManager(layoutManager);
         mRecycler.addItemDecoration(new DividerItemDecoration(
@@ -72,8 +68,9 @@ public class LoadingIndicatorList extends BaseActivity {
                 context.getResources().getColor(R.color.background_light),
                 DividerItemDecoration.TYPE_WITHOUT_BORDER));
         mRecycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {
+            @NonNull
             @Override
-            public IndicatorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public IndicatorHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemView = getLayoutInflater().inflate(R.layout.item_loading_indicator, parent, false);
                 return new IndicatorHolder(itemView);
             }
@@ -82,9 +79,9 @@ public class LoadingIndicatorList extends BaseActivity {
             public void onBindViewHolder(final IndicatorHolder holder, int position) {
                 holder.indicatorView.setIndicator(INDICATORS[holder.getAdapterPosition()]);
                 holder.indicatorView.setIndicatorColor(GetAppColor.getInstance().getAppColor());
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         Intent intent = new Intent(LoadingIndicatorList.this, LoadingIndicator.class);
                         intent.putExtra("indicator", INDICATORS[holder.getAdapterPosition()]);
                         startActivity(intent);
@@ -100,13 +97,13 @@ public class LoadingIndicatorList extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText("加载小动画");
     }
 
@@ -116,7 +113,7 @@ public class LoadingIndicatorList extends BaseActivity {
 
         IndicatorHolder(View itemView) {
             super(itemView);
-            indicatorView = (AVLoadingIndicatorView) itemView.findViewById(R.id.indicator);
+            indicatorView = itemView.findViewById(R.id.indicator);
         }
     }
 }

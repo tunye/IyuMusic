@@ -10,9 +10,9 @@ import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.GetAppColor;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

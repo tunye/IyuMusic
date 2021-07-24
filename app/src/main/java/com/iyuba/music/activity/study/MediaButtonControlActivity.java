@@ -1,13 +1,12 @@
 package com.iyuba.music.activity.study;
 
-import android.os.Bundle;
 import android.widget.CompoundButton;
 
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.view.SwitchButton;
 
 /**
@@ -18,22 +17,18 @@ public class MediaButtonControlActivity extends BaseActivity {
     SwitchButton switchButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.mediabutton_control);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.mediabutton_control;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         switchButton = findViewById(R.id.mediabutton_control);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -51,8 +46,8 @@ public class MediaButtonControlActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         if (ConfigManager.getInstance().isMediaButton()) {
             switchButton.setCheckedImmediatelyNoEvent(true);
             switchButton.setBackColorRes(GetAppColor.getInstance().getAppColorRes());

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -12,14 +13,18 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.newsrequest.StudyTimeRequest;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 
 /**
  * Created by 10202 on 2017-03-17.
@@ -41,19 +46,9 @@ public class SignInDialog {
     }
 
     public void show() {
-        StudyTimeRequest.exeRequest(StudyTimeRequest.generateUrl(), new IProtocolResponse<BaseApiEntity<Integer>>() {
+        RequestClient.requestAsync(new StudyTimeRequest(), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseApiEntity<Integer> result) {
+            public void onSuccess(BaseApiEntity<Integer> result) {
                 if (result.getState() == BaseApiEntity.SUCCESS) {
                     if (Integer.parseInt(result.getData().toString()) >= 180) {
                         init();
@@ -64,19 +59,24 @@ public class SignInDialog {
                     CustomToast.getInstance().showToast("信息拉取失败");
                 }
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
     private void init() {
         final View cancel = root.findViewById(R.id.sign_in_close);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dismiss();
             }
         });
         loading = root.findViewById(R.id.sign_in_loading_animation);
-        iyubaDialog = new IyubaDialog(context, root, false, 20, new DialogInterface.OnDismissListener() {
+        iyubaDialog = new IyubaDialog(context, root, false, Gravity.CENTER, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 shown = false;
@@ -88,7 +88,7 @@ public class SignInDialog {
     }
 
     private void loadingWebView() {
-        webView = (WebView) root.findViewById(R.id.sign_in_web);
+        webView = root.findViewById(R.id.sign_in_web);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }

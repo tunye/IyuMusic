@@ -10,8 +10,8 @@
         android:id="@+id/history_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/row_space_default"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/row_space_default"
         android:textColor="#343434"
         android:textSize="18sp" />
 

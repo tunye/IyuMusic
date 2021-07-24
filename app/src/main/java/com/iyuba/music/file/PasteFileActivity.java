@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -12,18 +11,19 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.ThreadPoolUtil;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.roundview.RoundLinearLayout;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -36,61 +36,54 @@ public class PasteFileActivity extends BaseActivity {
     private TextView filePath;
     private FileAdapter adapter;
     private RecyclerView fileListView;
-    private ArrayList<FileInfo> files;
     private String currentPath;
     private String currentPasteFilePath;
     private String action;
     private ProgressDialog progressDialog;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.file_paste);
-        context = this;
+    public int getLayoutId() {
+        return R.layout.file_paste;
+    }
+
+    @Override
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         currentPath = FileUtil.getSDPath();
-        files = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         currentPasteFilePath = bundle.getString("CURRENTPASTEFILEPATH");
         action = bundle.getString("ACTION");
-        initWidget();
-        setListener();
-        changeUIByPara();
-        viewFiles();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         filePath = findViewById(R.id.file_path);
         position = findViewById(R.id.file_parent);
-        adapter = new FileAdapter();
+        adapter = new FileAdapter(this, null);
         fileListView = findViewById(R.id.file_recyclerview);
-        fileListView.setLayoutManager(new LinearLayoutManager(this));
         fileListView.setAdapter(adapter);
-        fileListView.addItemDecoration(new DividerItemDecoration());
         fileListView.setItemAnimator(new SlideInLeftAnimator(new OvershootInterpolator(1f)));
+        setRecyclerViewProperty(fileListView);
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 finish();
             }
         });
-        position.setOnClickListener(new View.OnClickListener() {
+        position.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 backToParent();
             }
         });
-        findViewById(R.id.file_createdir).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.file_createdir).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 FileActivityHelper.createDir(PasteFileActivity.this, currentPath, new IOperationFinish() {
                     @Override
                     public void finish() {
@@ -99,9 +92,9 @@ public class PasteFileActivity extends BaseActivity {
                 });
             }
         });
-        findViewById(R.id.paste).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.paste).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 final File src = new File(currentPasteFilePath);
                 if (!src.exists()) {
                     CustomToast.getInstance().showToast(R.string.file_noexists);
@@ -127,7 +120,7 @@ public class PasteFileActivity extends BaseActivity {
                         } else {
                             FileUtil.copyFile(src, tar);
                         }
-                        runOnUiThread(new Runnable() {
+                        ThreadUtils.postOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progressDialog.dismiss();
@@ -143,48 +136,39 @@ public class PasteFileActivity extends BaseActivity {
                 });
             }
         });
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.cancel).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
-        adapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
+        adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FileInfo f = files.get(position);
+                FileInfo f = adapter.getDatas().get(position);
                 if (f.isDirectory()) {
                     currentPath = f.getPath();
                     viewFiles();
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         if ("MOVE".equals(action)) {
             title.setText(R.string.file_move_title);
         } else {
             title.setText(R.string.file_paste_title);
         }
-    }
-
-    protected void changeUIResumeByPara() {
-        filePath.setText(currentPath);
+        viewFiles();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
+    public void onActivityResumed() {
+        filePath.setText(currentPath);
     }
 
     @Override
@@ -197,24 +181,20 @@ public class PasteFileActivity extends BaseActivity {
     }
 
     private void viewFiles() {
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(currentPath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
         }
     }
 
     private void viewFiles(String filePath, String lastFilePath) {//退出
-        ArrayList<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
+        List<FileInfo> tmp = FileActivityHelper.getFiles(filePath);
         if (tmp != null) {
-            files.clear();
-            files.addAll(tmp);
             currentPath = filePath;
-            adapter.setDataSet(files);
+            adapter.setDataSet(tmp);
             this.filePath.setText(currentPath);
-            for (int i = 0; i < files.size(); i++) {
-                if (files.get(i).getPath().equals(lastFilePath)) {
+            for (int i = 0; i < tmp.size(); i++) {
+                if (tmp.get(i).getPath().equals(lastFilePath)) {
                     fileListView.scrollToPosition(i + 5);
                     break;
                 }

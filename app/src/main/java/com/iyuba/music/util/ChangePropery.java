@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 
+import com.buaa.ct.core.manager.ImmersiveManager;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.LanguageUtil;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 
 import java.util.Locale;
 
@@ -17,7 +20,7 @@ import java.util.Locale;
  */
 public class ChangePropery {
     public static void setAppConfig(Activity activity) {
-        ChangePropery.updateNightMode(activity, ConfigManager.getInstance().isNight());
+        ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
         ChangePropery.updateLanguageMode(activity, ConfigManager.getInstance().getLanguage());
         activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         ImmersiveManager.getInstance().updateImmersiveStatus(activity);
@@ -27,18 +30,22 @@ public class ChangePropery {
         Resources resources = RuntimeManager.getInstance().getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
+        if (isSystemDark()) {
+            on = true;
+        }
+        if (on) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
         config.uiMode |= on ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO;
         resources.updateConfiguration(config, dm);
     }
 
-    public static void updateNightMode(Context context, boolean on) {
-        Resources resources = context.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        Configuration config = resources.getConfiguration();
-        config.uiMode &= ~Configuration.UI_MODE_NIGHT_MASK;
-        config.uiMode |= on ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO;
-        resources.updateConfiguration(config, dm);
+    public static boolean isSystemDark() {
+        Configuration config = Resources.getSystem().getConfiguration();
+        return (config.uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void updateLanguageMode(int languageType) {
@@ -60,7 +67,7 @@ public class ChangePropery {
     private static void changeLanguage(int languageType, Configuration config) {
         switch (languageType) {
             case 0://跟随系统
-                config.setLocale(Locale.getDefault());
+                config.setLocale(LanguageUtil.getSystemLocale());
                 break;
             case 1://中文
                 config.setLocale(Locale.SIMPLIFIED_CHINESE);
@@ -68,8 +75,8 @@ public class ChangePropery {
             case 2://英文
                 config.setLocale(Locale.ENGLISH);
                 break;
-            case 3://日文
-                config.setLocale(Locale.JAPANESE);
+            case 3://繁体
+                config.setLocale(Locale.TRADITIONAL_CHINESE);
                 break;
             case 4://阿拉伯语
                 config.setLocale(new Locale("ar"));

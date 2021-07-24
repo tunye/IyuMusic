@@ -3,7 +3,7 @@ package com.iyuba.music.entity.user;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.iyuba.music.R;
 import com.iyuba.music.util.ParameterUrl;
 
@@ -15,59 +15,59 @@ import java.lang.reflect.Method;
  * Created by 10202 on 2016/3/30.
  */
 public class MostDetailInfo {
-    @SerializedName("realname")
+    @JSONField(name = "realname")
     public String realname;// 真实姓名
-    @SerializedName("gender")
+    @JSONField(name = "gender")
     public String gender;// 性别
-    @SerializedName("birthday")
+    @JSONField(name = "birthday")
     public String birthday;// 生日
-    @SerializedName("constellation")
+    @JSONField(name = "constellation")
     public String constellation;// 星座
-    @SerializedName("zodiac")
+    @JSONField(name = "zodiac")
     public String zodiac;// 生肖
-    @SerializedName("telephone")
+    @JSONField(name = "telephone")
     public String telephone;// 联系电话
-    @SerializedName("mobile")
+    @JSONField(name = "mobile")
     public String mobile;// 手机
-    @SerializedName("idcardtype")
+    @JSONField(name = "idcardtype")
     public String idcardtype;// 证件类型
-    @SerializedName("idcard")
+    @JSONField(name = "idcard")
     public String idcard;// 证件号
-    @SerializedName("address")
+    @JSONField(name = "address")
     public String address;// 邮件地址
-    @SerializedName("zipcode")
+    @JSONField(name = "zipcode")
     public String zipcode;// 邮编
-    @SerializedName("nationality")
+    @JSONField(name = "nationality")
     public String nationality;// 国籍
-    @SerializedName("birthLocation")
+    @JSONField(name = "birthLocation")
     public String birthLocation;// 出生地
-    @SerializedName("resideLocation")
+    @JSONField(name = "resideLocation")
     public String resideLocation;// 现住地
-    @SerializedName("graduateschool")
+    @JSONField(name = "graduateschool")
     public String graduateschool;// 毕业学校
-    @SerializedName("company")
+    @JSONField(name = "company")
     public String company;// 公司
-    @SerializedName("education")
+    @JSONField(name = "education")
     public String education;// 学历
-    @SerializedName("occupation")
+    @JSONField(name = "occupation")
     public String occupation;// 职业
-    @SerializedName("position")
+    @JSONField(name = "position")
     public String position;// 职位
-    @SerializedName("revenue")
+    @JSONField(name = "revenue")
     public String revenue;// 年收入
-    @SerializedName("affectivestatus")
+    @JSONField(name = "affectivestatus")
     public String affectivestatus;// 情感状态
-    @SerializedName("lookingfor")
+    @JSONField(name = "lookingfor")
     public String lookingfor;// 交友目的
-    @SerializedName("bloodtype")
+    @JSONField(name = "bloodtype")
     public String bloodtype;// 血型
-    @SerializedName("height")
+    @JSONField(name = "height")
     public String height;// 身高
-    @SerializedName("weight")
+    @JSONField(name = "weight")
     public String weight;// 体重
-    @SerializedName("bio")
+    @JSONField(name = "bio")
     public String bio;// 自我介绍
-    @SerializedName("interest")
+    @JSONField(name = "interest")
     public String interest;// 兴趣爱好
 
     public void format(Context context, MostDetailInfo mostDetailInfo) {

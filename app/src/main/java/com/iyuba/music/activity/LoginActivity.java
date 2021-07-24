@@ -2,7 +2,6 @@ package com.iyuba.music.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -12,6 +11,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
@@ -19,17 +22,15 @@ import com.iyuba.music.adapter.me.AutoCompleteAdapter;
 import com.iyuba.music.entity.user.HistoryLogin;
 import com.iyuba.music.entity.user.HistoryLoginOp;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/11/19.
@@ -63,16 +64,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.login;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         photo = findViewById(R.id.login_photo);
         loginMsg = findViewById(R.id.login_message);
@@ -87,15 +84,14 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        login.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        login();
-                    }
-                }
+        login.setOnClickListener(new INoDoubleClick() {
+                                     @Override
+                                     public void activeClick(View view) {
+                                         login();
+                                     }
+                                 }
         );
         username.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,18 +109,18 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-        forgetPwd.setOnClickListener(new View.OnClickListener() {
+        forgetPwd.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhonefp.jsp");
                 intent.putExtra("title", forgetPwd.getText());
                 startActivity(intent);
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivityForResult(new Intent(context, RegistActivity.class), 101);
             }
         });
@@ -133,9 +129,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.regist_oper);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.regist_oper);
         title.setText(R.string.login_title);
         photo.setAlpha(0);
         loginMsg.setAlpha(0);
@@ -149,7 +145,7 @@ public class LoginActivity extends BaseActivity {
 
     private void setUserNameAutoLogin() {
         final HistoryLoginOp historyLoginOp = new HistoryLoginOp();
-        final ArrayList<HistoryLogin> historyLogins = historyLoginOp.selectData();
+        final List<HistoryLogin> historyLogins = historyLoginOp.selectData();
         ArrayList<String> historyLoginNames = new ArrayList<>();
         for (HistoryLogin historyLogin : historyLogins) {
             historyLoginNames.add(historyLogin.getUserName());
@@ -166,11 +162,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 }
                 username.dismissDropDown();
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {//点击删除按钮
-                historyLoginOp.deleteData(adapter.getItem(position).toString());
             }
         });
         username.setAdapter(adapter);

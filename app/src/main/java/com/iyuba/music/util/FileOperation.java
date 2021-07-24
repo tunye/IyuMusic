@@ -2,7 +2,7 @@ package com.iyuba.music.util;
 
 import android.content.Context;
 
-import com.iyuba.music.manager.RuntimeManager;
+import com.buaa.ct.core.manager.RuntimeManager;
 
 import java.io.BufferedWriter;
 import java.io.File;

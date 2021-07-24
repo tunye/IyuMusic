@@ -1,20 +1,20 @@
 package com.iyuba.music.activity.pay;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WebViewActivity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.imageview.CircleImageView;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
+import com.iyuba.music.util.AppImageUtil;
 
 import java.util.Calendar;
 
@@ -33,24 +33,18 @@ public class BuyIyubiActivity extends BaseActivity {
     private TextView copyright;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.buy_iyubi);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.buy_iyubi;
     }
 
     @Override
     public void onResume() {
-        super.onResume();
         userInfo = AccountManager.getInstance().getUserInfo();
-        changeUIResumeByPara();
+        super.onResume();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         iyubi2h = findViewById(R.id.iyubi200);
         iyubi6h = findViewById(R.id.iyubi600);
@@ -70,41 +64,41 @@ public class BuyIyubiActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        iyubi2h.setOnClickListener(new View.OnClickListener() {
+        iyubi2h.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(0);
             }
         });
-        iyubi6h.setOnClickListener(new View.OnClickListener() {
+        iyubi6h.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(1);
             }
         });
-        iyubi1k.setOnClickListener(new View.OnClickListener() {
+        iyubi1k.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(2);
             }
         });
-        iyubi6k.setOnClickListener(new View.OnClickListener() {
+        iyubi6k.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(3);
             }
         });
-        iyubi1w.setOnClickListener(new View.OnClickListener() {
+        iyubi1w.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(4);
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 recharge();
             }
         });
@@ -137,16 +131,18 @@ public class BuyIyubiActivity extends BaseActivity {
 
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.vip_iyubi_title);
-        toolbarOper.setText(R.string.vip_iyubi_web);
+        enableToolbarOper(R.string.vip_iyubi_web);
         copyright.setText(context.getString(R.string.about_company,
                 Calendar.getInstance().get(Calendar.YEAR)));
     }
 
-    private void changeUIResumeByPara() {
-        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
+    @Override
+    public void onActivityResumed() {
+        super.onActivityResumed();
+        AppImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageResource(R.drawable.vip);
             vipDeadline.setText(context.getString(R.string.vip_deadline, userInfo.getDeadline()));

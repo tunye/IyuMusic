@@ -1,26 +1,26 @@
 package com.iyuba.music.entity.original;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/10/8.
  */
 public class Original implements Comparable<Original> {
-    @SerializedName("SongId")
+    @JSONField(name = "SongId")
     private int articleID;
-    @SerializedName("ParaId")
+    @JSONField(name = "ParaId")
     private int paraID;//段落ID
-    @SerializedName("IdIndex")
+    @JSONField(name = "IdIndex")
     private int sentenceID;//段内ID
-    @SerializedName("Timing")
+    @JSONField(name = "Timing")
     private float startTime;
-    @SerializedName("EndTiming")
+    @JSONField(name = "EndTiming")
     private float endTime;
-    @SerializedName("Sentence")
+    @JSONField(name = "Sentence")
     private String sentence = "";
-    @SerializedName("SentenceCn")
+    @JSONField(name = "SentenceCn")
     private String sentence_cn = "";
-    @SerializedName("sentence_cn")
+    @JSONField(name = "sentence_cn")
     private String sentence_cn_backup = "";
     private float totalTime;
 

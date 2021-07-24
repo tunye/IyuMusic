@@ -1,7 +1,6 @@
 package com.iyuba.music.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +8,13 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.discover.WordSetActivity;
 import com.iyuba.music.activity.study.StudySetActivity;
@@ -16,25 +22,19 @@ import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.file.FileUtil;
 import com.iyuba.music.fragment.StartFragment;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
 import com.iyuba.music.widget.roundview.RoundRelativeLayout;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
 import com.iyuba.music.widget.view.SwitchButton;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -53,17 +53,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RoundTextView logout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.setting;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         share = findViewById(R.id.setting_share);
         AddRippleEffect.addRippleEffect(share, 300);
@@ -96,7 +91,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         versionFeature.setOnClickListener(this);
         feedback.setOnClickListener(this);
@@ -127,8 +122,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.setting_title);
         if (ConfigManager.getInstance().isPush()) {
             currPush.setCheckedImmediatelyNoEvent(true);
@@ -140,7 +135,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         handler.sendEmptyMessage(1);
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         currLanguage.setText(getLanguage(ConfigManager.getInstance().getLanguage()));
     }
 
@@ -154,13 +149,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
-    }
-
-    @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.setting_version_feature:
                 StartFragment.showVersionFeature(context);
@@ -200,7 +192,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         ThreadPoolUtil.getInstance().execute(new Runnable() {
                             @Override
                             public void run() {
-                                FileUtil.clearFileDir(RuntimeManager.getInstance().getApplication().getProxy().getCacheFolder());
+                                FileUtil.clearFileDir(Utils.getMusicApplication().getProxy().getCacheFolder());
                             }
                         });
                         handler.sendEmptyMessage(3);
@@ -213,7 +205,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 });
                 break;
             case R.id.setting_pic_clear:
-                ImageUtil.clearImageAllCache(this);
+                AppImageUtil.clearImageAllCache(this);
                 ThreadPoolUtil.getInstance().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -265,20 +257,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 languageDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(ConfigManager.getInstance().getLanguage());
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         languageDialog.setContentView(root);
-        languageDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        languageDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 languageDialog.dismiss();
             }
         });
@@ -303,26 +290,26 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mMaterialDialog.setTitle(R.string.app_name);
         if (AccountManager.getInstance().checkUserLogin()) {
             mMaterialDialog.setMessage(R.string.personal_logout_textmore)
-                    .setPositiveButton(R.string.personal_logout_exit, new View.OnClickListener() {
+                    .setPositiveButton(R.string.personal_logout_exit, new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                             AccountManager.getInstance().loginOut();
                             finish();
                         }
                     })
-                    .setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                    .setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                         }
                     });
 
         } else {
             mMaterialDialog.setMessage(R.string.personal_no_login)
-                    .setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                    .setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void activeClick(View view) {
                             mMaterialDialog.dismiss();
                         }
                     });
@@ -335,7 +322,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         public void handleMessageByRef(final SettingActivity activity, Message msg) {
             switch (msg.what) {
                 case 1:
-                    activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(RuntimeManager.getInstance().getApplication().getProxy().getCacheFolder())));
+                    activity.audioCache.setText(FileUtil.formetFileSize(FileUtil.getFolderSize(Utils.getMusicApplication().getProxy().getCacheFolder())));
                     long size = 0;
                     size += FileUtil.getGlideCacheSize(activity);
                     size += FileUtil.getFolderSize(new File(ConstantManager.crashFolder));

@@ -1,31 +1,27 @@
 package com.iyuba.music.manager;
 
-import android.support.v4.util.ArrayMap;
-
 import com.iyuba.music.entity.article.Article;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/17.
  */
 public class StudyManager {
     private Article curArticle;
-    private ArrayList<Article> sourceArticleList;
-    private ArrayList<Article> curArticleList;
+    private List<Article> sourceArticleList;
+    private List<Article> curArticleList;
     private String app;
     private String listFragmentPos;
     private String lesson;
     private String startTime;
     private boolean isStartPlaying;
-    private Map<String, String> singleInstanceRequest;
 
     private StudyManager() {
         app = ConstantManager.appId;
         sourceArticleList = new ArrayList<>();
-        singleInstanceRequest = new ArrayMap<>();
     }
 
     public static StudyManager getInstance() {
@@ -46,12 +42,12 @@ public class StudyManager {
         app = curArticle.getApp();
     }
 
-    public void setSourceArticleList(ArrayList<Article> sourceArticleList) {
+    public void setSourceArticleList(List<Article> sourceArticleList) {
         this.sourceArticleList = sourceArticleList;
         generateArticleList();
     }
 
-    public ArrayList<Article> getCurArticleList() {
+    public List<Article> getCurArticleList() {
         return curArticleList;
     }
 
@@ -118,9 +114,6 @@ public class StudyManager {
         curArticleList = new ArrayList<>();
         switch (ConfigManager.getInstance().getStudyPlayMode()) {
             case 0:
-//                curArticleList.add(curArticle);
-                curArticleList.addAll(sourceArticleList);
-                break;
             case 1:
                 curArticleList.addAll(sourceArticleList);
                 break;
@@ -131,10 +124,6 @@ public class StudyManager {
                 curArticleList.addAll(temp);
                 break;
         }
-    }
-
-    public Map<String, String> getSingleInstanceRequest() {
-        return singleInstanceRequest;
     }
 
     private static class SingleInstanceHelper {

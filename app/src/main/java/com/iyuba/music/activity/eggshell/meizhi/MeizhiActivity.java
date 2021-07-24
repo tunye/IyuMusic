@@ -1,143 +1,74 @@
 package com.iyuba.music.activity.eggshell.meizhi;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.imageselector.view.OnlyPreviewActivity;
 import com.iyuba.music.R;
-import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.entity.BaseListEntity;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.SwipeRefreshLayout.CustomSwipeToRefresh;
-import com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/4/7.
  */
-public class MeizhiActivity extends BaseActivity implements MySwipeRefreshLayout.OnRefreshListener, IOnClickListener {
-    private RecyclerView meizhiRecyclerView;
-    private MeizhiAdapter meizhiAdapter;
-    private CustomSwipeToRefresh swipeRefreshLayout;
-    private ArrayList<Meizhi> meizhis;
-    private int curPage;
-    private boolean isLastPage;
+public class MeizhiActivity extends BaseListActivity<Meizhi> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.eggshell_meizhi_main);
-        context = this;
-        curPage = 1;
-        isLastPage = false;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.eggshell_meizhi_main;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        meizhiRecyclerView = (RecyclerView) findViewById(R.id.meizhi_recyclerview);
-        swipeRefreshLayout = (CustomSwipeToRefresh) findViewById(R.id.swipe_refresh_widget);
-        swipeRefreshLayout.setColorSchemeColors(0xff259CF7, 0xff2ABB51, 0xffE10000, 0xfffaaa3c);
-        swipeRefreshLayout.setFirstIndex(0);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        owner = findViewById(R.id.meizhi_recyclerview);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        meizhiRecyclerView.setLayoutManager(gridLayoutManager);
-        meizhiAdapter = new MeizhiAdapter(context);
-        meizhiAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
+        owner.setLayoutManager(gridLayoutManager);
+        ownerAdapter = new MeizhiAdapter(context);
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(context, MeizhiPhotoActivity.class);
-                intent.putExtra("url", meizhis.get(position).getUrl());
-                context.startActivity(intent);
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                MeizhiPhotoFragment fragment = MeizhiPhotoFragment.newInstance(meizhis.get(position).getUrl());
-//                fragment.show(fragmentManager, "fragment_girl_photo");
-//                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-                meizhiAdapter.removeData(position);
+                List<String> meizhiUrls = new ArrayList<>();
+                for (Meizhi meizhi : getData()) {
+                    meizhiUrls.add(meizhi.getUrl());
+                }
+                OnlyPreviewActivity.startPreview(context, meizhiUrls, position);
             }
         });
-        meizhiRecyclerView.setAdapter(meizhiAdapter);
-        swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
+        owner.setAdapter(ownerAdapter);
         onRefresh(0);
     }
 
     @Override
-    protected void setListener() {
-        super.setListener();
-        toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        title.setText(R.string.eggshell_meizhi);
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        title.setText("妹纸");
-    }
-
-    /**
-     * 下拉刷新
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onRefresh(int index) {
-        curPage = 1;
-        meizhis = new ArrayList<>();
-        getData();
-    }
-
-    /**
-     * 加载更多
-     *
-     * @param index 当前分页索引
-     */
-    @Override
-    public void onLoad(int index) {
-        if (isLastPage) {
-            CustomToast.getInstance().showToast("妹纸加载完了，您可真爱看妹子~");
-        } else {
-            curPage++;
-            getData();
-        }
+    public int getToastResource() {
+        return R.string.eggshell_meizhi_loadall;
     }
 
     @Override
-    public void onClick(View view, Object message) {
-        meizhiRecyclerView.scrollToPosition(0);
-    }
-
-    private void getData() {
-        MeizhiRequest.getInstance().exeRequest(MeizhiRequest.getInstance().generateUrl(curPage), new IProtocolResponse() {
+    public void getNetData() {
+        RequestClient.requestAsync(new MeizhiRequest(curPage), new SimpleRequestCallBack<BaseListEntity<List<Meizhi>>>() {
             @Override
-            public void onNetError(String msg) {
-                swipeRefreshLayout.setRefreshing(false);
+            public void onSuccess(BaseListEntity<List<Meizhi>> baseListEntity) {
+                isLastPage = baseListEntity.isLastPage();
+                onNetDataReturnSuccess(baseListEntity.getData());
             }
 
             @Override
-            public void onServerError(String msg) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
 
-            @Override
-            public void response(Object object) {
-                swipeRefreshLayout.setRefreshing(false);
-                BaseListEntity entity = (BaseListEntity) object;
-                isLastPage = entity.isLastPage();
-                meizhis.addAll((ArrayList<Meizhi>) entity.getData());
-                meizhiAdapter.setDataSet(meizhis);
             }
         });
     }

@@ -19,9 +19,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.manager.RuntimeManager;
 
 
 public class ChangeColorIcon extends View {

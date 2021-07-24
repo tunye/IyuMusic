@@ -1,21 +1,20 @@
 package com.iyuba.music.activity.discover;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WxOfficialAccountActivity;
 import com.iyuba.music.activity.eggshell.EggShellActivity;
-import com.iyuba.music.activity.me.FindFriendActivity;
 import com.iyuba.music.activity.me.MessageActivity;
+import com.iyuba.music.activity.me.SearchFriendActivity;
 import com.iyuba.music.adapter.discover.DiscoverAdapter;
 import com.iyuba.music.file.FileBrowserActivity;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
@@ -28,16 +27,12 @@ public class DiscoverActivity extends BaseActivity {
     private DiscoverAdapter discoverAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.discover);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.discover;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         RecyclerView discover = findViewById(R.id.discover_list);
         discover.setLayoutManager(new LinearLayoutManager(context));
@@ -46,7 +41,7 @@ public class DiscoverActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         discoverAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
@@ -78,12 +73,12 @@ public class DiscoverActivity extends BaseActivity {
                         break;
                     case 2:
                         if (AccountManager.getInstance().checkUserLogin()) {
-                            startActivity(new Intent(context, FindFriendActivity.class));
+                            startActivity(new Intent(context, SearchFriendActivity.class));
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
                                 @Override
                                 public void finish() {
-                                    startActivity(new Intent(context, FindFriendActivity.class));
+                                    startActivity(new Intent(context, SearchFriendActivity.class));
                                 }
                             });
                         }
@@ -113,17 +108,12 @@ public class DiscoverActivity extends BaseActivity {
                         break;
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_discover);
     }
 }

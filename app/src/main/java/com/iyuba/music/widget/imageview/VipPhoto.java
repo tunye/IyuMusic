@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 
 /**
  * Created by 10202 on 2017/2/27.
@@ -36,13 +37,13 @@ public class VipPhoto extends RelativeLayout {
 
     private void initWidget(Context context) {
         View root = LayoutInflater.from(context).inflate(R.layout.vip_photo, null);
-        circleImageView = (CircleImageView) root.findViewById(R.id.vip_photo_img);
-        vipStatus = (ImageView) root.findViewById(R.id.vip_photo_status);
+        circleImageView = root.findViewById(R.id.vip_photo_img);
+        vipStatus = root.findViewById(R.id.vip_photo_status);
         addView(root);
     }
 
     public void setVipStateVisible(String userid, boolean isVip) {
-        ImageUtil.loadAvatar(userid, circleImageView);
+        AppImageUtil.loadAvatar(userid, circleImageView);
         if (isVip) {
             vipStatus.setVisibility(VISIBLE);
         } else {

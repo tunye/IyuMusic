@@ -2,28 +2,28 @@ package com.iyuba.music.ground;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.RoundedImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadFile;
 import com.iyuba.music.download.DownloadManager;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.Article;
+import com.iyuba.music.entity.article.ArticleOp;
 import com.iyuba.music.entity.article.LocalInfoOp;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
+import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.util.AppImageUtil;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -32,50 +32,29 @@ import java.util.Locale;
  * @author 陈彤
  * @version 1.0
  */
-public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.MyViewHolder> {
-    private Context context;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
-    private ArrayList<Article> mList;
+public class GroundNewsAdapter extends CoreRecyclerViewAdapter<Article, GroundNewsAdapter.NewsViewHolder> {
     private boolean IscanDL = true;
 
     public GroundNewsAdapter(Context context) {
-        this.context = context;
-        mList = new ArrayList<>();
+        super(context);
     }
 
     public GroundNewsAdapter(Context context, boolean IscanDL) {
-        this.context = context;
+        super(context);
         this.IscanDL = IscanDL;
-        mList = new ArrayList<>();
-    }
-
-    public void setData(ArrayList<Article> data) {
-        mList = data;
-        notifyDataSetChanged();
-    }
-
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickListener) {
-        onRecycleViewItemClickListener = onItemClickListener;
+        baseEntityOp = new ArticleOp();
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_common_news, parent, false));
+    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_common_news, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        final int pos = position;
-        if (onRecycleViewItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
-                }
-            });
-        }
-        final Article article = mList.get(position);
+    public void onBindViewHolder(@NonNull final NewsViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        final Article article = getDatas().get(position);
         if (ConfigManager.getInstance().getLanguage() == 2 ||
                 (ConfigManager.getInstance().getLanguage() == 0 && Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage()))) {
             holder.title.setText(article.getTitle());
@@ -91,11 +70,11 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
         holder.time.setText(article.getTime().split(" ")[0]);
         holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));
         if (IscanDL) {
-            holder.pic.setOnClickListener(new View.OnClickListener() {
+            holder.pic.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     if (DownloadTask.checkFileExists(article)) {
-                        onRecycleViewItemClickListener.onItemClick(holder.itemView, pos);
+                        holder.itemView.performClick();
                     } else {
                         new LocalInfoOp().updateDownload(article.getId(), article.getApp(), 2);
                         DownloadFile downloadFile = new DownloadFile();
@@ -108,20 +87,15 @@ public class GroundNewsAdapter extends RecyclerView.Adapter<GroundNewsAdapter.My
                 }
             });
         }
-        ImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music);
+        AppImageUtil.loadImage(article.getPicUrl(), holder.pic, R.drawable.default_music, ConstantManager.NEWSPIC_CORNER);
     }
 
-    @Override
-    public int getItemCount() {
-        return mList.size();
-    }
-
-    static class MyViewHolder extends RecycleViewHolder {
+    static class NewsViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView title, content, time, readCount;
-        ImageView pic;
+        RoundedImageView pic;
 
-        public MyViewHolder(View view) {
+        NewsViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.article_title);
             content = view.findViewById(R.id.article_content);

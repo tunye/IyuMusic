@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ededed"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <FrameLayout
@@ -24,8 +23,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_big">
+            android:layout_marginTop="@dimen/activity_horizontal_margin_big"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/welcome_ad_progressbar"
@@ -33,12 +32,12 @@
                 android:layout_height="match_parent"
                 app:cp_circleColor="#dcdcdc"
                 app:cp_circleProgressColor="@color/skin_app_color"
-                app:cp_circleWidth="@dimen/line_thin"
+                app:cp_circleWidth="@dimen/line_default"
                 app:cp_textIsDisplayable="false" />
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
                 android:layout_gravity="center"
                 android:src="@drawable/escape_ad" />
 

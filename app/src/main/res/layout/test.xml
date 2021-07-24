@@ -32,7 +32,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_oper" />
+            layout="@layout/toolbar" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

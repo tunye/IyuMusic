@@ -3,7 +3,7 @@ package com.iyuba.music.entity.mainpanel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/10/10.
@@ -20,13 +20,13 @@ public class Announcer implements Parcelable {
             return new Announcer[size];
         }
     };
-    @SerializedName("Name")
+    @JSONField(name = "Name")
     public String name;
-    @SerializedName("Img")
+    @JSONField(name = "Img")
     public String imgUrl;
-    @SerializedName("Uid")
+    @JSONField(name = "Uid")
     public String uid;
-    @SerializedName("StarId")
+    @JSONField(name = "StarId")
     private int id;
 
     public Announcer() {

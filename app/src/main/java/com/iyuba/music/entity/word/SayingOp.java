@@ -2,7 +2,8 @@ package com.iyuba.music.entity.word;
 
 import android.database.Cursor;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -15,6 +16,11 @@ public class SayingOp extends BaseEntityOp {
 
     public SayingOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     public Saying findDataById(int id) {

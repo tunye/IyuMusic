@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/statusBar"
@@ -78,10 +78,10 @@
             android:layout_height="52dp"
             android:layout_toEndOf="@+id/current_time"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/row_space_medium"
             android:paddingStart="@dimen/row_space_large"
+            android:paddingTop="@dimen/row_space_medium"
             android:paddingEnd="@dimen/row_space_medium"
-            android:paddingTop="@dimen/row_space_medium">
+            android:paddingBottom="@dimen/row_space_medium">
 
             <ImageView
                 android:id="@+id/formmer"

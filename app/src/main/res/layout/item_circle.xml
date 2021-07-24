@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/row_space_large"
-    android:paddingEnd="@dimen/row_space_large"
     android:paddingTop="@dimen/row_space_big"
+    android:paddingEnd="@dimen/row_space_large"
     android:paddingBottom="@dimen/row_space_big"
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
@@ -46,8 +46,8 @@
                     android:id="@+id/circle_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/row_space_large"
                     android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/big_text" />
             </FrameLayout>
@@ -56,8 +56,8 @@
                 android:id="@+id/circle_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/row_space_large"
                 android:layout_marginTop="@dimen/row_space_big"
+                android:layout_marginEnd="@dimen/row_space_large"
                 android:textColor="@color/text_complementary"
                 android:textSize="@dimen/medium_text" />
 
@@ -65,8 +65,8 @@
                 android:id="@+id/circle_img"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
-                android:layout_marginEnd="@dimen/row_space_very_large"
                 android:layout_marginTop="@dimen/row_space_large"
+                android:layout_marginEnd="@dimen/row_space_very_large"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
@@ -87,11 +87,11 @@
                     android:id="@+id/circle_pmnum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/row_space_large"
                     android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:textColor="@color/text_complementary"
                     android:textSize="@dimen/medium_text" />
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
-</com.iyuba.music.widget.view.MaterialRippleLayout>
+</com.buaa.ct.core.view.MaterialRippleLayout>

@@ -7,18 +7,18 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_opersub" />
+        layout="@layout/toolbar" />
 
-    <com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
+    <com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout xmlns:myswipe="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         myswipe:direction="both">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/news_recyclerview"
+            android:id="@+id/recyclerview_widget"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.iyuba.music.widget.SwipeRefreshLayout.MySwipeRefreshLayout>
+    </com.buaa.ct.core.view.swiperefresh.MySwipeRefreshLayout>
 </LinearLayout>

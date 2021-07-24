@@ -3,7 +3,6 @@ package com.iyuba.music.ground;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -11,10 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +21,15 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.buaa.ct.imageselector.utils.ScreenUtils;
-import com.iyuba.music.MusicApplication;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.PermissionPool;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseListEntity;
@@ -34,17 +37,13 @@ import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.ShareDialog;
 import com.iyuba.music.widget.dialog.WordCard;
@@ -57,10 +56,11 @@ import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.player.VideoView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class VideoPlayerActivity extends BaseActivity implements View.OnClickListener {
-    private static final int WRITE_EXTERNAL_TASK_CODE = 1;
+    private static final int PLAY_HANGLER_WHAT = 0;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private boolean isSystemPlaying;
     private int currPos;
@@ -77,23 +77,21 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private MorphButton playSound;
     private ImageView former, latter, playMode, studyTranslate, changescreen, subtitlteimg;
     private RelativeLayout video_layout;
-    private View toorbar, menu, seekbar_layout, video_content_layout, ll_play_state_info;
+    private View toolbar, menu, seekbar_layout, video_content_layout, ll_play_state_info;
     private boolean isfullscreen = false;
     private boolean isplay = true;
     private boolean isshowcontrol = true;
     private boolean isshowchinese = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.videoplayer);
-        context = this;
-        Log.e("onCreate", "执行了");
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_TASK_CODE);
-        }
-        StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+    public int getLayoutId() {
+        return R.layout.videoplayer;
+    }
+
+    @Override
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        StandardPlayer player = Utils.getMusicApplication().getPlayerService().getPlayer();
         if (player != null && player.isPlaying()) {
             sendBroadcast(new Intent("iyumusic.pause"));
             isSystemPlaying = true;
@@ -102,10 +100,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         }
         articles = (ArrayList<Article>) getIntent().getSerializableExtra("articleList");
         currPos = getIntent().getIntExtra("pos", 0);
-        initWidget();
-        setListener();
-        changeUIByPara();
-        refresh();
+    }
+
+    @Override
+    public void afterSetLayout() {
+        super.afterSetLayout();
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         if (wordCard.isShown()) {
             wordCard.dismiss();
         } else {
-            StandardPlayer player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
+            StandardPlayer player = Utils.getMusicApplication().getPlayerService().getPlayer();
             if (player != null && isSystemPlaying) {
                 sendBroadcast(new Intent("iyumusic.pause"));
             }
@@ -124,64 +124,63 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("onPause", "执行了");
         if (videoView.isPlaying()) {
             videoView.pause();
             isplay = true;
         }
         setPauseImage();
+        handler.removeMessages(PLAY_HANGLER_WHAT);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("onDestroy", "执行了");
         videoView.stopPlayback();
         handler.removeCallbacksAndMessages(null);
         wordCard.destroy();
     }
 
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        currTime = (TextView) findViewById(R.id.study_current_time);
-        duration = (TextView) findViewById(R.id.study_duration);
-        seekBar = (SeekBar) findViewById(R.id.study_progress);
-        playSound = (MorphButton) findViewById(R.id.play);
-        former = (ImageView) findViewById(R.id.formmer);
-        latter = (ImageView) findViewById(R.id.latter);
-        playMode = (ImageView) findViewById(R.id.play_mode);
-        studyTranslate = (ImageView) findViewById(R.id.translate);
-        wordCard = (WordCard) findViewById(R.id.wordcard);
-        videoView = (VideoView) findViewById(R.id.videoView_small);
-        originalView = (OriginalSynView) findViewById(R.id.original);
-        subtitle = (TextView) findViewById(R.id.tv_zimu);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        currTime = findViewById(R.id.study_current_time);
+        duration = findViewById(R.id.study_duration);
+        seekBar = findViewById(R.id.study_progress);
+        playSound = findViewById(R.id.play);
+        former = findViewById(R.id.formmer);
+        latter = findViewById(R.id.latter);
+        playMode = findViewById(R.id.play_mode);
+        studyTranslate = findViewById(R.id.translate);
+        wordCard = findViewById(R.id.wordcard);
+        videoView = findViewById(R.id.videoView_small);
+        originalView = findViewById(R.id.original);
+        subtitle = findViewById(R.id.tv_zimu);
         subtitle.setVisibility(View.GONE);
-        largePause = (ImageView) findViewById(R.id.large_pause);
+        largePause = findViewById(R.id.large_pause);
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
-        video_layout = (RelativeLayout) findViewById(R.id.video_layout);
-        changescreen = (ImageView) findViewById(R.id.change_screen);
-        toorbar = findViewById(R.id.toolbar);
+        video_layout = findViewById(R.id.video_layout);
+        changescreen = findViewById(R.id.change_screen);
+        toolbar = findViewById(R.id.toolbar_title_layout);
         menu = findViewById(R.id.meun_layout);
         seekbar_layout = findViewById(R.id.seekbar_layout);
         video_content_layout = findViewById(R.id.video_content_layout);
-        subtitlteimg = (ImageView) findViewById(R.id.change_zimu);
+        subtitlteimg = findViewById(R.id.change_zimu);
         ll_play_state_info = findViewById(R.id.ll_play_state_info);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 ShareDialog shareDialog = new ShareDialog(VideoPlayerActivity.this, article);
                 shareDialog.show();
             }
         });
-        subtitlteimg.setOnClickListener(new View.OnClickListener() {
+        subtitlteimg.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 int musicTranslate = ConfigManager.getInstance().getStudyTranslate();
                 musicTranslate = (musicTranslate + 1) % 2;
                 ConfigManager.getInstance().setStudyTranslate(musicTranslate);
@@ -204,7 +203,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 int i = videoView.getDuration();
                 seekBar.setMax(i);
                 duration.setText(DateFormat.formatTime(i / 1000));
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(PLAY_HANGLER_WHAT);
                 videoView.start();
                 largePause.setVisibility(View.GONE);
                 playSound.setState(MorphButton.PLAY_STATE);
@@ -226,19 +225,23 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 refresh();
             }
         });
-        largePause.setOnClickListener(new View.OnClickListener() {
+        largePause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pause();
             }
         });
-        findViewById(R.id.video_layout).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.video_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 isshowcontrol = !isshowcontrol;
                 if (isshowcontrol) {
                     ll_play_state_info.setVisibility(View.VISIBLE);
-                    largePause.setVisibility(View.VISIBLE);
+                    if (isplay) {
+                        largePause.setVisibility(View.GONE);
+                    } else {
+                        largePause.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     ll_play_state_info.setVisibility(View.GONE);
                     largePause.setVisibility(View.GONE);
@@ -300,13 +303,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         originalView.setSeekToCallBack(new SeekToCallBack() {
             @Override
             public void onSeekStart() {
-                handler.removeMessages(0);
+                handler.removeMessages(PLAY_HANGLER_WHAT);
             }
 
             @Override
             public void onSeekTo(double time) {
                 videoView.seekTo((int) (time * 1000));
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(PLAY_HANGLER_WHAT);
             }
         });
         changescreen.setOnClickListener(this);
@@ -318,28 +321,13 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.study_share);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.study_share);
+        refresh();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.e("onResume", "执行了");
-        changeUIResumeByPara();
-        if (videoView.isPrepared()) {
-            //pause();
-            if (isplay)
-                videoView.start();
-            else
-                videoView.pause();
-            setPauseImage();
-        }
-    }
-
-
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         setPauseImage();
         setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
         setStudyTranslateImage(ConfigManager.getInstance().getStudyTranslate());
@@ -350,11 +338,21 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.videoView_loading).setVisibility(View.VISIBLE);
         LocalInfoOp localInfoOp = new LocalInfoOp();
         localInfoOp.updateSee(article.getId(), article.getApp());
-        ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
+        RequestClient.requestAsync(new ReadCountAddRequest(article.getId(), "music"), new SimpleRequestCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+            }
+        });
         getOriginal();
         seekBar.setSecondaryProgress(0);
         videoView.reset();
-        title.setText(article.getTitle_cn());
+        title.setText(article.getTitle_cn().length() > 16 ? article.getTitle_cn().substring(0, 14) + "..." : article.getTitle_cn());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             String append = "http://staticvip.iyuba.cn/video/voa/" + articles.get(currPos).getId() + ".mp4";
             videoView.setVideoPath(append);
@@ -367,7 +365,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 
     private void setScreen() {
         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            int width = RuntimeManager.getInstance().getWindowWidth() - RuntimeManager.getInstance().dip2px(20);
+            int width = RuntimeManager.getInstance().getScreenWidth() - RuntimeManager.getInstance().dip2px(20);
             int height = width * videoView.getVideoHeight() / videoView.getVideoWidth();
             videoView.setVideoScale(width, height);
         }
@@ -395,7 +393,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             videoView.start();
             isplay = true;
         }
-        Log.e("是否暂停：", isplay + "");
         setPauseImage();
     }
 
@@ -447,26 +444,15 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                     originalView.setShowChinese(false);
                 }
                 originalView.setOriginalList(originalList);
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(PLAY_HANGLER_WHAT);
             }
         });
     }
 
     private void getWebLrc(final int id, final IOperationFinish finish) {
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, 0), new IProtocolResponse() {
+        RequestClient.requestAsync(new LrcRequest(id, 0), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(Object object) {
-                BaseListEntity listEntity = (BaseListEntity) object;
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
                 originalList = (ArrayList<Original>) listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
@@ -476,11 +462,19 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 }
                 finish.finish();
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.play_mode:
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
@@ -552,12 +546,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //变成横屏了
-            toorbar.setVisibility(View.GONE);
+            toolbar.setVisibility(View.GONE);
             subtitle.setVisibility(View.VISIBLE);
 //            iv_change_subtitle_type.setVisibility(View.VISIBLE);
-//            iv_fullscreen.setImageResource(R.drawable.small_screen);
+//            changescreen.setImageResource(R.drawable.small_screen);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            //setVideoParams(videoView.getmMediaPlayer(), true);
+            setVideoParams(videoView.getmMediaPlayer(), true);
             ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
             rl_paramters.height = LinearLayout.LayoutParams.MATCH_PARENT;
             rl_paramters.width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -572,39 +566,36 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 //            iv_change_subtitle_type.setVisibility(View.GONE);
             subtitle.setVisibility(View.GONE);
             originalView.setVisibility(View.VISIBLE);
-            toorbar.setVisibility(View.VISIBLE);
-//            iv_fullscreen.setImageResource(R.drawable.full_screen);
+            toolbar.setVisibility(View.VISIBLE);
+//            changescreen.setImageResource(R.drawable.full_screen);
             menu.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
-            rl_paramters.height = ScreenUtils.dip2px(context, 210.0f);
+            rl_paramters.height = RuntimeManager.getInstance().dip2px(210.0f);
             rl_paramters.width = LinearLayout.LayoutParams.MATCH_PARENT;
             video_layout.setLayoutParams(rl_paramters);
             seekbar_layout.setBackgroundColor(Color.WHITE);
             video_content_layout.setBackgroundColor(Color.WHITE);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-            //setVideoParams(videoView.getmMediaPlayer(), false);
+            setVideoParams(videoView.getmMediaPlayer(), false);
         }
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-            materialDialog.setTitle(R.string.storage_permission);
-            materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityCompat.requestPermissions(VideoPlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            WRITE_EXTERNAL_TASK_CODE);
-                    materialDialog.dismiss();
-                }
-            });
-            materialDialog.show();
-        }
+    public void onRequestPermissionDenied(String dialogContent, int[] codes, String[] permissions) {
+        super.onRequestPermissionDenied(dialogContent, codes, permissions);
+        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
+        materialDialog.setTitle(R.string.storage_permission);
+        materialDialog.setMessage(R.string.storage_permission_content);
+        materialDialog.setPositiveButton(R.string.app_sure, new INoDoubleClick() {
+            @Override
+            public void activeClick(View view) {
+                materialDialog.dismiss();
+                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+        });
+        materialDialog.show();
     }
 
     public void setVideoParams(MediaPlayer mediaPlayer, boolean isLand) {
@@ -656,17 +647,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<VideoPlayerActivity> {
         @Override
         public void handleMessageByRef(final VideoPlayerActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    activity.currTime.setText(DateFormat.formatTime(activity.videoView.getCurrentPosition() / 1000));
-                    activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
-                    int current = activity.videoView.getCurrentPosition();
-                    if (activity.originalView != null)
-                        activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
-                    activity.handler.sendEmptyMessageDelayed(0, 1000);
-                    break;
-            }
+            activity.currTime.setText(DateFormat.formatTime(activity.videoView.getCurrentPosition() / 1000));
+            activity.seekBar.setProgress(activity.videoView.getCurrentPosition());
+            int current = activity.videoView.getCurrentPosition();
+            if (activity.originalView != null)
+                activity.originalView.synchroParagraph(activity.getCurrentPara(current / 1000.0));
+            activity.handler.sendEmptyMessageDelayed(PLAY_HANGLER_WHAT, 200);
         }
     }
-
 }

@@ -7,7 +7,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.iyuba.music.manager.RuntimeManager;
+import com.buaa.ct.core.manager.RuntimeManager;
 
 
 /**

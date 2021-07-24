@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.SettingActivity;
 import com.iyuba.music.activity.study.StudyActivity;
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.util.Utils;
 
 
 /**
@@ -22,10 +23,11 @@ public class ChangePropertyBroadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RuntimeManager.getInstance().getApplication().clearActivityList();
+        Utils.getMusicApplication().clearActivityList();
         Intent target = new Intent();
         target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         target.putExtra(RESULT_FLAG, true);
+        target.setPackage(RuntimeManager.getInstance().getApplication().getPackageName());
         String source = intent.getStringExtra(SOURCE);
         if (TextUtils.isEmpty(source)) {
             target.setClass(context, MainActivity.class);

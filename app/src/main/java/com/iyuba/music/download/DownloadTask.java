@@ -1,5 +1,5 @@
 /*
- * 文件名 
+ * 文件名
  * 包含类名列表
  * 版本信息，版本号
  * 创建日期
@@ -9,13 +9,15 @@ package com.iyuba.music.download;
 
 import android.text.TextUtils;
 
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.original.LrcMaker;
 import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
@@ -27,7 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -37,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * 类名
  *
  * @author 作者 <br/>
- *         实现的主要功能。 创建日期 修改者，修改日期，修改内容。
+ * 实现的主要功能。 创建日期 修改者，修改日期，修改内容。
  */
 public class DownloadTask {
     private static ThreadPoolExecutor downloadExecutor;
@@ -288,38 +290,29 @@ public class DownloadTask {
                 type = 0;
                 break;
         }
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
+        RequestClient.requestAsync(new LrcRequest(id, type), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
                 LrcMaker.getInstance().makeOriginal(id, listEntity.getData());
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }
 
     private void getWebOriginal(final int id) {
-        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
+        RequestClient.requestAsync(new OriginalRequest(id), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
                 OriginalMaker.getInstance().makeOriginal(id, listEntity.getData());
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }

@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.iyuba.music.widget.view.MaterialRippleLayout;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.BuildConfig;
 import com.iyuba.music.R;
 
@@ -28,15 +29,15 @@ public class VersionInfoDialog {
         View root = LayoutInflater.from(context).inflate(R.layout.version_info, null);
         TextView versionName, versionCode, buildTime, builder, versionType;
         MaterialRippleLayout sure;
-        versionCode = (TextView) root.findViewById(R.id.version_code);
-        versionName = (TextView) root.findViewById(R.id.version_name);
-        versionType = (TextView) root.findViewById(R.id.version_type);
-        buildTime = (TextView) root.findViewById(R.id.version_build_time);
-        builder = (TextView) root.findViewById(R.id.version_builder);
-        sure = (MaterialRippleLayout) root.findViewById(R.id.version_know);
-        sure.setOnClickListener(new View.OnClickListener() {
+        versionCode = root.findViewById(R.id.version_code);
+        versionName = root.findViewById(R.id.version_name);
+        versionType = root.findViewById(R.id.version_type);
+        buildTime = root.findViewById(R.id.version_build_time);
+        builder = root.findViewById(R.id.version_builder);
+        sure = root.findViewById(R.id.version_know);
+        sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 iyubaDialog.dismiss();
             }
         });
@@ -47,6 +48,7 @@ public class VersionInfoDialog {
             versionCodeString = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
             flavors = BuildConfig.FLAVOR;
             releaseTime = BuildConfig.RELEASE_TIME;
+            releaseTime = BuildConfig.APPLICATION_ID;
             buildType = "渠道名称：" + flavors + " " + ((context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 ? "debug版" : "release版");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -60,7 +62,7 @@ public class VersionInfoDialog {
         builder.setText("ct");
         buildTime.setText(releaseTime);
         versionType.setText(buildType);
-        iyubaDialog = new IyubaDialog(context, root, true, 24);
+        iyubaDialog = new IyubaDialog(context, root, true);
         iyubaDialog.show();
     }
 }

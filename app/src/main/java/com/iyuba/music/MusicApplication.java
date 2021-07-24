@@ -6,43 +6,40 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
-import com.addam.library.api.AddamManager;
 import com.buaa.ct.appskin.SkinManager;
 import com.buaa.ct.appskin.callback.ISkinChangedListener;
-import com.buaa.ct.videocache.HttpProxyCacheServer;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.network.NetWorkType;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.swipe.SmartSwipeBack;
+import com.buaa.ct.videocache.httpproxy.HttpProxyCacheServer;
 import com.bumptech.glide.Glide;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.iyuba.music.activity.MainActivity;
+import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.download.DownloadTask;
 import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkState;
-import com.iyuba.music.network.NetWorkType;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.service.PlayerService;
 import com.iyuba.music.sqlite.ImportDatabase;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.util.ThreadPoolUtil;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.IyubaDialog;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
+import com.iyuba.music.util.ChangePropery;
+import com.iyuba.music.util.Utils;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
@@ -56,16 +53,18 @@ import java.util.List;
 public class MusicApplication extends Application {
     private List<Activity> activityList;
     private int sleepSecond;
-    private Handler baseHandler = new Handler();
     private PlayerService playerService;
     private HttpProxyCacheServer proxy;
     private ChangePropertyBroadcast changeProperty;
     private CountDownTimer timer;
+    private boolean showSignInToast;
 
     @Override
     public void onCreate() {
         super.onCreate();//必须调用父类方法
         RuntimeManager.getInstance().initRuntimeManager(this);
+        ChangePropery.updateLanguageMode(ConfigManager.getInstance().getLanguage());
+        SmartSwipeBack.activityBezierBack(this, activitySwipeBackFilter);
         // android n 获取文件必须的权限配置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -78,34 +77,6 @@ public class MusicApplication extends Application {
 //            CrashHandler crashHandler = new CrashHandler(this);
 //            Thread.setDefaultUncaughtExceptionHandler(crashHandler);
         }
-    }
-
-    private void pushSdkInit() {
-        final String TAG = "mipush";
-        if (ConfigManager.getInstance().isPush()) {
-            MiPushClient.registerPush(this, ConstantManager.MIPUSH_APP_ID, ConstantManager.MIPUSH_APP_KEY);
-        }
-        LoggerInterface newLogger = new LoggerInterface() {
-
-            @Override
-            public void setTag(String tag) {
-            }
-
-            @Override
-            public void log(String content, Throwable t) {
-                if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-                    Log.d(TAG, content, t);
-                }
-            }
-
-            @Override
-            public void log(String content) {
-                if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
-                    Log.d(TAG, content);
-                }
-            }
-        };
-        Logger.setLogger(this, newLogger);
     }
 
     private boolean shouldInit() {
@@ -139,17 +110,12 @@ public class MusicApplication extends Application {
         SkinManager.getInstance().addChangedListener(new ISkinChangedListener() {
             @Override
             public void onSkinChanged() {
-                RuntimeManager.getInstance().getApplication().setTheme(GetAppColor.getInstance().getAppTheme());
-                IyubaDialog.styleId = GetAppColor.getInstance().getDialogTheme();
-                MyMaterialDialog.styleId = GetAppColor.getInstance().getMaterialDialogTheme();
+                Utils.getMusicApplication().setTheme(GetAppColor.getInstance().getAppTheme());
+//                IyubaDialog.styleId = GetAppColor.getInstance().getDialogTheme();
+//                MyMaterialDialog.styleId = GetAppColor.getInstance().getMaterialDialogTheme();
             }
         });
-        baseHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                prepareLazy();
-            }
-        }, 800);
+        prepareLazy();
     }
 
     private void prepareLazy() {
@@ -181,26 +147,21 @@ public class MusicApplication extends Application {
         PlatformConfig.setWeixin(ConstantManager.WXID, ConstantManager.WXSECRET);
         PlatformConfig.setSinaWeibo("3225411888", "16b68c9ca20e662001adca3ca5617294", "http://www.iyuba.cn");
         PlatformConfig.setQQZone("1150062634", "7d9d7157c25ad3c67ff2de5ee69c280c");
-        // 讯飞初始化
-        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
         UMShareConfig config = new UMShareConfig();
         config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
         UMShareAPI.get(getApplicationContext()).setShareConfig(config);
+        // 讯飞初始化
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=57fc4ab0");
         // 初始化推送
-        pushSdkInit();
-        // 初始化addam
-        AddamManager.start(this, "iyuba@sina.com", "a01c1754adf58704df15e929dc63b4ce", "addam_market");
-        AddamManager.initialize(new AddamManager.Callback() {
-            @Override
-            public void initialized(boolean success) {
-            }
-        });
+        if (ConfigManager.getInstance().isPush()) {
+            MiPushClient.registerPush(this, ConstantManager.MIPUSH_APP_ID, ConstantManager.MIPUSH_APP_KEY);
+        }
     }
 
     public void pushActivity(final Activity activity) {
         activityList.add(activity);
         if (playerService == null) {
-            baseHandler.postDelayed(new Runnable() {
+            ThreadUtils.postOnUiThreadDelay(new Runnable() {
                 @Override
                 public void run() {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -228,32 +189,20 @@ public class MusicApplication extends Application {
         activityList.clear();
     }
 
-    private void stopLessonRecord() {
-        if (playerService.getCurArticleId() != 0) {
-            StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0);
-        }
-    }
-
     public void exit() {
-        stopService(new Intent(getApplicationContext(), PlayerService.class));
-        stopLessonRecord();
-        clearActivityList();
-        ImageUtil.destroy(this);
         DownloadTask.shutDown();
-        ThreadPoolUtil.getInstance().shutdown();
-        ImportDatabase.getInstance().closeDatabase();
-        try {
-            if (proxy != null) {
-                proxy.shutdown();
-            }
-            if (changeProperty != null) {
-                unregisterReceiver(changeProperty);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        stopService(new Intent(getApplicationContext(), PlayerService.class));
+        if (playerService.getCurArticleId() != 0) {
+            StudyRecordUtil.recordStop(StudyManager.getInstance().getLesson(), 0, false);
         }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
+        ImportDatabase.getInstance().closeDatabase();
+        if (proxy != null) {
+            proxy.shutdown();
+        }
+        if (changeProperty != null) {
+            unregisterReceiver(changeProperty);
+        }
+        clearActivityList();
     }
 
     public int getSleepSecond() {
@@ -285,6 +234,13 @@ public class MusicApplication extends Application {
         timer.start();
     }
 
+    public Activity getForeground() {
+        if (activityList != null && activityList.size() > 0) {
+            return activityList.get(activityList.size() - 1);
+        }
+        return null;
+    }
+
     public boolean isAppointForeground(String appoint) {
         if (activityList != null && activityList.size() > 0) {
             Activity activity = activityList.get(activityList.size() - 1);
@@ -312,6 +268,14 @@ public class MusicApplication extends Application {
         }
     }
 
+    public boolean isShowSignInToast() {
+        return showSignInToast;
+    }
+
+    public void setShowSignInToast(boolean showSignInToast) {
+        this.showSignInToast = showSignInToast;
+    }
+
     public PlayerService getPlayerService() {
         return playerService;
     }
@@ -323,4 +287,11 @@ public class MusicApplication extends Application {
     public HttpProxyCacheServer getProxy() {
         return proxy == null ? (proxy = new HttpProxyCacheServer(this)) : proxy;
     }
+
+    private SmartSwipeBack.ActivitySwipeBackFilter activitySwipeBackFilter = new SmartSwipeBack.ActivitySwipeBackFilter() {
+        @Override
+        public boolean onFilter(Activity activity) {
+            return !(activity instanceof MainActivity) && !(activity instanceof WelcomeActivity);
+        }
+    };
 }

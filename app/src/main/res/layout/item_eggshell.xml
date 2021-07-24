@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,35 +7,33 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/oper_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/row_space_large" />
 
         <TextView
             android:id="@+id/oper_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_toEndOf="@+id/oper_icon"
+            android:layout_weight="1"
             android:textColor="@color/text_color"
             android:textSize="@dimen/large_text" />
 
         <com.iyuba.music.widget.imageview.GoImageView
             android:layout_width="18dp"
             android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/row_space_medium"
             app:go_color="@color/background_complementary"
             app:go_direction="LEFT"
             app:go_stroke="@dimen/line_default" />
-    </RelativeLayout>
-</com.iyuba.music.widget.view.MaterialRippleLayout>
+    </LinearLayout>
+</com.buaa.ct.core.view.MaterialRippleLayout>

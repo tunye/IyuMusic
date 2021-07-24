@@ -15,14 +15,14 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
-        
+
         <ImageView
             android:id="@+id/icon"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:src="@mipmap/ic_launcher" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,8 +46,8 @@
             android:id="@+id/praise"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:rv_cornerRadius_TL="@dimen/corner_radius_big"
             app:rv_cornerRadius_TR="@dimen/corner_radius_big"
@@ -80,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/list_divider_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:rv_strokeColor="@color/background_complementary"
             app:rv_strokeWidth="@dimen/line_thin">
 
@@ -111,8 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/list_divider_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:rv_strokeColor="@color/background_complementary"
             app:rv_strokeWidth="@dimen/line_thin">
 
@@ -141,8 +141,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_height"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/list_divider_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:rv_cornerRadius_BL="@dimen/corner_radius_big"
             app:rv_cornerRadius_BR="10dp"
             app:rv_strokeColor="@color/background_complementary"
@@ -198,12 +198,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@string/about_communicate"
             android:textColor="@color/text_color"
             android:textSize="@dimen/medium_text" />
-        
+
     </LinearLayout>
 
     <TextView

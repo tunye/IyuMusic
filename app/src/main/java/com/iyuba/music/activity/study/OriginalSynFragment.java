@@ -9,6 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.listener.IOnDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.article.Article;
@@ -18,19 +25,14 @@ import com.iyuba.music.entity.original.Original;
 import com.iyuba.music.entity.original.OriginalMaker;
 import com.iyuba.music.entity.original.OriginalParser;
 import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.newsrequest.LrcRequest;
 import com.iyuba.music.request.newsrequest.OriginalRequest;
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.WordCard;
 import com.iyuba.music.widget.original.OriginalSynView;
 import com.iyuba.music.widget.original.SeekToCallBack;
@@ -38,6 +40,7 @@ import com.iyuba.music.widget.original.TextSelectCallBack;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/17.
@@ -45,7 +48,7 @@ import java.util.ArrayList;
 public class OriginalSynFragment extends BaseFragment implements IOnClickListener {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private OriginalSynView originalView;
-    private ArrayList<Original> originalList;
+    private List<Original> originalList;
     private WordCard wordCard;
     private Article article;
     private StandardPlayer player;
@@ -65,7 +68,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
 
     private View initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.original_syn, null);
-        player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
+        player = Utils.getMusicApplication().getPlayerService().getPlayer();
         originalView = view.findViewById(R.id.original);
         originalView.setTextSize(ConfigManager.getInstance().getOriginalSize());
         originalView.setTextSelectCallBack(new TextSelectCallBack() {
@@ -205,19 +208,9 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                 type = 0;
                 break;
         }
-        LrcRequest.exeRequest(LrcRequest.generateUrl(id, type), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
+        RequestClient.requestAsync(new LrcRequest(id, type), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
                 originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
@@ -233,23 +226,18 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     }
                 });
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
     private void getWebOriginal(final int id, final IOperationFinish finish) {
-        OriginalRequest.exeRequest(OriginalRequest.generateUrl(id), new IProtocolResponse<BaseListEntity<ArrayList<Original>>>() {
+        RequestClient.requestAsync(new OriginalRequest(id), new SimpleRequestCallBack<BaseListEntity<List<Original>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Original>> listEntity) {
+            public void onSuccess(BaseListEntity<List<Original>> listEntity) {
                 originalList = listEntity.getData();
                 for (Original original : originalList) {
                     original.setArticleID(id);
@@ -262,6 +250,11 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
                     }
                 });
             }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
         });
     }
 
@@ -269,7 +262,7 @@ public class OriginalSynFragment extends BaseFragment implements IOnClickListene
         int para = 0;
         if (originalList != null && originalList.size() != 0) {
             for (Original original : originalList) {
-                if (time < original.getStartTime()) {
+                if (time <= original.getStartTime()) {
                     break;
                 } else {
                     para++;

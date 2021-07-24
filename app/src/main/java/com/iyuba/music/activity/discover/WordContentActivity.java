@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.word.ExampleSentenceOp;
@@ -17,15 +22,13 @@ import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordSetOp;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.request.discoverrequest.DictRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -53,21 +56,21 @@ public class WordContentActivity extends BaseActivity {
     private SimplePlayer player;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.word);
-        wordSetOp = new WordSetOp();
-        appointWord = getIntent().getStringExtra("word");
-        source = getIntent().getStringExtra("source");
-        playSound = false;
-        player = new SimplePlayer(context);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.word;
     }
 
     @Override
-    protected void initWidget() {
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        appointWord = getIntent().getStringExtra("word");
+        source = getIntent().getStringExtra("source");
+        wordSetOp = new WordSetOp();
+        player = new SimplePlayer(context);
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         key = findViewById(R.id.word_key);
         pron = findViewById(R.id.word_pron);
@@ -80,23 +83,23 @@ public class WordContentActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        speaker.setOnClickListener(new View.OnClickListener() {
+        speaker.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 playSound();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, WordSetActivity.class));
             }
         });
-        wordCollect.setOnClickListener(new View.OnClickListener() {
+        wordCollect.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     synchroCollect();
                 } else {
@@ -129,10 +132,10 @@ public class WordContentActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.word_title);
-        toolbarOper.setText(R.string.word_set);
+        enableToolbarOper(R.string.word_set);
         currentWord = wordSetOp.findDataByKey(appointWord);
         if (currentWord != null) {
             currentWord.setSentences(new ExampleSentenceOp().findData(appointWord));
@@ -203,14 +206,8 @@ public class WordContentActivity extends BaseActivity {
         }
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         fromHtml = false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
     }
 
     @Override
@@ -250,27 +247,18 @@ public class WordContentActivity extends BaseActivity {
     }
 
     private void getNetWord(final String wordkey, final IOperationResult finish) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
-            DictRequest.exeRequest(DictRequest.generateUrl(wordkey), new IProtocolResponse<Word>() {
-                @Override
-                public void onNetError(String msg) {
-                    finish.fail(msg);
-                }
+        RequestClient.requestAsync(new DictRequest(wordkey), new SimpleRequestCallBack<Word>() {
+            @Override
+            public void onSuccess(Word word) {
+                currentWord = word;
+                finish.success(null);
+            }
 
-                @Override
-                public void onServerError(String msg) {
-                    finish.fail(msg);
-                }
-
-                @Override
-                public void response(Word result) {
-                    currentWord = result;
-                    finish.success(null);
-                }
-            });
-        } else {
-            finish.fail(context.getString(R.string.net_speed_slow));
-        }
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                finish.fail(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
+        });
     }
 
     private void saveDB() {
@@ -282,29 +270,23 @@ public class WordContentActivity extends BaseActivity {
 
     private void synchroYun(final String type) {
         final String userid = AccountManager.getInstance().getUserId();
-        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, type, currentWord.getWord()),
-                new IProtocolResponse<Integer>() {
-                    @Override
-                    public void onNetError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
+        RequestClient.requestAsync(new DictUpdateRequest(userid, type, currentWord.getWord()), new SimpleRequestCallBack<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                if (type.equals("insert")) {
+                    new PersonalWordOp().insertWord(currentWord.getWord(), userid);
+                    CustomToast.getInstance().showToast(R.string.word_add);
+                } else {
+                    new PersonalWordOp().deleteWord(currentWord.getWord(), userid);
+                    CustomToast.getInstance().showToast(R.string.word_delete);
+                }
+            }
 
-                    @Override
-                    public void onServerError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
-
-                    @Override
-                    public void response(Integer resultCode) {
-                        if (type.equals("insert")) {
-                            new PersonalWordOp().insertWord(currentWord.getWord(), userid);
-                            CustomToast.getInstance().showToast(R.string.word_add);
-                        } else {
-                            new PersonalWordOp().deleteWord(currentWord.getWord(), userid);
-                            CustomToast.getInstance().showToast(R.string.word_delete);
-                        }
-                    }
-                });
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
+        });
     }
 
     private void playSound() {

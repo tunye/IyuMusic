@@ -40,13 +40,13 @@ import java.io.IOException;
  * 视频框架
  *
  * @author chentong
- *         <p/>
- *         <p/>
- *         Displays a video file. The VideoView class can load images from
- *         various sources (such as resources or content providers), takes care
- *         of computing its measurement from the video so that it can be used in
- *         any layout manager, and provides various display options such as
- *         scaling and tinting.
+ * <p/>
+ * <p/>
+ * Displays a video file. The VideoView class can load images from
+ * various sources (such as resources or content providers), takes care
+ * of computing its measurement from the video so that it can be used in
+ * any layout manager, and provides various display options such as
+ * scaling and tinting.
  */
 public class VideoView extends SurfaceView implements MediaPlayerControl {
     private Context mContext;
@@ -154,7 +154,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                 mMediaController.hide();
             }
 
-			/* If an error handler has been supplied, use it and finish. */
+            /* If an error handler has been supplied, use it and finish. */
             if (mOnErrorListener != null) {
                 if (mOnErrorListener.onError(mMediaPlayer, framework_err,
                         impl_err)) {
@@ -162,12 +162,12 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                 }
             }
 
-			/*
+            /*
              * Otherwise, pop up an error dialog so the user knows that
-			 * something bad has happened. Only try and pop up the dialog if
-			 * we're attached to a window. When we're going away and no longer
-			 * have a window, don't bother showing the user an error.
-			 */
+             * something bad has happened. Only try and pop up the dialog if
+             * we're attached to a window. When we're going away and no longer
+             * have a window, don't bother showing the user an error.
+             */
             if (getWindowToken() != null) {
 
             }
@@ -270,19 +270,19 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
 
         switch (specMode) {
             case MeasureSpec.UNSPECIFIED:
-            /*
-             * Parent says we can be as big as we want. Just don't be larger
-			 * than max size imposed on ourselves.
-			 */
+                /*
+                 * Parent says we can be as big as we want. Just don't be larger
+                 * than max size imposed on ourselves.
+                 */
                 result = desiredSize;
                 break;
 
             case MeasureSpec.AT_MOST:
-            /*
-             * Parent says we can be as big as we want, up to specSize. Don't be
-			 * larger than specSize, and don't be larger than the max size
-			 * imposed on ourselves.
-			 */
+                /*
+                 * Parent says we can be as big as we want, up to specSize. Don't be
+                 * larger than specSize, and don't be larger than the max size
+                 * imposed on ourselves.
+                 */
                 result = Math.min(desiredSize, specSize);
                 break;
 

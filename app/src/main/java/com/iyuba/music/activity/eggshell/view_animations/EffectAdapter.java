@@ -1,16 +1,20 @@
 package com.iyuba.music.activity.eggshell.view_animations;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.iyuba.music.R;
 
-public class EffectAdapter extends BaseAdapter {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class EffectAdapter extends CoreRecyclerViewAdapter<String, EffectAdapter.MyHolderView> {
 
     private final static String[] effects = {"DropOutAnimator", "LandingAnimator", "TakingOffAnimator", "FlashAnimator",
             "PulseAnimator", "RubberBandAnimator", "ShakeAnimator", "SwingAnimator",
@@ -28,33 +32,30 @@ public class EffectAdapter extends BaseAdapter {
             "ZoomInAnimator", "ZoomInDownAnimator", "ZoomInLeftAnimator", "ZoomInRightAnimator",
             "ZoomInUpAnimator", "ZoomOutAnimator", "ZoomOutDownAnimator", "ZoomOutLeftAnimator",
             "ZoomOutRightAnimator", "ZoomOutUpAnimator", "ZoomInDownAnimator",};
-    private Context mContext;
 
     public EffectAdapter(Context context) {
-        mContext = context;
+        super(context);
+        setDataSet(new ArrayList<>(Arrays.asList(effects)));
+    }
+
+    @NonNull
+    @Override
+    public MyHolderView onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new MyHolderView(LayoutInflater.from(context).inflate(R.layout.eggshell_animation_item, viewGroup, false));
     }
 
     @Override
-    public int getCount() {
-        return Techniques.values().length;
+    public void onBindViewHolder(@NonNull MyHolderView holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        holder.textView.setText(effects[position]);
     }
 
-    @Override
-    public Object getItem(int position) {
-        return Techniques.values()[position].getAnimator();
-    }
+    static class MyHolderView extends CoreRecyclerViewAdapter.MyViewHolder {
+        TextView textView;
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.eggshell_animation_item, null, false);
-        TextView t = (TextView) v.findViewById(R.id.list_item_text);
-        t.setText(effects[position]);
-        v.setTag(Techniques.values()[position]);
-        return v;
+        MyHolderView(View view) {
+            super(view);
+            textView = view.findViewById(R.id.list_item_text);
+        }
     }
 }

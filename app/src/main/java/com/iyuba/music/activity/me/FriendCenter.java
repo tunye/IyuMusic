@@ -3,9 +3,9 @@ package com.iyuba.music.activity.me;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.fragmentAdapter.FriendFragmentAdapter;
@@ -14,62 +14,78 @@ import com.iyuba.music.widget.imageview.TabIndicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/3/1.
  */
 public class FriendCenter extends BaseActivity {
+    public static final String INTENT_TYPE = "intent_type";
+    public static final String INTENT_TYPE_CHAT = "chat";
+    public static final String START_POS = "start_pos";
+    public static final String NEED_POP = "need_pop";
     private ViewPager viewPager;
-    private String startType, intentType;
+    private int startType;
+    private String intentType;
     private boolean needPop;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_center);
-        startType = getIntent().getStringExtra("type");
-        intentType = getIntent().getStringExtra("intenttype");
-        needPop = getIntent().getBooleanExtra("needpop", false);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        startType = getIntent().getIntExtra(START_POS, 0);
+        intentType = getIntent().getStringExtra(INTENT_TYPE);
+        needPop = getIntent().getBooleanExtra(NEED_POP, false);
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.friend_center;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = findViewById(R.id.toolbar_oper);
-        ArrayList<String> tabTitle = new ArrayList<>();
-        tabTitle.addAll(Arrays.asList(context.getResources().getStringArray(R.array.friend_tab_title)));
+        List<String> tabTitle = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.friend_tab_title)));
         viewPager = findViewById(R.id.viewpager);
         TabIndicator viewPagerIndicator = findViewById(R.id.tab_indicator);
         viewPager.setAdapter(new FriendFragmentAdapter(getSupportFragmentManager()));
         viewPagerIndicator.setTabItemTitles(tabTitle);
         viewPagerIndicator.setViewPager(viewPager, 0);
-    }
-
-    @Override
-    protected void setListener() {
-        super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        viewPagerIndicator.setOnPageChangeListener(new TabIndicator.PageChangeListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, FindFriendActivity.class));
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.friend_search);
+    public void setListener() {
+        super.setListener();
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
+            @Override
+            public void activeClick(View view) {
+                startActivity(new Intent(context, SearchFriendActivity.class));
+            }
+        });
+    }
+
+    @Override
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.friend_search);
         title.setText(R.string.friend_title);
-        if (TextUtils.isEmpty(startType)) {
-            viewPager.setCurrentItem(0);
-        } else {
-            viewPager.setCurrentItem(Integer.parseInt(startType));
-        }
+        viewPager.setCurrentItem(startType);
     }
 
     public String getIntentMessage() {

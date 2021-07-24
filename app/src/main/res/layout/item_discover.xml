@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/background">
 
-    <com.iyuba.music.widget.view.MaterialRippleLayout
+    <com.buaa.ct.core.view.MaterialRippleLayout
         android:id="@+id/discover_ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,8 +29,8 @@
                 android:id="@+id/discover_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/activity_horizontal_margin_big"
+                android:layout_weight="1"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/large_text" />
 
@@ -42,7 +42,7 @@
                 app:go_direction="LEFT"
                 app:go_stroke="@dimen/line_default" />
         </LinearLayout>
-    </com.iyuba.music.widget.view.MaterialRippleLayout>
+    </com.buaa.ct.core.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"

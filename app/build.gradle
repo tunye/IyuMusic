@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
 
 static def releaseTime() {
     return new Date().format("yyyy-MM-dd HH:mm:ss")
@@ -8,7 +9,7 @@ android {
     //gradlew assembleRelease
     //gradlew assemblePpRelease
     compileSdkVersion 28
-    buildToolsVersion '29.0.1'
+    buildToolsVersion '29.0.3'
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -25,51 +26,38 @@ android {
         applicationId "com.iyuba.music"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 9500
-        versionName "9.5"
+        versionCode 11000
+        versionName "11.0"
+        flavorDimensions "versionCode"
         multiDexEnabled true
+        manifestPlaceholders = [qqappid: "1150062634"]
     }
     buildTypes {
-        debug {
-            buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    //这里修改文件名
-                    def fileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_debug.apk"
-                    output.outputFile = new File(outputFile.parent, fileName)
-                }
-            }
-        }
         release {
             buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
-            signingConfig signingConfigs.releaseConfig
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
+                variant.outputs.all { output ->
                     //这里修改文件名
-                    def fileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release.apk"
-                    output.outputFile = new File(outputFile.parent, fileName)
+                    outputFileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release.apk"
                 }
             }
+            signingConfig signingConfigs.releaseConfig
             shrinkResources true
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField("String", "RELEASE_TIME", "\"" + releaseTime() + "\"")
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    //这里修改文件名
+                    outputFileName = "iyumusic_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_debug.apk"
+                }
+            }
+        }
     }
-    packagingOptions {// 删除不必要的信息
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-    }
-    dexOptions {
-        jumboMode = true
-        maxProcessCount 4
-        javaMaxHeapSize "2g"
-    }
+
     productFlavors {
         baidu {}
         xiaomi {}
@@ -98,54 +86,49 @@ repositories {
     }
 }
 
+MobSDK {
+    appKey "1e93e2e17fe3e"
+    appSecret "20a214f48119fbbc88bbf729590618c0"
+
+    SMSSDK {}
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:28.0.0'
-    compile 'com.android.support:recyclerview-v7:28.0.0'
+    api fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:percent:28.0.0'
 
-    compile 'com.android.support:design:28.0.0'
-    compile 'com.android.support:percent:28.0.0'
-    compile 'com.android.support:palette-v7:28.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
 
-    compile 'com.android.support:multidex:1.0.3'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    implementation project(path: ':assessment')
 
-    /*歌曲缓存*/
-    compile(name: 'videocache', ext: 'aar')
-    /*皮肤*/
-    compile(name: 'skin', ext: 'aar')
-    /*评论模块*/
-    compile(name: 'comment', ext: 'aar')
-    /*短信模块*/
-    compile(name: 'smssdk', ext: 'aar')
-    /*筛图模块*/
-    compile(name: 'image_selector', ext: 'aar')
+    api 'com.gitee.laomutaba.android-base:core:1.2.2'
+    implementation 'com.gitee.laomutaba.android-base:videocache:1.2.2'
+    implementation 'com.gitee.laomutaba.android-base:imageselector:1.2.2'
+    implementation 'com.gitee.laomutaba.android-base:pudding:1.2.2'
+    implementation 'com.gitee.laomutaba.android-base:qrcode:1.2.2'
+    implementation 'com.gitee.laomutaba.android-base:comment:1.2.2'
+    /*glide适配okhttp*/
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
 
-    compile project(path: ':umengshare')
-    compile project(path: ':assessment')
-
-    /*解析json*/
-    compile 'com.google.code.gson:gson:2.8.2'
-    /*volley*/
-    compile 'com.android.volley:volley:1.1.1'
-    /*图片加载*/
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:volley-integration:1.5.0@aar'
     /*友盟统计分析*/
-    compile 'com.umeng.umsdk:analytics:8.0.0'
-    compile 'com.umeng.umsdk:common:2.0.0'
+    implementation 'com.umeng.umsdk:common:9.3.8'
+    implementation 'com.umeng.umsdk:asms:1.2.3'
+    implementation 'com.umeng.umsdk:share-core:7.1.4'
+    implementation 'com.umeng.umsdk:share-qq:7.1.4'
+    implementation 'com.umeng.umsdk:share-wx:7.1.4'
+    implementation 'com.umeng.umsdk:share-sina:7.1.4'
 
-    /*item动画*/
-    compile 'jp.wasabeef:recyclerview-animators:1.3.0'
     /*加载进度条小动画*/
-    compile 'com.wang.avi:library:2.1.3'
+    implementation 'com.wang.avi:library:2.1.3'
     /*返回动画*/
-    compile 'com.balysv.materialmenu:material-menu:1.5.4'
+    implementation 'com.balysv.materialmenu:material-menu:1.5.4'
     /*edittext*/
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     /*动效*/
-    compile 'com.daimajia.easing:library:2.1@aar'
-    compile 'com.daimajia.androidanimations:library:2.3@aar'
-    /*大图加载*/
-    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.daimajia.easing:library:2.1@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

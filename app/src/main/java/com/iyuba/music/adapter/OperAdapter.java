@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buaa.ct.appskin.SkinManager;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.activity.MainActivity;
@@ -25,11 +29,10 @@ import com.iyuba.music.activity.me.WriteStateActivity;
 import com.iyuba.music.ground.AppGroundActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.util.ChangePropery;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.SignInDialog;
 import com.iyuba.music.widget.imageview.GoImageView;
 
@@ -40,9 +43,9 @@ import java.util.ArrayList;
  * Created by 10202 on 2015/10/10.
  */
 public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder> {
+    public static final int SLEEP_POS = 6;
     private static final ArrayList<Integer> menuTextList;
     private static final ArrayList<Integer> menuIconList;
-    private SignInDialog signInDialog;
 
     static {
         menuIconList = new ArrayList<>(12);
@@ -69,6 +72,8 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         menuTextList.add(R.string.oper_setting);
     }
 
+    private SignInDialog signInDialog;
+
     public OperAdapter() {
     }
 
@@ -85,14 +90,16 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
 
     @Override
     public void onBindViewHolder(final OperViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                onItemClicked(v.getContext(), holder.getAdapterPosition());
+            public void activeClick(View view) {
+                onItemClicked(view.getContext(), holder.getAdapterPosition());
             }
         });
         holder.menuText.setText(RuntimeManager.getInstance().getString(menuTextList.get(position)));
         holder.menuIcon.setImageResource(menuIconList.get(position));
+        holder.go.setVisibility(View.VISIBLE);
+        holder.menuResult.setVisibility(View.GONE);
         if (holder.getAdapterPosition() == 0) {
             holder.menuResult.setVisibility(View.VISIBLE);
             if (!AccountManager.getInstance().checkUserLogin()) {
@@ -105,29 +112,37 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
         }
         if (holder.getAdapterPosition() == 1) {
             holder.go.setVisibility(View.GONE);
-            String state = AccountManager.getInstance().getUserInfo().getText();
-            if (TextUtils.isEmpty(state) || "null".equals(state)) {
+            if (AccountManager.getInstance().getUserInfo() == null) {
                 holder.menuText.setText(R.string.personal_nosign);
             } else {
-                holder.menuText.setText(state);
+                String state = AccountManager.getInstance().getUserInfo().getText();
+                if (TextUtils.isEmpty(state) || "null".equals(state)) {
+                    holder.menuText.setText(R.string.personal_nosign);
+                } else {
+                    holder.menuText.setText(state);
+                }
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_night))) {
+        if (holder.getAdapterPosition() == 5) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            if (ChangePropery.isSystemDark()) {
+                holder.menuResult.setText(R.string.oper_night_on);
+            } else {
+                holder.menuResult.setText(ConfigManager.getInstance().isNight() ? R.string.oper_night_on : R.string.oper_night_off);
+            }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_sleep))) {
+        if (holder.getAdapterPosition() == SLEEP_POS) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
-            int sleepSecond = RuntimeManager.getInstance().getApplication().getSleepSecond();
+            int sleepSecond = Utils.getMusicApplication().getSleepSecond();
             if (sleepSecond == 0) {
                 holder.menuResult.setText(R.string.sleep_no_set);
             } else {
                 holder.menuResult.setText(DateFormat.formatTime(sleepSecond));
             }
         }
-        if (holder.menuText.getText().equals(RuntimeManager.getInstance().getString(R.string.oper_skin))) {
+        if (holder.getAdapterPosition() == 7) {
             holder.go.setVisibility(View.GONE);
             holder.menuResult.setVisibility(View.VISIBLE);
             holder.menuResult.setText(getSkin(holder.menuResult.getContext(), SkinManager.getInstance().getCurrSkin()));
@@ -161,6 +176,10 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
                 context.startActivity(new Intent(context, MeActivity.class));
                 break;
             case 5:
+                if (ChangePropery.isSystemDark()) {
+                    CustomToast.getInstance().showToast("当前系统设定为全局暗黑模式。解除全局设置后，可以设定应用内夜间模式");
+                    return;
+                }
                 ConfigManager.getInstance().setNight(!ConfigManager.getInstance().isNight());
                 ChangePropery.updateNightMode(ConfigManager.getInstance().isNight());
                 Intent intent = new Intent(ChangePropertyBroadcast.FLAG);
@@ -203,10 +222,10 @@ public class OperAdapter extends RecyclerView.Adapter<OperAdapter.OperViewHolder
 
         OperViewHolder(View itemView) {
             super(itemView);
-            menuText = (TextView) itemView.findViewById(R.id.oper_text);
-            menuIcon = (ImageView) itemView.findViewById(R.id.oper_icon);
-            menuResult = (TextView) itemView.findViewById(R.id.oper_result);
-            go = (GoImageView) itemView.findViewById(R.id.oper_go);
+            menuText = itemView.findViewById(R.id.oper_text);
+            menuIcon = itemView.findViewById(R.id.oper_icon);
+            menuResult = itemView.findViewById(R.id.oper_result);
+            go = itemView.findViewById(R.id.oper_go);
         }
     }
 }

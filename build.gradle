@@ -2,27 +2,16 @@
 
 buildscript {
     repositories {
-        jcenter()
+        google()
+        maven{ url'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven {
             url "http://mvn.mob.com/android"
             name 'MobSDK'
         }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-        maven {
-            url 'https://dl.bintray.com/umsdk/release'
-            name 'uMeng'
-        }
-
-        maven {
-            url 'https://jitpack.io'
-            name 'photoview'
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath 'com.mob.sdk:MobSDK-Impl:2019.0910.2023'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -30,22 +19,14 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        maven{ url'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://jitpack.io' }
+        google()
+        maven {
+            url 'https://repo1.maven.org/maven2/'
+        }
         maven {
             url "http://mvn.mob.com/android"
-            name 'MobSDK'
-        }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-        maven {
-            url 'https://dl.bintray.com/umsdk/release'
-            name 'uMeng'
-        }
-        maven {
-            url 'https://jitpack.io'
-            name 'photoview'
         }
     }
 }

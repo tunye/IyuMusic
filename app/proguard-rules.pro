@@ -82,16 +82,15 @@
 -dontwarn com.android.volley.jar.**
 -keep class com.android.volley.**{*;}
 #glide
--keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * implements  com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
+    **[] $VALUES;
+    public *;
+}
+-keep class com.bumptech.** {
+    *;
 }
 
-#gson混淆配置
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.examples.android.model.** { *; }
--keep class com.google.gson.JsonObject { *; }
 #mob sms
 -keep class cn.smssdk.**{*;}
 -keep class com.mob.**{*;}

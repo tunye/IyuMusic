@@ -12,10 +12,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/row_space_medium"
         android:background="#55888888"
-        android:paddingBottom="@dimen/row_space_small"
         android:paddingStart="@dimen/row_space_medium"
+        android:paddingTop="@dimen/row_space_small"
         android:paddingEnd="@dimen/row_space_medium"
-        android:paddingTop="@dimen/row_space_small">
+        android:paddingBottom="@dimen/row_space_small">
 
         <TextView
             android:id="@+id/chatting_time"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.iyuba.music.widget.imageview.CircleImageView
+        <com.buaa.ct.core.view.image.CircleImageView
             android:id="@+id/chatting_photo"
             android:layout_width="50dip"
             android:layout_height="50dip"
@@ -44,10 +44,10 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/chatfrom_bg"
             android:maxWidth="225dp"
-            android:paddingBottom="@dimen/row_space_big"
             android:paddingStart="@dimen/row_space_very_large"
-            android:paddingEnd="@dimen/row_space_big"
             android:paddingTop="@dimen/row_space_default"
+            android:paddingEnd="@dimen/row_space_big"
+            android:paddingBottom="@dimen/row_space_big"
             android:textSize="@dimen/big_text" />
     </LinearLayout>
 

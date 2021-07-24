@@ -9,35 +9,38 @@ package com.iyuba.music.activity.me;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.location.Address;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.LocationUtil;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.CircleImageView;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.MostDetailInfo;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.request.apprequest.LocateRequest;
 import com.iyuba.music.request.merequest.EditUserInfoRequest;
 import com.iyuba.music.request.merequest.UserInfoDetailRequest;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.JudgeZodicaAndConstellation;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
-import com.iyuba.music.widget.imageview.CircleImageView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Arrays;
@@ -45,7 +48,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class EditUserDetailInfoActivity extends BaseActivity {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private TextView gender, birthday, zodiac, constellation;
     private MaterialEditText location, school, company, affectiveStatus, lookingFor, bio, interest;
     private View changeImageLayout;
@@ -54,17 +56,12 @@ public class EditUserDetailInfoActivity extends BaseActivity {
     private IyubaDialog waitingDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_user_info);
-        waitingDialog = WaitingDialog.create(context, context.getString(R.string.person_detail_loading));
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.edit_user_info;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         userImage = findViewById(R.id.iveditPortrait);
@@ -80,6 +77,8 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         lookingFor = findViewById(R.id.editLookingFor);
         bio = findViewById(R.id.editBio);
         interest = findViewById(R.id.editInterest);
+
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.person_detail_loading));
     }
 
     private void setText() {
@@ -110,40 +109,36 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         lookingFor.setText(editUserInfo.getLookingfor());
         bio.setText(editUserInfo.getBio());
         interest.setText(editUserInfo.getInterest());
-        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), userImage);
+        AppImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), userImage);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        changeImageLayout.setOnClickListener(new View.OnClickListener() {
-
+        changeImageLayout.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
 
                 Intent intent = new Intent(context, ChangePhotoActivity.class);
                 startActivity(intent);
             }
         });
 
-        gender.setOnClickListener(new View.OnClickListener() {
-
+        gender.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 popGenderDialog();
             }
         });
-        birthday.setOnClickListener(new View.OnClickListener() {
-
+        birthday.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 popBirthDialog();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
-
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 toolbarOper.setClickable(false);
                 String city = location.getText().toString();
                 city = city.trim();
@@ -191,26 +186,18 @@ public class EditUserDetailInfoActivity extends BaseActivity {
                     value = sb.toString();
                     key = "gender,birthyear,birthmonth,birthday,constellation,zodiac,graduateschool,residecity,affectivestatus,lookingfor,bio,interest,company";
                 }
-                EditUserInfoRequest.exeRequest(EditUserInfoRequest.generateUrl(AccountManager.getInstance().getUserId(), key, value), new IProtocolResponse<String>() {
+                RequestClient.requestAsync(new EditUserInfoRequest(AccountManager.getInstance().getUserId(), key, value), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                     @Override
-                    public void onNetError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
-
-                    @Override
-                    public void response(String result) {
+                    public void onSuccess(BaseApiEntity<String> result) {
                         toolbarOper.setClickable(true);
-                        if (result.equals("221")) {
-                            CustomToast.getInstance().showToast(R.string.person_detail_success);
-                            EditUserDetailInfoActivity.this.finish();
-                        } else {
-                            CustomToast.getInstance().showToast(R.string.person_detail_fail);
-                        }
+                        CustomToast.getInstance().showToast(R.string.person_detail_success);
+                        EditUserDetailInfoActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                        toolbarOper.setClickable(true);
+                        CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                     }
                 });
             }
@@ -218,11 +205,12 @@ public class EditUserDetailInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.person_detail_title);
-        toolbarOper.setText(R.string.person_detail_submit);
-        handler.sendEmptyMessage(0);
+        enableToolbarOper(R.string.person_detail_submit);
+        waitingDialog.show();
+        getAddr();
     }
 
     private void getAddr() {
@@ -231,48 +219,30 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         if (latitude == 0.0 && longitude == 0.0) {
             getDetaiInfo();
         } else {
-            getDetaiInfo();
-            // google定位要求权限，之后再找解决方案吧
-//            LocateRequest.exeRequest(LocateRequest.generateUrl(latitude, longitude), new IProtocolResponse<String>() {
-//                @Override
-//                public void onNetError(String msg) {
-//                    CustomToast.getInstance().showToast(msg);
-//                    waitingDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void onServerError(String msg) {
-//                    CustomToast.getInstance().showToast(msg);
-//                    waitingDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void response(String result) {
-//                    location.setText(result.trim());
-//                    getDetaiInfo();
-//                }
-//            });
+            LocationUtil.getCurLocation(new LocationUtil.OnLocationListener() {
+                @Override
+                public void getlocation(Location result) {
+                    Address curAddress = LocationUtil.getCurRegion(result);
+                    location.setText(curAddress.getAdminArea() + " " + curAddress.getSubAdminArea() + " " + curAddress.getLocality());
+                    getDetaiInfo();
+                }
+            });
         }
     }
 
     private void getDetaiInfo() {
-        UserInfoDetailRequest.exeRequest(UserInfoDetailRequest.generateUrl(AccountManager.getInstance().getUserId()), new IProtocolResponse<MostDetailInfo>() {
+        RequestClient.requestAsync(new UserInfoDetailRequest(AccountManager.getInstance().getUserId()), new SimpleRequestCallBack<MostDetailInfo>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+            public void onSuccess(MostDetailInfo mostDetailInfo) {
+                editUserInfo = mostDetailInfo;
                 waitingDialog.dismiss();
+                setText();
             }
 
             @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 waitingDialog.dismiss();
-            }
-
-            @Override
-            public void response(MostDetailInfo result) {
-                editUserInfo = result;
-                handler.sendEmptyMessage(1);
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }
@@ -295,20 +265,15 @@ public class EditUserDetailInfoActivity extends BaseActivity {
                 }
                 genderDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(0);
         languageList.setAdapter(adapter);
         languageList.setLayoutManager(new MyLinearLayoutManager(context));
         languageList.addItemDecoration(new DividerItemDecoration());
         genderDialog.setContentView(root);
-        genderDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        genderDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 genderDialog.dismiss();
             }
         });
@@ -346,21 +311,5 @@ public class EditUserDetailInfoActivity extends BaseActivity {
         );
         dialog.setTitle(R.string.person_detail_birth);
         dialog.show();
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<EditUserDetailInfoActivity> {
-        @Override
-        public void handleMessageByRef(final EditUserDetailInfoActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    activity.waitingDialog.show();
-                    activity.getAddr();
-                    break;
-                case 1:
-                    activity.waitingDialog.dismiss();
-                    activity.setText();
-                    break;
-            }
-        }
     }
 }

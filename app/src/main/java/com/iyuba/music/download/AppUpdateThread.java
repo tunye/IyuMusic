@@ -1,7 +1,7 @@
 package com.iyuba.music.download;
 
+import com.buaa.ct.core.util.ThreadPoolUtil;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

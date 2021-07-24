@@ -2,8 +2,8 @@ package com.iyuba.music.util;
 
 import android.content.Context;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

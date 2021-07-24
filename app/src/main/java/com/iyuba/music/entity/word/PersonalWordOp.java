@@ -4,9 +4,10 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.iyuba.music.entity.BaseEntityOp;
+import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class PersonalWordOp extends BaseEntityOp<Word> {
     public static final String TABLE_NAME = "word";
     public static final String USER = "user";
-    public static final String KEY = "key";
+    public static final String COLUMN_KEY = "key";
     public static final String LANG = "lang";
     public static final String AUDIOURL = "audiourl";
     public static final String PRON = "pron";
@@ -29,10 +30,15 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
     }
 
     @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
+    }
+
+    @Override
     public void saveItemImpl(Word word) {
         super.saveItemImpl(word);
         String StringBuilder = "insert or replace into " + TABLE_NAME + " (" + USER +
-                "," + KEY + "," + LANG + "," + AUDIOURL + "," +
+                "," + COLUMN_KEY + "," + LANG + "," + AUDIOURL + "," +
                 PRON + "," + DEF + "," + EXAMPLES + "," + CREATEDATE +
                 "," + ISDELETE + "," + VIEWCOUNT + ") values(?,?,?,?,?,?,?,?,?,?)";
         db.execSQL(StringBuilder, new Object[]{word.getUser(), word.getWord(), "ENGLISH",
@@ -42,7 +48,7 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
 
     @Override
     public String getSearchCondition() {
-        return "select " + USER + "," + KEY + "," + VIEWCOUNT + "," + AUDIOURL + ","
+        return "select " + USER + "," + COLUMN_KEY + "," + VIEWCOUNT + "," + AUDIOURL + ","
                 + PRON + "," + DEF + "," + EXAMPLES + "," + CREATEDATE + "," + ISDELETE + " from " +
                 TABLE_NAME;
     }
@@ -65,7 +71,7 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
     /**
      * @return
      */
-    public ArrayList<Word> findDataByAll(String userid) {
+    public List<Word> findDataByAll(String userid) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where user=? AND " + ISDELETE + "<?" + " ORDER BY " + USER + " DESC", new String[]{userid, "1"});
         return fillDatas(cursor);
@@ -80,8 +86,6 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
         Word word = null;
         if (cursor.moveToFirst()) {
             word = fillData(cursor);
-        } else {
-            word = new Word();
         }
         cursor.close();
         db.close();
@@ -91,14 +95,14 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
     /**
      * @return
      */
-    public ArrayList<Word> findDataByDelete(String userid) {
+    public List<Word> findDataByDelete(String userid) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where user=? AND " + ISDELETE + "=?", new String[]{userid, "1"});
         return fillDatas(cursor);
     }
 
 
-    public ArrayList<Word> findDataByInsert(String userid) {
+    public List<Word> findDataByInsert(String userid) {
         getDatabase();
         Cursor cursor = db.rawQuery(getSearchCondition() + " where user=? AND " + ISDELETE + "=?", new String[]{userid, "-1"});
         return fillDatas(cursor);
@@ -107,14 +111,14 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
     public void updateWord(String key, String sentence) {
         getDatabase();
         db.execSQL("update " + TABLE_NAME + " SET " + VIEWCOUNT + " = " + VIEWCOUNT + "+1 , "
-                + EXAMPLES + "=? where " + KEY + "=?", new String[]{sentence, key});
+                + EXAMPLES + "=? where " + COLUMN_KEY + "=?", new String[]{sentence, key});
         db.close();
     }
 
     //单词添加同步操作
     public void insertWord(String key, String userid) {
         getDatabase();
-        db.execSQL("update " + TABLE_NAME + " SET " + ISDELETE + " = 0 where " + KEY + "=? and " + USER + "=?", new String[]{key, userid});
+        db.execSQL("update " + TABLE_NAME + " SET " + ISDELETE + " = 0 where " + COLUMN_KEY + "=? and " + USER + "=?", new String[]{key, userid});
         db.close();
     }
 
@@ -135,14 +139,14 @@ public class PersonalWordOp extends BaseEntityOp<Word> {
     //单词同步删除操作
     public void deleteWord(String key, String userid) {
         getDatabase();
-        db.execSQL("delete from " + TABLE_NAME + " where " + USER + "=? AND " + KEY + "=?", new String[]{userid, key});
+        db.execSQL("delete from " + TABLE_NAME + " where " + USER + "=? AND " + COLUMN_KEY + "=?", new String[]{userid, key});
         db.close();
     }
 
     //单词删除操作
     public void tryToDeleteWord(String key, String userid) {
         getDatabase();
-        db.execSQL("update " + TABLE_NAME + " SET " + ISDELETE + " = 1 where " + KEY + "=? and " + USER + "=?", new String[]{key, userid});
+        db.execSQL("update " + TABLE_NAME + " SET " + ISDELETE + " = 1 where " + COLUMN_KEY + "=? and " + USER + "=?", new String[]{key, userid});
         db.close();
     }
 }

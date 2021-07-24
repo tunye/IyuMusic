@@ -1,8 +1,5 @@
 package com.iyuba.music.service;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +9,12 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.iyuba.music.MusicApplication;
-import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
@@ -22,9 +23,7 @@ import com.iyuba.music.listener.IPlayerListener;
 import com.iyuba.music.listener.OnHeadSetListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.HeadsetPlugReceiver;
 import com.iyuba.music.receiver.NotificationBeforeReceiver;
 import com.iyuba.music.receiver.NotificationCloseReceiver;
@@ -33,6 +32,7 @@ import com.iyuba.music.receiver.NotificationPauseReceiver;
 import com.iyuba.music.request.newsrequest.ReadCountAddRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.HeadSetUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.player.StandardPlayer;
 
 import java.io.File;
@@ -92,12 +92,6 @@ public class PlayerService extends Service implements OnHeadSetListener {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(NotificationUtil.NOTIFICATION_ID, NotificationUtil.getInstance().initNotification());
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unRegisterNotificationBroadcaster();
@@ -112,13 +106,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     public void init() {
         player = new StandardPlayer(RuntimeManager.getInstance().getContext());
         curArticleId = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) RuntimeManager.getInstance().getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel mChannel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), RuntimeManager.getInstance().getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(mChannel);
-            Notification notification = new Notification.Builder(getApplicationContext(), RuntimeManager.getInstance().getContext().getPackageName()).build();
-            startForeground(1, notification);
-        }
+        startForeground(NotificationUtil.NOTIFICATION_ID, NotificationUtil.getInstance().initNotification());
     }
 
     public void setListener(final IPlayerListener playerListener) {
@@ -136,7 +124,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
             public void onCompletion(MediaPlayer mp) {
                 if (ConfigManager.getInstance().getStudyPlayMode() != 0) {
                     next(true);
-                    if (RuntimeManager.getInstance().getApplication().isAppointForeground("MainActivity")) {
+                    if (Utils.getMusicApplication().isAppointForeground("MainActivity")) {
                         Intent i = new Intent("com.iyuba.music.main");
                         i.putExtra("message", "change");
                         sendBroadcast(i);
@@ -195,12 +183,22 @@ public class PlayerService extends Service implements OnHeadSetListener {
                 LocalInfoOp localInfoOp = new LocalInfoOp();
                 StudyManager.getInstance().setStartTime(DateFormat.formatTime(Calendar.getInstance().getTime()));
                 localInfoOp.updateSee(article.getId(), article.getApp());
-                ReadCountAddRequest.exeRequest(ReadCountAddRequest.generateUrl(article.getId(), "music"), null);
+                RequestClient.requestAsync(new ReadCountAddRequest(article.getId(), "music"), new SimpleRequestCallBack<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+                    }
+                });
             }
             String netUrl = getUrl(article);
             String playPath;
             if (netUrl.startsWith("http")) {
-                playPath = RuntimeManager.getInstance().getProxy().getProxyUrl(netUrl);
+                playPath = Utils.getMusicApplication().getProxy().getProxyUrl(netUrl);
             } else {
                 playPath = netUrl;
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,34 +8,39 @@
     app:mrl_rippleColor="@color/text_complementary"
     app:mrl_rippleDuration="300">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/large_text" />
-
-        <ImageView
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_marginStart="@dimen/row_space_large"
-            android:layout_toEndOf="@+id/title"
-            android:src="@drawable/ic_checkbox_marked_circle_outline_black_18dp"
-            android:tint="#259b24"
-            android:visibility="gone"
-            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/large_text" />
+
+            <ImageView
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="@dimen/row_space_large"
+                android:src="@drawable/ic_checkbox_marked_circle_outline_black_18dp"
+                android:tint="#259b24"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:minHeight="56dp"
@@ -61,5 +66,5 @@
                 android:layout_height="24dp"
                 tools:background="#33cc99" />
         </LinearLayout>
-    </RelativeLayout>
-</com.iyuba.music.widget.view.MaterialRippleLayout>
+    </FrameLayout>
+</com.buaa.ct.core.view.MaterialRippleLayout>

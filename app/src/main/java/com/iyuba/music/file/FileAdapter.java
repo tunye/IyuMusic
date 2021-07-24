@@ -3,21 +3,17 @@
  */
 package com.iyuba.music.file;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
-
-import java.util.ArrayList;
 
 
 /**
@@ -25,64 +21,33 @@ import java.util.ArrayList;
  *         <p/>
  *         文件浏览器相关类
  */
-public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
-    private ArrayList<FileInfo> fileInfos;
-    private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+public class FileAdapter extends CoreRecyclerViewAdapter<FileInfo, FileAdapter.FileViewHolder> {
+    private OnItemLongClickListener onItemLongClickListener;
 
-    public FileAdapter() {
-        fileInfos = new ArrayList<>();
-    }
-
-    public void setOnItemClickLitener(OnRecycleViewItemClickListener onItemClickLitener) {
-        onRecycleViewItemClickListener = onItemClickLitener;
-    }
-
-    public void setDataSet(ArrayList<FileInfo> fileInfos) {
-        this.fileInfos = fileInfos;
-        notifyDataSetChanged();
-    }
-
-    public void removeData(int position) {
-        fileInfos.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return fileInfos.size();
-    }
-
-    private FileInfo getItem(int position) {
-        return fileInfos.get(position);
+    public FileAdapter(Context context, @Nullable OnItemLongClickListener listener) {
+        super(context);
+        onItemLongClickListener = listener;
     }
 
     @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FileViewHolder(LayoutInflater.from(RuntimeManager.getInstance().getContext()).inflate(R.layout.item_file, parent, false));
+    public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new FileViewHolder(LayoutInflater.from(context).inflate(R.layout.item_file, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
-        final FileViewHolder fileViewHolder = (FileViewHolder) holder;
-        final FileInfo fileInfo = getItem(position);
-        final int pos = position;
-        if (onRecycleViewItemClickListener != null) {
-            final MaterialRippleLayout rippleView = (MaterialRippleLayout) fileViewHolder.itemView;
-            rippleView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRecycleViewItemClickListener.onItemClick(fileViewHolder.itemView, pos);
-                }
-            });
-            rippleView.setOnLongClickListener(new View.OnLongClickListener() {
+    public void onBindViewHolder(@NonNull final FileViewHolder fileViewHolder, int position) {
+        super.onBindViewHolder(fileViewHolder, position);
+        if (onItemLongClickListener != null) {
+            fileViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    onRecycleViewItemClickListener.onItemLongClick(fileViewHolder.itemView, pos);
-                    return true;
+                    onItemLongClickListener.onClick(fileViewHolder.getAdapterPosition());
+                    return false;
                 }
             });
         }
+        final FileInfo fileInfo = getDatas().get(position);
         fileViewHolder.name.setText(fileInfo.getName());
         if (fileInfo.isDirectory()) {
             fileViewHolder.content.setText(fileInfo.getLastModify());
@@ -93,12 +58,15 @@ public class FileAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         fileViewHolder.icon.setBackgroundResource(fileInfo.getIconResourceId());
     }
 
-    private static class FileViewHolder extends RecycleViewHolder {
+    public interface OnItemLongClickListener {
+        void onClick(int pos);
+    }
+
+    static class FileViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView name;
         ImageView icon;
         TextView content;
-
 
         FileViewHolder(View view) {
             super(view);

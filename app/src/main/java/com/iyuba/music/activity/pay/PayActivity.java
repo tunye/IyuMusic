@@ -11,20 +11,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.AliPay;
 import com.iyuba.music.request.account.WxPay;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.ThreadPoolUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -62,23 +66,21 @@ public class PayActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_detail);
-        context = this;
+    public int getLayoutId() {
+        return R.layout.pay_detail;
+    }
+
+    @Override
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         payType = getIntent().getStringExtra(PAY_TYPE);
         payDetailString = getIntent().getStringExtra(PAY_DETAIL);
         payMoneyString = getIntent().getStringExtra(PAY_MONEY);
         payGoods = getIntent().getStringExtra(PAY_GOODS);
-        waitingDialog = WaitingDialog.create(context, context.getString(R.string.pay_detail_going));
-        msgApi = WXAPIFactory.createWXAPI(context, ConstantManager.WXID, false);
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         username = findViewById(R.id.pay_detail_user);
@@ -92,23 +94,23 @@ public class PayActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        wxView.setOnClickListener(new View.OnClickListener() {
+        wxView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 showWxSelect();
             }
         });
-        baoView.setOnClickListener(new View.OnClickListener() {
+        baoView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 showBaoSelect();
             }
         });
-        View.OnClickListener payListener = new View.OnClickListener() {
+        View.OnClickListener payListener = new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 pay();
             }
         };
@@ -141,40 +143,31 @@ public class PayActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.pay_detail_title);
-        toolbarOper.setText(R.string.pay_detail_oper);
+        enableToolbarOper(R.string.pay_detail_oper);
         username.setText(AccountManager.getInstance().getUserInfo().getUsername());
         payDetail.setText(payDetailString);
         payMoney.setText(getString(R.string.pay_detail_money_content, payMoneyString));
+        waitingDialog = WaitingDialog.create(context, context.getString(R.string.pay_detail_going));
+        msgApi = WXAPIFactory.createWXAPI(context, ConstantManager.WXID, false);
         showBaoSelect();
     }
 
     private void wechatPay() {
         waitingDialog.show();
-        WxPay.exeRequest(WxPay.generateUrl(payMoneyString, payGoods, payType), new IProtocolResponse<BaseApiEntity<PayReq>>() {
+        RequestClient.requestAsync(new WxPay(payMoneyString, payGoods, payType), new SimpleRequestCallBack<BaseApiEntity<PayReq>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+            public void onSuccess(BaseApiEntity<PayReq> payReqBaseApiEntity) {
                 waitingDialog.dismiss();
+                msgApi.sendReq(payReqBaseApiEntity.getData());
             }
 
             @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 waitingDialog.dismiss();
-            }
-
-            @Override
-            public void response(BaseApiEntity<PayReq> result) {
-                waitingDialog.dismiss();
-                if (BaseApiEntity.isSuccess(result)) {
-                    PayReq req = result.getData();
-                    msgApi.sendReq(req);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
-                }
             }
         });
     }
@@ -183,40 +176,30 @@ public class PayActivity extends BaseActivity {
         waitingDialog.show();
         String subject = ParameterUrl.encode(payDetail.getText().toString());
         String body = ParameterUrl.encode(payMoney.getText().toString());
-        AliPay.exeRequest(AliPay.generateUrl(subject, body, payMoneyString, payGoods, payType), new IProtocolResponse<BaseApiEntity<String>>() {
+        RequestClient.requestAsync(new AliPay(subject, body, payMoneyString, payGoods, payType), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+            public void onSuccess(BaseApiEntity<String> baseApiEntity) {
                 waitingDialog.dismiss();
+                final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()
+                        + "\"&" + "sign_type=\"RSA\"";
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // 构造PayTask 对象
+                        PayTask alipay = new PayTask(PayActivity.this);
+                        // 调用支付接口，获取支付结果
+                        String result = alipay.pay(payInfo, true);
+                        handler.obtainMessage(0, result).sendToTarget();
+                    }
+                };
+                ThreadPoolUtil.getInstance().execute(payRunnable);
             }
 
             @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
+            public void onError(ErrorInfoWrapper errorInfo) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfo));
                 waitingDialog.dismiss();
-            }
-
-            @Override
-            public void response(BaseApiEntity<String> baseApiEntity) {
-                waitingDialog.dismiss();
-                if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                    final String payInfo = baseApiEntity.getData() + "&sign=\"" + baseApiEntity.getValue()
-                            + "\"&" + "sign_type=\"RSA\"";
-                    Runnable payRunnable = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // 构造PayTask 对象
-                            PayTask alipay = new PayTask(PayActivity.this);
-                            // 调用支付接口，获取支付结果
-                            String result = alipay.pay(payInfo, true);
-                            handler.obtainMessage(0, result).sendToTarget();
-                        }
-                    };
-                    ThreadPoolUtil.getInstance().execute(payRunnable);
-                } else {
-                    CustomToast.getInstance().showToast(R.string.pay_detail_generate_failed);
-                }
             }
         });
     }
@@ -236,9 +219,9 @@ public class PayActivity extends BaseActivity {
                         AccountManager.getInstance().setUserInfo(userInfo);
                         final MyMaterialDialog dialog = new MyMaterialDialog(activity.context);
                         dialog.setTitle(R.string.app_name).setMessage(R.string.pay_detail_success);
-                        dialog.setPositiveButton(R.string.app_accept, new View.OnClickListener() {
+                        dialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 dialog.dismiss();
                                 activity.setResult(RESULT_OK);
                                 activity.finish();

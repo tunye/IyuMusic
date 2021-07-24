@@ -1,51 +1,30 @@
 package com.iyuba.music.request.apprequest;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.request.Request;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.volley.MyStringRequest;
-import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
 
 /**
  * Created by 10202 on 2015/11/20.
  */
-public class UpdateRequest {
-    public static void exeRequest(final String url, final IProtocolResponse<BaseApiEntity<String>> response) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            MyStringRequest request = new MyStringRequest(url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String message) {
-                            String[] content = message.split(",");
-                            BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
-                            if (content[0].equals("NO")) {
-                                apiEntity.setState(BaseApiEntity.SUCCESS);
-                                apiEntity.setValue(content[2].replace("||", "@@@"));
-                            } else {
-                                apiEntity.setState(BaseApiEntity.FAIL);
-                            }
-                            response.response(apiEntity);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
-                }
-            });
-            MyVolley.getInstance().addToRequestQueue(request);
-        } else {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
-        }
+public class UpdateRequest extends Request<BaseApiEntity<String>> {
+    public UpdateRequest(int version) {
+        String updateUrl = "http://api.iyuba.cn/mobile/android/iyumusic/islatestn.plain";
+        url = ParameterUrl.setRequestParameter(updateUrl, "currver", version);
+        returnDataType = Request.STRING_DATA;
     }
 
-    public static String generateUrl(int version) {
-        String updateUrl = "http://api.iyuba.cn/mobile/android/iyumusic/islatestn.plain";
-        return ParameterUrl.setRequestParameter(updateUrl, "currver", version);
+    @Override
+    public BaseApiEntity<String> parseStringImpl(String response) {
+        response = response.trim();
+        String[] content = response.split(",");
+        BaseApiEntity<String> apiEntity = new BaseApiEntity<>();
+        if (content[0].equals("NO")) {
+            apiEntity.setState(BaseApiEntity.SUCCESS);
+            apiEntity.setValue(content[2].replace("||", "@@@"));
+        } else {
+            apiEntity.setState(BaseApiEntity.FAIL);
+        }
+        return apiEntity;
     }
 }

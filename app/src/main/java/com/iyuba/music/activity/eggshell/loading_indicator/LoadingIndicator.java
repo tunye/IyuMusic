@@ -1,11 +1,10 @@
 package com.iyuba.music.activity.eggshell.loading_indicator;
 
-import android.os.Bundle;
 import android.widget.TextView;
 
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.util.GetAppColor;
 import com.wang.avi.AVLoadingIndicatorView;
 
 /**
@@ -17,25 +16,20 @@ public class LoadingIndicator extends BaseActivity {
     TextView loadingIndicatorName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_indicator);
-        context = this;
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.loading_indicator;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        loadingIndicatorView = (AVLoadingIndicatorView) findViewById(R.id.loading_indicator);
-        loadingIndicatorName = (TextView) findViewById(R.id.loading_indicator_name);
+        loadingIndicatorView = findViewById(R.id.loading_indicator);
+        loadingIndicatorName = findViewById(R.id.loading_indicator_name);
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText("加载小动画");
         loadingIndicatorName.setText(getIntent().getStringExtra("indicator"));
         loadingIndicatorView.setIndicator(getIntent().getStringExtra("indicator"));

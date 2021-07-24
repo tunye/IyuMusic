@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.activity.study.ReadActivity;
@@ -26,7 +32,6 @@ import com.iyuba.music.entity.mainpanel.Announcer;
 import com.iyuba.music.entity.mainpanel.AnnouncerOp;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.SocialManager;
@@ -35,9 +40,9 @@ import com.iyuba.music.receiver.ChangePropertyBroadcast;
 import com.iyuba.music.request.mainpanelrequest.AnnouncerRequest;
 import com.iyuba.music.request.newsrequest.FavorRequest;
 import com.iyuba.music.util.ChangePropery;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/28.
@@ -56,15 +61,14 @@ public class StudyMore {
     public StudyMore(Activity activity) {
         this.context = activity;
         this.activity = activity;
-        LayoutInflater vi = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         root = vi.inflate(R.layout.study_more, null);
         init();
     }
 
     private void init() {
         app = StudyManager.getInstance().getApp();
-        GridView moreGrid =  root.findViewById(R.id.study_menu);
+        GridView moreGrid = root.findViewById(R.id.study_menu);
         if (app.equals("209")) {
             menuDrawable = new int[]{R.drawable.share, R.drawable.favor,
                     R.drawable.download, R.drawable.read,
@@ -113,47 +117,37 @@ public class StudyMore {
                     case 1:
                         dismiss();
                         if (localInfoOp.findDataById(app, curArticle.getId()).getFavourite() == 1) {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new IProtocolResponse<String>() {
+                            RequestClient.requestAsync(new FavorRequest(AccountManager.getInstance().getUserId(), curArticle.getId(), "del"), new SimpleRequestCallBack<String>() {
                                 @Override
-                                public void onNetError(String msg) {
-
-                                }
-
-                                @Override
-                                public void onServerError(String msg) {
-
-                                }
-
-                                @Override
-                                public void response(String result) {
-                                    if (result.equals("del")) {
+                                public void onSuccess(String s) {
+                                    if (s.equals("del")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 0);
                                         CustomToast.getInstance().showToast(R.string.article_favor_cancel);
                                         menuDrawable[1] = R.drawable.favor;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
                                     }
                                 }
+
+                                @Override
+                                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
+                                }
                             });
                         } else {
-                            FavorRequest.exeRequest(FavorRequest.generateUrl(AccountManager.getInstance().getUserId(), curArticle.getId(), "insert"), new IProtocolResponse<String>() {
+                            RequestClient.requestAsync(new FavorRequest(AccountManager.getInstance().getUserId(), curArticle.getId(), "insert"), new SimpleRequestCallBack<String>() {
                                 @Override
-                                public void onNetError(String msg) {
-
-                                }
-
-                                @Override
-                                public void onServerError(String msg) {
-
-                                }
-
-                                @Override
-                                public void response(String result) {
-                                    if (result.equals("insert")) {
+                                public void onSuccess(String s) {
+                                    if (s.equals("insert")) {
                                         localInfoOp.updateFavor(curArticle.getId(), app, 1);
                                         CustomToast.getInstance().showToast(R.string.article_favor);
                                         menuDrawable[1] = R.drawable.favor_true;
                                         studyMenuAdapter.setDataSet(menuText, menuDrawable, 4);
                                     }
+                                }
+
+                                @Override
+                                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
                                 }
                             });
                         }
@@ -230,13 +224,13 @@ public class StudyMore {
             }
         });
         moreGrid.setAdapter(studyMenuAdapter);
-        root.setOnClickListener(new View.OnClickListener() {
+        root.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dismiss();
             }
         });
-        iyubaDialog = new IyubaDialog(context, root, true, 0);
+        iyubaDialog = new IyubaDialog(context, root, true, Gravity.BOTTOM);
         iyubaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -254,32 +248,20 @@ public class StudyMore {
             } else {
                 SocialManager.getInstance().pushFriendId(announcer.getUid());
                 intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         } else {
             SocialManager.getInstance().pushFriendId("928");
             intent = new Intent(context, PersonalHomeActivity.class);
-            intent.putExtra("needpop", true);
             context.startActivity(intent);
         }
     }
 
     private void getAnnounceList() {
-        AnnouncerRequest.exeRequest(new IProtocolResponse<BaseListEntity<ArrayList<Announcer>>>() {
+        RequestClient.requestAsync(new AnnouncerRequest(), new SimpleRequestCallBack<BaseListEntity<List<Announcer>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<Announcer>> result) {
-                ArrayList<Announcer> announcerList = result.getData();
+            public void onSuccess(BaseListEntity<List<Announcer>> result) {
+                List<Announcer> announcerList = result.getData();
                 new AnnouncerOp().saveData(announcerList);
                 final Announcer item = new Announcer();
                 item.setUid("-1");
@@ -293,7 +275,6 @@ public class StudyMore {
                     if (AccountManager.getInstance().checkUserLogin()) {
                         SocialManager.getInstance().pushFriendId(item.getUid());
                         Intent intent = new Intent(context, PersonalHomeActivity.class);
-                        intent.putExtra("needpop", true);
                         context.startActivity(intent);
                     } else {
                         CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -301,12 +282,16 @@ public class StudyMore {
                             public void finish() {
                                 SocialManager.getInstance().pushFriendId(item.getUid());
                                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                                intent.putExtra("needpop", true);
                                 context.startActivity(intent);
                             }
                         });
                     }
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                Utils.getRequestErrorMeg(errorInfoWrapper);
             }
         });
     }

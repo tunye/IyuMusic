@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_with_oper" />
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,9 +92,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/row_space_very_large"
         android:layout_marginStart="@dimen/row_space_large"
         android:layout_marginTop="@dimen/row_space_very_large"
+        android:layout_marginBottom="@dimen/row_space_very_large"
         android:text="@string/vip_buy_way"
         android:textColor="@color/text_complementary"
         android:textSize="@dimen/big_text" />
@@ -104,7 +104,7 @@
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light" />
 
-    <com.iyuba.music.widget.view.MaterialRippleLayout
+    <com.buaa.ct.core.view.MaterialRippleLayout
         android:id="@+id/pay_detail_bao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,8 +114,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_very_large"
+            android:layout_marginBottom="@dimen/row_space_very_large"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -157,14 +157,14 @@
                 android:src="@drawable/ic_radio_button"
                 android:visibility="gone" />
         </LinearLayout>
-    </com.iyuba.music.widget.view.MaterialRippleLayout>
+    </com.buaa.ct.core.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light" />
 
-    <com.iyuba.music.widget.view.MaterialRippleLayout
+    <com.buaa.ct.core.view.MaterialRippleLayout
         android:id="@+id/pay_detail_wx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -174,8 +174,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_very_large"
+            android:layout_marginBottom="@dimen/row_space_very_large"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -218,7 +218,7 @@
                 android:src="@drawable/ic_radio_button"
                 android:visibility="gone" />
         </LinearLayout>
-    </com.iyuba.music.widget.view.MaterialRippleLayout>
+    </com.buaa.ct.core.view.MaterialRippleLayout>
 
     <ImageView
         android:layout_width="match_parent"
@@ -235,7 +235,7 @@
         android:layout_height="@dimen/line_thin"
         android:background="@color/background_light" />
 
-    <com.iyuba.music.widget.view.MaterialRippleLayout
+    <com.buaa.ct.core.view.MaterialRippleLayout
         android:id="@+id/pay_detail_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -251,5 +251,5 @@
             android:text="@string/pay_detail_sure"
             android:textColor="@color/skin_color_accent"
             android:textSize="@dimen/large_text" />
-    </com.iyuba.music.widget.view.MaterialRippleLayout>
+    </com.buaa.ct.core.view.MaterialRippleLayout>
 </LinearLayout>

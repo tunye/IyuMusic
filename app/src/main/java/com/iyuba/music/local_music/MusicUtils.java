@@ -3,7 +3,6 @@ package com.iyuba.music.local_music;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.text.TextUtils;
@@ -15,11 +14,11 @@ import java.util.ArrayList;
 
 public class MusicUtils {
     public static ArrayList<Article> getAllSongs(Context context, String path) {
-        Cursor c = query(context, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        Cursor c = query(context,
                 new String[]{MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.ARTIST, MediaColumns.DATA,
-                        MediaStore.Audio.Media.DURATION,},
-                MediaStore.Audio.Media.IS_MUSIC + "=1", null, MediaStore.Audio.Media.TITLE);
+                        MediaStore.Audio.Media.DURATION,}
+        );
 
         if (c == null || c.getCount() == 0) {
             return new ArrayList<>();
@@ -49,10 +48,9 @@ public class MusicUtils {
         return musics;
     }
 
-    private static Cursor query(Context context, Uri uri, String[] projection,
-                                String selection, String[] selectionArgs, String sortOrder) {
+    private static Cursor query(Context context, String[] projection) {
         ContentResolver resolver = context.getContentResolver();
-        return resolver.query(uri, projection, selection, selectionArgs,
-                sortOrder);
+        return resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, "is_music=1", null,
+                MediaColumns.TITLE);
     }
 }

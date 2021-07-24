@@ -1,11 +1,11 @@
 package com.iyuba.music.activity.me;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.activity.WebViewActivity;
@@ -14,7 +14,6 @@ import com.iyuba.music.activity.main.FavorSongActivity;
 import com.iyuba.music.activity.main.ListenSongActivity;
 import com.iyuba.music.adapter.me.MeAdapter;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.SocialManager;
@@ -28,16 +27,12 @@ public class MeActivity extends BaseActivity {
     private MeAdapter meAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.discover);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.discover;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         RecyclerView discover = findViewById(R.id.discover_list);
         discover.setLayoutManager(new LinearLayoutManager(context));
@@ -46,7 +41,7 @@ public class MeActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         meAdapter.setOnItemClickLitener(new OnRecycleViewItemClickListener() {
             @Override
@@ -56,8 +51,7 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "0");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -65,8 +59,7 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "0");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });
@@ -76,8 +69,8 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "1");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.START_POS, 1);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -85,8 +78,8 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "1");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.START_POS, 1);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });
@@ -96,8 +89,8 @@ public class MeActivity extends BaseActivity {
                         if (AccountManager.getInstance().checkUserLogin()) {
                             SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                             Intent intent = new Intent(context, FriendCenter.class);
-                            intent.putExtra("type", "2");
-                            intent.putExtra("needPop", true);
+                            intent.putExtra(FriendCenter.START_POS, 2);
+                            intent.putExtra(FriendCenter.NEED_POP, true);
                             startActivity(intent);
                         } else {
                             CustomDialog.showLoginDialog(context, true, new IOperationFinish() {
@@ -105,8 +98,8 @@ public class MeActivity extends BaseActivity {
                                 public void finish() {
                                     SocialManager.getInstance().pushFriendId(AccountManager.getInstance().getUserId());
                                     Intent intent = new Intent(context, FriendCenter.class);
-                                    intent.putExtra("type", "2");
-                                    intent.putExtra("needPop", true);
+                                    intent.putExtra(FriendCenter.START_POS, 2);
+                                    intent.putExtra(FriendCenter.NEED_POP, true);
                                     startActivity(intent);
                                 }
                             });
@@ -183,11 +176,6 @@ public class MeActivity extends BaseActivity {
                         break;
                 }
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
     }
 
@@ -228,8 +216,8 @@ public class MeActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_me);
     }
 }

@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
 
 /**
  * Created by etiennelawlor on 7/4/16.

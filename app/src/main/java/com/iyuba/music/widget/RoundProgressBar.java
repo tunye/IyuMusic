@@ -47,21 +47,21 @@ public class RoundProgressBar extends View {
         paint.setAntiAlias(true);
         oval = new RectF();
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs,
-                R.styleable.circleProgressBar);
+                R.styleable.RoundProgressBar);
         roundColor = mTypedArray.getColor(
-                R.styleable.circleProgressBar_cp_circleColor, Color.RED);
+                R.styleable.RoundProgressBar_cp_circleColor, Color.RED);
         roundProgressColor = mTypedArray.getColor(
-                R.styleable.circleProgressBar_cp_circleProgressColor, Color.GREEN);
+                R.styleable.RoundProgressBar_cp_circleProgressColor, Color.GREEN);
         textColor = mTypedArray.getColor(
-                R.styleable.circleProgressBar_cp_textColor, Color.GREEN);
+                R.styleable.RoundProgressBar_cp_textColor, Color.GREEN);
         textSize = mTypedArray.getDimension(
-                R.styleable.circleProgressBar_cp_textSize, 16);
+                R.styleable.RoundProgressBar_cp_textSize, 16);
         roundWidth = mTypedArray.getDimension(
-                R.styleable.circleProgressBar_cp_circleWidth, 6);
-        max = mTypedArray.getInteger(R.styleable.circleProgressBar_cp_max, 100);
+                R.styleable.RoundProgressBar_cp_circleWidth, 6);
+        max = mTypedArray.getInteger(R.styleable.RoundProgressBar_cp_max, 100);
         textIsDisplayable = mTypedArray.getBoolean(
-                R.styleable.circleProgressBar_cp_textIsDisplayable, true);
-        style = mTypedArray.getInt(R.styleable.circleProgressBar_cp_style, 0);
+                R.styleable.RoundProgressBar_cp_textIsDisplayable, true);
+        style = mTypedArray.getInt(R.styleable.RoundProgressBar_cp_style, 0);
         mTypedArray.recycle();
     }
 

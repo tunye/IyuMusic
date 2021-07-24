@@ -2,9 +2,15 @@ package com.iyuba.music.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.util.ThreadUtils;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
@@ -18,7 +24,6 @@ import com.iyuba.music.entity.article.StudyRecordUtil;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
@@ -28,12 +33,11 @@ import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
 import com.iyuba.music.request.newsrequest.NewsesRequest;
 import com.iyuba.music.util.DateFormat;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -47,25 +51,20 @@ public class StartFragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        currentVersion = ConfigManager.getInstance().loadInt("updateVersion", currentVersion);
-        UpdateRequest.exeRequest(UpdateRequest.generateUrl(currentVersion), new IProtocolResponse<BaseApiEntity<String>>() {
+        currentVersion = SPUtils.loadInt(ConfigManager.getInstance().getPreferences(), "updateVersion", currentVersion);
+        RequestClient.requestAsync(new UpdateRequest(currentVersion), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-                result.fail(-1);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                result.fail(-1);
-            }
-
-            @Override
-            public void response(BaseApiEntity<String> apiEntity) {
+            public void onSuccess(BaseApiEntity<String> apiEntity) {
                 if (BaseApiEntity.isFail(apiEntity)) {
                     result.fail(0);
                 } else {
                     result.success(apiEntity.getValue());
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                result.fail(-1);
             }
         });
     }
@@ -81,18 +80,17 @@ public class StartFragment {
     private static void cleanStudyRecord() {
         StudyRecordOp studyRecordOp = new StudyRecordOp();
         if (studyRecordOp.hasData()) {
-            ArrayList<StudyRecord> records = studyRecordOp.selectData();
+            List<StudyRecord> records = studyRecordOp.selectData();
             String userid = AccountManager.getInstance().getUserId();
-            Handler handler = new Handler();
             for (StudyRecord record : records) {
                 final StudyRecord exePos = record;
                 final String user = userid;
-                handler.postDelayed(new Runnable() {
+                ThreadUtils.postOnUiThreadDelay(new Runnable() {
                     @Override
                     public void run() {
                         StudyRecordUtil.sendToNet(exePos, user, true);
                     }
-                }, 500);
+                }, 200);
             }
         }
     }
@@ -100,54 +98,46 @@ public class StartFragment {
     private static void cleanWordDelData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
         final String userid = AccountManager.getInstance().getUserId();
-        ArrayList<Word> delWords = personalWordOp.findDataByDelete(userid);
+        List<Word> delWords = personalWordOp.findDataByDelete(userid);
         if (delWords.size() != 0) {
             StringBuilder sb = new StringBuilder();
             for (Word temp : delWords) {
                 sb.append(temp.getWord()).append(',');
             }
-            DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", sb.toString()),
-                    new IProtocolResponse() {
-                        @Override
-                        public void onNetError(String msg) {
-                        }
+            RequestClient.requestAsync(new DictUpdateRequest(userid, "delete", sb.toString()), new SimpleRequestCallBack<Integer>() {
+                @Override
+                public void onSuccess(Integer integer) {
+                    personalWordOp.deleteWord(userid);
+                }
 
-                        @Override
-                        public void onServerError(String msg) {
-                        }
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
 
-                        @Override
-                        public void response(Object object) {
-                            personalWordOp.deleteWord(userid);
-                        }
-                    });
+                }
+            });
         }
     }
 
     private static void cleanWordInsertData() {
         final PersonalWordOp personalWordOp = new PersonalWordOp();
         final String userid = AccountManager.getInstance().getUserId();
-        ArrayList<Word> insertWords = personalWordOp.findDataByInsert(userid);
+        List<Word> insertWords = personalWordOp.findDataByInsert(userid);
         if (insertWords.size() != 0) {
             StringBuilder sb = new StringBuilder();
             for (Word temp : insertWords) {
                 sb.append(temp.getWord()).append(',');
             }
-            DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "insert", sb.toString()),
-                    new IProtocolResponse() {
-                        @Override
-                        public void onNetError(String msg) {
-                        }
+            RequestClient.requestAsync(new DictUpdateRequest(userid, "insert", sb.toString()), new SimpleRequestCallBack<Integer>() {
+                @Override
+                public void onSuccess(Integer integer) {
+                    personalWordOp.insertWord(userid);
+                }
 
-                        @Override
-                        public void onServerError(String msg) {
-                        }
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
 
-                        @Override
-                        public void response(Object object) {
-                            personalWordOp.insertWord(userid);
-                        }
-                    });
+                }
+            });
         }
     }
 
@@ -156,19 +146,9 @@ public class StartFragment {
         if (!android.os.Build.MANUFACTURER.contains("360")) {
             brand = android.os.Build.MANUFACTURER;
         }
-        QunRequest.exeRequest(QunRequest.generateUrl(brand), new IProtocolResponse<BaseApiEntity<String>>() {
+        RequestClient.requestAsync(new QunRequest(brand), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-
-            }
-
-            @Override
-            public void onServerError(String msg) {
-
-            }
-
-            @Override
-            public void response(final BaseApiEntity<String> result) {
+            public void onSuccess(final BaseApiEntity<String> apiEntity) {
                 final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
                 materialDialog.setTitle(R.string.new_version_features);
                 StringBuilder sb = new StringBuilder();
@@ -178,23 +158,28 @@ public class StartFragment {
                 sb.append("\n\n爱语吧QQ用户群重磅来袭\n")
                         .append("在这里可以交流产品使用心得，互相切磋交流交朋友\n")
                         .append("用户群会不定期发放福利：全站会员、电子书、现金红包、积分\n")
-                        .append("群号：").append(result.getData());
+                        .append("群号：").append(apiEntity.getData());
                 materialDialog.setMessage(sb.toString());
-                materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         materialDialog.dismiss();
                     }
                 });
-                materialDialog.setPositiveButton(R.string.app_qun, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_qun, new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
-                        ParameterUrl.joinQQGroup(context, result.getValue());
+                    public void activeClick(View view) {
+                        ParameterUrl.joinQQGroup(context, apiEntity.getValue());
                         materialDialog.dismiss();
                     }
                 });
                 materialDialog.setCanceledOnTouchOutside(false);
                 materialDialog.show();
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }
@@ -236,25 +221,19 @@ public class StartFragment {
                             new File(ConstantManager.musicFolder + File.separator + fileName).delete();
                         }
                     }
-                    NewsesRequest.exeRequest(NewsesRequest.generateUrl(stringBuilder.toString()), new IProtocolResponse() {
+                    RequestClient.requestAsync(new NewsesRequest(stringBuilder.toString()), new SimpleRequestCallBack<BaseListEntity<List<Article>>>() {
                         @Override
-                        public void onNetError(String msg) {
-
-                        }
-
-                        @Override
-                        public void onServerError(String msg) {
-
-                        }
-
-                        @Override
-                        public void response(Object object) {
-                            BaseListEntity listEntity = (BaseListEntity) object;
-                            ArrayList<Article> netData = (ArrayList<Article>) listEntity.getData();
+                        public void onSuccess(BaseListEntity<List<Article>> listEntity) {
+                            List<Article> netData = listEntity.getData();
                             for (Article temp : netData) {
                                 temp.setApp(ConstantManager.appId);
                             }
                             articleOp.saveData(netData);
+                        }
+
+                        @Override
+                        public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
                         }
                     });
                 }

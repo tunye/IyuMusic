@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.ThreadPoolUtil;
+import com.buaa.ct.core.view.CustomToast;
 import com.iflytek.cloud.EvaluatorListener;
 import com.iflytek.cloud.EvaluatorResult;
 import com.iflytek.cloud.SpeechError;
@@ -31,27 +34,21 @@ import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ThreadPoolUtil;
 import com.iyuba.music.util.UploadFile;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.AssessmentDialog;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.player.SimplePlayer;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> implements IOperationResultInt {
+public class ReadAdapter extends CoreRecyclerViewAdapter<Original, ReadAdapter.MyViewHolder> implements IOperationResultInt {
     private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
-    private ArrayList<Original> originals;
-    private Context context;
     private int curItem = -1;
     private SimplePlayer player, simplePlayer;
     private TextView curText;
@@ -106,22 +103,16 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     };
 
     public ReadAdapter(Context context) {
-        this.context = context;
+        super(context);
         simplePlayer = new SimplePlayer(context);
         curItem = 0;
         isRecord = false;
         waittingDialog = WaitingDialog.create(context, context.getString(R.string.read_assessment));
         assessmentDialog = new AssessmentDialog(context);
-        originals = new ArrayList<>();
         player = new SimplePlayer(context);
         curArticle = StudyManager.getInstance().getCurArticle();
         player.setVideoPath(getPath());
         assessmentDialog.setListener(this);
-    }
-
-    public void setDataSet(ArrayList<Original> originals) {
-        this.originals = originals;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -159,7 +150,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
             case 2:
                 resetFunction();
                 isRecord = true;
-                initRecorder(originals.get(curItem).getSentence());
+                initRecorder(getDatas().get(curItem).getSentence());
                 break;
         }
     }
@@ -177,12 +168,12 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                     @Override
                     public void success(Object object) {
                         file.delete();
-                        handler.sendEmptyMessage(6);
+                        CustomToast.getInstance().showToast(R.string.read_send_success);
                     }
 
                     @Override
                     public void fail(Object object) {
-                        handler.sendEmptyMessage(7);
+                        CustomToast.getInstance().showToast(R.string.read_send_fail);
                     }
                 });
             }
@@ -196,25 +187,25 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        final Original original = originals.get(position);
-        final int pos = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        final Original original = getDatas().get(position);
+        holder.itemView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                if (curItem != pos) {
+            public void activeClick(View view) {
+                if (curItem != holder.getAdapterPosition()) {
                     int oldPos = curItem;
-                    curItem = pos;
+                    curItem = holder.getAdapterPosition();
                     notifyItemChanged(oldPos);
                     resetFunction();
                     player.seekTo((int) original.getStartTime() * 1000);
                     player.start();
                     int arg1 = (int) original.getEndTime() * 1000;
                     if (arg1 == 0) {
-                        if (pos + 1 == originals.size()) {
+                        if (holder.getAdapterPosition() + 1 == getDatas().size()) {
                             arg1 = player.getDuration() - 500;
                         } else {
-                            arg1 = (int) originals.get(pos + 1).getStartTime() * 1000;
+                            arg1 = (int) getDatas().get(holder.getAdapterPosition() + 1).getStartTime() * 1000;
                         }
                     }
                     handler.obtainMessage(0, arg1, 0).sendToTarget();
@@ -245,26 +236,26 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         } else {
             holder.record.setImageResource(R.drawable.record);
         }
-        holder.play.setOnClickListener(new View.OnClickListener() {
+        holder.play.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 resetFunction();
                 if (!player.isPlaying()) {
                     player.seekTo((int) (original.getStartTime() * 1000));
                     player.start();
                     int arg1;
-                    if (pos + 1 == originals.size()) {
+                    if (holder.getAdapterPosition() + 1 == getDatas().size()) {
                         arg1 = player.getDuration() - 500;
                     } else {
-                        arg1 = (int) (originals.get(pos + 1).getStartTime() * 1000);
+                        arg1 = (int) (getDatas().get(holder.getAdapterPosition() + 1).getStartTime() * 1000);
                     }
                     handler.obtainMessage(0, arg1, 0).sendToTarget();
                 }
             }
         });
-        holder.record.setOnClickListener(new View.OnClickListener() {
+        holder.record.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (isRecord) {
                     IseManager.getInstance(context).stopEvaluate();
                     handler.sendEmptyMessage(3);
@@ -276,11 +267,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 }
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return originals.size();
     }
 
     private String getPath() {
@@ -326,7 +312,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
         handler.removeCallbacksAndMessages(null);
     }
 
-    static class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView num, english, chinese, recordTime;
         View readControl;
@@ -391,12 +377,6 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.MyViewHolder> 
                 case 5:
                     adapter.handler.removeMessages(4);
                     adapter.curText.setText("");
-                    break;
-                case 6:
-                    CustomToast.getInstance().showToast(R.string.read_send_success);
-                    break;
-                case 7:
-                    CustomToast.getInstance().showToast(R.string.read_send_fail);
                     break;
             }
         }

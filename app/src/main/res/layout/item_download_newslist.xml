@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.iyuba.music.widget.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,17 +23,18 @@
         <FrameLayout
             android:id="@+id/article_image_layout"
             android:layout_width="100dp"
-            android:layout_height="64dp"
+            android:layout_height="72dp"
             android:layout_marginStart="@dimen/row_space_very_large"
             android:layout_marginTop="@dimen/row_space_big"
             android:layout_marginEnd="@dimen/row_space_very_large"
             android:layout_marginBottom="@dimen/row_space_big">
 
-            <ImageView
+            <com.buaa.ct.core.view.image.RoundedImageView
                 android:id="@+id/article_image"
                 android:layout_width="100dp"
-                android:layout_height="64dp"
-                android:scaleType="fitXY" />
+                android:layout_height="72dp"
+                android:scaleType="centerCrop"
+                app:corner_radius="@dimen/corner_radius_default" />
 
             <com.iyuba.music.widget.RoundProgressBar
                 android:id="@+id/roundProgressBar"
@@ -61,15 +62,17 @@
                     android:id="@+id/article_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/skin_app_color"
-                    android:textSize="@dimen/big_text" />
+                    android:textSize="@dimen/large_text" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/row_space_medium"
+                    android:layout_marginTop="@dimen/row_space_big"
+                    android:layout_marginEnd="@dimen/row_space_large"
                     android:orientation="vertical">
 
                     <TextView
@@ -78,18 +81,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/row_space_default"
                         android:ellipsize="end"
+                        android:lineSpacingMultiplier="1.3"
                         android:maxLines="2"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="13dp" />
 
                     <TextView
                         android:id="@+id/article_announcer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/row_space_default"
-                        android:layout_marginEnd="@dimen/row_space_default"
+                        android:layout_marginTop="@dimen/row_space_medium"
                         android:textColor="@color/text_gray_color"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="13dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -98,8 +101,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="bottom|end"
-                android:padding="@dimen/corner_radius_big"
+                android:padding="@dimen/row_space_large"
                 android:src="@drawable/downloadfile_notexist" />
         </FrameLayout>
     </LinearLayout>
-</com.iyuba.music.widget.view.MaterialRippleLayout>
+</com.buaa.ct.core.view.MaterialRippleLayout>

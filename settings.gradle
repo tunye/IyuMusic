@@ -1,1 +1,1 @@
-include ':app', ':umengshare', ':assessment'
+include ':app', ':assessment'

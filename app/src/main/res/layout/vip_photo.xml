@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.iyuba.music.widget.imageview.CircleImageView
+    <com.buaa.ct.core.view.image.CircleImageView
         android:id="@+id/vip_photo_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -12,6 +12,6 @@
         android:id="@+id/vip_photo_status"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:src="@drawable/vip_status" />
 </FrameLayout>

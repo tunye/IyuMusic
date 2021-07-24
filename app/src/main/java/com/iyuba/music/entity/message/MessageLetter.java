@@ -1,26 +1,26 @@
 package com.iyuba.music.entity.message;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2015/12/15.
  */
 public class MessageLetter {
-    @SerializedName("friendid")
+    @JSONField(name = "friendid")
     private String friendid; // 对方id
-    @SerializedName("pmnum")
+    @JSONField(name = "pmnum")
     private int contentCount;// 当前互发私信数
-    @SerializedName("lastmessage")
+    @JSONField(name = "lastmessage")
     private String lastmessage;// 最后一条私信内容
-    @SerializedName("name")
+    @JSONField(name = "name")
     private String friendName;// 对方name
-    @SerializedName("plid")
+    @JSONField(name = "plid")
     private String messageid; // 私信id，设置未读私信为已读需要的参数
-    @SerializedName("dateline")
+    @JSONField(name = "dateline")
     private String date;// 最后一条私信发送时间
-    @SerializedName("isnew")
+    @JSONField(name = "isnew")
     private String isnew; // 1代表未读 0代表已读
-    @SerializedName("vip")
+    @JSONField(name = "vip")
     private int vip;
 
     public String getFriendid() {

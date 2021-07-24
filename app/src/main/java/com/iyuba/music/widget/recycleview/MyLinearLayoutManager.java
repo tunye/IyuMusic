@@ -1,6 +1,7 @@
 package com.iyuba.music.widget.recycleview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,7 +25,7 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+    public void onMeasure(@NonNull RecyclerView.Recycler recycler, @NonNull RecyclerView.State state, int widthSpec, int heightSpec) {
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
         int width = 0;
@@ -65,15 +66,13 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec, int heightSpec, int[] measuredDimension) {
         View view = recycler.getViewForPosition(position);
-        if (view != null) {
-            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
-            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                    getPaddingTop() + getPaddingBottom(), p.height);
-            view.measure(widthSpec, childHeightSpec);
-            measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
-            measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
-            recycler.recycleView(view);
-        }
+        RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
+        int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
+                getPaddingTop() + getPaddingBottom(), p.height);
+        view.measure(widthSpec, childHeightSpec);
+        measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
+        measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
+        recycler.recycleView(view);
     }
 
     @Override

@@ -9,11 +9,14 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,24 +24,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.AddRippleEffect;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.request.account.CheckPhoneRegisted;
 import com.iyuba.music.request.account.RegistByPhoneRequest;
 import com.iyuba.music.request.account.RegistRequest;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.iyuba.music.widget.view.AddRippleEffect;
-import com.iyuba.music.widget.imageview.CircleImageView;
-import com.mob.MobSDK;
+import com.iyuba.music.widget.textview.CustomUrlSpan;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -55,13 +61,11 @@ import cn.smssdk.SMSSDK;
 public class RegistActivity extends BaseActivity {
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText phone, messageCode, userName, userPwd, userPwd2, email;
-    private TextView protocolText, toolBarSub;
     private RoundTextView regist, getMessageCode;
     private CheckBox protocol;
     private View registByPhone, registByEmail;
     private CircleImageView photo;
     private IyubaDialog waittingDialog;
-    private boolean smsReady;
     TextView.OnEditorActionListener editor = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -84,28 +88,26 @@ public class RegistActivity extends BaseActivity {
             return false;
         }
     };
+    private boolean smsReady;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.regist);
-        context = this;
-        initSMSService();
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.regist;
     }
 
     @Override
-    protected void initWidget() {
+    public void afterSetLayout() {
+        super.afterSetLayout();
+        initSMSService();
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
-        toolBarSub = findViewById(R.id.toolbar_oper_sub);
         photo = findViewById(R.id.regist_photo);
-        toolbarOper = findViewById(R.id.toolbar_oper);
         regist = findViewById(R.id.regist);
         AddRippleEffect.addRippleEffect(regist);
         protocol = findViewById(R.id.regist_protocol_checkbox);
-        protocolText = findViewById(R.id.regist_protocol);
         registByPhone = findViewById(R.id.regist_by_phone);
         registByEmail = findViewById(R.id.regist_by_email);
         getMessageCode = findViewById(R.id.get_msg_code);
@@ -120,27 +122,27 @@ public class RegistActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (toolbarOper.getText().equals(context.getString(R.string.regist_by_phone))) {
-                    toolbarOper.setText(context.getString(R.string.regist_by_email));
+                    enableToolbarOper(context.getString(R.string.regist_by_email));
                     photo.setVisibility(View.VISIBLE);
                     registByPhone.setVisibility(View.VISIBLE);
                     registByEmail.setVisibility(View.GONE);
                 } else {
                     photo.setVisibility(View.GONE);
-                    toolbarOper.setText(context.getString(R.string.regist_by_phone));
+                    enableToolbarOper(context.getString(R.string.regist_by_phone));
                     registByPhone.setVisibility(View.GONE);
                     registByEmail.setVisibility(View.VISIBLE);
                 }
             }
         });
-        getMessageCode.setOnClickListener(new View.OnClickListener() {
+        getMessageCode.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (!phone.isCharactersCountValid() || !regexPhone()) {
                     YoYo.with(Techniques.Shake).duration(500).playOn(phone);
                 } else {
@@ -148,20 +150,10 @@ public class RegistActivity extends BaseActivity {
                     if (imm != null) {
                         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
                     }
-                    CheckPhoneRegisted.exeRequest(CheckPhoneRegisted.generateUrl(phone.getText().toString()), new IProtocolResponse<Integer>() {
+                    RequestClient.requestAsync(new CheckPhoneRegisted(phone.getText().toString()), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
                         @Override
-                        public void onNetError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void onServerError(String msg) {
-                            CustomToast.getInstance().showToast(msg);
-                        }
-
-                        @Override
-                        public void response(Integer result) {
-                            if (result == 1) {
+                        public void onSuccess(BaseApiEntity<Integer> result) {
+                            if (BaseApiEntity.isSuccess(result)) {
                                 SMSSDK.getVerificationCode("86", phone.getText().toString());
                                 handler.obtainMessage(1, 60, 0).sendToTarget();
                             } else {
@@ -169,14 +161,18 @@ public class RegistActivity extends BaseActivity {
                                 phone.setError(context.getString(R.string.regist_phone_registed, phone.getText()));
                             }
                         }
-                    });
 
+                        @Override
+                        public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                            CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                        }
+                    });
                 }
             }
         });
-        regist.setOnClickListener(new View.OnClickListener() {
+        regist.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (registByEmail.isShown()) {
                     if (email.isShown()) {
                         registByEmail();
@@ -236,18 +232,9 @@ public class RegistActivity extends BaseActivity {
                 regexEmail();
             }
         });
-        protocolText.setOnClickListener(new View.OnClickListener() {
+        toolbarOperSub.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", "http://app.iyuba.cn/ios/protocol.html");
-                intent.putExtra("title", context.getString(R.string.regist_protocol));
-                startActivity(intent);
-            }
-        });
-        toolBarSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 Intent intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", "http://m.iyuba.cn/m_login/inputPhone.jsp");
                 intent.putExtra("title", context.getString(R.string.regist_title));
@@ -260,48 +247,41 @@ public class RegistActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        protocolText.setText(R.string.regist_protocol);
-        backIcon.setState(MaterialMenuDrawable.IconState.ARROW);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        interceptHyperLink(protocol);
         registByPhone.setVisibility(View.VISIBLE);
         registByEmail.setVisibility(View.GONE);
         title.setText(R.string.regist_title);
-        toolBarSub.setText(R.string.regist_oper_sub);
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         if (registByEmail.getVisibility() == View.VISIBLE) {
             photo.setVisibility(View.GONE);
             if (email.getVisibility() == View.VISIBLE) {
                 regist.setText(context.getString(R.string.regist_title));
-                toolbarOper.setText(context.getString(R.string.regist_by_phone));
+                enableToolbarOper(context.getString(R.string.regist_by_phone));
                 userPwd2.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                 title.setText(R.string.regist_title);
             } else {
                 regist.setText(context.getString(R.string.regist_phone_part_two));
-                toolbarOper.setText(context.getString(R.string.regist_by_email));
+                enableToolbarOper(context.getString(R.string.regist_by_email));
                 userPwd2.setImeOptions(EditorInfo.IME_ACTION_SEND);
                 title.setText(R.string.regist_phone_part_two);
             }
         } else if (registByPhone.getVisibility() == View.VISIBLE) {
-            toolbarOper.setText(context.getString(R.string.regist_by_email));
+            enableToolbarOper(context.getString(R.string.regist_by_email));
             regist.setText(context.getString(R.string.regist_title));
             photo.setVisibility(View.VISIBLE);
             title.setText(R.string.regist_title);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
+        enableToolbarOperSub(R.string.regist_oper_sub);
     }
 
     @Override
     public void onBackPressed() {
         if (registByEmail.getVisibility() == View.VISIBLE) {
-            toolbarOper.setText(context.getString(R.string.regist_by_email));
+            enableToolbarOper(context.getString(R.string.regist_by_email));
             registByPhone.setVisibility(View.VISIBLE);
             registByEmail.setVisibility(View.GONE);
             photo.setVisibility(View.VISIBLE);
@@ -315,6 +295,33 @@ public class RegistActivity extends BaseActivity {
         super.onDestroy();
         if (smsReady) {
             SMSSDK.unregisterAllEventHandler();
+        }
+    }
+
+    private void interceptHyperLink(TextView tv) {
+        //        tv.setAutoLinkMask(Linkify.WEB_URLS);
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        CharSequence text = tv.getText();
+        if (text instanceof Spannable) {
+            int end = text.length();
+            Spannable spannable = (Spannable) tv.getText();
+            URLSpan[] urlSpans = spannable.getSpans(0, end, URLSpan.class);
+            if (urlSpans.length == 0) {
+                return;
+            }
+
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
+            // 循环遍历并拦截 所有http://开头的链接
+            for (URLSpan uri : urlSpans) {
+                String url = uri.getURL();
+                if (url.indexOf("http://") == 0 || url.indexOf("https://") == 0) {
+                    CustomUrlSpan customUrlSpan = new CustomUrlSpan(this, url);
+                    spannableStringBuilder.setSpan(customUrlSpan, spannable.getSpanStart(uri),
+                            spannable.getSpanEnd(uri), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    spannableStringBuilder.removeSpan(uri);
+                }
+            }
+            tv.setText(spannableStringBuilder);
         }
     }
 
@@ -363,7 +370,6 @@ public class RegistActivity extends BaseActivity {
 
     private void registerSDK() {
         SMSSDK.setAskPermisionOnReadContact(true);
-        MobSDK.init(this, ConstantManager.SMSAPPID, ConstantManager.SMSAPPSECRET);
         EventHandler eh = new EventHandler() {
 
             @Override
@@ -404,7 +410,7 @@ public class RegistActivity extends BaseActivity {
     }
 
     private boolean regexPhone() {
-        String regex = "[1][3578]\\d{9}";
+        String regex = "[1][356789]\\d{9}";
         if (phone.getEditableText().toString().matches(regex)) {
             return true;
         } else {
@@ -461,41 +467,31 @@ public class RegistActivity extends BaseActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(protocol);
         } else {
             waittingDialog.show();
-            RegistRequest.exeRequest(RegistRequest.generateUrl(new String[]{userName.getText().toString(),
-                    userPwd.getText().toString(), email.getText().toString()}), new IProtocolResponse<BaseApiEntity<Integer>>() {
+            RequestClient.requestAsync(new RegistRequest(new String[]{userName.getText().toString(),
+                    userPwd.getText().toString(), email.getText().toString()}), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
                 @Override
-                public void onNetError(String msg) {
+                public void onSuccess(BaseApiEntity<Integer> baseApiEntity) {
                     waittingDialog.dismiss();
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    waittingDialog.dismiss();
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void response(BaseApiEntity<Integer> baseApiEntity) {
-                    waittingDialog.dismiss();
-                    int result = baseApiEntity.getData();
-                    if (result == 111) {
+                    if (BaseApiEntity.isSuccess(baseApiEntity)) {
                         CustomToast.getInstance().showToast(R.string.regist_success);
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());
                         setResult(1, intent);
                         RegistActivity.this.finish();
-                    } else if (result == 112) {
-                        CustomToast.getInstance().showToast(R.string.regist_userid_same);
-                        userName.setError(context.getString(R.string.regist_userid_same));
-                    } else if (result == 113) {
-                        CustomToast.getInstance().showToast(R.string.regist_email_same);
-                        email.setError(context.getString(R.string.regist_email_same));
+                    } else if (BaseApiEntity.isFail(baseApiEntity)) {
+                        CustomToast.getInstance().showToast(baseApiEntity.getMessage());
+                        userName.setError(baseApiEntity.getMessage());
                     } else {
                         CustomToast.getInstance().showToast(context.getString(R.string.regist_fail) + " " + baseApiEntity.getMessage());
                         email.setError(context.getString(R.string.regist_fail));
                     }
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    waittingDialog.dismiss();
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 }
             });
         }
@@ -518,35 +514,29 @@ public class RegistActivity extends BaseActivity {
             YoYo.with(Techniques.Shake).duration(500).playOn(protocol);
         } else {
             waittingDialog.show();
-            RegistByPhoneRequest.exeRequest(RegistByPhoneRequest.generateUrl(new String[]{userName.getText()
-                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new IProtocolResponse<Integer>() {
+            RequestClient.requestAsync(new RegistByPhoneRequest(new String[]{userName.getText()
+                    .toString(), userPwd.getText().toString(), phone.getText().toString()}), new SimpleRequestCallBack<BaseApiEntity<Integer>>() {
                 @Override
-                public void onNetError(String msg) {
+                public void onSuccess(BaseApiEntity<Integer> result) {
                     waittingDialog.dismiss();
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    waittingDialog.dismiss();
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void response(Integer result) {
-                    waittingDialog.dismiss();
-                    if (result == 111) {
+                    if (BaseApiEntity.isSuccess(result)) {
                         Intent intent = new Intent();
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("userpwd", userPwd.getText().toString());
                         setResult(1, intent);
                         RegistActivity.this.finish();
-                    } else if (result == 112) {
+                    } else if (BaseApiEntity.isFail(result)) {
                         CustomToast.getInstance().showToast(R.string.regist_userid_same);
                         userName.setError(context.getString(R.string.regist_userid_same));
                     } else {
                         CustomToast.getInstance().showToast(R.string.regist_fail);
                     }
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    waittingDialog.dismiss();
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 }
             });
         }
@@ -578,7 +568,7 @@ public class RegistActivity extends BaseActivity {
                             activity.userName.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
                             activity.userPwd2.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
                             activity.email.setVisibility(View.GONE);
-                            activity.changeUIResumeByPara();
+                            activity.onActivityResumed();
                         } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                             CustomToast.getInstance().showToast(R.string.regist_code_on_way);
                         }

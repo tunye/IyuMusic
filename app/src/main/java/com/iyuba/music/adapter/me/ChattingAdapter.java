@@ -6,28 +6,29 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.me.PersonalHomeActivity;
 import com.iyuba.music.entity.message.MessageLetterContent;
 import com.iyuba.music.manager.SocialManager;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
 public class ChattingAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<MessageLetterContent> mList;
+    private List<MessageLetterContent> mList;
     private String uid;
 
     public ChattingAdapter(Context context, String uid) {
@@ -51,7 +52,7 @@ public class ChattingAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setList(ArrayList<MessageLetterContent> list) {
+    public void setList(List<MessageLetterContent> list) {
         mList = list;
         notifyDataSetChanged();
     }
@@ -108,14 +109,12 @@ public class ChattingAdapter extends BaseAdapter {
             holder.timeLayout.setVisibility(View.VISIBLE);
             holder.time.setText(contentShowTime);
         }
-        ImageUtil.loadAvatar(message.getAuthorid(), holder.userImageView);
-        holder.userImageView.setOnClickListener(new OnClickListener() {
-
+        AppImageUtil.loadAvatar(message.getAuthorid(), holder.userImageView);
+        holder.userImageView.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 SocialManager.getInstance().pushFriendId(message.getAuthorid());
                 Intent intent = new Intent(context, PersonalHomeActivity.class);
-                intent.putExtra("needpop", true);
                 context.startActivity(intent);
             }
         });

@@ -17,9 +17,9 @@
 -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-     android:duration="300"
-     android:interpolator="@anim/overshoot_bottom_in">
+    android:duration="300"
+    android:interpolator="@anim/overshoot_bottom_in">
     <translate
         android:fromYDelta="100%"
-        android:toYDelta="0%"/>
+        android:toYDelta="0%" />
 </set>

@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.recyclerview.RecycleViewHolder;
 import com.iyuba.music.R;
 import com.iyuba.music.entity.mainpanel.Discover;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
@@ -117,9 +118,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
             final DiscoverViewHolder viewHolder = (DiscoverViewHolder) holder;
             final Discover discover = getItem(position);
             if (onRecycleViewItemClickListener != null) {
-                viewHolder.rippleView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         onRecycleViewItemClickListener.onItemClick(viewHolder.rippleView, holder.getAdapterPosition());
                     }
                 });

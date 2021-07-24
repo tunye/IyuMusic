@@ -55,7 +55,9 @@ public class FileUtil {
         return info;
     }
 
-    /**  **/
+    /**
+     *
+     **/
     private static void fastCalcFileContent(FileInfo info, File f) {
         if (f.isFile()) {
             info.setSize(getFileSize(f));

@@ -2,54 +2,51 @@ package com.iyuba.music.request.newsrequest;
 
 import android.support.v4.util.ArrayMap;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.alibaba.fastjson.JSONObject;
+import com.buaa.ct.core.manager.RuntimeManager;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.network.NetWorkState;
+import com.iyuba.music.entity.BaseApiEntity;
+import com.iyuba.music.request.Request;
 import com.iyuba.music.util.ParameterUrl;
-import com.iyuba.music.volley.MyJsonRequest;
-import com.iyuba.music.volley.MyVolley;
-import com.iyuba.music.volley.VolleyErrorHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
  * Created by 10202 on 2015/9/30.
  */
-public class CommentAgreeRequest {
-    public static void exeRequest(String url, final IProtocolResponse<String> response) {
-        if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.ALL_NET)) {
-            MyJsonRequest request = new MyJsonRequest(
-                    url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        response.response(jsonObject.getString("ResultCode"));
-                    } catch (JSONException e) {
-                        response.onServerError(RuntimeManager.getInstance().getString(R.string.data_error));
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    response.onServerError(VolleyErrorHelper.getMessage(error));
-                }
-            });
-            MyVolley.getInstance().addToRequestQueue(request);
-        } else {
-            response.onNetError(RuntimeManager.getInstance().getString(R.string.no_internet));
-        }
-    }
+public class CommentAgreeRequest extends Request<BaseApiEntity<String>> {
+    public static final int AGREE_PROTOCOL = 61001;
+    public static final int DISAGREE_PROTOCOL = 61002;
+    private int protocol;
 
-    public static String generateUrl(int protocol, int id) {
+    public CommentAgreeRequest(int protocol, int id) {
         String originalUrl = "http://daxue.iyuba.cn/appApi//UnicomApi";
         ArrayMap<String, Object> para = new ArrayMap<>();
         para.put("protocol", protocol);
         para.put("id", id);
-        return ParameterUrl.setRequestParameter(originalUrl, para);
+        url = ParameterUrl.setRequestParameter(originalUrl, para);
+        this.protocol = protocol;
+    }
+
+    @Override
+    public BaseApiEntity<String> parseJsonImpl(JSONObject jsonObject) {
+        BaseApiEntity<String> baseApiEntity = new BaseApiEntity<>();
+        baseApiEntity.setData(jsonObject.getString("ResultCode"));
+        if (baseApiEntity.getData().equals("001")) {
+            baseApiEntity.setState(BaseApiEntity.SUCCESS);
+            return baseApiEntity;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String getDataErrorMsg() {
+        if (protocol == AGREE_PROTOCOL) {
+            return RuntimeManager.getInstance().getString(R.string.comment_agree_fail);
+        } else if (protocol == DISAGREE_PROTOCOL) {
+            return RuntimeManager.getInstance().getString(R.string.comment_against_fail);
+        } else {
+            return RuntimeManager.getInstance().getString(R.string.data_error);
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,11 +7,11 @@
         android:id="@+id/study_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="@color/background_dark"
         android:horizontalSpacing="@dimen/row_space_medium"
         android:numColumns="4"
         android:padding="@dimen/row_space_large"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/row_space_large" />
-</RelativeLayout>
+</FrameLayout>

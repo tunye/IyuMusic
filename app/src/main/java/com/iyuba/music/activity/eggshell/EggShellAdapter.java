@@ -1,88 +1,64 @@
 package com.iyuba.music.activity.eggshell;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.recycleview.RecycleViewHolder;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
-public class EggShellAdapter extends RecyclerView.Adapter<EggShellAdapter.MyViewHolder> {
-    private ArrayList<String> menuTextList;
+public class EggShellAdapter extends CoreRecyclerViewAdapter<String, EggShellAdapter.MyViewHolder> {
     private ArrayList<Integer> menuIconList;
-    private Context context;
-    private OnRecycleViewItemClickListener itemClickListener;
 
     public EggShellAdapter(Context context) {
-        this.context = context;
-        menuIconList = new ArrayList<>();
-        menuTextList = new ArrayList<>();
+        super(context);
         initData();
     }
 
     private void initData() {
         menuIconList = new ArrayList<>();
-        menuTextList = new ArrayList<>();
 
+        menuIconList.add(R.mipmap.ic_launcher);
         menuIconList.add(R.mipmap.ic_launcher2);
+        menuIconList.add(R.mipmap.ic_launcher);
         menuIconList.add(R.mipmap.ic_launcher2);
-        menuIconList.add(R.mipmap.ic_launcher2);
-        menuIconList.add(R.mipmap.ic_launcher2);
-        menuIconList.add(R.mipmap.ic_launcher2);
-        menuTextList.add("动画");
-        menuTextList.add("material输入框");
-        menuTextList.add("加载小动画");
-        menuTextList.add("体重管家");
-        menuTextList.add("福利");
+        getDatas().add("动画");
+        getDatas().add("material输入框");
+        getDatas().add("加载小动画");
+        getDatas().add("福利");
     }
 
-    public void setItemClickListener(OnRecycleViewItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_eggshell, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final int pos = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(holder.itemView, pos);
-            }
-        });
-        holder.menuText.setText(menuTextList.get(position));
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.menuText.setText(getDatas().get(position));
         holder.menuIcon.setImageResource(menuIconList.get(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return menuTextList.size();
-    }
-
-    static class MyViewHolder extends RecycleViewHolder {
+    static class MyViewHolder extends CoreRecyclerViewAdapter.MyViewHolder {
 
         TextView menuText;
         ImageView menuIcon;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            menuText = (TextView) view.findViewById(R.id.oper_text);
-            menuIcon = (ImageView) view.findViewById(R.id.oper_icon);
+            menuText = view.findViewById(R.id.oper_text);
+            menuIcon = view.findViewById(R.id.oper_icon);
         }
     }
 }

@@ -2,10 +2,11 @@ package com.iyuba.music.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.util.ThreadPoolUtil;
 import com.iyuba.music.R;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.ThreadPoolUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -46,13 +47,13 @@ public class ImportDatabase {
     }
 
     public void openDatabase() {
-        lastVersion = ConfigManager.getInstance().loadInt("database_version");
+        lastVersion = SPUtils.loadInt(ConfigManager.getInstance().getPreferences(), "database_version");
         File database = new File(dbPath);
         if (currentVersion > lastVersion) {
             if (database.exists()) {
                 database.delete();
             }
-            ConfigManager.getInstance().putInt("database_version", currentVersion);
+            SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "database_version", currentVersion);
             ThreadPoolUtil.getInstance().execute(new Runnable() {
                 @Override
                 public void run() {

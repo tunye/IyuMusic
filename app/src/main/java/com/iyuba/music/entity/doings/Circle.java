@@ -1,32 +1,32 @@
 package com.iyuba.music.entity.doings;
 
-import com.google.gson.annotations.SerializedName;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2016/4/20.
  */
 public class Circle {
-    @SerializedName("id")
+    @JSONField(name = "id")
     private int id;
-    @SerializedName("uid")
+    @JSONField(name = "uid")
     private String uid;
-    @SerializedName("body")
+    @JSONField(name = "body")
     private String body;
-    @SerializedName("feedid")
+    @JSONField(name = "feedid")
     private int feedid;
-    @SerializedName("title")
+    @JSONField(name = "title")
     private String title;
-    @SerializedName("username")
+    @JSONField(name = "username")
     private String username;
-    @SerializedName("idtype")
+    @JSONField(name = "idtype")
     private String idtype;
-    @SerializedName("replynum")
+    @JSONField(name = "replynum")
     private int replynum;
-    @SerializedName("dateline")
+    @JSONField(name = "dateline")
     private long dateline;
-    @SerializedName("image")
+    @JSONField(name = "image")
     private String image;
-    @SerializedName("vip")
+    @JSONField(name = "vip")
     private int vip;
 
     public int getId() {

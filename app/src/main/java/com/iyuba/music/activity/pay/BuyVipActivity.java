@@ -1,31 +1,34 @@
 package com.iyuba.music.activity.pay;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.MaterialRippleLayout;
+import com.buaa.ct.core.view.image.CircleImageView;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.MaterialDialogAdapter;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.user.UserInfo;
 import com.iyuba.music.entity.user.UserInfoOp;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.account.PayForAppRequest;
 import com.iyuba.music.request.account.PayRequest;
-import com.iyuba.music.util.ImageUtil;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.AppImageUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 import com.iyuba.music.widget.recycleview.MyLinearLayoutManager;
-import com.iyuba.music.widget.imageview.CircleImageView;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,24 +49,18 @@ public class BuyVipActivity extends BaseActivity {
     private CircleImageView vipPhoto;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.buy_vip);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.buy_vip;
     }
 
     @Override
     public void onResume() {
-        super.onResume();
         userInfo = AccountManager.getInstance().getUserInfo();
-        changeUIResumeByPara();
+        super.onResume();
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         month = findViewById(R.id.vip_month);
         threeMonth = findViewById(R.id.vip_three_month);
@@ -83,47 +80,47 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        month.setOnClickListener(new View.OnClickListener() {
+        month.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(0);
             }
         });
-        threeMonth.setOnClickListener(new View.OnClickListener() {
+        threeMonth.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(1);
             }
         });
-        halfYear.setOnClickListener(new View.OnClickListener() {
+        halfYear.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(2);
             }
         });
-        year.setOnClickListener(new View.OnClickListener() {
+        year.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(3);
             }
         });
-        app.setOnClickListener(new View.OnClickListener() {
+        app.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pay(4);
             }
         });
-        payWay.setOnClickListener(new View.OnClickListener() {
+        payWay.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 payWayDialog();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, BuyIyubiActivity.class));
             }
         });
@@ -175,15 +172,15 @@ public class BuyVipActivity extends BaseActivity {
     private void payByIyubiDialog(final int pos) {
         final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
         materialDialog.setTitle(R.string.vip_title).setMessage(context.getString(R.string.vip_buy_alert, PAY_GOODS[pos]));
-        materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });
-        materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
+        materialDialog.setPositiveButton(R.string.app_buy, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 materialDialog.dismiss();
                 buy(pos);
             }
@@ -206,20 +203,15 @@ public class BuyVipActivity extends BaseActivity {
                 payType = position;
                 materialDialog.dismiss();
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         adapter.setSelected(payType);
         payWayList.setAdapter(adapter);
         payWayList.setLayoutManager(new MyLinearLayoutManager(context));
         payWayList.addItemDecoration(new DividerItemDecoration());
         materialDialog.setContentView(root);
-        materialDialog.setPositiveButton(R.string.app_cancel, new View.OnClickListener() {
+        materialDialog.setPositiveButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 materialDialog.dismiss();
             }
         });
@@ -227,14 +219,16 @@ public class BuyVipActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.vip_title);
-        toolbarOper.setText(R.string.vip_recharge);
+        enableToolbarOper(R.string.vip_recharge);
     }
 
-    private void changeUIResumeByPara() {
-        ImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
+    @Override
+    public void onActivityResumed() {
+        super.onActivityResumed();
+        AppImageUtil.loadAvatar(AccountManager.getInstance().getUserId(), vipPhoto);
         if (userInfo.getVipStatus().equals("1")) {
             vipStatus.setImageResource(R.drawable.vip);
             vipUpdateText.setText(R.string.vip_update);
@@ -252,74 +246,63 @@ public class BuyVipActivity extends BaseActivity {
         if (Integer.parseInt(AccountManager.getInstance().getUserInfo().getIyubi()) < PAY_GOODS[type]) {
             final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
             materialDialog.setTitle(R.string.vip_huge).setMessage(R.string.vip_iyubi_not_enough);
-            materialDialog.setPositiveButton(R.string.app_buy, new View.OnClickListener() {
+            materialDialog.setPositiveButton(R.string.app_buy, new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     context.startActivity(new Intent(context, BuyIyubiActivity.class));
                     materialDialog.dismiss();
                 }
             });
-            materialDialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+            materialDialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     materialDialog.dismiss();
                 }
             });
             materialDialog.show();
         } else if (type != 4) {
-            PayRequest.exeRequest(PayRequest.generateUrl(new String[]{AccountManager.getInstance().getUserId(),
-                    String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
+            RequestClient.requestAsync(new PayRequest(new String[]{AccountManager.getInstance().getUserId(),
+                    String.valueOf(PAY_GOODS[type]), String.valueOf(PAY_MONTH[type])}), new SimpleRequestCallBack<BaseApiEntity<UserInfo>>() {
                 @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void response(BaseApiEntity<UserInfo> apiEntity) {
+                public void onSuccess(BaseApiEntity<UserInfo> apiEntity) {
                     if (BaseApiEntity.isSuccess(apiEntity)) {
                         userInfo = apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
                         AccountManager.getInstance().setUserInfo(userInfo);
                         CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
-                        changeUIResumeByPara();
+                        onActivityResumed();
                     } else {
                         CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_fail,
                                 apiEntity.getMessage()));
                     }
                 }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                }
             });
         } else {
-            PayForAppRequest.exeRequest(PayForAppRequest.generateUrl(new String[]
-                    {AccountManager.getInstance().getUserId(), String.valueOf(PAY_GOODS[type])}), new IProtocolResponse<BaseApiEntity<UserInfo>>() {
+            RequestClient.requestAsync(new PayForAppRequest(new String[]
+                    {AccountManager.getInstance().getUserId(), String.valueOf(PAY_GOODS[type])}), new SimpleRequestCallBack<BaseApiEntity<UserInfo>>() {
                 @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void response(BaseApiEntity<UserInfo> baseApiEntity) {
-                    if (BaseApiEntity.isSuccess(baseApiEntity)) {
-                        userInfo = baseApiEntity.getData();
+                public void onSuccess(BaseApiEntity<UserInfo> apiEntity) {
+                    if (BaseApiEntity.isSuccess(apiEntity)) {
+                        userInfo = apiEntity.getData();
                         new UserInfoOp().saveData(userInfo);
                         AccountManager.getInstance().setUserInfo(userInfo);
                         CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_success,
                                 userInfo.getIyubi()));
-                        changeUIResumeByPara();
+                        onActivityResumed();
                     } else {
-                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_fail,
-                                baseApiEntity.getMessage()));
+                        CustomToast.getInstance().showToast(context.getString(R.string.vip_buy_fail, apiEntity.getMessage()));
                     }
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
                 }
             });
         }

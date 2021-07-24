@@ -11,24 +11,27 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * 文件浏览器相关类
  */
 public class FileActivityHelper {
-    public static ArrayList<FileInfo> getFiles(String path) {
+    public static List<FileInfo> getFiles(String path) {
         File f = new File(path);
         File[] files = f.listFiles();
         if (files == null) {
@@ -69,9 +72,9 @@ public class FileActivityHelper {
             public void afterTextChanged(Editable s) {
             }
         });
-        dialog.setPositiveButton(R.string.file_create, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.file_create, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
                 String newName = fileName.getText().toString();
                 if (TextUtils.isEmpty(newName)) {
@@ -91,9 +94,9 @@ public class FileActivityHelper {
                 }
             }
         });
-        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -137,9 +140,9 @@ public class FileActivityHelper {
             }
         });
 
-        dialog.setPositiveButton(R.string.file_rename, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.file_rename, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -166,10 +169,10 @@ public class FileActivityHelper {
                 }
             }
         });
-        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
+            public void activeClick(View view) {
+                ThreadUtils.postOnUiThreadDelay(new Runnable() {
                     @Override
                     public void run() {
                         dialog.dismiss();
@@ -196,11 +199,11 @@ public class FileActivityHelper {
             layout.findViewById(R.id.file_contents_info).setVisibility(View.GONE);
         }
         MaterialRippleLayout sure = layout.findViewById(R.id.button_accept);
-        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true, 24);
+        final IyubaDialog iyubaDialog = new IyubaDialog(context, layout, true);
         iyubaDialog.show();
-        sure.setOnClickListener(new View.OnClickListener() {
+        sure.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 iyubaDialog.dismiss();
             }
         });

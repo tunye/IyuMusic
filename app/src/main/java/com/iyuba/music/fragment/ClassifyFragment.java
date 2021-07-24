@@ -1,6 +1,5 @@
 package com.iyuba.music.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,18 +19,10 @@ import com.iyuba.music.widget.recycleview.StationaryGridview;
  * Created by 10202 on 2016/3/4.
  */
 public class ClassifyFragment extends BaseFragment {
-    private Context context;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getActivity();
-    }
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.classify, null);
-        StationaryGridview person =  view.findViewById(R.id.person_view);
+        StationaryGridview person = view.findViewById(R.id.person_view);
         StationaryGridview system = view.findViewById(R.id.system_view);
         ClassifyAdapter personAdapter = new ClassifyAdapter(context, 0);
         final ClassifyAdapter systemAdapter = new ClassifyAdapter(context, 1);

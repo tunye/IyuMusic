@@ -3,13 +3,18 @@ package com.iyuba.music.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Parcelable;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.iyuba.music.MusicApplication;
+import com.iyuba.music.R;
 import com.iyuba.music.activity.WelcomeActivity;
-import com.iyuba.music.manager.RuntimeManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -97,8 +102,30 @@ public class Utils {
         TelephonyManager TelephonyMgr = (TelephonyManager) RuntimeManager.getInstance().getContext().getSystemService(TELEPHONY_SERVICE);
         try {
             return TelephonyMgr.getDeviceId();
-        }catch (Throwable t){
+        } catch (Throwable t) {
             return "";
+        }
+    }
+
+    public static String newPhoneDiviceId() {
+        String uuid = Build.SERIAL;
+        if (TextUtils.isEmpty(uuid)) {
+            return Utils.getIMEI();
+        }
+        return uuid;
+    }
+
+    public static MusicApplication getMusicApplication() {
+        return (MusicApplication) RuntimeManager.getInstance().getApplication();
+    }
+
+    public static String getRequestErrorMeg(ErrorInfoWrapper errorInfoWrapper) {
+        if (errorInfoWrapper.type == ErrorInfoWrapper.DATA_ERROR) {
+            return RuntimeManager.getInstance().getString(R.string.generic_error);
+        } else if (errorInfoWrapper.type == ErrorInfoWrapper.NET_ERROR) {
+            return RuntimeManager.getInstance().getString(R.string.net_no_net);
+        } else {
+            return TextUtils.isEmpty(errorInfoWrapper.errorMsg) ? RuntimeManager.getInstance().getString(R.string.data_error) : errorInfoWrapper.errorMsg;
         }
     }
 }

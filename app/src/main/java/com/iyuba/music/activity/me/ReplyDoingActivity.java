@@ -1,38 +1,36 @@
 package com.iyuba.music.activity.me;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buaa.ct.comment.CommentView;
-import com.buaa.ct.comment.ContextManager;
-import com.iyuba.music.MusicApplication;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseListActivity;
 import com.iyuba.music.adapter.me.DoingCommentAdapter;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.doings.Doing;
 import com.iyuba.music.entity.doings.DoingComment;
-import com.iyuba.music.listener.IProtocolResponse;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.AccountManager;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.SocialManager;
 import com.iyuba.music.request.merequest.DoingCommentRequest;
 import com.iyuba.music.request.merequest.SendDoingCommentRequest;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.imageview.VipPhoto;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by 10202 on 2016/2/13.
@@ -42,26 +40,24 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
     private Doing doing;
     private VipPhoto doingPhoto;
     private TextView doingUserName, doingMessage, doingTime, doingReplyCounts;
-    private DoingCommentAdapter commentAdapter;
     private CommentView commentView;
     private View noComment;
     private DoingComment selectComment;
     private boolean isVip;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ContextManager.setInstance(this);//评论模块初始化
-        setContentView(R.layout.reply_doings);
-        isVip = getIntent().getBooleanExtra(VIP_FLG, false);
-        initWidget();
-        setListener();
-        changeUIByPara();
-        ((MusicApplication) getApplication()).pushActivity(this);
+    public int getLayoutId() {
+        return R.layout.reply_doings;
     }
 
     @Override
-    protected void initWidget() {
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        isVip = getIntent().getBooleanExtra(VIP_FLG, false);
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         noComment = findViewById(R.id.no_comment);
         doingPhoto = findViewById(R.id.doings_photo);
@@ -69,28 +65,23 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
         doingMessage = findViewById(R.id.doings_message);
         doingTime = findViewById(R.id.doings_time);
         doingReplyCounts = findViewById(R.id.doings_reply_count);
-        RecyclerView doingRecycleView = findViewById(R.id.doings_reply_list);
-        setRecyclerViewProperty(doingRecycleView);
-        commentAdapter = new DoingCommentAdapter(context);
-        commentAdapter.setItemClickListener(new OnRecycleViewItemClickListener() {
+        owner = findViewById(R.id.doings_reply_list);
+        ownerAdapter = new DoingCommentAdapter(context);
+        ownerAdapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                selectComment = datas.get(position);
+                selectComment = getData().get(position);
                 commentView.getmEtText().setText(getResources().getString(R.string.comment_reply,
                         selectComment.getUsername()));
                 commentView.getmEtText().setSelection(commentView.getmEtText().length());
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
         });
-        doingRecycleView.setAdapter(commentAdapter);
+        assembleRecyclerView();
         commentView = findViewById(R.id.comment_view);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         commentView.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
@@ -121,8 +112,8 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.doing_title);
         doing = SocialManager.getInstance().getDoing();
         doingPhoto.setVipStateVisible(doing.getUid(), isVip);
@@ -147,7 +138,6 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
     public void onDestroy() {
         super.onDestroy();
         SocialManager.getInstance().popDoing();
-        ContextManager.destory();
     }
 
     @Override
@@ -158,26 +148,17 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
     }
 
     @Override
-    protected int getToastResource() {
+    public int getToastResource() {
         return R.string.comment_get_all;
     }
 
     @Override
-    protected void getNetData() {
-        DoingCommentRequest.exeRequest(DoingCommentRequest.generateUrl(doing.getDoid(), curPage), new IProtocolResponse<BaseListEntity<ArrayList<DoingComment>>>() {
+    public void getNetData() {
+        RequestClient.requestAsync(new DoingCommentRequest(doing.getDoid(), curPage), new SimpleRequestCallBack<BaseListEntity<List<DoingComment>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(BaseListEntity<ArrayList<DoingComment>> listEntity) {
+            public void onSuccess(BaseListEntity<List<DoingComment>> listEntity) {
                 isLastPage = listEntity.isLastPage();
+                swipeRefreshLayout.setRefreshing(false);
                 if (isLastPage) {
                     if (curPage == 1) {
                         noComment.setVisibility(View.VISIBLE);
@@ -186,15 +167,19 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
                     }
                 } else {
                     noComment.setVisibility(View.GONE);
-                    datas.addAll(listEntity.getData());
-                    commentAdapter.setDoingList(datas);
+                    ownerAdapter.addDatas(listEntity.getData());
                     if (curPage == 1) {
 
                     } else {
-                        CustomToast.getInstance().showToast(curPage + "/" + (Integer.parseInt(doing.getReplynum()) / 20 + (Integer.parseInt(doing.getReplynum()) % 20 == 0 ? 0 : 1)), 800);
+                        CustomToast.getInstance().showToast(curPage + "/" + (doing.getReplynum() / 20 + (doing.getReplynum() % 20 == 0 ? 0 : 1)), Toast.LENGTH_SHORT);
                     }
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
                 swipeRefreshLayout.setRefreshing(false);
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }
@@ -214,28 +199,19 @@ public class ReplyDoingActivity extends BaseListActivity<DoingComment> {
         if (TextUtils.isEmpty(selectComment.getGrade())) {
             selectComment.setGrade("1");
         }
-        SendDoingCommentRequest.exeRequest(SendDoingCommentRequest.generateUrl(selectComment, doing, fromUid, fromMessage), new IProtocolResponse<String>() {
+        RequestClient.requestAsync(new SendDoingCommentRequest(selectComment, doing, fromUid, fromMessage), new SimpleRequestCallBack<BaseApiEntity<String>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-            }
-
-            @Override
-            public void response(String resultCode) {
-                if (resultCode.equals("361")) {
-                    commentAdapter.addData(0, selectComment);
-                    if (noComment.isShown()) {
-                        noComment.setVisibility(View.GONE);
-                    }
-                    commentView.clearText();
-                } else {
-                    CustomToast.getInstance().showToast(R.string.message_send_fail);
+            public void onSuccess(BaseApiEntity<String> resultCode) {
+                ownerAdapter.addData(0, selectComment);
+                if (noComment.isShown()) {
+                    noComment.setVisibility(View.GONE);
                 }
+                commentView.clearText();
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }

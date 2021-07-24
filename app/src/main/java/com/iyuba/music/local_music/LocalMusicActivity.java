@@ -7,7 +7,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
@@ -16,6 +15,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.IOnClickListener;
+import com.buaa.ct.core.listener.IOnDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.PermissionPool;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -23,23 +30,15 @@ import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.WelcomeActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.file.FilePosActivity;
-import com.iyuba.music.listener.IOnClickListener;
-import com.iyuba.music.listener.IOnDoubleClick;
 import com.iyuba.music.listener.IPlayerListener;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.PermissionPool;
 import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ import java.util.ArrayList;
  * Created by 10202 on 2016/4/16.
  */
 public class LocalMusicActivity extends BaseActivity implements IOnClickListener {
+    public static final int PLAY_HANGLER_WHAT = 0;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private RecyclerView musicList;
     private ArrayList<Article> musics;
@@ -63,7 +63,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         public void onPrepare() {
             pause.setState(MorphButton.PLAY_STATE);
             progressBar.setMax(player.getDuration());
-            handler.sendEmptyMessage(0);
+            handler.sendEmptyMessage(PLAY_HANGLER_WHAT);
             refresh();
         }
 
@@ -84,15 +84,16 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     private LocalMusicChangeUIBroadCast broadCast;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.eggshell_music_main);
-        context = this;
-        player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
-        ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.eggshell_music_main;
+    }
+
+    @Override
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
+        player = Utils.getMusicApplication().getPlayerService().getPlayer();
+        Utils.getMusicApplication().getPlayerService().setListener(iPlayerListener);
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         statistic = findViewById(R.id.music_statistic);
@@ -122,8 +123,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         playMode = findViewById(R.id.play_mode);
         progressBar = findViewById(R.id.progress);
         musicList = findViewById(R.id.music_recyclerview);
-        musicList.setLayoutManager(new LinearLayoutManager(context));
-        musicList.addItemDecoration(new DividerItemDecoration());
+        setRecyclerViewProperty(musicList);
         ((SimpleItemAnimator) musicList.getItemAnimator()).setSupportsChangeAnimations(false);
         adapter = new LocalMusicAdapter(context);
         adapter.setOnItemClickListener(new OnRecycleViewItemClickListener() {
@@ -131,34 +131,29 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
             public void onItemClick(View view, int position) {
                 playSelectItem(position);
             }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
         });
         musicList.setAdapter(adapter);
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         toolBarLayout.setOnTouchListener(new IOnDoubleClick(this, context.getString(R.string.list_double)));
-        createLink.setOnClickListener(new View.OnClickListener() {
+        createLink.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View view) {
+            public void activeClick(View view) {
                 Utils.addLocalMusicLink(LocalMusicActivity.this, WelcomeActivity.class, "爱语吧音乐", R.mipmap.ic_launcher2);
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
-        randomPlay.setOnClickListener(new View.OnClickListener() {
+        randomPlay.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (musics.size() != 0) {
                     playSelectItem(Utils.getRandomInt(musics.size()));
                 } else {
@@ -166,9 +161,9 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 }
             }
         });
-        pause.setOnClickListener(new View.OnClickListener() {
+        pause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (musics.size() != 0) {
                     if (StudyManager.getInstance().getApp().equals("101")) {
                         sendBroadcast(new Intent("iyumusic.pause"));
@@ -180,25 +175,25 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
                 }
             }
         });
-        next.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 ((MusicApplication) getApplication()).getPlayerService().next(false);
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
             }
         });
-        before.setOnClickListener(new View.OnClickListener() {
+        before.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 ((MusicApplication) getApplication()).getPlayerService().before();
                 ((MusicApplication) getApplication()).getPlayerService().startPlay(
                         StudyManager.getInstance().getCurArticle(), false);
             }
         });
-        playMode.setOnClickListener(new View.OnClickListener() {
+        playMode.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
                 nextMusicType = (nextMusicType + 1) % 3;
                 ConfigManager.getInstance().setStudyPlayMode(nextMusicType);
@@ -209,19 +204,17 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.oper_local_music);
-        toolbarOper.setText(R.string.eggshell_music_scan);
+        enableToolbarOper(R.string.eggshell_music_scan);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         musics = new ArrayList<>();
-        if (TextUtils.isEmpty(ConfigManager.getInstance().loadString("localMusicPath"))) {
-            ConfigManager.getInstance().putString("localMusicPath", "/");
+        if (TextUtils.isEmpty(SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "localMusicPath"))) {
+            SPUtils.putString(ConfigManager.getInstance().getPreferences(), "localMusicPath", "/");
             musics = MusicUtils.getAllSongs(context, "/");
-            statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
-            adapter.setDataSet(musics);
         } else {
-            musics.addAll(MusicUtils.getAllSongs(context, ConfigManager.getInstance().loadString("localMusicPath")));
+            musics.addAll(MusicUtils.getAllSongs(context, SPUtils.loadString(ConfigManager.getInstance().getPreferences(), "localMusicPath")));
         }
         adapter.setDataSet(musics);
         statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
@@ -238,7 +231,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == 1) {                               // 扫描的返回结果
             String path = data.getStringExtra("path");
-            ConfigManager.getInstance().putString("localMusicPath", path);
+            SPUtils.putString(ConfigManager.getInstance().getPreferences(), "localMusicPath", path);
             musics = MusicUtils.getAllSongs(context, path);
             statistic.setText(context.getString(R.string.eggshell_music_static, musics.size()));
             adapter.setDataSet(musics);
@@ -249,15 +242,15 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityResumed() {
+        super.onActivityResumed();
         broadCast = new LocalMusicChangeUIBroadCast(this);
         IntentFilter intentFilter = new IntentFilter("com.iyuba.music.localmusic");
         registerReceiver(broadCast, intentFilter);
         setPauseImage();
         if (player != null && StudyManager.getInstance().getApp().equals("101")) {
             progressBar.setMax(player.getDuration());
-            handler.sendEmptyMessage(0);
+            handler.sendEmptyMessage(PLAY_HANGLER_WHAT);
         } else {
             progressBar.setMax(100);
             progressBar.setProgress(0);
@@ -269,6 +262,7 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     public void onPause() {
         super.onPause();
         unregisterReceiver(broadCast);
+        handler.removeMessages(PLAY_HANGLER_WHAT);
         handler.removeCallbacksAndMessages(null);
     }
 
@@ -335,38 +329,26 @@ public class LocalMusicActivity extends BaseActivity implements IOnClickListener
     @Override
     public void onAccreditFailure(int requestCode) {
         super.onAccreditFailure(requestCode);
-        final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-        materialDialog.setTitle(R.string.storage_permission);
-        materialDialog.setMessage(R.string.storage_permission_content);
-        materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                materialDialog.dismiss();
-            }
-        });
-        materialDialog.show();
+        onRequestPermissionDenied(context.getString(R.string.storage_permission_content),
+                new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<LocalMusicActivity> {
         @Override
         public void handleMessageByRef(final LocalMusicActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    activity.progressBar.setProgress(activity.player.getCurrentPosition());
-                    activity.currentTime.setText(DateFormat.formatTime(activity.player.getCurrentPosition() / 1000));
-                    if (activity.player.isPlaying()) {
-                        if (activity.pause.getState() == MorphButton.PAUSE_STATE) {
-                            activity.pause.setState(MorphButton.PLAY_STATE);
-                        }
-                    } else if (!activity.player.isPlaying()) {
-                        if (activity.pause.getState() == MorphButton.PLAY_STATE) {
-                            activity.pause.setState(MorphButton.PAUSE_STATE);
-                        }
-                    }
-                    activity.handler.sendEmptyMessageDelayed(0, 500);
-                    break;
+            activity.progressBar.setProgress(activity.player.getCurrentPosition());
+            activity.currentTime.setText(DateFormat.formatTime(activity.player.getCurrentPosition() / 1000));
+            if (activity.player.isPlaying()) {
+                if (activity.pause.getState() == MorphButton.PAUSE_STATE) {
+                    activity.pause.setState(MorphButton.PLAY_STATE);
+                }
+            } else if (!activity.player.isPlaying()) {
+                if (activity.pause.getState() == MorphButton.PLAY_STATE) {
+                    activity.pause.setState(MorphButton.PAUSE_STATE);
+                }
             }
+            activity.handler.sendEmptyMessageDelayed(PLAY_HANGLER_WHAT, 200);
         }
     }
 

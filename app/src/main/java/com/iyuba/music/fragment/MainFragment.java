@@ -20,23 +20,26 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.view.image.CircleImageView;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.fragmentAdapter.MainFragmentAdapter;
+import com.iyuba.music.listener.IOperationResultInt;
 import com.iyuba.music.local_music.LocalMusicActivity;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.RuntimeManager;
+import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
+import com.iyuba.music.util.AppImageUtil;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.RoundProgressBar;
 import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.TabIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
-import com.iyuba.music.widget.imageview.CircleImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -47,7 +50,9 @@ import java.util.Arrays;
  * Created by 10202 on 2015/11/6.
  */
 public class MainFragment extends BaseFragment {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
+    private static final int HANDLER_REFRESH_PROGRESS = 0;
+    private IOperationResultInt iOperationResultInt;
+    private Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private ViewPager viewPager;
     private Context context;
     private StandardPlayer player;
@@ -60,6 +65,10 @@ public class MainFragment extends BaseFragment {
     private Animation operatingAnim;
     private MainChangeUIBroadCast broadCast;
 
+    public void setiOperationResultInt(IOperationResultInt iOperationResultInt) {
+        this.iOperationResultInt = iOperationResultInt;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +78,29 @@ public class MainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, null);
-        ArrayList<String> title = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title)));
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPagerIndicator = (TabIndicator) view.findViewById(R.id.tab_indicator);
-        viewPagerIndicator.setTabItemTitles(title);
+        viewPager = view.findViewById(R.id.viewpager);
+        viewPagerIndicator = view.findViewById(R.id.tab_indicator);
+        viewPagerIndicator.setTabItemTitles(new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.main_tab_title))));
         viewPagerIndicator.setViewPager(viewPager, 0);
         viewPagerIndicator.setHighLightColor(GetAppColor.getInstance().getAppColor());
+        viewPagerIndicator.setOnPageChangeListener(new TabIndicator.PageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (iOperationResultInt != null) {
+                    iOperationResultInt.performance(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         initPlayControl(view);
         return view;
     }
@@ -94,14 +120,14 @@ public class MainFragment extends BaseFragment {
         super.onResume();
         setContent();
         setImageState();
-        handler.sendEmptyMessage(0);
+        handler.sendEmptyMessage(HANDLER_REFRESH_PROGRESS);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         pauseAnimation();
-        handler.removeCallbacksAndMessages(null);
+        handler.removeMessages(HANDLER_REFRESH_PROGRESS);
     }
 
     @Override
@@ -109,7 +135,6 @@ public class MainFragment extends BaseFragment {
         super.onDestroyView();
         context.unregisterReceiver(broadCast);
         pause.setOnClickListener(null);
-//        mainFragmentAdapter.destroy();
     }
 
     private void initPlayControl(View root) {
@@ -123,38 +148,38 @@ public class MainFragment extends BaseFragment {
         ImageView latter = root.findViewById(R.id.main_latter);
         pause = root.findViewById(R.id.main_play);
         pause.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
-        pause.setOnClickListener(new View.OnClickListener() {
+        pause.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 pauseClick();
             }
         });
-        former.setOnClickListener(new View.OnClickListener() {
+        former.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 formerClick();
             }
         });
-        latter.setOnClickListener(new View.OnClickListener() {
+        latter.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 latterClick();
             }
         });
-        root.findViewById(R.id.rotate_image_layout).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.rotate_image_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                if ("101".equals(StudyManager.getInstance().getApp())) {
+            public void activeClick(View view) {
+                if (ConstantManager.localMusicAppId.equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
                 }
             }
         });
-        root.findViewById(R.id.song_info_layout).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.song_info_layout).setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
-                if ("101".equals(StudyManager.getInstance().getApp())) {
+            public void activeClick(View view) {
+                if (ConstantManager.localMusicAppId.equals(StudyManager.getInstance().getApp())) {
                     context.startActivity(new Intent(context, LocalMusicActivity.class));
                 } else {
                     context.startActivity(new Intent(context, StudyActivity.class));
@@ -174,20 +199,20 @@ public class MainFragment extends BaseFragment {
             pic.setImageResource(R.mipmap.ic_launcher);
         } else {
             switch (StudyManager.getInstance().getApp()) {
-                case "101":
+                case ConstantManager.localMusicAppId:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
                     pic.setImageResource(R.mipmap.ic_launcher);
                     break;
-                case "209":
+                case ConstantManager.appId:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getSinger());
-                    ImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    AppImageUtil.loadImage("http://static.iyuba.cn/images/song/" + curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
                 default:
                     curArticleTitle.setText(curArticle.getTitle());
                     curArticleInfo.setText(curArticle.getTitle_cn());
-                    ImageUtil.loadImage(curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
+                    AppImageUtil.loadImage(curArticle.getPicUrl(), pic, R.mipmap.ic_launcher);
                     break;
             }
         }
@@ -225,7 +250,7 @@ public class MainFragment extends BaseFragment {
             public void run() {
                 setContent();
             }
-        }, 500);
+        }, 200);
         if (!player.isPlaying()) {
             context.sendBroadcast(new Intent("iyumusic.pause"));
         }
@@ -238,17 +263,17 @@ public class MainFragment extends BaseFragment {
             public void run() {
                 setContent();
             }
-        }, 500);
+        }, 200);
         if (!player.isPlaying()) {
             context.sendBroadcast(new Intent("iyumusic.pause"));
         }
     }
 
     private void setImageState() {
-        if (RuntimeManager.getInstance().getApplication().getPlayerService() == null) {
+        if (Utils.getMusicApplication().getPlayerService() == null) {
             pause.setState(MorphButton.PAUSE_STATE);
         } else {
-            player = RuntimeManager.getInstance().getApplication().getPlayerService().getPlayer();
+            player = Utils.getMusicApplication().getPlayerService().getPlayer();
             if (player == null) {
                 pause.setState(MorphButton.PAUSE_STATE);
             } else if (player.isPlaying()) {
@@ -266,29 +291,25 @@ public class MainFragment extends BaseFragment {
     private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<MainFragment> {
         @Override
         public void handleMessageByRef(final MainFragment fragment, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (fragment.player != null) {
-                        fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
-                        if (fragment.player.isPlaying()) {
-                            if (fragment.pic.getAnimation() == null) {
-                                fragment.startAnimation();
-                            }
-                            if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
-                                fragment.pause.setState(MorphButton.PLAY_STATE);
-                            }
-                        } else if (!fragment.player.isPlaying()) {
-                            if (fragment.pic.getAnimation() != null) {
-                                fragment.pauseAnimation();
-                            }
-                            if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
-                                fragment.pause.setState(MorphButton.PAUSE_STATE);
-                            }
-                        }
+            if (fragment.player != null) {
+                fragment.progressBar.setProgress(fragment.player.getCurrentPosition() * 100 / fragment.player.getDuration());
+                if (fragment.player.isPlaying()) {
+                    if (fragment.pic.getAnimation() == null) {
+                        fragment.startAnimation();
                     }
-                    fragment.handler.sendEmptyMessageDelayed(0, 500);
-                    break;
+                    if (fragment.pause.getState() == MorphButton.PAUSE_STATE) {
+                        fragment.pause.setState(MorphButton.PLAY_STATE);
+                    }
+                } else if (!fragment.player.isPlaying()) {
+                    if (fragment.pic.getAnimation() != null) {
+                        fragment.pauseAnimation();
+                    }
+                    if (fragment.pause.getState() == MorphButton.PLAY_STATE) {
+                        fragment.pause.setState(MorphButton.PAUSE_STATE);
+                    }
+                }
             }
+            fragment.handler.sendEmptyMessageDelayed(HANDLER_REFRESH_PROGRESS, 200);
         }
     }
 

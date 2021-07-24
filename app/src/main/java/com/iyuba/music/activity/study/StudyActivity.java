@@ -3,7 +3,7 @@ package com.iyuba.music.activity.study;
 import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.IntDef;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,14 +19,18 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.addam.library.api.AddamBanner;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.network.NetWorkState;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.GetAppColor;
+import com.buaa.ct.core.util.ImageUtil;
+import com.buaa.ct.core.util.PermissionPool;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.MusicApplication;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
@@ -39,21 +41,17 @@ import com.iyuba.music.entity.ad.AdEntity;
 import com.iyuba.music.fragmentAdapter.StudyFragmentAdapter;
 import com.iyuba.music.listener.IOperationResult;
 import com.iyuba.music.listener.IPlayerListener;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.manager.ConstantManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.network.NetWorkState;
 import com.iyuba.music.receiver.ChangeUIBroadCast;
 import com.iyuba.music.request.newsrequest.CommentCountRequest;
 import com.iyuba.music.request.newsrequest.StudyAdRequest;
+import com.iyuba.music.util.AppImageUtil;
 import com.iyuba.music.util.DateFormat;
-import com.iyuba.music.util.GetAppColor;
-import com.iyuba.music.util.ImageUtil;
 import com.iyuba.music.util.WeakReferenceHandler;
 import com.iyuba.music.widget.CustomSnackBar;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.StudyMore;
@@ -62,8 +60,6 @@ import com.iyuba.music.widget.imageview.MorphButton;
 import com.iyuba.music.widget.imageview.PageIndicator;
 import com.iyuba.music.widget.player.StandardPlayer;
 import com.iyuba.music.widget.roundview.RoundTextView;
-import com.miaoze.sdk.AdSize;
-import com.miaoze.sdk.AdView;
 import com.umeng.socialize.UMShareAPI;
 import com.youdao.sdk.nativeads.NativeErrorCode;
 import com.youdao.sdk.nativeads.NativeResponse;
@@ -85,7 +81,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public static final int START = 0x01;
     public static final int END = 0x02;
     public static final int NONE = 0x03;
-    private static final int RECORD_AUDIO_TASK_CODE = 2;
     Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private StudyFragmentAdapter studyFragmentAdapter;
     private StudyMore studyMoreDialog;
@@ -138,36 +133,32 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     private Timer timer;
     private TimerTask timerTask;
     private YouDaoNative youdaoNative;
-    private AddamBanner addamBanner;
-    private AdView sspAd;
     private StudyChangeUIBroadCast studyChangeUIBroadCast;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.study);
-        context = this;
         player = ((MusicApplication) getApplication()).getPlayerService().getPlayer();
         ((MusicApplication) getApplication()).getPlayerService().startPlay(
                 StudyManager.getInstance().getCurArticle(), false);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    RECORD_AUDIO_TASK_CODE);
-        }
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.study;
+    }
+
+    @Override
+    public void afterSetLayout() {
+        super.afterSetLayout();
+        permissionDispose(PermissionPool.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         initBroadCast();
-        initWidget();
-        setListener();
-        changeUIByPara();
-        checkNetWorkState();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        changeUIResumeByPara();
         if (player.isPrepared()) {
             handler.sendEmptyMessage(0);
         }
@@ -183,12 +174,6 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     public void onDestroy() {
         if (youdaoNative != null) {
             youdaoNative.destroy();
-        }
-        if (addamBanner != null) {
-            addamBanner.unLoad();
-        }
-        if (sspAd != null) {
-            sspAd.CloseBannerCarousel();
         }
         if (timer != null) {
             timerTask.cancel();
@@ -220,6 +205,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if (INoDoubleClick.isFastDoubleClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.play_mode:
                 int nextMusicType = ConfigManager.getInstance().getStudyPlayMode();
@@ -285,9 +273,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 showNoNetDialog();
                 return false;
             } else if (!NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G_3G)) {
-                CustomSnackBar.make(root, context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new View.OnClickListener() {
+                CustomSnackBar.make(root, context.getString(R.string.net_speed_slow)).warning(context.getString(R.string.net_set), new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         Intent intent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(intent);
                     }
@@ -312,16 +300,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 viewPager.setCurrentItem(2);
                                 materialDialog.dismiss();
                             }
                         });
-                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                        materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 finish();
                             }
                         });
@@ -331,9 +319,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
             if (!findFileFlg) {
-                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         finish();
                     }
                 });
@@ -343,16 +331,16 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
             if (packageFile.exists() && packageFile.list() != null) {
                 for (String fileName : packageFile.list()) {
                     if (fileName.startsWith(String.valueOf(StudyManager.getInstance().getCurArticle().getId()))) {
-                        materialDialog.setPositiveButton(R.string.net_study_lrc, new View.OnClickListener() {
+                        materialDialog.setPositiveButton(R.string.net_study_lrc, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 viewPager.setCurrentItem(2);
                                 materialDialog.dismiss();
                             }
                         });
-                        materialDialog.setNegativeButton(R.string.app_know, new View.OnClickListener() {
+                        materialDialog.setNegativeButton(R.string.app_know, new INoDoubleClick() {
                             @Override
-                            public void onClick(View view) {
+                            public void activeClick(View view) {
                                 finish();
                             }
                         });
@@ -362,9 +350,9 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
             if (!findFileFlg) {
-                materialDialog.setPositiveButton(R.string.app_know, new View.OnClickListener() {
+                materialDialog.setPositiveButton(R.string.app_know, new INoDoubleClick() {
                     @Override
-                    public void onClick(View view) {
+                    public void activeClick(View view) {
                         finish();
                     }
                 });
@@ -380,7 +368,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         root = findViewById(R.id.root);
         adRoot = findViewById(R.id.ad_stub);
@@ -410,62 +398,37 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void setAdType(AdEntity adEntity) {
         adRoot.removeAllViews();
-        if (addamBanner != null) {
-            addamBanner.unLoad();
-            addamBanner = null;
-        }
         if (youdaoNative != null) {
             youdaoNative.destroy();
             youdaoNative = null;
         }
-        if (sspAd != null) {
-            sspAd.CloseBannerCarousel();
-        }
         switch (adEntity.getType()) {
-            case "addam":
-                adView = LayoutInflater.from(context).inflate(R.layout.addam_ad_layout, null);
-                adRoot.addView(adView);
-                addamBanner = (AddamBanner) adView.findViewById(R.id.addam_ad_banner);
-                addamBanner.setAdUnitID("a01c1754adf58704df15e929dc63b4ce");
-                addamBanner.setAdSize(AddamBanner.Size.BannerAuto);
-                addamBanner.load(); // 开始加载
-                break;
-            case "ssp":
-                AdView.preLoad(this);
-                AdView sspAd = new AdView(this, AdSize.Banner, "sb6458f4");
-                adRoot.addView(sspAd, new RelativeLayout.LayoutParams(-1, -2));
-                break;
             default:
             case "youdao":
                 adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
                 adRoot.addView(adView);
-                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                photoImage = adView.findViewById(R.id.photoImage);
                 initYouDaoAd();
                 break;
             case "web":
                 adView = LayoutInflater.from(context).inflate(R.layout.youdao_ad_layout, null);
                 adRoot.addView(adView);
-                photoImage = (ImageView) adView.findViewById(R.id.photoImage);
+                photoImage = adView.findViewById(R.id.photoImage);
                 refreshNativeAd(adEntity);
                 break;
         }
     }
 
     private void getAdContent(final IOperationResult iOperationResult) {
-        StudyAdRequest.exeRequest(StudyAdRequest.generateUrl(), new IProtocolResponse<AdEntity>() {
+        RequestClient.requestAsync(new StudyAdRequest(), new SimpleRequestCallBack<AdEntity>() {
             @Override
-            public void onNetError(String msg) {
-                initYouDaoAd();
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                initYouDaoAd();
-            }
-
-            @Override
-            public void response(AdEntity adEntity) {
+            public void onSuccess(AdEntity adEntity) {
                 iOperationResult.success(adEntity);
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+
             }
         });
     }
@@ -492,15 +455,14 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
 
     private void refreshNativeAd(final AdEntity adEntity) {
         if (!isDestroyed()) {
-            adView.setOnClickListener(new View.OnClickListener() {
+            adView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     WelcomeAdWebView.launch(context, TextUtils.isEmpty(adEntity.getLoadUrl()) ?
                             "http://app.iyuba.cn/android/" : adEntity.getLoadUrl(), -1);
                 }
             });
-            Glide.with(context).load(adEntity.getPicUrl()).animate(R.anim.fade_in).centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoImage);
+            AppImageUtil.loadImage(adEntity.getPicUrl(), photoImage);
         }
     }
 
@@ -509,20 +471,20 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
                 new YouDaoNative.YouDaoNativeNetworkListener() {
                     @Override
                     public void onNativeLoad(final NativeResponse nativeResponse) {
-                        adView.setOnClickListener(new View.OnClickListener() {
+                        adView.setOnClickListener(new INoDoubleClick() {
                             @Override
-                            public void onClick(View v) {
+                            public void activeClick(View view) {
                                 nativeResponse.handleClick(adView);
                             }
                         });
-                        ImageUtil.loadImage(photoImage, nativeResponse.getMainImageUrl(), 0, new ImageUtil.OnDrawableLoadListener() {
+                        ImageUtil.loadImage(nativeResponse.getMainImageUrl(), photoImage, null, new ImageUtil.OnBitmapLoaded() {
                             @Override
-                            public void onSuccess(GlideDrawable drawable) {
+                            public void onImageLoaded(Bitmap bitmap) {
                                 nativeResponse.recordImpression(photoImage);
                             }
 
                             @Override
-                            public void onFail(Exception e) {
+                            public void onImageLoadFailed() {
 
                             }
                         });
@@ -544,7 +506,7 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
         ((MusicApplication) getApplication()).getPlayerService().setListener(iPlayerListener);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -604,8 +566,8 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         if (StudyManager.getInstance().getCurArticle() == null)
             return;
         if (((MusicApplication) getApplication()).getPlayerService().getCurArticleId() == StudyManager.getInstance().getCurArticle().getId()) {
@@ -615,9 +577,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
         } else {
             ((MusicApplication) getApplication()).getPlayerService().setCurArticleId(StudyManager.getInstance().getCurArticle().getId());
         }
+        checkNetWorkState();
     }
 
-    protected void changeUIResumeByPara() {
+    @Override
+    public void onActivityResumed() {
         setPlayModeImage(ConfigManager.getInstance().getStudyPlayMode());
         switch (StudyManager.getInstance().getMusicType()) {
             case 0:
@@ -643,22 +607,11 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RECORD_AUDIO_TASK_CODE && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            final MyMaterialDialog materialDialog = new MyMaterialDialog(context);
-            materialDialog.setTitle(R.string.storage_permission);
-            materialDialog.setMessage(R.string.storage_permission_content);
-            materialDialog.setPositiveButton(R.string.app_sure, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityCompat.requestPermissions(StudyActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            RECORD_AUDIO_TASK_CODE);
-                    materialDialog.dismiss();
-                }
-            });
-            materialDialog.show();
-        }
+    public void onAccreditFailure(int requestCode) {
+        super.onAccreditFailure(requestCode);
+        onRequestPermissionDenied(context.getString(R.string.storage_permission_content),
+                new int[]{PermissionPool.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     private void startPlay() {
@@ -819,24 +772,19 @@ public class StudyActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void getCommentCount() {
-        CommentCountRequest.exeRequest(CommentCountRequest.generateUrl(StudyManager.getInstance().getCurArticle().getId()), new IProtocolResponse<String>() {
+        RequestClient.requestAsync(new CommentCountRequest(StudyManager.getInstance().getCurArticle().getId()), new SimpleRequestCallBack<String>() {
             @Override
-            public void onNetError(String msg) {
-                comment.setText("0");
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                comment.setText("0");
-            }
-
-            @Override
-            public void response(String result) {
-                if (TextUtils.isEmpty(result)) {
+            public void onSuccess(String s) {
+                if (TextUtils.isEmpty(s)) {
                     comment.setText("0");
                 } else {
-                    comment.setText(result);
+                    comment.setText(s);
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                comment.setText("0");
             }
         });
     }

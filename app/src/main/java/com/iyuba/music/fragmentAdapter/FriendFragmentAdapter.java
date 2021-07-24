@@ -2,20 +2,19 @@ package com.iyuba.music.fragmentAdapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import com.iyuba.music.fragment.BaseFragment;
-import com.iyuba.music.fragment.FanFragment;
-import com.iyuba.music.fragment.FollowFragment;
-import com.iyuba.music.fragment.RecommendFragment;
+import com.iyuba.music.fragment.FriendFragment;
+import com.iyuba.music.request.merequest.FriendRequest;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/11/9.
  */
-public class FriendFragmentAdapter extends FragmentPagerAdapter {
+public class FriendFragmentAdapter extends FragmentStatePagerAdapter {
     public FragmentManager fm;
     public ArrayList<BaseFragment> list;
 
@@ -23,9 +22,9 @@ public class FriendFragmentAdapter extends FragmentPagerAdapter {
         super(fm);
         this.fm = fm;
         this.list = new ArrayList<>(3);
-        list.add(new FollowFragment());
-        list.add(new FanFragment());
-        list.add(new RecommendFragment());
+        list.add(FriendFragment.newInstance(FriendRequest.FOLLOW_REQUEST_CODE));
+        list.add(FriendFragment.newInstance(FriendRequest.FAN_REQUEST_CODE));
+        list.add(FriendFragment.newInstance(FriendRequest.RECOMMEND_REQUEST_CODE));
     }
 
     @Override

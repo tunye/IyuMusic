@@ -8,30 +8,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.view.CustomToast;
+import com.buaa.ct.core.view.image.DividerItemDecoration;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.adapter.discover.WordExpandableAdapter;
 import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
+import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.word.PersonalWordOp;
 import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.discoverrequest.DictSynchroRequest;
 import com.iyuba.music.request.discoverrequest.DictUpdateRequest;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
-import com.iyuba.music.widget.recycleview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/12/2.
@@ -41,26 +47,26 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private TextView wordEdit, wordSet, wordStatistic;
     private RecyclerView wordList;
     private WordExpandableAdapter wordExpandableAdapter;
-    private ArrayList<Word> wordArrayList;
-    private ArrayList<WordParent> wordParents;
-    private ArrayList<Word> deleteList;
+    private List<Word> wordArrayList;
+    private List<WordParent> wordParents;
+    private List<Word> deleteList;
     private IyubaDialog waitingDialog;
     private boolean deleteMode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.word_list);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         wordParents = new ArrayList<>();
         wordArrayList = new ArrayList<>();
-        deleteMode = false;
-        initWidget();
-        setListener();
-        changeUIByPara();
     }
 
     @Override
-    protected void initWidget() {
+    public int getLayoutId() {
+        return R.layout.word_list;
+    }
+
+    @Override
+    public void initWidget() {
         super.initWidget();
         statusBar = findViewById(R.id.statusbar);
         wordList = findViewById(R.id.wordlist);
@@ -74,11 +80,11 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (deleteMode) {
                     deleteList = wordExpandableAdapter.getTryTodeleteList();
                     PersonalWordOp personalWordOp = new PersonalWordOp();
@@ -109,39 +115,33 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                 }
             }
         });
-        wordEdit.setOnClickListener(new View.OnClickListener() {
+        wordEdit.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 normalToDelete();
                 buildDeleteAdapter();
             }
         });
-        wordSet.setOnClickListener(new View.OnClickListener() {
+        wordSet.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 startActivity(new Intent(context, WordSetActivity.class));
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         wordStatistic.setText(context.getString(R.string.word_statistic, wordArrayList.size()));
-        toolbarOper.setText(R.string.word_synchro);
+        enableToolbarOper(R.string.word_synchro);
         title.setText(R.string.word_list_title);
     }
 
-    protected void changeUIResumeByPara() {
+    public void onActivityResumed() {
         getDataList();
         buildAdapter();
         wordStatistic.setText(context.getString(R.string.word_statistic, wordArrayList.size()));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        changeUIResumeByPara();
     }
 
     @Override
@@ -200,13 +200,13 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
     private void deleteToNormal() {
         deleteMode = false;
         buildAdapter();
-        toolbarOper.setText(R.string.word_synchro);
+        enableToolbarOper(R.string.word_synchro);
         statusBar.setVisibility(View.VISIBLE);
     }
 
     private void normalToDelete() {
         deleteMode = true;
-        toolbarOper.setText(R.string.app_del);
+        enableToolbarOper(R.string.app_del);
         statusBar.setVisibility(View.GONE);
     }
 
@@ -249,38 +249,25 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void synchroFromNet(final int page) {
         waitingDialog.show();
-        DictSynchroRequest.getInstance().exeRequest(DictSynchroRequest.getInstance().generateUrl(
-                AccountManager.getInstance().getUserId(), page), new IProtocolResponse<ArrayList<Word>>() {
+        RequestClient.requestAsync(new DictSynchroRequest(AccountManager.getInstance().getUserId(), page), new SimpleRequestCallBack<BaseListEntity<List<Word>>>() {
             @Override
-            public void onNetError(String msg) {
-                CustomToast.getInstance().showToast(msg);
+            public void onSuccess(final BaseListEntity<List<Word>> baseListEntity) {
                 waitingDialog.dismiss();
-            }
-
-            @Override
-            public void onServerError(String msg) {
-                CustomToast.getInstance().showToast(msg);
-                waitingDialog.dismiss();
-            }
-
-            @Override
-            public void response(ArrayList<Word> result) {
-                waitingDialog.dismiss();
-                wordArrayList.addAll(result);
-                if (DictSynchroRequest.getInstance().getTotalPage() != DictSynchroRequest.getInstance().getCurrentPage()) {
+                wordArrayList.addAll(baseListEntity.getData());
+                if (!baseListEntity.isLastPage()) {
                     final MyMaterialDialog dialog = new MyMaterialDialog(context);
                     dialog.setTitle(R.string.word_list_title);
-                    dialog.setMessage(context.getString(R.string.word_synchro_finish, wordArrayList.size(), DictSynchroRequest.getInstance().getCounts() - wordArrayList.size()));
-                    dialog.setPositiveButton(R.string.word_synchro_continue, new View.OnClickListener() {
+                    dialog.setMessage(context.getString(R.string.word_synchro_finish, wordArrayList.size(), baseListEntity.getTotalCount() - wordArrayList.size()));
+                    dialog.setPositiveButton(R.string.word_synchro_continue, new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
-                            synchroFromNet(DictSynchroRequest.getInstance().getCurrentPage() + 1);
+                        public void activeClick(View view) {
+                            synchroFromNet(baseListEntity.getCurPage() + 1);
                             dialog.dismiss();
                         }
                     });
-                    dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+                    dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void activeClick(View view) {
                             saveData();
                             dialog.dismiss();
                         }
@@ -290,6 +277,12 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
                     CustomToast.getInstance().showToast(R.string.word_synchro_final);
                     saveData();
                 }
+            }
+
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                waitingDialog.dismiss();
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
             }
         });
     }
@@ -317,22 +310,16 @@ public class WordListActivity extends BaseActivity implements ExpandableRecycler
 
     private void synchroYun(final String keyword) {
         final String userid = AccountManager.getInstance().getUserId();
-        DictUpdateRequest.exeRequest(DictUpdateRequest.generateUrl(userid, "delete", keyword),
-                new IProtocolResponse<Integer>() {
-                    @Override
-                    public void onNetError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
+        RequestClient.requestAsync(new DictUpdateRequest(userid, "delete", keyword), new SimpleRequestCallBack<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                new PersonalWordOp().deleteWord(userid);
+            }
 
-                    @Override
-                    public void onServerError(String msg) {
-                        CustomToast.getInstance().showToast(msg);
-                    }
-
-                    @Override
-                    public void response(Integer resultCode) {
-                        new PersonalWordOp().deleteWord(userid);
-                    }
-                });
+            @Override
+            public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+            }
+        });
     }
 }

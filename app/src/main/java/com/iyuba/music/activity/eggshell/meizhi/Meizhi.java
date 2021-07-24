@@ -1,21 +1,22 @@
 package com.iyuba.music.activity.eggshell.meizhi;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Created by 10202 on 2016/4/7.
  */
 public class Meizhi {
 
-    @SerializedName("_id")
+    @JSONField(name = "_id")
     private String id;
-    @SerializedName("who")
+    @JSONField(name = "who")
     private String author;
-    @SerializedName("publishedAt")
+    @JSONField(name = "publishedAt")
     private String createDate;
-    @SerializedName("desc")
+    @JSONField(name = "desc")
     private String desc;
-    @SerializedName("url")
+    @JSONField(name = "url")
     private String url;
 
     public String getId() {

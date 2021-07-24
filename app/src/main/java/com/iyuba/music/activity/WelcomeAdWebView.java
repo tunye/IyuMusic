@@ -22,8 +22,8 @@ public class WelcomeAdWebView extends WebViewActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void beforeSetLayout(Bundle savedInstanceState) {
+        super.beforeSetLayout(savedInstanceState);
         nextActivity = getIntent().getIntExtra(NEXT_ACTIVITY, 0);
     }
 

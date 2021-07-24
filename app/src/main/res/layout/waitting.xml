@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<com.iyuba.music.widget.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:rv_backgroundColor="#43000000"
+    app:rv_cornerRadius="@dimen/row_space_large">
 
-    <com.wang.avi.AVLoadingIndicatorView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/waitting_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,12 +19,10 @@
 
     <TextView
         android:id="@+id/waitting_text"
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/row_space_default"
-        android:background="#88000000"
-        android:padding="@dimen/row_space_medium"
+        android:gravity="center_horizontal"
         android:textColor="#dcdcdc"
+        android:padding="@dimen/row_space_large"
         android:textSize="@dimen/large_text" />
-</LinearLayout>
+</com.iyuba.music.widget.roundview.RoundLinearLayout>

@@ -2,8 +2,8 @@ package com.iyuba.music.entity.comment;
 
 import android.database.Cursor;
 
-import com.iyuba.music.entity.BaseEntityOp;
-
+import com.buaa.ct.core.bean.BaseEntityOp;
+import com.iyuba.music.sqlite.ImportDatabase;
 
 public class CommentAgreeOp extends BaseEntityOp {
 
@@ -14,6 +14,11 @@ public class CommentAgreeOp extends BaseEntityOp {
 
     public CommentAgreeOp() {
         super();
+    }
+
+    @Override
+    public void getDatabase() {
+        db = ImportDatabase.getInstance().getWritableDatabase();
     }
 
     public int findDataByAll(String commentid, String uid) {

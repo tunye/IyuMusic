@@ -1,30 +1,28 @@
 package com.iyuba.music.widget.dialog;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
+import com.buaa.ct.core.manager.ImmersiveManager;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.ImmersiveManager;
 
 
 public class IyubaDialog extends AppCompatDialog {
     public static int styleId = R.style.MyDialogTheme;
     private Context context;
     private View contentView;
-    private View view;
+    private FrameLayout backView, containerView;
     private AnimationListener animationListener = new AnimationListener() {
 
         @Override
@@ -37,7 +35,7 @@ public class IyubaDialog extends AppCompatDialog {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            view.post(new Runnable() {
+            contentView.post(new Runnable() {
                 @Override
                 public void run() {
                     IyubaDialog.super.dismiss();
@@ -45,74 +43,61 @@ public class IyubaDialog extends AppCompatDialog {
             });
         }
     };
-    private LinearLayout backView;
+
     private boolean cancelOutSide;
+    private int gravity;
     private OnDismissListener listener;
-    private int marginDimension;
 
     public IyubaDialog(Context context, View v) {
-        super(context, styleId);
-        this.context = context;// init Context
-        this.contentView = v;
-        cancelOutSide = true;
-        marginDimension = 10;
+        this(context, v, true);
     }
 
     public IyubaDialog(Context context, View v, boolean cancel) {
-        super(context, styleId);
-        this.context = context;// init Context
-        this.contentView = v;
-        this.cancelOutSide = cancel;
-        marginDimension = 10;
+        this(context, v, cancel, Gravity.CENTER);
     }
 
-    public IyubaDialog(Context context, View v, boolean cancel, int marginDimension) {
-        super(context, styleId);
-        this.context = context;// init Context
-        this.contentView = v;
-        this.cancelOutSide = cancel;
-        this.marginDimension = marginDimension;
+    public IyubaDialog(Context context, View v, boolean cancel, int gravity) {
+        this(context, v, cancel, gravity, null);
     }
 
-    public IyubaDialog(Context context, View v, boolean cancel, int marginDimension, OnDismissListener dismissListener) {
+    public IyubaDialog(Context context, View v, boolean cancel, int gravity, OnDismissListener dismissListener) {
         super(context, styleId);
         this.context = context;// init Context
         this.contentView = v;
         this.cancelOutSide = cancel;
+        this.gravity = gravity;
         this.listener = dismissListener;
-        this.marginDimension = marginDimension;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        if (window!=null) {
+        if (window != null) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(R.layout.dialog);
-        view = findViewById(R.id.contentDialog);
         backView = findViewById(R.id.dialog_rootView);
+        containerView = findViewById(R.id.dialog_content);
         if (cancelOutSide) {
             backView.setOnTouchListener(new OnTouchListener() {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getX() < view.getLeft()
-                            || event.getX() > view.getRight()
-                            || event.getY() > view.getBottom()
-                            || event.getY() < view.getTop()) {
-                        dismiss();
+                    if (event.getX() < contentView.getLeft()
+                            || event.getX() > contentView.getRight()
+                            || event.getY() > contentView.getBottom()
+                            || event.getY() < contentView.getTop()) {
+                        dismissAnim();
                     }
                     return false;
                 }
             });
         }
-        backView.removeAllViewsInLayout();
-        backView.addView(contentView, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        view = contentView;
-        backView.setPadding(RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension), RuntimeManager.getInstance().dip2px(marginDimension));
+        containerView.addView(contentView);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) containerView.getLayoutParams();
+        layoutParams.gravity = gravity;
+        containerView.setLayoutParams(layoutParams);
         if (listener != null) {
             this.setOnDismissListener(listener);
         }
@@ -121,7 +106,7 @@ public class IyubaDialog extends AppCompatDialog {
     @Override
     public void show() {
         super.show();
-        view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
+        contentView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
         ImmersiveManager.getInstance().updateImmersiveStatus(this);
     }
 
@@ -134,7 +119,7 @@ public class IyubaDialog extends AppCompatDialog {
     void dismissAnim() {
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.dialog_main_hide_amination);
         anim.setAnimationListener(animationListener);
-        view.startAnimation(anim);
+        contentView.startAnimation(anim);
     }
 
     void dismissAnim(int animStyle) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
 import com.iyuba.music.widget.dialog.MyMaterialDialog;
 
 /**
@@ -21,17 +22,17 @@ public class NetStateChangeBroadCastReceiver extends BroadcastReceiver {
         final MyMaterialDialog mMaterialDialog = new MyMaterialDialog(context);
         mMaterialDialog.setTitle("网络提示信息")
                 .setMessage(message)
-                .setPositiveButton("设置", new View.OnClickListener() {
+                .setPositiveButton("设置", new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                         Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                         context.startActivity(intent);
                     }
                 })
-                .setNegativeButton("关闭", new View.OnClickListener() {
+                .setNegativeButton("关闭", new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void activeClick(View view) {
                         mMaterialDialog.dismiss();
                     }
                 });

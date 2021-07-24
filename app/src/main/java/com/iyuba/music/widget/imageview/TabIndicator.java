@@ -15,9 +15,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.iyuba.music.R;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.util.GetAppColor;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -115,8 +116,7 @@ public class TabIndicator extends LinearLayout {
         super(context, attrs);
 
         // 获得自定义属性，tab的数量
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.TabIndicator);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TabIndicator);
         visibleTabCount = a.getInt(R.styleable.TabIndicator_tab_item_count, COUNT_DEFAULT_TAB);
         int style = a.getInt(R.styleable.TabIndicator_tab_shape, 0);
         if (style == 0) {
@@ -296,9 +296,9 @@ public class TabIndicator extends LinearLayout {
         for (int i = 0; i < cCount; i++) {
             final int j = i;
             View view = getChildAt(i);
-            view.setOnClickListener(new OnClickListener() {
+            view.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     viewPager.setCurrentItem(j);
                 }
             });
@@ -410,7 +410,7 @@ public class TabIndicator extends LinearLayout {
      * @return
      */
     public int getScreenWidth() {
-        return RuntimeManager.getInstance().getWindowWidth();
+        return RuntimeManager.getInstance().getScreenWidth();
     }
 
     @IntDef({LINE, TRIANGLE})

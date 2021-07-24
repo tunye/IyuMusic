@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -18,11 +17,11 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.listener.IOperationResultInt;
-import com.iyuba.music.manager.RuntimeManager;
-import com.iyuba.music.widget.CustomToast;
 import com.iyuba.music.widget.dialog.ContextMenu;
 
 import java.util.ArrayList;
@@ -41,12 +40,8 @@ public class WebViewActivity extends BaseActivity {
     private View progressLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.webview);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.webview;
     }
 
     @Override
@@ -74,26 +69,26 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = (TextView) findViewById(R.id.toolbar_oper);
-        web = (WebView) findViewById(R.id.webview);
+        toolbarOper = findViewById(R.id.toolbar_oper);
+        web = findViewById(R.id.webview);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // [bug:86726] android 5.0增强安全机制，不允许https http混合，加此配置解决
             web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
-        loadProgress = (ProgressBar) findViewById(R.id.load_progress);
+        loadProgress = findViewById(R.id.load_progress);
         progressLayout = findViewById(R.id.load_progress_layout);
         progressBarAnimator = new ValueAnimator().setDuration(300);
         progressBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int progress = (int) animation.getAnimatedValue();
-                loadProgress.getLayoutParams().width = (int) (progress / 100f * RuntimeManager.getInstance().getWindowWidth());
+                loadProgress.getLayoutParams().width = (int) (progress / 100f * RuntimeManager.getInstance().getScreenWidth());
                 loadProgress.requestLayout();
             }
         });
-        source = (TextView) findViewById(R.id.source);
+        source = findViewById(R.id.source);
         initContextMenu();
     }
 
@@ -121,10 +116,10 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View v) {
                 finish();
             }
         });
@@ -140,7 +135,7 @@ public class WebViewActivity extends BaseActivity {
                     public void onReceivedTitle(WebView view, String titleContent) {
                         super.onReceivedTitle(view, titleContent);
                         if (TextUtils.isEmpty(titleText))
-                            title.setText(titleContent.length() > 12 ? titleContent.substring(0, 9) + "..." : titleContent);
+                            title.setText(titleContent.length() > 15 ? titleContent.substring(0, 14) + "..." : titleContent);
                     }
                 }
         );
@@ -175,22 +170,22 @@ public class WebViewActivity extends BaseActivity {
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setDisplayZoomControls(false);
         web.getSettings().setDomStorageEnabled(true);
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 menu.show();
             }
         });
     }
 
-    protected void changeUIByPara() {
-        backIcon.setState(MaterialMenuDrawable.IconState.X);
+    public void onActivityCreated() {
+        backIcon.setBackgroundResource(R.drawable.close);
         url = getIntent().getStringExtra("url");
         titleText = getIntent().getStringExtra("title");
-        source.setText(context.getString(R.string.webview_source, hideMessage(url)));
+        source.setText(context.getString(R.string.webview_source, Uri.parse(url).getHost()));
         web.loadUrl(url);
         title.setText(titleText);
-        toolbarOper.setText(R.string.app_more);
+        enableToolbarOper(R.string.app_more);
         loadProgress.setMax(100);
         loadProgress.setProgress(0);
     }
@@ -199,14 +194,6 @@ public class WebViewActivity extends BaseActivity {
     public void onDestroy() {
         web.destroy();
         super.onDestroy();
-    }
-
-    private String hideMessage(String url) {
-        if (url.contains("?")) {
-            return url.substring(url.indexOf("://") + 3, url.indexOf("?"));
-        } else {
-            return url.substring(url.indexOf("://") + 3);
-        }
     }
 
     private void startProgressBarAnim(int newProgress) {

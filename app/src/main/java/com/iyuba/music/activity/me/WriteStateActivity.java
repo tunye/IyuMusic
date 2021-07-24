@@ -3,25 +3,26 @@ package com.iyuba.music.activity.me;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
-import com.buaa.ct.comment.ContextManager;
 import com.buaa.ct.comment.EmojiView;
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
-import com.iyuba.music.listener.IProtocolResponse;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.merequest.WriteStateRequest;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.IyubaDialog;
 import com.iyuba.music.widget.dialog.WaitingDialog;
@@ -32,50 +33,43 @@ import com.rengwuxian.materialedittext.MaterialEditText;
  * Created by 10202 on 2015/11/20.
  */
 public class WriteStateActivity extends BaseActivity {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText content;
     private IyubaDialog waitingDialog;
     private EmojiView emojiView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ContextManager.setInstance(this);//评论模块初始化
-        setContentView(R.layout.write_state);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.write_state;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
-        toolbarOper = findViewById(R.id.toolbar_oper);
         content = findViewById(R.id.feedback_content);
         emojiView = findViewById(R.id.emoji);
         waitingDialog = WaitingDialog.create(context, context.getString(R.string.state_on_way));
     }
 
     @Override
-    protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
+    public void setListener() {
+        back.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 finish();
             }
         });
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 submit();
             }
         });
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.state_send);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.state_send);
         title.setText(R.string.state_title);
         emojiView.setmEtText(content);
     }
@@ -91,29 +85,39 @@ public class WriteStateActivity extends BaseActivity {
             imm.hideSoftInputFromWindow(content.getWindowToken(), 0);
             waitingDialog.show();
             String uid = AccountManager.getInstance().getUserId();
-            WriteStateRequest.exeRequest(WriteStateRequest.generateUrl(uid, AccountManager.getInstance().getUserInfo().getUsername(),
-                    content.getEditableText().toString()), new IProtocolResponse<String>() {
+            RequestClient.requestAsync(new WriteStateRequest(uid, AccountManager.getInstance().getUserInfo().getUsername(), content.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                 @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    handler.sendEmptyMessage(1);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                    handler.sendEmptyMessage(1);
-                }
-
-                @Override
-                public void response(String result) {
-                    handler.sendEmptyMessage(1);
-                    if ("351".equals(result)) {
+                public void onSuccess(BaseApiEntity<String> result) {
+                    waitingDialog.dismiss();
+                    if (BaseApiEntity.isSuccess(result)) {
                         AccountManager.getInstance().getUserInfo().setText(content.getEditableText().toString());
-                        handler.sendEmptyMessage(0);
+                        YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                CustomToast.getInstance().showToast(R.string.state_modify_success);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent();
+                                        setResult(1, intent);
+                                        WriteStateActivity.this.finish();
+                                    }
+                                }, 300);
+                            }
+                        }).playOn(content);
                     } else {
                         CustomToast.getInstance().showToast(R.string.state_modify_fail);
                     }
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                    waitingDialog.dismiss();
                 }
             });
         }
@@ -123,41 +127,6 @@ public class WriteStateActivity extends BaseActivity {
     public void onBackPressed() {
         if (emojiView.onBackPressed()) {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ContextManager.destory();
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<WriteStateActivity> {
-        @Override
-        public void handleMessageByRef(final WriteStateActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
-                    YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            CustomToast.getInstance().showToast(R.string.state_modify_success);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            activity.handler.sendEmptyMessageDelayed(2, 300);
-                        }
-                    }).playOn(activity.content);
-                    break;
-                case 1:
-                    activity.waitingDialog.dismiss();
-                    break;
-                case 2:
-                    Intent intent = new Intent();
-                    activity.setResult(1, intent);
-                    activity.finish();
-                    break;
-            }
         }
     }
 }

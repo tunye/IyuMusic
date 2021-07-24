@@ -7,21 +7,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.listener.OnRecycleViewItemClickListener;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
-import com.iyuba.music.listener.OnRecycleViewItemClickListener;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 10202 on 2015/10/10.
  */
 public class MenuAdapter extends BaseAdapter {
-    private ArrayList<String> menuList;
+    private List<String> menuList;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
     private Context context;
 
-    public MenuAdapter(Context context, ArrayList<String> menuList) {
+    public MenuAdapter(Context context, List<String> menuList) {
         this.context = context;
         this.menuList = menuList;
     }
@@ -60,10 +62,10 @@ public class MenuAdapter extends BaseAdapter {
             holder.menuText = convertView.findViewById(R.id.menu_text);
             holder.rippleView = convertView.findViewById(R.id.menu_ripple);
             if (onRecycleViewItemClickListener != null) {
-                holder.rippleView.setOnClickListener(new View.OnClickListener() {
+                holder.rippleView.setOnClickListener(new INoDoubleClick() {
                     @Override
-                    public void onClick(View v) {
-                        onRecycleViewItemClickListener.onItemClick(v, position);
+                    public void activeClick(View view) {
+                        onRecycleViewItemClickListener.onItemClick(view, position);
                     }
                 });
             }

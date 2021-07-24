@@ -2,24 +2,26 @@ package com.iyuba.music.activity.study;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
+import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.listener.IOperationFinish;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.request.apprequest.RecommendSongRequest;
-import com.iyuba.music.util.WeakReferenceHandler;
-import com.iyuba.music.widget.CustomToast;
+import com.iyuba.music.util.Utils;
 import com.iyuba.music.widget.animator.SimpleAnimatorListener;
 import com.iyuba.music.widget.dialog.CustomDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -29,21 +31,16 @@ import com.rengwuxian.materialedittext.MaterialEditText;
  * Created by 10202 on 2015/11/20.
  */
 public class RecommendSongActivity extends BaseActivity {
-    Handler handler = new WeakReferenceHandler<>(this, new HandlerMessageByRef());
     private MaterialEditText recommendTitle, recommendSinger;
     private View mainContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.recommend_song);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.recommend_song;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
         toolbarOper = findViewById(R.id.toolbar_oper);
         mainContent = findViewById(R.id.recommend_main);
@@ -52,11 +49,11 @@ public class RecommendSongActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
-        toolbarOper.setOnClickListener(new View.OnClickListener() {
+        toolbarOper.setOnClickListener(new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 if (AccountManager.getInstance().checkUserLogin()) {
                     submit();
                 } else {
@@ -72,9 +69,9 @@ public class RecommendSongActivity extends BaseActivity {
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
-        toolbarOper.setText(R.string.app_submit);
+    public void onActivityCreated() {
+        super.onActivityCreated();
+        enableToolbarOper(R.string.app_submit);
         title.setText(R.string.study_recommend_title);
     }
 
@@ -90,35 +87,10 @@ public class RecommendSongActivity extends BaseActivity {
             }
             CustomToast.getInstance().showToast(R.string.study_recommend_on_way);
             String uid = AccountManager.getInstance().getUserId();
-            RecommendSongRequest.exeRequest(RecommendSongRequest.generateUrl(uid, recommendTitle.getEditableText().toString()
-                    , recommendSinger.getEditableText().toString()), new IProtocolResponse<String>() {
+            RequestClient.requestAsync(new RecommendSongRequest(uid, recommendTitle.getEditableText().toString(),
+                    recommendSinger.getEditableText().toString()), new SimpleRequestCallBack<BaseApiEntity<String>>() {
                 @Override
-                public void onNetError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void onServerError(String msg) {
-                    CustomToast.getInstance().showToast(msg);
-                }
-
-                @Override
-                public void response(String result) {
-                    if ("1".equals(result)) {
-                        handler.sendEmptyMessage(0);
-                    } else {
-                        CustomToast.getInstance().showToast(R.string.study_recommend_fail);
-                    }
-                }
-            });
-        }
-    }
-
-    private static class HandlerMessageByRef implements WeakReferenceHandler.IHandlerMessageByRef<RecommendSongActivity> {
-        @Override
-        public void handleMessageByRef(final RecommendSongActivity activity, Message msg) {
-            switch (msg.what) {
-                case 0:
+                public void onSuccess(BaseApiEntity<String> s) {
                     YoYo.with(Techniques.ZoomOutUp).interpolate(new AccelerateDecelerateInterpolator()).duration(1200).withListener(new SimpleAnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -127,14 +99,21 @@ public class RecommendSongActivity extends BaseActivity {
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            activity.handler.sendEmptyMessageDelayed(2, 300);
+                            ThreadUtils.postOnUiThreadDelay(new Runnable() {
+                                @Override
+                                public void run() {
+                                    RecommendSongActivity.this.finish();
+                                }
+                            }, 300);
                         }
-                    }).playOn(activity.mainContent);
-                    break;
-                case 2:
-                    activity.finish();
-                    break;
-            }
+                    }).playOn(mainContent);
+                }
+
+                @Override
+                public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                    CustomToast.getInstance().showToast(Utils.getRequestErrorMeg(errorInfoWrapper));
+                }
+            });
         }
     }
 }

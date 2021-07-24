@@ -1,7 +1,5 @@
 package com.iyuba.music.activity;
 
-import android.os.Bundle;
-
 import com.iyuba.music.R;
 
 /**
@@ -9,27 +7,23 @@ import com.iyuba.music.R;
  */
 public class TestActivity extends BaseActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.test);
-        initWidget();
-        setListener();
-        changeUIByPara();
+    public int getLayoutId() {
+        return R.layout.test;
     }
 
     @Override
-    protected void initWidget() {
+    public void initWidget() {
         super.initWidget();
     }
 
     @Override
-    protected void setListener() {
+    public void setListener() {
         super.setListener();
     }
 
     @Override
-    protected void changeUIByPara() {
-        super.changeUIByPara();
+    public void onActivityCreated() {
+        super.onActivityCreated();
         title.setText(R.string.app_name);
     }
 }

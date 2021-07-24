@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.iyuba.music.widget.view.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background">
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_oper" />
+            layout="@layout/toolbar" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/feedback_content"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:layout_below="@+id/toolbar"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/row_space_medium"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="top"
             android:hint="@string/state_hint"
             android:textColorHint="@color/text_gray_color"
@@ -30,11 +29,11 @@
             app:met_hideUnderline="true"
             app:met_maxCharacters="60"
             app:met_primaryColor="@color/skin_app_color" />
+    </LinearLayout>
 
-        <com.buaa.ct.comment.EmojiView
-            android:id="@+id/emoji"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
-</com.iyuba.music.widget.view.ImmersiveInsertFrameLayout>
+    <com.buaa.ct.comment.EmojiView
+        android:id="@+id/emoji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+</com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout>

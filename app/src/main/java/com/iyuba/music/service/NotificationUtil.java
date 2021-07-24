@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import com.buaa.ct.core.manager.RuntimeManager;
+import com.buaa.ct.core.util.GetAppColor;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.iyuba.music.R;
@@ -20,9 +22,7 @@ import com.iyuba.music.activity.MainActivity;
 import com.iyuba.music.activity.study.StudyActivity;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.local_music.LocalMusicActivity;
-import com.iyuba.music.manager.RuntimeManager;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.util.GetAppColor;
 import com.iyuba.music.widget.bitmap.BitmapUtils;
 
 import java.util.LinkedList;
@@ -32,7 +32,7 @@ import static android.support.v4.app.NotificationCompat.VISIBILITY_SECRET;
 public class NotificationUtil {
     public static final String PAUSE_FLAG = "pause_flag";
     public static final String PLAY_FLAG = "play_flag";
-    static final int NOTIFICATION_ID = 209;
+    static final int NOTIFICATION_ID = 209001;
     private Notification notification;
     private NotificationManager notificationManager;
     private int notificationTextColor;
@@ -41,7 +41,7 @@ public class NotificationUtil {
         notificationTextColor = isDarkNotificationTheme() ? 0xffcdcdcd : 0xff4c4c4c;
         notificationManager = (NotificationManager) RuntimeManager.getInstance().getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), RuntimeManager.getInstance().getContext().getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(RuntimeManager.getInstance().getContext().getPackageName(), "播放通知", NotificationManager.IMPORTANCE_MIN);
             //闪光灯
             channel.enableLights(true);
             //锁屏显示通知
@@ -49,13 +49,15 @@ public class NotificationUtil {
             //闪关灯的灯光颜色
             channel.setLightColor(Color.GREEN);
             //桌面launcher的消息角标
-            channel.setShowBadge(true);
+            channel.setShowBadge(false);
             //是否允许震动
             channel.enableVibration(true);
             //设置震动模式
             channel.setVibrationPattern(new long[]{100, 100, 200});
             //设置可绕过  请勿打扰模式
             channel.setBypassDnd(true);
+            //无通知音
+            channel.setSound(null, null);
             notificationManager.createNotificationChannel(channel);
         }
     }
@@ -102,6 +104,7 @@ public class NotificationUtil {
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
         notificationBuilder.setContent(contentView);
         notificationBuilder.setLargeIcon(BitmapUtils.readBitmap(RuntimeManager.getInstance().getContext(), R.drawable.ic_launcher_circle));
+        notificationBuilder.setOngoing(true);
         notificationBuilder.setAutoCancel(false);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -109,7 +112,9 @@ public class NotificationUtil {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setCustomBigContentView(contentView);
         notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
-        return notificationBuilder.build();
+        notificationBuilder.setOnlyAlertOnce(true);
+        notification = notificationBuilder.build();
+        return notification;
     }
 
     void updateNotification(String imgUrl) {
@@ -122,13 +127,8 @@ public class NotificationUtil {
             intent = new Intent(context, StudyActivity.class);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
-        contentView.setOnClickPendingIntent(R.id.notify_close, receiveCloseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_latter, receiveNextIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_play, receivePauseIntent());
-        contentView.setOnClickPendingIntent(R.id.notify_formmer, receiveBeforeIntent());
+        notification.contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        RemoteViews contentView = notification.bigContentView;
         contentView.setImageViewResource(R.id.notify_play, R.drawable.pause);
         switch (StudyManager.getInstance().getApp()) {
             case "209":
@@ -151,23 +151,9 @@ public class NotificationUtil {
         }
         contentView.setImageViewResource(R.id.notify_img, R.drawable.default_music);
         setTextViewColor(contentView);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-        notificationBuilder.setContentTitle(context.getString(R.string.app_name));
-        notificationBuilder.setContentText(curArticle.getTitle());
-        notificationBuilder.setPriority(Notification.PRIORITY_MAX);
-        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_circle);
-        notificationBuilder.setContent(contentView);
-        notificationBuilder.setLargeIcon(BitmapUtils.readBitmap(RuntimeManager.getInstance().getContext(), R.drawable.ic_launcher_circle));
-        notificationBuilder.setOngoing(true);
-        notificationBuilder.setAutoCancel(false);
-        notificationBuilder.setContentIntent(pendingIntent);
-        notificationBuilder.setCustomBigContentView(contentView);
-        notificationBuilder.setColor(GetAppColor.getInstance().getAppColor());
-        notification = notificationBuilder.build();
         if (!StudyManager.getInstance().getApp().equals("101")) {
-            NotificationTarget notificationTarget = new NotificationTarget(context, contentView,
-                    R.id.notify_img, notification, NOTIFICATION_ID);
-            Glide.with(context).load(imgUrl).asBitmap().into(notificationTarget);
+            NotificationTarget notificationTarget = new NotificationTarget(context, R.id.notify_img, contentView, notification, NOTIFICATION_ID);
+            Glide.with(context).asBitmap().load(imgUrl).into(notificationTarget);
         }
         notificationManager.notify(NOTIFICATION_ID, notification);
     }

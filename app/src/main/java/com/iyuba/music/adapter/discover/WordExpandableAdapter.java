@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.view.MaterialRippleLayout;
 import com.iyuba.music.R;
 import com.iyuba.music.adapter.expandable.Adapter.ExpandableRecyclerAdapter;
 import com.iyuba.music.adapter.expandable.Model.ParentListItem;
@@ -18,7 +20,6 @@ import com.iyuba.music.entity.word.Word;
 import com.iyuba.music.entity.word.WordParent;
 import com.iyuba.music.listener.OnExpandableRecycleViewClickListener;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.widget.view.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,9 +105,9 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             key.setText(word.getWord());
             def.setText(word.getDef());
             delete.setChecked(tryTodeleteList.contains(word));
-            delete.setOnClickListener(new View.OnClickListener() {
+            delete.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     deleteWord(word, delete, delete.isChecked());
                 }
             });
@@ -120,9 +121,9 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             } else {
                 delete.setVisibility(View.GONE);
             }
-            rippleView.setOnClickListener(new View.OnClickListener() {
+            rippleView.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     if (deleteMode) {
                         deleteWord(word, delete, !delete.isChecked());
                     } else {
@@ -150,9 +151,9 @@ public class WordExpandableAdapter extends ExpandableRecyclerAdapter<WordExpanda
             super(itemView);
             parentContent = itemView.findViewById(R.id.parent_content);
             expandableStatus = itemView.findViewById(R.id.expandable_status);
-            expandableStatus.setOnClickListener(new View.OnClickListener() {
+            expandableStatus.setOnClickListener(new INoDoubleClick() {
                 @Override
-                public void onClick(View v) {
+                public void activeClick(View view) {
                     if (isExpanded()) {
                         collapseView();
                     } else {

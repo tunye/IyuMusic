@@ -2,9 +2,10 @@ package com.iyuba.music.fragmentAdapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.buaa.ct.core.network.NetWorkState;
 import com.iyuba.music.fragment.AnnouncerFragment;
 import com.iyuba.music.fragment.BaseFragment;
 import com.iyuba.music.fragment.ClassifyFragment;
@@ -12,14 +13,13 @@ import com.iyuba.music.fragment.MTVFragment;
 import com.iyuba.music.fragment.MusicFragment;
 import com.iyuba.music.fragment.NewsFragment;
 import com.iyuba.music.fragment.SongCategoryFragment;
-import com.iyuba.music.network.NetWorkState;
 
 import java.util.ArrayList;
 
 /**
  * Created by 10202 on 2015/11/9.
  */
-public class MainFragmentAdapter extends FragmentPagerAdapter {
+public class MainFragmentAdapter extends FragmentStatePagerAdapter {
     public FragmentManager fm;
     public ArrayList<BaseFragment> list;
 

@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light"/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light" />
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:overScrollMode">always</item>
@@ -27,57 +27,67 @@
         <item name="colorPrimaryDark">@color/skin_app_color_light_cyan</item>
         <item name="colorAccent">@color/skin_color_accent_cyan</item>
     </style>
+
     <style name="MyAppTheme_red" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_red</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_red</item>
         <item name="colorAccent">@color/skin_color_accent_red</item>
     </style>
+
     <style name="MyAppTheme_rose" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_rose</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_rose</item>
         <item name="colorAccent">@color/skin_color_accent_rose</item>
     </style>
+
     <style name="MyAppTheme_pink" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_pink</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_pink</item>
         <item name="colorAccent">@color/skin_color_accent_pink</item>
     </style>
+
     <style name="MyAppTheme_purple" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_purple</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_purple</item>
         <item name="colorAccent">@color/skin_color_accent_purple</item>
     </style>
+
     <style name="MyAppTheme_indigo" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_indigo</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_indigo</item>
         <item name="colorAccent">@color/skin_color_accent_indigo</item>
     </style>
+
     <style name="MyAppTheme_teal" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_teal</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_teal</item>
         <item name="colorAccent">@color/skin_color_accent_teal</item>
     </style>
+
     <style name="MyAppTheme_lgreen" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_lgreen</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lgreen</item>
         <item name="colorAccent">@color/skin_color_accent_lgreen</item>
     </style>
+
     <style name="MyAppTheme_lime" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_lime</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lime</item>
         <item name="colorAccent">@color/skin_color_accent_lime</item>
     </style>
+
     <style name="MyAppTheme_orange" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_orange</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_orange</item>
         <item name="colorAccent">@color/skin_color_accent_orange</item>
     </style>
+
     <style name="MyAppTheme_gray" parent="MyAppTheme">
         <item name="colorPrimary">@color/skin_app_color_gray</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_gray</item>
         <item name="colorAccent">@color/skin_color_accent_gray</item>
     </style>
-    
+
     <!-- Activity无标题栏 结束-->
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <item name="windowActionBar">false</item>
@@ -99,51 +109,61 @@
         <item name="colorPrimaryDark">@color/skin_app_color_light_cyan</item>
         <item name="colorAccent">@color/skin_color_accent_cyan</item>
     </style>
+
     <style name="MyMaterialDialogTheme_red" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_red</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_red</item>
         <item name="colorAccent">@color/skin_color_accent_red</item>
     </style>
+
     <style name="MyMaterialDialogTheme_rose" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_rose</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_rose</item>
         <item name="colorAccent">@color/skin_color_accent_rose</item>
     </style>
+
     <style name="MyMaterialDialogTheme_pink" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_pink</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_pink</item>
         <item name="colorAccent">@color/skin_color_accent_pink</item>
     </style>
+
     <style name="MyMaterialDialogTheme_purple" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_purple</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_purple</item>
         <item name="colorAccent">@color/skin_color_accent_purple</item>
     </style>
+
     <style name="MyMaterialDialogTheme_indigo" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_indigo</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_indigo</item>
         <item name="colorAccent">@color/skin_color_accent_indigo</item>
     </style>
+
     <style name="MyMaterialDialogTheme_teal" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_teal</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_teal</item>
         <item name="colorAccent">@color/skin_color_accent_teal</item>
     </style>
+
     <style name="MyMaterialDialogTheme_lgreen" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_lgreen</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lgreen</item>
         <item name="colorAccent">@color/skin_color_accent_lgreen</item>
     </style>
+
     <style name="MyMaterialDialogTheme_lime" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_lime</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lime</item>
         <item name="colorAccent">@color/skin_color_accent_lime</item>
     </style>
+
     <style name="MyMaterialDialogTheme_orange" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_orange</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_orange</item>
         <item name="colorAccent">@color/skin_color_accent_orange</item>
     </style>
+
     <style name="MyMaterialDialogTheme_gray" parent="MyMaterialDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_gray</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_gray</item>
@@ -170,51 +190,61 @@
         <item name="colorPrimaryDark">@color/skin_app_color_light_cyan</item>
         <item name="colorAccent">@color/skin_color_accent_cyan</item>
     </style>
+
     <style name="MyDialogTheme_red" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_red</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_red</item>
         <item name="colorAccent">@color/skin_color_accent_red</item>
     </style>
+
     <style name="MyDialogTheme_rose" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_rose</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_rose</item>
         <item name="colorAccent">@color/skin_color_accent_rose</item>
     </style>
+
     <style name="MyDialogTheme_pink" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_pink</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_pink</item>
         <item name="colorAccent">@color/skin_color_accent_pink</item>
     </style>
+
     <style name="MyDialogTheme_purple" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_purple</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_purple</item>
         <item name="colorAccent">@color/skin_color_accent_purple</item>
     </style>
+
     <style name="MyDialogTheme_indigo" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_indigo</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_indigo</item>
         <item name="colorAccent">@color/skin_color_accent_indigo</item>
     </style>
+
     <style name="MyDialogTheme_teal" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_teal</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_teal</item>
         <item name="colorAccent">@color/skin_color_accent_teal</item>
     </style>
+
     <style name="MyDialogTheme_lgreen" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_lgreen</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lgreen</item>
         <item name="colorAccent">@color/skin_color_accent_lgreen</item>
     </style>
+
     <style name="MyDialogTheme_lime" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_lime</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_lime</item>
         <item name="colorAccent">@color/skin_color_accent_lime</item>
     </style>
+
     <style name="MyDialogTheme_orange" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_orange</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_orange</item>
         <item name="colorAccent">@color/skin_color_accent_orange</item>
     </style>
+
     <style name="MyDialogTheme_gray" parent="MyDialogTheme">
         <item name="colorPrimary">@color/skin_app_color_gray</item>
         <item name="colorPrimaryDark">@color/skin_app_color_light_gray</item>

@@ -11,8 +11,9 @@ import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.iyuba.music.manager.ConstantManager;
+import com.iyuba.music.util.DateFormat;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -27,10 +28,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -42,7 +40,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private MusicApplication application;
     private Map<String, Object> infos = new ArrayMap<>();
-    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
     /**
      * create
@@ -128,9 +125,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private String saveCrashInfo2File(Throwable ex) {
 
         StringBuilder sb = new StringBuilder();
-        Gson gson = new Gson();
         for (Map.Entry<String, Object> entry : infos.entrySet()) {
-            sb.append(entry.getKey()).append("=").append(gson.toJson(entry.getValue())).append("\n");
+            sb.append(entry.getKey()).append("=").append(JSON.toJSON(entry.getValue())).append("\n");
         }
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -146,7 +142,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         FileOutputStream fos = null;
         try {
             long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
+            String time = DateFormat.formatTime(new Date());
             String fileName = "crash_" + time + "_" + timestamp + ".log";
             File dir = new File(ConstantManager.crashFolder);
             if (!dir.exists()) {
@@ -178,14 +174,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private String saveLogInfo2File(String logMsg) {
 
         StringBuilder sb = new StringBuilder();
-        Gson gson = new Gson();
         for (Map.Entry<String, Object> entry : infos.entrySet()) {
-            sb.append(entry.getKey()).append("=").append(gson.toJson(entry.getValue())).append("\n");
+            sb.append(entry.getKey()).append("=").append(JSON.toJSON(entry.getValue())).append("\n");
         }
         sb.append(logMsg);
         try {
             long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
+            String time = DateFormat.formatTime(new Date());
             String fileName = "log_" + time + "_" + timestamp + ".log";
             File dir = new File(ConstantManager.crashFolder);
             if (!dir.exists()) {

@@ -4,8 +4,8 @@
     <!--背景色-->
     <item android:id="@android:id/background">
         <shape>
-            <corners android:radius="5dip"/>
-            <solid android:color="#ededed"/>
+            <corners android:radius="5dip" />
+            <solid android:color="#ededed" />
         </shape>
     </item>
 
@@ -13,8 +13,8 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <corners android:radius="5dip"/>
-                <solid android:color="@color/skin_color_accent"/>
+                <corners android:radius="5dip" />
+                <solid android:color="@color/skin_color_accent" />
             </shape>
         </clip>
     </item>

@@ -5,16 +5,20 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.view.View;
 
+import com.buaa.ct.core.listener.INoDoubleClick;
+import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
+import com.buaa.ct.core.okhttp.RequestClient;
+import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
+import com.buaa.ct.core.util.SPUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.AboutActivity;
 import com.iyuba.music.activity.LoginActivity;
 import com.iyuba.music.listener.IOperationFinish;
 import com.iyuba.music.listener.IOperationResult;
-import com.iyuba.music.listener.IProtocolResponse;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConfigManager;
 import com.iyuba.music.request.apprequest.VisitorIdRequest;
-import com.iyuba.music.widget.CustomToast;
 
 /**
  * Created by 10202 on 2015/12/4.
@@ -24,20 +28,15 @@ public class CustomDialog {
         if (useVisitorMode) {
             if (AccountManager.getInstance().needGetVisitorID()) {
                 CustomToast.getInstance().showToast("正在请求用户信息，请稍等片刻~", CustomToast.LENGTH_LONG);
-                VisitorIdRequest.exeRequest(VisitorIdRequest.generateUrl(), new IProtocolResponse<String>() {
+                RequestClient.requestAsync(new VisitorIdRequest(), new SimpleRequestCallBack<String>() {
                     @Override
-                    public void onNetError(String msg) {
-                        showLogin(context, finish);
-                    }
-
-                    @Override
-                    public void onServerError(String msg) {
-                        showLogin(context, finish);
-                    }
-
-                    @Override
-                    public void response(String object) {
+                    public void onSuccess(String s) {
                         finish.finish();
+                    }
+
+                    @Override
+                    public void onError(ErrorInfoWrapper errorInfoWrapper) {
+                        showLogin(context, finish);
                     }
                 });
             } else {
@@ -52,9 +51,9 @@ public class CustomDialog {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.login_login);
         dialog.setMessage(R.string.personal_no_login);
-        dialog.setPositiveButton(R.string.login_login, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.login_login, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 LoginActivity.launch(context, new IOperationResult() {
                     @Override
                     public void success(Object object) {
@@ -68,9 +67,9 @@ public class CustomDialog {
                 dialog.dismiss();
             }
         });
-        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -81,16 +80,16 @@ public class CustomDialog {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.app_name);
         dialog.setMessage(R.string.dialog_save_change);
-        dialog.setPositiveButton(R.string.dialog_save, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.dialog_save, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 iOperationResult.success(null);
                 dialog.dismiss();
             }
         });
-        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 iOperationResult.fail(null);
                 dialog.dismiss();
             }
@@ -103,11 +102,11 @@ public class CustomDialog {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.app_name);
         dialog.setMessage(context.getString(R.string.about_update_message, para[0]));
-        dialog.setPositiveButton(R.string.about_update_accept, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.about_update_accept, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
-                ConfigManager.getInstance().putInt("updateVersion", Integer.parseInt(para[1]));
+                SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "updateVersion", Integer.parseInt(para[1]));
                 Intent intent = new Intent(context, AboutActivity.class);
                 intent.putExtra("update", true);
                 intent.putExtra("url", para[2]);
@@ -115,11 +114,11 @@ public class CustomDialog {
                 context.startActivity(intent);
             }
         });
-        dialog.setNegativeButton(R.string.about_update_deny, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.about_update_deny, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 dialog.dismiss();
-                ConfigManager.getInstance().putInt("updateVersion", Integer.parseInt(para[1]));
+                SPUtils.putInt(ConfigManager.getInstance().getPreferences(), "updateVersion", Integer.parseInt(para[1]));
             }
         });
         dialog.show();
@@ -129,16 +128,16 @@ public class CustomDialog {
         final MyMaterialDialog dialog = new MyMaterialDialog(context);
         dialog.setTitle(R.string.article_clear_all);
         dialog.setMessage(hintCode);
-        dialog.setPositiveButton(R.string.article_search_clear_sure, new View.OnClickListener() {
+        dialog.setPositiveButton(R.string.article_search_clear_sure, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 result.success(null);
                 dialog.dismiss();
             }
         });
-        dialog.setNegativeButton(R.string.app_cancel, new View.OnClickListener() {
+        dialog.setNegativeButton(R.string.app_cancel, new INoDoubleClick() {
             @Override
-            public void onClick(View v) {
+            public void activeClick(View view) {
                 result.fail(null);
                 dialog.dismiss();
             }
