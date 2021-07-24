@@ -48,7 +48,7 @@ import com.youdao.sdk.nativeads.YouDaoNative;
  * Created by 10202 on 2015/11/16.
  */
 public class WelcomeActivity extends BaseActivity {
-    public static final int HANDLER_REFRESH_PROGRESS = 0;
+    public static final int HANDLER_REFRESH_PROGRESS = 1;
     public static final int WAITTING_DURATION = 4000;
     public static final int WAITTING_STEP = 500;
     public static final String NORMAL_START = "normalStart";
@@ -94,6 +94,12 @@ public class WelcomeActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         handler.removeMessages(HANDLER_REFRESH_PROGRESS);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.sendEmptyMessage(HANDLER_REFRESH_PROGRESS);
     }
 
     @Override

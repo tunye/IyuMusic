@@ -1,15 +1,13 @@
 package com.iyuba.music.wxapi;
 
 import android.content.Intent;
-import android.view.View;
 
-import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.util.ThreadUtils;
+import com.buaa.ct.core.view.CustomToast;
 import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.manager.AccountManager;
 import com.iyuba.music.manager.ConstantManager;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -52,31 +50,21 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     @Override
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            MyMaterialDialog dialog = new MyMaterialDialog(this);
-            dialog.setTitle(R.string.app_name);
             switch (resp.errCode) {
                 case 0:
-                    dialog.setMessage(R.string.pay_detail_success);
+                    CustomToast.getInstance().showToast(R.string.pay_detail_success, CustomToast.LENGTH_LONG);
                     AccountManager.getInstance().refreshVipStatus();
                     break;
                 case -1:
-                    dialog.setMessage(R.string.pay_detail_fail);
+                    CustomToast.getInstance().showToast(R.string.pay_detail_fail, CustomToast.LENGTH_LONG);
                     break;
                 case -2:
-                    dialog.setMessage(R.string.pay_detail_cancel);
+                    CustomToast.getInstance().showToast(R.string.pay_detail_cancel, CustomToast.LENGTH_LONG);
                     break;
                 default:
-                    dialog.setMessage("未知错误");
+                    CustomToast.getInstance().showToast("未知错误", CustomToast.LENGTH_LONG);
                     break;
             }
-            dialog.setPositiveButton(R.string.app_accept, new INoDoubleClick() {
-                @Override
-                public void activeClick(View view) {
-                    finish();
-                }
-            });
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
         }
         ThreadUtils.postOnUiThreadDelay(new Runnable() {
             @Override
