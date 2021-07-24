@@ -4,16 +4,10 @@ buildscript {
     repositories {
         google()
         maven{ url'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven{ url'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
-        maven {
-            url 'https://dl.bintray.com/umsdk/release'
-            name 'uMeng'
-        }
         maven {
             url "http://mvn.mob.com/android"
             name 'MobSDK'
         }
-        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.4'
@@ -26,7 +20,6 @@ buildscript {
 allprojects {
     repositories {
         maven{ url'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven{ url'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
         maven { url 'https://jitpack.io' }
         google()
         maven {

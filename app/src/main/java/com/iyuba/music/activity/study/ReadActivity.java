@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
-import com.buaa.ct.core.listener.INoDoubleClick;
 import com.buaa.ct.core.manager.RuntimeManager;
 import com.buaa.ct.core.util.PermissionPool;
 import com.iyuba.music.MusicApplication;
@@ -14,7 +12,6 @@ import com.iyuba.music.R;
 import com.iyuba.music.activity.BaseActivity;
 import com.iyuba.music.fragmentAdapter.ReadFragmentAdapter;
 import com.iyuba.music.manager.StudyManager;
-import com.iyuba.music.widget.dialog.MyMaterialDialog;
 import com.iyuba.music.widget.imageview.TabIndicator;
 
 import java.util.ArrayList;

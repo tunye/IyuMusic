@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buaa.ct.core.adapter.CoreRecyclerViewAdapter;
-import com.daimajia.androidanimations.library.Techniques;
 import com.iyuba.music.R;
 
 import java.util.ArrayList;

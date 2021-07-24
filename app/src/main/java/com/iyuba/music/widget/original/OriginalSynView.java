@@ -62,6 +62,7 @@ public class OriginalSynView extends ScrollView implements TextSelectCallBack {
 
     private int minTouchSlop = ViewConfiguration.get(RuntimeManager.getInstance().getContext()).getScaledTouchSlop();
     private int blankHeight = RuntimeManager.getInstance().getScreenHeight() / 2;
+
     public OriginalSynView(Context context) {
         this(context, null);
     }

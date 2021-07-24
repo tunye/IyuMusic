@@ -45,7 +45,7 @@ public class ChangePropery {
 
     public static boolean isSystemDark() {
         Configuration config = Resources.getSystem().getConfiguration();
-        return  (config.uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+        return (config.uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void updateLanguageMode(int languageType) {

@@ -220,6 +220,7 @@ public class GroundNewsActivity extends BaseListActivity<Article> {
                 localInfoOp.saveData(localinfo);
             }
         }
+        articleOp.saveData(netData);
     }
 
     private void getDbData() {

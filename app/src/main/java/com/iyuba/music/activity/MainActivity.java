@@ -223,11 +223,11 @@ public class MainActivity extends BaseSkinActivity {
         StartFragment.showVersionFeature(context);
     }
 
-    private boolean hasPermission(String permission){
-        return ContextCompat.checkSelfPermission(this,permission) == PackageManager.PERMISSION_GRANTED;
+    private boolean hasPermission(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void directToFragment(final int pos){
+    private void directToFragment(final int pos) {
         ThreadUtils.postOnUiThreadDelay(new Runnable() {
             @Override
             public void run() {

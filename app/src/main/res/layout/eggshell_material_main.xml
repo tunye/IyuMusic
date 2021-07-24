@@ -442,5 +442,5 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-</LinearLayout>
+    </LinearLayout>
 </com.buaa.ct.core.view.viewgroup.ImmersiveInsertFrameLayout>

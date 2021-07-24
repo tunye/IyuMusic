@@ -64,21 +64,21 @@ public class TextPage extends AppCompatEditText {
             case MotionEvent.ACTION_MOVE:
                 return !(Math.abs(event.getX() - initX) > minTouchSlop) && !(Math.abs(event.getY() - initY) > minTouchSlop);
             case MotionEvent.ACTION_UP:
-                    line = layout.getLineForVertical(getScrollY() + (int) event.getY());
-                    off = layout.getOffsetForHorizontal(line, (int) event.getX());
-                    String selectText = getSelectText(off);
-                    if (!TextUtils.isEmpty(selectText)) {
-                        this.setCursorVisible(true);
-                        if (textSelectCallBack != null) {
-                            textSelectCallBack.onSelectText(selectText);
-                        }
-                    } else {
-                        this.setCursorVisible(false);
-                        Selection.setSelection(getEditableText(), 0, 0);
-                        if (textSelectCallBack != null) {
-                            textSelectCallBack.onSelectText("");
-                        }
+                line = layout.getLineForVertical(getScrollY() + (int) event.getY());
+                off = layout.getOffsetForHorizontal(line, (int) event.getX());
+                String selectText = getSelectText(off);
+                if (!TextUtils.isEmpty(selectText)) {
+                    this.setCursorVisible(true);
+                    if (textSelectCallBack != null) {
+                        textSelectCallBack.onSelectText(selectText);
                     }
+                } else {
+                    this.setCursorVisible(false);
+                    Selection.setSelection(getEditableText(), 0, 0);
+                    if (textSelectCallBack != null) {
+                        textSelectCallBack.onSelectText("");
+                    }
+                }
                 return true;
         }
         return false;

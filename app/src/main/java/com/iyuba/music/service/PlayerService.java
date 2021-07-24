@@ -15,7 +15,6 @@ import com.buaa.ct.core.okhttp.ErrorInfoWrapper;
 import com.buaa.ct.core.okhttp.RequestClient;
 import com.buaa.ct.core.okhttp.SimpleRequestCallBack;
 import com.iyuba.music.MusicApplication;
-import com.iyuba.music.R;
 import com.iyuba.music.download.DownloadUtil;
 import com.iyuba.music.entity.article.Article;
 import com.iyuba.music.entity.article.LocalInfoOp;
@@ -107,7 +106,7 @@ public class PlayerService extends Service implements OnHeadSetListener {
     public void init() {
         player = new StandardPlayer(RuntimeManager.getInstance().getContext());
         curArticleId = 0;
-        startForeground(NotificationUtil.NOTIFICATION_ID,  NotificationUtil.getInstance().initNotification());
+        startForeground(NotificationUtil.NOTIFICATION_ID, NotificationUtil.getInstance().initNotification());
     }
 
     public void setListener(final IPlayerListener playerListener) {

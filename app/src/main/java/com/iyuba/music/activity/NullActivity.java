@@ -36,8 +36,9 @@ import java.util.List;
  */
 
 public class NullActivity {
-    public static final String appScheme="iyumusic";
-    public static final String webScheme="http";
+    public static final String appScheme = "iyumusic";
+    public static final String webScheme = "http";
+
     public static void exePushData(Context context, String url) {
         Uri uri;
         if (TextUtils.isEmpty(url)) {

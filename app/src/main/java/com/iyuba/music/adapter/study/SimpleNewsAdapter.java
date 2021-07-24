@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +120,7 @@ public class SimpleNewsAdapter extends CoreRecyclerViewAdapter<Article, SimpleNe
             holder.singer.setMaxLines(2);
             holder.descMoreLayout.setVisibility(View.GONE);
         }
-        holder.time.setText(article.getTime().split(" ")[0]);
+        holder.time.setText(TextUtils.isEmpty(article.getTime()) ? "" : article.getTime().split(" ")[0]);
         switch (type) {
             case 0:
                 holder.readCount.setText(context.getString(R.string.article_read_count, article.getReadCount()));

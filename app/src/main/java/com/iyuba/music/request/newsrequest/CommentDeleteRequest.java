@@ -3,8 +3,6 @@ package com.iyuba.music.request.newsrequest;
 import android.support.v4.util.ArrayMap;
 
 import com.alibaba.fastjson.JSONObject;
-import com.buaa.ct.core.manager.RuntimeManager;
-import com.iyuba.music.R;
 import com.iyuba.music.entity.BaseApiEntity;
 import com.iyuba.music.request.Request;
 import com.iyuba.music.util.MD5;

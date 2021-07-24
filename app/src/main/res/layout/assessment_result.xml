@@ -105,5 +105,5 @@
                 app:rv_backgroundColor="@color/skin_app_color"
                 app:rv_cornerRadius="@dimen/corner_radius_default" />
         </LinearLayout>
-</com.iyuba.music.widget.roundview.RoundLinearLayout>
+    </com.iyuba.music.widget.roundview.RoundLinearLayout>
 </FrameLayout>

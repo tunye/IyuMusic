@@ -21,7 +21,6 @@ import com.iyuba.music.entity.BaseListEntity;
 import com.iyuba.music.entity.ad.BannerEntity;
 import com.iyuba.music.entity.mainpanel.SongCategory;
 import com.iyuba.music.manager.ConfigManager;
-import com.iyuba.music.manager.StudyManager;
 import com.iyuba.music.request.apprequest.BannerPicRequest;
 import com.iyuba.music.request.mainpanelrequest.SongCategoryRequest;
 import com.iyuba.music.util.Utils;

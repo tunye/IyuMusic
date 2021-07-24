@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +77,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
     private MorphButton playSound;
     private ImageView former, latter, playMode, studyTranslate, changescreen, subtitlteimg;
     private RelativeLayout video_layout;
-    private View toorbar, menu, seekbar_layout, video_content_layout, ll_play_state_info;
+    private View toolbar, menu, seekbar_layout, video_content_layout, ll_play_state_info;
     private boolean isfullscreen = false;
     private boolean isplay = true;
     private boolean isshowcontrol = true;
@@ -161,7 +160,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         playSound.setForegroundColorFilter(GetAppColor.getInstance().getAppColor(), PorterDuff.Mode.SRC_IN);
         video_layout = findViewById(R.id.video_layout);
         changescreen = findViewById(R.id.change_screen);
-        toorbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar_title_layout);
         menu = findViewById(R.id.meun_layout);
         seekbar_layout = findViewById(R.id.seekbar_layout);
         video_content_layout = findViewById(R.id.video_content_layout);
@@ -238,7 +237,11 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
                 isshowcontrol = !isshowcontrol;
                 if (isshowcontrol) {
                     ll_play_state_info.setVisibility(View.VISIBLE);
-                    largePause.setVisibility(View.VISIBLE);
+                    if (isplay) {
+                        largePause.setVisibility(View.GONE);
+                    } else {
+                        largePause.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     ll_play_state_info.setVisibility(View.GONE);
                     largePause.setVisibility(View.GONE);
@@ -349,7 +352,7 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         getOriginal();
         seekBar.setSecondaryProgress(0);
         videoView.reset();
-        title.setText(article.getTitle_cn());
+        title.setText(article.getTitle_cn().length() > 16 ? article.getTitle_cn().substring(0, 14) + "..." : article.getTitle_cn());
         if (NetWorkState.getInstance().isConnectByCondition(NetWorkState.EXCEPT_2G)) {
             String append = "http://staticvip.iyuba.cn/video/voa/" + articles.get(currPos).getId() + ".mp4";
             videoView.setVideoPath(append);
@@ -390,7 +393,6 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             videoView.start();
             isplay = true;
         }
-        Log.e("是否暂停：", isplay + "");
         setPauseImage();
     }
 
@@ -544,12 +546,12 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //变成横屏了
-            toorbar.setVisibility(View.GONE);
+            toolbar.setVisibility(View.GONE);
             subtitle.setVisibility(View.VISIBLE);
 //            iv_change_subtitle_type.setVisibility(View.VISIBLE);
-//            iv_fullscreen.setImageResource(R.drawable.small_screen);
+//            changescreen.setImageResource(R.drawable.small_screen);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            //setVideoParams(videoView.getmMediaPlayer(), true);
+            setVideoParams(videoView.getmMediaPlayer(), true);
             ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
             rl_paramters.height = LinearLayout.LayoutParams.MATCH_PARENT;
             rl_paramters.width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -564,8 +566,8 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
 //            iv_change_subtitle_type.setVisibility(View.GONE);
             subtitle.setVisibility(View.GONE);
             originalView.setVisibility(View.VISIBLE);
-            toorbar.setVisibility(View.VISIBLE);
-//            iv_fullscreen.setImageResource(R.drawable.full_screen);
+            toolbar.setVisibility(View.VISIBLE);
+//            changescreen.setImageResource(R.drawable.full_screen);
             menu.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams rl_paramters = video_layout.getLayoutParams();
             rl_paramters.height = RuntimeManager.getInstance().dip2px(210.0f);
@@ -573,9 +575,9 @@ public class VideoPlayerActivity extends BaseActivity implements View.OnClickLis
             video_layout.setLayoutParams(rl_paramters);
             seekbar_layout.setBackgroundColor(Color.WHITE);
             video_content_layout.setBackgroundColor(Color.WHITE);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-            //setVideoParams(videoView.getmMediaPlayer(), false);
+            setVideoParams(videoView.getmMediaPlayer(), false);
         }
 
     }
